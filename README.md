@@ -12,8 +12,8 @@ This repository serves as a centralized, high-density knowledge base for core co
 
 | Subject / Course | Source Curriculum | Master Notes | Transcripts / Raw Material | Lectures / Scope |
 | :--- | :--- | :---: | :---: | :---: |
-| **Backend Engineering from First Principles** | *Backend from first principles* | [`COMPLETE_BACKEND_NOTES.md`](notes/backend-from-first-principles/COMPLETE_BACKEND_NOTES.md) &bull; [PDF Guide](notes/backend-from-first-principles/Backend_from_First_Principles_Notes.pdf) | [`transcripts/`](notes/backend-from-first-principles/transcripts/) | 31 Chapters (Networking, Databases, Caching, Queues, Distributed Storage, DevOps) |
-| **Operating Systems (Complete Course)** | *Knowledge Gate* (Sanchit Jain) &bull; [YouTube Playlist](https://www.youtube.com/playlist?list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p) | [`COMPLETE_OPERATING_SYSTEM_NOTES.md`](notes/operating-system/COMPLETE_OPERATING_SYSTEM_NOTES.md) | [`transcripts/`](notes/operating-system/transcripts/) | 92 Lectures (Kernel Architecture, CPU Scheduling, Concurrency, Deadlocks, Paging, Inodes) |
+| **Backend Engineering from First Principles** | *Backend from first principles* | [`COMPLETE_BACKEND_NOTES.md`](topics/backend-from-first-principles/COMPLETE_BACKEND_NOTES.md) &bull; [PDF Guide](topics/backend-from-first-principles/Backend_from_First_Principles_Notes.pdf) | [`transcripts/`](topics/backend-from-first-principles/transcripts/) | 31 Chapters (Networking, Databases, Caching, Queues, Distributed Storage, DevOps) |
+| **Operating Systems (Complete Course)** | *Knowledge Gate* (Sanchit Jain) &bull; [YouTube Playlist](https://www.youtube.com/playlist?list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p) | [`COMPLETE_OPERATING_SYSTEM_NOTES.md`](topics/operating-system/COMPLETE_OPERATING_SYSTEM_NOTES.md) | [`transcripts/`](topics/operating-system/transcripts/) | 92 Lectures (Kernel Architecture, CPU Scheduling, Concurrency, Deadlocks, Paging, Inodes) |
 
 ---
 
@@ -21,7 +21,7 @@ This repository serves as a centralized, high-density knowledge base for core co
 
 ```
 .
-├── notes/
+├── topics/
 │   ├── backend-from-first-principles/
 │   │   ├── COMPLETE_BACKEND_NOTES.md         # Master 31-Chapter backend guide (2,500+ lines, 57 diagrams)
 │   │   ├── Backend_from_First_Principles_Notes.pdf # Compiled master notes PDF
@@ -40,7 +40,7 @@ This repository serves as a centralized, high-density knowledge base for core co
 
 ## 🖥️ Subject 1: Backend Engineering from First Principles
 
-Master Guide: [`notes/backend-from-first-principles/COMPLETE_BACKEND_NOTES.md`](notes/backend-from-first-principles/COMPLETE_BACKEND_NOTES.md)
+Master Guide: [`topics/backend-from-first-principles/COMPLETE_BACKEND_NOTES.md`](topics/backend-from-first-principles/COMPLETE_BACKEND_NOTES.md)
 
 ### Curriculum Outline (8 Modules &bull; 31 Chapters)
 
@@ -95,7 +95,7 @@ Master Guide: [`notes/backend-from-first-principles/COMPLETE_BACKEND_NOTES.md`](
 
 ## ⚙️ Subject 2: Operating Systems (Complete Academic & Systems Guide)
 
-Master Guide: [`notes/operating-system/COMPLETE_OPERATING_SYSTEM_NOTES.md`](notes/operating-system/COMPLETE_OPERATING_SYSTEM_NOTES.md)  
+Master Guide: [`topics/operating-system/COMPLETE_OPERATING_SYSTEM_NOTES.md`](topics/operating-system/COMPLETE_OPERATING_SYSTEM_NOTES.md)  
 Source: [Knowledge Gate - Sanchit Jain OS Playlist](https://www.youtube.com/playlist?list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p) (92 Lectures)
 
 ### Curriculum Outline (8 Modules &bull; 92 Lectures)
@@ -186,13 +186,13 @@ pip install -r requirements.txt
 ```bash
 # Download transcripts for the Operating System playlist into its folder
 python get_playlist_transcripts.py "https://www.youtube.com/playlist?list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" \
-  -o "./notes/operating-system/transcripts" \
+  -o "./topics/operating-system/transcripts" \
   -l en hi en-US en-GB \
   --combine
 
 # Download transcripts for the Backend from first principles playlist into its folder
 python get_playlist_transcripts.py "https://www.youtube.com/playlist?list=PLui3EUkuMTPgZcV0QhQrOcwMPcBCcd_Q1" \
-  -o "./notes/backend-from-first-principles/transcripts" \
+  -o "./topics/backend-from-first-principles/transcripts" \
   --combine
 
 # Save raw structured JSON alongside formatted text transcripts
@@ -214,7 +214,7 @@ For any processed playlist, the tool generates:
 Contributions to notes, clarifications, diagrams, and additional course transcripts are welcome:
 1. Fork this repository.
 2. Create a new topical branch (`git checkout -b topic/new-course-notes`).
-3. Add or update notes in `notes/<subject-name>/`.
+3. Add or update content in `topics/<subject-name>/`.
 4. Commit your changes (`git commit -m "Add notes for XYZ"`).
 5. Push to your branch and open a Pull Request.
 
