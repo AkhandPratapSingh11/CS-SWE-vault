@@ -1,0 +1,91 @@
+Title: L-3.7: Turn Variable | Strict Alteration Method | Process Synchronization
+Video URL: https://www.youtube.com/watch?v=kMlJT1BDIMg
+Video ID: kMlJT1BDIMg
+======================================================================
+
+[00:07] Dear students welcome to Gate Smashers in this video I'm going to explain Turn Variable
+[00:12] which we call Strict Alteration Method and in this video we will discuss all the points
+[00:17] related to Turn Variable which in your competitive exams, college/ university exams, interviews
+[00:22] anywhere if you are asked you can easily answer.
+[00:26] So guys quickly like the video, subscribe the channel if you have not done yet
+[00:29] and even if you have then you can subscribe from more devices, subscribers are very important.
+[00:33] So let's start Turn Variable, before this I have told you in the process synchronization
+[00:39] about the basic lock mechanism then we talked about Test and set instruction
+[00:45] then we are going to talk about here Turn Variable. So it is again a 2 process solution means
+[00:51] this method that we are making this strict alteration method that we are applying,
+[00:55] it works for only 2 processes, you cannot take more than 2 processes that is the restriction.
+[01:02] Second, it runs at the user mode means where does it work? It works on user mode.
+[01:07] Support of kernel is not required here, kernel, operating system we are not using here,
+[01:13] means directly we will write the code through application and we will directly run it.
+[01:17] So it works on user mode. This becomes its pseudo-code, okay. We take process P0, process P1
+[01:24] any name you can take, there are 2 processes P0 and P1. And this turn variable that we have,
+[01:29] the turn variable int turn its value you can initially take 0 or 1 because we have 2 processes
+[01:38] so there can be only 2 values either 0 or 1. If we take its value 0,
+[01:43] so means process P0 will run first, if I take turn value 1 first then process P1 will work first.
+[01:50] So you can take any value, let's say initially we take value of int turn as 0.
+[01:55] Now what our entry code says, means before this it is our non-critical section.
+[02:01] Before entering critical section entry code, on entry code when you run while turn not equal to 0,
+[02:07] now look value of turn is what? 0. 0 not equal to 0, what will this return?
+[02:13] This will give what output? False. Because 0 not equal to 0, but 0 is equal to 0 so means
+[02:19] what will this give? False. So as soon as it becomes false, what is outside? Semicolon,
+[02:25] so means this will go out of this, if this was true then
+[02:28] it would have been trapped in an infinite loop inside it. But this became false, came out,
+[02:31] coming out means what went in critical section? P0 went in the critical section.
+[02:39] Now look who is there already? P0 is in critical section, now we check can P1 come at this time.
+[02:46] Look P1 comes P1 says I also want to come. Let's say this is our non-critical section so to enter
+[02:52] it runs the entry code while turn not equal to 1, so value of turn is now what? 0.
+[02:58] 0 not equal to 1, so 0 not equal to 1 is what? It is true. So while becomes true. True means
+[03:04] it got stuck in loop in semicolon means this cannot enter critical section because it stopped here.
+[03:11] Means when P0 is in then P1 cannot enter. Similarly if you took value of turn initially let's say 1
+[03:20] then first who would have entered? First P1 would have entered and then
+[03:24] when P0 says that I want to come then 1 not equal to 0 would be what? True,
+[03:28] then P0 would be trapped and P0 could not enter means what you can say,
+[03:34] mutual exclusion condition is satisfied here. If you are asked like this anywhere that
+[03:41] whether turn variable and strict alteration always ensures, guarantees that mutual exclusion
+[03:47] will definitely happen, then yes you can say it is totally true because you have already proved it
+[03:52] that if one is in then the other one cannot enter. So this way we can decide that
+[03:56] yes, it is mutually exclusive. Second if we say here, progress. If we talk about progress,
+[04:02] then what progress says is that if my critical section is empty,
+[04:09] and either of the two wants to enter first then they will not stop one another,
+[04:14] progress means what, critical section is empty, P0 says I want to come then P1 will not stop it
+[04:21] which generally happens in India that if one wants to progress then another will pull his leg.
+[04:27] So this story of progress I have told many times before, but here if we check then look
+[04:34] let's say we initially take value of turn as 0, okay. You can take whatever 1 or 0,
+[04:41] initially we take value of turn as 0, critical section is empty, P1 says I want to come, P1 can say
+[04:47] obviously can say if critical section is empty then either of the two can say,
+[04:51] so we say that P1 says that I want to enter. So P1 says that okay in order to enter
+[04:56] I will run the condition turn not equal to 1. What is the value of turn? 0. 0 not equal to 1, true.
+[05:03] Where is this trapped? It is trapped in this in infinite loop, P1 cannot enter critical section.
+[05:12] Why can't P1 enter critical section? Because value of turn is 0.
+[05:18] Now you will feel sir, then how will P1 come? When can P1 come? when P0 goes first,
+[05:25] look P0 goes first, 0 not equal to 0, becomes false. Who enters critical section? P0 enters.
+[05:31] When it comes exits critical section then it runs exit code turn is equal to 1.
+[05:37] So turn= 1 means value of turn becomes 1, now if P1 applies that I want go now what can happen,
+[05:43] P1 can enter. Getting the point or not? Means what? If critical section is empty
+[05:50] and a process wants to enter then the other is stopping it, the other is saying I will go first
+[05:56] when I enter and exit then I will change value of turn, then you can enter. Getting the point?
+[06:02] Similarly if you initially take value of turn as 1 then P0 cannot go, then first P1 will go,
+[06:08] it will make value of turn 0 after coming out then P0 can enter. So what does this mean?
+[06:15] If critical section is empty then either of the two can enter, but these two are stopping each other.
+[06:22] So mutual exclusion occurred but if we talk about progress then that is not satisfied here.
+[06:29] Third if we say bounded waiting, what is bounded waiting? It is not like if one is using
+[06:36] critical section then again it enters, third time again enters, fourth time again enters,
+[06:41] this way the other one will keep waiting. Getting the point or not? It happens many times that
+[06:46] one person took away the opportunity, means took away a job
+[06:49] so when the next guy who was going to take the job he left that job and took the next job.
+[06:54] Means one person is grabbing the opportunity again and again and the other poor guy is waiting,
+[07:00] so bounded waiting means what? Let it wait but for a limited amount of time.
+[07:05] It should not happen that he is waiting infinitely. So if we talk about this then look
+[07:10] if first P1 enters then when P1 exits, let's say first P0 enters so when P0 enters then
+[07:18] when it exits it will make turn value 1. Now again if P0 wants to go, it cannot go because
+[07:25] after that whose turn will come? P1. Similarly let's say first P1 enters and
+[07:31] when P1 exits then what will it make turn value? 0. Then if P1 says I want to go again,
+[07:38] it cannot enter, why? now it is the turn of P0, okay. That is why its name is strict alteration.
+[07:42] First this one's turn then after that this one's turn then after that this one's turn,
+[07:46] this way they are changing turns means bounded weight is there, no one is waiting infinitely here,
+[07:54] everyone will have their turn. Then if we talk about here, what is the fourth option we have?
+[07:59] fourth condition of critical section says that whether it is dependent on some hardware or software?
+[08:05] No, this is independent of hardware and software. You can run this code on any platform,
+[08:10] it will run on all platforms, this is independent of platform, hardware.
+[08:14] So you note all the aspects, out of these some or the question will be asked.
+[08:18] Thank you.

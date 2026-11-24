@@ -1,0 +1,111 @@
+Title: L-2.1: Process Scheduling Algorithms (Preemption Vs Non-Preemption) | CPU Scheduling in OS
+Video URL: https://www.youtube.com/watch?v=zFnrUVqtiOY
+Video ID: zFnrUVqtiOY
+======================================================================
+
+[00:00] Hello friends, Welcome to Gate Smashers
+[00:02] The topic is scheduling algorithm in operating system
+[00:05] So scheduling algorithm is a way or selecting a process from ready queue and put it in the CPU
+[00:12] Means, according to the degree of multi programming, we tried to keep multiple processes in the ready queue
+[00:22] And ready queue lies in the RAM Means we uses different queues in operating system
+[00:29] to execute processes and bring as much as possible processes in the ready queue
+[00:37] Because ready queue lies in RAM, So I can also say that when I got a lot of processes in RAM,
+[00:44] now what to do with those processes, obviously we have to execute those processes
+[00:49] And to execute those processes,
+[00:52] I have to select some multiple processes among them and have to execute on the CPU
+[01:03] If we'd assume that we are using uni processor system
+[01:09] Uni processor system means that we have just one CPU, so I can say one CPU can execute one process at a time
+[01:20] So what criteria can we use to get any one process executed
+[01:28] that's the scheduling algorithm...
+[01:31] so they help out which process should be executed,
+[01:35] for how much time and I've already written all these categorization,
+[01:40] these are the different scheduling algorithms broadly they are of two types, pre-emptive and Non pre-emptive
+[01:47] So pre-emptive and non pre-emptive These terms gets used so much in scheduling algorithm
+[01:52] And this comes in a lot of numerical also
+[01:54] And many times, students gets confused in this term I'm explaining this through very simple point of view
+[02:00] Preemptive's process is that if I took out a process from RAM
+[02:08] and placed in running queue i.e. CPU...
+[02:12] Means I gave it to CPU and CPU will execute that process
+[02:17] Now it's possible that the process which is getting executed is still in running state
+[02:23] I can pick up that process during the running state and can place again in the ready queue
+[02:29] Means a process which was running properly
+[02:32] I'll stop it in between and will give some other process to the CPU
+[02:39] and will place the first process again in the ready queue and it'll get executed again in future
+[02:44] Now why we use it and what's the concept, we'll discuss it further
+[02:49] But non pre-emptive means that if we took out a process from ready queue
+[02:54] and gave to CPU to get it executed then that process will get completely executed
+[03:00] Means how much is its burst time we talked about different time in video before it
+[03:06] So you can check out that video
+[03:08] So first its all burst time will get completed only after that we'll bring some new process
+[03:17] Means If I'd explain with a simple point of view, so we placed a process in running state from ready queue
+[03:26] Running means, we gives it to CPU Now this process went in which state?
+[03:31] Let's say it was P1 process, P1 process came in running now
+[03:35] Now if I'd place a process again in ready queue from running queue
+[03:42] Means I placed P1 again in the ready queue so what's the reason of placing it again in the ready queue
+[03:48] The first reason can be time quantum
+[03:57] hat we starts to execute some new process while stopping the running one in between
+[04:04] Its reason is time quantum, means CPU have already decided to execute a process only for 2 seconds
+[04:12] So if process arrived and it's saying it needs 5 second,
+[04:16] so i'll run it only for 2 seconds and then will place it in the ready queue
+[04:22] Then I'll bring different process for 2 seconds, then third one for 2 seconds and so one
+[04:27] If I'd explain with a simple example,
+[04:29] let's say there's a class scenario and there are 10 students in that class
+[04:34] And every student have 5 question to ask And as a teacher if I'm there
+[04:40] Then I'm acting there as a processor and those 10 students are processes
+[04:46] And every student have 5 questions to ask so I reached to 1st student, S1 asked me 5 questions
+[05:00] I answered all and then I went to S2 And then I took 5 questions from S2
+[05:08] I solved them and then reached to student 3 If I'm moving this way then it's non pre-emptive
+[05:15] Means I'll execute a process completely and then I'll move to other process
+[05:22] But in pre-emptive... it's possible that I reached to S1,
+[05:27] took its question 1, solve its Q1 & Q2, when it was about to ask Q3, then I pre-empted
+[05:36] Means CPU got pre-empted there and moved to student 2
+[05:41] Took Q1 & Q2 of student 2 When it was about to ask Q3, I got pre-empted to S3
+[05:48] Means It's CPU which is getting pre-empt here, but we are pre-empting process because of it
+[05:55] pre-empting a process means we'll place that process again in the ready queue
+[06:01] And will bring it back in the running queue in the future
+[06:05] So one reason of it is why we do time quantum?
+[06:09] Means I already decided that I'll do only 2 questions of every student at a time
+[06:16] When it'll get its turn again after taking 2 question from 10 students
+[06:21] Then its turn will come again and then I'll take question 3 & 4 again
+[06:24] After taking question 3 & 4 from everyone I'll take question 5 again
+[06:29] One advantage of this here is... Responsiveness Means If I'm taking all 5 questions of every student
+[06:36] Then student 10's turn will come very late but if I'm taking just 2-2 questions
+[06:43] then student 10.. I.e. last student will also get its turn faster
+[06:47] So we use it for responsiveness... that's our pre-emptive
+[06:53] And other reason why we do pre-emption could be... Priority
+[06:59] Priority means... Like if I started to attend question of Student 1, I took question 1
+[07:05] solved question 2... until then high priority process came
+[07:10] High priority process means Let's say the topper of that class came
+[07:14] And it's saying in between and asking me to solve his question
+[07:17] Then maybe I'd give more priority to him
+[07:21] If I'd give priority to him, then I'll ask Student 1 to wait as I'm taking other process's question
+[07:28] So many times because of priority also, we brings back a running process again in the ready queue
+[07:36] And other reason could be... maybe if we've to execute a process for less time
+[07:45] Then we can categorize it... Means one student came and saying he wants to ask a question
+[07:50] other students is saying it wants to ask 10 questions
+[07:52] If the one who wants to ask 10 questions came first or both came at a same time
+[07:57] if both will come at a same time maybe I got little biased there
+[08:01] and said, first those ask who have just one question so I'll solve it fast and make him free
+[08:09] because the one with 10 questions needs more time So maybe I'd pick the shortest one first
+[08:16] These are just different criteria that we use actually to get the processes executed
+[08:24] So here the pre-emptive is same...
+[08:27] Non pre-emptive means, if we took out a process from the ready queue and placed it in running queue
+[08:33] If that process came in running queue then it'll get executed completely
+[08:39] It won't go back in the running queue It'll get terminated directly after it
+[08:44] So that's what the non pre-emptive is
+[08:46] In pre-emptive scheduling I've algorithms SRTF... shortest remaining time first or job first
+[08:55] LRTF... Longest remaining time first
+[08:57] Round robin... these two algorithms are very important in terms of last few years analysis
+[09:11] Then every year in GATE, UGC NET, even in your college or entrance exams or mid-terms exams also,
+[09:20] you'll get questions related to it, & most of the question comes from SRTF and round robin
+[09:27] But we can use LRTF also and priority also gets used here
+[09:33] Priority algorithm can come in pre-emptive and it can be non pre-emptive also
+[09:40] Although, mostly we keeps the priority in pre-emptive only
+[09:45] But yes, It can be a part of non pre-emptive also
+[09:49] Other than this, non pre-emptive includes FCFS... First come first serve
+[09:53] Shortest job first... Longest job first Highest response ratio
+[09:58] Here we calculate response ratio with a formula and decides which process to get executed first
+[10:08] And multi-level queue, multi-level feedback queue
+[10:13] So these algorithms are used for selecting a process from the ready queue and we can put it on the CPU
+[10:22] so these algorithms helps me... in next video we'll solve numerical based on it one by one
+[10:29] Thank You!!

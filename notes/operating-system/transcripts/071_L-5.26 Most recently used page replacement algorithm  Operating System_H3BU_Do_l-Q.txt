@@ -1,0 +1,112 @@
+Title: L-5.26: Most recently used page replacement algorithm | Operating System
+Video URL: https://www.youtube.com/watch?v=H3BU_Do_l-Q
+Video ID: H3BU_Do_l-Q
+======================================================================
+
+[00:01] MRU that is most recently used
+[00:03] in most recently used method
+[00:05] we replace the page which is used recently that is recently used pages in past
+[00:13] means the page which was demanded just now
+[00:16] that page itself we will replace firstly with the fresh page
+[00:20] how?.. let's solve it with a question
+[00:23] reference string is given and number of rings are 4
+[00:27] now whenever the page number one that is 7 comes
+[00:30] that is called a page fault
+[00:32] because initially this frame is empty.. all frames are empty
+[00:36] so this is page fault, what did we do to 7? we called from hard disk
+[00:40] that is called the page service
+[00:42] then 0 comes
+[00:45] that is again called a page fault
+[00:48] then 1 comes that is again called a page fault..because this was also absent
+[00:53] after that 2 comes, so 2 was also absent so what will we call this too?..page fault
+[01:00] next comes page number 0, is page number 0 present?... yes it is already present
+[01:05] that is called a.. hit
+[01:08] mow page number 3, is page number 3 present?...no
+[01:12] here page number 3 is not present
+[01:15] so what we have to do according to most recently used method
+[01:20] first thing you always remember that it works in past
+[01:23] LRU and MRU both works in past
+[01:27] optimal works on future
+[01:29] so we have to check in past
+[01:31] what we have to check? among all these four
+[01:33] among 2,1,0,7 which one recently, means nearest
+[01:40] with the page which we have to replace.. just near to that..
+[01:43] just before that which page is there
+[01:47] if that page is present, obviously that will be present
+[01:50] so we have to replace that page
+[01:54] so which page is there just before 3? 2,... 0
+[01:57] so we will replace 0 with the page number 3
+[02:01] and rest all write as it is, that is called a page fault
+[02:06] page number 0, is page number 0 present?... no
+[02:10] page number 0 is not present, now what will we do
+[02:13] just before this whatever the page was there.. will replace that
+[02:17] so which page was there before this? ...3
+[02:19] so we again replaced 3 with 0
+[02:22] that is again called a page fault
+[02:25] next is page number 4, is page number 4 present?... no
+[02:29] so will we bring page number 4 in main memory
+[02:32] and will service the page and will replace 0 from here
+[02:36] because that is the most recently used that is 0
+[02:40] so we replace 0 with 4
+[02:43] and that is called again a page fault
+[02:46] next comes page number 2, is page number 2 present?... yes it is already present
+[02:51] that is called a page hit
+[02:54] next page number 3, is page number 3 present?... no page number 3 is absent
+[03:00] if page number 3 is absent, we will check in the past, which one was used recently
+[03:05] means, the MRU method, actually if we see its principle, its logic so logic is
+[03:11] it replaces that page which CPU just now,
+[03:16] or the page which had such a byte which was called by a CPU just now
+[03:21] so according to this the page which was called just now
+[03:24] ..that's demand may be, will not be there or it will sometime in the future.
+[03:29] so what it does?.. the page which just now CPU used
+[03:33] it simply replaces that page with the fresh page
+[03:36] so means over here to put 3 we will replace 2
+[03:43] because that is nearest.. it was the most recently used page
+[03:47] so what is this also? .. fault
+[03:50] then 0, is 0 present?.. no so again we will replace 3 with 0
+[03:56] and that is called a fault
+[03:58] then again what is next?..3 , is 3  present?. no, 3 is  again absent
+[04:03] so which was used before 3? .. 0
+[04:05] so again i replaced 0 that is called a page fault
+[04:10] now next is page number 2, is page number 2 present? no page number 2 is not present
+[04:15] so we will replace page number 3
+[04:18] and there we will put 2 that is again called a page fault
+[04:23] then page number 1, is page number 1 present?
+[04:26] yes it is already present
+[04:28] so what we can call this?.. a page hit
+[04:31] next page number 2, is page number 2 present?
+[04:34] yes page number 2 is already present that is again called a hit
+[04:40] next page number 0, is page number 0 present?.. no
+[04:45] so what we have to replace? ..2 which was the most recently used page
+[04:50] so we replaced this with 0, rest copied as it is, that is again called a page fault
+[04:55] next, is page number 1 present? yes it is already  present
+[04:59] so what we will call this? a page hit
+[05:02] next page number 7, here page number 7 is absent
+[05:07] so i will have to service 1, which is most recently used
+[05:11] after removing that i am putting 7
+[05:13] and
+[05:14] sorry, here 7 is already present, so there is no need to put 7
+[05:21] that is a page hit
+[05:24] because 7 is already present, just copy here as it is
+[05:28] 0
+[05:30] this we write it as it is that is called a hit
+[05:35] next is page number 0, is page number 0 present?
+[05:38] yes it is already present that is again called a page hit
+[05:44] next is page number 1, that is a last page is it present?
+[05:48] yes it is again already present
+[05:50] so this also what we will call? page hit
+[05:53] so this is how the most recently used method works
+[05:57] whichever page was demanded recently
+[05:59] whichever page CPU called just now, we will replace with that page
+[06:03] so we will count, one two three four five six seven...nine ten
+[06:09] eleven twelve
+[06:10] so how many page faults are there?
+[06:12] so i have 12 page faults
+[06:16] and page hits... i think there must be 8
+[06:19] one two three four five six seven eight yes
+[06:22] page faults are 12 and page hits are 8
+[06:27] so this is how the most recently used method works
+[06:30] so you can try it with the number of frames that is 3
+[06:33] means here we have taken 4 number of frames
+[06:36] so you can try this with number of frames that is 3
+[06:39] so this is all about the MRU thank you

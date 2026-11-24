@@ -1,0 +1,202 @@
+Title: L-5.14: Inverted paging | Memory Management | Operating System
+Video URL: https://www.youtube.com/watch?v=spApKfUa8BI
+Video ID: spApKfUa8BI
+======================================================================
+
+[00:00] Hello friends Welcome to Gate Smashers
+[00:02] The topic is inverted paging.
+[00:04] Inverting paging is totally different from normal paging.
+[00:07] Let see the comparison between internal paging and normal paging.
+[00:11] So what have we done in normal paging till now?
+[00:13] We divide processes into pages
+[00:17] We divide processes into different pages
+[00:19] and bring some of their pages into main memory.
+[00:25] When the CPU asks for a page or process in main memory
+[00:30] So we first find it in the page table
+[00:33] From the page table, we know which page is lying in which frame number.
+[00:38] Because each and every page table
+[00:41] We keep a page table of each and every process.
+[00:46] And in that page table, we  have to find those pages first
+[00:50] Let say this page table is of P2
+[00:52] When CPU will say "I need this page" Let say page number 1
+[00:57] So, page number 1 is lying in frame number 1.
+[00:59] Page 1 of the p2 process is lying in frame 1 of main memory.
+[01:05] We will fetch the data by going there.
+[01:08] In the same way  Page table of p1
+[01:11] What am I getting in page table P1
+[01:14] p1's process 0 or page number 0
+[01:19] is lying on frame number 0.
+[01:20] We have to maintain a page table of each and every process.
+[01:25] This is the concept of normal paging.
+[01:28] In each and every process there is a page table.
+[01:31] And where that page table is actually stored?
+[01:34] Normally they are stored on a Hard disk.
+[01:36] But as soon as any process
+[01:39] One or two pages will come inside the main memory.
+[01:42] We also have to store their page table in main memory.
+[01:46] Here two points are very important.
+[01:50] The first point is
+[01:51] Each process has its own page table.
+[01:55] Each process has its own page table.
+[01:59] and the second point is
+[02:02] Where the page table will be there?
+[02:04] Let say I have 10 processes
+[02:08] if I have 10 processes then there will be 10 page table
+[02:12] If each process has even one page lying in main memory
+[02:18] So we have to keep its page table in the main memory too.
+[02:22] Because first of all, I have to find the page table
+[02:26] I will know from page table only
+[02:28] the page I am looking for is lying in which frame.
+[02:32] So we have to keep the page table in the main memory.
+[02:35] So these two points are very important in the normal paging.
+[02:39] So page table will be in main memory.
+[02:45] So the page tables will be in some frame of the main memory.
+[02:48] So the problem is that If I have 10 processes
+[02:52] each process have its own page table
+[02:55] And each process has one or two pages
+[02:58] lying inside the main memory.
+[03:00] Meaning it will take me 10 frames
+[03:03] to store only the page table.
+[03:06] Because the page table of 10 processes
+[03:09] will be lying in the main memory.
+[03:11] Because some pages of 10 processes are lying in the main memory
+[03:15] those page tables will have to be mounted
+[03:18] in the frames of the main memory.
+[03:20] The problem here is
+[03:22] We have already discussed that main memory is limited
+[03:26] If the main memory is limited, then the number of frames is also limited.
+[03:30] And in limited numbers of frames
+[03:32] instead of storing data instead of inserting page
+[03:36] I am using some frames only for page tables.
+[03:41] So this thing was removed by inverted paging
+[03:46] What inverted paging says is that
+[03:47] Instead of keeping all the page tables
+[03:51] for all the processes there will be only one page table.
+[03:54] Meaning we will create a global page table
+[03:56] The operating system will maintain the
+[03:59] same page table throughout the system.
+[04:01] And that page table will be maintained like this.
+[04:04] If there are 100 processes in my system
+[04:08] In normal paging, there will be 100-page tables
+[04:10] and if pages of 100 processes are lying in main memory
+[04:15] So the 100-page tables will also have to be kept in the main memory.
+[04:18] This is becoming too much wastage of memory.
+[04:21] To utilize it properly
+[04:24] we will create a Global page table
+[04:28] The global page table will maintain the operating system
+[04:31] What will be inside it? Page number and Process ID
+[04:35] and frame numbers
+[04:37] means it is totally opposite
+[04:38] If you compare
+[04:40] this is an inverted page table and this is a normal page table
+[04:44] The outer index of the normal page table
+[04:49] which we call indices
+[04:50] They are denoting page number
+[04:53] and inside it is denoting frame numbers.
+[04:56] Here it is reversed, which means that what was inside was thrown out.
+[05:00] Indices of outside will show frame numbers.
+[05:05] And inside it, I have page numbers
+[05:08] inside it, I have page numbers.
+[05:11] And here is the first point that came
+[05:13] What will be the number of entries here
+[05:18] How many numbers of entries will be there?
+[05:20] The number of frames will be in the main memory.
+[05:23] Let say there are 1024 frames in the main memory
+[05:30] So what will be the number of entries?
+[05:33] What will be the number of entries in inverted page table?
+[05:37] 1024
+[05:39] As many entries as there, we have to maintain the same number of frames
+[05:42] up to 1023.
+[05:47] Inside it, I am keeping page number
+[05:51] Here the page numbers used to be out
+[05:54] I have kept those pages inside.
+[05:57] Now what these pages are denoting
+[05:59] This is Page 0, Page 1
+[06:03] Page 2, Page 1
+[06:05] Now here you must be getting some confusions
+[06:08] that page 0 and page 1 are here and page 1 is there also
+[06:12] Obviously, if you're dividing any process into pages
+[06:17] There is a chance of getting  page 1 in each process.
+[06:21] Like we have divided these three processes into pages
+[06:24] Here is also page number 1
+[06:26] Here is also page number 1
+[06:28] Here is also page number 1
+[06:29] But this page 1 is of process P1
+[06:34] this page 1 is of process P2
+[06:36] this page 1 is of process P3.
+[06:39] Here if I write only page numbers
+[06:43] Let say Page number 1 Page number 1
+[06:46] When we will search
+[06:48] CPU will generate a logical address
+[06:51] and that will tell me which page I am looking for
+[06:54] I get to know that I am searching Page number 1
+[06:56] Page number 1 is of which process
+[06:59] It is also important to find out
+[07:01] There will be multiple pages here
+[07:03] There can be many Page number 1
+[07:06] But which process that page number 1 belongs to
+[07:10] that is also necessary to find out.
+[07:12] So that's why there will be two things inside this page table
+[07:17] Page number and process ID
+[07:20] So Page table entry what we have seen
+[07:22] in the normal process in paging
+[07:25] In that mandatory field was only one
+[07:27] that is frame numbers.
+[07:30] Apart from that, there were other things like protection bit, cache, etc.
+[07:33] there were lots of other values
+[07:36] you can check my other videos  related to the page table entry.
+[07:39] But here two things are mandatory
+[07:42] There was only one thing mandatory and that was frame number
+[07:44] and here it is two.
+[07:45] One is page number and And what process is that page?
+[07:49] that is also important to find out.
+[07:51] Because whenever CPU will say
+[07:53] I need process Page number 1
+[07:57] By which process do I have to take that Page 1
+[08:00] I will also have to mention this here.
+[08:02] I have to mention each and every pages
+[08:05] along with their whole process numbers.
+[08:09] Now the next point is searching
+[08:13] If CPU is searching page number 1
+[08:16] Page number 1 of process 3
+[08:19] or let say Page number 2 of process 3
+[08:21] How will I find Page number 2 of process 3?
+[08:25] Obviously, I have to use Linear search here
+[08:29] I have to check every single entry properly
+[08:32] because there is no other option.
+[08:33] I have to search each and every option linearly
+[08:37] The problem of inverted page table is searching time.
+[08:42] In the normal page table we used to find out directly
+[08:46] that Page number 1
+[08:48] So I went to page number 1 of that process
+[08:52] and I get to know directly through frame number.
+[08:55] But here first I have to find
+[08:58] which page they're talking about.
+[09:00] They are talking about Page number 2
+[09:02] and that page number 2 is of process P3.
+[09:05] When I will search everything linearly
+[09:09] then I will get to know
+[09:11] Page number 2 of process 3
+[09:14] is lying in frame number 5.
+[09:17] Then I will go to frame number 5
+[09:19] and I will pick the data from main memory frame number 5
+[09:24] Searching time is the biggest problem.
+[09:30] Due to searching time
+[09:32] inverted page table was not a big hit.
+[09:35] Because here we want to reduce the searching time
+[09:40] But inverted page table have taken care of memory
+[09:44] that don't utilize too much memory
+[09:46] Only to store page tables create one global page table
+[09:50] The operating system will maintain everything through it.
+[09:53] But due to that our searching time increased.
+[09:59] And in normal paging searching time is less
+[10:02] but memory use seems to be somewhere high.
+[10:05] So obviously If I talk about today's time
+[10:08] people are more concerned about the time
+[10:11] they are not much concerned about memory.
+[10:14] Because memory is getting cheap day by day
+[10:17] But the value of time is increasing day by day.
+[10:20] That is the reason this inverted page table was not popular soo much.
+[10:24] But still, it is a concept that can be asked in
+[10:27] UGC NET, GATE exam in your placement also.
+[10:31] This is all about inverted page table Thank you!

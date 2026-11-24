@@ -1,0 +1,212 @@
+Title: L-6.1: Hard Disk Architecture in Operating System in Hindi
+Video URL: https://www.youtube.com/watch?v=sveZw_GG_cs
+Video ID: sveZw_GG_cs
+======================================================================
+
+[00:00] Hello friends you are welcome in  Gate Smashers
+[00:02] in this video we are going to discuss  disk architecture
+[00:05] guys this is an important topic
+[00:07] because this also comes in Operating System
+[00:09] in computer organisation also..  they asked about it
+[00:11] or whatever the subjects are there related to storage
+[00:14] there, about hard disk architecture or magnetic disk architecture
+[00:18] so many questions of this type are asked
+[00:21] so here i am going explain you with the help of a very simple example
+[00:25] that architecture of hard disk or disk  architecture... how it happens
+[00:29] so guys let's start the video
+[00:30] first of all i would like to tell you that, architecture of disk
+[00:33] actually that is divided in sequence
+[00:36] that sequence itself you have to remember
+[00:38] first of all, what we have are platters
+[00:42] like this way
+[00:48] you can have multiple platters, let's say here i have drawn four platters
+[00:54] so these platters, this way, along with spindle
+[00:57] they are connected with a spindle
+[01:00] what is the work of spindle over here?
+[01:02] to make it move
+[01:04] means either it will rotate right wise, that is clockwise
+[01:07] or it will rotate anticlockwise
+[01:09] but it will be unidirectional
+[01:11] so either it will move clockwise or  anti clockwise
+[01:15] so as soon as the spindle will start moving
+[01:17] means all these four platters will move
+[01:21] what will we call this, platters
+[01:24] now what is there above every platter? there is a surface
+[01:27] this is upper surface and this is lower  surface, you will have to visualise a bit
+[01:31] this is your upper surface and lower  portion is lower surface
+[01:34] this one platter's upper surface  and this one platter's lower surface
+[01:38] and we use upper and lower surface of  every platter
+[01:42] and what's there above these platters
+[01:44] above these platters we have read write head like these
+[01:48] what do we call these? ..read write head,
+[01:51] which are connected to an actuator arm, you can say arm or actuator arm
+[01:59] and what is the job of read write head?
+[02:01] the job of read write head is to fetch data
+[02:05] these are used to read data
+[02:07] and their movement is back and forth
+[02:10] means their movement is possible only  backward and forward
+[02:13] it's not like, it can go anywhere
+[02:16] their movement will only be  forward or backward
+[02:20] now here, let's say that i am using both the surfaces
+[02:23] means upper surface as well as  lower surface
+[02:26] so the actuator arm will be like this
+[02:30] so that it can read upper surface as well  as it can read lower surface
+[02:35] if you want to draw then you can draw like this
+[02:39] means it is holding upper and lower surface like this
+[02:42] if you want to visualize this, in movies  many times they show gramophone
+[02:46] what it has is black CD, which they lift  up and keep, then music starts playing
+[02:51] now what they are lifting like this that is what a read write head
+[02:55] which you can call an actuator arm
+[02:57] and that which appears as a CD,  you can consider that as a platter
+[03:01] so if i talk about this platter
+[03:03] what is there on this platter?  there are tracks on this platter
+[03:07] tracks are made over here
+[03:10] like CDs
+[03:12] earlier we used to have these, but now  we do not use them
+[03:15] but earlier there used to be CDs
+[03:16] if you see CD carefully, in CD also
+[03:20] here like this, you can see so many circular lines on them
+[03:25] that we call as tracks
+[03:28] like this
+[03:30] this one, what is it?  it is a track
+[03:32] obviously if tracks are there in upper  surface
+[03:35] then there will also be tracks  in lower surface
+[03:37] same number of tracks in upper  same in lower, same upper same lower
+[03:41] so firstly we had platter
+[03:43] after platter what we got, surface
+[03:47] you can also say surface  or  you can also say head
+[03:50] so upper surface and lower surface
+[03:52] so how many surfaces will a platter have? obviously it will be 2
+[03:56] upper surface lower surface
+[03:58] and what we have on every surface
+[04:00] on every surface we have track
+[04:03] so next thing which comes in sequence is  track
+[04:08] so tracks are above and below, in both the surfaces we have tracks
+[04:14] now this read write head we have
+[04:16] actually this read write head is sitting  upon any of the track
+[04:20] now let's say i have to go to inner track
+[04:23] as i have already told you, either this  movement is forward or backward only
+[04:28] this can not move in any other direction
+[04:31] but yea disk can rotate
+[04:33] but read write head either it will forward or it will go towards internal tracks
+[04:37] like you can say this one as internal track
+[04:39] external tracks is your outer track
+[04:42] now what actually there is on this track
+[04:44] on this track you have sectors
+[04:47] like this one the sectors are made
+[04:51] so next what we got?
+[04:53] on every track we have sectors
+[04:57] there are fixed number of sectors, let's  say i say that this is tracks
+[05:01] on this track, let's say there are  256 sectors
+[05:05] means how many sectors we have above  every sector... 256
+[05:08] may it be upper lower, upper lower
+[05:11] now what we did inside these sectors
+[05:13] inside these sectors we put the data,  next we get is data
+[05:19] so this sequence you should be familiar with
+[05:23] so at first platters come, then surfaces,  then tracks, then sectors and at last data
+[05:29] ..which we keep inside these sectors
+[05:32] now here what type of questions are asked
+[05:34] so the first question is possible.. although there can we variety of questions
+[05:39] there can be the questions related to disk  access time,
+[05:41] but that we will discuss in next video
+[05:43] here we are discussing only about the disk architecture
+[05:46] let's say you are asked in a question,
+[05:48] the number of platters are 8
+[05:51] the number of platters are 8, now in every platter we have upper and lower surface
+[05:56] so how many total surfaces will be, 16
+[06:00] upper lower, upper lower, upper lower
+[06:03] so total platters we have 8
+[06:04] and how many surfaces i am using...2
+[06:07] many times it is given that only upper surface is being used
+[06:12] lower is not being used, questions they can give anything in the questions
+[06:15] by default of course we will use both  the surfaces
+[06:18] but my times they also give one
+[06:21] but if nothing is given then by default you can use both the surfaces
+[06:24] so we have 8 platters,
+[06:26] and how many surfaces do we have on every  platter..2
+[06:29] next, let's say we have 256 tracks are  there on every surface
+[06:35] so what do you do?  multiply it with 256
+[06:39] now what you got here,  here you got total number of tracks
+[06:43] means inside whole disk
+[06:45] if you are to find out total number of  tracks, then how will you find out.
+[06:48] platter into surface into tracks
+[06:52] you will get number of tracks
+[06:54] now let's say on every track
+[06:56] in on every tracks, let's say there  are 512 number of sectors
+[07:03] means on every track, over here  there are 512 number of sectors
+[07:09] so if is asked in question to find out the  total number of sectors on the disk
+[07:13] so what you do, platter into surface into  tracks into
+[07:18] what is the number of sectors on every  track ..that is 512
+[07:21] so what you got these, you got total number of sectors
+[07:25] next data, what is last over here..data
+[07:28] in data let's say, on every sector all these details will be given in question
+[07:33] on every sector let's say that i can keep  512 kilo byte of data
+[07:38] just for example i am taking
+[07:40] this 512 kilo byte of data can be kept in on each one of the sector
+[07:46] so they can ask what is total disk size
+[07:50] they can ask disk size
+[07:52] so you got the way to find out the disk  size
+[07:55] platter into surface into tracks into  sectors into data
+[08:01] ..which can come in every sector, so like this you multiply
+[08:05] and how you have to find out in option?  in option it might be given in MBs GBs
+[08:10] so how you have to find out?
+[08:12] remember in most of the time whenever it will be asked in question,
+[08:16] surely you will given values in 2 raised to power
+[08:19] due to which it will be easier for you to  calculate
+[08:21] so here what you can write 8 as,  2 raised to power 3
+[08:26] 2 raised to power 1, 2 raised to power 8
+[08:29] these points you will have to remember,  2 raised to power 8  9  10
+[08:32] atleast you learn till 2 raised to power 15
+[08:36] so that you can evaluate easily
+[08:39] now 512, 512 is 2 raised to power 9
+[08:41] 512 kilo byte
+[08:43] what is 512, 2 raised to power 9
+[08:45] now kilo byte, what is kilo equal to  2 raised to power 10
+[08:50] one M that is mega, that is 2 raised to  power 20
+[08:54] one Giga, 2 raised to power 30
+[08:57] one Tera, 2 raised to power 20  these points also you should be aware of
+[09:01] so what is given over here, kilo  means 2 raised to power 10
+[09:06] let the byte be byte itself
+[09:08] if you want to change it to bit, then multiply it by 2 raised to power 3
+[09:12] because there are 8 bit in every byte
+[09:14] but if in options there is no such case,  by default it is asked in byte
+[09:18] so no need to convert it
+[09:20] see here base is same, by adding power what will it be
+[09:23] 18 plus 10, 28
+[09:26] 28 plus 4, 32 plus 8 , 40
+[09:32] 2 raised to power 40 byte
+[09:34] this you got 2 raised to power 40 byte
+[09:37] so when you will add this will be, 10 plus 28
+[09:44] 32 yes, so it will be 2 raised to power 40 byte
+[09:47] what you can write 2 raised to power 40  byte as, one tera byte
+[09:51] so this is how you have to solve questions  related to the disk size
+[09:58] so remember this point guys
+[09:59] it may be you are given options as tera  byte mega byte giga byte
+[10:04] so  you have to remember these points
+[10:06] so simply after converting you have to give answer over here like this
+[10:10] one more type of question they can ask
+[10:13] many times it comes like this number of bits required
+[10:16] number of bits required
+[10:22] to represent
+[10:24] to represent
+[10:27] disk size
+[10:30] there is no point in it,  what is the disk size, one tera byte
+[10:35] number of bits required to represent  the disk size
+[10:38] what is the meaning of  number of bits required
+[10:40] what is the answer coming in 2 raised to  power,
+[10:42] what is coming in 2 raised to  power, answer 40 is coming
+[10:45] so what you write, what is the simple  answer, 40
+[10:48] because let's say i have to represent   0 to 15,
+[10:51] so to represent  0 to 15, obviously  what will i do,
+[10:55] from 0000 till 1111
+[10:59] so from 0 to 15 how many numbers are there, there are 16 numbers
+[11:03] so to represent 16 numbers not to 16
+[11:06] to represent 16 numbers, means to represent numbers from 0 to 15
+[11:11] how many bits will be used,  4 bits will used
+[11:13] that's what i asked for over here, to represent one tera byte, 40 bits
+[11:17] so these types of questions can be asked
+[11:21] if number of tracks are to be found out just multiply till here
+[11:24] if number of sectors are to be found out multiply till here
+[11:26] if they ask number of bits,
+[11:28] so till wherever you got the answer, just  calculate their bits
+[11:30] that is all we have to solve it thank you

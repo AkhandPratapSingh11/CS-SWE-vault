@@ -1,0 +1,126 @@
+Title: L-4.7: Question Explaination on Deadlock | Operating System
+Video URL: https://www.youtube.com/watch?v=mGBjd2WoODs
+Video ID: mGBjd2WoODs
+======================================================================
+
+[00:00] Let's solve one question on deadlock. The question is, a system is having 3 processes
+[00:06] each requires 2 units of resource 'R'. The minimum number of units of 'R'
+[00:11] such that no deadlock will occur. Means I have 3 processes, let's say P1, P2, P3.
+[00:20] All the 3 processes require 2 units of R, 2 units of R means R is what? A resource,
+[00:27] resource like a printer, like a CPU, like memory, they are all the resources.
+[00:33] Unit means like if I say R is a printer then each process needs 2 printers to get executed.
+[00:42] This is the meaning of unit. You can simply say that 2 resources, 2 units of 1 resource to get executed.
+[00:51] Let's say that if there are 3 processes P1, P2, P3, if you see normally if there are 3 processes
+[00:59] each requires 2 resources. So total resources are what? 6. So 6 can be the answer.
+[01:10] There are 3 processes, each requires 2 resources, we gave first one 2, second one 2 and third one also 2
+[01:18] means if I have 6 printers, we gave first one 2 printers, second one 2 printers, third one also 2 printers.
+[01:26] So total is 6 printers, my question is solved, but you have to take care of this word, that is minimum .
+[01:35] Such a simple question won't come. They are saying minimum number of resources,
+[01:40] means minimum, the number should be minimum. Yes this number, although it is also fine,
+[01:46] but this is a the minimum. Let's say, let's start with the minimum number.
+[01:51] Let's say, I'm having 2 units of R. So can it be the right answer? Let's check.
+[02:01] like I have 3 processes P1, P2, P3. And how many units of R I have? 2.
+[02:08] So let's say I give 1 resource to P1, I give 1 resource to P2. I have 2 resources of R,
+[02:18] 2 units, I give 1 unit to P1, I give 1 unit to P2. But again, there is a deadlock. Why deadlock?
+[02:27] P1 needs 1 more to get executed, P2 needs 1 more to get executed and P3 needs 2 more to get executed.
+[02:35] So all three are in block state. P1 says that I got 1 give me 1 more, I need one more.
+[02:41] But where will we bring that 1 more from? Because there is no 1 more.
+[02:44] Because the 1 more that was is with P2 and P3 hasn't got any. So this is what? A deadlock situation.
+[02:54] So let's say we can rewrite like that, let's say that I have only 2 resources of R,
+[03:02] but I distributed like this, rather than distributing like this, what I did was, I gave both to P1.
+[03:10] Means P1 gets both the resources of R. So P1 gets both resources of R, P1 will get executed.
+[03:20] Because P1 is saying what? I need 2 resources of R and I gave both the resources to P1.
+[03:28] So P1 will successfully execute. Then I gave it to P2, successfully executed,
+[03:34] then I gave it to P3, successfully executed. Means sequentially first I gave 2 units to P1,
+[03:42] when P1 got executed, then I gave it to P2, P2 will get executed, then I gave it to P3.
+[03:52] But this is not an always condition, means here a problem can occur, how? Let's say that
+[04:01] I give 2 resources to P1 and P1 gets executed. When P1 gets executed, let's say P1 gets executed.
+[04:11] These 2 resources 1 and 2, I give these 2 resources to P1. P1 gets executed here. When P1 gets executed,
+[04:20] both resources will get free. If the resources will get free, is it necessary that
+[04:27] P2 will get both the resources? There might be a case that the 2 resources which got free,
+[04:37] out of those P2 will get 1 and P3 will get 1. Still there is a deadlock. Why?
+[04:46] P2 is saying I need 1 to get executed, P3 is saying I need 1 to get executed.
+[04:53] But neither of the 2 will release their resource. So both have 1 each and waiting for 1.
+[05:00] So that is what? A deadlock situation. So means if I have 2 number of resources then
+[05:07] can I say that deadlock will not occur in any case? There is one of the case where
+[05:13] the deadlock can occur. So 2 is not a right answer. Let's say 3. Let's say number of resources are 3.
+[05:25] I'm having 3 resources and 3 processes as given in the question, and let's assume that
+[05:33] I'm having number of resources means I have 3 units of R. Because deadlock occurs in 2,
+[05:39] even if it occurs in 1 situation then deadlock is occurring. Because we have to calculate all situations,
+[05:45] all situations must be deadlock free, but deadlock is occurring in 1 situation. Let's say for 3,
+[05:51] if I have 3 resources means units of R, then what can be a simple case?
+[05:58] I give 2 out of 3 to P1 and
+[06:06] the remaining 1 I give to P2.
+[06:11] No problem, P1 needed 2, I gave 2, P2 needs 2, but I can give 1 right now, so I gave 1.
+[06:19] P1 gets 2, it will get executed. When it gets executed then both 2 will get free.
+[06:30] So out of the free ones, let's say P2 gets 1 and P3 gets 1. P2 needed 2 resources, now P2 gets 2,
+[06:41] it will successfully execute, resources will be free. 2 resources get free, P3 needs only 1,
+[06:49] so gave 1 to P3, P3 will get successfully executed because P3 needs 2 and I provided 2 to it.
+[06:59] But this is one of the cases, out of infinite cases, one of the case. Let's say 1 more case.
+[07:10] Let's say 1 more case. Then other case can be, there might be that 1 resource was given to P1,
+[07:19] 1 unit of R, another unit of R given to P2, and third unit of R given to P3. This case can happen
+[07:33] because I have to analyse all cases. P1 got 1 unit, P2 got another unit, P3 got third unit.
+[07:42] Again there is a problem, the problem is what? P1 is saying I'm having 1, I need 1.
+[07:49] But where will it get from? the second 1 it wants is with P2. P2 is saying I have 1, I need 1.
+[07:58] P3 is also saying I have 1, I need 1. But where will that need be fulfilled from?
+[08:03] Because nobody is going to leave their resource and other one will get, that is not the situation,
+[08:11] because here we are talking about mutual exclusion, no pre-emption, hold and wait, circular wait.
+[08:16] Those necessary conditions are holding here. So in this case nobody will leave their resource.
+[08:22] They are holding and waiting, holding, waiting, holding, waiting. So in this situation
+[08:28] deadlock can occur. So if I say, if number of units are 3, a resource is having number of units 3
+[08:38] then deadlock will not occur in all the cases. Wrong, in this case deadlock can occur.
+[08:46] Yes, there will be 1 or 2 cases where deadlock will not occur. Even if you take R as 2, then also
+[08:51] there can be such a case, which we just did, but are all cases deadlock free? No.
+[08:57] So means in this case deadlock will occur. So let's increase value of R by 1, that is 4.
+[09:07] If value of R is 4, means number of units of R are 4 and processes are 3 as given in the question.
+[09:16] Now let's say 4 resources, let's say we give 1 to this, give 1 to this, give 1 resource to this,
+[09:25] 1 is still remaining we can give it to any of the three. Let's say we give it to P1.
+[09:32] No problem, P1 will get 2, P1 needs 2, we fulfiled it's requirement, successfully executed.
+[09:41] When it gets successfully executed, how many resources got free? 2 resources got free.
+[09:47] Out of those let's say P2 gets 1, P3 gets 1, P2 needs 2, gets 2, P3 needs 2, gets 2.
+[09:56] So both get successfully executed. So means if the number of resources are 4
+[10:04] and the number of processes are 3, then deadlock will never occur. Deadlock will never occur.
+[10:11] Deadlock will never occur.
+[10:17] So the right answer of this is 4, that is (d). So, if this is analysed then how can you solve this?
+[10:26] Let's say, how many number of processes I had? 3. P1, P2, P3. So we need to do what?
+[10:34] First fulfil their minimum requirement, means what is their requirement, every resource,
+[10:40] every process needs 2 units, every process needs 2 units. Then I can't give 2, if I give 2 to each,
+[10:49] then it is a normal case, that becomes the 3 x 6 case, 3x2 that is 6. But I want minimum,
+[10:55] so for minimum what you do, whatever it's requirement, give 1 less than that.
+[11:00] Means P1 has requirement of 2, I gave it 1. P2 also has requirement of 2, I gave it 1.
+[11:09] P3 also has requirement of 2, I gave it 1. These are 3, plus 1 means minimum requirement plus 1.
+[11:23] 1 less than what their requirement is, give to each, like 1 to P1, 1 to P2, 1 to P3.
+[11:30] These are 3, plus 1, why plus 1? Because this plus 1 will remove deadlock in all the cases.
+[11:40] So in this situation if I did not add this plus 1, then still there is a deadlock.
+[11:46] Here still there is a deadlock because all three are occurring in deadlock situation.
+[11:51] Another question can be asked here, another question can be, what is the maximum number of resources
+[11:58] that are allocated but still there is a deadlock? Means if it is asked in this question,
+[12:04] that number of processes are 3 what, is the maximum number of resources that are allocated
+[12:12] but still there is a deadlock? So that is 3. Means I have fulfiled 1 requirement of all three.
+[12:18] So number of resources I have allocated is 3. Number of resources I have allocated? 1+1+1, 3.
+[12:26] But still there is a deadlock, here there is still a deadlock situation. So to remove deadlock
+[12:32] we add 1 more so deadlock is removed. So let's say that if I have 3 processes, P1, P2, P3.
+[12:41] Maximum requirement of P1 is 3, maximum requirement of P2 is 4, maximum requirement of P3 is 5.
+[12:51] Means P1 is saying,
+[12:55] in this question, let's say
+[13:02] P1 is saying I need 3 resources to get executed, P2 is saying I need 4 resources to get executed,
+[13:09] P3 is saying I need 5 resources to get executed. If I provide all means 5+4= 9 +3= 12.
+[13:18] Then there is no problem but minimum, so in case of minimum what we do? P1 needs 3,
+[13:24] so I will give it minimum means 1 less, 2. P2 needs 4, I'll give it 3 and P3 needs 5, I'll give it 4.
+[13:38] I will fulfil its minimum requirement, I'll give 2 to P1, 3 to P2, 4 to P3. So what is the total?
+[13:46] The total of this is 4+3=7 +2= 9. But still there is a deadlock because P1 is also waiting for 1,
+[13:57] P2 is also waiting for 1, P3 is also waiting for 1. But to remove the waiting I will add 1 more.
+[14:09] Means I will add 1 more here, when I add 1 more, number of processes, processes are 3 only,
+[14:18] number of resources becomes 10. So here deadlock is permanently removed. So if you see in this question
+[14:25] how do we remove it? 9 + 1 that becomes 10. So whatever resources we want, fill the minimum requirement,
+[14:33] add +1 at last. And what was the second question? What is the maximum number of resources
+[14:40] that are allocated but still there is a deadlock? So what will be the answer to that question? 9.
+[14:48] How? This needs 3, I gave 2, this needs 4, I gave 3, minimum, this needs 5, I gave 4.
+[14:55] So what is the total? 9. Total of this 2+3=5, +4= 9. But still there is a deadlock.
+[15:03] Means I have allocated the maximum number, how many? 9. But still there is a deadlock.
+[15:08] If you are asked maximum number of resources that are allocated but still there is a deadlock,
+[15:14] the answer will be 9. And what is the second one? The minimum number of resources that are allocated
+[15:20] that there will be no deadlock, so 9+1, that is 10. So in that case your answer will be 10.
+[15:29] So this is how we can solve the question like this. And many questions of this type
+[15:34] you will get in GATE and in other competitive exams also.
+[15:38] So if you like this video then please like it, share it and please subscribe my channel. Thank you.

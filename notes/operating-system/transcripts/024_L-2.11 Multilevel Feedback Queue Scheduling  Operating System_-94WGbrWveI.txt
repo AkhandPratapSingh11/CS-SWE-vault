@@ -1,0 +1,74 @@
+Title: L-2.11: Multilevel Feedback Queue Scheduling | Operating System
+Video URL: https://www.youtube.com/watch?v=-94WGbrWveI
+Video ID: -94WGbrWveI
+======================================================================
+
+[00:00] Hello Friends, Welcome to Gate Smashers
+[00:02] The topic is multi-level feedback queue
+[00:04] In multi-level queue, we've seen a problem that's a starvation
+[00:08] The problem is occurring there because when high priority process like system process,
+[00:15] if I'll keep getting too much system process
+[00:18] then because of that lowest priority process will keep waiting for their turn
+[00:23] that when their turn will come and they will get executed in the CPU
+[00:27] When their turn about to come, then let's say another system process came
+[00:31] and again they are waiting
+[00:32] So because of it there's problem of starvation
+[00:35] So the method to remove the starvation problem is... Feedback
+[00:40] Means the lowest priority one would give its feedback and we would keep upgrading it gradually
+[00:47] I've took a simple example here, it doesn't mean that this is the only way out
+[00:52] You can use different algorithm also
+[00:55] Its possible that you'll get different algorithm and values in the numerical
+[00:59] But this is one of the method to understand how multilevel feedback queue actually works
+[01:05] So here if I have lowest priority process
+[01:08] this RQ1, RQ2, RQ3, RQ4... I mean the concept is the same
+[01:14] I mean this is not one queue, there are multi-level different queues for different types of processes
+[01:21] Now if it has lowest priority queue in it then when a process comes in lowest priority queue
+[01:29] let's say P1 came then P1 will get its turn when High priority process will end
+[01:35] When all this will get end, then finally P1 will get its turn
+[01:40] But it is also possible that the moment P1 will about to get its turn
+[01:43] then some new process came in it, then we'll give it to CPU
+[01:47] So this will keep waiting, so what we are doing in this case,
+[01:50] first biggest advantage here is that we'll feedback
+[01:55] Feedback means lowest priority process entered from here P1
+[01:59] We gave P1 time quantum 2 for some time let's say
+[02:04] So we executed it for some time, then we upgraded it
+[02:09] Upgrade means we placed it in different queue, so it can get CPU more faster
+[02:16] Then we upgraded it again and this way we are moving it again and again
+[02:22] And when old keeps moving then place for new process will get create and new process will come there
+[02:30] The second point here is that if there's some high priority process
+[02:34] we don't have to give feedback to high priority process
+[02:37] Because high priority process's turn will come first,
+[02:40] so a system process arrive, then it'll directly enter here and will execute in ready queue,
+[02:46] and whatever algorithm we use,
+[02:48] let's say if we are using FCFS, then it'll get executed through it simply
+[02:53] So we are not using multi-level feedback queue for higher priority
+[02:56] We are using for lower priority so they'll get their turn faster and there'll be no starvation
+[03:04] So if I have a P1 process, a batch process of lowest priority,
+[03:09] let's say if its execution time is 19 Means it'll take 19 unit of time to get executed
+[03:17] So how it'll proceed?... First of all if it's a batch process then it'll go in this queue
+[03:22] It can't go in any other queue ... So when it'll come in this queue, then it needs 19 times
+[03:28] But it'll get 19 times execute when it'll get its turn first
+[03:31] so what we'll do here is... We'll just run it up to 2 time quantum
+[03:36] Means out of 19, we'll run it up to two time quantum, then 17 will left
+[03:43] And we are giving its feedback in a way and converting it in queue 2
+[03:49] Means we sent it here, so some other process would be able to come here
+[03:53] Now P1 don't have to wait for much long
+[03:56] now its turn will come in this queue, and it's running up to 4 time quantum in this queue
+[04:02] So if it ran up to 4, then how much left? It's 13
+[04:06] After 13,  because other processes will also come in this queue
+[04:12] so we won't keep it in same queue for much long We're shifting it... means keep giving its feedback
+[04:19] so we'll send in next queue,
+[04:20] Now if it ran up to 8 in this queue, then how much left?... It's 5,
+[04:25] means it needs 5 unit of time more to get fully execute
+[04:29] So we'll send it again in the queue below
+[04:33] In this queue it's first come first serve any algorithm can be used, it's not fixed
+[04:39] But this is one of the example to understand multi-level
+[04:42] So the leftover 5 time went as, first come first serve
+[04:47] So we are taking care of both things
+[04:50] First, lowest priority process should not get in starvation, we keeps on changing its queue
+[04:56] Means if its queue will keep changing then its turn will keep coming faster
+[05:02] And the second one we are using here that if there's some high priority process
+[05:06] Then it don't have any problem It'll keep running as it always runs
+[05:12] So that's why we use multi-level feedback queue
+[05:15] Just to remove the starvation which occurs in multi-level queue
+[05:20] Thank You!

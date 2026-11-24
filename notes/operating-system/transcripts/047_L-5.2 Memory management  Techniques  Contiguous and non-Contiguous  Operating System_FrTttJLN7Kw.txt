@@ -1,0 +1,109 @@
+Title: L-5.2: Memory management  Techniques | Contiguous and non-Contiguous | Operating System
+Video URL: https://www.youtube.com/watch?v=FrTttJLN7Kw
+Video ID: FrTttJLN7Kw
+======================================================================
+
+[00:01] Memory management Techniques. Operating System uses various memory management methods
+[00:06] to manage the primary memory, that is RAM. As we know that degree of multi-programming
+[00:11] is very important. The degree of multi-programming says that keep more and more number of processes
+[00:18] in the main memory, that is RAM, so that whenever CPU needs for a process to execute,
+[00:25] whenever CPU asks for a process to execute, I will be having plenty number of processes
+[00:32] available in my RAM. So most number of processes will be available in the RAM when
+[00:38] degree of multi-programming is high. As we know, like memory is what? Memory is a large area of bytes
+[00:47] and every byte is having some address. Now what we are doing here? We divide the memory.
+[00:54] Let's say we divide or partitioning the memory, now whatever number of processes come,
+[01:01] my main motive is what? What is the main motive of Memory management? Maximum number of processes
+[01:08] you have to keep in the RAM. Means we have to keep maximum number of processes in ready state.
+[01:14] If maximum number of processes are in ready state then definitely I will pick one of them
+[01:20] and give in running state then again if that process is blocked or if for some reason it says that
+[01:26] I want to perform input output operation, if it is going to perform input output operation,
+[01:32] let's say that if I am writing simple C code, in simple C code if I write there like a simple program
+[01:40] that if I want to read the input from a file, let's say there is file XYZ, some xyz.txt file,
+[01:51] some content is written in this file, whatever the content, let's say some name is written.
+[01:57] Now whatever content is written in this file, let's say I want to print that data or print
+[02:04] whatever is written in this, content, I want to print that content on monitor or
+[02:09] let's say on a printer I want to print. Then in this code what will we write?
+[02:15] That read this file and then write it or print that content on monitor.
+[02:22] So now when this program gets executed, when instructions are executed one by one,
+[02:27] so here definitely we use the
+[02:33] system call that is Read system call we use.
+[02:36] So in Read system call we generally write like from where I have to read.
+[02:40] So we use the name of that file, name of file, size, that is a general thing,
+[02:49] that upto where I have to read that content. So when file name we mention here
+[02:54] where is this file located, this file is actually located in hard disk. So means a running process
+[03:00] during the process was running, what is it saying in between? I want to read this particular file.
+[03:07] This is a simple example of the input output operation. Many times we discuss that
+[03:13] process wants to perform input output operation, but what is the meaning of performing input output operation?
+[03:19] That now it is reading a file from hard disk, or accessing some printer, accessing some monitor
+[03:25] during the execution, then CPU says ok, go and execute it. So when that process gets out of range of CPU,
+[03:35] then CPU will sit idle. So that's why we keep degree of multi-programming high so that
+[03:40] whenever CPU in any situation becomes idle, before that in ready state we will allot another process to CPU.
+[03:50] So that's why the more processes are available with me in ready state the more my benefit,
+[03:56] and the more I can utilize the CPU. And obviously to make degree of multi-programming high
+[04:03] or to fill the ready state I will have to properly utilize the RAM that is primary memory.
+[04:11] So memory management techniques are all based on this. So in memory management techniques
+[04:17] we basically, these are broadly of 2 types contiguous, another is non-contiguous. In contiguous,
+[04:25] there is fixed partitioning and variable partitioning. Fixed partitioning we also call Static partitioning,
+[04:34] and this is known as Dynamic.
+[04:39] Means to the RAM, we're giving basic idea because we will take
+[04:42] one by one each and every technique, but here I'm just giving basic overview.
+[04:47] What we are doing here basically? Let's say
+[04:54] in my hard drive,
+[05:05] let's say this is my Memory Blocks, means in the RAM, this is general concept that
+[05:14] we have divided the RAM in partitioning or blocks. Let's say now a process comes P1.
+[05:23] So what we do here, we adjust the entire P1 process in a particular block. Means the entire process
+[05:31] in some block, memory block, which memory is this? That is RAM, main memory.
+[05:39] And all the blocks of main memory means the full capacity of main memory,
+[05:44] we cannot use the full capacity because when we switch on the system, Operating system, first of all
+[05:53] Operating system mounts in the main memory. Operating system covers some area of the main memory,
+[06:00] the remaining portion what we do is we will try to fill maximum processes in it so that my
+[06:08] degree of multi-programming becomes high. So contiguous, we can know by the name contiguous,
+[06:14] contiguous means continuous allocation, means whatever number of similar kind of processes come,
+[06:20] we will provide them continuous amount of memory. Let's say there is a process, that processes has 4 blocks,
+[06:28] let's say B1, B2, B3, B4 so what we basically do is give them continuous memory allocation,
+[06:34] provide them continuous address, like if let's say here P1 comes so I allocate P1 here.
+[06:41] Next process P2 comes, so we try to keep in the continuous addresses, that is the simple meaning of
+[06:49] contiguous allocation. And in this we use 2 things, Fixed partitioning and Dynamic partitioning or
+[06:56] Variable partitioning. Means we can either fixed divide the memory, make slots of particular size,
+[07:04] or we will not make any slots. When process comes, if process comes and says that I want 1MB,
+[07:10] then when it says 1MB, then I will dynamically allocate 1MB in run time in the RAM.
+[07:17] So this has some advantages, some disadvantages, so that will be discussed in further videos.
+[07:23] So fixed partitioning and dynamic partitioning are basically, if I talk about fixed partitioning
+[07:29] then it was used long back, means near about in 1960s times we used to use it in main frames.
+[07:35] When main frames which were very big servers, there we used it, so
+[07:40] not very important from GATE point of view but from point of view it is important.
+[07:45] And what is second importance? Nowadays we are using these kind of techniques.
+[07:49] We have reached upto this technique here but where is the base of that technique made from?
+[07:54] From these. So means the techniques which were used at that time, what were the problems in them,
+[07:59] to remove those problems we kept doing further evolution. So that's why somewhere their importance is there.
+[08:07] Similarly non-contiguous, non-contiguous means we know from the name
+[08:12] that we are not doing continuous allocation, non-continuous allocation we are doing.
+[08:16] What we genereally do in this? If there is process, let's say
+[08:26] a process can be stored or process can be put in the different different locations of the memory.
+[08:35] We are not putting in the continuous, let's say there is a process P,
+[08:46] first what we do is we divide the process, we divide the process in different different blocks,
+[08:52] we do partitioning. Let's say there are 4 partitions of this process.
+[08:57] There is a process, there are 4 partitions of that process P1, P2, P3, P4.
+[09:02] and now the memory block, this is the memory block in the RAM.
+[09:11] So as we know that some of the portion is occupied by Operating System,
+[09:16] now let's say that 1 of the partitioning is having P1, in the continuous the next partitioning,
+[09:26] let's say that this address, the address is let's say 0 to 20 address is taken by Operating System
+[09:33] So 21 to let's say this is 40. So 21 to 40 address is taken by the partitioning P1.
+[09:42] What will happen in contiguous? Next partitioning P2, P3, P4. Means we will continuous allocate it,
+[09:50] so that when we search 1 process, when CPU says that I want to search this instruction in that,
+[09:57] So my searching will get fast somewhere, because I know that my process will start from 20th
+[10:03] let's say let's give some address, 60, 80, 100, 120. So what we will do in contiguous is
+[10:13] P1 partitioning here, P2, P3, P4 so means continuously allocate, but in non-contiguous if
+[10:20] P1 is here then P2 can be possible at some other location. It is possible that
+[10:27] some of the address is already occupied then let's say that P3 comes here, P4 comes here.
+[10:35] This is already occupied by some other process, you can say this is already occupied by some other process,
+[10:42] it is possible because we are not saying that only 1 process can come at 1 time.
+[10:46] At one time different partitions of many processes can come, their continuous allocation will not happen,
+[10:54] discontinuous allocation will happen. Anywhere we can put it anywhere separated at any location.
+[11:01] That is what the concept of the non-contiguous. So let's say we put P1 here,
+[11:06] some other process' partition is here, we put P3 here, P4, P2 similarly
+[11:12] some other process' partitioning also comes in between so that is the non-contiguous allocation.
+[11:17] And in this the major we use that is Paging, Multilevel Paging, Inverted Paging,
+[11:22] Segmentation and Segmented Paging. So about these one by one we will see the fixed partitioning,
+[11:29] what is variable partitioning. So this is all about the different techniques of the memory management.
+[11:37] So if you like the video, please share with you friends and please subscribe my channel. Thank you.

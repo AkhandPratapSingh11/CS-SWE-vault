@@ -1,0 +1,1137 @@
+Title: 28. OpenAPI: The universal contract between clients and servers
+Video URL: https://www.youtube.com/watch?v=CwKsU84jIWs
+Video ID: CwKsU84jIWs
+======================================================================
+
+[00:00] If we go back and take a look at the
+[00:02] task project that we built in our
+[00:04] real-time video and we look at the route
+[00:06] table, there are like six routes and
+[00:08] there is a handler. What does it do? It
+[00:10] takes a JSON body with three fields task
+[00:13] ID to and actor and depending on what
+[00:16] actually happened downstream either in
+[00:18] the service layer or the repository
+[00:20] layer or somewhere we respond with
+[00:23] different status codes. If it was
+[00:25] successful then we send something like
+[00:27] 200 or if it was a validation error or
+[00:30] some kind of client error 400 or 404 or
+[00:34] if something happened on our server side
+[00:36] some kind of bug then it will be 500 or
+[00:39] 5002. Okay. So depending on the result
+[00:42] of us running the code, there can be
+[00:44] various status codes and our front end,
+[00:46] the React front end that we built, it
+[00:48] knows all this. It knows that the
+[00:51] endpoint that it has to call is API/
+[00:54] move. And it knows that in the body, it
+[00:56] has to pass all these three fields. And
+[00:59] it also knows that if the server
+[01:01] returned 404, it means the task does not
+[01:04] exist. All these things. But where does
+[01:07] this knowledge actually live? All in all
+[01:09] three places. First in our backend
+[01:11] handler. Why? Because it is the actual
+[01:12] code that reads the body. So it of
+[01:14] course has the knowledge. Then second it
+[01:18] lives in the front end our react front
+[01:21] end or our JavaScript front ends fetch
+[01:23] call or access call whatever library
+[01:25] that you're using because that is the
+[01:27] calling point. The back end is the
+[01:28] handling point. And at last if the
+[01:30] engineer who wrote this API or the
+[01:33] engineer who integrated this API they
+[01:35] maintain some kind of document
+[01:37] mentioning what are the specs of this
+[01:39] API what are the requirements what are
+[01:42] the expectations of this API then it can
+[01:44] also live in that document. So three
+[01:46] different copies of the same knowledge
+[01:48] living in three different places. And
+[01:50] the problem that happens here is the
+[01:52] syncing of all these three different
+[01:54] truths. For example, let's say one of
+[01:56] your colleagues. They rename the field
+[01:58] in the body. We have three fields. There
+[02:00] is a field called two and someone
+[02:02] renames that to column. Why? Because it
+[02:04] is more intuitive to read and it is more
+[02:07] technical for whatever reason. Then they
+[02:09] go ahead and they update the back end
+[02:11] handler. Then they also have to update
+[02:13] the front end. Why? Because otherwise
+[02:16] the back end is going to throw error if
+[02:18] the field names do not match and the
+[02:19] back end is doing some kind of
+[02:20] validation. But since the document does
+[02:23] not enforce any kind of behavior, it is
+[02:25] just for knowledge purpose or
+[02:27] documentation purpose, they forgot to
+[02:30] update the document which had the
+[02:33] specification for the API. Then after
+[02:35] let's say a few days or a few weeks or a
+[02:37] few months a couple of sprints a new
+[02:39] engineer who is not aware of all these
+[02:42] API specification or never interacted
+[02:46] with this particular endpoint they want
+[02:48] to integrate the same API in some other
+[02:51] page in our front end. So what they do
+[02:52] they find this document which mentions
+[02:54] the specification of the API they refer
+[02:56] to that they do not refer to the source
+[02:58] of truth which is the backend handler
+[03:00] they refer to the document which says it
+[03:02] is the source of truth and they
+[03:04] implement the API as per that which
+[03:06] means instead of passing the field
+[03:08] column they pass as two since that is
+[03:11] what it is recorded in the document and
+[03:14] as a result they get a validation error
+[03:16] from our back end. That is the issue
+[03:18] that is the problem of having different
+[03:22] sources of truths for our API endpoints.
+[03:25] And one thing you will notice here is
+[03:27] this particular problem only arises when
+[03:29] we are talking in the context of
+[03:31] different network hop which is not
+[03:33] within the boundary of our backend. Why?
+[03:36] For example, this particular problem of
+[03:39] forgetting to rename a field or changing
+[03:41] the contract of an endpoint or a
+[03:43] function. This does not happen as long
+[03:45] as we are within the boundary of our
+[03:48] codebase within our backend itself. So
+[03:50] we have this particular function in our
+[03:52] back end let's say in go and it has a
+[03:54] signature which says what are the fields
+[03:56] that it is expecting as arguments and
+[03:58] what is going to be the return value and
+[04:00] as per that we use that function in
+[04:02] various places inside our back end. In
+[04:04] that scenario after a few days or a few
+[04:06] weeks if someone changes the signature
+[04:08] of the function itself then all the
+[04:11] calling places where that function is
+[04:13] being used they will get an immediate
+[04:16] error when they are compiling the
+[04:17] program if they are passing let's say a
+[04:19] strct whose field name got changed in
+[04:23] our function [snorts] that is being
+[04:24] called. Similarly, if they change the
+[04:26] type from string to integer, then also
+[04:30] in all the places where we are calling
+[04:32] that function, we'll get an error during
+[04:34] compile time, not during runtime. Which
+[04:36] means during development only, we will
+[04:38] realize that this is breaking and we'll
+[04:40] be able to fix that. But if you look at
+[04:43] the context of a remote call which is
+[04:46] crossing the network boundary, in this
+[04:48] case the HTTP protocol boundary, that
+[04:51] does not have this kind of protection.
+[04:53] Why? because there is no signature. So
+[04:54] the only way to find any issues like
+[04:57] this whether a field getting renamed or
+[04:59] the data type being changed all this can
+[05:03] only be found during runtime. We cannot
+[05:05] find it during compile time. Unless of
+[05:07] course we do all the things that we are
+[05:09] going to discuss in this video. Then
+[05:10] there is a way to prevent that during
+[05:12] development time. That is the idea that
+[05:14] we are going to discuss in this complete
+[05:16] video which is giving the remote call
+[05:19] also a signature. the same kind of
+[05:21] protection that we have in a local
+[05:23] territory inside our boundary of a
+[05:26] particular codebase. We want to give the
+[05:28] similar kind of protection across the
+[05:31] net boundary also. So we want to freeze
+[05:33] signature. We want to document what are
+[05:36] the routes that are available. What are
+[05:37] the query parameters that a particular
+[05:40] endpoint is expecting? What are the path
+[05:42] parameters? what are the request body
+[05:44] fields that our back end is expecting
+[05:46] down to the level of what are the data
+[05:49] types of each field in the request body
+[05:52] that our back end is expecting.
+[05:53] Similarly, we'll also document what are
+[05:55] the various kinds of responses that we
+[05:58] can expect after calling a particular
+[06:00] endpoint. Then the idea is to once we
+[06:02] document all these things in a
+[06:04] centralized document and it is not going
+[06:06] to be a text document or a markdown
+[06:07] document. This is going to be a more
+[06:10] programmatic document which lets us
+[06:13] enforce our contract across the network
+[06:15] boundary. And this particular
+[06:17] specification is called open API. So an
+[06:20] open API description is just a file. It
+[06:23] can be in JSON format or in YAML format.
+[06:26] It supports both equally. And what does
+[06:28] it do? It describes all our API
+[06:31] endpoints as a list. And for each
+[06:34] endpoint, it describes every single
+[06:36] property of that endpoint. the inputs,
+[06:38] the outputs and the behavior. So as
+[06:40] usual to get a little bit of context and
+[06:43] a little bit of history before you start
+[06:45] in 2010 there was a startup with the
+[06:48] name Warnick and they had an API and
+[06:51] they had around six engineers and their
+[06:53] customers they wanted their client SDKs
+[06:56] their client libraries in various
+[06:58] languages in Python in PHP in JavaScript
+[07:01] and for each language they also wanted
+[07:03] the documentation for that and that is
+[07:05] where the origin of open API
+[07:08] specification came from. This is Tony
+[07:10] Tam the person who started this whole
+[07:12] specification and here he is explaining
+[07:14] why he did it. What was his motivation
+[07:16] to summarize it in one sentence his
+[07:18] point was we often code faster then we
+[07:21] can document that is the whole
+[07:24] motivation of coming up with this
+[07:26] specification. So the initial idea is
+[07:28] the server should be able to describe
+[07:30] itself in a JSON file and then we will
+[07:33] have various programs various pieces of
+[07:35] software that will read this file for
+[07:37] various purposes. Let's say there is
+[07:39] going to be a first program which will
+[07:41] read this file and it will render the
+[07:42] documentation in a userfriendly manner
+[07:45] with a very intuitive beautiful and
+[07:49] useful UI. Then we'll also have a
+[07:52] program which will take the same
+[07:53] documentation the same JSON file and it
+[07:56] should be able to generate various
+[07:57] client libraries for example in PHP in
+[08:00] Python in JavaScript in Go Rust whatever
+[08:03] language. Why? Because the specification
+[08:05] the JSON file itself it is just a
+[08:08] description of our backend itself it
+[08:10] does not enforce any kind of language.
+[08:12] Once you have the description you can
+[08:14] implement the client libraries in
+[08:16] whatever language that you want based on
+[08:18] the primitives of that language. The
+[08:20] only thing that you need is a promise
+[08:22] that this description this file that you
+[08:25] have this is true about your back end.
+[08:28] And the reason this document is not
+[08:30] textbased and it is a format based for
+[08:32] example JSON or YAML is so that any
+[08:35] client or any piece of software can
+[08:37] easily parse it can understand it can
+[08:40] perform various operations on it can do
+[08:42] search can do formatting whatever it
+[08:44] wants. If we do plain text formatting it
+[08:46] is going to be very difficult to have
+[08:48] all those convenient programmatic access
+[08:51] on that document or the file. So what
+[08:54] are the pros? What are the advantages of
+[08:56] having this open API specification or
+[08:58] open API file? First, it can render the
+[09:02] documentation. Now, depending on what
+[09:04] documentation library that you're using,
+[09:06] it can be just a readonly documentation
+[09:08] so that any engineer who wants to
+[09:11] integrate that particular API, they can
+[09:13] get a heads up on how that particular
+[09:15] API behaves and they can integrate it in
+[09:19] their language based on that
+[09:20] documentation or it can also be
+[09:22] interactive which most tools are. For
+[09:24] example, Swagger, we have Scalar and
+[09:26] countless tools in the market which give
+[09:28] you this interactive UI where not only
+[09:32] you see the documentation of your APIs,
+[09:34] you can also interact with it. You can
+[09:37] pass a sample request body, you can add
+[09:39] your token there and you can actually do
+[09:41] the API call and check the response.
+[09:43] Number two, you can also generate client
+[09:46] libraries that call that particular API
+[09:49] based on the descriptions provided by
+[09:51] this specification so that you don't
+[09:54] have to write every single condition.
+[09:55] You don't need to document every single
+[09:58] property of that API. The library just
+[10:01] reads that file and completely gives you
+[10:04] off-the-shelf function calls which you
+[10:06] only need to use. You do not need to do
+[10:08] any kind of documentation work.
+[10:10] Similarly on the server side also it can
+[10:13] generate interfaces or any kind of
+[10:16] boilerplate code which otherwise we
+[10:18] would have to type it out ourselves and
+[10:20] maintain it ourselves and protect it
+[10:23] from going out of sync. On top of that,
+[10:25] as per our modern libraries, they can
+[10:27] also do various validations on top of
+[10:29] the incoming request, whether the query
+[10:32] parameters, the path parameters, the
+[10:34] request body, whatever input that we're
+[10:36] getting from our clients. The server can
+[10:38] use that specification to do various
+[10:40] validation automatically without writing
+[10:42] the validation code ourself. the
+[10:44] specification since it contains the
+[10:46] complete source of truth, complete
+[10:48] requirement of our server, it can do the
+[10:50] validation for us without us writing the
+[10:53] validation code again. So one single
+[10:55] file can help you in so many ways. This
+[10:57] is the most useful, most productive
+[11:00] thing that you can add to your codebase.
+[11:02] It does not matter it's for back end,
+[11:04] it's for front end, it's for your
+[11:06] infrastructure. It is going to help you
+[11:08] in every single aspect of your
+[11:10] development and every single engineer in
+[11:13] some way or other. Okay. If we open the
+[11:15] specification itself, this is the
+[11:16] technical definition it provides. There
+[11:18] are three different things in that
+[11:20] sentence. Language agnostic which means
+[11:22] the open API file. It does not care
+[11:25] whether your server is in Go, it is in
+[11:28] NodeJS, it is in Python, Java, PHP. It
+[11:32] does not matter because it documents the
+[11:34] behavior and the requirement and the
+[11:37] outputs. It does not care about which
+[11:40] programming language that you are going
+[11:41] to implement the behavior in. The next
+[11:44] segment is humans and computers. Which
+[11:46] means the same file can help you
+[11:49] generate a very convenient interactive
+[11:52] API documentation where you can test
+[11:54] your APIs, you can document your APIs
+[11:57] which is going to be used by humans. In
+[11:59] the same time, computers, which means
+[12:01] your programs, your softwares, they can
+[12:04] parse this file to generate code for
+[12:07] themselves, to generate validations for
+[12:09] themselves and all the other stuff
+[12:11] without the human having to be involved
+[12:14] in that. And the third segment is
+[12:15] without source code, documentation and
+[12:18] traffic inspection. This is exactly what
+[12:20] we discussed at the start of this video
+[12:22] that you don't have to go read the
+[12:25] actual implementation in your service,
+[12:27] in your back end. You don't have to read
+[12:29] a text document which might have gone
+[12:32] stale or you don't have to open your
+[12:34] network tab to check how the API works,
+[12:37] how it responds, how it throws
+[12:39] validation errors. You don't have to do
+[12:41] any of that to understand the API. You
+[12:43] only need this one specification file.
+[12:45] While discussing about open API
+[12:47] specification, there are four different
+[12:48] things that usually get confused with
+[12:50] each other. The first one is open API
+[12:52] specifications also called as OAS. This
+[12:55] is the set of rules which says things
+[12:58] like which fields should exist and what
+[13:01] they exactly mean. Then comes open API
+[13:04] description aka O a. This is your file
+[13:07] and this file should and must obey every
+[13:10] single rule from open API specification
+[13:12] and this file is usually called open
+[13:14] API.json or open API.l. This is the
+[13:17] actual physical thing. Then the open API
+[13:20] initiative aka O AI. This is the
+[13:22] organization which publishes the
+[13:25] specification, the set of rules and it
+[13:28] maintains them. It improves them over
+[13:29] time and so on. This organization is
+[13:32] also part of the Linux Foundation, one
+[13:34] of the biggest open-source foundations
+[13:37] that we have. And the last thing is
+[13:39] Swagger. When they started up this whole
+[13:42] initiative of having this specification,
+[13:45] this was the first name, the old name of
+[13:47] our open API specification. It used to
+[13:50] be called Swagger. Now, swagget does not
+[13:53] mean open API specification. It just
+[13:55] means it is just the name of one of the
+[13:57] tools that we have which is the
+[13:59] interactive UI that I mentioned where
+[14:01] you can test your APIs. You can see the
+[14:02] responses of your API. So when someone
+[14:05] says the swagger file, they mean the
+[14:07] open API description, the open API.json
+[14:09] or open API.l. But if someone says the
+[14:12] swagger UI, they mean the tool that
+[14:14] actually renders that file in a UI where
+[14:17] you can test your APIs or document your
+[14:19] APIs. The file is just a JSON object.
+[14:23] You can either write it in JSON or YAML.
+[14:26] They both are interchangeable. They both
+[14:28] have the same set of features. It just
+[14:31] depends on what tooling that you're
+[14:33] using and which format the tool
+[14:36] supports. Usually all the tools support
+[14:39] both the formats. So as I said it is
+[14:41] interchangeable. And since YAML is the
+[14:43] superset of JSON, most people write YAML
+[14:46] because JSON does not allow you to write
+[14:49] comments in the code. YAML allows that.
+[14:51] So here you can see this is the JSON
+[14:54] format and this is the YAML format for
+[14:56] the same object just a different format.
+[14:58] So in 2010, Warnick, the company that I
+[15:01] just mentioned, to solve their own
+[15:03] problem of their customers demanding
+[15:07] various client libraries in various
+[15:09] languages, they built this JSON
+[15:11] description of their own API and they
+[15:14] also built this page which takes that
+[15:16] JSON file and it builds a UI from that
+[15:19] file itself. And one of the designers in
+[15:22] their team, they named it Swagger. After
+[15:24] a year from that, Swagger 1.0 was open
+[15:27] sourced. Then in 2014 we had Swagger 2.0
+[15:31] and that is about the same time when the
+[15:33] adoption started growing. In 2015 a
+[15:36] tools company called Smart Bear they
+[15:38] bought Swagger and eventually they
+[15:40] donated the specification to the Linux
+[15:43] Foundation and some of the founding
+[15:44] members here were Google, Microsoft,
+[15:47] IBM, PayPal and other very big companies
+[15:50] and this is the announcement that
+[15:51] happened back then. Then in January 2016
+[15:54] the specification was renamed to open
+[15:56] API without changing any of the content.
+[15:59] So open API 2.0 and swagger 2.0 means
+[16:02] the same thing. They have the same
+[16:04] content. They just renamed the name of
+[16:06] the specification. And today when I
+[16:08] making this video the current version of
+[16:11] open API specification is 3.2.0. But we
+[16:14] still write 3.1 versions. Why? Because
+[16:17] every tool that is in the market today
+[16:19] which interacts with this open API
+[16:21] specification for various purposes
+[16:23] either to render the UI for interacting
+[16:26] with our API documentation or to
+[16:28] generate client libraries or to generate
+[16:30] a type specification for our front end.
+[16:33] All these tools that we have available
+[16:35] most of them are still running and only
+[16:37] support the 3.1 version. Okay. Now
+[16:40] coming to the file to the specification
+[16:43] itself. what we are going to build a
+[16:46] real description of our board of the
+[16:49] task board that we saw in the last video
+[16:50] or last to last video and then we will
+[16:52] go through every single object that is
+[16:54] inside that description. So this is the
+[16:57] smallest version of the open API
+[16:59] description file that is possible. It
+[17:01] has three fields. Open API which says
+[17:04] which version of the specification that
+[17:06] this file follows. Since there have been
+[17:08] so many versions in the past few years
+[17:10] and there are still tools which work and
+[17:13] run on particular versions, most of them
+[17:16] are still operational. It's not that all
+[17:18] of them have already migrated to the 3.1
+[17:21] version. So that is why specifying the
+[17:24] version of the open API specification is
+[17:26] important here. Then we have info which
+[17:28] has a title and a version. We have paths
+[17:31] which lists all the API endpoints that
+[17:33] are available for this server. In this
+[17:35] case, this is empty because we have not
+[17:37] started adding the endpoints yet. But
+[17:39] this is the minimum amount of fields
+[17:42] that you need to add to this file to
+[17:44] call it as a valid open API description
+[17:47] file. One thing that is confusing here
+[17:49] is the two different kinds of version.
+[17:51] First is the open API version which is
+[17:53] the version of the specification which
+[17:55] is 3.1.1 the open API specification.
+[17:58] Then we have a version inside the info
+[18:00] which is the API's version which is our
+[18:03] backends version which is internal to us
+[18:05] since if you remember the routing video
+[18:07] we had discussed about versioning route
+[18:09] versioning internal. So at the root
+[18:11] these are the fields that are mandatory
+[18:13] the open API and info those are the
+[18:16] required fields then at least you need
+[18:18] one out of these three either paths or
+[18:21] components or web hooks. Then we have
+[18:23] servers which says where exactly does
+[18:26] the API live which says what is the
+[18:28] address of our API back end. Then we
+[18:31] have security which describes any
+[18:34] features of our authentication for all
+[18:35] the API endpoints. We also have tags
+[18:37] here in case you want to group various
+[18:41] API endpoints together. Okay. Now let's
+[18:43] open a actual file and then we will go
+[18:46] through that. First we have servers and
+[18:48] here it is a list. Why? because we can
+[18:50] have more than one place where our back
+[18:53] end is hosted. It can be our local
+[18:55] server which means a local host URL. It
+[18:58] can be our staging server or it can be
+[19:00] our production server. And since this is
+[19:02] running in our local, we have a URL
+[19:05] called localhost the port of 80080. And
+[19:07] since we have documented or we have
+[19:10] written the address of our backend API
+[19:14] here, from here on we only need to add
+[19:17] the end points. We do not have to write
+[19:20] the whole address of our back end every
+[19:22] time for each endpoint that we are going
+[19:24] to document. That is the one convenience
+[19:26] here. You write the fixed base URL for
+[19:29] your back end here. And after that you
+[19:31] just write the endpoints. Then we have
+[19:32] paths which is a map. The keys are the
+[19:35] endpoint paths and every key must start
+[19:38] with a slash. The value under each key
+[19:41] is called a path item. And the path item
+[19:44] basically means everything that you can
+[19:45] do at that address which is going to
+[19:48] have one entry per HTTP method. So under
+[19:51] / API/board we have get and under/ API/
+[19:55] move we have post. There can be other
+[19:57] methods here also get post, put, patch,
+[20:00] delete and in some cases head options
+[20:02] and all this stuff whatever HTTP methods
+[20:04] that we have available. If we have any
+[20:07] dynamic portion in our path, for
+[20:09] example, we have studied about path
+[20:11] parameters where the standard HTTP
+[20:13] semantic is if you want to fetch a
+[20:15] particular entity by its ID. So instead
+[20:18] of adding it in the query parameter or
+[20:20] search parameter, what we do? We add it
+[20:22] in the path parameter which means let's
+[20:25] say we want to fetch a particular task.
+[20:27] then the endpoint will look like API/
+[20:30] tasks slash 1 or 2 or 3 or a UU ID
+[20:33] whatever the ID of the task is. So since
+[20:36] that ID portion is not something that we
+[20:39] can document beforehand because that is
+[20:41] a dynamic portion which only the client
+[20:43] can pass. So that is what we call as a
+[20:45] dynamic portion and to represent dynamic
+[20:48] portions in the open API specification
+[20:50] we use curly braces. Okay. Now each
+[20:52] method is an operation and an operation
+[20:54] has a summary which is a oneliner and a
+[20:57] description which can be longer and it
+[20:59] also supports markdown if you want to
+[21:01] add a table or some kind of markdown
+[21:04] formatting to make it more useful or add
+[21:06] more information. It also has tags so
+[21:08] that the document when it is rendering
+[21:10] it can group things. Let's say you want
+[21:12] to group all the task related API
+[21:15] endpoints in one place then you can use
+[21:17] tags. It has an operation ID which is
+[21:19] just a way to give a unique name for
+[21:22] this operation. And the best practice is
+[21:26] to write the operation name as a
+[21:28] function name. Why? Because we will see
+[21:31] in a bit. This is the field the
+[21:33] operation ID which we write in the
+[21:35] format of a function name. This
+[21:36] eventually becomes an actual function
+[21:38] when we start using this open API file
+[21:41] in one of our libraries which will
+[21:44] convert all these entries, all these
+[21:46] operations, all these descriptions of
+[21:48] our API endpoints to actual functions
+[21:50] automatically. We don't have to write
+[21:52] those functions and then we will use
+[21:55] those functions in our clients, in our
+[21:57] browsers, in our JavaScript, React or
+[21:59] front end, anywhere to interact with our
+[22:00] API without having to document or
+[22:02] without having to implement this
+[22:04] description. these properties ourselves
+[22:06] in our code. So this field is very
+[22:09] important here and it is important that
+[22:10] you format it as a function name so that
+[22:13] when eventually this becomes a function
+[22:16] you call this function as a get board
+[22:18] and it has to be unique across the whole
+[22:20] file the whole specification and then
+[22:22] the operation also has parameters a
+[22:24] request body and responses and so on.
+[22:26] There can be two different kinds of
+[22:28] inputs. first parameters which can live
+[22:31] in different places. For example, they
+[22:33] can live in the path for which we call
+[22:35] as path parameters. They can live in the
+[22:38] query string which we call as query
+[22:40] parameters. They can also live in header
+[22:42] which we will treat as HTTP headers.
+[22:44] They can also live in cookie and the
+[22:46] location whether it is query or path or
+[22:49] header or cookie that is the in field
+[22:52] that we are seeing here. The request
+[22:53] body if we have a post request or a put
+[22:56] request or a patch request then the
+[22:58] request body is that payload. If we take
+[23:00] a look at our polling endpoint it takes
+[23:03] since which is a query parameter and the
+[23:05] data type is integer and what it means
+[23:08] it is the last sequence number the
+[23:10] client has received. And if you look at
+[23:12] the events endpoint the same value can
+[23:15] also show up in the header as last event
+[23:18] ID which is sent by the browser itself
+[23:20] to reconnect to the stream. Now coming
+[23:22] back a parameter has a name and a field
+[23:25] called in to write the location. It can
+[23:28] be query, it can be path, it can be
+[23:30] header, it can be cookie and so on. But
+[23:32] all of those are called parameters only.
+[23:34] It can have a required flag to mention
+[23:37] whether this has to be there or not
+[23:39] whether we want to enforce any kind of
+[23:41] validation or not. And then a schema for
+[23:44] its value itself. Path parameters have
+[23:46] to be required otherwise the URL does
+[23:49] not make sense. We cannot construct a
+[23:51] URL by keeping the path parameter as
+[23:53] optional because they turn into two
+[23:56] different kinds of URLs. So path
+[23:58] parameters are always required. And then
+[24:00] to document our request body which can
+[24:03] come in a post request, patch request,
+[24:05] put request to document that we have the
+[24:07] request body field and it is described
+[24:09] by the content. What is a content? It is
+[24:12] the map of the media type to the shape
+[24:15] of the body. A media type basically
+[24:16] means the label that we have in the
+[24:19] content type header. Usually we write
+[24:21] application JSON whenever we are
+[24:23] interacting with our uh back end to send
+[24:26] or receive any kind of data in the
+[24:27] format of JSON. We also use
+[24:29] multiart/form data whenever we are doing
+[24:32] any kind of file uploads. And we also
+[24:34] have another common one application/x
+[24:38] www form URL encoded which is used for
+[24:41] an HTML form which is very common before
+[24:43] in this era of single page applications
+[24:45] it is not as common but you can still
+[24:47] use it and under each media type you
+[24:49] have to write a schema. So if you look
+[24:51] at our move endpoint, it accepts
+[24:53] application JSON. So it requires a JSON
+[24:57] formatted data in the stringified
+[24:58] version of course since we are traveling
+[25:01] across the network boundary and it has
+[25:03] three fields task ID and actor and here
+[25:06] the description says that the task ID
+[25:09] and the two fields they are both
+[25:11] required. If you don't pass it the back
+[25:13] end is going to throw error. So this is
+[25:15] specifying the behavior of what the back
+[25:17] end is going to do without us having to
+[25:21] check the backend code itself. So that
+[25:23] is the whole point of having this file.
+[25:25] Then it also says that the actor field
+[25:27] is optional. If you pass something then
+[25:29] that is going to be respected by the
+[25:31] back end. But if you don't pass anything
+[25:33] then by default it is going to be set as
+[25:36] guest. The back end is going to set this
+[25:38] fields value as guest. If you don't pass
+[25:40] anything then we have outputs basically
+[25:42] responses and we already know that each
+[25:44] response is associated with a code and
+[25:47] that code can imply whether the response
+[25:51] is a successful response or a failure
+[25:53] response based on the code that it is
+[25:55] using. So any 200 related code is called
+[25:59] successful 300 related codes are
+[26:01] redirects 400 related codes are client
+[26:03] errors and 500 related codes are server
+[26:06] errors which we have already discussed
+[26:07] in our HTTP video. So the status code
+[26:10] you have to write in quotes. So under
+[26:12] quotes you have to write 200 if it is a
+[26:14] successful response. And each response
+[26:16] should have a description and it also
+[26:19] usually has content which means a media
+[26:21] type and a schema which looks similar to
+[26:23] the request body but it is going to be
+[26:25] the response body but the description
+[26:27] format is similar. So if you look at our
+[26:29] move operation, it lists four different
+[26:32] status codes that are possible from by
+[26:34] calling this particular API endpoint. If
+[26:36] it is 200 then it is going to send back
+[26:39] the event data in this format. If it is
+[26:42] 400 then we are not going to get the
+[26:45] response in the event schema. It is
+[26:47] going to be an error response. If it is
+[26:49] 404 which means there is no task with
+[26:51] that ID. So that is also going to be an
+[26:53] error response. And if it is 502 it
+[26:56] means that the move operation itself was
+[26:59] successful but we were unable to publish
+[27:03] it to the message bus. And now comes the
+[27:05] schema object. The mechanism which
+[27:08] actually documents all the data types,
+[27:11] all the fields and everything that your
+[27:13] client is going to use the most. So the
+[27:15] schema object, it describes the
+[27:18] structure of each field that it
+[27:20] contains. It has a type which can be
+[27:22] either a string or a number or an
+[27:24] integer or a boolean or an array or an
+[27:27] object or null. If it is an object that
+[27:29] obviously will have its key and values.
+[27:32] The key will have to be a string and the
+[27:34] value again can be any of the data
+[27:37] types. A string, number, integer,
+[27:39] boolean, array or another object itself.
+[27:41] If it is a string then it can have a
+[27:43] minimum length or a maximum length or
+[27:45] you can also specify a particular
+[27:47] pattern that the string has to match. Or
+[27:49] if it is a set of allowed values or an
+[27:53] enum let's say it is a string like
+[27:55] status which can either have active
+[27:58] inactive deleted all these things then
+[28:00] you want to enforce that the field
+[28:02] should only contain one of these values
+[28:06] that is where you will use an enum.
+[28:08] Similarly if you have a number it will
+[28:10] also have minimum or maximum. For array
+[28:13] it is going to have items and for each
+[28:15] item you again have to define the schema
+[28:17] of that which can again be a string,
+[28:19] number, integer, boolean, array, object
+[28:21] and so on. So with all these properties
+[28:23] of the schema, it is possible to define
+[28:26] pretty much any structure, any kind of
+[28:28] data type you want by composing the
+[28:31] properties of the schema on top of each
+[28:33] other. You also have a section for
+[28:35] defining your authentication properties,
+[28:38] what kind of token you are sending and
+[28:39] all those stuff. So instead of going
+[28:41] every single property of this file,
+[28:43] let's get into the more practical side
+[28:45] of it. Something that you're actually
+[28:47] going to use in your day-to-day
+[28:49] workflow. Since in the start of this
+[28:50] video, I mentioned that this Open API
+[28:53] specification file, this is the contract
+[28:55] between your server code and your client
+[28:57] code. They both have to ground their
+[29:00] behavior based on this file. In that
+[29:02] case, the first question that comes to
+[29:04] mind is what comes first, the
+[29:06] specification file or the code? What is
+[29:09] the right way to do it? There are two
+[29:11] different ways. Let's take a look at
+[29:13] both of them. The first is code first,
+[29:15] which means you write your handlers, you
+[29:18] write your service functions, the
+[29:20] behaviors, everything. You finish the
+[29:21] whole implementation and then the open
+[29:23] API file basically is derived from your
+[29:26] code either through annotations or
+[29:28] through comments directly on top of the
+[29:31] handlers or from the types themselves.
+[29:33] It can be any of these ways. There are a
+[29:35] lot of libraries in lot of ecosystems
+[29:38] and they all have some kind of mechanism
+[29:41] for these derivations. So as a result
+[29:44] the file is going to be the byproduct of
+[29:46] your code not the other way around. The
+[29:48] second way is design first which means
+[29:51] contract first. There you write the
+[29:53] description the open API specification
+[29:55] of your APIs before you write the
+[29:57] implementation. So first specification
+[30:00] the contract then you write the backend
+[30:02] implementation and then based on the
+[30:05] specification you implement your client
+[30:06] side code your mocks your tests and
+[30:08] whatever comes from that. So the
+[30:10] contract is going to be the source of
+[30:12] truth. The team that invented swagger
+[30:15] the company that I mentioned a while
+[30:16] back they started with code first. Why?
+[30:19] Because they already had the server code
+[30:21] and they wanted this file this
+[30:23] specification to be derived from the
+[30:25] code from a server which already
+[30:27] existed. But eventually what they
+[30:29] realized is contract first makes more
+[30:31] sense. So this is a talk from 2013 which
+[30:34] talks about the same thing. But to
+[30:36] summarize in my opinion the way I have
+[30:39] used open API in all these years. Of
+[30:41] course I also started with code first
+[30:42] which means there are some existing
+[30:44] server code and we implemented open API
+[30:47] specification on top of that either for
+[30:49] the interactive API testing or for the
+[30:52] client library generation or whatever
+[30:54] reason. But whatever new projects that I
+[30:57] started over the years in pretty much
+[30:58] all of them I have always gone contract
+[31:01] first. Why? Because it makes a lot of
+[31:03] workflows very streamlined, very
+[31:05] convenient. If you already have a
+[31:07] contract, it means that both front end
+[31:10] and backend implementations can start
+[31:13] parallelly. You don't have to wait till
+[31:16] your backend implementation is finished
+[31:18] before you start writing your
+[31:20] integration. You can start on both
+[31:21] because you have already agreed upon a
+[31:24] set of behaviors that both the server
+[31:27] and client are going to stick to which
+[31:29] in this agentic era makes a lot of sense
+[31:33] and it also fastens a lot of workflows
+[31:35] because you start with the contract and
+[31:37] you work with your agents to get to the
+[31:40] same page of how this API endpoint
+[31:42] should work, how it should behave, what
+[31:44] it should take and what it should
+[31:45] respond with. Once you have the contact
+[31:47] in place, you can start two parallel
+[31:49] agents and one is going to work on the
+[31:51] server side and one is going to work on
+[31:53] the client side on your front-end code
+[31:55] and they do not block each other. So
+[31:57] first let's take a look at how code
+[31:59] first looks like and we'll do the
+[32:01] exercise on our tasker app one of the
+[32:03] apps that we built in the production
+[32:05] grade go from scratch playlist. We will
+[32:07] start from there. So here we have our
+[32:09] zord schemas which define the open API
+[32:12] schema but in a more code first way in a
+[32:15] more structured way because we are using
+[32:17] objects here. Then we have our ts rest
+[32:19] contract. What it does it attaches those
+[32:21] set of schemas to paths and methods and
+[32:24] so on. Then we have this generator
+[32:26] function which takes the contract and it
+[32:28] returns or it generates an open API.json
+[32:30] JSON file and then our go server it
+[32:33] serves that file for the interactive API
+[32:36] documentation or whatever other purpose.
+[32:38] But the point here is we don't really
+[32:40] write the open API.json file by our hand
+[32:43] and this is one of the reasons I did not
+[32:46] go too deep into understanding every
+[32:48] single feature of the open API
+[32:49] specification. There are a lot of
+[32:51] features there. But the thing is in
+[32:54] today's times there are a lot of
+[32:55] libraries ts rest is one of them which
+[32:58] make it so streamlined that the only
+[33:01] thing that you need to understand is the
+[33:03] API endpoint the path the inputs which
+[33:06] means it can be your query parameters it
+[33:08] can be your request body path parameters
+[33:09] headers whatever and the response what
+[33:12] kind of schema that you are going to
+[33:14] respond with and what is going to be the
+[33:16] status code right very intuitive three
+[33:18] different things only the things that we
+[33:21] care about that's the only part you need
+[33:23] to be able to write and that also you
+[33:25] don't have to remember any particular
+[33:26] schema it is all JavaScript you can just
+[33:30] add a JavaScript object either JSON
+[33:32] schema or zod which makes it even
+[33:34] shorter now this implementation of code
+[33:36] first is very different from what I
+[33:38] explained what code first is where by
+[33:40] code first what we meant is you are
+[33:43] going to have your handler code your
+[33:44] backend code and on top of the handler
+[33:47] you will have some kind of comments
+[33:49] describing that and those comments are
+[33:51] going to be passed first to generate the
+[33:52] open API.json file that is also another
+[33:55] implementation of code first practice
+[33:57] but this is a different way of doing
+[34:01] that which I personally feel is more
+[34:03] convenient because you are not depending
+[34:05] on comments you are depending on code
+[34:08] which is much easier to maintain and
+[34:10] much harder to get around in a lot of
+[34:13] scenarios. Similarly, Python if you know
+[34:16] the fast API framework it has a very
+[34:18] native integration with the open
+[34:20] API.json JSON file where the handler
+[34:22] code itself gets parsed by the framework
+[34:25] which is the fast API through
+[34:26] annotations and then it generates the
+[34:28] open API.json file behind the scenes and
+[34:30] it also serves that based on everything
+[34:32] in the code of your handler not any
+[34:35] separate comment. Then comes design
+[34:37] first. If we take a look at the task
+[34:40] board application that we built for our
+[34:42] realtime video this does not have any
+[34:43] kind of open API description yet. So in
+[34:46] this scenario we can do design first.
+[34:48] Why? because this is a very small
+[34:49] application. So this is one of those
+[34:51] scenarios where the project is very new
+[34:53] and there are not a lot of API
+[34:56] endpoints. In that case you can go
+[34:57] design first and you can establish that
+[35:00] as your practice which makes a lot of
+[35:02] things much easier down the lane. So
+[35:04] what is the pipeline of design first
+[35:06] going to look like? First stage is going
+[35:08] to be a llinter. The same way we have
+[35:10] llinters for code we have eslint we have
+[35:13] golang llinter we have python llinter.
+[35:15] Same way we have a llinter for open API.
+[35:17] What it does? It reads the file and it
+[35:19] throws error if you have made any
+[35:22] mistakes anywhere regarding the
+[35:24] formatting of the file. For example, if
+[35:25] you have a missing description or if you
+[35:28] have an operation which does not have an
+[35:30] operation ID or if you have a response
+[35:32] which does not have any schema. In these
+[35:34] cases, you will get an error. So the
+[35:36] llinter that we are going to use is
+[35:38] called spectral which has all the rules
+[35:40] of open API inbuilt. So that it is very
+[35:43] easy to check by running this program
+[35:45] whether all the specifications are
+[35:47] satisfied by our file or not. Here as a
+[35:49] demo you can see that we have the
+[35:51] llinter and it is reading the file and
+[35:53] it is throwing three errors. There is no
+[35:55] contact on the info object and there are
+[35:58] two operations which do not have any
+[36:00] descriptions in them. And if you fix
+[36:02] them and run it again this time it
+[36:04] passes. Then we have second stage which
+[36:06] is a mock server. What it does? It reads
+[36:09] the specification. You have already
+[36:10] written the specification first without
+[36:13] implementing the actual backend code.
+[36:14] Then it generates a fake server which
+[36:18] responds to every single request or at
+[36:20] least the request that you have already
+[36:22] documented in the specification file.
+[36:25] And how does it respond? It responds
+[36:27] with the examples that you have already
+[36:29] documented in the specification file.
+[36:31] And you can have this before the actual
+[36:33] implementation exists in the first
+[36:35] place. So what happens if you have the
+[36:37] specification file and if you have a
+[36:39] mock server the front-end team if they
+[36:42] are different from the backend team they
+[36:44] can take that specification and they can
+[36:46] take that mock server and they can build
+[36:48] against the mock while the backend team
+[36:51] writes the handlers they do the whole
+[36:53] implementation end to end. So for that
+[36:54] we have a library or a tool called
+[36:57] prism. So here if you see we only have
+[36:59] this file and if we try to run it the
+[37:01] board that gets returned it is the
+[37:04] example that we have specified in the
+[37:06] file. Similarly if we try to do a move
+[37:09] operation it accepts the schema that we
+[37:12] have already mentioned in the file. Then
+[37:14] comes stage three which is the client.
+[37:17] For that we have a tool called open API
+[37:19] TypeScript assuming that your client is
+[37:21] in JavaScript. So for that we have a
+[37:23] tool called open API typescript and
+[37:25] another tool which is going to work with
+[37:27] that is called open API fetch which is
+[37:30] actually going to make the API calls. So
+[37:32] if we provide this file to this tool
+[37:34] what it does it converts our schema or
+[37:37] whatever specification that we have
+[37:39] defined into actual TypeScript types
+[37:41] that our front end can use in during
+[37:44] runtime. And this generation that we
+[37:47] have this knows every single path every
+[37:49] single endpoints that we have every
+[37:51] single field and their type and their
+[37:53] conditions everything. So if we misspell
+[37:56] any kind of field or we pass a wrong
+[37:59] data type by mistake the compiler is
+[38:01] going to catch it and it is going to
+[38:03] throw some error. And then we have stage
+[38:04] four which is the server side. For that
+[38:06] we have a tool called O API code gen. It
+[38:09] takes the file and it converts that into
+[38:12] go interfaces and our handler code
+[38:15] whatever that we are writing it has to
+[38:17] satisfy that interface which means we
+[38:20] documented our behavior in the open API
+[38:22] specification file and we converted that
+[38:24] using this tool called O API codeen to a
+[38:27] programming language surface in this
+[38:29] case interfaces in go for other
+[38:30] languages it can be something else which
+[38:33] now is enforcing the behavior of our
+[38:36] handler that is exactly what we meant by
+[38:38] design first. So our handler code has to
+[38:41] satisfy whatever behavior that our
+[38:43] contract has already documented and if
+[38:46] the file changes in the future the
+[38:48] contract file and the handler does not
+[38:50] during compiling it is going to throw
+[38:52] error. So here if you see the generator
+[38:54] it writes the interface from the file
+[38:56] and if we add a field to the file and we
+[38:59] generate again the build is going to
+[39:01] fail at the handler. Why? Because the
+[39:04] handler's implementation, it does not
+[39:06] match the contact anymore. And the file
+[39:09] that we have, it is the single source of
+[39:11] truth. And everything that is derived
+[39:13] from this file, the client code, the
+[39:15] mock server, the server implementation,
+[39:17] they all have to stick to the same
+[39:20] truth. And then we have the last stage.
+[39:21] Stage five is the documentation, the
+[39:24] docs. We take the file, the same file
+[39:26] that we have had all along, and we can
+[39:28] render it in three different ways. the
+[39:30] swagger UI, the traditional interactive
+[39:33] API documentation and we can also
+[39:36] trigger this API using this try it out
+[39:39] button if you want. Same way we can take
+[39:41] the file and we can render it using
+[39:43] redoc which is another library which
+[39:45] gives you another UI using the same file
+[39:48] and we can do the same thing with scalar
+[39:51] which has the same functionality. It
+[39:53] takes the file and it generates an
+[39:54] interactive API testing environment.
+[39:56] Scalar is something I personally use. It
+[39:58] has a very modern a very clean UI as
+[40:00] compared to the others. So now the
+[40:02] question is how do you exactly know the
+[40:04] server actually matches the file. First
+[40:07] what you have to do is you have to test
+[40:08] the server against the file. We have a
+[40:10] tool called schema thesis. It reads the
+[40:13] file and it generates requests from the
+[40:16] schemas both valid ones and invalid ones
+[40:19] and it sends those requests to the
+[40:21] actual server the real server. And then
+[40:23] for each behavior it gets from the
+[40:25] server, it checks whether that sticks to
+[40:28] the contract or not. If something does
+[40:31] not match up the contract versus the
+[40:33] actual server's implementation, then it
+[40:35] will flag that part. So here in the
+[40:37] demo, you can see it reads the file and
+[40:39] then it creates these requests from
+[40:42] every schema and then it checks every
+[40:44] response the server is giving against
+[40:46] the file. So that is the complete design
+[40:49] first pipeline. You have your uh file
+[40:52] that you write the specification itself
+[40:55] which either you can write the whole
+[40:57] JSON by hand or you can use a library
+[41:00] like ts rest or others to write it in
+[41:02] code and generate the JSON file. But in
+[41:05] any case you'll have an open API.json or
+[41:08] open API.yamel. You take that you run
+[41:11] your lint on top of that you generate
+[41:13] your mock server for any kind of testing
+[41:15] or client implementation. Then you can
+[41:17] generate your client code using the same
+[41:20] file. You can generate your server code,
+[41:22] server interface at least using the same
+[41:24] file. You can test against your server
+[41:27] with a tool to check whether your
+[41:28] server's implementation actually sticks
+[41:32] to the contract or not. In all these
+[41:34] stages, there is only one file, a single
+[41:36] source of truth, which is the open API
+[41:38] specification. So now you can take the
+[41:40] same file you can use it to generate
+[41:43] your API client you can use it to
+[41:46] validate requests in your API gateways
+[41:48] and in fact all these big platforms like
+[41:51] GitHub, Stripe, they publish their open
+[41:53] API file so that any client which is
+[41:56] trying to interact with GitHub or
+[41:58] interact with stripe they can use that
+[42:00] file as a documentation to build their
+[42:02] implementations on top of that. Here we
+[42:04] have both the files the GitHubs open API
+[42:07] specification and stripes. GitHubs is
+[42:09] around 344,000
+[42:12] lines and Stripes is like a 171,000
+[42:16] lines because these are huge platforms
+[42:19] and they have been around for years now.
+[42:22] So it's natural that they have hundreds
+[42:24] and thousands of lines of documentation.
+[42:26] So when people say that open API is the
+[42:29] standard of your API, this is exactly
+[42:31] what they mean because the whole
+[42:33] industry, the whole tech industry has
+[42:35] decided that this is going to be the
+[42:37] specification that we are going to
+[42:39] describe our backends in. And similarly
+[42:41] as a very recent use case of the open
+[42:45] API file when it comes to AI agents,
+[42:47] when you give an AI agent a tool to
+[42:49] call, so that is all about open API that
+[42:52] I wanted to talk about. The initial
+[42:53] problem that we started with is if we
+[42:55] are inside our codebase boundary then it
+[42:58] is very easy to enforce any kind of
+[43:00] changes during compile time because our
+[43:02] compiler is going to throw error but the
+[43:04] moment we cross the network boundary it
+[43:06] becomes very challenging to enforce the
+[43:08] same rules. To solve that problem we
+[43:11] have this specification called open API
+[43:13] specification where the complete
+[43:14] description of our API lives. It
+[43:17] documents everything. What are the paths
+[43:20] that exist? what each API endpoint takes
+[43:23] as inputs and returns as outputs. What
+[43:26] the data actually looks like down to the
+[43:28] level of the data type of each field and
+[43:31] their sub fields. You also have
+[43:32] mechanism for authentication to define
+[43:35] what kind of authentication the client
+[43:36] is going to implement or to use to
+[43:39] interact with our API. From the same
+[43:41] file, we can generate our client code,
+[43:43] we can generate our server interfaces,
+[43:45] we can generate our mocks, we can
+[43:47] generate tests and a lot of other
+[43:49] things.

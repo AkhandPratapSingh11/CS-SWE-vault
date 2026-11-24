@@ -1,0 +1,209 @@
+Title: L-1.1: Introduction to Operating System and its Functions with English Subtitles
+Video URL: https://www.youtube.com/watch?v=WJ-UaAaumNA
+Video ID: WJ-UaAaumNA
+======================================================================
+
+[00:00] Hello Friends, Welcome to Gate Smashers
+[00:02] The topic is Introduction to operating system and its functionalities
+[00:06] Before starting this video, I would like to request my viewers
+[00:10] to please subscribe to my channel if you haven't yet
+[00:14] And please press the bell button So you can keep getting notifications of all latest videos
+[00:19] In this video first we'll see introduction to operating system
+[00:23] and then we'll discuss what are the functionalities of operating system
+[00:29] So what operating system basically is... Operating system is a system software
+[00:33] Means it's a software which is in your system
+[00:37] And its basic functionality or definition is...
+[00:42] It works as a interface between user and hardware
+[00:47] It's in very simple language that operating system is providing interaction between user and hardware
+[00:58] Now if we'll see in this diagram first Which of these is hardware
+[01:03] If we'll take scenario of our laptop In our laptop or desktop
+[01:07] What hardware basically is CPU Which we call brain of the system
+[01:12] CPU... Then input, output devices which includes keyboard, mouse, printer, scanner
+[01:22] Then RAM that we call the main memory Then secondary memory i.e. Hard Disk
+[01:30] So when we access a lot of these hardware
+[01:36] When i'm accessing my system, then I'm just accessing these devices
+[01:41] But... Am I directly accessing those devices?
+[01:45] Is the user directly accessing the hardware and devices?.... NO
+[01:51] He's accessing through what?.... Through operating system, operating system is working as an interface here
+[01:58] Then second point is why?.... Why there's a need of operating system
+[02:02] If there'll be no operating system then what will be the scenario
+[02:06] So the scenario will be that if user wants to access a particular hardware, he have to write a program for it
+[02:19] And through that program he'll always access that device
+[02:24] Means he always have to write a program to access those devices
+[02:28] He have to write different programs for different devices again and again
+[02:34] So when he'll write this much program in repetition
+[02:37] I have to give a print command simply I have a word file
+[02:41] that needs to be printed then I can't print it directly
+[02:49] First I have to write a program for it
+[02:52] So that printer will know it that it has To print1
+[02:58] Similarly if we'll talk about CPU If I want to execute a process or a job
+[03:06] then that job execution is later work,
+[03:09] first we have to give CPU an instruction, And how we'll give that instruction?
+[03:16] For that we have to write individual program
+[03:18] And because of that the interaction between user and hardware will be very complex
+[03:29] There could be another way also... It could be possible that user is accessing one hardware
+[03:35] And if other user wants to access that hardware then I'm not releasing it... Why?
+[03:41] Because I'm the user accessing the hardware directly,
+[03:45] means there's no authority in between who can take back the hardware from me
+[03:50] So there're a lot of reasons because of which we need to use operating system
+[03:56] That's being used as an interface between user and Hardware
+[04:02] We'll see that in functions, All the functions of operating system,
+[04:06] we can call them as these are the reasons why we are using operating system in our system
+[04:13] So if I'll give basic example of operating system
+[04:17] So the first operating system that's used in majority is Window's
+[04:22] Now primary functionality of operating system If we'll say why we are using operating system
+[04:30] The major\primary goal of operating system is
+[04:36] To provide convenience...
+[04:42] To provide convenience to the user
+[04:45] Yess... It provides convenience Means I can access my hardware in easiest way
+[04:53] That is the functionality of operating system And this is the reason
+[04:58] that's why Window's acquired the whole market up to many years
+[05:03] There was a time when Window’s acquired 95% of the market
+[05:10] means the whole market was acquired my Microsoft... They had this much popularity!
+[05:16] Because the major goal is convenience,
+[05:19] and window's is providing convenience the most
+[05:22] If you'll see in your or your friend's laptops, the operating system you'll get is window
+[05:30] There could be different versions in Window's like 2007, 2008 etc that depends
+[05:34] But why are we providing Window's basically?
+[05:37] Because of convenience, but gradually with time,
+[05:43] the problems that we were solving in our systems started to get complex
+[05:50] And the value of time is increasing so much for the user
+[05:54] Means user wants, that his problem should get execute very fast and for that we need through put
+[06:09] What through put means in a simple definition is Number of tasks executed put unit time
+[06:15] That is a simple definition of through put
+[06:17] So the more no. of tasks are getting executed in a particular amount of time, the more will be my through put
+[06:25] It means we need such operating systems now whose through put is high as well as convenience is high
+[06:32] So the maximum use in through put is Linux
+[06:37] Although Linux operating system doesn’t mean that it's not providing convenience
+[06:41] I'm just comparing it because why window's acquired 95% of the market because of the only reason i.e. convenience
+[06:51] But now if we'll see at present in 2018, it is approximate 82%
+[06:59] Means, now their acquisition in market has become low as compared to last years
+[07:05] Now Linux, that was in 1-2% before has now increased because of through put
+[07:13] And other than this we are having Apple's it's own operating system
+[07:18] that is Mac or Macintosh, that also runs well in the market
+[07:22] But that is a different thing... these are real life example like window's, Linux and Macintosh
+[07:29] But the major goal is convenience and through put
+[07:34] Next part that comes here is What are the functionalities of operating system
+[07:38] Means if I've put operating system in my system, then what are its functionalities
+[07:44] Then major functionality of operating system is
+[07:47] First one is, resource governor or resource manager
+[07:55] It manages the resources How we manage resources?
+[08:00] If I'm an alone user and accessing my system by my own
+[08:06] Then at that point I don't need resource governor that much
+[08:10] Means, where ever there is parallel axis Means when multiple user are accessing a system
+[08:18] that works happen in majority on server level
+[08:21] If we would talk about a server where a lot of users are sending requests to access some data
+[08:28] at that point operating system is useful and works as resource manager
+[08:34] How much hardware to be provided to which user or for how much amount
+[08:41] That is done by the operating system
+[08:44] after that time it will take back that device from the user
+[08:49] This is how we manage resources so that there'll be no load on the system
+[08:57] the moment we open normal task manager in our system
+[09:00] Then you'll easily get a lot of values like that
+[09:05] that how much percent we are using CPU, How much the RAM All that values are managed by operating system
+[09:14] So there'll be no that much load on the system and not much less also
+[09:18] means it tries to manage resources properly
+[09:22] But specially where it uses is parallel processing, where multiple users are trying to access one device
+[09:30] Second point is storage management Or we can say it as process management
+[09:39] process management means we are managing processes in majority in our system
+[09:46] Means we are executing processes, I opened the laptop and I'm working on Microsoft word on it
+[09:53] Along with that I've opened my Window Media player also Along with that I've opened gaming app also
+[09:59] Means I'm sitting with multiple process opened
+[10:02] How to execute all these processes... that is also done by the operating system
+[10:09] How it works??... CPU scheduling Here we use CPU scheduling algorithms
+[10:18] CPU scheduling means... If I wrote a simple program and saved it with .C,
+[10:27] now I want to execute that program then that program became process
+[10:32] Now if we want to execute the process then where will we do it?... at the CPU
+[10:36] Now how to execute that process at CPU... That is done by the CPU scheduling
+[10:42] And there comes a variety of algorithms that are useful to access and execute in a efficient way
+[10:52] And who is handling all that management?... Operating system
+[10:56] Other than this we have storage management
+[11:01] Storage management means... Basically storage includes secondary devices i.e. Hard disk
+[11:09] Means the data that we want to store in our system permanently
+[11:15] Operating system is managing how to store that data
+[11:20] And how we do storage management?...
+[11:24] Through file system
+[11:27] NIFS, CFS etc... CIFS and NFS
+[11:31] Common interface file system, common internet file system and networked file system
+[11:36] all these get used in Linux and Window's their major goal is...
+[11:40] It manages how to store all my data in the hard disk permanently
+[11:49] That how to store it in tracks or sector in disk's architecture,
+[11:57] that is also managed by the operating system
+[12:01] Then fourth one is memory management
+[12:10] In memory management, what I have here is RAM
+[12:14] Because...
+[12:16] If we would say why we have separated storage management and memory management,
+[12:20] because storage management consist hard disk,
+[12:23] It's operating system's functionality to manage hark disk but there's no constraint of hard disk,
+[12:31] we have a constraint in RAM i.e. limitation of size
+[12:35] Means RAM in our system is limited
+[12:39] And all the processes gets executed first in the RAM
+[12:44] This topics is called the concept of multi-tasking or multi programming
+[12:49] Means all the processes that we have to execute
+[12:52] We bring all that first of all in the RAM
+[12:55] And when it comes in the RAM, then we transfer it to CPU one by one
+[13:01] So how much memory of the RAM we have to give and take that memory back when the process is done
+[13:09] Allocation & Deallocation
+[13:11] Because the RAM is limited
+[13:14] It shouldn't be like, the process has become executed but it's still in the RAM
+[13:18] And the other process that wants to get executed is not able to come in RAM, because it's full already
+[13:24] so what operating system does is... When a process is done, then it takes out of it and bring the other one
+[13:31] This is called the swapping, so these are whole individual topics and units,
+[13:39] it's just I'm discussing here that what the functionalities are
+[13:44] I've already discussed about them, I have created whole videos on it
+[13:49] Where we've talked about memory management, Storage management and disk or file system,
+[13:54] we have already discussed CPU scheduling and resource management
+[13:58] Other than this we have 5th... I'm writing the functionality here i.e. security
+[14:06] Security and privacy... It's also provided by the operating system
+[14:12] Whenever we turn on our system, what we first get is the password
+[14:18] So why we put that password?....
+[14:20] So that authenticate person who have its proper password can access it
+[14:27] And window's uses Kerberos security protocol
+[14:32] to keep that password properly in secured files so that no one can access it
+[14:40] Other than this, in the RAM as I told before,
+[14:46] when we executes a process then it gets a portion in the RAM, like it got a memory allocation 0-100
+[14:53] One process is P2 , it got memory allocation of 101-200
+[14:59] If any process calls or executes any instruction outside the given segment,
+[15:08] then that process gets block instantly
+[15:11] Means if any instruction of P2 is accessing the data or interfering in the data,
+[15:17] then that process gets blocked
+[15:19] Means it's providing security in between the processes
+[15:23] so that no processes can do interfere or data change with each other
+[15:31] So security and privacy is also provided by the operating system
+[15:37] I've many other functionalities here but these are major functionalities of operating system
+[15:44] Here I would like to tell a last point here, that as I wrote in diagram, user application
+[15:50] What's the application here is....
+[15:53] How do we access operating system as a normal user
+[15:59] If you'll notice when you turn on your laptop then desktop appears, that's an interface,
+[16:06] we can go to my computer, can access data,
+[16:10] We can access any movie or song in C, D, OR E drive
+[16:17] Now in actual, user can either access through application or can access direct also
+[16:26] We uses application in majority,
+[16:29] like if I want to print a particular file then what I do is, First I'll create that file in Microsoft office
+[16:42] That a kind of application...
+[16:44] when we enter ctrl+ P, then it asks
+[16:50] "Do you want to print'... Yes? then you gave the print command
+[16:54] What is that print command actually? We are accessing the hardware with it
+[16:58] But you are accessing the hardware through the application directly,
+[17:04] and operating system is working as an interface here
+[17:08] Do you feel anything like that?... No We as a user don't feel this
+[17:12] So it's providing so nice interface
+[17:14] that user don't even feel when they're accessing the hard ware and when not
+[17:20] Or the other way is shell Like if we would talk about window's
+[17:25] then we can access the operating system or kernel through command prompt
+[17:33] And in Linux, we opens the terminal and can write the command directly in it
+[17:40] That's through the command prompt... we have to write particular command in it that's called...
+[17:49] System call
+[17:52] Operating system basically works in system call, we'll see this in next video,
+[17:56] here I'm just giving you an introduction that whenever operating system will work... It'll work through system call
+[18:02] So whenever we are giving a command through application like print,
+[18:08] then print will invoke a system call and that system call is right
+[18:13] Sam way if you are opening a file in C or D drive with double click
+[18:19] We just opened normally with double click and file got open
+[18:23] But how operating system opened that file?? through open system call
+[18:28] Means there're a lot of system calls like read, open, right
+[18:33] through which operating system works between application, user and hardware
+[18:41] So these are basic functionalities or goal of operating system that you have to keep in mind
+[18:47] It can be asked in normal theory, or GATE or UGC NET
+[18:51] In majority it will come in your college or university level exams
+[18:56] Thank You!

@@ -1,0 +1,232 @@
+Title: L-4.5: Deadlock Avoidance Banker's Algorithm with Example |With English Subtitles
+Video URL: https://www.youtube.com/watch?v=7gMLNiEz3nw
+Video ID: 7gMLNiEz3nw
+======================================================================
+
+[00:00] Hello Friends, Welcome to GATE Smashers. The topic is Banker's Algorithm in Operating System.
+[00:06] We also call Banker's Algorithm as Deadlock Avoidance Algorithm. The reason is that
+[00:10] in Deadlock Avoidance we have to provide information to the Operating System beforehand
+[00:15] which processes are coming, which processes will request for which resources,
+[00:20] how many resources will they request, for how long will they do it, means
+[00:24] I have to give information to the system beforehand so that the system performs accordingly
+[00:30] and decides which process to perform and which process to not perform and make it wait.
+[00:36] So Banker's algorithm,
+[00:43] Deadlock Avoidance
+[00:48] Many times it is being asked in theory whether it is a Deadlock Prevention or Deadlock Avoidance algorithm,
+[00:55] Banker's is a Deadlock Avoidance algorithm.
+[00:57] Other than this, it is also used for Deadlock Detection
+[01:07] Detection means like we can detect in the system whether deadlock can occur in future or not,
+[01:14] And question on this has been asked many times in GATE and all competitive exams
+[01:19] where you are given a scenario, like number of processes like in this I have given you 5 processes,
+[01:25] and all of these 5 are requesting some resources and some number, means how many
+[01:33] like in this there are three resources A, B and C, different different kind of resources
+[01:39] whether they are physical resources or logical resources like CPU, Memory, Cache,
+[01:45] they are all what? Resources. Like in this, there are three resources A, B and C.
+[01:52] So five processes are requesting for these resources and
+[01:58] along with that they are telling their needs that how much more we need.
+[02:03] And on this basis we have to find out at the end,
+[02:07] Banker's algorithm at the end shows whether deadlock occurs or not.
+[02:13] So that's why we call it Deadlock Detection Algorithm
+[02:17] So we check in this scenario whether deadlock can be detected or not,
+[02:23] and why will it not occur? What is the reason of that?
+[02:26] Like in this we have 5 processes P1, P2, P3, P4 and P5 and A, B and C are 3 resources.
+[02:36] These are of three resources types like A is you can say CPU,
+[02:42] B is you can say Memory and C can be Printer.
+[02:49] You can say any resources, it can be R1, R2, R3. A, B, C are 3 different types of resources,
+[02:56] and we have in system 10 resources of A, 5 of B, 7 of C.
+[03:02] Means we have 10 CPUs, 5 Memories and 7 Printers.
+[03:08] Total we have how many resources in what number is given.
+[03:13] Other than that, what we are given here? Allocation. What is the meaning of allocation?
+[03:20] Like which process has been already allocated how many resources by the system.
+[03:25] Means no resource of A is allocated to P1 but 1 instance of B, we can call this instance like
+[03:34] we have 10 instances of A, 5 instances of B and 7 instances of C or you can simply say that
+[03:43] there are 10 CPUs, 5 Memories, 7 Printers.
+[03:47] Whether you call it instance or number that is the same thing.
+[03:51] So here what information is this giving? P1 process has 0 instance of A,
+[03:58] means no CPU has been allocated yet.
+[04:03] This is allocated, already allocated or not.
+[04:07] 1 instance of B is allocated and C is 0.
+[04:12] Similarly P2 is already allocated 2 instances of A, 0, 0.
+[04:17] P3 is allocated 3, 0, 2. P4 has 2, 1, 1. P5 0, 0, 2 means 2 instances of C are allocated.
+[04:26] So this is allocation, allocation tells how many resources system has already given to a particular process.
+[04:33] Along with that what we are given? Maximum Need. Maximum Need means which process needs how many resources.
+[04:43] This is the main point. This is why we call it a deadlock avoidance
+[04:48] because we tell the system beforehand, P1 tells beforehand that I want 7 resources of A,
+[04:55] 5 of B and 3 of C. If you give me these then I will be successfully executed and terminated
+[05:05] Similarly P2 process also tells its demand of resources
+[05:12] and P3 also tells its maximum demand or maximum needs of resources.
+[05:16] Maximum need means like what is maximum need of P3? 9, 0, 2, means
+[05:22] P3 says that give me 9 instances of A, I don't want any instance of B,
+[05:28] and give me 2 instances of C. If you fulfil these needs then I will be successfully executed.
+[05:35] So this is the way that, what is meaning of maximum need? How many maximum instances they want.
+[05:41] And P4, P5 all 5 have told their respective maximum needs.
+[05:47] Now our main question starts, in question they can ask to show if there is a deadlock or not.
+[05:54] If there is a deadlock then simply you can say that this is unsafe.
+[05:58] We call it safe or unsafe.
+[06:04] Safe means deadlock will not occur. And unsafe means deadlock will occur.
+[06:11] So if deadlock occurs then your question, simple, finishes that there is a deadlock.
+[06:17] Or if second can be that deadlock does not occur.
+[06:20] If deadlock does not occur then its sequence comes which we call Safe Sequence.
+[06:27] Safe Sequence means how do we sequence resources and processes so that deadlock doesn't occur.
+[06:37] This when we solve this then we will see.
+[06:40] Available. The third thing is Available, Available means
+[06:44] how much is the total availability of resources we have.
+[06:47] Total we have 10, 5 and 7
+[06:51] But already system has allocated some resources
+[06:55] means system has already allocated some because we are not starting from zero time,
+[07:01] we are talking about at a particular point of time
+[07:03] so at a particular point of time already some resources system has given to particular processes.
+[07:10] and total we have these many. So what will be available? Total - Allocation.
+[07:16] Means let's take the total of Allocation here
+[07:20] A is 0, 2, 3, 2 means 2 + 3 = 5, +2 = 7.
+[07:27] Already 7 resources of A are allocated. B, 1 + 1 = 2.
+[07:35] And C, 2 + 1 + 2 = 5.
+[07:40] So this what? 7, 2, 5 is what? 7 resources of A are already allocated,
+[07:46] 2 resources of B, 5 resources of C are already allocated.
+[07:51] And how many total A we have? 10. And how many are already allocated? 7, B, 2 and C, 5.
+[08:02] So total we had 10 out of which we have already given 7, so how many remain? 3.
+[08:09] 10-7 that is 3, 5-2 that is 3 and 7-5 that is 2.
+[08:19] So this is our at present availability, means at present or we can call it Current,
+[08:27] current availability is how much? 3, 3, 2.
+[08:31] And the next part is Remaining Need. What is the meaning of Remaining Need?
+[08:36] Like we did here, allocation, means I have allocated some resources
+[08:42] And system shows that processes have this much maximum need, this is their maximum need,
+[08:48] And from maximum need if we subtract already allocated then what do we have left? Remaining Need.
+[08:55] Means from maximum need we subtract allocation, so how much we have left? Remaining Need.
+[09:06] Like many times we have questions in Maths when we were little at that time questions used to come
+[09:11] like if I give a child 3 apples but he needs 10 apples so I will have to give him 7 more apples
+[09:21] means if 3 apples I have already given, but the child says I want 10 apples,
+[09:26] So I will provide him 7 more apples that's what we are saying here.
+[09:31] That I have already allocated some, maximum need it told me that I need this much,
+[09:36] if you fulfil my need then I will be successfully executed.
+[09:40] So I will calculate Remaining Need. How? By maximum - allocation.
+[09:45] So P1, how much is maximum need? 7. But already how many are given? 0.
+[09:52] Means nothing has been given yet. So means Remaining Need is still 7.
+[09:57] B, 5 but here I have already given 1, so 5-1 that is 4.
+[10:05] It needs 3 resources of C but how many are already given? Nothing is given yet, so 0.
+[10:11] So means its need is still 3.
+[10:14] Similarly if we talk about P2, P2 says I need 3 resources of A,
+[10:18] already 2 resources are given so how many remaining? 1.
+[10:23] For B, it needs 2, how many are given? 0, so 2. Similarly 2 of C.
+[10:30] So simply from Maximum Need if you subtract Allocation then we can find Remaining Need.
+[10:38] So in the same way we find for P3, 9-3 that is 6, 0-0=0, 2-2=0.
+[10:47] Just be little careful when you calculate then A from A, B from B, C from C.
+[10:53] Otherwise many times here mistakes may happen in calculation, so be careful here.
+[10:58] Similarly if we see P4, 4-2 that is 2, 2-1 that is 1, 2-1 that is 1.
+[11:09] P5, for P5 it is 5-0=5, no resource is given yet, all 5 are needed,
+[11:17] it needs all 3, already given 2 so only 1 resource is remaining.
+[11:22] So this is the remaining need, remaining need you need to calculate carefully.
+[11:32] So this is the remaining need of all the processes P1, P2, P3, P4 and P5.
+[11:41] So remaining need of all 5 is written here.
+[11:47] Now availability, now what do we have at present available in the system,
+[11:53] 3 resources of A, 3 resources of B, 2 resources of C.
+[11:56] So now we have to check if according to my availability I can fulfil any of the remaining needs.
+[12:04] How, let's say P1 needs 7 resources of A, so do I have 7 resources now? No, we have only 3 resources,
+[12:14] needs 4 of B, how many do we have? 3, needs 3 of C, how many I have? 2.
+[12:19] Means I can't fulfil the remaining needs of P1 because I have less availability.
+[12:26] So means P1 will not be in the sequence.
+[12:31] So if here we check P2 next, but if let's say we cannot fulfil the need of all the processes,
+[12:40] then we can simply say deadlock will occur in this.
+[12:44] Like P2, what is the remaining need of P2? It needs 1 resource, we have 3,
+[12:51] it needs 2 resources of B, we have 3, it needs 2 resources of C, we have 2,
+[12:58] yes, so I can fulfil the remaining needs of P2.
+[13:02] But let's say if here in case instead of 1 it was 4, then could I do? No.
+[13:12] This here is a very important point because here what would be remaining need of P2? 4.
+[13:18] And how many resources I have? 3. 2 of B, and I have 3, 2 here and I have 2,
+[13:24] so you may think that I can give C because it needs 2 of C and I have 2,
+[13:30] but guys you have to provide all 3 resources at the same time,
+[13:34] otherwise you will make the system more complex.
+[13:36] Means the remaining need of all resources should match this, means either equal to or less than that.
+[13:46] Means whatever the remaining need it should be either equal to or less than total available.
+[13:52] If that happens then that is fine otherwise we will check next process.
+[13:57] So here value was 1, so we will follow with 1, that is just for the explanation.
+[14:06] P3, remaining of P3 is what? 6. But how many resources of A we have? 3. 0, we have 3, 0, we have 2 available.
+[14:15] So you may think that yes, I can give B and C because it doesn't need B and C and we have freely available,
+[14:21] But A, how many A? 6. It is saying I need 6 CPUs, can we give 6 CPUs? No. You have only 3 CPUs.
+[14:30] So means we cannot fulfil this. So you have to be little careful on this point.
+[14:35] Now if we talk about P2 again, remaining need of P2 is what? 1, 2, 2
+[14:40] and we have 3, 3, 2 so easily we can fulfil the needs of P2.
+[14:46] So if I talk about sequence, the first process whose need we fulfilled, that becomes P2.
+[14:55] So when we fulfilled the need of P2, it will be successfully executed because
+[15:01] it says I need 1, 2, 2, 1 of A, 2 of B and 2 of C resources and I have 3, 3, 2 available
+[15:09] which is more than its remaining need, so it will successfully take all resources and get terminated.
+[15:16] When P2 is terminated then the resources already with P2, it will release.
+[15:24] When P2 gets the remaining resources and it is successfully executed then
+[15:31] those which it has already taken in allocation those will also be free, all resources get free,
+[15:37] So means this was holding 2 resources, they are now free, so add it to available.
+[15:45] Means in available 2, 0, 0, we will add 2, 0, 0 in available
+[15:51] because those which it was already holding will be released.
+[15:57] So how many are total? 5, 3, 2.
+[16:01] So those which it was already holding in advance in allocation those resources are also released.
+[16:08] So now my availability is increased, availability becomes what? 5, 3, 2.
+[16:12] And out of this our process P2 exits from here.
+[16:19] Because we fulfilled its remaining need so it got successfully executed.
+[16:26] Now let's say P3, can we fulfil the need of P3? P3 says I need 6 resources of A. Do I have 6?
+[16:34] You have to check this, that was previous available now new available we have 5.
+[16:38] But it is still less, we have only 5 available, it is demanding for 6. So you have to check all 3,
+[16:45] if all 3 are equal to or less than this then you have to check otherwise no.
+[16:49] Let's come to P4, P4 needs 2 resources of A but how many I have? 5. So I can give.
+[16:57] It needs 1 resource of B, I have 3 available, it says just give me 1 resource of C, I have 2 available,
+[17:05] so yes, I can now fulfill the need of P4.
+[17:05] So next process which will be successfully executed that is P4.
+[17:17] So same if P4 is successfully executed, how it is executed? Its remaining need is less than my availability.
+[17:28] Means the remaining need of any process should be less than or equal to current availability.
+[17:45] You just have to check this, current availability should be greater than or equal to remaining need
+[17:51] for all the processes, for all the resources. So if this formula is valid for for all the resources,
+[17:56] then you can provide it.
+[17:59] So yes, we fulfilled remaining need of P4 so P4 got successfully terminated.
+[18:06] So when P4 is terminated then the resources it was already holding, which ones? P4 was holding
+[18:13] 2 of A, 1 of B, and 1 of C. So these will also be released because termination means what?
+[18:19] whatever locks, resources, processes it was holding, whatever memory allocation, each and everything will be released.
+[18:26] So we will again add them, so 2, 1, 1 we will add in this so it becomes 7, 4, 3.
+[18:37] So my current availability becomes what? 7, 4, 3.
+[18:40] Now let's check P5. Because we are going sequence wise, if you want to you can check P3 again
+[18:48] that doesn't matter, you can check P1 again too that is also not a problem.
+[18:53] But once we go in sequence we were checking P2 first then P3 did not come, checked P4, so now we come to P5.
+[19:00] So P5 says I need 5 resources of A, how many I have? 7. I can easily give.
+[19:06] I need 3 of B, I have 4. P5 says I need only 1 resource of C, I have 3.
+[19:14] So I can easily from my availability give it 5, 3, 1 and it will also be successfully executed.
+[19:23] So means P5 is also successfully executed.
+[19:27] So when P5 is successfully executed what comes next in my sequence? P5.
+[19:32] So when P5 is executed then whatever resources it was holding, which ones? 0, 1, 2.
+[19:37] So 0, 0, 2 we add to this so total becomes what? 7, 4, 5.
+[19:43] So what is the total now? 7, 4, 5. So my current availability becomes what? 7, 4, 5.
+[19:48] Now let's check again from P1. You can check P3 also nothing wrong.
+[19:56] This sequence can be many count but deadlock should not occur, sequence can be many.
+[20:03] Like we again check P1, 7, I have available, 4, I have available, 3, I have available.
+[20:12] So means what I have available is more than its remaining need.
+[20:17] Now I will give P1 all resources it needs, whatever it needs,
+[20:23] 7 out of 7 needed , given, 4 needed, given, 3 needed, given. So it will also be successfully executed.
+[20:30] So next which one remains? P1. P1 is also successfully executed. So whatever resources P1 was holding
+[20:36] I will take them back so 0, 1, 0 is added to this, so what does this become? 7, 5, 5.
+[20:47] So this is my current availability. 7, 5, 5.
+[20:52] So which process is remaining? Only P3. P3 says give me 6 resources of A, I have 7. It doesn't B and C, I still have available
+[21:01] So I fulfilled the remaining need of P3 so who comes next in the sequence? P3.
+[21:08] P3 comes next in the sequence and whatever resources P3 had taken, because it is terminated, P3 also exits the system.
+[21:16] So whatever resources it had taken which ones? 3, 0, 2. They are also released, so I will have added 3, 0, 2.
+[21:23] So total becomes what? 10, 5, 7. So from here you can have an idea whether we are going right or not.
+[21:32] So finally what is my total? 10, 5, 7. And how many I had? 10, 5, 7. So all the resources
+[21:42] after allocating we terminated the processes, so whatever resources I had previously available,
+[21:48] I have those many again total available and this Safe Sequence is created. We call this Safe Sequence.
+[21:55] Why Safe Sequence? Because deadlock did not occur.
+[21:59] So this safe sequence P2, P4, P5, P1, P3, first thing is it is not unique,
+[22:06] here P3 could have also come before, that doesn't matter.
+[22:10] But you can be asked a question where some sequence may be asked
+[22:15] so you have to carefully design the sequence,
+[22:18] and second you may be asked whether deadlock will occur or not.
+[22:21] So deadlock will occur only if I cannot fulfil the need of any of the 5.
+[22:28] If I can fulfil even 1, then it will come first in the sequence.
+[22:33] So this is what we call Deadlock Avoidance.
+[22:37] Yes, in deadlock avoidance like we said that we have to feed the system beforehand that
+[22:43] I want these many processes, I have these many resources, this is their demand, like we saw maximum need,
+[22:50] So if say can this be implemented in real life? It can be, you can code in C programming, but
+[22:58] how can you tell in real life which process is static, here we are talking about static need, it is static.
+[23:06] Means it tells beforehand that my need is 7, 5, 3. But in real life this never happens,
+[23:12] processes never tell static need, their need is always dynamic.
+[23:17] They can increase or decrease their need anytime during run time. So that's why this is not possible in real life.
+[23:23] But to implement in real we have to create some base. That’s why this is a very important algorithm.
+[23:31] Because it is asked many times in GATE and other competitive exams, so that's why you do this question carefully.
+[23:40] And second we call it Deadlock Detection, we saw that we have to detect whether deadlock will occur or not.
+[23:47] If it occurs then simple your question ends and second if it doesn't occur then which will be safe sequence?
+[23:53] So that you will have to clearly find out here.
+[23:56] So if you liked this video please like it, share it and please subscribe my channel. Thank You.

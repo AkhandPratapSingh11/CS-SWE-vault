@@ -1,0 +1,137 @@
+Title: L-2.8: Pre-emptive Priority  Scheduling Algorithm with  Example | Operating System
+Video URL: https://www.youtube.com/watch?v=rsDGfFxSgiY
+Video ID: rsDGfFxSgiY
+======================================================================
+
+[00:00] Hello friends, welcome to Gate Smashers
+[00:02] Le's see numerical on priority scheduling with preemption mode
+[00:05] Here I have 4 processes in the numerical with their arrival time and burst time
+[00:12] Now the criteria in priority scheduling is priority
+[00:16] Priority means the process which have more priority, we will allot it first to the CPU
+[00:23] I've priority given in the question already i.e. 10, 20, 30, 40
+[00:29] With every process there's a priority
+[00:32] First of all you have to find out in the question that what is the meaning of priority
+[00:36] Means Higher the number lower the priority or lower the number higher the priority
+[00:41] most of the time, It'll be mentioned in the question like this
+[00:45] Otherwise it's confusing here if 10 is the highest of lowest
+[00:50] So we've given in the question that Higher the number, higher the priority
+[00:54] Means this 40 have the most priority
+[00:58] So now if we'll solve this question with preemption mode
+[01:02] Now see how to solve it,
+[01:04] So, by using the Gantt chart, first of all we'll start from zero
+[01:08] First we've to check on zero, Which process have arrived
+[01:12] No matter what system, scheduling algorithm you have with any criteria,
+[01:18] first you have to check that which process has arrived
+[01:23] If only one process has arrived then there's no criteria in this case
+[01:28] It's the only process so you can execute it
+[01:31] But if two or more processes arrives, in that case you have to use criteria
+[01:38] So let's check arrival time on zero, then only P1 has arrived on zero
+[01:44] So here we shifted P1 from ready queue to running queue
+[01:50] Means we gave it to CPU to execute
+[01:55] Now CPU will execute it for how much time?
+[01:59] Here if my mode is preemptive, then we've to do very carefully in that case
+[02:05] If it would be non preemptive, there can be priority with non preemption also
+[02:10] In that case if you'll give P1 then it'll execute it completely
+[02:16] But in case of preemptive, What you have to do is...
+[02:23] Run it only upto one time unit It's advantage is....
+[02:26] If you'll run it on 2 or more time quantum
+[02:31] then you can skip some higher priority process in that case
+[02:35] So it's best to just run it from 0 to 1 upto one time unit
+[02:40] If you run it up to 4 then it's burst time reduced to 4, because 1 got decreased here
+[02:46] Now you reached here because time is increasing like this
+[02:51] So you reached here
+[02:52] Now check again at this point which processes are in the ready queue
+[02:58] So we checked on 1, P1 is already in the ready queue,
+[03:05] Now P2, P2 also reached here and arrived at one
+[03:09] Means P1 and P2 are two processes and now if I got two processes
+[03:15] then there's competition to run which one first
+[03:18] In that case we use criteria, Now we'll use priority here
+[03:22] Means if P1 & P2 are both ready on 1 Then in this case we have to check priority
+[03:30] Now P2 has more priority because higher the number higher the priority
+[03:34] So if its priority is more then we've to preempt P1 and preempting P1 means
+[03:41] P1 will come back in ready queue and P2 will move to running queue
+[03:46] So P2 came here and P1 will go back in ready queue
+[03:51] means we'll save the context that it ran up to one time period
+[03:56] so when it'll come next time then its time will be 4 only not 5
+[04:00] so now we run P2 here but up to 1 time quantum
+[04:06] It's again same point that if you run more than this, then maybe you can miss the higher priority process
+[04:14] So we run it from 1 to 2, so we'll reduce it also because now its burst time is 3
+[04:20] Now we are on point 2, now check which process are in ready queue at point 2
+[04:28] So no we checked on 2, then P3 is also in ready queue,
+[04:32] P1 was already in ready queue, and P2 is in running right now
+[04:36] But now we have to check, which has most priority in P1, P2 and P3
+[04:42] So 30 is greater than both of them obviously so its priority is higher
+[04:47] Means now we'll run P3 But until now P2 was running
+[04:52] So P2 will get preempt and shifted to ready queue and P3 will get executed here,
+[04:58] But for how much time? Just one time quantum
+[05:01] Means It's time will get reduced from 2 to 1
+[05:06] Now check on three again that which processes have arrived
+[05:11] But now if you'll see carefully P4 will arrive at 4 Means on 3, the processes arrived is same as before
+[05:18] So you don't have to check again on 3
+[05:20] But still if you'll check, then you'll find out that only P1, P2, P3 are here
+[05:25] and the one with most priority was 30 i.e. P3
+[05:29] Means P3 will run again up to one time quantum i.e. 3 to 4
+[05:35] And it'll be zero... Means P3 got terminated It got complete so it got terminated
+[05:42] Now you reached to 4, Check on point 4 first if there's some new process ready
+[05:49] Yess, new process P4 is ready now So now P4 is ready and arrived
+[05:55] So first of all check its priority And its priority is 40
+[05:59] Means greater than priority of P1 & P2
+[06:02] So obviously we'll execute P4 first
+[06:06] So we executed P4 up to 1 time quantum and it become zero
+[06:12] By default its burst time was one So it became one to zero
+[06:17] Still you have to run up to one time unit maybe there's P5, P6 after it
+[06:22] But for now we have just four So we'll keep running it one time unit
+[06:26] Now we checked on 5 if there's some new process... No
+[06:29] Only four processes are there, all processes has arrived once
+[06:34] Now this process got executed and this one also got terminated already
+[06:39] Just P1 and P2 are left, Now if you'll see then P2 has more priority than P1
+[06:45] So in this case, you'll execute P2,
+[06:49] Now you don't have to run P2 up to 1 unit only to save time,
+[06:57] if you'll run it 5-6 still its priority will be more It's priority is obviously greater than P1
+[07:04] So rather than running it one by one, you can run it continuously up tp 3 time
+[07:10] because it has 3 times left, so 5+3 = 8
+[07:17] so 5+3 = 8... Means when all process arrives first
+[07:20] then it starts to behave normally as non preemptive and that's what we are doing here
+[07:26] You don't have to run it again one by one Because P2's priority will be always greater than P1
+[07:32] So in this case, You can run it completely from 5 to 8 and terminate it
+[07:37] Now what's left??... P1 So obviously you don't have to run P1 one by one
+[07:43] Means you don;t have to show here, Its four times here, so you can simply do 8+4 = 12
+[07:51] So you can completely execute it here
+[07:53] Now simply write the completion time from the Gantt chart... Last time P1 is written here
+[07:59] And on its right hand side, it's 12
+[08:01] On P2's right hand side, It's 8
+[08:04] P3 is written last time here, and it's 4 in its case
+[08:10] And in case of P4, It's 5
+[08:12] So here I've got the completion time
+[08:14] How to calculate turn around time... CT-AT Completion time - arrival time
+[08:20] So it'll be 12... 7... 2.... 1
+[08:25] Waiting time is Turnaround time - burst time Keep in mind that you have to use original burst time
+[08:32] Many times students mistakes here when we cross and cut it... So do it carefully
+[08:37] 12-5 i.e. 7
+[08:41] 7-4 i.e. 3
+[08:44] 2-4 = 0
+[08:45] 1-1 = 0
+[08:47] So this is the waiting time
+[08:48] And if they'll ask what's the average waiting time, What is the average turn around time
+[08:53] Then you can get average waiting time or average turn around time... Just total it
+[08:59] It'll be 22... 22 is the total TAT divided by no. of processes
+[09:06] And average waiting time will be.. Total is 10, divided by 4 i.e. no. of processes
+[09:13] So 22 divided by 4 will come out to be 5.5 and it'll be 2.5
+[09:24] This is how we can solve priority scheduling with preemption
+[09:28] Non Preemption is even easier than this
+[09:30] With preemption, just remember that you have to run up to 1 time unit only
+[09:35] And let me tell you the second point here also
+[09:38] Many times it comes in question that two processes have same priority
+[09:42] Means Let's say if we would have their priority 30-30,
+[09:47] then in this case if two or more processes arrives at same time
+[09:53] and their priority is also equal
+[09:55] Then in that case, who will you run first??
+[09:58] First you can check their arrival time
+[10:01] But in these types of questions it is always mentioned that if you get conflict
+[10:06] Then how to remove it in that case
+[10:09] If nothing is given then you can simply work as first come first serve
+[10:12] Means select the which came first
+[10:15] If arrival time is also same, then in last case what you can do is... Sequence wise
+[10:21] Execute the processes according to their Ids
+[10:26] This is all about the priority with preemption
+[10:28] Thank You!!

@@ -1,0 +1,260 @@
+Title: L-1.5: Process States in Operating System| Schedulers(Long term,Short term,Medium term)
+Video URL: https://www.youtube.com/watch?v=2dJdHMpCLIg
+Video ID: 2dJdHMpCLIg
+======================================================================
+
+[00:00] Hello friends... Welcome to Gate Smashers
+[00:03] In this video we are going to discuss process states or you can call it as process life cycle also
+[00:08] And in this video we're going to discuss all important points related to process states and life cycle
+[00:13] that'll be beneficial for your competitive exams even for your college\university level exams also
+[00:19] so like the video quickly and subscribe the channel if you haven't done until now
+[00:23] and please press the bell button so you can keep getting all latest notifications
+[00:27] So let's start with something related to process states, let me tell you first important point
+[00:32] if we'll talk in technical term, or you'd say that kernal knows what are process states
+[00:39] NO... This is a model created just to explain the user that whenever we starts a process in our laptop, PC or mobile
+[00:47] so in between from start to end,
+[00:50] from which states it pass through which of its status it changes
+[00:55] so to understand this we've created a model so you'll get an idea
+[01:00] that how process grows and moves from start to end
+[01:06] so first we are talking about primary states here
+[01:09] primary states means those which are mandatory which are present by default
+[01:12] so those are New, ready, running, terminated and wait \ block
+[01:17] other than this there are some additional states also that we'll discuss further
+[01:21] so first of all let's start with new state New state means when we created the process
+[01:28] Now creating a process means, that let's suppose that you wrote a program in C language
+[01:34] Now right after writing let's suppose you stored it
+[01:38] Right now you didn't run it, just stored it means placed in secondary memory permanently
+[01:43] Means it's staying in a stable state, that's called a new state,
+[01:46] or let's say you turned on an application
+[01:49] You turned on Mozilla Firefox, or chrome, or opened VMware in your laptop
+[01:55] Or even if you turns on laptop, then by default when your operating system gets mount in the memory
+[02:00] Then a lot of process starts running at the background so in actual its a new state
+[02:07] Means there was no process before that, but now we created a new process
+[02:11] right after creating we just poked it, now it came in an active state,
+[02:17] active state means ready state
+[02:20] You can say ready state or you can call it as ready queue also
+[02:23] Ready queue means that now that process came into RAM
+[02:29] means now it came in faster memory, before that it was staying stable
+[02:32] But the moment you poked it or turned it on
+[02:35] now it came in ready state, now it's staying in the RAM
+[02:38] Now after coming in RAM, means here it came in queue after first in, first out
+[02:44] all these our process are coming in the queue
+[02:47] but remember that there could be many processes in the secondary memory
+[02:51] Because we are considering our secondary memory very big
+[02:54] You can see these days your laptops are getting secondary memory or hard disks of 1 terabits
+[03:00] that's more than sufficient...
+[03:02] But... Talking about the RAM,
+[03:04] then we have up to 4gb, 8gb. Maximum we are using up to 16gb
+[03:09] so here you can't bring all processes in the ready state
+[03:14] Out of all the "n" number of processes,
+[03:17] Out of "n", we brings only some no. of processes in the ready state
+[03:21] but who brings these processes...
+[03:26] it's long term scheduler who brings all the processes
+[03:28] Yess... long term scheduler and points related to scheduler,
+[03:33] I'm discussing all that in this video,
+[03:35] because in next video I won't tell any point related to it
+[03:38] because all that will be covered in this same video
+[03:41] Now what is the meaning or concept of long term scheduler here
+[03:46] the meaning is to bring more and more processes in the ready state
+[03:49] Which we call the concept of multi programming
+[03:52] Multi programming means bringing more and more concept in the ready queue
+[03:56] I've already made a video on what multi programming actually is
+[03:59] And it's link is in the description box Make sure to check it once
+[04:03] All the points that I'm using here like multi programming, multi-tasking,
+[04:07] you'll get its all detail there
+[04:10] Now what we are trying is
+[04:11] to keep bringing more and more process in the ready queue or ready state
+[04:18] Now after that... Let's suppose we brought as much processes as possible
+[04:21] Now what we have to do is Our task is not to fill ready queue
+[04:25] Now we have to execute those processes Now every process wants to get CPU for some time
+[04:31] so it can get terminated after execution
+[04:34] Now what we are doing is, now all the processes that came in ready queue already
+[04:40] we dispatched some of them from it
+[04:44] Now what dispatch actually means, or you can say we scheduled it
+[04:50] we brought it in the running state
+[04:54] Now how many processes we'll bring in the running state
+[04:57] This depends on how much CPU you have
+[05:00] Because running state means we are executing that process
+[05:04] Now we are providing it CPU to get executed
+[05:07] But if you have uni processor system then we have one CPU
+[05:12] If you have multi-processor system, you have grid computing or if you are using advance system
+[05:17] then you can say you have multiple series then you can use parallel processing
+[05:21] But whatever syllabus of operating system we have at present, we are assuming that we have uni processor system
+[05:29] so you can say, out of all the processes in the queue state,
+[05:33] means I just picked out one from those which are in ready state
+[05:37] And I scheduled and dispatched that one on the CPU,
+[05:41] Means now we gave it to CPU allowing CPU to execute it
+[05:46] Now where is that process staying? Process is still in the RAM,
+[05:50] but its status got changed and
+[05:52] it got a new address at a new place where CPU is executing it
+[05:58] All the arithmetic logic and instructions that we want to run in it,
+[06:01] we are giving that instructions to CPU one by one and CPU is executing all that
+[06:06] This is the running state, now in running state if there's uni processor, I told you already, only one processor will run
+[06:13] If it's multi-processor then you can run multiple processes
+[06:16] But we are assuming it as uni processor
+[06:19] so out of all processes we picked out one and gave to CPU
+[06:22] Now CPU started doing execution on it after doing one, two, three, four... instructions
+[06:29] When it completed all the instructions, means processor got terminated
+[06:35] and terminate means deallocation Deallocation means....
+[06:40] when process came in ready state in the RAM we provided it some address and resources
+[06:47] Now when that process is going back and completed, now take those resources back
+[06:52] , as we have limited RAM so we can't distribute resources freely, we have limited
+[06:59] When we have something limited then we'll utilize it properly,
+[07:03] so now we deallocated with it, means took all address and resources back that we provided it
+[07:10] and it got terminated, means finished and it's status got completed
+[07:17] This is the normal phase we have,
+[07:19] that process is coming and passing though all these stages
+[07:24] But... second concept here is, let's suppose we shifted it from ready to running state
+[07:29] Now that process was going on in running state but suddenly a high priority process came in ready state
+[07:38] And we gave it to CPU to execute this process first,
+[07:44] now executing this process means,
+[07:46] that the process it was working on before, that will be sent back in the ready queue
+[07:51] Why we sent it back?
+[07:53] One of the reasons is priority priority means... Here the concept is of multi-tasking
+[07:59] Multi-tasking means that you are executing multiple processes at a time
+[08:06] Before that we talked about multi programming, means bringing as much processes as possible
+[08:10] Out of those, we gave one to CPU But if the CPU is completing it whole
+[08:18] then multi-tasking haven't been done here but if we asked to stop the running process in the middle
+[08:25] But a VIP process came for example,
+[08:32] we asked CPU to execute it first, then execute the old one
+[08:38] So when we gave that process to CPU But CPU can do only one process at a time
+[08:42] So it'll send back the old on process, on which it was already working before
+[08:47] Means we sent it back in the ready state because a high priority process came
+[08:53] It's other reason could be... time quantum
+[08:58] Means, there's a scheduling method called round robin in which we are talking about time quantum
+[09:03] In this we says that we gave one process to CPU But CPU will run that process up to a fixed amount of itme
+[09:11] The moment that time quantum got expired
+[09:15] CPU will ask it to return back, saying that it'll run next process
+[09:19] But just for limited time quantum
+[09:22] Let's suppose time quantum is 2 sec then CPU will run every process up to 2 sec only
+[09:27] then it'll send it back, then it will again get its turn in future
+[09:30] But if the process got ended in 2 sec, then it'll get terminated,
+[09:34] but if not ended in 2 sec, then we'll send it back again in the ready state
+[09:39] and will keep running the new process so the scheduler which is helping here is.... Short term scheduler
+[09:47] So the next we have is short term scheduler
+[09:51] whose responsibility is to pick a process from ready state and send it in the running state
+[09:57] Now if CPU is executing it completely, then it means multi-tasking did not happened
+[10:03] which you can call non pre-emptive
+[10:06] These topics gets used so much Non pre-emptive and pre-emptive
+[10:11] Non pre-emptive means if CPU will run a process completely,
+[10:18] with no priority or time quantum in between Means if this line is not there
+[10:24] Then you can say it's non pre-emptive, non pre-emptive means
+[10:28] no process will get jumped in between
+[10:31] and the other concept we have is pre-emptive
+[10:33] Here pre-emptive means that if we are stopping running process in between
+[10:39] because maybe a high priority came or its time quantum got expired
+[10:43] then it's called pre-emptive
+[10:44] so if this line is attached then you'll say pre-emptive
+[10:47] or if this line is not attached then you'll say this is a non pre-emptive type of scheduling
+[10:53] so these are very important points these can directly come in your exam
+[10:57] so just keep all these points in your mind
+[11:00] So now short term scheduling is clear to you, it's responsibility is to dispatch
+[11:07] Next, the third case that comes here is
+[11:11] Let's suppose we gave a process to CPU and CPU is continuously executing that process
+[11:16] IN between process said that it wants to give an IO request
+[11:21] Io request means like if it said that it wants to read a particular file
+[11:28] And that file is in secondary memory now if it wants to read from the secondary memory
+[11:33] then CPU will say, I can't help anything in this, I would suggest you to go in the waiting state or get block...
+[11:41] and waiting state is also in the RAM But we changed its status saying to go in wait state
+[11:48] Because reading secondary memory means...
+[11:51] CPU works in MILLION instructions per second, it complete works in micro seconds
+[11:58] But our secondary memory is slow, and if it'll wait for secondary memory
+[12:02] then other processes will keep waiting
+[12:05] If we'll take a simple example, let's suppose you went to a super market
+[12:11] Then many times it happens that you are going to get bill, some other bill is already processing before it
+[12:16] And what they do is, they says to buy other things also while bill is on its process
+[12:26] They went somewhere else leaving the bill in the mid-way
+[12:29] If they went somewhere else, then if the billing person will ask others to wait
+[12:36] Then obviously people would start cursing saying what's wrong!.. do his billing later and attend us first
+[12:42] So it's the same case here, process said here...
+[12:46] before in these cases CPU said that it'll run those with higher priority first
+[12:51] or your process's time quantum is over and you must go back
+[12:55] But in this case, process is saying itself that it wants to read some file
+[13:01] or wants to access monitor or any other hardware, then CPU will ask it to go in wait state
+[13:08] Means get block for some time, that's called an I\O request
+[13:12] Now when its IO request got completed, file and data is done reading... Means its IO got completed
+[13:20] Now it won't go back in the running state, there would some other process already in the running state
+[13:26] then we'll ask it to come back in the ready state
+[13:30] But now you won't go in running state, you just come here in the ready queue, and we'll get your turn in ready queue
+[13:36] So this is the wait/Block state, which is important when any process demands for an IO
+[13:42] like if it wants to read some secondary memory or hardware
+[13:46] then CPU will say to wait aside and do the work, and in future you'll get your turn in the ready state
+[13:55] So these are all primary states which are related to the process life cycle
+[13:59] Other than this we have now additional states additional states are those...
+[14:04] Let's suppose if we'll talk about worst case Let's suppose the number of processes we had were 10
+[14:09] We created 10 processes, and we brought all 10 in the ready state
+[14:13] and then we gave first one to CPU to execute it
+[14:17] That first one said it wants to do IO request or wants to read secondary memory
+[14:21] we allowed and sent it here and gave second one to the CPU
+[14:25] Second also said to do IO, we sent it same with third one...
+[14:33] We gave the fourth one, then it also asked to go so in worst cake they all may ask to do IO request
+[14:39] Then what will happen is, this state which is also in RAM So it is also a queue, a wait queue
+[14:46] so this queue can get full, now this queue got filled and we have limited RAM
+[14:51] so we'll say to suspend for some time we created a suspend wait or block state
+[15:00] And what we are doing here actually, this queue is filled
+[15:04] now we'll say that we've swapped out for sometime Swap out means we sent in back in the secondary memory
+[15:12] CPU said like, alright you can do there because this queue that we have is already filled
+[15:19] Now we don't have any other option so we'll say fine... get suspended for some time
+[15:24] Means you can go in the secondary memory and can continue your work
+[15:29] When it'll be completed, then you can come back in the wait state
+[15:32] If there'll be space then it can come back otherwise you can wait in suspend weight for some time
+[15:40] And whose work it actually is? who handles all that actually? this is done by medium turn scheduler
+[15:46] Medium turn scheduler's work here is, like if your RAM is getting filled
+[15:52] due to ready state or anything else that we discussed here,
+[15:56] if there's any reason related to it due to which RAM is getting filled
+[15:59] then we'll ask it to go to secondary memory for some time,
+[16:02] means we swapped it out with RAM and sent it secondary memory
+[16:08] One more reason that could be here let's suppose you are filling new new processes
+[16:15] You are bringing all of them in ready state or ready queue in RAM
+[16:19] It could be possible that your this queue also got filled
+[16:22] so you asked other processes to stop because ready queue got filled
+[16:27] But that time some VIP process came Means some system or kernel process
+[16:32] that says It has the highest priority, I have VIP tag... But our ready queue is already full
+[16:40] Now what we'll do... we'll place it in a suspend ready state from ready queue
+[16:51] or when its work will be done or there'll be some space in the ready queue
+[16:56] Then we'll resume it again, and will bring it back in the ready state again
+[17:00] So suspend is possible here also
+[17:03] but it's possible when your ready state got full with new processes, that's our task and we have to do it
+[17:11] But if some VVIP process arrived then we have to make some space
+[17:16] That work is also handled by the same one
+[17:18] The way mid tern scheduler is working here, same way it's working here also
+[17:23] so the difference here is only that
+[17:26] we sent it back from the ready state, but here it was waiting and completing the IO work
+[17:34] CPU sent it here to do its IO work But this also got filled
+[17:39] then we sent it to secondary memory that  here you can do your IO work now
+[17:44] Now from here, it's trying continuously to get into wait state
+[17:49] If it went in wait state and this queue gets empty, then it'll go there
+[17:53] If it's not empty in case, there's more processes coming in the block state
+[17:57] Then we calls it backing store... Backing store mean that we'll send it back here
+[18:04] Because what's its ultimate purpose? Where it wants to go from here?
+[18:07] Now it wants to reach from here to here But i can't reach directly from here
+[18:11] First we have to send it here, and from here to ready state,
+[18:15] but this is filled already, now either it'll just keep sitting here. But it won't keep sitting here.
+[18:20] If its work got completed then we backing store it and sent it in ready state
+[18:28] but if ready queue is also filled then send it in suspend ready state
+[18:33] Just let it wait there... from there it'll get priority and from here you'll get resume and moved in ready state
+[18:41] So they've added some extra states, this is just very simple concept like virtual memory, swap in- swap out
+[18:49] Like we have some processes based on firm scheduler like we have least frequently used or most frequently used
+[18:58] Based on that we do filtering of some processes so we can send few of them back
+[19:04] so we can create more space, so some more processes or high priority processes can come in ready queue
+[19:10] or some processes can come in wait block
+[19:13] Because CPU is sending here continuously But if it got filled then I have to use secondary memory lastly
+[19:21] But which processes I'll send?? Based on some scheduler...
+[19:24] That medium term scheduler will handle it own its own Whether it'll send least frequently, or most or based on priority
+[19:34] It can use any logic here,
+[19:36] so we were discussing what are those all primary and secondary states
+[19:40] So all these points will help you so much in competitive exams
+[19:46] So talking about window's If you'll open Window's task manager
+[19:50] Then there's a process tab where it shows a whole list of all processes running in the system
+[19:57] That what are system processes, which one are user processes
+[20:00] And If we'd talk about UNIX or LINUX
+[20:02] then there you can get all process information through PS (process state) command
+[20:10] Although there's a lot of variations in it like PS-e, PS-u etc.. but in general, It's PS command
+[20:17] through which you can get process ID and which command the process is executing
+[20:23] or until when it's been running on the CPU So all these states will give you benefit here
+[20:29] Long term scheduler, short term scheduler, medium term scheduler pre-emptive, non pre-emptive
+[20:33] Here I have completed all the aspects
+[20:36] So I already told you what is multi tasking and multi programming
+[20:40] You'll get a link in the description,
+[20:42] Make sure to check once so you'll understand in detail what  pre-emptive, non pre-emptive, multi-tasking etc. is...
+[20:49] Thank You!!

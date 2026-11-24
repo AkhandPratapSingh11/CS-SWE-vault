@@ -1,0 +1,360 @@
+Title: L-5.17: Segmentation Vs Paging | Segmentation Working | Operating system
+Video URL: https://www.youtube.com/watch?v=dz9Tk6KCMlQ
+Video ID: dz9Tk6KCMlQ
+======================================================================
+
+[00:00] Hello friends Welcome to Gate Smashers
+[00:02] The topic is segmentation.
+[00:04] Now, what is the segmentation?
+[00:06] Segmentation is a method in which
+[00:08] a process will be divided into parts
+[00:10] then we put them into the main memory.
+[00:13] We divide a process into segments
+[00:18] and then we put it in the main memory.
+[00:20] The same concept we use in the paging.
+[00:23] What do we do in paging also
+[00:24] By dividing a process into fixed-sized pages
+[00:28] and put them in the main memory.
+[00:30] So what's the difference between paging and segmentation?
+[00:33] Let's understand first
+[00:34] what's the difference between paging and segmentation?
+[00:37] In paging whatever program we have written
+[00:41] whatever process we have written
+[00:42] let say there is a program in C
+[00:45] I have saved that program
+[00:47] Now what paging will do to that program
+[00:50] without knowing whatever was written in this
+[00:52] it will simply divide that process
+[00:55] and then it is put into  the main memory.
+[00:58] So what problem can emerge due to that
+[01:01] One of the problems is Let say
+[01:04] In my program, there is a module
+[01:08] or a function of addition.
+[01:11] And this is the length of that function.
+[01:15] This will be the length of the addition module.
+[01:19] Now if we are using paging here
+[01:22] paging will simply divide that module
+[01:26] or simply divide that function into two or further pieces
+[01:30] and then we put them into different locations.
+[01:33] Let say this has been kept in frame f3
+[01:36] and this is kept in further frame f4.
+[01:40] Now, what will happen?
+[01:42] When CPU will execute
+[01:45] So in that first F3
+[01:47] it executed the instruction written in F3
+[01:50] But does F3 have a complete addition model?
+[01:55] No!
+[01:56] The model of the whole addition is combined in both F3 and F4.
+[02:00] So what will happen
+[02:02] When it will execute the addition
+[02:05] then he will get partial code in F3
+[02:08] will not get full code.
+[02:10] i.e. immediately after I execute F3
+[02:14] when the last instruction will be executed
+[02:16] I have to run CPU and F4 quickly.
+[02:20] Means what is written in frame F4
+[02:23] I have to give that page to CPU immediately.
+[02:27] Otherwise, the addition will not execute properly here.
+[02:31] Here I mean to say that
+[02:35] In the paging without knowing
+[02:38] what is the code in it what's written in the process
+[02:42] we simply divide it into further pages.
+[02:47] But segmentation works from the user's point of view.
+[02:50] When we write a program
+[02:53] we know that there is a main program
+[02:55] one addition program is there or addition function is there
+[02:59] or subtraction function or some other functions are there.
+[03:02] So what we think
+[03:05] All those functions must have been saved on different pages.
+[03:09] but paging doesn't do anything like that.
+[03:10] Paging simply divide a process
+[03:13] or a program on a fixed-size page.
+[03:16] So this problem may occur there.
+[03:19] So maybe CPU has executed the F3 frame.
+[03:23] but it didn't even get the f4 frame.
+[03:26] So here the problem with the page fault can also occur.
+[03:29] So for this, we use segmentation.
+[03:32] What actually segmentation does is
+[03:34] It does not divide the whole process or program directly
+[03:41] It does not divide the whole
+[03:44] process or program directly like paging.
+[03:47] What will it do
+[03:48] it will create different segments
+[03:50] Let say your program has
+[03:53] a function called main.
+[03:56] So it has made a segment of main
+[04:01] There can be one more segment of
+[04:04] Let say addition
+[04:07] Another segment created
+[04:09] Let say one more segment of
+[04:11] subtraction S2
+[04:14] Stack S3
+[04:18] One more Square root is there
+[04:25] Square root is there.
+[04:26] So it will create the
+[04:28] segments according to the code.
+[04:30] Means according to the user's point of view.
+[04:32] What users think
+[04:34] The number of lines in the main or
+[04:36] the number of lines in the addition module.
+[04:38] Further, it will convert it in the same segment
+[04:42] So here's a small point
+[04:44] In paging, each page has the same size.
+[04:49] But will the size of all
+[04:51] segments are the same here?
+[04:53] No!
+[04:53] Maybe in the addition module
+[04:56] the line of code is low.
+[04:58] Maybe the size of this segment is small.
+[05:01] It may have more line of code.
+[05:03] Maybe the size of this segment is bigger.
+[05:06] So what I mean to say
+[05:08] Let say we take 5 or 6
+[05:12] Here we take a total of 6
+[05:14] These are segments
+[05:17] Where do we generally save these segments?
+[05:20] We will save these segments in the main memory.
+[05:24] We will put these segments in the main memory.
+[05:27] what we used to do there
+[05:28] We used to divide the process into pages
+[05:31] and we put the pages in the main memory.
+[05:34] But here we are not dividing into fixed-size pages.
+[05:37] Segment can be of various size
+[05:42] this is the important point.
+[05:44] But pages are always of the same size.
+[05:48] But segmentation always run in various sizes.
+[05:52] The size of a the segment is big,
+[05:54] some may be small.
+[05:56] We put these segments
+[05:58] inside the main memory.
+[06:00] Now the second point is
+[06:03] Like paging does not know about CPU
+[06:06] in the same way the CPU doesn't have
+[06:08] any idea about segmentation.
+[06:10] CPU will generate Logical address
+[06:12] We have already discussed
+[06:15] that the CPU always works on logical address.
+[06:18] CPU will generate a logical address
+[06:20] I have to assess with that logical address
+[06:24] that which segment CPU want
+[06:26] and for how far it wants.
+[06:28] So through that thing
+[06:30] we will be able to find out
+[06:32] where is that segment actually lying
+[06:34] in physical or main memory.
+[06:37] So here we use two things
+[06:39] Whenever we Let say
+[06:42] there is a segment S5
+[06:45] I put S5 here
+[06:46] Here 1500 is representing the base.
+[06:50] Base means from where the segment is starting.
+[06:54] After that, here
+[06:55] we use the second point
+[06:58] here that is the size.
+[06:59] Base address and size
+[07:02] What base address and size is showing
+[07:04] that from where that segment is starting
+[07:07] and what is the length of it.
+[07:09] and where it is going.
+[07:11] I will explain this again
+[07:13] what are we going to discuss here first is
+[07:15] When CPU will generate a logical address
+[07:18] we have to convert that logical address
+[07:20] into a physical address.
+[07:23] Then only we will get the location of that segment
+[07:26] then after fetching that segment
+[07:29] I will give it to the CPU.
+[07:30] The same concept which we use in paging
+[07:34] here also
+[07:36] our memory management unit will help
+[07:39] in converting logical address
+[07:44] we'll convert the logical address into physical address.
+[07:47] Who will help?
+[07:49] Again, Memory management unit
+[07:51] So how will the memory management unit convert
+[07:54] the logical address into a physical address?
+[07:56] The way to convert it is
+[07:58] called a segment table.
+[08:00] This means here we will
+[08:01] use segment table
+[08:04] and that segment table will tell
+[08:06] Whatever segment we want
+[08:09] how will we fetch it from the main memory.
+[08:12] This is the point.
+[08:13] Let's first understand the segment table
+[08:15] There are two things in segment table
+[08:18] base address and size.
+[08:20] From where my base address is starting
+[08:23] and this is representing
+[08:25] the segment number here.
+[08:28] Segment's number.
+[08:30] Means 0, 1, 2, 3, 4, 5
+[08:32] Different segments are there.
+[08:34] The base address is representing
+[08:36] from where it is starting.
+[08:38] Like segment S0
+[08:42] is starting with 3300
+[08:43] Look at here segment S0 is starting with 3300
+[08:47] and it's limit or size
+[08:50] size means 200
+[08:53] we can say 200 byte.
+[08:55] i.e 3300+200= 3500
+[08:59] If we add 200 in this
+[09:02] i.e the length of this is up to 200
+[09:05] and its limit is up to 3500.
+[09:09] This segment table will help us
+[09:11] how we will convert the logical address
+[09:14] into a physical address.
+[09:16] So let's use it.
+[09:25] Let say
+[09:25] When a CPU will
+[09:28] generate a logical address address
+[09:31] That logical address will
+[09:33] be divided into two parts.
+[09:35] One of them is segment number
+[09:38] and another is segment size.
+[09:41] or it is also called offset.
+[09:45] Here the MSB bits are segment numbers
+[09:49] LSB bits will show segment size.
+[09:52] So here logical address
+[09:55] whatever bit of the logical address is coming.
+[09:57] Some bits are segment number
+[09:59] and remaining bits are segment size.
+[10:02] If I have s number of bits are
+[10:04] representing the segment number.
+[10:06] And d bits are representing the segment size.
+[10:09] So what we will do here is first of all
+[10:12] Whatever logical address is generated
+[10:14] just for example I am taking
+[10:17] Let say logical address is
+[10:19] 000/1000
+[10:24] Now whatever this logical address is
+[10:26] First of all, I have to guess that
+[10:30] How many bits are representing the segment number
+[10:34] and how many bits are representing segment size?
+[10:37] As soon as I get to know these bits
+[10:38] are my segment numbers.
+[10:40] So let say here
+[10:43] I have to access segment 1
+[10:45] where segment 1 is lying in the main memory
+[10:47] I don't know.
+[10:49] Because it is non-contiguous
+[10:50] Segment can be randomly anywhere
+[10:53] So first of all, I have to go to segment 1
+[10:58] I went to segment 1
+[11:00] Segment 1
+[11:02] base address of 1800
+[11:04] Here we get to know
+[11:06] By going to address 1800
+[11:09] you will get segment 1.
+[11:11] But we also have to keep another point in mind
+[11:14] and that is the d value
+[11:16] What d value is representing here is
+[11:18] you have reached 1800
+[11:21] But after that till where
+[11:25] you have to read that data
+[11:27] d bits will tell the length or size.
+[11:31] The number of bits which is given here
+[11:33] What they are representing
+[11:35] You know the base address that is 1800
+[11:38] But S1 is saved from 1800 to 2200.
+[11:42] So you want the whole S1
+[11:44] or partially.
+[11:46] Means you have to access only some portion of it
+[11:49] So that is the point
+[11:51] that is what s and d is representing here.
+[11:53] So I will pick d from here
+[11:58] and the value of d corresponding to S1
+[12:01] that is 400.
+[12:02] Here this point representing
+[12:06] If d value
+[12:06] from here I am getting d value
+[12:09] d value should always be less than size.
+[12:15] d value should always be less than size.
+[12:18] This is what we are checking.
+[12:20] d value means
+[12:22] How much CPU wants to access
+[12:25] How far does it wants to access.
+[12:27] If CPU gave the value of D here
+[12:30] let say 500.
+[12:36] CPU wants to read 500 bytes.
+[12:39] But when I go to S1
+[12:42] S1 is 1800
+[12:44] and its size is 400.
+[12:46] S1 is 400 bytes
+[12:50] and CPU wants to read 500 bytes
+[12:53] How it is possible?
+[12:54] When the size of segment S1 is only 400 bytes
+[12:58] so CPU can read maximum 400 bytes.
+[13:03] Where will the CPU read 100-byte extras?
+[13:05] and obviously, here we can't access
+[13:08] data of other segments randomly.
+[13:11] The problem here is
+[13:13] The d value which is here
+[13:15] that d value will always
+[13:17] the size which is given here
+[13:19] should be less than equal to.
+[13:22] If the value of d is 400
+[13:24] then it is fine.
+[13:26] This means you want to access the entire segment.
+[13:31] Then there is no problem.
+[13:33] What we're checking here is
+[13:35] value of d should be less than equal to size.
+[13:38] If it is true then we will add that value
+[13:41] means I know the base address is 1800
+[13:45] value of d is let say 400
+[13:49] So I will add 400 in 1800
+[13:52] so what I got is 2200.
+[13:54] That means from 1800 to 2200
+[13:57] I have to read the entire data
+[14:00] I have to read entire segment.
+[14:02] So yes this is what we want.
+[14:05] So I have accessed the entire segment here.
+[14:10] If the value of d was greater
+[14:12] then here we create the trap.
+[14:16] The size which is demanded by the CPU
+[14:21] there is no segment of that size.
+[14:23] So, in that case, we have to create interrupt or trap
+[14:28] that is a kind of error.
+[14:30] In this case an error will be created here
+[14:33] otherwise normally.
+[14:34] Let say the CPU wants to read segment S3
+[14:39] Segment S3
+[14:40] So here, my earlier bits
+[14:43] will represent three values
+[14:45] This is just an example. This is not the actual value.
+[14:48] First I went to segment S3
+[14:51] I get to know segment S3 is on 2300
+[14:54] I went to 2300
+[14:55] There I get to know S3.
+[14:57] Now I have to find value of d
+[15:00] Let say value of d is 200
+[15:04] If value of d is 200
+[15:07] and here the corresponding size of
+[15:10] segment S3 is 400.
+[15:12] That means
+[15:15] I don't have to read entire 400
+[15:18] from that, I have to read some data
+[15:20] In this case
+[15:22] 2300 is the base value
+[15:25] and what I have added
+[15:28] as far as I have to read
+[15:31] total 2500.
+[15:33] Let say it started from 2300
+[15:36] And till 2500 I read the data
+[15:40] and gave it to the CPU.
+[15:42] This is the concept
+[15:43] How we are using segmentation.
+[15:46] What is the advantage of segmentation over paging?
+[15:50] Here we are talking from the user's point of view.
+[15:53] We are not dividing  a process directly
+[15:57] without looking into the program.
+[16:00] We not putting it by simply dividing it.
+[16:03] In the segment, we will put related data in one segment
+[16:09] We will divide related data into proper segments.
+[16:13] The second point which is important here is
+[16:15] the size of the segment maybe different.
+[16:19] Size of each segment can be different
+[16:21] but in paging size of each segment is equal.
+[16:24] So this is how we use the concept of segmentation.
+[16:28] Thank you.

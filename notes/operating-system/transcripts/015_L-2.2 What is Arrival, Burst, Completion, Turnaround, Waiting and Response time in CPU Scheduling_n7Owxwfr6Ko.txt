@@ -1,0 +1,115 @@
+Title: L-2.2: What is Arrival, Burst, Completion, Turnaround, Waiting and Response time in CPU Scheduling
+Video URL: https://www.youtube.com/watch?v=n7Owxwfr6Ko
+Video ID: n7Owxwfr6Ko
+======================================================================
+
+[00:00] Hello friends.. Welcome to Gate Smashers
+[00:01] I'm going to discuss different times in CPU scheduling
+[00:05] This will help you in understanding this topic properly and in solving numerical
+[00:10] because all time numerical that comes on CPU scheduling,
+[00:13] before that you should have knowledge about these times
+[00:17] After that you can solve numerical properly
+[00:20] So let's start with arrival time first
+[00:23] Arrival time means the time at which the process enters the ready queue from the ready state
+[00:30] Means that point of time when a process enters in ready queue,
+[00:36] that time we call as arrival time
+[00:39] Burst time... that's the 2nd time
+[00:41] It is the time required by a process to get executed on a CPU
+[00:45] Means this is the time duration
+[00:47] It's the time duration required by a process to get executed on the CPU
+[00:53] Arrival time means the time when process arrived Let's discuss it with a simple example
+[01:00] If I want to go to the bank to deposit money
+[01:04] so I entered in the bank at 11'O clock, it means the arrival time there is 11'O clock
+[01:11] Second is burst time... burst time means How much time I'll take in depositing the money
+[01:17] And that time depends on the clerk, the person who is there at the back end,
+[01:22] who'll take money from me and will deposit the cash in my account .. It all depends on him
+[01:29] So burst time depends on the CPU, that how much time CPU will take to execute that process
+[01:38] so process can tell its own also like I said I'll take 15 mins to deposit the money
+[01:44] So burst time here is the duration and arrival time is the point of time when I entered in the bank
+[01:51] Let's say if I went at 11'O clock, then it's the arrival time
+[01:55] Third time is the completion time
+[01:57] Completion time is again the point of time at which the process get executed
+[02:03] Means I entered at 11'O clock, i was supposed to take 15 mins in depositing the money
+[02:09] but I came out of the bank at 12'O clock
+[02:12] so it means my completion time is 12'O clock
+[02:16] Completion time is not the duration Completion time is also a point of time
+[02:20] This is actually a very simple concept But Many students do mistakes in this concept
+[02:27] so that's why always remember that burst time is a duration
+[02:34] But arrival time and completion time is not a duration,
+[02:37] it's a point if time at which a process gets completed
+[02:42] After that comes the turnaround time this is a very important portion here
+[02:47] Because you get a lot of question on CPU scheduling in GATE & other competitive exams
+[02:53] where we use different CPU scheduling algorithms
+[02:58] And you get asked how much is the turnaround time or waiting time
+[03:02] So the simple formula of turnaround time is completion time - arrival time
+[03:09] Turnaround time means whole time means I entered in the bank at 11'O clock
+[03:15] I know that it'll take 15 mins in depositing the money
+[03:18] But I came out of the bank at 12'O clock
+[03:22] So it means turnaround time is 12 - 11... means 12 - 11 i.e. 1
+[03:30] Means it took me whole 1 hour i.e. I've taken 60 mins
+[03:35] So that 60 mins is the turn around time
+[03:38] Now you must be thinking in mind,
+[03:42] that depositing money was supposed to be done in 15 mins, so what I did there for 60 mins
+[03:46] So let's discuss about it also.... Next is the waiting time
+[03:50] Waiting time means... turnaround time - burst time
+[03:54] You have to keep these formulas in mind
+[03:58] But you dob't have to cram it... You can just understand it with simple example
+[04:03] Now I'm talking about waiting time Waiting time means
+[04:06] We calculate the turnaround time that at 12
+[04:10] At 12'O clock I cam out of the bank and I went in at 11'O clock
+[04:15] So total time spent inside the bank is 1 hour
+[04:23] 1 hour means you can call it as 60 mins also
+[04:26] But waiting time here is turnaround time - burst time
+[04:31] Means turnaround time is 60 mins I spent 60 minutes inside the bank
+[04:39] But out of it, the useful time is Useful time was that I just have to deposit money
+[04:46] And how much time it was supposed to take in depositing the money?... 15 mins
+[04:50] So it means my burst time was 15 mins
+[04:54] But 60 - 15 i.e. 45 minutes
+[05:00] So what I did there for 45 mins
+[05:03] 45 mins is the waiting time here
+[05:06] Now obviously if we go to bank and enters at 11'O clock,
+[05:10] then maybe its possible that there's a queue already
+[05:15] then I have to wait in the queue, have to fill the form also... after that I went to the clerk
+[05:20] and submitted my form there...
+[05:23] and let's suppose when he was about to submit my form,
+[05:28] then suddenly manager called him or he got a call
+[05:33] Means there I didn't spent the ideal time i.e. 15 minutes... I spent some extra time there
+[05:40] That's called the waiting time
+[05:42] Same way if I would talk in normal term of processes then there're generally two types of processes
+[05:49] Means those bound processes.... one is called CPU bound
+[05:54] and other is called the IO bound i.e. input output bound
+[05:58] CPU bound means that when a process gets executed on the CPU
+[06:03] Then it tells already that it'll take 10 minutes to get executed
+[06:08] so that 10 minutes is purely CPU time
+[06:11] Means CPU will work in that 10 minutes and will execute that process
+[06:16] But other than CPU time, many times processes have IO time also
+[06:21] Input output time means like there's a C program and there're many instruction in that program
+[06:27] Like function or addition and subtraction but if we wan to read some file there
+[06:33] Means there's a file which is in hard disk and we have to read that file
+[06:38] Or I want to use printer, scanner or any Input output devices
+[06:42] So CPU will say if you want to do that work, then do it first and then comeback to me
+[06:49] So it's a very important point here that a process was getting executed on the CPU
+[06:56] But in between that process left to perform Input output operation
+[07:04] and when it came back... then it means here also I spend some extra time
+[07:09] that's called the waiting time
+[07:11] And how to calculate that waiting time? Turnaround time - burst time
+[07:17] Means whole time I stayed in the system but how much time I was supposed to stay ideally
+[07:25] now I'll subtract it... then what I'll get will be the waiting time
+[07:30] And last is the response time
+[07:33] Response time means... first check the formula
+[07:37] the time at which a process gets CPU first time
+[07:41] Means when process got CPU first time
+[07:44] Point of time nit the duration this is also point of time...
+[07:49] When process get CPU first time - arrival time i.e. when it arrived
+[07:54] Means I entered in the bank at 11'O clock so 11'o clock is my arrival time
+[08:00] But did I got the clerk right after arriving?? or my cash started to get deposit??.... NO
+[08:07] It maybe possible that I was in the queue there
+[08:10] When I was in queue, then after sometime my communication with clerk started
+[08:17] So I gave him that form... so when did I got the clerk or CPU first time there
+[08:24] That's called the response time
+[08:27] It also comes in exams that we've to calculate response time, waiting time, and turnaround time
+[08:36] And to calculate this , they'd always give arrival time or burst time in the question
+[08:41] So in questions, all the numerical we get, all the different algorithms based on it,
+[08:48] to solve the numerical of those algorithms, first you should have the knowledge of these times
+[08:54] Only after that you can solve those questions
+[08:57] Thank You!

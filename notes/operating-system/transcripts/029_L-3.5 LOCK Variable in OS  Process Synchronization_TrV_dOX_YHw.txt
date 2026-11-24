@@ -1,0 +1,86 @@
+Title: L-3.5: LOCK Variable in OS | Process Synchronization
+Video URL: https://www.youtube.com/watch?v=TrV_dOX_YHw
+Video ID: TrV_dOX_YHw
+======================================================================
+
+[00:00] Dear students, welcome to Gate Smashers. In today's video I'm going to explain LOCK Variable
+[00:05] means to solve critical section problem what we are using? Lock variable.
+[00:10] It is one of the oldest methodology. If we say, I have written here from Galvin's book as it is
+[00:16] because we consider Galvin as Bible of Operating System. So from that funda,
+[00:20] I have written main points here. In your competitive exams, college/university exams, interview
+[00:26] if anything is asked from anywhere related to this, this video will help you a lot.
+[00:31] We will cover all the aspects in this. So guys, quickly like the video,
+[00:36] subscribe the channel if you haven't done yet and if you have, you can subscribe from more devices
+[00:41] subscribers are very important. So let's start.
+[00:44] What is the funda of Lock? Lock says that whatever wants to go in Critical Section
+[00:48] should acquire lock, when you complete work in critical section then release lock.
+[00:54] Basic methodology says this, but how to implement it, its pseudo-code?
+[01:00] Because it actually works on user mode. Meaning in this we don't take any support from kernel,
+[01:05] we don't take any support from operating system, we do it through API, it is an application
+[01:09] and in that application we have written a simple code and lock code,
+[01:14] not in full just the pseudo-code I have actually written over here.
+[01:17] So how it works I will tell you case wise. Like first case, second case and so on.
+[01:22] Look, let's say if I talk about case 1 firstly what we did, let's say there are 2 processes
+[01:28] P1 and P2 although this is a multiprocesses solution meaning
+[01:31] not like it is applicable on only two processes, there are many solutions like Peterson, etc.
+[01:37] which works on only 2 processes but in this you can run multiple processes also.
+[01:43] So look, let's say I take only 2, P1 and P2. Initially what we have the lock variable
+[01:50] its value is 0 at the start. You can take 0 or false, in terms of true or false
+[01:56] or in terms of 1 and 0. When value of lock is 0, what does this show?
+[02:01] It shows that the critical section is vacant. And if value of lock is 1 then what it shows is
+[02:08] that your critical section is full means in it already there is some process, okay.
+[02:14] Now look, value of lock is obviously 0 at start because we are just starting.
+[02:18] At start I will mention here value of lock as 0. So let's say case 1 P1 comes first,
+[02:25] process runs entry code, what is entry code? Lock==1. What is value of lock?
+[02:32] Value of lock is 0 at start, 0==1 is false, then it will come out and run on next line.
+[02:38] This and this, means you may understand you can take lock==1. It is possible that
+[02:44] it is given in the book like this, Lock!=0. Okay, it is the same thing. Lock not equal to 0
+[02:51] or lock is double equal to 1 is the same thing, at many places it may be given like this.
+[02:55] Now look, P1 comes, it executes line number 1, 0 is double equal to 1, false. And went to next line
+[03:03] lock is equal to 1. Value of lock is set from 0 to 1 and who enters the critical section?
+[03:10] P1 enters the critical section. P1 runs the first instruction, second one and
+[03:15] after running the thrid one it enters the critical section. Now at this time let's say,
+[03:19] P2 says I also want to go so P2 does what at first, While lock, what is value of lock? 1,
+[03:26] 1==1, true. The moment it became true what happens to this? It gets stuck in infinite loop.
+[03:32] Getting the point or not? Because it is true, While true means there is a semicolon here,
+[03:36] so this gets stuck in infinite loop so P2 cannot go inside. Getting the point or not?
+[03:42] So here when P1 completes its work it comes out from critical section, executes line number 4,
+[03:48] value of lock was made 0 again. Now P2 says I want to go, so what is value of lock? 0==1, false.
+[03:56] Lock value is made 1 and P2 will enter the critical section. Getting the point?
+[04:02] So first P1 came then P2, you can run P2 first too it is the same thing.
+[04:06] So this way we generally use the lock funda but if you are asked is there any guarantee?
+[04:13] Look here, is there any guarantee that mutual exclusion will always be there?
+[04:18] Because in critical section problems the most important instruction is mutual exclusion.
+[04:23] Do yo give guarantee, does lock give guarantee that mutual exclusion will occur?
+[04:28] Looking at this case it feels that it will. But there is no guarantee. I will show you how here.
+[04:34] I'll take case 2, you note this in your notebook. Let's say again we take case 2, okay.
+[04:42] Now, what we do in case 2, in case 2 again we take P1, P2,
+[04:47] lock value is 0 at start means it is vacant. Now look P1 came first, it executed line number 1.
+[04:54] Line number 1 means what is the lock value at start? 0, okay. Lock value at start is 0.
+[05:00] So what it did? 0==1, false, went to the next line means it successfully executed line number 1
+[05:09] but keep in mind, note this down, after executing line number 1
+[05:13] as it was about to execute line number 2 it got pre-empt means it had some emergency,
+[05:19] after executing line number 1 as it was about to execute line number 2 means
+[05:23] as it was about to make lock=1, here in between these two it got pre-empt, had an emergency,
+[05:29] had to go to the washroom. It went away, and immediately P2 comes. P2 says now I will come
+[05:34] P2 sees value of lock is 0, 0==1, false.
+[05:38] P2 executes line number 1, goes to next line lock=1, value of lock becomes 1,
+[05:45] executes line number 2 also and who enters the critical section? P2 enters critical section.
+[05:54] Getting the point? Line number 1, 2 and 3 were executed. P1 comes back,
+[05:59] after completing its emergency P1 turned around and came back.
+[06:03] When it came back it will not restart, it has already run 1 instruction.
+[06:08] As soon as it returned it saw lock=1 means make value of lock as 1.
+[06:13] But value of lock whether it was 0 or 1, it ran this instruction, value of lock was already 1,
+[06:19] it overwrites 1 and made it 1. Because this instruction has nothing to do with
+[06:23] what is the previous value. That we have already done, it has already done that.
+[06:28] What it did? It executed line number 2 and after executing line number 2
+[06:33] entered the critical section. Now P1 has come and P2 has also come, mutual exclusion is gone,
+[06:39] nowhere near. In this case you can put P3, P4 as many processes as you want,
+[06:44] mutual exclusion is not there. Getting the point or not?
+[06:47] So this actually is a problem in lock variable because in between these two if pre-emption happens
+[06:54] then this funda fails. So next we will use the Test and Set concept where I will tell you
+[07:01] what changes were made in that and how mutual exclusion was achieved.
+[07:05] So these were the main points, works on user mode, application is used here,
+[07:10] kernel and operating system has nothing to do. We use it for multiprocess and
+[07:15] mutual exclusion is not guaranteed. So this is all about, and this is more than sufficient
+[07:20] related to the lock variable, thank you.

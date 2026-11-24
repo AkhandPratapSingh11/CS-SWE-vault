@@ -1,0 +1,248 @@
+Title: L-7.2: File Attributes & Operations in Operating System
+Video URL: https://www.youtube.com/watch?v=q1wGGZbOr4s
+Video ID: q1wGGZbOr4s
+======================================================================
+
+[00:07] Hello friends, welcome to Gate Smashers
+[00:09] in this video I am going to explain attributes of the file
+[00:12] and operations on the file
+[00:14] in the last video we have discussed introduction to file system.
+[00:18] Whenever we talk about file system
+[00:20] first of all it is necessary to know more about file
+[00:23] which we are creating on daily basis
+[00:25] any file you are creating
+[00:27] pdf, ppt, mp3, mp4 any  file you are creating,
+[00:31] what may be the attributes of that file?
+[00:33] or what operations are possible  on that file
+[00:36] because there are these type of questions,  although this topic
+[00:39] is of a simple level
+[00:40] but many times the questions on this topic come like this
+[00:43] we don't even know that we  had read this seen it
+[00:46] but actually we have not solved questions on it.
+[00:50] So in this video you will get to know
+[00:51] all the points related to this topic
+[00:54] So guys quickly like this video and subscribe to the channel
+[00:57] if you have not done till now and please press the bell button
+[00:59] so that you get all the notifications.
+[01:01] So before file system you should know about the file,
+[01:06] So what is a file? File is a collection of data
+[01:09] or you can say a file is a  collection of information
+[01:12] so what do we do inside a file?
+[01:14] Suppose I made a doc file.
+[01:16] In the doc file I opened Microsoft  office and
+[01:18] in that I opened word
+[01:20] and in word I created a file
+[01:22] so in the file I am just entering  data only.
+[01:24] I am putting any important information or anything
+[01:28] that is a collection of data or information.
+[01:31] If we talk about what all operations we can do on that file
+[01:36] or you can say
+[01:37] what operations does the file system allow,
+[01:41] whether we talk about Windows or Unix or Linux
+[01:45] operations are all the same,
+[01:47] but how to do it? The way to execute them are different.
+[01:50] Windows is purely GUI based graphical user
+[01:54] but in Linux generally we work on terminal
+[01:57] where it is command based.
+[01:59] Although there are now many variations  available over that
+[02:02] where you will get a graphical  interface also.
+[02:05] but generally we work on terminals.
+[02:08] So first of all what can we do?
+[02:10] We can create the file
+[02:12] so what we do in windows, we do right click
+[02:14] simply an option comes for new,
+[02:16] we can make a new folder, inside the folder  we can make multiple files.
+[02:20] We also have multiple applications
+[02:22] office, in office there is ppt or doc file or excel file all these we can create
+[02:26] and further we can save it,
+[02:29] so during saving we give it a name
+[02:32] or give a location where to keep it
+[02:36] like  C drive D drive E drive
+[02:37] so obviously based on particular location
+[02:40] you can create that file.
+[02:42] So as you created the file
+[02:45] so by creating some attributes  are generated
+[02:48] means, What are attributes?
+[02:51] Attributes are meta data,
+[02:52] meta data means data about data,
+[02:54] data about data what does it means?
+[02:56] We created a file,
+[02:58] in the file I made notes on the operating system.
+[03:02] So the notes I am making on the operating system
+[03:04] are the original data.
+[03:06] but when I saved that file as the file was saved what I did?
+[03:11] some attributes were added with it automatically,
+[03:14] why do you do it?  when you create some file
+[03:17] you right click in windows  and go to properties
+[03:20] when property opens what opens  in actual, attributes.
+[03:23] That is called meta data, which means data related to data
+[03:26] like a file name
+[03:28] you give name to a file that name will get saved somewhere
+[03:33] that is the meta data, in meta data that is called attributes.
+[03:36] Extension file types
+[03:38] may be ppt, doc, excel file
+[03:41] or  mp3, mp4, jpg any file.
+[03:44] Why do we use this actually?
+[03:46] because, in today's time even if you do not give extension
+[03:50] then also you can save
+[03:52] but earlier it was necessary to give extension means to  save the file
+[03:55] .doc or .pdf you had to give necessarily.
+[03:58] Now what happens, when we open a file
+[04:01] so during opening a file
+[04:03] it intimates us through which application we can open that file.
+[04:07] On that basis, we can open it.
+[04:10] So the type of file is what is actually an extension.
+[04:12] Identifier.
+[04:13] Identifier is not from the point of view of the user.
+[04:16] It is from the point of view  of the operating system.
+[04:18] The name you give to any file.
+[04:20] So in identity, corresponding  to that name. It is like that.
+[04:24] I have taken admission in  a university in college. So there
+[04:28] So I have a name, father name, Mother’s name marks and everything else
+[04:32] But what did University give to me,
+[04:34] roll number given registration number given
+[04:37] In order to identify me.
+[04:39] So that is the identifier.
+[04:41] Therefore a number is given, to every file
+[04:43] because for the operating system,  Everything is a file.
+[04:47] Everything is a file for the  operating system.
+[04:51] Even that keyboard mouse is also managed like a file.
+[04:55] Each and everything is a file  for the operating system.
+[04:59] So in order to identify them,
+[05:02] it provides them with a unique name number.
+[05:05] location, We obviously like C colon has.
+[05:09] Whatever location we give to a file.
+[05:11] Wherever the file is saved.
+[05:13] It's proper location is given.
+[05:16] Similarly, in Unix and Linux
+[05:18] location matters a lot in Unix Linux
+[05:21] Because when we fetch a file,
+[05:24] We should know its proper location.
+[05:26] Like from a root directory to which directory, we had to go.
+[05:29] Then we're to go in that directly.
+[05:31] Then where we have stored in the file.
+[05:34] Giving a proper path is very necessary
+[05:36] so that we can access the file properly Size.
+[05:39] Size of a file. Can we kilobyte , megabyte or gigabyte?
+[05:44] So size, also matters much.
+[05:47] Then modified date,  created
+[05:49] when it was created. When it was modified
+[05:52] when we made changes to it  all that information
+[05:54] permission protection.
+[05:56] what does permission  means,  who can access the file.
+[05:59] Users or groups or others?
+[06:02] what's different in Windows?
+[06:04] In Linux  We have groups and others.
+[06:06] In Windows We have guest users or admin.
+[06:10] Who can access it and over that ,  What is the permission?
+[06:13] We can read the date. We can write it.
+[06:16] Or execute it.
+[06:18] We are having full control or not.
+[06:20] So, all these information related to  control or permission.
+[06:24] Is actually information or protection.
+[06:26] When you right click, And open the properties.
+[06:29] There, you will get all the information.
+[06:31] General information, security
+[06:34] along with security.  There is some Advanced thing
+[06:36] that is encryption, Compression.
+[06:38] Encryption means, do we have  encrypted the file?
+[06:41] So we can Implement security to it.
+[06:44] Anyone can't read it any data
+[06:46] which security or hash function is applied on it ?
+[06:50] 0r have I compressed the file?
+[06:52] What is the meaning of compressing a file?
+[06:55] That we are decreasing its size.
+[06:56] And removing its unwanted space.
+[06:58] So, all this information is stored  in attributes or meta data.
+[07:04] So what happens because of this?
+[07:06] let's say if you have hard disk.
+[07:10] and the hard disk size is one terabyte!
+[07:12] the full 1 terabyte
+[07:14] So this one terabyte is never used  100% completely in storing data.
+[07:19] Some information, some space is kept by file system.
+[07:24] To store meta data.
+[07:26] If there is no meta data, it would be  difficult to access or fetch a file.
+[07:31] Therefore, we also store meta data  permanently inside the disk.
+[07:35] Although it takes very less space
+[07:38] but whatever space it takes we have to  store their data in the hard disk.
+[07:43] Then reading the file
+[07:46] Reading the file means simply,  we have to check the data.
+[07:49] we can't  write means  Or can't make any changes in that.
+[07:53] Like we open a file in read only mode.
+[07:55] We can only read the file  but  can't make any changes to it.
+[07:58] But if we talk about write
+[08:00] We are obviously making some  changes in the data.
+[08:04] Then, if we talk about deleting.
+[08:07] What is the meaning of deleting? Deleting means to delete a file.
+[08:10] Deleting in file and truncating
+[08:12] both are very important.
+[08:14] It is even asked in exams
+[08:16] What is the meaning of deletion?
+[08:18] Let's say you have a file,
+[08:20] you made it DOC file. In Microsoft Office
+[08:24] so in the file, you have written an introduction on operating system.
+[08:28] Now, if you perform delete operation,
+[08:31] Whole file will be deleted,
+[08:33] along with the attributes.
+[08:36] These attributes here.
+[08:38] all these attributes will be , Deleted
+[08:40] means meta data also will be deleted.
+[08:42] And all the data within the file will also be deleted
+[08:45] but  if you applied truncate
+[08:47] So, in case of truncate, what will happen?
+[08:50] You have written paragraph inside the file.
+[08:51] anything, you have written.
+[08:53] All that data will be deleted
+[08:54] but attribute
+[08:56] means files name size files, identifier
+[08:59] will not be deleted
+[09:02] And remain as it is.
+[09:03] And when you open that file.  There you will find nothing.
+[09:07] The file is completely empty.
+[09:09] And yes, you can put there some other information.
+[09:12] So, to truncate means,
+[09:14] Simply we have deleted the data.
+[09:17] But not deleted the attributes.
+[09:20] But deleting of  file means deleting the file completely.
+[09:23] Whether it be the date in the file or the attributes,
+[09:25] everything will be deleted.
+[09:27] these are the difference between  delete and truncate.
+[09:29] Then repositioning.
+[09:31] What is the meaning of repositioning?
+[09:33] Means our read write head.
+[09:35] We have put any content inside the file. A B C, D, E.
+[09:39] 1, 2, 3 4. Any content?
+[09:41] And by default, read, write head
+[09:43] point out on the First Data?
+[09:46] Read write head Means from where we have to fetch data
+[09:51] Now, what we do some time.
+[09:52] We want to skip some data
+[09:56] It could be A, B, C, D, E means I want to skip this data
+[09:59] the pointer went on one.
+[10:01] Or you want pointer to go to last,
+[10:04] so this is actually repositioning  of read write head.
+[10:07] So in Unix we do this with LC command.
+[10:11] in LC command using c_n and c_*  what we can do?
+[10:15] we can do repositioning
+[10:17] So whose functionality this is actually?
+[10:19] You have operations inside the file system
+[10:22] inside the file
+[10:23] which is allowed to user by the file system
+[10:25] to manage all these things
+[10:27] Although inside this, especially in Linux
+[10:31] because windows in GUI based there is no command
+[10:34] but in Linux to create there is touch command
+[10:38] we create with CAT command
+[10:40] Read is a system file
+[10:41] there is system call in it
+[10:44] there is write system call
+[10:45] L6 as I have told
+[10:47] to delete NKDIR
+[10:49] you have to make any folder any directory
+[10:53] then MKDIR
+[10:54] and if you want to delete
+[10:57] there are various commands available
+[10:58] these commands can also be asked in exams
+[11:00] So on these commands which are important,  I have made videos on them
+[11:05] Their link you will find in  the description box
+[11:07] So this is all about the operation and file attributes. Thank You.

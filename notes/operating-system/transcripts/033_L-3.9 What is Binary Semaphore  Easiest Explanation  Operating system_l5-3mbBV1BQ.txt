@@ -1,0 +1,117 @@
+Title: L-3.9: What is Binary Semaphore | Easiest Explanation | Operating system
+Video URL: https://www.youtube.com/watch?v=l5-3mbBV1BQ
+Video ID: l5-3mbBV1BQ
+======================================================================
+
+[00:00] Binary Semaphore, to synchronize the processes we use semaphore, like we discussed before
+[00:07] semaphore are of 2 types, Counting Semaphore and Binary Semaphore. In Counting Semaphore
+[00:13] the value, because Semaphore is actually what? Integer Variable. It is a integer variable
+[00:19] which is shared by a lot of processes in a mutual exclusive manner. Now in Counting Semaphore
+[00:25] the values vary from minus infinity to plus infinity means we implement all the cases
+[00:34] with the help of Semaphore, but value of Semaphore varies from minus infinity to plus infinity.
+[00:42] But Binary Semaphore, when the name itself is Binary it means there are only 2 values, 0 and 1.
+[00:47] So we will use only 2 number here 0 and 1, and we will check all codes how we implement it.
+[00:55] So in Counting Semaphore values are infinite and the same work we are doing with just 2 digits 0 and 1,
+[01:03] then what is the need of using the Counting Semaphore? So therefore Counting Semaphore
+[01:08] is used very less, this is easy to use. Now we start operations.
+[01:16] Down and Up, there are 2 operations Down and Up, we call Down as P operation, we call Down as Wait.
+[01:26] Similarly we call Up as V and Signal, we call it as Signal. These are synonyms only.
+[01:33] Down, P, Wait this is same, Up, V, Signal these are same. So let's see what is the Down operation.
+[01:40] Down means let's say semaphore value is initialized with 1.
+[01:49] What is the meaning of down? Down means if semaphore value is double equal to 1,
+[01:55] yes, semaphore value is 1, then it will make the value 0. Means it is a successful operation.
+[02:04] We call this successful operation. If you get semaphore value as 1, and after that
+[02:13] there is a Down operation then simply what you have to do, Down means make the value from 1 to 0.
+[02:19] That is called the successful operation. Means that process performed a successful operation on Down.
+[02:26] But if semaphore value is 0, in any case semaphore value can be only 2 values, 0 or 1.
+[02:34] If value is 1, now we are talking about only Down, value can be either 0 or 1, if value is 1
+[02:42] then we will do Down to value from 1 to 0 that is called the successful operation.
+[02:47] Means this line has run successfully, process has chances to enter critical section.
+[02:53] But if semaphore value is 0, then we can't do Down from 0 because we have only 2 values, 0 and 1,
+[03:01] so don't write -1 here, value will stay at 0 but that process will be blocked,
+[03:07] means it will go in suspended list or what we call it unsuccessful operation.
+[03:15] This is called the unsuccessful operation. So that's what is written,
+[03:19] if semaphore value is double equal to 1, means if it is 1, make the value to 0,
+[03:26] and this is called successful. And else, means if it is not 0 then block the process
+[03:32] and place it in the suspended list or what we call Sleep. Means its Process Control Block
+[03:39] the PCB we will keep it in blocked state means in blocked queue, later on some time it will again
+[03:46] be unblocked and run. How will it run, we will see in Up. So this is the meaning of the Down operation.
+[03:53] This is very important because you get many questions but you don't have to remember the code
+[04:00] in any standard problem whether Producer-Consumer whether Dining Philosopher or any question comes
+[04:05] you don't need to remember the code. You just need to remember what Up and Down do and how they work,
+[04:11] you can solve any question.
+[04:13] Let's say Up, second operation is Up, which we call V or Signal. Up means let's say S Value is 0,
+[04:26] Again values of S can be only two, either 0 or 1. If value of S is 0 then
+[04:32] what will it make the value? 1. And if value of S is 1 then it will stay as 1.
+[04:40] Means if, Up means, if(suspend list is empty) first let's check this condition, means
+[04:49] it should not happen that some process already in critical section, let's say a process
+[04:55] has already entered critical section, some other process tries, let's say P1 enters,
+[05:01] how will P1 enter critical section? It will first perform Down operation,
+[05:05] if value of S was 1 at start, yes, it will make that value 0, means value of S which was 1
+[05:11] goes from 1 to 0, successful, and process enters critical section. Now some other process tries,
+[05:19] let's say P2 tries or P3 tries. If P2 tries, what is the value of semaphore? 0.
+[05:26] So if Semaphore value is double equal to 1? No. Then what is the else condition?
+[05:31] Block this process. Means P2, P3, P4 whatever number of processes come after this
+[05:36] all of them will be blocked. So in Up we first check that is already any process blocked?
+[05:44] Was it blocked in the past? Was it blocked because of this condition?
+[05:49] Because we will first bring them in unblocked state means we will bring them in ready queue
+[05:55] so that we can give them a chance to execute, if they are blocked then they won't get a turn.
+[06:00] So that's why first we check suspend list, means the block queue. Is the queue empty?
+[06:07] If the queue is empty, then we will make the S value 1. Means if S value, let's say S value is 0
+[06:16] Initially if S value is 0, first it will check whether this suspend list is empty or not,
+[06:22] if suspend list is empty then value of 0 will be succussfully made 1.
+[06:30] If suspend list is not empty means already some processes are lying in blocked state,
+[06:37] then this will keep value of S as 0 only, come into 'else' state because let's suppose that
+[06:43] some processes were lying in blocked state, so if in case even a single process is there
+[06:48] in the blocked state, it will jump to the else one and there what will it do?
+[06:52] Select a process from the suspend list and wake up means
+[06:56] it will pick a process from the blocked list, wake it up, wake up means put it in ready state,
+[07:02] so that it can run in the future. And if value of S is let's say 1,
+[07:10] whether value of S is 0 or 1 this will first start from suspend list. If suspend list is empty
+[07:19] then if value of semaphore is 1 then it will stay 1, and in case if suspend list is not empty
+[07:27] means some processes are lying in blocked state then your first priority is it will first
+[07:33] unblock some processes from blocked state after that it will move further. So that's it,
+[07:40] whether value of S is 0 or 1, this will first check in suspend list
+[07:46] if there is a process lying there in blocked state, if it is there in blocked state then
+[07:50] this will first wake it up, if nothing is in block then simply make value of semaphore 1.
+[07:56] If value of S is 0 then it will become 1, if it is already 1 then it will stay 1.
+[08:02] This is the only meaning of the Down and Up. Let's see with a small example,
+[08:09] how we execute this. Let's say there are 2 processes P1 and P2. P1 is executing Down of S,
+[08:22] critical section, Up of S. P2 is executing same Down of S, Up of S.
+[08:34] Now either process out of P1 and P2, both are parallel processes, cooperative processes,
+[08:40] cooperative means both share something common and where is that common? In critical section.
+[08:48] Let's say if P1 comes, either of the two can come first, both can come parallelly also,
+[08:53] Let's say if P1 comes, Down of S, if at start my S value is 1, Let's say at start value of S is 0.
+[09:02] Let's say at start value of S is 0. Then what is my operation? Down of S,
+[09:08] what is the meaning of Down? if (S Value==1), false. Then this process will be blocked.
+[09:15] Means P1 blocked, P2 says good if this is blocked then control comes to P2, P2 says that
+[09:22] maybe I can run. But what is written in P2 also? Down(S) and what is the S value? 0.
+[09:28] So S value is 0 so what will this also be? Blocked. So that's why
+[09:32] when we initialize value of semaphore, do it very carefully but in this you don't need to worry,
+[09:39] in GATE or other competitive exams it will already be given to you what value of semaphore is.
+[09:46] So let's say value of semaphore is 1, if value of semaphore was 0
+[09:50] then P1 and P2 would be both blocked means deadlock situation would have arised
+[09:54] neither will be executed. So let's say S value is 1. Down(S),
+[10:00] either of the two can run, let's say P2 runs, Down(S), what is the meaning of Down(S)?
+[10:06] if (S Value==1), true, S value becomes 0. So this line is successful,
+[10:14] the successful operation I was talking about means this operation is successful done, so means
+[10:20] P2 enters the critical section. Now let's say that P1 comes, at the same time P1 comes,
+[10:30] P1 says that now I want to use the critical section. Can it use? Let's see. Down(S)
+[10:36] what is the meaning of that Down(S)? What is S value? 1, and here what is S value? 0.
+[10:43] Is 0 equal to 1? False, block this process. Means what will be P1? Blocked.
+[10:54] This is the meaning of the semaphore Down. So now what happens? P1 is blocked,
+[11:00] P1 will not get a turn, and that is what we want, mutual exclusion.
+[11:03] Mutual exclusion means if one process is using critical section then the second one cannot.
+[11:10] So P2 obviously is sitting inside so we are not letting P1 in. Now let's say that P2 exits,
+[11:15] means it does Up(S), comes out, so while coming out what will it do? Up(S)
+[11:21] if(Suspended list is empty), No. In suspended list P1 is there.
+[11:27] So if P1 is there in the suspended list then what does this have to do? Select a process,
+[11:32] there is just one process that is P1, it will wake up P1 from suspended list means
+[11:38] it will put it in the ready queue, so that its turn comes.
+[11:47] So this is how we perform the Down operation and Up operation.
+[11:52] So this is all about how we perform Down and Up in these two operations. Like at any time
+[11:59] you get any GATE question or anywhere you see this question in competitive exams then
+[12:03] you don't need to remember the code, you just have to check these two operations
+[12:08] how they are executed. So if you liked this video then please like it, share it and
+[12:15] in case if you have any doubt then you can ask me in comments.
+[12:18] And please subscribe my channel. Thank you.

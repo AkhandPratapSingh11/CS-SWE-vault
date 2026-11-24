@@ -1,0 +1,191 @@
+Title: L-5.3: Internal Fragmentation | Fixed  size Partitioning | Memory management | Operating System
+Video URL: https://www.youtube.com/watch?v=bK-VhQA512c
+Video ID: bK-VhQA512c
+======================================================================
+
+[00:00] Fixed Partitioning which is also known as Static Partitioning.
+[00:05] In Contiguous Memory Allocation whenever the processes are coming into the RAM
+[00:10] how we are allocating them the space, one of the method is Fixed Partitioning or
+[00:16] we can also say that is Static Partitioning. So in Fixed Partitioning the concept is
+[00:23] number of partitions are fixed. This is a vey important line because what the entire method is
+[00:29] that number of partitions means I'm dividing the RAM so that I can allocate processes in the RAM,
+[00:37] I can fit them there, so before that what we are doing? The number of partitions are fixed.
+[00:44] So let's solve with this diagram, I have already made this, like this is my RAM.
+[00:50] In the RAM as we know that whenever we start our system, the Operating System,
+[00:56] first of all the Operating System is mount in the RAM. Means first of all
+[01:00] Operating System comes in the RAM it takes some memory, some space, occupies it
+[01:06] and the remaining portion what we use it for mostly? We bring processes from secondary memory
+[01:13] into the RAM, so that we can allocate to the CPU. According to the degree of multiprograming
+[01:18] we already know that we have to bring maximum processes in the RAM.
+[01:24] So for that I need to have space in RAM, so yes, Operating System takes some space of RAM,
+[01:30] but the remaining space we have kept for the processes. Now here the second concept says that
+[01:37] in fixed partitioning or static partitioning number of partitions is fixed means when we
+[01:43] configure the system we will decide at that time how many number of partitions will be there.
+[01:50] But what will be the size of each partition? This can be same or it can be different.
+[01:57] I have made both diagrams here. Here what I am showing is that Operating System comes first,
+[02:03] Operating System comes in main memory but the remaining portion I divided into fixed sized slots.
+[02:11] Means how many partitions I made? 1, 2, 3, 4.
+[02:15] So how many number of partitions in this?
+[02:17] The partitions are 4.
+[02:21] But what is the size of each partition? That I have kept fixed
+[02:24] that is 8MB, let's say 8MB, 8MB, 8MB, 8MB.
+[02:29] Now whenever we call the process from the secondary memory we can easily accommodate them here.
+[02:36] Now what is the concept here? Whenever we bring the processes,
+[02:40] process should be either of 8MB or smaller size. Because the contiguous allocation,
+[02:48] the concept here is in contiguous allocation spanning is not allowed. What is spanning?
+[02:54] Means we can't keep some portion in one partition and the remaining in second partition. No.
+[03:03] It is either, or, or none, means the entire process I will either put in one partition,
+[03:08] if it fits then it's best, otherwise what I will have to do?
+[03:13] Either I can put entire 8MB in this partition otherwise I will do partition of small process
+[03:20] means I will bring smaller processes whose size is smaller than 8MB.
+[03:25] Now we will examine this and here this other diagram is basically representing what?
+[03:31] Number of partitions are fixed in this also, how many are there? 1, 2, 3, 4.
+[03:35] I have given numbering 0, 1, 2, 3. So how many number of partitions? 4.
+[03:40] But here the difference is that number of partitions is same but
+[03:45] the size of each partition is different. So yes, in fixed partitioning always
+[03:50] the important point to remember is that number of partitions are fixed beforehand
+[03:55] but size of each partition can be same, means can also be fixed or can be different also.
+[04:02] Here I take a partition 4MB, 8MB, 8MB and 16MB. Now we will examine that when processes come
+[04:10] how it works, what are the pros and cons, what are advantages and disadvantages.
+[04:14] So let's start with this.
+[04:24] Let's say a process comes P1, P1 is a process. If P1 size is 4MB.
+[04:35] I called a process from secondary memory, what is size of the process? 4MB.
+[04:39] So when I bring 4MB process in the main memory then in a way, first of all,
+[04:45] wherever it is empty, here wherever space is available I can put it anywhere.
+[04:51] This is the important point. Anywhere I can put it but the point is that
+[04:56] the process which is coming, its size should be smaller than the partition.
+[05:02] Otherwise I will have to adjust half in some other, half in some other,
+[05:05] and this is not allowed because in contiguous we can only put it entirely,
+[05:10] not like I divide half in some other class, divide half in some other class, no.
+[05:16] This is not possible here. So means if P1 of 4MB comes here then
+[05:21] let's say that at start I have all partitions are empty, then first of all what will I do?
+[05:28] I will put the 4MB process in 0th partition, if I put 4MB process in here in this slot,
+[05:34] then it will entirely fit, definitely fit here. So okay, after that we will allocate CPU,
+[05:41] CPU will start working on it, execute instructions one by one, process will be terminated.
+[05:47] This is normal case, which we call best case generally. But if we want to examine this completely
+[05:52] then I will have to discuss all cases. So let's say that process size is 2MB.
+[06:00] Let's say that process size is 2MB.
+[06:03] If we are now bringing 2MB process here then again the same point, we can put it anywhere.
+[06:11] But we try where we get first place, so let's say that 0th position is still empty
+[06:16] we have not filled any process now, then I will allocate P1 at 0th position.
+[06:22] So means who was allocated here? P1.
+[06:26] So P1 takes out of 4MB, let's say 2MB P1 has taken.
+[06:33] P1 allocated 2MB out of 4MB, but who gets this entire partition now? P1 process.
+[06:42] Process P1 gets the entire partition. So here the remaining 2MB, because 2MB is used here,
+[06:50] but the remaining 2MB is now waste. Because now as we already know that in contiguous
+[06:57] we cannot divide any process half and half in partitions, it will either go entirely
+[07:02] otherwise the process size should be smaller than my partition size.
+[07:08] So it is smaller than partition size but little more small, so means here if I put 2MB process,
+[07:14] then my remaining 2MB is wasted. And this is called the Internal Fragmentation.
+[07:21] Yes, this is the important point that we call this Internal Fragmentation.
+[07:34] Let's say we bring one more process, let's say P2 process comes, the size of P2 is 7MB.
+[07:46] So we can put it anywhere wherever is available, let's say that my first location is available here,
+[07:52] then here what I will do? I will allocate process of 7MB in this.
+[07:57] Means I allocate this location to P2. Okay, P2 will easily accommodate here and will occupy.
+[08:06] Means the instructions, the data in P2 all of that comes where? In this partition.
+[08:13] And it occupies 7MB of space, but if you look carefully here then 1MB space remains here also.
+[08:21] And this 1MB space cannot be utilized. Because this entire partition we allocate to one process.
+[08:33] So in this now no other process can be spanned.
+[08:37] So means here 1MB is wasted. So this is called the Internal Fragmentation.
+[08:43] This question comes many times in GATE exam or other competitive exams also, many times it is asked.
+[08:49] So this is called the Internal Fragmentation. What else? Other than this
+[08:54] what do you think what more problems or what analysis can we do in this?
+[09:00] Second point that comes here, let's say one process is there, size of process is 32MB.
+[09:08] So can we accommodate process of 32MB here? No, because the maximum size of the partition is 16MB.
+[09:17] And this we decided beforehand when we configured the system,
+[09:21] that maximum size of one partition is what? 16MB. In case if a process comes of more than 16MB,
+[09:28] then I cannot accommodate it anywhere. So means what is the next problem occurring here?
+[09:34] There is a limit in process size.
+[09:42] Means whichever process you bring in the RAM it should have a limitation of size,
+[09:47] not like any process comes, here the size of maximum partition is 16MB,
+[09:52] so if process of more than 16MB comes then we cannot accommodate it. So there is a
+[09:56] second disadvantage, or second limitation is that there is a limitation in process size.
+[10:02] Third point is, what else?
+[10:08] Now as we already discussed that number of partitions are fixed
+[10:12] so here what is the number of partitions? 4.
+[10:16] In this example, what is the number of partitions we have taken? 4.
+[10:21] So if in case you want to bring 5 or 6 cases in the RAM, how will you bring?
+[10:28] There is no other way. P1 is here, P2 is here, let's say P3 comes, I put it here,
+[10:34] let's say P4 comes, I put it here, but if at the same time if P5 comes or
+[10:38] if I want to bring P6 then how will I bring? No. Degree of Multiprogramming.
+[10:44] Degree of Multiprogramming says that maximum processes we can accommodate in the RAM.
+[10:49] But here my Degree of Multiprogramming is limited
+[10:53] although this we removed later from the virtual memory concept but at this point
+[10:58] we are just talking about the fixed partitioning. So here if we see
+[11:02] Degree of Multiprogramming is also limited because at a time I can't bring more than 4 processes.
+[11:12] So there is a limitation
+[11:18] on Degree of Multiprogramming.
+[11:25] Because I cannot bring maximum processes because I have decided beforehand that partitions are 4.
+[11:31] So if partitions are only 4, when I have availability of 4 boxes
+[11:36] then put something in 4 boxes. So when one guy comes and says to me that
+[11:40] I also want to put my luggage then where will I put it? If I have boxes,
+[11:43] number of partitions is only 4. That's why you can also say that
+[11:47] limitation in the Degree of Multiprogramming. So number of processes in this will be limited.
+[11:54] Means we can bring only limited number of processes in the RAM.
+[11:58] If we talk about this diagram also, where I have fixed size of every partition then
+[12:04] all these problems will come in this also because what is here also?
+[12:08] I have size of one partition is 8MB, so what was the first problem? Internal Fragmentation.
+[12:14] So definitely if a process comes of 7MB or 6MB or 5MB.
+[12:20] Let's say a process comes of 6MB.
+[12:25] So I accommodated the 6MB process here because it was free here, wherever there is availability,
+[12:31] wherever there is free partition I will try to accommodate there. So here let's say that
+[12:37] first partition was free so process comes P1, I accommodate it here.
+[12:43] So when this 6MB process comes here then what is remaining here? 2MB.
+[12:50] That cannot be allocated to any other.
+[12:54] So means what we call it here? Internal Fragmentation.
+[12:57] So Internal Fragmentation comes in this also. What is second? Limit on the process size.
+[13:03] Obviously, here there is even more problem, because maximum process size can be what? 8MB.
+[13:11] But here at least this problem was not there, here we can accommodate process more than 8MB.
+[13:17] It can be maximum upto 16MB, but here there is even more problem that only 8MB is maximum,
+[13:23] more than that is not possible. Third problem, limitation on Degree of Multiprogramming.
+[13:28] That is same because number of partitions we have fixed in both, so that's why
+[13:33] that problem will definitely come in this. But if this and this is compared then
+[13:37] this is lot better than that, because here there is a limitation on process size also,
+[13:43] that size of process also can not be more than 8MB. Here that limitation is still less,
+[13:49] because there is different variation. Process upto 4MB, 8MB, 16MB can also be accommodated.
+[13:57] Next if we analyse in this let's say one more process comes P3.
+[14:04] size of process P3 is also 7MB, so here we accommodate P3.
+[14:11] P3 process came, I give it this slot because already upper slots are booked,
+[14:18] so this slot is free, so we accommodated P3 here. What is the size of P3? P3 size is 7MB.
+[14:25] And it is accommodated here. Again Internal Fragmentation will be there.
+[14:30] Let's say one more process P4, the size of P4 is 14MB.
+[14:38] So obviously this is the only location which is empty, so I accommodate it in this location
+[14:44] and here P4 with its data, instructions is accommodated here.
+[14:51] So now there is again 2MB size, 2MB memory which is wasted.
+[14:57] Here also I have 1MB wasted. And here P2 was of 7MB, here also 1MB is wasted,
+[15:08] and here P1 was of 2MB, here 2MB is wasted.
+[15:13] Now here 2MB, 1MB, 1MB, 2MB in all the slots, in all the partitions is wasted here.
+[15:22] Now if at this point of time let's say one more process comes,
+[15:27] P5 process came and P5 process size is
+[15:34] if size of process P5 is 5MB,
+[15:41] Size of process P5 is 5MB,
+[15:44] then 5MB process can we accommodate here? No, because no slot is empty here.
+[15:52] But if you see here then 2, 3, 4, 5, 6 means total 6MB space is available here,
+[16:00] but despite of having 6MB space available, a process whose size is 5MB,
+[16:06] we cannot accommodate because this is the contiguous allocation. We cannot do such that
+[16:13] out of 5MB put some portion here, put some portion here, some portion here and some portion here,
+[16:21] because the constraint is contiguous allocation. Either it will go contiguous entirely,
+[16:28] means all the data in it, all the instruction of 5MB, all of that 5MB will be put in one place,
+[16:35] so that's why despite of having 5MB available I cannot accommodate this process,
+[16:42] so here main problem comes because of what? Because of contiguous allocation.
+[16:46] And this problem is called what? External Fragmentation. External Fragmentation is what?
+[16:52] Although we are having availability of memory in different different slots and combination
+[17:00] means addition of all the space is equivalent to the available size, means
+[17:05] the size of the new process is less than the available space.
+[17:10] But still I am not able to accommodate because of the contiguous method. So because of that
+[17:17] the fourth problem coming here that is External Fragmentation.
+[17:31] In External Fragmentation, whenever the Internal Fragmentation comes in the memory
+[17:40] there will always be External Fragmentation existing.
+[17:44] So how we remove this thing or how we can remove these things one by one,
+[17:51] we will see in further methods. This fixed partitioning was used long back in around 1960s,
+[17:59] when main frames were used. So in main frames we used to configure beforehand that
+[18:04] in whatever memory we have how many number of partitions will be there in it.
+[18:08] So because of that number of partitions these 4 problems are coming, if you see advantage,
+[18:14] advantage in this method is what? First of all method is easy to implement.
+[18:19] Method is easy to implement because we have decided beforehand that in this
+[18:23] this number of slots will be there. So means here allocation,
+[18:26] allocating or deallocating process, giving them memory that is easy method.
+[18:31] So to implement this method is easy but there are more problems in it.
+[18:39] So that's why we don't use this today, we used to use it long time ago.
+[18:43] So this is all about the fixed partitioning.
+[18:46] So if you like the video then please like it, share it and please subscribe my channel, thank you.

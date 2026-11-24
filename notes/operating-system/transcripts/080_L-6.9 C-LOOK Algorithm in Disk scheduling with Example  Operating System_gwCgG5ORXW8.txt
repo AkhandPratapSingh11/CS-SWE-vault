@@ -1,0 +1,110 @@
+Title: L-6.9: C-LOOK Algorithm in Disk scheduling with Example | Operating System
+Video URL: https://www.youtube.com/watch?v=gwCgG5ORXW8
+Video ID: gwCgG5ORXW8
+======================================================================
+
+[00:00] Hello friends welcome to Gate Smashers
+[00:01] and the topic is C look algorithm  in disk scheduling
+[00:04] Lets understand this with the questions,
+[00:07] so in question we have 200 tracks and a request queue.
+[00:10] In request queue already there are lot of request
+[00:14] which we have to service or  which we have to cover,
+[00:18] means these are all track numbers we have
+[00:21] and we have to cover these track numbers one by one,
+[00:24] current position of  read write head is at 50
+[00:27] and here we have to use C look algorithm.
+[00:30] So how does c look algorithm works ?
+[00:32] So firstly where is our current position, at 50
+[00:35] So we start moving from 50
+[00:39] but here we would require direction
+[00:42] I should know the direction
+[00:44] that whether I have to go towards greater  from 50 or towards lesser side from 50
+[00:47] so I already have direction
+[00:49] and direction is towards large value
+[00:52] means I have to move from 50 towards large value
+[00:55] So what is the larger value than 50
+[00:57] the first value is 82,
+[01:00] covered 82,
+[01:02] then we go to the next large value that is 140
+[01:06] after 140
+[01:08] next is 170
+[01:10] after 170 last value I have is 190.
+[01:14] So these request 170, 82,140, 190
+[01:19] we have covered,
+[01:20] means in one direction you have to move
+[01:23] and that direction is given to you
+[01:25] and while moving in that direction  I have to go till the last,
+[01:30] which is the last request  190,
+[01:33] After 190
+[01:35] C look says I have to come back
+[01:37] so from here we have to change direction
+[01:41] and we are coming back.
+[01:42] when we are changing this direction
+[01:45] so during this movement
+[01:47] we don’t have to fulfil any request
+[01:50] means absolutely up to where  will this value come?
+[01:53] The first value the lowest value,
+[01:55] so which is the lowest value? 16, means
+[01:58] I will come on the very lowest value on 16,
+[02:01] when I have reached the lowest value
+[02:03] then the value,  16 track number will be covered,
+[02:07] so what does this means  I have to move from here to here
+[02:11] and during this movement  I don’t have to cover any request
+[02:15] after coming on 16
+[02:17] now I know that after 16 the next request is 24
+[02:20] so I will move towards 24
+[02:23] after 24
+[02:26] next request is 43
+[02:29] this is the last request which is remaining
+[02:32] so here I will cover 43
+[02:35] so what do I mean to say
+[02:36] this is the important point  which we have to keep in mind
+[02:39] that we have to move in one direction up to last value
+[02:43] which is the largest value  you have  in queue,
+[02:47] after going to that value  you have to come back
+[02:51] and during coming back don’t have to fulfil any request
+[02:55] come to the very lowest request 16
+[02:58] and now from 16 again we have to move
+[03:00] if there is any request remaining
+[03:03] so yes 16
+[03:04] after 16  ,24 was remaining
+[03:07] and one 43 was remaining
+[03:08] so I have fulfilled this request here.
+[03:11] This is how the c look actually works
+[03:14] so now what you have to calculate?
+[03:16] Calculate value total number of read write movement
+[03:19] so how do we calculate that?
+[03:21] So here what value do I have 190 - 50
+[03:25] calculate directly, make calculation easy,
+[03:28] where there is no change in the direction
+[03:31] that value you can calculate directly.
+[03:33] Here there is no change in the direction,
+[03:34] which is the last value 190-50
+[03:37] then from 190 to 16,
+[03:39] so we will calculate value (190 - 16) + (43-16)
+[03:47] because where did this one go ? till 43
+[03:49] so {43-16}
+[03:52] you have to calculate this value
+[03:54] So the exact answer that will come out to be 341,
+[04:00] means when you solve it,  then answer will come 341
+[04:04] in C-look
+[04:06] one point is bit confusing somewhere
+[04:09] that 190-16
+[04:11] means when we come from 190 to 16
+[04:15] should I calculate this value or not ?
+[04:18] so it has been done in many books and left in few.
+[04:22] but yes, you have to calculate this also
+[04:25] means you have to add this value as well.
+[04:28] because, questions have come  in GATE 2016 as well
+[04:31] where the exact answer
+[04:33] came only after calculating it.
+[04:36] so obviously when we're coming from 190 to 16
+[04:40] so obviously the tracks are moving.
+[04:42] just covering the tracks
+[04:44] so definitely we have to cover
+[04:46] we have to add this value also
+[04:48] 190-50
+[04:49] 190-16
+[04:51] 43-16
+[04:53] so total value be 341
+[04:55] so this is how the C-look actually works. Thank you.

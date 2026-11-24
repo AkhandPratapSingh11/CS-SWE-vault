@@ -1,0 +1,114 @@
+Title: L-7.6: Indexed File Allocation in Operating System
+Video URL: https://www.youtube.com/watch?v=S6lLRz7SQUw
+Video ID: S6lLRz7SQUw
+======================================================================
+
+[00:00] - Hello friends, welcome to Gate Smashers
+[00:02] - in this video I'm going to explain indexed allocation
+[00:05] - in this video we'll discuss all the important points related to indexed allocation
+[00:09] - that will be very beneficial for your competitive exams and even your college and university exams
+[00:14] - So guys, like the video quickly, subscribe to the channel if you haven't done yet and please press the bell button so that you get all the latest notifications
+[00:23] - So, before indexed allocation, I've already explained contiguous allocation and linked list allocation
+[00:30] - and I've already made videos on that, there link is in the description box
+[00:35] - if you haven't checked those videos, then please check so that you know what is contiguous allocation.
+[00:41] - What are the advantage and disadvantage. What is linked list allocation,
+[00:45] - what are the advantage and disadvantage. And the third technique is indexed allocation
+[00:50] - So look, as the name suggests, indexed, the meaning of index is that, like we have in books, in books obviously we've content
+[00:58] - many topics are there but to search that topic index is given in the starting of book
+[01:05] - and generally in that index we've mainly page numbers
+[01:10] - means there are page numbers given along with topics so that you can get to that page to search data
+[01:18] - means you searched and you can fetch your data after getting on that page. So this is the basic concept of index
+[01:24] - So look how we will store the data here in index. For that we've a disk here, hard disk
+[01:30] - it's a permanent storage. Now in this permanent storage we've to enter the data, let say, we have file A
+[01:37] - Now what we did to this file, we divided file A, like I've already mentioned many times
+[01:45] - that we divide the data before storing it and that division is based on
+[01:50] - the physical blocks you've, means the physical blocks inside the disk, it depends on it's size
+[01:56] - that you've to divide the file in what size and how
+[02:00] - so let say I divided file A in 4 blocks. Means, block 1, block 2, block 3 and block 4
+[02:08] - so I divided this file into 4 block. Now what we did, we stored this file in the disk
+[02:14] - means, we stored it in the physical blocks in the disk and after storing it
+[02:19] - let say, I stored B1 block in 9th and B2 in, let say, 1
+[02:26] - stored B3 in let say 14, and stored B4 in let say 4
+[02:33] - you can store it in any depending on the availability. So look, if you're thinking why didn't I did contiguously or why did I choose is myself
+[02:41] - then let's assume that others are already filled. Only this was left empty, already some file exists in all the other ones.
+[02:49] - Based on the availability I adjusted all the four blocks
+[02:53] - Now if I adjusted these blocks then obviously we will fetch it too, our main purpose is not to store the data
+[03:00] - fetching the data after storing it, is the main purpose.
+[03:03] - So how we will fetch that data? What we will do now is that we will make a index of this.
+[03:09] - the meaning of index is that the index block will tell me that where my data is placed actually.
+[03:15] - So what I did, I made a index block of file A. And that index block is 6th.
+[03:21] - means, in this 6th block, there is the index of this file.
+[03:26] - when you'll get to this sixth block, means when you will fetch this sixth block, what that sixth block will tell you
+[03:33] - it will tell you that where is B1, B1 is on 9th, where is B2, B2 in on 1, where is B3, B3 is on 14
+[03:42] - where is B4, B4 is on 4. Means, here what you'll get in the directory
+[03:48] - in the directory you'll get the name of file, other than that it's other attributes but the main important thing is that you'll find index block here
+[03:57] - then after getting to that index block, means every file will make it's index block
+[04:04] - that means what we're doing, like in books we reserve some pages in starting
+[04:11] - not like that the whole books contains data, whole books doesn't contain data, in the starting pages of the book, 5-10 pages, we have made index
+[04:19] - we are doing the same thing here. We aren't placing data in all these blocks
+[04:23] - along with data we are utilising some blocks as index block - so let say index block of file B is in 15, so when you'll get to 15, in 15 you will get to know
+[04:29] - so of that file, whatever the file is, let say, index block of file A is placed here. Every file will have its own index block.
+[04:36] - whatever the data you want to store
+[04:46] - that where is the block 1, block 2, block 3, block 4 of the file B.
+[04:51] - so first you've to search index block, that index block will tell you that where is block 1,2,3,4,5 or as much blocks that are there of the file where they are actually
+[05:02] - so this is the concept of indexed allocation. So if you're asked if there is only one index block of all files,
+[05:10] - No, every file will have its own index block like every book has its own index.
+[05:15] - It does not happen like that if there are 10 books of a publication, so all the 10 books will have only one index, No. Every book has its own index.
+[05:22] - Similarly, every file will have its own index. So this is a basic concept of indexed allocation.
+[05:28] - So in directory you'll only find index block. After getting there you'll get to know where is your actual data placed.
+[05:36] - that will you about your actual data, that means where is B1 block, B2 block, B3 block, this all
+[05:42] - So look, what are the advantages
+[05:44] - advantage is support the direct access. If I have to do direct access
+[05:48] - the meaning of direct access or random access is that rather then I've to search B1, B2
+[05:54] - let say, I'm searching B3, means I don't want whole file, I want B3 block of a file.
+[06:01] - So obviously the problem in the previous one was
+[06:03] - in previous, in linked list what you have to do is that first go to the first block that will give you the address of the second.
+[06:09] - second will give of third, third will give of fourth. So you search for the block one by one like this
+[06:16] - then you get desired data. But it is not like that here, it supports direct access
+[06:22] - it supports random access. Why? Because first you'll get to 6.
+[06:26] - at 6 you'll get to know that B1 is placed at 9, B2 is placed at 1, B3 is placed at 14, B4 is placed at 4.
+[06:34] - So which one you want, you want B3, so direct get to 14 and fetch data from there.
+[06:40] - so this is the actual story of direct access or random access.
+[06:44] - No external fragmentation. Obviously, any block inside the hard disk won't remain unutilised
+[06:52] - that was the problem in contiguous allocation. This wasn't the problem in linked list and here also it is not a problem.
+[06:58] - Because we can place data anywhere, in any block.
+[07:01] - So obviously there is no block that remains unutilised
+[07:05] - that you have a file and you have blocks for that file but you are not able to allocate them
+[07:12] - that is actual problem in the contiguous allocation
+[07:15] - I've already explained this many times, if you haven't checked the video then you must check it once.
+[07:21] - so there's no concept of external fragmentation here. There's no problem. You can utilise all the blocks so far.
+[07:28] - Take a look at the disadvantage, so the first disadvantage here is pointer overhead.
+[07:32] - So obviously you can see how many pointer we have to use here
+[07:36] - first you are going to index, it is pointing you, and after getting to that point you'll get to know where is actually your data placed.
+[07:44] - Obviously, huge number of pointers are actually used here.
+[07:47] - So somewhere if I have to use then I have to use pointer
+[07:50] - if we assume every pointer to be of 4 byte, 6 byte or 8 byte, based on the hardware or based on the whatever infrastructure are having
+[07:59] - so the pointer creates overhead, because the 6th block that was here
+[08:05] - that can be used to use data but every will have it's one reserved index block
+[08:12] - like in a book we don't keep data on all the pages, we've reserved some pages in the starting of the book
+[08:18] - we have to reserve that otherwise we won't be able to search
+[08:21] - so the next is multi-level index problem
+[08:25] - look at this problem here, if your file is small, if your file have only 2-3 blocks
+[08:30] - then also you've to keep index block, and if your file is very large
+[08:34] - then also you've to keep index block. So if it is small file then un-necessarily we reserved one block
+[08:40] - in which we're only placing the pointers, no data is placed there. Obviously, somewhere, we're over-utilising the storage
+[08:48] - rather than storing the data we're storing the pointers
+[08:50] - and if your file is very large, if your file is very large, then obviously it's all the values
+[08:58] - means I've to make index for all that blocks, and that index will further point the data
+[09:04] - so in this case what can happen is that your index file becomes so large that it is not able to fit in one block
+[09:14] - means index is not fitting in one block
+[09:17] - there are that much entries in the index. And why there will be so much entries in the index? Because your file was too large.
+[09:23] - You have put so much effort in dividing the file, so index will also be that much large.
+[09:28] - And if the index becomes larger and it's not fitting in one block then what we will do? You'll have to reserve multiple blocks.
+[09:36] - means you have to reserve more than one block that is also the overhead or multi-level index
+[09:42] - means you have to make one more index after this index. Like we discuss in indexing, I've also discussed in BB-Tree.
+[09:50] - so basically you've to make multi-level index.
+[09:53] - that is also a type of overhead because searching will create even more problem in it
+[09:59] - so this is the whole story of indexed allocation and if we talk about it's real life example
+[10:05] - the unix file system uses inode
+[10:11] - it uses the structure inode, means how it stores the data, it supports indexed allocation.
+[10:18] - so here the 'i' in the inode is actually representing the index
+[10:23] - so basically unix support inode
+[10:26] - so later on we will discuss in the next video that whatever the problem occurring in this index
+[10:31] - the structure of inode and if multi-level index occurs, so how we will handle that thing, how we will resolve that problem
+[10:38] - So this is all about the indexed allocation. Thank you.

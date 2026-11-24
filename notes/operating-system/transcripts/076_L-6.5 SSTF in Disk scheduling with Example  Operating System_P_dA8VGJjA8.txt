@@ -1,0 +1,149 @@
+Title: L-6.5: SSTF in Disk scheduling with Example | Operating System
+Video URL: https://www.youtube.com/watch?v=P_dA8VGJjA8
+Video ID: P_dA8VGJjA8
+======================================================================
+
+[00:00] Hello friends,  welcome to the Gate Smashers
+[00:02] the topic is shortest seek time first, in disk scheduling algorithm
+[00:06] now let's understand with the question
+[00:07] here already it is given 200 tracks in one  disk
+[00:11] and this is the request queue
+[00:13] Now this request queue I have to service
+[00:16] Means I have to respond to these all one by one
+[00:19] Current position of the read write head is 50
+[00:21] So already I have denoted this in this manner
+[00:26] although we know that the tracks are in circular shape
+[00:29] but,  to solve this numerical it is best that you solve it this way
+[00:34] 0 to 199, we have represented all the tracks over here
+[00:39] 50 is the current position
+[00:41] means at this moment the read write head is at 50
+[00:44] now here i have to use shortest seek time  first algorithm
+[00:49] and this one is the request queue
+[00:51] means at a point in request queue, these  request have already come
+[00:58] now how the shortest seek time works
+[01:01] i am standing here at 50
+[01:03] what is the meaning of shortest seek time
+[01:05] means seek time is least
+[01:07] what is the seek time, time taken to come  to desired track
+[01:11] what is the meaning of desired track
+[01:14] means i have to move to any track from 50
+[01:17] but that track should be shortest
+[01:19] shortest does not mean the shortest value, it should be nearest to 50
+[01:24] so if i talk here, which one is nearest to 50,  43
+[01:29] shortest does not mean that you pick up the value 16
+[01:33] do not have to pick shortest value, shortest seek time
+[01:37] means, from 50 where can i reach first
+[01:41] if i start from 50, where can i reach first ..43
+[01:46] because 43  is nearest to 50
+[01:49] then after 43
+[01:51] now i have reached to 43
+[01:53] from 43 where can i reach nearest,   so that seek time is least
+[01:59] So from 43 to 24
+[02:02] So I've moved from 43 to 24
+[02:05] means from the value where you have to  reach
+[02:09] ..and from where you are starting
+[02:10] means destination minus source
+[02:13] Or you can also find by doing source minus  destination
+[02:17] If I talk here I'm at 50
+[02:19] So what is the difference between 50 and 43 ..7
+[02:23] And if I take value more than 50 then  obviously the value will come more than 7
+[02:29] so we have to follow according to this
+[02:31] Now I'm standing at 43 and and which one   is nearest to 43..24
+[02:36] And after 24 which one is nearest
+[02:39] That is 16
+[02:43] means this request of mine has completed
+[02:47] Now anything is coming in this direction? no it's not coming
+[02:51] Then obviously after that,  which one is nearest to 16
+[02:55] Nearest to 16 is 82,  although 82 it is not nearest
+[03:00] And if I see, 82 is left, 170 left,  140 is left, 190 is left
+[03:05] and among them if we see 82 is the nearest  to 16
+[03:11] Then there is no option I have to go to 82
+[03:14] I serviced truck number 82
+[03:18] After that which one is nearest to 82.. 140
+[03:22] Then I went to 140 and I serviced the 140  track
+[03:26] After 140,  170
+[03:30] I picked the data from track number 170
+[03:33] After that the last point is 190
+[03:37] sorry 190
+[03:40] This is the last value
+[03:46] So this is how you have to follow the  shortest seek time first
+[03:50] Just have to follow the value whichever is  nearest to that value
+[03:54] And if I talk about the time over here
+[03:56] So the method is same
+[03:58] Either 50 minus 43
+[04:00] 43 plus 43 minus 24
+[04:05] Plus 24 minus 16 plus
+[04:09] 82 minus 16
+[04:12] Plus 140 minus 82
+[04:17] Plus 170 minus 40
+[04:20] plus 190 minus 170
+[04:23] And before in FCFS video also i have  told you
+[04:27] that it is not necessary that you have to  calculate all these values like this
+[04:30] You can do direction wise  what is the meaning of direction
+[04:33] So when I started from 15, then we moved  till 16 without any change in direction
+[04:38] so instead of doing these many  calculations
+[04:41] You do it easily 50 minus 16,
+[04:46] That you will calculate in first attempt  only
+[04:48] so if you will calculate in first attempt
+[04:51] Then one two three, all these three  calculations will be inside this
+[04:55] So there is no need to do these long  calculations, you save your time here
+[05:00] Now after 16 the direction is changed
+[05:03] Because before I was moving there now  I'm moving here
+[05:05] Now from here you have to go till the very  last point
+[05:08] in between that direction has never  changed
+[05:11] Then which one is the last point...190
+[05:13] then you directly find out 190 minus 16
+[05:17] So all these values will be covered within  it only
+[05:22] So if you will calculate it the answer  will come out to be 208
+[05:27] So if I talk about the shortest seek time  first
+[05:31] what is the advantage of this
+[05:33] First of all it tries to give the optimal  result
+[05:36] Means it tries to give you result of  shortest seek time
+[05:41] But on an average cases
+[05:44] It may be that  it may create worst result
+[05:47] But what is the method of shortest seek  time first
+[05:49] From wherever point where we are starting  we have to go to the nearest track number
+[05:57] And we have to move one by one
+[05:59] And the second advantage over here is  that the response time
+[06:02] Response time means
+[06:04] A request which entered in the queue after how much time
+[06:09] What are you doing to it, in a way we  are initiating it
+[06:14] So almost every worst we are trying to  initiate it quickly
+[06:19] So the response time and the average  response time is coming good
+[06:24] But the problem is starvation
+[06:26] What is the problem we are facing due to  starvation
+[06:29] It may be that one request is waiting for a  long time, for its turn
+[06:35] So if I see a simple example here
+[06:37] So if the requests are coming
+[06:40] Let's say I'm standing on 50
+[06:42] from 50 next request came 40
+[06:45] So I moved to 40
+[06:47] So after 40 the next request is or  if I write the request sequence
+[06:51] 40, after 40 I'm getting the request 61
+[06:56] Let's say after 61 the request came is 30  20 10
+[07:00] so if my requests are in this sequence just  for the example we are taking
+[07:04] I moved from 50 to 40,  after 40 whose turn was next, 61
+[07:09] Because 61 is far away as compared to 30
+[07:14] Then who is nearest 40,..30
+[07:17] After 30 where will I go, ..20 after 20 I moved to 10
+[07:22] means the value 61 will have to wait  for a long time
+[07:28] that first it will complete till 10 then  its turn will come
+[07:31] So this is the problem that occurs in the  shortest seek time first
+[07:34] That is called the starvation
+[07:36] Except starvation there is also one problem
+[07:39] Although it tries to give the optimal  result
+[07:43] Advantage is there and performance  is also in a way good
+[07:46] seek time is also coming less
+[07:48] But what is the problem here
+[07:50] But over here the overhead is generating
+[07:53] What is overhead, firstly you will have to find
+[07:57] Which one is nearest to 50
+[08:00] Means in the whole list which one is the  nearest value to the 50
+[08:04] there you have to go first
+[08:06] then let's say i reached
+[08:08] Then which one is nearest to 40
+[08:09] then from n minus 1 which one is  nearest to 40
+[08:12] and then from n minus 2 which one is  nearest to 30
+[08:15] Means in every step you will have to find  who is the nearest to that particular value
+[08:20] So due to this the complexity gets  increased
+[08:24] So overhead is increasing, this is all  about the shortest seek time first

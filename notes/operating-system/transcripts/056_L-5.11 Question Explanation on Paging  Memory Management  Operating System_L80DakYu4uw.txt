@@ -1,0 +1,246 @@
+Title: L-5.11: Question Explanation on Paging | Memory Management | Operating System
+Video URL: https://www.youtube.com/watch?v=L80DakYu4uw
+Video ID: L80DakYu4uw
+======================================================================
+
+[00:00] Let us see a question the question will help you to understand
+[00:03] more about the concept of paging. So in the question
+[00:06] they have given consider a system in which LA that
+[00:09] is a logical address,
+[00:10] which is of 7 bits  physical address 6 bits
+[00:14] Page size 8 words,
+[00:16] then they are asked to calculate the number of
+[00:19] pages and the number of frames.
+[00:21] Now,
+[00:22] let's see one by one so  first of all logical address
+[00:26] So logical address.
+[00:28] We already know logical address is created by the CPU
+[00:33] means CPU give some address which we will take as a
+[00:37] logical address and from there
+[00:38] we try to calculate something what is that something?
+[00:43] logical address is comprised of two things
+[00:48] one is the page number and the
+[00:52] another part is page offset
+[00:57] or we can say the size of the Page means
+[01:03] the most significant bits.
+[01:04] You cannot change it the most significant bits MSB are
+[01:08] page number and LSBs are representing the page offset
+[01:13] and page size.
+[01:13] Now,
+[01:14] the point is the logical address is given as 7 bits
+[01:18] means the logical address space is 7 bits? No!
+[01:22] the logical address is of 7 bits mean,
+[01:26] the total size is represented with the 7 bits
+[01:31] This is a very important point.
+[01:32] I have already written some numbers.
+[01:34] Let say 2 raise to power 7 is 128 means
+[01:39] here.
+[01:40] 128 is the space is the total size but
+[01:45] 128 can be represented with 7 bits. How?
+[01:50] as we know 128 means  0 to 127
+[01:57] In 128 how many numbers will be there?
+[02:00] What is the range? 0 to 127 and
+[02:02] What is the maximum number? 127
+[02:05] So how do we represent 127? With the help of seven 1's
+[02:09] 1111111 So if you convert these 1's
+[02:16] into decimal then it will be 127 means 127
+[02:21] how many bits do I need to represent the maximum bits up to 127?
+[02:26] 7
+[02:27] So from 7 bits, I represented 128 space
+[02:31] That means here
+[02:32] the logical address is not 7  the space is not 7
+[02:36] Space is actually 128.
+[02:38] But how many number of bits are used to represent?
+[02:42] That is 7.
+[02:44] Means
+[02:45] So here I can write
+[02:47] the total number of bits are representing the logical address is 7
+[02:53] But from those 7 bits
+[02:55] some bits are of the page number
+[02:57] and bits are of page offset
+[02:59] So to calculate this I should know either of the two things
+[03:04] And yes, the Page size is given here
+[03:08] Page size and Page offset are the same.
+[03:11] Page size is given 8 words
+[03:13] Now here's another small point
+[03:15] And that is word. Now, what is word?
+[03:19] It is a representation Minimum unit to represent the
+[03:25] memory is actually a word. We always talk in our system too
+[03:28] like my operating system is 32 bit or 64 bit
+[03:33] So there what we are representing is that
+[03:36] Actually, our system i.e CPU
+[03:40] always calls 1, 2, or 3 words
+[03:45] I mean to say that word and byte is actually the same things
+[03:51] If nothing is mentioned to you then
+[03:54] You can simply say 1 word = 1 byte
+[03:58] But 1 word can have 2 byte
+[04:01] 1 word can have 4 bytes also.
+[04:04] How many bytes can be made with a 32-bit system
+[04:06] 4 bytes is made with a 32-bit system
+[04:09] That means the size of 1-word is 4 bytes.
+[04:13] So this depends on different systems.
+[04:15] But here we are only solving numerical.
+[04:18] Wherever the word is given in numerical, you can replace it with byte.
+[04:24] But always keep in mind that if nothing is mentioned there
+[04:28] That means 1 word = 1 byte
+[04:30] But if something is mentioned there then according to that, you have to solve it further.
+[04:34] So we can assume word and byte the same thing.
+[04:37] Now here is the Page size
+[04:38] Now here 8 is not the number of bits to represent
+[04:41] It is the size which is given Means full space is given
+[04:45] So here the total size is 8 bytes.
+[04:48] To represent 8 byte
+[04:52] To represent 8 bytes we need 3 bits.
+[04:58] Here 8 is not actually the bits
+[05:03] This is the size.
+[05:04] It means this is given to us.
+[05:07] So, to represent the eight numbers we need 3 bits.
+[05:13] So 2 raise to power 3 is 8
+[05:15] So here to represent page offset 3 bits are required.
+[05:21] So 7 bits was total 3 bit is taken by offset
+[05:25] So the remaining bit is 4.
+[05:29] So here I can say that
+[05:31] 4 number of bits is used to represent the page number
+[05:37] But don't be confused
+[05:39] The number of pages is not 4.
+[05:42] The number of pages will be calculated as 2 raised to power 4
+[05:46] i.e 16
+[05:48] So here we are just writing the number of bits required to represent the bits.
+[05:53] But when we actually need space when we have to do the actual calculation of value
+[05:57] It will be calculated in 2 raised to the power
+[06:00] So we got the answer to one question
+[06:02] What is the total number of pages? 2 raised to power 4 i.e. 16
+[06:06] And if you have been asked the number of bits required
+[06:10] to represent the total number of pages. 4
+[06:14] Now let's talk about the physical address
+[06:17] The physical address is directly related to the main memory.
+[06:22] Meaning depending on the size of the main memory
+[06:26] how much physical the address will I have.
+[06:28] The total number of bits that will represent the size of
+[06:32] the main memory is called the physical address
+[06:36] Here the given physical address is 6 bit.
+[06:40] This means a total of 6 bits is required to represent.
+[06:47] How much is the total space?
+[06:50] i.e 2 raised to power 6
+[06:52] Always remember these are bits
+[06:56] And if you want to know the space then 2 raised to power 6.
+[06:59] What is 2 raised to power 6?  i.e 64
+[07:01] So here I can say that What is the main memory size according to this question?
+[07:06] Although it is not asked but is simple the size of the main memory is 64 bytes
+[07:11] Or you can say 64 words also.
+[07:13] The total size of memory is 64 words.
+[07:18] And to represent that 6 bits are used.
+[07:23] So we know it is 6 bits
+[07:25] Now here we already know that
+[07:27] The physical address is again comprised of two things
+[07:31] Like here it is page number and page offset
+[07:33] Here are the frame number and frame size.
+[07:40] Or you can say frame offset also.
+[07:43] So frame offset or frame size
+[07:46] is always equal to the page size. We already know that
+[07:49] We can properly fit each page within one frame
+[07:55] For that, we have to take the same page size and frame size.
+[08:01] This is a simple concept.
+[08:02] If you go to courier any goods.
+[08:05] So whatever goods you are going to courier
+[08:08] you put it in the envelope
+[08:10] Do you take the envelope of the double or triple size of the goods?
+[08:13] No! We try to fit that good in the envelope
+[08:16] So that the goods inside it shall not move.
+[08:19] So the same concept
+[08:21] The size of the page we are taking is same as frame size
+[08:25] So the page size is given here
+[08:28] So don't get confused The size of frame size is the same.
+[08:31] What is the size? 8
+[08:33] But 8 is size.
+[08:35] The number of bits is used? 3
+[08:37] Because we represent 8 with 3 bits.
+[08:41] And don't get confused always remember
+[08:44] This and this value will always be the same.
+[08:51] If we have a total size of 6 It took 3 bit
+[08:55] So how many bit is remaining? 3
+[08:58] How many numbers of frames?
+[09:01] Frame numbers are not 3
+[09:03] The number of frames is 2 raise to power 3 which is 8
+[09:08] So again, I got the second answer also
+[09:10] How many numbers of frames? 8
+[09:12] If I do simple representation here
+[09:14] I can show you hereby representing
+[09:18] Total number of 0, 1, 2 like that up to 7
+[09:24] So total number of frames will be 8
+[09:26] So you can give them the numbering between 0 to 7
+[09:29] So how many frames? 8
+[09:32] And here if I talk about pages
+[09:34] What is the total number of pages I have?
+[09:36] The total number of pages is 2 raised to power 4 that is 16
+[09:42] That is a total of 16 but the maximum number is 15.
+[09:45] When you put numbering
+[09:47] 0, 1, 2 up to 15
+[09:51] that is the maximum number
+[09:54] So this is how we represent the number of pages and number of frames.
+[10:00] Although they have not asked here in case if you have been asked
+[10:04] Let's say in this structure there is a page table
+[10:08] There is a page table.
+[10:12] then
+[10:13] How many numbers of entries are in the page table?
+[10:16] How many numbers of entries are in the page table?
+[10:18] We already know the number of entries on the page table
+[10:22] is always equal to
+[10:24] The number of pages.
+[10:26] always remember the number of entries
+[10:31] in a page table of a particular process
+[10:38] is always equal to the number of pages.
+[10:43] in the process.
+[10:46] The number of pages on which you have divided that process
+[10:50] the same number will be the number of entries here.
+[10:54] So, how many pages do I have? 16
+[10:59] total entries are 16
+[11:01] 16 entries will be created in the page table
+[11:04] In this way 0, 1, 2 up to 15 I can represent it here.
+[11:10] So this is all page numbers.
+[11:14] What will be inside the page table
+[11:18] Frame number.
+[11:19] If I write frame 2 here
+[11:25] On this page table, if corresponding to page number 1 if I write frame number 2
+[11:30] You can say that this page
+[11:32] this page
+[11:36] This page is in frame 2
+[11:43] I shall write frame number 2
+[11:50] Page of this process
+[11:52] Not the process but we can write  the page of this process
+[11:56] This is how we actually represent the structure.
+[12:00] Whenever CPU will demand
+[12:02] Whatever number CPU will create
+[12:04] We will convert that number according to this
+[12:08] How many pages numbers are there and which byte number is it
+[12:12] Byte number of that page
+[12:13] Because let's say this is page number 1
+[12:17] This is page 1 of this process
+[12:20] It will tell how many bytes are on this page
+[12:23] In this page 2 raised to power 3 i.e 8 number of bytes is there
+[12:29] On every page 8 number of bytes
+[12:34] That's why we have the total number of pages 16
+[12:37] And inside each, there are 8 bytes
+[12:39] 16 multiply by 8
+[12:44] What it is? 128
+[12:47] This is what we have done
+[12:49] We have got LA that is 7 bits
+[12:51] 7 bits meaning 128
+[12:54] So we will represent it like this
+[12:57] So whatever address CPU will generate
+[12:59] We convert that address to its corresponding
+[13:02] then we will check in the page table
+[13:05] In which frame is that page number lying?
+[13:09] Then going inside that particular frame then byte number
+[13:13] How will we know the byte numbers?
+[13:15] This bit will always represent
+[13:17] Actually which byte
+[13:20] the total number of bytes is 8
+[13:22] But Which particular byte CPU has demanded?
+[13:26] Whatever byte will be there between 0 to 7
+[13:30] Whichever byte I need
+[13:33] I will give that to the CPU
+[13:35] So this is how the actual concept of paging works.
+[13:40] Many questions like this you will find in previous year GATE questions.
+[13:44] And maybe next year also such questions may come.
+[13:47] So do this carefully. Thank you.

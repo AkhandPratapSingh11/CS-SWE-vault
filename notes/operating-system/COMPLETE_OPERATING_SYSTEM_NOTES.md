@@ -4,6 +4,7 @@
 > **Course Playlist URL:** [YouTube Playlist (92 Lectures)](https://www.youtube.com/playlist?list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p)  
 > **Playlist ID:** `PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p`  
 > **Target File:** `notes/operating-system/COMPLETE_OPERATING_SYSTEM_NOTES.md`  
+> **Raw Video Transcripts:** [92 Lecture Transcripts](transcripts/) &bull; [Combined Master Transcript](transcripts/000_ALL_TRANSCRIPTS_COMBINED.txt)  
 > **Scope:** Comprehensive master curriculum covering fundamental OS architectures, dual-mode kernel mechanics, CPU scheduling, concurrency and process synchronization, deadlocks, virtual memory and paging, secondary storage scheduling, file system implementation, UNIX inodes, and system security.
 
 ---

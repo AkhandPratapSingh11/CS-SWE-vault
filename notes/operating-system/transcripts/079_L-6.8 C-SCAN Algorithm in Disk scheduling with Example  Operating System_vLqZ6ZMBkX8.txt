@@ -1,0 +1,115 @@
+Title: L-6.8: C-SCAN Algorithm in Disk scheduling with Example | Operating System
+Video URL: https://www.youtube.com/watch?v=vLqZ6ZMBkX8
+Video ID: vLqZ6ZMBkX8
+======================================================================
+
+[00:00] Hello friends, Welcome to Gate Smashers.
+[00:02] The topic is C SCAN algorithm  in disk scheduling.
+[00:04] Let's understand this with the questions.
+[00:06] so I have 200 tracks 0 to 199
+[00:09] and I have a request queue
+[00:11] so in actual what is there in the request queue,
+[00:13] different track numbers are given.
+[00:15] so what is there in this tracks,
+[00:16] data are lying in these tracks  and I have to pick those data
+[00:19] so in order to pick those data  I have to make movement in the tracks.
+[00:23] So who does Movement in the tracks?  read write head,
+[00:26] So read write head in actual  holds the platter like this
+[00:31] and makes movement like this  back and forth it moves
+[00:35] so I have to read the tracks here
+[00:37] and what algorithm I have to use C-SCAN
+[00:40] C-SCAN means circular scan.
+[00:42] So let's start here with the question
+[00:45] current position is 50  and direction is important
+[00:48] without direction you will not know
+[00:50] in which direction you have to move  towards 199 or towards zero.
+[00:53] So direction is already given here
+[00:55] we have to move towards larger value,
+[00:58] so from 50 what is.  is the larger value then 50, 82
+[01:01] means first of all we will cover 82
+[01:04] after 82  we covered 140
+[01:07] after 140 we covered 170
+[01:12] and after 170 we covered 190,
+[01:16] means we are going in the increasing order
+[01:18] and here direction
+[01:20] we are going towards larger value
+[01:22] and we will cover all the values  till the last that is 190
+[01:26] but C scan,
+[01:28] normally in C scan what we are doing?
+[01:31] we were going up to 199
+[01:33] so here also we have to go up to the last value
+[01:37] means the direction in which you are going
+[01:39] you have to go up to the last value
+[01:42] means you go to 199,
+[01:44] after 199
+[01:48] come back
+[01:51] you come directly to value 0
+[01:53] means the direction in which you moved  till the last that is 199
+[01:58] and what all value that came in  between cover all the track numbers
+[02:03] that came in between and now  you have to come back to 0 from 199,
+[02:05] when we are coming to 0 from 199
+[02:08] at that time we don't have to  fulfil any request
+[02:12] have to cover only upto 0
+[02:14] after coming to 0
+[02:16] you know that you have request remaining
+[02:21] what are they? 16, 24, 43.
+[02:24] Now moving from zero now which will come first 16
+[02:27] so first we covered 16
+[02:30] After 16,  24
+[02:32] so cover 24
+[02:34] and after 24 The Last that is 43
+[02:39] so covered 43
+[02:41] so in this way we move in C scan
+[02:45] you calculate read write head,  so how will you do it.
+[02:48] We moved from 50 to 199
+[02:50] so what is the movement. 199 -50
+[02:54] then we moved from  199 to 0,
+[02:56] so what is the moment? 199 -0
+[02:59] and we have moved from 43 to 0
+[03:02] We moved from 0 to 43
+[03:04] means we will calculate 43 - 0
+[03:08] otherwise value will come in minus
+[03:10] that's why we kept the larger value first
+[03:12] so now when we calculate all this
+[03:14] the answer you will get is 391,
+[03:19] so here  in C scan and what we
+[03:24] we have in C look there is a  lot of confusion,
+[03:26] that the value ,when we come from 199
+[03:30] to here this Value  we have to calculate or not?
+[03:32] so in C look you have to do it, it's sure
+[03:35] because there was a question  in GATE regarding this
+[03:38] and there they have calculated this value
+[03:41] you can check that video.
+[03:43] we will calculate this here  in C scan as well
+[03:45] the reason is there
+[03:47] track numbers you have seen platter  what is the view of platter
+[03:53] this is the view of platter
+[03:55] means like the CD you have
+[03:58] its view is like the CD
+[04:00] means when you see CD you will see many circular lines
+[04:04] these are the tracks
+[04:06] in the innermost there is track number zero
+[04:09] and let's say in outer there is track number 199
+[04:13] when we have moved from 50 to 199
+[04:18] i have reached 199
+[04:20] now read write head moves  only back and forth.
+[04:23] if this track number is zero
+[04:25] and this track number is 199
+[04:28] so I have reached on 199,
+[04:29] I am moving from 199 to 0
+[04:33] means from 199 I am going to 0
+[04:36] so it will move back and forth
+[04:37] means it will go on zero
+[04:39] so when it will go to zero means
+[04:41] when we moved from 199 to 0
+[04:44] so why don't we calculate this value
+[04:47] obviously this is also a movement
+[04:50] this value is also a movement
+[04:52] read write head is moving from 199 to 0
+[04:57] so that's why we have to calculate  this value in the total calculation
+[05:02] so when you are calculating  don't skip this,
+[05:06] calculate this also,
+[05:09] in C look and C scan
+[05:11] but you will get many videos many materials
+[05:15] where their value is not calculated
+[05:17] but you have to calculate this value Thank you.

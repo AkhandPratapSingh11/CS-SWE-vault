@@ -1,0 +1,3707 @@
+Title: 12. Mastering Databases with Postgres
+Video URL: https://www.youtube.com/watch?v=F7Vwp2Xo5Do
+Video ID: F7Vwp2Xo5Do
+======================================================================
+
+[00:00] in this video we are going to talk about
+[00:03] databases when you're dealing with
+[00:05] backend systems interacting and handling
+[00:07] databases is one of the most important
+[00:10] and one of the most frequent operation
+[00:12] that you're going to perform so
+[00:15] understanding all the concepts
+[00:17] surrounding it is crucial to be
+[00:19] efficient in your job so let's start
+[00:21] with the question why why do we need
+[00:24] databases in the first place now at its
+[00:27] core a database is simp simply a way to
+[00:31] persist information across different
+[00:33] different sessions to talk in a very
+[00:36] high level and what that means is and
+[00:39] persistence basically means storing data
+[00:41] in a way so that it survives even after
+[00:44] the program that created it has been
+[00:47] stopped so for example think of your
+[00:50] to-do list app right you add an entry
+[00:54] and you can check off all the task that
+[00:57] you have already finished etc etc like
+[00:59] that's the basic functionality and
+[01:01] expectation from a to-do app now when
+[01:04] you do some operation when you create an
+[01:06] item or you when check off an item and
+[01:08] you close the app and when you open it
+[01:10] again you find all the information the
+[01:12] state of the data that you left it it's
+[01:15] the same when you visit again when you
+[01:18] come back to the app so that's what we
+[01:21] mean when you say persistence the
+[01:24] information has to be there in the same
+[01:27] expected
+[01:28] State even after a considerable amount
+[01:31] of time has passed or across different
+[01:34] different physical locations right
+[01:36] that's what we mean by persistence if
+[01:38] you did not have persistence every time
+[01:40] you open that app You' have to create
+[01:43] new to-do list items and You' lose all
+[01:45] your progress whatever task you had
+[01:48] created previously etc etc right
+[01:50] persistence is a very important thing
+[01:52] and we use it in our day-to-day lives a
+[01:55] lot now what is a database when what do
+[01:59] we mean
+[02:00] when we say the word database the term
+[02:05] database is surprisingly very very Broad
+[02:09] in the simplest sense any kind of
+[02:12] structured any kind of structured
+[02:14] storage can be considered as a database
+[02:17] for example you have a smartphone and in
+[02:21] your phone you have a contact list right
+[02:24] of different different people and that
+[02:27] list can be considered as a database
+[02:30] in the same way if you are a developer
+[02:33] you must be familiar with the concept of
+[02:35] local storage uh which is offered by
+[02:38] every browser so we can check that out
+[02:41] right now if we open this the developer
+[02:44] tools and when we go application and we
+[02:47] can check the local storage and it has
+[02:49] some entries right since we are using
+[02:51] this website called xcal draw the
+[02:53] website has stored some entries in the
+[02:57] format of key Value Store it also has a
+[03:00] session storage also has a cookie
+[03:02] storage etc etc right all these
+[03:04] different different types of storage
+[03:06] mechanisms they are also considered as a
+[03:09] database and even if you take a simple
+[03:11] text file where you just jot down notes
+[03:15] and you can refer to those notes later
+[03:18] on even that can be considered as a very
+[03:21] very basic database so if you try to
+[03:25] derive the patterns from all these
+[03:27] examples database basically means
+[03:30] is some kind of system some kind of
+[03:32] persistent system which offers ways to
+[03:35] create read update and delete data from
+[03:38] it right that's a very basic and high
+[03:41] level example of database which is not
+[03:44] limited to what we mean when we say
+[03:46] database in the context of backend
+[03:48] systems database is a very generic term
+[03:51] which means a persistence layer which
+[03:54] provides operations of crud create read
+[03:56] delete and update but when we say
+[04:00] database in the context of backend
+[04:02] systems in the context of servers right
+[04:05] in typical developer context when we
+[04:09] mention database there what we mean is
+[04:13] disk based databases disk based right
+[04:16] and by dis I mean hard disk it can be
+[04:19] HDD ssds or whatever modern technology
+[04:22] of storage we have available but why dis
+[04:26] storage why dis based databases because
+[04:30] disk storage whether it's a traditional
+[04:32] hard drive or a modern solid state drive
+[04:35] or also known as SSD is relatively cheap
+[04:39] when compared to other means of storage
+[04:42] for example when we consider Ram which
+[04:44] is also considered as a main memory or
+[04:47] the primary memory when we take into
+[04:49] account our CPU unit right if you're
+[04:52] from a computer science background you
+[04:53] must have known that we have a CPU unit
+[04:56] which can access the primary memory and
+[05:00] it can also access the secondary memory
+[05:02] which we also call as dis based memory
+[05:05] right which uses either a hard drive or
+[05:08] a SSD now Ram is very fast it's called
+[05:12] main memory and it is very very fast as
+[05:15] compared to the dis based alternative
+[05:18] but the problem is Ram based storage
+[05:23] it's relatively costly and we don't have
+[05:27] as much Supply as you do when it comes
+[05:30] to dis based so if you check the
+[05:33] configuration of your system whether it
+[05:35] is a Windows Bas Linux Mac does not
+[05:37] matter if you check the configuration of
+[05:39] your system most people have something
+[05:42] like 8 GB Ram or 16 GB Ram or 32 GB Ram
+[05:46] or if you are on the higher end of the
+[05:49] consumer you must be having 64 or Max to
+[05:53] Max 128 GB of RAM right but when it
+[05:56] comes to hard disk when it comes to a
+[05:58] second disc storage most people since
+[06:01] hard discs are relatively cheap these
+[06:03] days most people they have storage
+[06:06] starting from 5 12 GB up to 2 TB right
+[06:10] that's the average storage people have
+[06:12] in their laptops in their systems right
+[06:15] and you can see the pattern we when it
+[06:17] comes to the storage space we have
+[06:20] limited amount of ram we have limited
+[06:22] amount of primary memory but we have a
+[06:24] lot of space when it comes to displaced
+[06:27] memory or secondary memory and trade off
+[06:29] is RAM is very fast when it comes to
+[06:33] data retrieval or data saving and disk
+[06:36] based storage is relatively slow because
+[06:39] of the way the data is stored and
+[06:41] because of the way the data is fetched
+[06:44] and that's the reason when we use
+[06:47] caching mechanisms either in redis or in
+[06:51] memory caches etc etc whenever we talk
+[06:53] about caching we talk about storage in
+[06:57] Ram or storage in primary memory
+[07:00] because fetching data or saving data
+[07:03] from primary memory from our cache is
+[07:06] very very fast when it comes to fetching
+[07:08] data from our databases which are disk
+[07:10] based storages also known as secondary
+[07:12] storage but when it comes to databases
+[07:15] the thing that matters most is we need
+[07:18] more space and we can do a fair amount
+[07:22] of tradeoff when it comes to speed and
+[07:25] that's the reason most databases at
+[07:27] least when it comes to traditional
+[07:29] databases like relational or non-
+[07:31] relational databases they are based on
+[07:35] disk based storage or secondary storage
+[07:38] that's where they actually store the
+[07:39] data and the format they store the data
+[07:42] the way they store their data all the
+[07:43] algorithm surrounding it etc etc that's
+[07:46] a very technically deep area and we are
+[07:49] not going to cover that in this video we
+[07:52] just want to keep this relevant for a
+[07:55] backend engineer right on the
+[07:57] application Level the only thing you
+[07:58] need to know is
+[08:00] caching Technologies like redis Etc they
+[08:03] store their data in primary memory or
+[08:05] RAM and databases traditional databases
+[08:09] like POG or mongod Debi which we'll
+[08:12] cover next all these relational or non-
+[08:15] relational databases they store their
+[08:16] data in disk or secondary memory because
+[08:20] disk based storages offer more capacity
+[08:23] at less price but at the cost of less
+[08:26] speed that it is clear we are talking
+[08:29] about databases in the context of disk
+[08:33] based storage and that too in the
+[08:36] context of backend systems right now we
+[08:40] come to a term which is known as dbms
+[08:44] also known as database management system
+[08:46] now what is a database management system
+[08:50] just storing our data whatever data we
+[08:53] have just storing it in some kind of dis
+[08:56] based storage that is not enough of
+[08:59] course we also need different different
+[09:01] ways of retrieving that data or making
+[09:04] changes to that data or deleting that
+[09:06] data right all these different different
+[09:08] operations that has to be done and that
+[09:11] has to be done in a very efficient way
+[09:14] since we are talking about hundreds and
+[09:16] thousands of GBS of data right so we
+[09:19] need these operations create read update
+[09:22] and delete operations and that to in a
+[09:24] very efficient manner and that's the
+[09:26] reason we have softwares we have
+[09:28] software systems
+[09:29] called as dbms softwares and whose sole
+[09:34] responsibility is to efficiently provide
+[09:36] all these cud operations to this to the
+[09:40] clients or to the users whoever is using
+[09:42] it and storing that data of course they
+[09:45] also have a lot of other
+[09:46] responsibilities like security and
+[09:48] scaling the database systems and load
+[09:51] balancing etc etc right but on a very
+[09:54] high level they have two
+[09:55] responsibilities storing the data and
+[09:58] providing different different operations
+[09:59] to the client or the user primarily CED
+[10:02] operations create read update and delete
+[10:05] so in a way some of the responsibilities
+[10:08] of dbms that we can point out is First
+[10:13] Data organization they need to
+[10:16] efficiently organize the data so that
+[10:18] fetching updating and creating more data
+[10:21] etc etc all these operations are
+[10:23] efficient second access as I've already
+[10:26] mentioned they have to provide methods
+[10:29] to do c operations create read update
+[10:31] and delete third Integrity now it's a
+[10:34] technical term but what it basically
+[10:37] means is the accuracy of the data the
+[10:41] validity of the data we'll see what all
+[10:43] these different different buzzwords mean
+[10:46] when we actually go into examples so
+[10:49] this just means the data is correct
+[10:52] right whatever data that we are storing
+[10:54] that data is valid that data is not
+[10:56] corrupt so to give you a very high level
+[10:59] example it's an e-commerce platform and
+[11:02] we want to store all the order details
+[11:05] of customers and each order will have
+[11:07] some kind of payment information how
+[11:10] much was the order etc etc right and in
+[11:13] the database we are storing the payment
+[11:15] amount as a number so it's the
+[11:18] responsibility of our database
+[11:20] management system or our dbms software
+[11:23] to maintain the Integrity of the data so
+[11:26] that no one can insert anything in that
+[11:29] field if we have a payment field then
+[11:33] for this field we want only number data
+[11:36] Ty right we want some kind of numerical
+[11:40] amount so someone if someone tries to
+[11:43] store a string something like let's say
+[11:46] something and if they try to insert it
+[11:49] here that should fail the dbms software
+[11:51] should not allow it because it's their
+[11:55] responsibility to maintain the Integrity
+[11:57] of the data the correctness of the data
+[11:59] the validity of the data right it has a
+[12:01] lot of meanings in a lot of contexts but
+[12:05] this is what it means the data has to be
+[12:07] accurate the data has to be consistent
+[12:09] now fourth is security which basically
+[12:12] means protecting the data from
+[12:14] unauthorized access databases dbm
+[12:16] softwares have different different users
+[12:18] different different roles etc etc for
+[12:21] the sake of protecting the access to
+[12:23] data right so that's a very high level
+[12:26] overview of what are the different
+[12:27] responsibilities of database management
+[12:30] system now here we have a question why
+[12:32] do we need these dbms softwares why not
+[12:37] use just simple text files or any kind
+[12:39] of file and store all our data in text
+[12:42] format inside it and when people were
+[12:45] coming up with these concepts of
+[12:48] databases or before people came up with
+[12:50] these concepts of database management
+[12:52] system this is how people started with
+[12:55] they try to store all the data in text
+[12:58] files right now the problem with storing
+[13:01] your data in text files is there are a
+[13:03] couple of problems first thing parsing
+[13:05] so if we are going to store our data in
+[13:08] a text file every time you wanted to
+[13:11] find a specific data point let's say
+[13:14] it's a customer database and you are
+[13:16] storing all the details of your customer
+[13:18] in your database inside that text file
+[13:21] as plain text and every time you want to
+[13:24] find a specific customer you'd have to
+[13:26] write code application code it it can be
+[13:29] any programming language python Java
+[13:31] JavaScript go rust it can be any
+[13:34] programming language you have to write
+[13:36] code in that programming language in
+[13:38] your application Level in your backend
+[13:40] code to pass the text file split the
+[13:43] lines so if we have a text file and we
+[13:46] have different different lines you have
+[13:48] to pass all the entries of this text
+[13:50] file and we have to split these lines
+[13:53] and we have to compare each field and
+[13:55] this whole process is very slow if
+[13:57] you're familiar with passing data from
+[13:59] our file system in different different
+[14:01] programming languages languages like
+[14:03] rust are relatively faster when it comes
+[14:05] to passing kind of uh operations but
+[14:09] languages like JavaScript python are
+[14:11] relatively slower as compared to rust
+[14:14] right they are fast but compared to a
+[14:18] highly performing language like rust
+[14:20] they are relatively slow so if you're
+[14:22] programming language is something like
+[14:24] JavaScript or Ruby then you'll also face
+[14:28] a huge performance
+[14:29] hit right and also doing all this
+[14:32] passsing thing is very error prone if
+[14:36] something goes wrong you can corrupt
+[14:38] your data you can provide wrong
+[14:39] information to your customers etc etc
+[14:41] like parsing itself is not an efficient
+[14:44] solution because how slow the operation
+[14:47] is and how error prone it is the second
+[14:49] thing is there is no structure text
+[14:52] files do not have a formal structure you
+[14:55] cannot enforce that data has to be in
+[14:59] this particular structure in this file
+[15:01] right text files are very fluid you can
+[15:05] store any amount of text in any format
+[15:08] you just have to dump it there right
+[15:10] there is no structure and that makes it
+[15:14] very difficult to enforce consistency in
+[15:16] data you cannot enforce something like
+[15:19] this particular field will only have
+[15:22] number you cannot enforce that rule
+[15:25] right since it is all text file since it
+[15:27] is all string it will take any kind of
+[15:30] data and it will put it there right it
+[15:32] cannot promise any kind of data
+[15:34] consistency third thing concurrency by
+[15:37] concurrency what we mean what happens if
+[15:40] two people at the same time try to
+[15:43] update the same taex value right whose
+[15:45] update is going to be considered as
+[15:48] legit and whose update is going to be
+[15:51] going to get discarded obviously the
+[15:53] last one who updated this text file only
+[15:56] their update is going to persist because
+[15:59] let's say we have a text file and we
+[16:02] have an entry let's say amount right
+[16:06] amount and we have something like 40 two
+[16:09] people are trying to access it for the
+[16:11] sake of modification they want to modify
+[16:13] this field called amount so the first
+[16:15] thing they will do obviously is read the
+[16:17] file right they need to read the file
+[16:19] before they make any changes they cannot
+[16:22] just put some arbitary amount they want
+[16:24] to increase the amount so one person
+[16:26] wants to increase the amount by 20
+[16:28] another person wants to to decrease the
+[16:29] amount by 20 now what happens both of
+[16:32] them read the data right both of them
+[16:35] read the data at the same time they
+[16:36] start their operation at the same time
+[16:39] okay they both have the initial entry of
+[16:41] 40 so the first person they increase the
+[16:43] amount so they do 60 and the second
+[16:47] person they want to decrease the amount
+[16:49] so they do it 20 and they save it now
+[16:52] even though both of them started at the
+[16:54] same time because it was a read
+[16:56] operation when they save it of course
+[16:58] there is going to be some kind of first
+[17:01] comes first Ser kind of situation you
+[17:03] cannot tell beforehand that this update
+[17:06] is going to persist or this update is
+[17:08] going to persist it all depends on what
+[17:10] CPU cycle it is running and and thousand
+[17:13] different parameters right so depending
+[17:16] on the environment of the system at the
+[17:20] end of this operation at the end of both
+[17:22] of these operations the value it might
+[17:25] be 60 or it might be 20 right there is
+[17:28] no consistency here that's what you mean
+[17:31] by concurrency when two different users
+[17:35] try to do some kind of modification at
+[17:38] the same time to the same data you need
+[17:41] some kind of concurrency mechanisms
+[17:43] inside that software inside that
+[17:45] database software to efficiently to
+[17:48] accurately manage the whole interactions
+[17:51] to provide a consistent result right and
+[17:53] a simple text file simply cannot do that
+[17:57] so these are overall all the the
+[17:59] challenges that people faced and if you
+[18:02] try to do that today you'll also face
+[18:05] the same challenges after some time
+[18:06] after your data Grows Right and because
+[18:09] of all these challenges because of all
+[18:11] these limitations of Simply storing your
+[18:14] database in a text file people came up
+[18:18] with softwares like dbms and now that we
+[18:21] are talking about dbms we have finally
+[18:23] reached the stage where we can talk
+[18:26] about different types of dbms software
+[18:29] on a very high level we have two types
+[18:32] the major two types one is relational
+[18:36] and the other is the opposite non-
+[18:38] relational relational database basically
+[18:40] means a database system which organizes
+[18:43] data in
+[18:45] tables rows and columns okay and
+[18:51] relationships between different
+[18:53] different tables are defined using
+[18:56] Concepts like foreign key Etc right so
+[18:58] of the key features of relational
+[19:01] databases data is
+[19:03] structured and data is inserted into a
+[19:06] database which have predefined
+[19:10] predefined schema you cannot just
+[19:13] arbitrarily insert or push any kind of
+[19:16] data into your database that particular
+[19:19] data should have a particular schema
+[19:21] which basically means it should have a
+[19:24] corresponding table and that table will
+[19:27] have a very strict schema you have to
+[19:31] beforehand Define All The Columns of a
+[19:35] table and all the data types of those
+[19:37] columns right everything has to be pred
+[19:40] decided you cannot do anything on the
+[19:44] flat it is a very strict system and
+[19:47] because of that strict schema enforcing
+[19:50] the advantage it offers is data
+[19:54] Integrity which basically means at any
+[19:57] point of time you can bet on the state
+[19:59] of your data you know what is the data
+[20:04] type of a particular column is what are
+[20:06] the different relationships between
+[20:08] different different tables and a lot of
+[20:10] different things the data in your tables
+[20:12] always have a consistent State they'll
+[20:15] always have an accurate State similarly
+[20:18] we have non- relational of and next in
+[20:23] order to interact with this database we
+[20:25] generally use the language SQL also
+[20:28] known as structured query language in
+[20:30] the same way we have non- relational
+[20:33] databases so some examples of relational
+[20:36] databases which you might have already
+[20:38] heard MySQL postgress SQL Server etc etc
+[20:42] right we have a lot of different
+[20:43] different relational database types
+[20:45] similarly we have non- relational you
+[20:47] must have heard about mongod one of the
+[20:51] most famous databases in the non-
+[20:53] relational domain and the difference
+[20:56] between these is while relational
+[20:58] databases force you to have a consistent
+[21:02] schema a very expected schema before you
+[21:05] can put data inside your database right
+[21:10] you have to have a predefined schema but
+[21:13] non- relational databases do not enforce
+[21:15] anything such as that right you can put
+[21:19] any kind of data and two entries of a
+[21:24] same table we don't use the term table
+[21:26] in the non-relational domain but
+[21:29] if you're doing a side by-side
+[21:30] comparison then a table is called a
+[21:33] collection in mongod right and inside a
+[21:36] collection each entry in relational it
+[21:40] is called rows and in non- relational or
+[21:42] M it is called a document in relational
+[21:45] domain each row will have the same kind
+[21:49] of data the structure of the rows will
+[21:52] always be the same right but in non-
+[21:55] relational domain each document can
+[21:58] follow different data structure okay
+[22:00] that's the primary advantage but
+[22:03] sometimes disadvantage when it comes to
+[22:05] the no SQL domain the advantage is
+[22:07] obviously it has a very flexible schema
+[22:10] so if you're doing some kind of
+[22:12] prototype you want to move fast you
+[22:14] don't want to spend time figuring out
+[22:17] your database schema enforcing the
+[22:19] schema maintaining it etc etc then you
+[22:22] can go with something like mongod and
+[22:25] move very fast without thinking about
+[22:27] your database schema you can you can
+[22:29] push data on the Fly you can fetch any
+[22:31] kind of data ET Etc right the
+[22:33] flexibility can be an advantage in some
+[22:35] scenarios so if you want to take an
+[22:37] example let's say we have a CRM CRM also
+[22:40] known as customer relationship
+[22:42] management software and inside this what
+[22:45] usually happens is it needs to maintain
+[22:47] accurate and consistent data about
+[22:49] customers data like contacts and all the
+[22:53] sales opportunity details etc etc right
+[22:56] and this data this critical data is more
+[22:59] suited to be inside a relational system
+[23:01] a relational database like postgress is
+[23:04] a very good choice because it provides
+[23:06] strong data integrity and allows for
+[23:08] complex queries and analyze
+[23:10] relationships between customers so a CRM
+[23:13] system is a very good candidate when you
+[23:16] are trying to decide between a
+[23:17] relational database and a non-
+[23:19] relational database in the same way if
+[23:23] we want to find a use case for a non-
+[23:25] relational database we can take an
+[23:28] example like CMS also known as content
+[23:30] management system so content Management
+[23:33] systems are used to push content from a
+[23:37] remote site to different different
+[23:39] content distribution system for example
+[23:42] let's say you have a blogging platform
+[23:46] so every time you want to add a new
+[23:48] article to your website you don't want
+[23:51] to open your code base and write a new
+[23:53] file and push it to GitHub and deploy it
+[23:56] Etc ET right you can pull that data in
+[23:59] your website dynamically from a Content
+[24:01] management system it can be something
+[24:03] like sanity Etc ET like we have a lot of
+[24:05] cmss in the market so you can pull that
+[24:08] data from a Content management system
+[24:09] and you can render that data so every
+[24:12] time you want to add a new article you
+[24:13] just have to log into your CMS system
+[24:16] and write that blog or article in the
+[24:20] markdown format and save it and the next
+[24:23] time someone refreshes your website the
+[24:25] new article will be fetched so when you
+[24:28] have a use case like this the content
+[24:31] that scms needs to store that is not
+[24:34] really structured so an article can have
+[24:37] an image it can have a code blog it can
+[24:39] have a YouTube embedding Etc ET like the
+[24:44] content can be of a lot of types so a
+[24:48] non- relational database something like
+[24:50] the mongod makes a lot of sense when you
+[24:54] don't know beforehand what are all the
+[24:56] different types of data that are going
+[24:58] to be stored here you just want to take
+[25:00] everything and dump it here right so in
+[25:03] these use cases mongod makes a lot of
+[25:05] sense but even though databases like
+[25:09] mongod they offer a lot of
+[25:12] flexibility they can also present
+[25:15] challenges in terms of data Integrity
+[25:17] which is a very important concept when
+[25:19] it comes to database systems and because
+[25:21] they often lack the strong constraints
+[25:24] and relationships of relational
+[25:27] databases is EAS easier to introduce
+[25:29] inconsistencies into the data since the
+[25:32] schema of the data the Integrity of the
+[25:34] data is not enforced at the database
+[25:37] level you have to do it at the
+[25:39] application Level which adds more
+[25:41] complexity to your code and of course it
+[25:44] is more error prone since application
+[25:46] code is generally changed a lot and it's
+[25:49] very easy to miss something right to
+[25:51] introduce new bugs to your code base so
+[25:54] now we have to make a choice right we
+[25:57] are going to learn about databases and
+[25:59] there are a lot of options in the market
+[26:01] we have relational we have non-
+[26:02] relational in inside relational we have
+[26:05] MySQL we have postgress we have site and
+[26:08] SQL Server a lot of different different
+[26:11] products and all of them pretty much
+[26:13] offer the same kind of features and all
+[26:15] of them can scale when it comes to
+[26:18] implementing in in your production
+[26:20] systems so we have to make a choice here
+[26:22] what database are we going to proceed
+[26:25] with and when you have a situation like
+[26:27] this going with postgress makes a lot of
+[26:29] sense why a couple of reasons one it is
+[26:34] open source and free right it is not a
+[26:37] proprietary software it is completely
+[26:38] open source you can go and look at the
+[26:41] source code of the postgress even though
+[26:43] you won't necessarily be doing that but
+[26:45] still it is an open- Source software and
+[26:49] a lot of companies prefer open source
+[26:50] softwares so that they can host it they
+[26:53] can deploy it in their own premises in
+[26:56] their own servers etc etc right second
+[26:58] the postgress dbms system it sticks to
+[27:03] the SQL standard so you can take any SQL
+[27:06] query and you can run it on a postra
+[27:09] system and it will perform the same way
+[27:12] it performs in a different database
+[27:14] system like MySQL or SQL Server because
+[27:17] the postgress database system sticks to
+[27:19] the SQL standard so in the future if you
+[27:22] want to migrate your database to a
+[27:24] different system then you won't have to
+[27:27] do a lot of work let's say you want to
+[27:29] migrate to myql for some reason right so
+[27:33] since postgress is SQL compli and you
+[27:37] have written all your migration
+[27:39] statements all your create update
+[27:41] statements and fet statements in
+[27:43] standard SQL format then you can just
+[27:46] change your database and do some minor
+[27:48] changes and you can easily switch from
+[27:50] postgress to myql right that's one of
+[27:53] the other reasons to go with postgress
+[27:56] it is very easy to migrate to a
+[27:58] different system if you need it three it
+[28:01] is very extensible which means it offers
+[28:04] a lot of features if you go to the
+[28:06] postgress documentation it is around,
+[28:09] 1400 pages long and it offers a lot of
+[28:12] features pretty much covers every single
+[28:14] use case a typical SAS might encounter
+[28:19] right and it also has a very good
+[28:21] extension based system so you can
+[28:24] customize it depending on your own needs
+[28:26] fourth it is known for its reliability
+[28:30] and scalability and fifth I think this
+[28:33] is the one thing that makes it easy to
+[28:36] make the decision it has very good Json
+[28:39] support now as we discussed just before
+[28:43] this that one of the primary reasons to
+[28:46] go with something like mongod a non-
+[28:48] relational database is you can take any
+[28:51] kind of data so when we say any kind of
+[28:54] data we mostly mean Json any kind of
+[28:57] Json because in Json you can Prett much
+[28:59] store any kind of data right it can be
+[29:01] number it can be string other Json that
+[29:04] are embedded inside it arrays etc etc
+[29:07] right so you can store any kind of Json
+[29:10] as a document in a no SQL database in a
+[29:13] mongod database in the same way since
+[29:16] postgress offers a Json data type and it
+[29:18] has very good indexing and query
+[29:21] capabilities for Json Fields there is no
+[29:24] other reason to go for a different
+[29:27] database just for dynamic data right you
+[29:30] can use postgress with Json fields for
+[29:33] your needs of dynamic data as we saw in
+[29:35] the previous examples of a Content
+[29:37] management system if you have some kind
+[29:40] of content that you're getting from the
+[29:41] user and you want to save it in your
+[29:43] database and you don't have a strict
+[29:46] schema for that content you can go with
+[29:48] a typical Json schema and dump whatever
+[29:52] content that is coming from the user
+[29:53] there and you when you want to render it
+[29:56] you can fetch it from there and you
+[29:57] render it right there is no need to
+[29:59] switch to a non- relational database
+[30:01] just for the needs of your Dynamic data
+[30:05] right and because of all these features
+[30:07] postgress is pretty much the number one
+[30:10] choice when it comes to at least what I
+[30:12] have seen a lot of startups and a lot of
+[30:14] big companies also stick with postgress
+[30:17] and postgress is usually their first
+[30:20] choice and even though if you do your
+[30:22] own research you'll find a lot of
+[30:24] Articles where you'll see my SQL has a
+[30:26] lot of performance benefits etc etc
+[30:29] right but until you are serving millions
+[30:31] of users and you want to optimize a very
+[30:34] specific bottleneck of your application
+[30:36] you don't really need to think about
+[30:38] whether you should go with mycle or
+[30:40] whether you should go with posg right
+[30:42] since the rich set of features and the
+[30:45] very good Json support of postgress
+[30:47] postgress should be your first choice in
+[30:50] pretty much all your projects and that's
+[30:52] the reason in this video we are going to
+[30:55] go with postgress whatever all we are
+[30:59] going to learn about databases we will
+[31:01] learn in the context of hress and with
+[31:04] that I want to give a note here that
+[31:07] there are already thousands of free
+[31:10] resources available on YouTube elsewhere
+[31:13] like Udi you have paid resources and you
+[31:16] have hundreds of free resources that
+[31:18] cover the basics of SQL and postgressql
+[31:22] right SQL is when we say SQL it is the
+[31:25] language that you use to query and
+[31:27] postgress is the database system the
+[31:30] software on which we execute our SQL
+[31:33] queries right so there are a lot of
+[31:36] courses pre courses available right in
+[31:38] YouTube for both SQL and postgress right
+[31:42] so instead of repeating the same thing
+[31:45] instead of doing the all the create
+[31:47] table select the basics of Order byy
+[31:50] Group buy right all the basics of SQL
+[31:53] and the basics of postgress again in
+[31:55] this video we are going to save some
+[31:57] time and we are only going to stick with
+[32:00] some Concepts that are very relevant
+[32:02] when it comes to backend systems and we
+[32:04] are going to leave the basics so that
+[32:06] you can learn it elsewhere so if you
+[32:09] want you can pause this video right now
+[32:12] and just search in YouTube SQL Basics
+[32:16] you will get videos from 1 hour to 20
+[32:18] hours and same for postgress Basics so
+[32:22] you can choose a video according to your
+[32:24] own
+[32:25] Comfort what amount of comprehensiveness
+[32:27] that you need you can watch a video of 1
+[32:29] hour and come back to this video or you
+[32:32] can spend a couple of days learning
+[32:34] about SQL Basics and postgress Basics
+[32:36] and come back to this video right so
+[32:39] that is one of the prerequisite before
+[32:40] you proceed to the next section so we're
+[32:43] going to skip all the basics so that you
+[32:45] can do your own research this is table
+[32:48] plus it is a graphical software for
+[32:52] interacting with your databases and it
+[32:55] has a very modern UI fill
+[32:58] and this is the software that I use on
+[33:00] my day-to-day basis for all my database
+[33:03] query operations and exploring Etc ET
+[33:06] right so we'll be using this in this
+[33:09] entire video to go through different
+[33:10] different demos and to explore different
+[33:12] different concepts now starting with
+[33:15] what are all the different different
+[33:17] data types that we have available in
+[33:19] postgress I just want to bring this even
+[33:21] though just before this I mentioned that
+[33:23] we won't be covering the basics of
+[33:26] postgress and basics of SQL this video
+[33:28] but I feel this is an important piece of
+[33:31] information that we have to cover before
+[33:33] we proceed so that we don't have to
+[33:35] repeat this again when we are actually
+[33:38] talking about our backend system right
+[33:41] now we won't be going very deep into
+[33:44] each data type we'll just do a very high
+[33:46] level introduction this is a create
+[33:48] table query if you're already familiar
+[33:51] with the SQL language then you'll
+[33:54] recognize this this is how we create a
+[33:56] table in any relational database whether
+[33:59] it is POG gra myc etc etc right now we
+[34:02] are creating a table whose name is data
+[34:04] types demo and these are all the fields
+[34:07] which basically means these are all the
+[34:09] columns that are going to be in this
+[34:11] table for each row right so starting
+[34:15] with we have serial what does serial
+[34:17] mean it is just an integer data type but
+[34:21] each time we add a new entry into the
+[34:24] table this will increment the value so
+[34:27] by default let's say it starts with zero
+[34:30] right the next time you insert a row and
+[34:33] if you omit this ID field in your insert
+[34:37] statement value of this column for that
+[34:39] row is going to be one same way the next
+[34:42] time you enter something it'll be 2 3 4
+[34:45] right and usually we use serial or big
+[34:49] serial so there is another version which
+[34:51] basically has more capacity the
+[34:55] maximum number that you can store in big
+[34:57] serial is a lot higher when it comes to
+[35:00] serial so usually when you're dealing
+[35:03] with production systems we go with big
+[35:05] serial when we want to make ID as our
+[35:08] primary key so primary key is basically
+[35:12] a unique field using which we can
+[35:14] identify a particular row in a table
+[35:16] right now serial is an integer which is
+[35:19] going to be automatically incrementing
+[35:22] with each entry in our table then we
+[35:24] have small int we have big int and we
+[35:27] have integer all these three are
+[35:29] basically integers just that the
+[35:31] capacity as I said the maximum number
+[35:34] that you can store an integer so this is
+[35:37] how the scale works we have integer
+[35:40] Which is less than small end Which is
+[35:43] less than big end so depending on your
+[35:45] need you can either go with integer
+[35:48] small end or big end same way we have
+[35:51] decimal and numeric which are mostly
+[35:53] considered identical you can use either
+[35:56] of them they pretty much much behave the
+[35:58] same way right and the purpose of this
+[36:03] is what does this 10 and this two means
+[36:06] is it basically says you can store a
+[36:10] number you can store a number in this
+[36:14] format right on the right side of the
+[36:16] decimal point there will always be two
+[36:19] numbers right that's what this two means
+[36:22] on the right side of the decimal point
+[36:24] there will always be two numbers and
+[36:26] what do 10 means is across all these
+[36:29] numbers in this complete number across
+[36:33] all these numbers in this numerical
+[36:34] repes representation the maximum amount
+[36:37] you can store is 10 so you can store
+[36:41] something like 1 2 3 4 5 6 7 8 dot 9 0
+[36:48] right now if you count it we have 10
+[36:51] numbers we cannot store something like
+[36:54] three here we cannot add something like
+[36:56] this because the maximum we can store is
+[36:59] 10 numbers across this whole numerical
+[37:01] representation right and on the right
+[37:04] side we have two numbers this is what
+[37:07] this means and the question mostly
+[37:10] people ask is what is the difference
+[37:14] between decimal or numeric something
+[37:17] like this as compared to something like
+[37:19] real or double Precision or float right
+[37:21] now the difference is a little
+[37:23] complicated floating Point numbers they
+[37:26] can be real double float whatever you
+[37:28] call them they are represented in a very
+[37:32] different manner as compared to the
+[37:34] decimal counterparts which we have in
+[37:36] decimal and numeric so the thumb rule
+[37:40] that you should have is if accuracy is
+[37:42] an important aspect for that field so
+[37:47] let's say you are storing an information
+[37:50] like price for a field like price
+[37:52] accuracy is very important right because
+[37:54] it is going to be involved in a lot of
+[37:57] calculation
+[37:58] and a lot of things can go wrong if you
+[38:00] have different different representations
+[38:03] of the same number in different
+[38:04] different systems etc etc right the
+[38:07] accuracy is very important when it comes
+[38:08] to a field like price so in this case
+[38:11] you should always go with decimal right
+[38:14] you should always stick with either
+[38:15] decimal or numeric but standard says you
+[38:18] can go with decimal right so if accuracy
+[38:21] is an important aspect then always go
+[38:24] with decimal because floating Point
+[38:26] representation
+[38:28] can have different different values
+[38:29] across different different systems
+[38:31] because of the way they are stored
+[38:33] because of the way they are processed
+[38:36] they have a very different algorithm
+[38:37] when it comes to rendering or at the
+[38:40] same time let's say you have a field
+[38:44] like size right and it is a size of a
+[38:47] area it can be something like five
+[38:52] 67.
+[38:53] 8987 something like this right some
+[38:56] fractional number some floating Point
+[38:58] number where accuracy let's say if 89
+[39:02] 87 turns into 9 or 8 9 67 something like
+[39:09] this very small discrepancies in the
+[39:13] accuracy or the representation of the
+[39:14] number does not impact a lot of
+[39:17] difference in your systems when you have
+[39:20] numbers like this you should go with
+[39:22] floating points right now if you have a
+[39:25] question like if decimals are always
+[39:28] accurate then why shouldn't we always go
+[39:31] with decimals and the reason is because
+[39:33] decimals always have accurate
+[39:35] representation of their value and
+[39:37] because floating points don't have that
+[39:40] kind of accuracy floating points are
+[39:42] considered faster when it comes to
+[39:45] storage when it comes to performing
+[39:47] different different calculations etc etc
+[39:48] right floating points are very fast that
+[39:52] is the reason in a lot of scientific
+[39:54] computation based domains roting points
+[39:58] are preferred as compared to decimals or
+[40:01] decimal
+[40:02] representations so you should always
+[40:04] evaluate what kind of value that you're
+[40:06] going to store and if it is not
+[40:09] something that is going to have a lot of
+[40:11] impact if there are small discrepancies
+[40:13] in the representation of the number then
+[40:16] you should go with float because they
+[40:18] are very fast to process and very
+[40:20] preferable in these kinds of scenarios
+[40:23] but if it is a value like price or
+[40:27] something something very critical where
+[40:29] accuracy matters a lot then always go
+[40:31] with decimals right that covers pretty
+[40:34] much all the floating Point data types
+[40:36] then we have a very interesting category
+[40:38] which are string categories and we have
+[40:42] three types in that we have care V care
+[40:45] and text now all these three data types
+[40:48] store text that is the similarity
+[40:51] between the three data types the
+[40:53] difference is when we say car 10 and
+[40:56] inside this field if he says store
+[40:59] something like AB if you store something
+[41:02] like this inside a data type which is
+[41:05] declared as this and the length is
+[41:08] defined as 10 then what the database
+[41:11] system will do is it will pad extra
+[41:14] eight spaces in that field before saving
+[41:17] because we have defined the length is 10
+[41:21] and it is a care data type right that is
+[41:25] the property of character data type
+[41:27] whatever length that you have defined
+[41:30] does not matter the actual value that
+[41:34] you're are trying to insert it will
+[41:36] always try to store the same length if
+[41:39] you don't provide the same length then
+[41:41] it will just pad some empty spaces right
+[41:45] inside whatever way it is represented it
+[41:47] will add some empty spaces and it that's
+[41:50] how it will store it and that is the
+[41:51] reason people came up with another
+[41:53] standard which is called Vare also known
+[41:55] as variable character now the way it
+[41:57] works is when we say the length is 255
+[42:01] what it means 255 is the maximum length
+[42:05] that you can store in this field but if
+[42:09] you store something like this AB then
+[42:12] the length will be two right it won't
+[42:14] add Extra Spaces just to make a for this
+[42:16] 255 length if you store a smaller value
+[42:20] then it will be two if you store
+[42:21] something like a b c d then it'll be
+[42:25] four etc etc right depending depending
+[42:27] on what Valu are actually being inserted
+[42:30] into the database it will adjust itself
+[42:33] just that the maximum amount the maximum
+[42:38] number that you can store is 255 you
+[42:41] cannot exceed that if you do then you
+[42:42] will get a database level error now the
+[42:46] last thing is text which is a very
+[42:48] modern alternative to Ware so imagine
+[42:52] Vare without any length field basically
+[42:55] any amount of text
+[42:57] a text of any length that's what text
+[43:00] means you don't enforce any length on
+[43:04] this field you can store a text of any
+[43:07] length usually it has some kind of upper
+[43:10] limit like 250 MB or something something
+[43:13] you can do your own research for that
+[43:16] but yeah and when we say 250 MB of text
+[43:20] it is very very very long text right
+[43:22] usually we won't be needing that much
+[43:24] but that's what it means now the
+[43:26] question is when you want to store a
+[43:29] string which one you should go with the
+[43:31] first thing is never choose care right
+[43:34] it it is a very old standard people used
+[43:37] to do it way back so either go with
+[43:40] varer or text you can use care if you
+[43:43] know beforehand that the length is
+[43:47] always going to be the same right it
+[43:49] cannot be variable so let's say you are
+[43:53] storing the codes of all the days of a
+[43:56] week so the values can be M Mo or Tu or
+[44:01] W Etc you get my point right if you have
+[44:05] a requirement where you know that you
+[44:07] have all these values and all of them
+[44:10] have the same length then you can go
+[44:13] with a data type like Car 2 and this way
+[44:17] you won't be wasting a lot of space
+[44:20] because of the variable length of
+[44:21] different different entries of the data
+[44:24] right only go with care if you have a
+[44:26] use case like is but if it is a general
+[44:29] text let's say name of a customer name
+[44:32] of a product etc etc or a description
+[44:34] Etc ET then either go with Vare or text
+[44:38] now how do you choose Vare versus text
+[44:42] what I believe personally is you should
+[44:43] always go with text because if you go
+[44:48] explore the documentation of Whois they
+[44:52] themselves recommend that always use
+[44:54] text which is the model alternative of
+[44:57] Vare without length because most people
+[45:00] what they confus with is if you use Vare
+[45:04] with 255 this is going to perform better
+[45:08] as compared to a field like text or you
+[45:11] cannot index a field uh we'll cover
+[45:14] index shortly but people believe you
+[45:16] cannot index a field of type text there
+[45:19] are a lot of misconceptions around this
+[45:21] because other databases databases like
+[45:23] MySQL SQL Server sqlite they have
+[45:26] different different conventions the way
+[45:28] they operate the way they function are
+[45:31] very different from postgress and when
+[45:34] people switch between different
+[45:35] different databases they get confused or
+[45:38] they are misguided so if you explore the
+[45:41] official documentation of postgress they
+[45:44] recommend that always go with text there
+[45:46] is pretty much no performance difference
+[45:48] between Vare or text and the second
+[45:51] thing which is my personal opinion that
+[45:54] using something like Vare 250
+[45:57] which is by the way a convention from
+[46:00] myql that people from myql which was a
+[46:04] very popular database and that has a
+[46:07] Convention of using Vare 255 and that's
+[46:11] the reason a lot of people still use
+[46:12] this and
+[46:14] 255 is at least when it comes to
+[46:17] postgress 255 has a meaning in the
+[46:21] context of a mySQL database but when it
+[46:23] comes to postgress people just use the
+[46:26] number 255 as a random number right it
+[46:30] has no meaning whatsoever in a postgress
+[46:33] database and people just use it without
+[46:36] thinking just because the way it has
+[46:39] always been done and that's why I
+[46:42] personally believe instead of going with
+[46:43] a random number like 255 go with text
+[46:47] and and the reason is let's say later on
+[46:51] you want to increase the length for some
+[46:53] use case let's say you are dealing with
+[46:56] a field called description and you just
+[46:58] set the length is 255 as V so later on
+[47:03] you want to increase the length so to
+[47:05] cater to that requirement you have to do
+[47:07] a database level migration which affects
+[47:11] a lot of data and a lot riskier of
+[47:13] course migrations are performed on a
+[47:15] day-to-day basis but still you should
+[47:17] always avoid a database level migration
+[47:19] if you can right and that's the reason
+[47:22] using something like text and enforcing
+[47:25] the length for whatever it is on your
+[47:27] application Level and since we are not
+[47:30] in the data engineering domain we are
+[47:32] not in the data analyst domain people in
+[47:35] those domains they usually deal with SQL
+[47:39] directly right they have some kind of
+[47:41] interface and they write SQL directly
+[47:43] and they see the result of the SQL data
+[47:46] directly etc etc right SQL is their
+[47:48] first point of interaction but as
+[47:50] backend Engineers when we are dealing
+[47:52] with backend systems we usually interact
+[47:55] with SQL databases
+[47:57] through a driver right we have different
+[48:01] different drivers depending on what
+[48:02] programming language that we are talking
+[48:04] about and that's how we interact with
+[48:07] the database through a driver and we
+[48:09] have a lot of application code when we
+[48:12] are dealing with the data that's the
+[48:14] reason we can enforce the length or
+[48:17] whatever constraint it is on the
+[48:20] application code so that our database
+[48:23] migrations all the database system
+[48:25] database statements are simpler to read
+[48:28] and simpler to maintain so let's say
+[48:30] someone new someone new comes over and
+[48:33] they look at this they see vat 255 and
+[48:37] they think that this has some meaning
+[48:39] even though the person who just created
+[48:43] it they just added it without thinking
+[48:46] right it is just a random number for
+[48:47] them but if someone new comes over they
+[48:50] will think there is some meaning to this
+[48:52] number or there is some meaning to this
+[48:54] 10 number they will try to understand
+[48:56] and where this is coming from and since
+[48:58] there is no documentation they'll try to
+[49:00] dig through the code Etc ET there's a
+[49:02] lot of headache that comes with it
+[49:05] because a number a number like this a
+[49:08] number like this this represents that it
+[49:11] has some kind of meaning even though it
+[49:13] doesn't most of the times right so
+[49:17] instead of this if you go with just text
+[49:20] then it is a lot simpler to read a lot
+[49:23] simpler to write these migration
+[49:25] statements all the SQ statements because
+[49:27] you won't have to think about these lens
+[49:30] and all and if someone new comes over
+[49:32] and they read it they just think that it
+[49:34] is a text field it is a character field
+[49:35] right there is no extra meaning to this
+[49:38] so those are some of the concepts
+[49:40] surrounding string Fields string data
+[49:42] types in post moving on we have Boolean
+[49:46] we can store true or false in this field
+[49:49] we have date we can just store the date
+[49:52] in this and we have time where we can
+[49:54] store the time right in hour minute
+[49:57] seconds format then we have time stamp
+[50:00] for storing the information of date and
+[50:02] time at the same time then we have time
+[50:05] stamps with is extra Zed at the end
+[50:08] which just means store the time zone
+[50:10] information also in this so it will
+[50:12] store time stamp and a time zone
+[50:16] information then we have interval for
+[50:19] storing like 10 days or one week etc etc
+[50:22] right those kinds of datas then we have
+[50:24] uu ID U ID is a very a popular choice
+[50:27] when it comes to making table primary
+[50:30] keys right because of their Ur flend and
+[50:33] their unique nature so that's the reason
+[50:35] posg offers a native uid type right
+[50:38] inside the database then we have Json
+[50:40] and Json b as I have mentioned before
+[50:43] postgress offers native Json and we have
+[50:46] an extra type which is called Json B
+[50:49] also known as Json binary and the
+[50:51] primary difference between Json and Json
+[50:53] B is when we use a field called Json
+[50:57] this will be stored as a plain text a
+[51:01] plain text with the key value format
+[51:03] that we usually see when we are reading
+[51:05] Json but when we use this Json B this
+[51:11] will be converted into a different
+[51:13] format postgress will serialize it into
+[51:16] its own native Json format for
+[51:19] efficiency purpose so that it can
+[51:20] perform better it can perform a lot of
+[51:22] query capabilities etc etc right there
+[51:25] something that is limited to postgress
+[51:28] it is not an SQL standard and most of
+[51:31] the times you should go with Json B
+[51:33] because of the performance advantage
+[51:35] that it offers then we have the aray
+[51:37] types you can store an arrow of
+[51:39] different different data types right
+[51:41] store an arrow of integer you can store
+[51:42] an AR of Json date time Etc whatever all
+[51:45] the different different data types that
+[51:47] we have then we have some other random
+[51:49] data types like storing Network
+[51:52] addresses Mac addresses and geometrical
+[51:54] points XML etc etc that we don't really
+[51:58] use on our data basis but if you do want
+[52:00] to use it you can explore the official
+[52:02] documentation and you'll find more
+[52:04] information on that and this is how we
+[52:06] insert data into our database we write
+[52:09] insert into the table name and the Order
+[52:12] of the all the fields that we want to
+[52:14] insert the data in and then we provide
+[52:18] all the values in the same order that we
+[52:21] wrote Our fields in right and this is
+[52:23] how we are inserting all the data this
+[52:25] is an example example small integer this
+[52:28] is an integer big integer as you can see
+[52:31] it is a lot higher than a normal integer
+[52:34] then we have decimal we have real double
+[52:37] Precision which basically floating Point
+[52:39] representations then we have character
+[52:42] Vare and text and we have bullan we can
+[52:45] either pass true or false here we have
+[52:47] date we have time and hour minute
+[52:50] seconds format we have time stamp where
+[52:53] we have the date and the time we have
+[52:55] time stamps you have date time and the
+[52:57] time zone information then we have
+[52:59] interval have uid this this is what a
+[53:01] typical uid looks like we have Json Json
+[53:04] B and while inserting even though Json
+[53:07] and Json B looks the same but postgress
+[53:10] serializes Json B into a different
+[53:12] format for faster processing and faster
+[53:15] retrial right then we have array then we
+[53:18] have IP addresses Mac addresses
+[53:20] geometrical points and XML etc etc right
+[53:23] all the data types that we basically saw
+[53:25] and that's pretty much all about about
+[53:26] all the data types that we are going to
+[53:28] deal with as backend engineers in a
+[53:31] typical database system next up what we
+[53:33] are going to do is we are going to
+[53:37] design the database of a project
+[53:41] management platform in the previous
+[53:44] video we created the apis we designed we
+[53:48] modeled the apis of a project management
+[53:51] platform similarly to understand
+[53:54] different concepts of databases and and
+[53:56] different relevant Concepts not just
+[53:58] theoretical concepts are very Advanced
+[54:00] concept that we don't necessarily use on
+[54:02] a day-to-day basis but very relevant
+[54:04] Concepts in database systems especially
+[54:06] in postgress we are going to design a
+[54:09] database of a project management
+[54:11] platform and we are also going to write
+[54:14] queries for different different apis
+[54:16] using the same databases now before we
+[54:19] get into that just want to bring up one
+[54:22] topic which are known as migrations in
+[54:26] systems especially in production systems
+[54:29] you don't necessarily just open a
+[54:33] software like table plus and you just
+[54:36] start writing queries right you cannot
+[54:39] do that because if something goes wrong
+[54:42] or even if something does not go wrong
+[54:44] but there is no way to track what all
+[54:47] changes that are applied to a particular
+[54:50] databas over time or who applied it
+[54:53] right there is no way to control the
+[54:56] version or the control the state of the
+[54:59] databases across different different
+[55:01] times right and that is the reason most
+[55:03] database systems follow something called
+[55:06] as database migrations now database
+[55:09] migrations are basically different
+[55:11] different files let's say we have 1. SQL
+[55:15] we have a folder which are called
+[55:17] migrations inside the folder database
+[55:20] right you have a folder structure like
+[55:22] this you have DB folder inside that you
+[55:24] have migrations and inside that you have
+[55:27] different different files you have 1
+[55:29] dsql you have 2. SQL you have 3 dsql etc
+[55:32] etc right and in each file you have a
+[55:36] couple of SQL statements normal SQL
+[55:38] statements nothing fancy right you have
+[55:40] create table or create index or drop
+[55:44] table etc etc and with that you have a
+[55:47] tool usually it's a command line tool we
+[55:49] have a lot of command line tools for
+[55:53] performing migrations and maintaining
+[55:54] migrations for example Le we have dbate
+[55:58] or we have go migrate right a lot of
+[56:01] this famous tools now what this tool
+[56:04] does it goes to this location DB
+[56:08] migrations and goes through all these
+[56:11] files in this sequential Manner and
+[56:14] because of that we write the names of
+[56:17] these files in a sequential manner
+[56:20] either we perform some kind of numerical
+[56:22] series 1 2 3 or we add dates uh
+[56:26] timestamps and since time stamps follow
+[56:29] a single uh flow that's the reason we
+[56:32] get sequential files right okay now what
+[56:36] this tool does it goes through all those
+[56:38] files in that sequence and applies all
+[56:42] the SQL statements basically executes
+[56:45] all these SQL queries on that particular
+[56:47] databases whatever database that you
+[56:49] have configured in your environment it
+[56:52] executes all this SQL statements on that
+[56:55] data database inside migration also we
+[56:58] have two kinds of migration we have up
+[57:00] migrations and we have down migrations
+[57:03] now some of the modern approaches of
+[57:05] handling databases they don't really
+[57:07] believe or they don't really Implement
+[57:09] down migrations but this is the standard
+[57:12] way of operating right you have up
+[57:13] migrations up migrations are basically
+[57:16] whatever change that you want to do you
+[57:17] want to create a new table so you write
+[57:20] create table etc etc you want to create
+[57:22] a new type let's say you want to create
+[57:24] a new enum type you write create type
+[57:27] enom etc etc then you want to create
+[57:29] some indexes whatever all the create
+[57:31] statements you write one by one right
+[57:33] with proper SQL syntax or postgress
+[57:37] syntax then depending on the tool let's
+[57:40] say a tool like dbate what it does it
+[57:44] divides the same file the same SQL file
+[57:47] let's say 1. SQL into two sections one
+[57:49] section with a comment for up migrations
+[57:52] and another section for down migrations
+[57:55] now the purpose of down migration is
+[57:59] whatever change you did in your up
+[58:01] migrations whatever change you applied
+[58:03] to the database in the down migration
+[58:06] you have to revert all those changes so
+[58:09] that the reason for having this feature
+[58:12] called down migration is let's say you
+[58:14] applied some migrations you applied some
+[58:16] changes to your database systems and
+[58:19] something goes wrong right or something
+[58:22] breaks in your production system or
+[58:24] anything can go wrong what what you want
+[58:26] to do you want to roll back to previous
+[58:28] version of the database without any
+[58:30] changes right the state has to be the
+[58:32] same for that to happen you have to have
+[58:35] down migrations so that all the changes
+[58:38] that you did in your up migration the
+[58:39] down migrations can rever that so that
+[58:43] you can go to a previous state you can
+[58:44] roll back okay that's how a migration
+[58:49] workflow works you have a tool and that
+[58:52] tool usually creates a table called SK
+[58:56] scha something like that in your
+[58:57] database and using which it tracks that
+[59:00] which is the current version of the
+[59:02] database right let's say you have 1 SQL
+[59:06] 2. SQL 3. SQL right then in your schema
+[59:10] table you will have something like four
+[59:12] right current schema is four because
+[59:14] four is the latest changes that you have
+[59:17] applied on your database when you come
+[59:18] back and you want to add another file.
+[59:20] 5. SQL before you apply that file before
+[59:23] you up that migration your current data
+[59:26] schema will still have four right that's
+[59:29] how the tool works you have a migration
+[59:31] tool which goes through all your SQL
+[59:33] files applies all the SQL queries on
+[59:35] your databases one by one if it is an up
+[59:37] migration then it applies all the
+[59:39] changes if it is a down migration it
+[59:41] reverse all the changes for that version
+[59:43] now the question is why do we need
+[59:44] migrations there are a couple of reasons
+[59:46] one reason as I've already mentioned you
+[59:48] cannot just open a graphical tool and
+[59:50] execute SQL statements because that's
+[59:52] very hard to keep track of what are the
+[59:55] all the changes that you made right
+[59:57] unless you want to save it to a
+[59:59] particular file and you want to commit
+[01:00:00] to git etc etc and after all those
+[01:00:03] things you will come up with your own
+[01:00:05] migration system that's why we have this
+[01:00:07] concept called migrations couple of
+[01:00:09] advantages of using migration is one as
+[01:00:12] I said keeping track of
+[01:00:15] database changes keeping track of
+[01:00:18] database changes over time right you
+[01:00:20] have a file you have a lot of files in a
+[01:00:22] particular folder which is committed to
+[01:00:25] your version control system let's say
+[01:00:27] it's git or git lab bit bucket whatever
+[01:00:30] platform that you follow to Version
+[01:00:31] Control your code usually your migration
+[01:00:33] statements stay with your code and you
+[01:00:36] commit it to get GitHub whatever
+[01:00:38] platform you follow and over the time
+[01:00:41] you keep adding new migration files to
+[01:00:43] the same folder and that's how you keep
+[01:00:46] track of all the changes that are
+[01:00:48] happening to your database schema second
+[01:00:50] is roll back as I already mentioned if
+[01:00:53] something goes wrong you can roll back
+[01:00:55] to a particular version so that's pretty
+[01:00:57] much all there is to it migrations are a
+[01:00:59] system using which you apply new changes
+[01:01:02] on top of your databases you can add new
+[01:01:05] tables you can modify tables you can
+[01:01:07] create indexes you can create triggers
+[01:01:09] etc etc right whatever change that you
+[01:01:13] want to perform on a database you have
+[01:01:16] to create a new migration for it because
+[01:01:19] relational databases follow a particular
+[01:01:23] strict schema you cannot just insert
+[01:01:26] data randomly into the databases you
+[01:01:27] have to follow a particular schema
+[01:01:30] that's the reason we have this migration
+[01:01:31] statements to make changes to the
+[01:01:33] database over time using any command
+[01:01:36] line tool now we will start modeling our
+[01:01:39] database for our project management
+[01:01:41] platform and for that we'll write
+[01:01:43] migrations okay here I have my vs code
+[01:01:46] open this is where we'll write all our
+[01:01:48] SQL statements to model our database
+[01:01:52] right so for the sake of migration we
+[01:01:54] are going to use d mate it's a command
+[01:01:57] line migration tool that helps applying
+[01:02:00] all the changes to your database right
+[01:02:02] and for that we have to provide the URL
+[01:02:05] of our database to the tool and for that
+[01:02:08] we have to create a new environment
+[01:02:10] file. EnV and inside that we can create
+[01:02:13] a variable called database URL and the
+[01:02:16] tool will pick up the value of our
+[01:02:20] postgress database URL from this
+[01:02:22] location okay so to create our first
+[01:02:26] migration dbate offers a command you can
+[01:02:29] write dbate new create users St that
+[01:02:32] sounds right so press enter it creates a
+[01:02:36] new folder called DB inside that another
+[01:02:38] folder called migrations and inside that
+[01:02:41] a migration file so as I said it can
+[01:02:44] follow a sequential number like 1 2 3 4
+[01:02:46] 5 or time stamps whichever sequence that
+[01:02:49] you want to prefer right in this case
+[01:02:52] it's adding a time stamp then the name
+[01:02:54] of our file which is created users table
+[01:02:57] for now it's empty we'll add our
+[01:02:58] migration statements here pretty soon so
+[01:03:01] this is how as I mentioned this section
+[01:03:05] is for writing out down migrations
+[01:03:07] whatever SQL statements that we write
+[01:03:10] after this comment are considered as
+[01:03:13] down migrations and whatever SQL
+[01:03:16] statements that we write before this
+[01:03:18] down migration and after this up
+[01:03:20] migration are considered as our up
+[01:03:22] migrations right now to save some time
+[01:03:24] I'll just paste all the SQL statements
+[01:03:26] and then we can go through that one by
+[01:03:28] one right I've pasted all the SQL
+[01:03:31] queries that are needed to perform this
+[01:03:35] migration the up migrations and create
+[01:03:37] all the necessary tables so let's
+[01:03:40] explore all the statements one by one to
+[01:03:43] understand all the concepts surrounding
+[01:03:44] it the first thing that you notice is we
+[01:03:48] are
+[01:03:48] creating some data types called as enums
+[01:03:53] right now enums are basically all those
+[01:03:57] values for which you have a predefined
+[01:04:01] set of allowed values for example we
+[01:04:04] have a field called status in the
+[01:04:07] projects table and for that we only want
+[01:04:10] to allow these three values the project
+[01:04:13] status can either be active or completed
+[01:04:16] or achieved active or completed or
+[01:04:19] archived right in the same way for tasks
+[01:04:23] in the task table the task status either
+[01:04:26] can be pending in progress completed or
+[01:04:28] cancelled same way for members they
+[01:04:31] either can have the role owner admin or
+[01:04:34] member the reason for using a data type
+[01:04:37] called enum instead of just going with
+[01:04:40] our standard text because first thing
+[01:04:44] data Integrity data Integrity when we
+[01:04:47] say in the context of databases we mean
+[01:04:50] we leave the responsibility of checking
+[01:04:53] the validity the checking the accuracy
+[01:04:55] of the data
+[01:04:56] to the database instead of our
+[01:04:58] application code because we created
+[01:05:00] types these enum types and we used these
+[01:05:04] types let's say we created this type
+[01:05:07] called project status and as you can see
+[01:05:09] we used it here right in the status
+[01:05:11] field that's the type of the status
+[01:05:13] field is our custom inom type which is
+[01:05:16] project status because we did this
+[01:05:19] whenever we insert data or whenever we
+[01:05:22] are trying to update data in the
+[01:05:24] projects table and and in the field of
+[01:05:27] status if we try to insert any random
+[01:05:30] string or let's say we try to install we
+[01:05:35] have active completed or archived we try
+[01:05:37] to inster something something if we try
+[01:05:40] to insert some random string like this
+[01:05:43] we will get a database level error we
+[01:05:46] don't have to check this in our
+[01:05:47] application code we can leave that
+[01:05:49] responsibility for the database we can
+[01:05:51] check it in our application code that is
+[01:05:54] just decreasing the scope of the error
+[01:05:56] but still to make it more robust to make
+[01:05:59] it more secure we can provide a set of
+[01:06:02] allowed values and we can use that
+[01:06:04] custom type for any field then whenever
+[01:06:08] we insert some data whenever we update
+[01:06:10] some data the database will check
+[01:06:13] whether that data whatever value that we
+[01:06:16] are providing for the Project's status
+[01:06:19] whether it is one of these if it's not
+[01:06:22] then we'll get a database level error
+[01:06:24] okay the first thing is data Integrity
+[01:06:26] the second thing is documentation and I
+[01:06:29] think this part the second point is more
+[01:06:32] important than the first point because
+[01:06:34] the first point data Integrity this we
+[01:06:37] can do in our application code right we
+[01:06:40] since we are talking in the context of
+[01:06:42] backends we have a programming language
+[01:06:44] in our hand and we can validate whether
+[01:06:48] whatever status that is coming from the
+[01:06:49] user that is coming from the front end
+[01:06:51] or whatever application code whether it
+[01:06:53] is one of these strings or not completed
+[01:06:56] or archived we can do that in our
+[01:06:58] application code but another advantage
+[01:07:01] of using enums in our migration
+[01:07:03] statements is when you're going through
+[01:07:05] your old migration statements for
+[01:07:07] debugging something or let's say you are
+[01:07:09] unboarding a new team member into your
+[01:07:11] team and they are going through the
+[01:07:13] database migration statements to
+[01:07:15] understand what all changes that the
+[01:07:17] project went through over the last
+[01:07:19] couple of months or the last couple of
+[01:07:20] years and they want to understand right
+[01:07:23] what is the state of the database what
+[01:07:25] are the past states of the database what
+[01:07:28] changes happened over the time etc etc
+[01:07:31] right and when they are doing that when
+[01:07:33] they are going through all the database
+[01:07:35] migration statements if they come across
+[01:07:37] this table called projects and they see
+[01:07:40] the field status and if it is of type
+[01:07:43] text but in our application code we are
+[01:07:47] only doing active completed archived now
+[01:07:50] there is no way for them to find out
+[01:07:53] this piece of information that you
+[01:07:55] cannot put any arbitrary text into your
+[01:07:57] status field it has to be either of
+[01:08:00] these three right so to find out that
+[01:08:04] piece of information they have to go
+[01:08:05] through all the application code they
+[01:08:06] have to see what what are all the places
+[01:08:09] where this field is used and to track
+[01:08:11] down all those use cases then they can
+[01:08:14] boil it down to these three values which
+[01:08:17] is a lot of headache right so using enum
+[01:08:22] type provides some kind of documentation
+[01:08:24] for you for your team members for your
+[01:08:26] future team members so that at one
+[01:08:29] glance you can tell what are all the
+[01:08:31] allowed fields that can be in a
+[01:08:34] particular field which makes everything
+[01:08:36] very easy to understand right so that's
+[01:08:39] all about enum fields we are creating
+[01:08:42] three enum types and this is a syntax we
+[01:08:44] write create type the name of the enum
+[01:08:48] and we write as enum and inside the
+[01:08:50] braces we provide all the allowed values
+[01:08:52] we create three types three enum types
+[01:08:55] and we are going to use this in our
+[01:08:57] future tables now moving on we are
+[01:08:59] creating a users table since it's a
+[01:09:02] project management platform of course
+[01:09:03] we'll have users right so that's the
+[01:09:06] first table we are starting with we are
+[01:09:08] creating a table called users and if you
+[01:09:11] notice this each table has some default
+[01:09:14] fields we have ID we have created it we
+[01:09:17] have updated it same for user profiles
+[01:09:20] you have ID created at updated at for
+[01:09:22] projects we have ID created at updated
+[01:09:24] so each table has this kind of metadata
+[01:09:27] kind of field the ID is not really a
+[01:09:29] metadata it is the primary key and by
+[01:09:32] primary key I mean using this ID we can
+[01:09:36] uniquely identify a particular Row in
+[01:09:39] this table right let's say we want to
+[01:09:42] find out or let's say in our backend API
+[01:09:45] we have a requirement that we want the
+[01:09:47] information of user okay since it's a uu
+[01:09:50] ID let's generate a random uu ID and
+[01:09:53] let's paste it and a comment here here
+[01:09:58] okay now we have a requirement in our
+[01:10:01] back end we have a API which takes the
+[01:10:04] user ID in a dynamic parameter and we
+[01:10:07] have to return the details of that user
+[01:10:10] so this is the ID of that user and we
+[01:10:13] have to find out the information of the
+[01:10:15] user using this ID now if we don't make
+[01:10:19] a particular field let's say the ID
+[01:10:21] field primary key okay we don't assign
+[01:10:25] the
+[01:10:26] condition primary key to a particular
+[01:10:28] field there's a couple of things that
+[01:10:30] can happen this primary key property has
+[01:10:34] some implicit properties those
+[01:10:36] properties are if you write primary key
+[01:10:38] for a particular field that field cannot
+[01:10:41] be null not null and it also has a
+[01:10:44] unique constraint so relational
+[01:10:46] databases have this concept called
+[01:10:48] constraints right you can apply a
+[01:10:50] particular condition particular property
+[01:10:54] to a field
+[01:10:56] and that property or that condition will
+[01:11:00] protect that field from going corrupt
+[01:11:02] okay that's a very high level definition
+[01:11:04] we'll see what that means when we
+[01:11:06] encounter more examples so when we say
+[01:11:08] primary key it means it implicitly has
+[01:11:11] these two properties not null and unique
+[01:11:13] though so this field cannot be null and
+[01:11:17] this will always be unique if there is
+[01:11:19] another entry with the same value gets
+[01:11:22] inserted into this table we'll get a
+[01:11:23] database level errors and because of
+[01:11:26] this implicit properties and some other
+[01:11:28] foreign key Behavior we use this
+[01:11:32] property called primary key for our ID
+[01:11:34] field so each table will have a field by
+[01:11:38] convention called ID and we will assign
+[01:11:41] the property primary Q to that which
+[01:11:44] will help us fetch different different
+[01:11:46] information of the user okay now what we
+[01:11:49] are saying we have a field called ID it
+[01:11:52] is of type uu ID and it will be a
+[01:11:55] primary key for this table and by
+[01:11:59] default if the ID is not provided when
+[01:12:02] an insert statement is executed by
+[01:12:05] default generate a random U ID okay this
+[01:12:08] is what this means this is by default
+[01:12:10] natively provided by postgress so if we
+[01:12:13] don't provide the ID field which we
+[01:12:15] generally don't we leave it to postgress
+[01:12:17] the database system to generate a random
+[01:12:20] ID for us and to assign it to that R
+[01:12:23] next we have another field called email
+[01:12:26] and it is of type text it is not null
+[01:12:29] one thing to keep in mind is by default
+[01:12:32] all the fields in a postgress table can
+[01:12:35] have null values unless you explicitly
+[01:12:38] specify that it cannot have null values
+[01:12:41] More than 70% of your tables Fields
+[01:12:44] should have the not null constraint
+[01:12:46] right because this not null constraint
+[01:12:50] enables the database to have a
+[01:12:51] consistent state if you don't add this
+[01:12:55] then the application can push null
+[01:12:57] values into the table even though you
+[01:12:59] don't do it uh intentionally because a
+[01:13:03] lot of database interactions are also
+[01:13:06] dealt with automated scripts so that
+[01:13:08] script can have a bug and you'll end up
+[01:13:10] with a lot of null values in your
+[01:13:12] database which makes things very very
+[01:13:14] difficult right so for a lot of reasons
+[01:13:17] like that always try to stick to n Nal
+[01:13:21] okay unless you have a reason for that
+[01:13:24] field to be null okay that's the reason
+[01:13:28] we are writing not null here we have a
+[01:13:30] field called email it is of type text
+[01:13:32] and it cannot be null and we have
+[01:13:35] constraint called unique but this means
+[01:13:37] is each door of this table will have a
+[01:13:40] unique email the moment you try to push
+[01:13:43] another row with the same email address
+[01:13:45] that already exists in the table we will
+[01:13:47] get a database level error that it
+[01:13:50] violates the unique constraint okay and
+[01:13:53] since email is something that we don't
+[01:13:56] want to create two users with the same
+[01:13:58] email we are applying this constraint
+[01:14:00] called unique next we have a field
+[01:14:02] called full name it is of type text
+[01:14:04] again not null then we have password
+[01:14:06] hash it is again of type text and not
+[01:14:09] null since we don't directly store the
+[01:14:12] plain text value of the password we hash
+[01:14:14] the password and store it this it's
+[01:14:16] called password hash just a name then we
+[01:14:19] have two other fields create at and
+[01:14:21] update at and the reason is we want want
+[01:14:25] to know when this user was created okay
+[01:14:28] when was the first time this user was
+[01:14:30] created in our database that's the
+[01:14:31] reason we maintain this field called
+[01:14:33] created it and usually we don't manually
+[01:14:35] insert it we are providing this default
+[01:14:40] property and we are saying if created is
+[01:14:43] not passed by default you can take the
+[01:14:46] current time stamp and you can put it in
+[01:14:49] that row okay and it is of type
+[01:14:52] timestamp with time zone okay this is of
+[01:14:55] type time stamp with time zone this will
+[01:14:58] have the date the time and the time zone
+[01:15:00] information same way updated it we
+[01:15:03] create this field so that we can keep
+[01:15:04] track of when was the last time we
+[01:15:07] updated some field of this row okay and
+[01:15:11] that can have some use cases for example
+[01:15:14] if you have a table in your front end
+[01:15:16] and you want to display all the users in
+[01:15:20] the order of when was the last time
+[01:15:22] their name was updated something like
+[01:15:24] this right so in that case you can use
+[01:15:27] this updated it property to sort by and
+[01:15:31] that's all about users table some of the
+[01:15:33] other things to notice here is all our
+[01:15:36] tables have this plural form right we
+[01:15:39] have users we have user profiles
+[01:15:41] projects and that is a standard a lot of
+[01:15:43] people also prefer the singular form
+[01:15:46] user user profile project Etc ET it's a
+[01:15:50] matter of what your team has decided and
+[01:15:53] what your company has decided but the
+[01:15:56] industry standard is to mostly stick
+[01:15:58] with the plural form second thing all
+[01:16:02] the table names and all the field names
+[01:16:04] will be small case and snake case and by
+[01:16:08] that I mean if it is a single word it
+[01:16:11] will have small case of course as we
+[01:16:13] have users ID email right all small case
+[01:16:17] if it has multiple words let's say full
+[01:16:19] name password hash created it update
+[01:16:22] then we'll use snake case if you are
+[01:16:24] coming from other progr programming
+[01:16:25] languages or Etc you might have the
+[01:16:27] instinct to go with uh camel case right
+[01:16:31] you might want to write something like
+[01:16:32] full name with n capital and you want to
+[01:16:36] merge and get rid of the snake case but
+[01:16:37] that is not a good idea because in
+[01:16:40] postgress everything is case insensitive
+[01:16:43] by Nature so even if you write camel
+[01:16:45] case postgress will take it as so if you
+[01:16:49] write something like this will name
+[01:16:52] pogress will understand this will name
+[01:16:56] unless you write it like this full name
+[01:16:59] with quotes and when you're writing your
+[01:17:02] application code using double Cod again
+[01:17:04] and again can be very difficult and make
+[01:17:07] the code very ugly that's the reason we
+[01:17:09] always try to stick with small case we
+[01:17:12] make everything small case and if you
+[01:17:14] have multiple wordss we stick with snake
+[01:17:16] case so that we can avoid using double
+[01:17:17] codes to make postgress understand case
+[01:17:21] sensitivity okay that's some of the
+[01:17:22] things that you have to remember moving
+[01:17:24] on
+[01:17:25] we have another table called user
+[01:17:28] profiles now if you check the commment
+[01:17:30] it says one to one relationship with
+[01:17:33] users now you might have a question like
+[01:17:36] why are we creating a different table
+[01:17:38] for storing information of the user
+[01:17:41] right why don't we store all this
+[01:17:42] information in the same table and the
+[01:17:45] reason for that is you when you're
+[01:17:46] designing a database you have to take
+[01:17:48] into account some of the different
+[01:17:50] different situations that you might
+[01:17:53] modify your data in so if you think
+[01:17:56] about a user the only times you are
+[01:17:59] going to make changes to a users entry
+[01:18:04] in the users table is when they are
+[01:18:06] modifying their profile and their
+[01:18:09] profile can have lot of other
+[01:18:10] information for the sake of this example
+[01:18:12] we have just limited it to their image
+[01:18:14] URL their bio their phone number but
+[01:18:17] user can have other fields also right
+[01:18:20] they can have their social media
+[01:18:22] accounts and they can have their
+[01:18:25] websites and their projects etc etc a
+[01:18:29] lot of different information a user
+[01:18:30] profile can have and because of that we
+[01:18:32] in the future we have to make a lot of
+[01:18:34] migrations to the user table itself and
+[01:18:39] we have to constantly modify the users
+[01:18:42] row again and again and we don't
+[01:18:46] necessarily have to do that if we
+[01:18:48] abstract out the users profile
+[01:18:51] information into a different table which
+[01:18:53] can scale over time which can get bigger
+[01:18:55] over time and which does not affect the
+[01:18:59] primary users table directly these are
+[01:19:02] some of the bu cases that we go with one
+[01:19:04] to one relationship for storing users
+[01:19:07] profile information for storing user
+[01:19:09] preference for storing metadata etc etc
+[01:19:12] right this is a common convention that
+[01:19:14] you will see when it comes to modeling
+[01:19:16] your database so we have a table called
+[01:19:20] user profiles inside this we'll store
+[01:19:23] the information of the user for this
+[01:19:25] what we can do is we don't necessarily
+[01:19:27] have to create another ID field because
+[01:19:29] there is a one to one relationship with
+[01:19:31] another table each entry of that table
+[01:19:35] or each row of that table will only have
+[01:19:38] one row in this table that's why it's
+[01:19:41] called one to one relationship and
+[01:19:43] because of that we can get rid of this
+[01:19:46] ID and we can make the user ID which is
+[01:19:50] the foreign key in this table as the
+[01:19:53] primary key so we can write uu ID then
+[01:19:57] instead of not null we can write primary
+[01:20:00] key and we can also get rid of this
+[01:20:02] unique thing now this user ID field is
+[01:20:06] both the primary key and the foreign key
+[01:20:09] in this table and we have some other
+[01:20:11] fields for storing the image URL the bio
+[01:20:14] the phone number and if you notice we
+[01:20:16] are not writing notal here because these
+[01:20:18] can be optional Fields a user can choose
+[01:20:21] not to have a bio they can choose not to
+[01:20:24] provide the phone number or to have a
+[01:20:26] image customized image etc etc right
+[01:20:29] that's the reason we are not writing not
+[01:20:31] n in these fields okay moving on we then
+[01:20:35] have another table called projects now
+[01:20:37] the same thing happens here we have a
+[01:20:40] primary key with ID and we are
+[01:20:42] generating a default random ID each time
+[01:20:45] we enter a new project into the database
+[01:20:48] same way we have the name of the project
+[01:20:51] which is not null and we have the
+[01:20:52] description of the project which can be
+[01:20:54] null we don't care much of the
+[01:20:56] description but we have to have the name
+[01:20:58] of the project that's why we are writing
+[01:21:01] not null here same way we have a status
+[01:21:04] field which is using our custom enum
+[01:21:07] type is project status is not null and
+[01:21:11] if you don't provide any value for this
+[01:21:13] field by default it will be in the
+[01:21:15] active State okay usually when we are
+[01:21:18] going with enum types we provide a
+[01:21:20] default value with one entries of that
+[01:21:23] enum to make easier for us so that we
+[01:21:26] don't have to explicitly push that value
+[01:21:28] from our application code then we have
+[01:21:30] an owner ID which is a foreign key and
+[01:21:33] we write it like this it is a not n
+[01:21:36] level field and says it references the
+[01:21:41] users table and this is a constraint
+[01:21:44] that on delete restrict and this is what
+[01:21:47] it means this owner ID is the foreign
+[01:21:50] key for stable and it references the
+[01:21:53] user table and usually this is how we
+[01:21:56] write users ID and because the ID field
+[01:21:59] is the primary key in the users table we
+[01:22:02] can omit this part and we can only say
+[01:22:06] references users like we are doing here
+[01:22:08] and it means owner ID references the ID
+[01:22:13] field in the user table users table okay
+[01:22:17] now the second part we are putting a
+[01:22:19] condition here saying that on delete
+[01:22:21] restrict this is also known as refer
+[01:22:24] differential Integrity which basically
+[01:22:26] means that we can protect the data
+[01:22:29] across different tables using the
+[01:22:32] relationship between those tables in
+[01:22:34] this case what we are saying if someone
+[01:22:37] deletes this particular user which user
+[01:22:41] the user whose ID is in this table the
+[01:22:44] project table as the owner ID so let's
+[01:22:47] say we have a users table and we have
+[01:22:51] projects table in ID field we have
+[01:22:55] for the sake of this example let's say
+[01:22:57] we have ID is one and in projects field
+[01:23:00] we have another entry owner ID in this
+[01:23:03] row owner ID is one so this user has
+[01:23:07] created a project that's why in the
+[01:23:09] projects table we have a row which has a
+[01:23:13] field called owner ID and the value is
+[01:23:15] one when we write on delete restrict
+[01:23:19] what it means is if someone tries to
+[01:23:21] delete this user this user whose ID is
+[01:23:25] one the database system will check
+[01:23:27] whether this user has some corresponding
+[01:23:30] rows in projects field since it has what
+[01:23:34] it will do is it will check what is the
+[01:23:36] referential Integrity constraint what is
+[01:23:38] the condition we are mentioning here
+[01:23:40] since we are saying restrict it will
+[01:23:42] fail that operation you cannot delete a
+[01:23:45] user unless you delete the project first
+[01:23:49] that's what it means using referential
+[01:23:51] Integrity we can put some restrictions
+[01:23:54] on some operations on some tables using
+[01:23:58] the relationship between those tables
+[01:24:00] and inside referential Integrity we have
+[01:24:03] couple of constants one is on delete
+[01:24:06] restrict second is on delete Cascade and
+[01:24:10] what on delate Cascade means let's say
+[01:24:13] if we had instead of on delate restrict
+[01:24:15] we had on delate Cascade so when someone
+[01:24:18] deletes a particular user the database
+[01:24:20] system will check if there are entries
+[01:24:24] in the projects table which has owner ID
+[01:24:26] as one it will also delete those
+[01:24:28] projects instead of restricting it will
+[01:24:30] Cascade which means it will delete the
+[01:24:32] user and all the associated projects
+[01:24:34] from the projects table they also have
+[01:24:36] another con condition called set null
+[01:24:39] and set default which basically means if
+[01:24:42] someone deletes a particular user then
+[01:24:45] owner ID in case of set null will be set
+[01:24:49] null but since we are saying not null
+[01:24:51] here and if you try to set null then
+[01:24:53] we'll get a database level error and
+[01:24:55] this operation will not go through same
+[01:24:57] way set default will try to set the
+[01:24:59] default value if some default value is
+[01:25:02] provided while creating the table these
+[01:25:04] are pretty much all the referential
+[01:25:06] Integrity constraints that we use on a
+[01:25:08] day-to-day basis to protect our data
+[01:25:11] from going corrupt to protect our data
+[01:25:14] from going inaccurate right so this
+[01:25:16] basically means we cannot delete a user
+[01:25:18] as long as they have some Associated
+[01:25:21] projects in the project table because of
+[01:25:24] this statement on delete restrict and
+[01:25:26] owner ID is a foreign key and similarly
+[01:25:28] we have created it and updated it moving
+[01:25:30] on we have tasks which another table and
+[01:25:35] in the same way we have a primary key
+[01:25:37] called ID and we have a foreign key here
+[01:25:40] called project ID it is a type uu ID
+[01:25:44] because the primary key of projects is
+[01:25:48] ID and ID is of Type U ID and since
+[01:25:51] we'll be storing the values of ID here
+[01:25:53] this is is also U ID and we are saying
+[01:25:56] not n which means there cannot exist a
+[01:26:00] task without an Associated project ID
+[01:26:03] that cannot be an orphan task that's
+[01:26:05] what we are saying here it cannot be
+[01:26:06] null then we have the foreign key
+[01:26:08] constraint the referential Integrity
+[01:26:10] thing you're saying it references
+[01:26:12] projects and since we have AED the field
+[01:26:15] it will check which is the primary key
+[01:26:18] in Project table since ID is the primary
+[01:26:19] key ID is the forign key here then we
+[01:26:22] have the referential integrity
+[01:26:24] constraint we are saying on delete
+[01:26:25] Cascade now as I've already mentioned on
+[01:26:29] delete Cascade means if we have a
+[01:26:31] project with ID one and if we have a
+[01:26:36] task with id2 and project ID 1 this is a
+[01:26:39] projects row there is a task row and if
+[01:26:42] we delete the projects row with ID one
+[01:26:45] it will check that project one has
+[01:26:48] Associated tasks in the task table so
+[01:26:51] what it will do is since we are redit in
+[01:26:54] on delete Cascade it will delete all the
+[01:26:57] tasks which are associated with the
+[01:26:59] project ID one because of referential
+[01:27:02] Integrity this is a very useful Concept
+[01:27:04] in relational databases then moving on
+[01:27:07] we have the title field is of type text
+[01:27:09] and not null and description which can
+[01:27:11] be null and of type text then we have
+[01:27:15] the priority which is an
+[01:27:17] integer we can only store 1 2 3 4 etc
+[01:27:20] etc and it cannot be null by default if
+[01:27:24] we the application does not pass any
+[01:27:26] values we are setting the value one then
+[01:27:29] in the end we have a constraint of check
+[01:27:31] in po or any relational systems we have
+[01:27:34] different different constraints one we
+[01:27:37] have already seen is unique so for that
+[01:27:40] field in the whole table you can have
+[01:27:43] only one value for a particular field
+[01:27:46] and that value will be unique across the
+[01:27:48] whole table then we have not null which
+[01:27:52] enforces the condition that you cannot
+[01:27:54] set null in this field similarly we have
+[01:27:57] another constraint these are called
+[01:27:59] constraints or conditions that we are
+[01:28:02] putting on a particular field similarly
+[01:28:05] we have check constant which basically
+[01:28:09] using which we can put a particular
+[01:28:11] condition on a field a custom condition
+[01:28:14] and the operation the transaction will
+[01:28:17] only go through as long as this
+[01:28:19] condition is true that's what check
+[01:28:22] means so if we see here you're saying
+[01:28:26] when we are trying to insert the
+[01:28:27] priority field if you do not pass
+[01:28:28] anything set the default as one but if
+[01:28:31] you do pass anything we are checking
+[01:28:33] that the value should be either 1 to
+[01:28:36] five that is the condition that we are
+[01:28:37] putting here the value of priority
+[01:28:39] should be 1 to 5 so that no one can
+[01:28:42] insert some random value like 55 into
+[01:28:44] the priority field we're only
+[01:28:46] considering from value 1 to five moving
+[01:28:49] on we have a field called status and
+[01:28:52] this is a custom enum type and which we
+[01:28:54] created at the start is of task status
+[01:28:58] and it can have pending in progress
+[01:29:00] completed cancelled so the status will
+[01:29:03] have our custom type task status it
+[01:29:05] cannot be null and by default the
+[01:29:07] application if does not pass anything we
+[01:29:09] are setting the value of pending here
+[01:29:11] then we have a due date which is of type
+[01:29:13] date we not considering time here or
+[01:29:15] time zone we're just considering date
+[01:29:17] here then we have assigned to we again
+[01:29:20] have a foreign key condition so assign
+[01:29:22] to is a foreign key which references
+[01:29:25] users ID from the users table and the
+[01:29:29] constraint the referential Integrity
+[01:29:30] constraint that we are putting here is
+[01:29:33] if the user of that ID is deleted and
+[01:29:36] that users's ID is present in the
+[01:29:39] assigned to field in the task table then
+[01:29:41] for that row we are setting the value of
+[01:29:44] assigned to as null that's what this
+[01:29:46] means and similarly we have created it
+[01:29:48] and updated it the nice thing about the
+[01:29:51] foreign key constraint is because you
+[01:29:53] have written that assigned to or in this
+[01:29:57] case owner ID right since these are
+[01:30:00] foreign keys and by default relational
+[01:30:02] databases have this constraint called
+[01:30:04] foreign key constraint because of that
+[01:30:06] you cannot enter anything into the
+[01:30:09] assigned to field if you try to enter
+[01:30:12] some random string or some random uu ID
+[01:30:14] it can be a valid uu ID but that U ID
+[01:30:18] has to be present in the users table as
+[01:30:21] a valid ID if that is not present then
+[01:30:24] your insertion will fail okay that's
+[01:30:27] what we mean by Foreign key constraint
+[01:30:29] if you write references users this make
+[01:30:33] sure that this U ID whatever uid that
+[01:30:35] you are passing for this field this has
+[01:30:37] a corresponding user entry in the users
+[01:30:40] field another thing to notice here is
+[01:30:42] this pattern is called one to many
+[01:30:45] because we are writing project ID here
+[01:30:48] which is a foreign key which references
+[01:30:50] the ID field in the proess table which
+[01:30:52] basically means that if we have a
+[01:30:54] project with id1 that can have multiple
+[01:30:58] tasks right multiple tasks in the task
+[01:31:01] table which refers to this project using
+[01:31:05] the field project ID in the task table
+[01:31:08] right it can it will be one here and
+[01:31:11] same way it will be one here it will be
+[01:31:13] one here it will be one here right one
+[01:31:15] project can have multiple tasks in the
+[01:31:18] task table that's why it's called one to
+[01:31:20] many relationship and this is how we
+[01:31:23] implement it
+[01:31:24] the first kind of relationship which is
+[01:31:26] one to one relationship the way we
+[01:31:28] Implement that is we take the primary
+[01:31:31] key of the main table and we create
+[01:31:34] another table and we make the primary
+[01:31:37] key of the main table as the primary key
+[01:31:40] of the second table also but instead of
+[01:31:42] writing just ID we write the name of the
+[01:31:45] table with ID so because we had the
+[01:31:48] table called users for a one toone
+[01:31:51] relationship with the user profiles
+[01:31:53] table what we did we wrote ID and we
+[01:31:56] used the users primary key from this
+[01:31:59] table as a primary key in this table and
+[01:32:01] instead of just writing ID we wrote it
+[01:32:03] as user ID is the primary key in this
+[01:32:05] table this is how we implemented one to
+[01:32:07] one relationship and the way we
+[01:32:10] Implement one to many relationship is we
+[01:32:12] take the ID field and we create another
+[01:32:16] table but we don't make that as a
+[01:32:18] primary key we keep that as a foreign
+[01:32:19] key only and we refer to that using the
+[01:32:24] ID primary key right that's how we
+[01:32:27] Implement one to many relationship in
+[01:32:29] the next one we'll see how we Implement
+[01:32:31] many to many relationship so moving on
+[01:32:34] this is the last table it's called
+[01:32:36] project members the reason we are
+[01:32:38] creating this table is we want to keep
+[01:32:41] track of what are all the projects that
+[01:32:43] a user is part of at the same time we
+[01:32:46] also want to keep keep track of what are
+[01:32:49] all the users that are associated with
+[01:32:51] the project so you can look at it both
+[01:32:55] ways and when you have a condition like
+[01:32:57] that when you have a condition when you
+[01:32:59] take the same thing and you can look at
+[01:33:02] it both ways and it makes sense that's
+[01:33:05] how we know that it is a many to many
+[01:33:07] relationship because if we have a user
+[01:33:10] that user can be part of multiple
+[01:33:13] projects at the same time right you can
+[01:33:14] be part of multiple projects at the same
+[01:33:16] time same way if we have a project that
+[01:33:19] project can have multiple users at the
+[01:33:22] same time right a project can not be
+[01:33:24] limited to a single user same way user
+[01:33:26] cannot be limited to a single project
+[01:33:28] that's why projects and users have many
+[01:33:31] to many relationship and we want to keep
+[01:33:34] track of that relationship by creating a
+[01:33:37] different table and usually we call this
+[01:33:40] table as linking table and we implement
+[01:33:43] this pattern when we are implementing
+[01:33:46] many to many relationship okay by
+[01:33:49] creating a different table for the sake
+[01:33:51] of maintaining the relationship with
+[01:33:53] between two tables that's why it's
+[01:33:55] called a linking table and this is how
+[01:33:57] we do it okay we have to make some
+[01:33:59] changes to that instead of creating an
+[01:34:02] ID here what we'll do we'll remove this
+[01:34:06] we'll remove this row we'll take foreign
+[01:34:09] keys from both the tables so what we'll
+[01:34:12] do is we have project ID here and we
+[01:34:15] have user ID here project ID is a
+[01:34:17] reference to the ID field in the project
+[01:34:20] table and we are seeing on delete
+[01:34:21] Cascade as the referential integrity
+[01:34:23] constraint same way user ID is a foreign
+[01:34:26] key which references the users table and
+[01:34:29] the referential Integrity constraint is
+[01:34:31] the same thing on delete casket which
+[01:34:32] basically means if the project is
+[01:34:34] deleted delete all the entries in the
+[01:34:36] project members table same way if the
+[01:34:38] user is deleted delete on the ENT in the
+[01:34:40] project members table okay and in the
+[01:34:43] end what we'll do instead of writing
+[01:34:45] unique we'll write primary key primary
+[01:34:48] key and what this means is this is a
+[01:34:51] composite primary key in the Technic
+[01:34:53] terms so it is a combination of two
+[01:34:56] fields which are foreign Keys
+[01:34:58] referencing primary keys of two other
+[01:35:00] tables and we take those two and we
+[01:35:03] create the primary key so if a user is
+[01:35:07] part of a project then that will have
+[01:35:10] one entry in projects members table
+[01:35:13] let's say you have users table and you
+[01:35:16] have projects table okay and you have
+[01:35:21] users 1 2 3 and projects 1 2 2 three and
+[01:35:25] we want to maintain the relationship
+[01:35:26] that let's say through some user Journey
+[01:35:30] user one was added to project and we
+[01:35:33] want to maintain this relationship in
+[01:35:34] our projects members table what we can
+[01:35:37] do we take project ID since it's a many
+[01:35:40] to many relationship what we do we take
+[01:35:42] the project ID which is two okay this is
+[01:35:46] the project ID and you take the user ID
+[01:35:50] which is one right take the user ID is
+[01:35:53] one and this combined will have one
+[01:35:56] entry in the project members
+[01:35:58] relationship because user one being part
+[01:36:02] of project two is a single event right
+[01:36:05] that cannot be duplicated user one
+[01:36:07] cannot be part of project two multiple
+[01:36:09] times same way project 2 cannot have
+[01:36:12] user one multiple times okay that's the
+[01:36:15] reason what we did we took this
+[01:36:17] combination project two and user one we
+[01:36:21] took this we said that these two
+[01:36:24] combined will be the primary key for
+[01:36:26] this table because primary key
+[01:36:29] implicitly enforces some constraints
+[01:36:32] constraints like unique and not null so
+[01:36:36] what we are saying this combination can
+[01:36:39] only have one entry in this table which
+[01:36:42] will be a unique entry and that cannot
+[01:36:44] be null and because it is a primary key
+[01:36:47] using this combination we can uniquely
+[01:36:49] identify this Row in this table okay
+[01:36:52] this is the CR of how we Implement many
+[01:36:55] to many relationship in postgress or any
+[01:36:58] relational database using a linking
+[01:37:00] table which will have a composite
+[01:37:03] primary key of the two tables that we
+[01:37:05] are trying to link the rest of the
+[01:37:07] things remain same we have created it
+[01:37:09] and updated that and we have a role
+[01:37:10] field which is again a custom enum so we
+[01:37:14] are saying it is a member role which we
+[01:37:16] have created if we go to the top you're
+[01:37:18] saying member role it can be either
+[01:37:20] owner admin or member Okay so
+[01:37:24] if a user is part of a project in that
+[01:37:27] project whatever characteristics that
+[01:37:29] user will have or whatever project
+[01:37:32] characteristics for that user it will
+[01:37:34] have all those informations we can store
+[01:37:37] in the project member St and because
+[01:37:40] role is specific to the situation where
+[01:37:43] a user is part of a project that's why
+[01:37:45] we have we have kept the information of
+[01:37:47] role in this table okay and by default
+[01:37:51] we are setting the role member and that
+[01:37:53] that's pretty much all our up migrations
+[01:37:57] same way as I mentioned we have to
+[01:37:59] mention our down migrations all the
+[01:38:01] changes that we did we created a couple
+[01:38:03] of types we created a couple of tables
+[01:38:06] now in the down migrations what you have
+[01:38:08] to do we have to revert that so that
+[01:38:10] when we want to roll down to a
+[01:38:12] particular version using these
+[01:38:13] statements our database can do the roll
+[01:38:16] back okay we have to explicitly say that
+[01:38:19] these are the down migrations that the
+[01:38:21] database tool the migration tool can use
+[01:38:25] to roll back to a previous version okay
+[01:38:28] and we are simply dropping all the
+[01:38:30] tables and after dropping all the tables
+[01:38:32] we are dropping all the types in the
+[01:38:34] reverse order that we created them
+[01:38:35] that's pretty much all the tables okay
+[01:38:38] so let's go ahead and apply these
+[01:38:41] migrations to our database so that we
+[01:38:43] can see if it works or not and to apply
+[01:38:46] it dbat has a command you can write DB M
+[01:38:49] and you can write up okay and here
+[01:38:52] applying this migration file and it says
+[01:38:54] applied in this
+[01:38:56] milliseconds and then we go here if we
+[01:38:59] do a refresh and you can see you expand
+[01:39:02] it a little bit these are all the tables
+[01:39:05] that we just created you can go here and
+[01:39:07] you can check the schema it has project
+[01:39:09] ID user ID role C project all the
+[01:39:12] schemas right since we have not inserted
+[01:39:14] any databases yet all these entries are
+[01:39:17] empty all these tables are empty and you
+[01:39:20] can also see there is a special table
+[01:39:22] called schema migrations and this one is
+[01:39:25] created by dbit as I've already
+[01:39:28] mentioned all these migrations tools
+[01:39:31] they have to keep track of what is the
+[01:39:33] current state of the database so that
+[01:39:36] they can decide what migrations to apply
+[01:39:40] right so after this after our first
+[01:39:42] migration if you create a different file
+[01:39:45] the database tool will check what is the
+[01:39:47] current version and it will start
+[01:39:49] applying the migrations from that point
+[01:39:51] on instead of duplicating the Mig s and
+[01:39:55] because if it tries to execute the same
+[01:39:57] statements again it will get an error
+[01:39:59] from postgress that this table already
+[01:40:01] exists you cannot run the same
+[01:40:02] statements again that's the reason the
+[01:40:06] migration tool maintains a table call
+[01:40:09] schema migration and in that it has a
+[01:40:13] single field called version and it keeps
+[01:40:15] tag of what is the current version of
+[01:40:17] the migration that we have now that we
+[01:40:19] have our tables ready we want to insert
+[01:40:22] some data into it now in production
+[01:40:24] environments when you actually deploy
+[01:40:26] this back end you will have normal user
+[01:40:29] flows right people will come to your
+[01:40:31] platform they'll use the front end to
+[01:40:34] sign up with forms and they'll create
+[01:40:36] projects with different different forms
+[01:40:37] you have this pre defined flows when the
+[01:40:41] data will come into your database but
+[01:40:44] when you're creating your backend when
+[01:40:46] you're modeling your data for a backend
+[01:40:48] engineer when you want to test all those
+[01:40:51] changes then you want to see how the
+[01:40:54] user interactions will look like
+[01:40:56] basically for testing purposes in
+[01:40:58] development environments you want to put
+[01:41:00] some test data into your database so
+[01:41:03] that you have something to test with
+[01:41:05] before you deploy whatever changes that
+[01:41:08] you made in the database for that
+[01:41:10] purpose we have a concept called as
+[01:41:13] seeding and seeding basically means you
+[01:41:16] write some script usually you create
+[01:41:19] another migration or you can put it in
+[01:41:22] the same migration also but the best
+[01:41:23] practices say you create different
+[01:41:26] migration file for seeding data seing
+[01:41:29] test data test data into your database
+[01:41:32] and it's called sitting basically seting
+[01:41:34] means putting some test data into your
+[01:41:36] database for testing purposes in
+[01:41:38] development environments so let's create
+[01:41:41] another migration file with the command
+[01:41:44] dbate new seat data SE data and when you
+[01:41:49] press enter it creates another file
+[01:41:51] called the time stamp stamp and the seat
+[01:41:54] data because this time stamp is greater
+[01:41:55] than the previous one these will be
+[01:41:58] sequentially arranged and now this is
+[01:42:00] end empty what I'll do is I'll again
+[01:42:03] paste some SQL statements to save some
+[01:42:06] time then we can go through what's
+[01:42:07] happening there how we are inserting the
+[01:42:09] data for seeding purposes these are all
+[01:42:12] the SQL queries using which we are
+[01:42:15] putting some test data into our database
+[01:42:17] into our tables so there is nothing
+[01:42:19] special here basic SQL queries if you
+[01:42:22] have already explored the basics of SQL
+[01:42:24] the basics of postgress they'll you
+[01:42:26] understand it if you not then please do
+[01:42:28] it it'll make understanding this video
+[01:42:30] much easier so what we doing we are
+[01:42:33] using a CT also called as common table
+[01:42:35] expression to make it more readable so
+[01:42:37] we are creating an intermediate table
+[01:42:40] called inserted users and in that we are
+[01:42:43] inserting some test data into the users
+[01:42:46] table taking some sample emails some
+[01:42:48] names some password hashes and we're
+[01:42:51] inserting it and we returning two fields
+[01:42:54] for this SQL query execution the IDS and
+[01:42:57] the emails of the inserted users and we
+[01:43:00] are taking that and this is an
+[01:43:02] intermediate tib called inserted
+[01:43:05] profiles what we are doing here is we're
+[01:43:07] taking the inserted users table and
+[01:43:11] using this from inserted users we are
+[01:43:14] doing select select the ID of the user
+[01:43:18] and we putting the image since the
+[01:43:21] Avatar URL you have mentioned here we
+[01:43:23] are putting some static image URL and
+[01:43:26] for the bio we are doing a case wi so if
+[01:43:29] email is something like this then put
+[01:43:31] this bio if email is something like this
+[01:43:33] then put this bio for this put this bio
+[01:43:36] otherwise put some logic to put
+[01:43:39] different different bios for different
+[01:43:41] different users then for the phone field
+[01:43:44] we are just inserting some random phone
+[01:43:47] number then moving on same way we are
+[01:43:51] inserting some project
+[01:43:53] and etc etc using SQL queries just
+[01:43:57] normal CD so let's go ahead and apply
+[01:44:01] these migrations on our database so that
+[01:44:03] we have some data to test with for
+[01:44:06] applying the migrations we can do dmate
+[01:44:08] up and we do it it applies seeds all the
+[01:44:12] data into our database and we can go to
+[01:44:15] our tool and we can open any table so as
+[01:44:19] you can see projects has some entries
+[01:44:22] you can
+[01:44:23] click on a row projects project members
+[01:44:27] users all the tables have some some
+[01:44:29] entries and you can check the entries of
+[01:44:31] the table for users we have this ID this
+[01:44:35] email this full name password hash for
+[01:44:37] the second user we have these entries
+[01:44:40] when you go to user profiles we have
+[01:44:42] this user ID after URL bio for the
+[01:44:45] second user this is the BIOS third user
+[01:44:48] this is the bio etc etc like same way we
+[01:44:50] also have projects right so our CD is
+[01:44:53] successful and we have some data so that
+[01:44:57] we can start testing now now let's say
+[01:45:01] we have created the tables we have done
+[01:45:04] some seeding and now we want to build
+[01:45:08] some apis for the first API that you
+[01:45:10] want to build is you want to fetch the
+[01:45:13] list of all users and you want to send
+[01:45:15] it to the front end for that we can
+[01:45:17] write a simple query and do select from
+[01:45:20] users and we can execute this and we'll
+[01:45:23] get all the entries right the all the
+[01:45:26] users that exist in the users table now
+[01:45:29] what you want to do is for each user we
+[01:45:32] also want to send the profile
+[01:45:34] information which is on a different
+[01:45:36] table right we have the user profiles
+[01:45:39] table so for each user we want to fetch
+[01:45:42] the profile information from the user
+[01:45:44] profiles table and you want to embed
+[01:45:46] that into the user row and you want to
+[01:45:50] send it to the front end in a single API
+[01:45:52] call we use we don't want the user to
+[01:45:55] make a different call for fetching the
+[01:45:57] profile information that's why we are
+[01:45:58] embedding the profile information before
+[01:46:01] we send it so let's write the query for
+[01:46:03] that usually when we write SQL queries
+[01:46:06] always start from from section right
+[01:46:08] instead of the select section so that
+[01:46:10] you know exactly where you are drawing
+[01:46:12] your data from so we write from
+[01:46:16] users you and this is called an Alas and
+[01:46:21] assigning an alas usually a one letter
+[01:46:24] or two letter alas to a particular table
+[01:46:26] name inside an SQL query makes it more
+[01:46:29] convenient to refer to that table again
+[01:46:32] and again in that query right that's why
+[01:46:34] we use Al SS now from users table we
+[01:46:37] want the information of the user next
+[01:46:40] thing what we want is we want user's
+[01:46:43] profile information which is in a
+[01:46:45] different table okay and it is in the
+[01:46:49] user profiles table now the thing that
+[01:46:53] connects these two tables as you already
+[01:46:55] know is the foreign key so each user
+[01:46:58] profile entry each row in the user
+[01:47:00] profiles table has a field called user
+[01:47:04] ID which is a foreign key which refers
+[01:47:07] to the primary key of the user table so
+[01:47:09] what we can do we can use the join
+[01:47:12] operation to join the users table with
+[01:47:15] the user profiles table on a condition
+[01:47:17] which is the user ID should be the same
+[01:47:20] okay and to write that we can say left
+[01:47:23] join and the reason we are using left
+[01:47:26] join is because for some reason if the
+[01:47:29] user profile in the user profiles table
+[01:47:32] there is not an entry for a particular
+[01:47:35] user okay it is possible in our in our
+[01:47:38] backend system it is possible that the
+[01:47:40] user has never edited their user profile
+[01:47:43] that's why we have never created an
+[01:47:44] entry for them in the user profiles
+[01:47:46] table so in these situations if we go
+[01:47:50] with inner join we will get an mty
+[01:47:53] result because what inner join does each
+[01:47:55] condition for a particular condition
+[01:47:57] there should be an entry for both the
+[01:47:59] tables okay since in this case we want
+[01:48:03] the user information in any case right
+[01:48:06] in any case does not matter whether they
+[01:48:08] have the profile information in the user
+[01:48:10] profiles table or not but we want the
+[01:48:12] user information anyway that's the
+[01:48:15] reason we are going with left joint so
+[01:48:17] that even if there isn't an entry in the
+[01:48:19] user profiles table we'll still get the
+[01:48:22] value of the users information from the
+[01:48:24] users table okay that's the logic behind
+[01:48:27] going with left joint and most of the
+[01:48:29] times we'll be using inner joints and
+[01:48:32] left joints then we are writing SQ
+[01:48:34] queries those are the mostly used joints
+[01:48:36] you want to join with the user profiles
+[01:48:39] table and we'll name it alas up and the
+[01:48:43] condition for the joining is on the join
+[01:48:47] condition is u. ID the ID field in the
+[01:48:50] users table should be the same as the
+[01:48:54] user ID field in the user profile table
+[01:48:57] this is the condition okay this is the
+[01:48:59] condition on which we are joining both
+[01:49:01] these tables now we know where we are
+[01:49:04] drawing our data from okay we have
+[01:49:05] joined two tables we have an join table
+[01:49:08] and now what we can do we can select in
+[01:49:11] the select phase we'll see what are the
+[01:49:13] data that we want to fetch now that we
+[01:49:16] know where we are drawing our data from
+[01:49:18] we'll see what data we are drawing from
+[01:49:20] what we'll do we want to fetch
+[01:49:23] everything from the user R so we'll say
+[01:49:26] U do star comma we want to add another
+[01:49:30] field in each row called profile okay so
+[01:49:35] for that field what you want you want
+[01:49:38] the corresponding Row from the user
+[01:49:40] profiles table and you want to convert
+[01:49:44] it into a Json and we want to embed it
+[01:49:47] into a field in the user row called as
+[01:49:50] profile okay for that what we can do we
+[01:49:54] write 2 Json B which basically converts
+[01:49:58] a particular row into a Json it is a
+[01:50:01] inbu function provided by pogress and we
+[01:50:04] can use that to convert it and we can
+[01:50:06] write take up. STAR which means take the
+[01:50:10] corresponding Row from the user profiles
+[01:50:12] table convert it into a Json and name it
+[01:50:15] as profile before returning okay we have
+[01:50:18] our query now now let's try running it
+[01:50:21] okay and when we run it let's see what
+[01:50:25] the data looks like and this is what the
+[01:50:28] data looks like we have all the fields
+[01:50:30] from the users table we have ID email
+[01:50:32] full name password hash created at
+[01:50:34] updated that and we have an extra field
+[01:50:37] called profile which is a Json and that
+[01:50:40] has all the information from the user
+[01:50:42] profiles table okay now using this query
+[01:50:45] in a single API we can send the users
+[01:50:49] data and the user profile data from a
+[01:50:51] single database call okay using joints
+[01:50:54] another thing to notice here is whatever
+[01:50:56] data whenever we run a particular query
+[01:50:59] in any relational data the data that we
+[01:51:03] get returned is in a random format they
+[01:51:05] don't follow any particular format so
+[01:51:08] because of that whenever we run a select
+[01:51:11] query whenever we are returning a list
+[01:51:14] of data points into our front end we
+[01:51:16] have to sort it by default using some
+[01:51:19] column and usually what we do we sort it
+[01:51:22] by the
+[01:51:23] created it column because we want to
+[01:51:25] return the data in the reverse order of
+[01:51:28] when they were created so that the user
+[01:51:30] can see all the latest users so for that
+[01:51:33] what you can write order by U do created
+[01:51:36] at you want to take the created at field
+[01:51:39] from the users table and we want to sort
+[01:51:41] by that and we want to sort by
+[01:51:43] descending because we want the latest
+[01:51:45] entries and when you do that and run it
+[01:51:49] we get all the users in the reverse
+[01:51:51] order of how or when they were created
+[01:51:55] okay and this is what the query for an
+[01:51:59] API of get all users looks like so if we
+[01:52:03] have an AP something like this
+[01:52:06] slv1 SL users if we have an endpoint
+[01:52:11] which is a get endpoint our backend can
+[01:52:14] use a query like this a database query
+[01:52:17] like this to return all the data to the
+[01:52:19] user of course there will be other
+[01:52:21] processing that will happen this the
+[01:52:22] serialization Der serialization
+[01:52:23] depending on what language that you are
+[01:52:25] using if you're using something like
+[01:52:27] JavaScript or typescript or nodejs then
+[01:52:30] the serialization overhead is not that
+[01:52:32] much but if you're using something like
+[01:52:33] go then it has to deserialize into its
+[01:52:36] own struct then that struct will be sent
+[01:52:40] by serializing into a Json format before
+[01:52:43] it gets sent over the Internet to our
+[01:52:46] front end right this is what a typical
+[01:52:49] get all users endpoint looks like now
+[01:52:51] let's see another end point which is
+[01:52:53] something like slv1 SL users SL a
+[01:52:58] particular user ID okay so we'll write
+[01:53:01] it as user ID we'll get it as a dynamic
+[01:53:04] parameter in our API and we can pass
+[01:53:07] that user ID to our database query as a
+[01:53:10] parameterized query we'll see what
+[01:53:12] parameterized query means but if you
+[01:53:14] don't understand this part please was
+[01:53:16] the previous video where we have done a
+[01:53:19] deep dive on API designing and what are
+[01:53:21] Dynamic parameters how we design these
+[01:53:23] API end points etc etc so let's jump on
+[01:53:26] what this query will look like catching
+[01:53:29] the information the profile information
+[01:53:31] and the user information of a particular
+[01:53:33] user given a user ID from our Dynamic
+[01:53:36] parameter before we get into that let
+[01:53:41] understand what is a
+[01:53:45] parameterized queries parameterized
+[01:53:47] query is basically a safety mechanism
+[01:53:51] provided by databases which basically
+[01:53:53] means before running a query you can
+[01:53:57] provide a particular slot can provide a
+[01:54:00] particular slot and you tell the
+[01:54:03] database that this is your query and at
+[01:54:07] this position there is an empty slot but
+[01:54:11] before I execute this query I will
+[01:54:13] provide the information in this slot now
+[01:54:16] the catch is whatever information I
+[01:54:18] provide here it will be a string you can
+[01:54:22] cannot pass it you cannot pass it to
+[01:54:26] render it as a database action call
+[01:54:30] right it will just be a string so if
+[01:54:33] someone passes something very dangerous
+[01:54:36] like so we have a query and inside the
+[01:54:40] slot if you pass like let's say delete
+[01:54:42] from users a query which deletes
+[01:54:44] everything deletes all the users in the
+[01:54:46] database that will not be considered as
+[01:54:49] a SQL query because the way
+[01:54:52] parameterized query works is whatever
+[01:54:54] you pass in this slot they are
+[01:54:56] considered as a string okay they are
+[01:54:59] escaped in the technical term and it is
+[01:55:01] a safety mechanism to avoid situations
+[01:55:05] avoid vulnerabilities like SQL injection
+[01:55:08] where if you are constructing your query
+[01:55:12] instead of using parameters you are
+[01:55:14] constructing by concatenating Different
+[01:55:16] Different Strings you constructing your
+[01:55:18] SQL query instead of using parameters
+[01:55:21] then you can be a victim to SQL
+[01:55:24] injection okay so this is a very
+[01:55:26] important concept you can do your own
+[01:55:28] research to understand how SQ injection
+[01:55:31] Works etc etc but to simplify everything
+[01:55:34] whenever you have a dynamic value in
+[01:55:36] this case we want to fetch the
+[01:55:39] information of a single user using the
+[01:55:41] ID of that user so the ID of the user is
+[01:55:44] the dynamic value here so what we want
+[01:55:47] to do we want to keep a particular slot
+[01:55:50] in our query and we tell the database
+[01:55:53] that when we run this query we are going
+[01:55:55] to provide the ID of the user but for
+[01:55:57] now it is just an empty slot and when we
+[01:56:00] provide the ID it will it should just be
+[01:56:02] considered as an user's ID just a simple
+[01:56:04] string nothing else no more power should
+[01:56:07] be given to this particular string okay
+[01:56:11] that's the use of parameterized query it
+[01:56:14] makes your query more secure to execute
+[01:56:17] and most of the times whatever database
+[01:56:19] driver whatever library that you are
+[01:56:21] using whether in nodejs or go rust
+[01:56:24] python whatever it is your database
+[01:56:27] driver your OM they have capabilities to
+[01:56:31] handle all these slots with parameters
+[01:56:33] and etc etc since we are not getting
+[01:56:36] into code or any specific programming
+[01:56:38] language here we'll be looking at how
+[01:56:41] parameters work in the SQL editor itself
+[01:56:45] fortunately the this table plus the
+[01:56:48] software that we are using to write our
+[01:56:51] queries and to see our results etc etc
+[01:56:54] they are providing an interface to
+[01:56:56] provide parameters to our query so we
+[01:56:58] can see how it works but in real world
+[01:57:02] when you're actually building backend
+[01:57:04] you'll handle parameters using your
+[01:57:06] library using your driver whatever
+[01:57:08] driver that you are using okay with that
+[01:57:11] let's write our query to get the
+[01:57:13] information of a single user for that we
+[01:57:16] don't really need to change much we
+[01:57:18] still want all the information of the
+[01:57:19] user from the users table we still want
+[01:57:21] all the information of the user from the
+[01:57:22] profiles table using this Json
+[01:57:25] conversion the only thing that will
+[01:57:26] change is we want to filter by users's
+[01:57:29] ID when a single users information now
+[01:57:32] for that we want to add a where clause
+[01:57:34] and write where users ID u. ID is equals
+[01:57:39] to a parameter so this is where we are
+[01:57:41] assigning a slot an empty slot we are
+[01:57:44] telling that this is the name of the
+[01:57:46] variable is called user ID and this is
+[01:57:50] the whole query and we are saying that
+[01:57:52] this is the query and this is an empty
+[01:57:54] slot and when we run this query we'll
+[01:57:57] provide you the value of this slot so
+[01:57:59] that you can do your comparison and show
+[01:58:01] us the results so let's run this and we
+[01:58:06] are shown this dialogue so that we can
+[01:58:09] pass the actual value of the user ID but
+[01:58:12] as I said in your actual backend
+[01:58:15] environment you'll be handling this in
+[01:58:17] code in your particular driver or
+[01:58:19] Library so for this let's let wrap this
+[01:58:23] we have to wrap it in single codes right
+[01:58:27] all the strings in SQL have to be
+[01:58:31] wrapped in single code to be interpreted
+[01:58:34] as strings that's why we are wrapping it
+[01:58:36] in string and we are pasting The UU ID
+[01:58:39] of the user okay this is the U ID I have
+[01:58:42] pasted it here and then let's run this
+[01:58:46] and when we run this we get the
+[01:58:48] information of a single user and you can
+[01:58:50] check this is the user ID we still
+[01:58:53] getting all the information from the
+[01:58:54] users table and we're still getting all
+[01:58:56] the information from the profile table
+[01:58:58] but in this case we are only getting the
+[01:59:01] information of a single user using our
+[01:59:05] parameters with the same query so this
+[01:59:08] if you remember was for the endpoint V1
+[01:59:12] SL users SL colon user ID so ideally
+[01:59:20] while routing when the front makes the
+[01:59:22] API call with the appropriate U ID value
+[01:59:27] this will be routed to your particular
+[01:59:28] Handler the Handler will pass it to your
+[01:59:30] service the service will pass it to a
+[01:59:31] repository and it will pass the user ID
+[01:59:33] the actual U ID you'll take the U ID and
+[01:59:36] you pass it in the appropriate parameter
+[01:59:39] using the slot thing that I mentioned
+[01:59:41] and after you get this result you'll get
+[01:59:45] the result like this and this will get
+[01:59:47] serialized and transferred over to the
+[01:59:49] friend end in Json format going back to
+[01:59:52] the get all users API the get all users
+[01:59:55] query what if we want to provide some
+[01:59:58] Dynamic filters or some Dynamic sorts
+[02:00:01] usually in apis like these where we
+[02:00:05] fetch an array of entities like get all
+[02:00:08] users get all projects get all task in
+[02:00:11] the same API we also have to support
+[02:00:13] some kind of dynamic sorting or some
+[02:00:15] kind of dynamic filtering or both at the
+[02:00:18] same time now the problem is without you
+[02:00:22] using these queries without constructing
+[02:00:24] these queries in a proper orm or using a
+[02:00:28] programming language constructing the
+[02:00:30] SQL query
+[02:00:32] ourselves showing that part of the
+[02:00:35] mechanism in a SQL editor is a little
+[02:00:38] difficult but we can imagine how the
+[02:00:41] query might get constructed in an actual
+[02:00:44] programming language when we are
+[02:00:46] actually writing our backend code and we
+[02:00:49] can focus on just the SQL query part
+[02:00:52] without focusing too much on how we are
+[02:00:53] going to construct the query so if you
+[02:00:56] want to go back to the earlier query
+[02:00:58] which was get all users so when we
+[02:01:01] remove the Weare clause and when we run
+[02:01:05] this we're getting all the list of all
+[02:01:07] the users just as we had before now we
+[02:01:11] want to add some Dynamic sorts and some
+[02:01:13] Dynamic filters now let's see what all
+[02:01:16] fields we have in the users table we
+[02:01:18] have ID email full name password hash
+[02:01:21] let's say we want to add a filter
+[02:01:24] condition and we want to filter by the
+[02:01:26] name and our condition will be we will
+[02:01:29] pass a first letter of the name and we
+[02:01:32] want to return all those users who have
+[02:01:36] the first letter add that particular
+[02:01:38] letter whatever the front end is passing
+[02:01:40] that is going to be our filter condition
+[02:01:44] and for sort we want to take the sort
+[02:01:46] order from the user and we want to take
+[02:01:48] this field by which the user wants to
+[02:01:52] sort the result okay and as I said it's
+[02:01:55] a little difficult showing how the quer
+[02:01:57] is going to be constructed because what
+[02:02:00] happens in an actual backend is let's
+[02:02:02] say this is our query this is our query
+[02:02:04] payload and it's say p generated query
+[02:02:08] right so user can send these all query
+[02:02:11] parameters they can send a page query
+[02:02:14] parameter if they don't send it by
+[02:02:16] default we are going to set pages one
+[02:02:19] same way they are going to send a limit
+[02:02:23] parameter if they don't send it we set
+[02:02:25] it as something like 10 or 20 whatever
+[02:02:28] makes sense in your use case then we
+[02:02:31] come to the filtering part so as I said
+[02:02:35] for the filter we want to filter by the
+[02:02:38] first letter of the name so let's say we
+[02:02:42] take a query parameter called letter and
+[02:02:46] if they don't pass it then in this case
+[02:02:49] we don't set any default if they don't
+[02:02:50] pass it then we set it as null or in an
+[02:02:55] actual backend system we don't include
+[02:02:57] this in our query itself okay when they
+[02:03:00] constructing our query dynamically we
+[02:03:02] check that if the user has passed this
+[02:03:05] query parameter or not if they have pass
+[02:03:08] we include it in the we Clause if they
+[02:03:10] have not then we don't include it at all
+[02:03:13] okay that's how we do it in an actual
+[02:03:15] backing system same way we check the
+[02:03:20] sort conditions now the first thing is
+[02:03:23] we want to check let's say sort by you
+[02:03:26] check if this query parameter is present
+[02:03:29] or not if this is present then we
+[02:03:31] consider that as a sorting parameter
+[02:03:34] usually we don't allow the user to pass
+[02:03:36] any field as sort parameters uh we give
+[02:03:40] them some options that you can either
+[02:03:43] pass let's say full name or by email or
+[02:03:48] by created ad okay we give them some
+[02:03:52] options some fields from the table that
+[02:03:55] we allow user to pass and depending on
+[02:03:58] that we give them the result and the
+[02:04:01] last thing that we allow them is sort
+[02:04:04] order what is the order that you want
+[02:04:05] your results in whether it is ascending
+[02:04:08] order or descending order now for these
+[02:04:11] two Fields what we do we check if the
+[02:04:13] user has passed a sord by parameter then
+[02:04:17] we need consider that for the Sorting
+[02:04:19] mechanism if they have not by default we
+[02:04:22] take creat at as the default sorting
+[02:04:25] parameter same way we check if they have
+[02:04:28] passed sort order or not if they have we
+[02:04:31] consider whether it is ascending or
+[02:04:32] descending if they have not by default
+[02:04:34] we take descending so if the user has
+[02:04:37] not passed any of this what do we end up
+[02:04:40] with we end up with these query
+[02:04:42] parameters by default we set the pages
+[02:04:45] one limit as 10 sld by created at and
+[02:04:51] order by descending right by default we
+[02:04:54] anyway give them results as per this but
+[02:04:57] we also give them the option to
+[02:04:59] customize how they want the results
+[02:05:02] right now with that let's see how we can
+[02:05:04] construct the query we have our filter
+[02:05:07] which we are considering as the first
+[02:05:09] letter of the name we have our sort and
+[02:05:12] we allow them to sort by email or full
+[02:05:14] name or create at and we also uh want to
+[02:05:19] pigate this since it is a list of all
+[02:05:22] users whenever we are creating list apis
+[02:05:25] we should most of the time try to pigate
+[02:05:28] it unless we have a particular reason we
+[02:05:31] have a particular user interface where
+[02:05:33] we don't want to Pigeon it but most of
+[02:05:36] the time we should pigeon it okay now
+[02:05:39] going back to our query we have this
+[02:05:41] normal query now what we want to do we
+[02:05:44] want to add some more capabilities to
+[02:05:47] this so the first thing is we want to
+[02:05:49] add the filter condition you want to
+[02:05:52] give users the ability to filter by the
+[02:05:56] first letter of the name of the user so
+[02:05:59] what we can do we say where U do full
+[02:06:03] name I like I like means the SQL
+[02:06:06] operator like but it is case insensitive
+[02:06:10] so it does not matter is upper case or
+[02:06:13] lower case it will still try to match
+[02:06:15] the pattern okay I like and inside this
+[02:06:19] what we do we pass a parameterized query
+[02:06:22] and the parameterized query will be say
+[02:06:24] letter okay then we concatenate with
+[02:06:28] let's say the percentage sign let's run
+[02:06:31] this query and let's provide the letter
+[02:06:36] G and let's run this and we are getting
+[02:06:39] two results because these two users have
+[02:06:42] the first letter of the name starting
+[02:06:45] with J that's why we're getting these
+[02:06:47] two results now let's try to run this
+[02:06:49] with another letter let's say x for this
+[02:06:53] we don't get any results because we
+[02:06:54] don't have any users who have names
+[02:06:57] starting with x same way if we try to
+[02:07:00] run it with something like a we get the
+[02:07:03] user Alice Brown right so the filter
+[02:07:06] part is working as expected and for
+[02:07:10] those uh who are not familiar with the
+[02:07:12] basics of SQL what this we are doing is
+[02:07:15] we are taking the parameterized query
+[02:07:17] whatever is coming from the front end
+[02:07:19] and we are concat erating that with this
+[02:07:23] symbol this percentage symbol what this
+[02:07:25] means is take the letter whatever the
+[02:07:29] first letter is so if we pass J this is
+[02:07:31] what happens J and the percentage symbol
+[02:07:35] and this goes to the I like pattern
+[02:07:39] matching so what we're saying give us
+[02:07:41] all the names which is starting with the
+[02:07:44] letter j but we don't care whatever
+[02:07:47] comes after that okay that's the reason
+[02:07:49] we are getting all the users who have
+[02:07:51] the first letter with J okay now we have
+[02:07:54] our filter condition implemented let's
+[02:07:57] go ahead and Implement our sort
+[02:07:59] conditions so as you can see we are
+[02:08:02] adding the default sort condition
+[02:08:04] created at descending here now what we
+[02:08:07] want to do we want to make it Dynamic so
+[02:08:11] we want to say order by this is a
+[02:08:13] parameterized query we want to say Do by
+[02:08:16] and as order we also want to make it a
+[02:08:20] parameter they're saying sort order okay
+[02:08:23] we have our sort conditions let's check
+[02:08:25] this and we have three parameters to
+[02:08:27] fill now so let's provide it as J and
+[02:08:31] for the sort by in the back end we have
+[02:08:33] to construct this parameter in a way
+[02:08:36] that it matches the existing query since
+[02:08:38] we are using Al SS in our existing query
+[02:08:41] we have to provide the sort condition in
+[02:08:45] the same way what we want to do we want
+[02:08:47] to sort by the emails of the user so so
+[02:08:51] the parameter we should pass is U do
+[02:08:55] email right because we have to match the
+[02:08:57] alas that is existing in this query same
+[02:09:00] way sort order we want to say descending
+[02:09:04] and let's run this and we are getting
+[02:09:06] two results John do and Jan Smith and
+[02:09:10] this is how it is sorted John comes
+[02:09:13] first then comes Jan so let's try to run
+[02:09:17] this again but this time make it
+[02:09:18] ascending now Jane comes first and John
+[02:09:21] gum second so our sort conditions are
+[02:09:24] also working as expected now the last
+[02:09:27] thing we also want to pigate this query
+[02:09:31] since it is a list of all users we want
+[02:09:33] to pigate this query now in the end we
+[02:09:35] can write the user is trying to fetch
+[02:09:38] page one we have page and limit for the
+[02:09:41] concept of page if you want to fetch the
+[02:09:44] first page in the query we have to add
+[02:09:47] something like offset it and we want to
+[02:09:50] take also a parameter for here so we
+[02:09:52] write page page range you want page now
+[02:09:55] the second thing is we also want to take
+[02:09:57] the limit and for the limit we also take
+[02:10:01] a limit parameter and now let's run this
+[02:10:04] we have two more parameters for now we
+[02:10:06] want page as zero now in the actual back
+[02:10:10] end the user will pass pages from one to
+[02:10:15] whatever the maximum amount and we are
+[02:10:18] setting also the page number is one but
+[02:10:20] since we we are talking about the actual
+[02:10:22] database query here we have to pass the
+[02:10:25] first page as zero right the offset
+[02:10:27] starts from zero that's how we want to
+[02:10:30] differentiate between the actual
+[02:10:31] database query and whatever is set for
+[02:10:34] the experience of the user the we want
+[02:10:37] to start from the offset zero then the
+[02:10:39] limit is one since we are only getting
+[02:10:41] two results for this query we want to
+[02:10:43] check if the pation is working as
+[02:10:45] expected or not that's why we are
+[02:10:46] setting the limit is one and when we are
+[02:10:48] run this we getting Jan myth as the
+[02:10:51] first result and when we try to run this
+[02:10:54] again but this time we wanton page the
+[02:10:56] second page in the backend concept it is
+[02:10:59] the page two and in the database concept
+[02:11:01] it is offset one and when we run this we
+[02:11:04] getting job okay so the page ination
+[02:11:06] concept is also working and as I
+[02:11:09] mentioned these things will change a
+[02:11:13] fair amount when you are actually
+[02:11:15] writing the EXL query in your back end
+[02:11:17] because you have to construct all these
+[02:11:19] queries dynamically you using your
+[02:11:21] programming language but to understand
+[02:11:24] what happens at the database level this
+[02:11:26] example is pretty much enough so far we
+[02:11:29] have seen what the database query looks
+[02:11:32] like for this API get all users and this
+[02:11:36] API get a single user now let's proceed
+[02:11:39] to creating a user which is post / aa/
+[02:11:44] users let's see what the query for this
+[02:11:46] will look like now if you're already
+[02:11:48] familiar with SQL basics this is a
+[02:11:51] simple insert operation what we want to
+[02:11:54] do is want to do an insert call insert
+[02:11:58] into users you want to insert into users
+[02:12:02] table and what are the columns that we
+[02:12:04] are passing we are passing email and
+[02:12:07] full name and the password hash which
+[02:12:10] we'll create in our backend code but for
+[02:12:13] the sake of this example we are just
+[02:12:14] passing the password hash second we want
+[02:12:17] to pass the actual values and let's use
+[02:12:20] parameterized queries here for
+[02:12:22] email then for name and then for
+[02:12:28] password and this this camel case
+[02:12:31] password hash and in the end we want to
+[02:12:35] return what all users that were created
+[02:12:39] using this query for that we can do
+[02:12:42] returning Stu so return all the users
+[02:12:45] all the rows that were created using
+[02:12:47] this query so let's try to run this we
+[02:12:49] have to pass all the parameters and in
+[02:12:52] single codes since these are all strings
+[02:12:54] right so for email we can do something
+[02:12:56] like test at
+[02:13:01] gmail.com and for the full name we can
+[02:13:04] do test test and for the password any
+[02:13:08] random stream right for the sake of this
+[02:13:11] example then let's run this and we run
+[02:13:15] it we are getting a single row as a
+[02:13:17] result because we are doing returning
+[02:13:19] star and we just created one user we are
+[02:13:22] getting a single user entry a new user
+[02:13:24] was created and we're getting all the
+[02:13:26] information for that user and when we go
+[02:13:28] to the users table we can see that a new
+[02:13:31] user with test at gmail.com is created
+[02:13:33] and is in the table okay okay and this
+[02:13:38] is corresponding to the post / API SL
+[02:13:42] users API since we are creating a user
+[02:13:45] so we did a insert operation and created
+[02:13:48] a user and return the response in this
+[02:13:50] API next now let's get to update a user
+[02:13:56] now going back let's go to our query
+[02:13:58] editor minimize this now as I mentioned
+[02:14:02] before in our actual backend code we
+[02:14:05] will be constructing these SQL queries
+[02:14:07] dynamically depending on what are the
+[02:14:10] parameters that is passed from the user
+[02:14:14] okay so for the for the update API what
+[02:14:18] the API usually looks like is it is a
+[02:14:20] patch API
+[02:14:21] and we are giving the user to update
+[02:14:24] certain properties of their profile okay
+[02:14:28] we are trying to update the user
+[02:14:30] profiles table and we are giving the
+[02:14:33] user a form some kind of form in the UI
+[02:14:35] to update their profile so they can
+[02:14:38] update their bio they can update their
+[02:14:39] phone number or they can update their
+[02:14:42] image URL in the field Avatar URL for
+[02:14:45] this we want to make the payload partial
+[02:14:47] and by that I mean they can pass either
+[02:14:52] all the three fields or they can pass a
+[02:14:54] single field but depending on what are
+[02:14:56] the fields they are passing we only have
+[02:14:59] to update that field for all the other
+[02:15:01] fields we don't touch that okay so in
+[02:15:05] the programming language depending on
+[02:15:07] what you're using we check what are the
+[02:15:10] fields that the user has passed and from
+[02:15:13] a set of allowed Fields so let's say we
+[02:15:15] check if bio is present then take the
+[02:15:18] latest entry what the user has passed
+[02:15:21] the latest value of bio and update that
+[02:15:22] in the database same way we check if the
+[02:15:24] phone number is passed update it but
+[02:15:28] Avatar URL is not passed then don't
+[02:15:30] touch it keep it the same okay so with
+[02:15:34] that understanding going back to our SQL
+[02:15:37] query editor what query we can write is
+[02:15:39] after going through our backend code we
+[02:15:41] have seen that the user has only passed
+[02:15:43] bio and phone number so this is what the
+[02:15:47] query is going to look like after
+[02:15:49] getting constructed okay we say update
+[02:15:53] user
+[02:15:54] profiles then set bio equals to this is
+[02:15:58] going to a
+[02:15:59] parameterized query bio equals to bio
+[02:16:03] comma they have also passed phone number
+[02:16:06] and phone equals to phone we're going to
+[02:16:10] pass these values in our parameterized
+[02:16:12] queries and we also have to pass for
+[02:16:15] which user we want to update uh usually
+[02:16:17] we'll take this as a dynamic parameter
+[02:16:19] from the URL as as you can see here
+[02:16:22] we're taking the ID of the user from the
+[02:16:24] URL so that's what we will pass in our
+[02:16:26] database right and we want to update the
+[02:16:30] information the profile information of a
+[02:16:33] single user right so we have to pass
+[02:16:36] that in our parameterized query for that
+[02:16:39] we can write where user ID which is a
+[02:16:41] field in the user profiles table equals
+[02:16:44] to a parameter called user ID and in the
+[02:16:48] end we are saying whatever row that you
+[02:16:49] have updated return the latest value of
+[02:16:52] that row and then let's run this and for
+[02:16:55] Bio we are seeing updated bio for phone
+[02:16:57] number we passing a new phone number and
+[02:17:00] we run this and when you check it you
+[02:17:03] can see the bio is updated and the phone
+[02:17:05] number is also updated this particular
+[02:17:07] user and that's how an update user API
+[02:17:09] will look like now I want to show
+[02:17:13] something else if you notice here we
+[02:17:16] have a field called updated at and the
+[02:17:20] purpose of keeping this field in a table
+[02:17:23] is every time a particular row is
+[02:17:25] updated we also have to update this
+[02:17:28] field corresponding to that row to the
+[02:17:31] current time stamp the time stamp when
+[02:17:34] the row was updated and if we check the
+[02:17:37] field this is same as the created it
+[02:17:39] this is the same as when the user was
+[02:17:42] first created it is not updated since we
+[02:17:45] just updated the value uh right now this
+[02:17:49] should have the current time stamp which
+[02:17:51] it is not now usually there are two ways
+[02:17:53] of achieving this first is the manual
+[02:17:56] way every time you are doing an update
+[02:17:59] operation you can explicitly set the
+[02:18:03] value of updated column to the current
+[02:18:05] time Stam using your application code
+[02:18:07] you can pass another parameterized query
+[02:18:09] and you can say updated at equals to
+[02:18:12] updated at okay you can do that or you
+[02:18:16] can use another feature of databases
+[02:18:19] called trigger
+[02:18:21] and what triggers do is you can set a
+[02:18:23] particular condition and when that
+[02:18:27] condition is met you can perform some
+[02:18:29] action that's the whole idea of using
+[02:18:32] triggers at database levels so what we
+[02:18:35] are trying to do here is we will set up
+[02:18:38] a workflow using which what will say is
+[02:18:42] every time we are updating a particular
+[02:18:45] Row in any table we want to set the
+[02:18:49] updated at field of that row to the
+[02:18:52] latest time stamp using triggers okay we
+[02:18:55] want to make that change so that we
+[02:18:57] don't have to manually change the
+[02:18:59] updated at field every time we update
+[02:19:02] the information of a particular user
+[02:19:04] okay for that we have to write another
+[02:19:06] migration that is one change that we
+[02:19:09] want to make the second thing that you
+[02:19:12] should know about which is very
+[02:19:14] important concept is indexes or indices
+[02:19:18] what is database indexes is right this
+[02:19:21] is a very important concept and it
+[02:19:23] affects the performance of your queries
+[02:19:26] a lot okay so we have to understand what
+[02:19:28] is indexing and we have to implement it
+[02:19:30] in our own database using a migration
+[02:19:33] now let's understand what indexing is in
+[02:19:35] the first place so going back to our
+[02:19:38] earlier query so if we go to the history
+[02:19:40] tab here and let's check what was
+[02:19:45] earlier query so let's say this one okay
+[02:19:50] and let me close this and on this this
+[02:19:54] one right there is a select query for
+[02:19:58] for the list of all users okay and if
+[02:20:01] you notice here we are using some
+[02:20:04] conditions here let's try to find out
+[02:20:06] what are conditions that we are using
+[02:20:08] the first thing that you notice is we
+[02:20:10] are joining with another table and here
+[02:20:14] we are saying the ID of the users table
+[02:20:17] should be same as the user ID in the
+[02:20:21] user profiles table this is the join
+[02:20:24] condition here and it is an equality
+[02:20:26] condition okay same way another thing
+[02:20:30] that we are doing here is we are sorting
+[02:20:33] by the email field in the users table
+[02:20:36] and we are sorting in the order of
+[02:20:37] ascending this second thing to notice
+[02:20:39] and I'll explain why we are drawing
+[02:20:41] attention to this part right now these
+[02:20:44] are the two things now coming back to
+[02:20:47] what are database indexes index is
+[02:20:51] basically means by the normal definition
+[02:20:54] if you are familiar with the index
+[02:20:56] section of a book so we Google it let's
+[02:21:00] say book index this is a typical index
+[02:21:05] section of any book and what we see here
+[02:21:09] is the writer of the book or whoever the
+[02:21:12] publisher is they have created an index
+[02:21:14] section where we they are saying you can
+[02:21:17] find chapter one starting from page it
+[02:21:20] and and chapter 2 starting from page 29
+[02:21:22] chapter 3 starting from page
+[02:21:24] 35 etc etc right all the chapters are
+[02:21:28] given here and the corresponding page
+[02:21:30] number where you will find the starting
+[02:21:32] of that chapter and because of this
+[02:21:34] index section if someone wants to
+[02:21:37] directly skip to chapter 4 they don't
+[02:21:41] have to open the book and they don't
+[02:21:43] have to go Page by page page by Page
+[02:21:45] let's say the book has around so it says
+[02:21:47] 82 let's say the book has around 100
+[02:21:50] pages
+[02:21:51] so to find the chapter
+[02:21:53] 4 the user does not have to go through
+[02:21:56] 50 pages one by one in order to reach
+[02:21:59] chapter 4 just to find the location of
+[02:22:03] the chapter 4 they don't have to
+[02:22:05] manually scheme through 50 pages just
+[02:22:07] for the sake of finding the location of
+[02:22:09] a certain page right they can directly
+[02:22:12] refer to the index they can see that
+[02:22:15] chapter 4 starts from page 54 and they
+[02:22:18] can directly jump to page 54
+[02:22:21] right in the same way when we are
+[02:22:23] talking about
+[02:22:24] databases going back to our earlier
+[02:22:27] tables this is the task table we have a
+[02:22:30] bunch of tasks and every task has a
+[02:22:32] single ID right and we can see all the
+[02:22:36] results in this particular format
+[02:22:38] because it is a software which fetches
+[02:22:40] all the rows from our database and shows
+[02:22:42] us in a sequential manner but when the
+[02:22:45] database stores our data it is not in a
+[02:22:48] sequential manner right every entry in a
+[02:22:51] row might be somewhere else since in the
+[02:22:54] earlier part of this video we have
+[02:22:55] discussed that the databases that we are
+[02:22:58] talking about relational or non
+[02:23:00] relational these are disk based
+[02:23:02] databases which means the database takes
+[02:23:05] our data and stores it somewhere in the
+[02:23:08] disk somewhere right it can be anywhere
+[02:23:10] in a very efficient format it follows a
+[02:23:12] lot of algorithms a lot of complex
+[02:23:14] systems goes behind where to store which
+[02:23:17] data etc etc but on a very high level on
+[02:23:20] a very simple way of understanding we
+[02:23:23] can assume that each row is stored
+[02:23:25] somewhere in the disk right if we have a
+[02:23:29] query where we want to find out the
+[02:23:32] information of this particular task with
+[02:23:34] this particular ID which we can pass in
+[02:23:37] a parameterized query and you want to
+[02:23:40] fet the information of this particular
+[02:23:41] task what is the Brute Force without
+[02:23:43] thinking about indexes what is the Brute
+[02:23:45] Force way the database system has a
+[02:23:48] bunch of tasks and it has has stored all
+[02:23:51] the task in different different
+[02:23:52] locations right in in a physical hard
+[02:23:55] disk when it gets a query which says
+[02:23:57] that we want the information of this
+[02:23:59] particular task what it has to do it has
+[02:24:02] to go through all the task one by one to
+[02:24:05] find out if the ID matches this if the
+[02:24:07] ID matches this if the ID matches this
+[02:24:09] etc etc and finally when it reaches this
+[02:24:13] ID okay it it has a match it can see
+[02:24:17] that the ID that we have passed it
+[02:24:20] accurately matches this particular ID
+[02:24:23] and then what it does it Returns the
+[02:24:26] information of this particular ID to us
+[02:24:29] and we have our result now what happened
+[02:24:32] is we sent a query the database did a
+[02:24:35] sequential scan okay it went through all
+[02:24:39] the tasks one by one in different
+[02:24:41] different locations of the disk as I
+[02:24:43] said the database system has a very
+[02:24:46] complex way of storing the data in
+[02:24:48] database right and it when it went to
+[02:24:51] all those locations and it checked
+[02:24:53] whether the ID matches this item whether
+[02:24:55] the ID matches this item etc etc and
+[02:24:58] until at the end it found a match and it
+[02:25:01] returned the information which as you
+[02:25:03] can already see is a very tedious and a
+[02:25:06] very time-taking and a very inefficient
+[02:25:08] solution okay now since we only have
+[02:25:12] around six entries in this table it
+[02:25:15] might not seem a lot uh it is a lot fast
+[02:25:18] but imagine if we had add a, entries or
+[02:25:21] a million entries or a billion entries
+[02:25:23] in the table then going through all
+[02:25:26] those items one by one and checking from
+[02:25:29] different different locations of the
+[02:25:31] disk can take a lot of time and can make
+[02:25:34] the query very inefficient so for that
+[02:25:38] purpose what the database offers is a
+[02:25:42] feature called index what index does in
+[02:25:45] the same way a book index gives us all
+[02:25:48] the page numbers for a particular
+[02:25:51] chapter if you want chapter 4 we can
+[02:25:53] directly see that it starts from page 28
+[02:25:56] same way on a very high level not to go
+[02:25:59] into the technical Deep dive of how
+[02:26:01] indexes work how B tree Works etc etc
+[02:26:04] which you can do your own research for
+[02:26:06] but just for understanding the Practical
+[02:26:08] purpose of index why we use indexes for
+[02:26:12] each ID so we'll understand how index is
+[02:26:14] actually implemented practically but for
+[02:26:17] each ID so we can index a particular
+[02:26:21] field of a particular table let's say if
+[02:26:24] we index by ID so what an index contains
+[02:26:27] is for each ID you have the location
+[02:26:30] here okay for each ID like this okay for
+[02:26:33] each ID from here for each ID it has an
+[02:26:36] table for each ID it has the
+[02:26:39] corresponding
+[02:26:40] location of the row right where exactly
+[02:26:44] in the disk in the hard disk the
+[02:26:47] information of this particular task is
+[02:26:49] stored
+[02:26:51] so it has another table a lookup table
+[02:26:54] where it stores the ID of the task and
+[02:26:56] the location of the task same the ID of
+[02:26:58] the second task location of the second
+[02:27:00] task etc etc now that it has an index
+[02:27:03] like this when it gets a query which
+[02:27:05] says that we want the information of
+[02:27:08] this particular task what it does
+[02:27:10] instead of looking through all the items
+[02:27:13] all the tasks in the disk from different
+[02:27:15] different locations one by one what it
+[02:27:16] does it refers to the index it tries to
+[02:27:19] check whether this exists in the index
+[02:27:22] or not so as you can see the index is a
+[02:27:25] direct access it is not stored in
+[02:27:27] different different parts of the disk it
+[02:27:29] is stored at one place in sequentially
+[02:27:32] so it does it is very fast to go through
+[02:27:34] all the entries so it checks whether it
+[02:27:37] matches the first one the second one the
+[02:27:39] third one the fourth one the fifth one
+[02:27:40] and it finally finds that this entry so
+[02:27:44] it is somewhere here this one matches it
+[02:27:47] so it directly finds this entry in a
+[02:27:49] very short time and in the corresponding
+[02:27:52] lookup value it finds the location where
+[02:27:55] exactly the information for this task is
+[02:27:57] stored in the hard disk and it gets the
+[02:27:59] location goes to that location directly
+[02:28:01] and returns whatever value is stored in
+[02:28:03] that location directly to our user
+[02:28:05] whoever made the database query in the
+[02:28:08] first place now as you can see compared
+[02:28:10] to the previous operation which was a
+[02:28:12] sequential lookup going through
+[02:28:14] different different locations across the
+[02:28:16] hard disk and trying to find out whether
+[02:28:18] the ID that we have passed matches the
+[02:28:21] current ID or not etc etc and finally
+[02:28:24] return the result as compared to this
+[02:28:26] approach where we have a lookup table
+[02:28:28] where we are storing the ID of each item
+[02:28:31] and the location of that item okay and
+[02:28:33] we are directly giving the result of
+[02:28:36] that to the user and that is the purpose
+[02:28:39] of index index is basically a lookup
+[02:28:43] table you can imagine it as a lookup
+[02:28:46] table which has information for a
+[02:28:48] particular field and the location of the
+[02:28:51] particular Row for that field now that
+[02:28:54] is the first property of the index it
+[02:28:56] has a lookup table and it can directly
+[02:28:58] access whatever value that you have
+[02:29:00] passed from this table and it can find
+[02:29:02] the corresponding location of the entry
+[02:29:04] it can return you the result the second
+[02:29:06] property of the index is the order of
+[02:29:08] the index it can be either ascending it
+[02:29:11] can be descending so if you remember in
+[02:29:14] the previous query where we are saying
+[02:29:16] we want to return the list of all users
+[02:29:18] sorted by descending order right now for
+[02:29:22] that query to perform as efficiently as
+[02:29:26] possible because we have a requirement
+[02:29:28] like that what we can do first thing is
+[02:29:31] we want to create an index on created at
+[02:29:34] right we want to take the field instead
+[02:29:36] of ID we are taking the index created at
+[02:29:39] and we want to index that field so that
+[02:29:41] when we execute that query the database
+[02:29:44] can instantly find all the created at
+[02:29:47] fields and the corresponding Row for the
+[02:29:50] that created at field and it can return
+[02:29:52] it the second thing is because the sort
+[02:29:55] order is also in the picture we also
+[02:29:58] have to decide in what order we want to
+[02:30:01] index either ascending or descending or
+[02:30:04] both of them okay we can create
+[02:30:06] different different indices but it all
+[02:30:08] depends on our requirement so as you can
+[02:30:11] see by default we are returning the
+[02:30:13] descending order of creat De so when
+[02:30:16] creating the index we can say that we
+[02:30:19] want to create an index on the field
+[02:30:21] created at in the descending order so
+[02:30:24] that when we execute that query which
+[02:30:27] has order by created at and descending
+[02:30:31] the index can quickly go through all the
+[02:30:34] created at field that is already ordered
+[02:30:36] in descending order and it can quickly
+[02:30:39] return that result instead of if it had
+[02:30:42] all the creat FI in ascending order then
+[02:30:44] it will have to go through all of that
+[02:30:46] and you have to rearrange and do a sort
+[02:30:48] and then return right depend depending
+[02:30:50] on our requirement we can customize the
+[02:30:52] behavior of the indices okay that's a
+[02:30:55] very high level introduction to indices
+[02:30:57] so what you have to remember is every
+[02:30:59] time you are using a wear clause or a
+[02:31:01] join condition and depending on what is
+[02:31:03] the frequency that you are doing that
+[02:31:05] but is the frequency that you're doing
+[02:31:07] the join condition or the we Clause you
+[02:31:09] can decide to create an index on that
+[02:31:12] condition so that the subsequent queries
+[02:31:14] are faster because how the database does
+[02:31:17] the lookup so the two two things that we
+[02:31:21] saw one thing is we have to create
+[02:31:23] trigger so that the updated at field is
+[02:31:25] automatically updated every time we
+[02:31:28] update a particular row of the user
+[02:31:30] second is we have to create indexes so
+[02:31:32] that the join conditions and the wear
+[02:31:34] Clauses and the Sorting conditions are
+[02:31:37] faster okay so let's go ahead and create
+[02:31:39] a migration which covers all these I
+[02:31:41] have gone ahead and created a new
+[02:31:43] migration file using dbate and pasted
+[02:31:46] all the uh index create statements and
+[02:31:48] the trigger statement so let's go
+[02:31:50] through and understand what's Happening
+[02:31:52] Here what are we exactly doing here so
+[02:31:55] in the first section you can see in the
+[02:31:57] up migrations we are creating a bunch of
+[02:31:59] indices the first one we are creating an
+[02:32:02] index on the email field in the users
+[02:32:05] table because we have let's imagine we
+[02:32:08] have an API where we have to find a
+[02:32:10] particular user by the email or we have
+[02:32:14] a database query we where we are joining
+[02:32:18] the users table with the task table
+[02:32:21] depending on the email of the user right
+[02:32:24] in the join condition we have the
+[02:32:27] condition where we are matching the
+[02:32:28] email because we have a requirement like
+[02:32:31] that we decided that we want to index
+[02:32:33] the email field of the users table so
+[02:32:36] that in join conditions and in the wear
+[02:32:38] Clause we can quickly find the
+[02:32:40] corresponding user given a particular
+[02:32:43] email using the index and that was the
+[02:32:45] reasoning behind using email or index
+[02:32:49] ing email from the users table so this
+[02:32:52] is the syntax looks like this is a
+[02:32:54] generic SQL syntax same way we are
+[02:32:57] creating an index on the created field
+[02:33:00] for the users table in descending order
+[02:33:03] because if you remember the select query
+[02:33:06] the get all users API where we are by
+[02:33:10] default returning all the users sorted
+[02:33:13] by the created field in descending order
+[02:33:16] since we have an API like that and it is
+[02:33:19] pretty free frequently called that's the
+[02:33:21] reason we want to optimize the query
+[02:33:24] execution of that particular database
+[02:33:26] query by creating an index on the
+[02:33:29] created at field in the descending order
+[02:33:31] so that the database can do a fetch
+[02:33:34] operation very fast as compared to FH
+[02:33:37] operation without using indices okay
+[02:33:40] same way for the task table we are
+[02:33:43] creating an index on the project ID so
+[02:33:46] if you remember going back to our first
+[02:33:49] migration where we created the table we
+[02:33:52] have the task table and we have project
+[02:33:55] ID here okay and this is a foreign key
+[02:33:58] so imagine we have an API where we are
+[02:34:01] fetching all the tasks of a particular
+[02:34:05] project right and for that APA we have
+[02:34:08] to create a database query where we have
+[02:34:11] to take the projects table and we have
+[02:34:14] to join it we have to left join it with
+[02:34:17] the task table depending on the it ID
+[02:34:19] field of the project table and the
+[02:34:21] project ID field in the task table that
+[02:34:24] is going to be our join condition right
+[02:34:26] these two has to match now as I said
+[02:34:29] that whatever field is involved in your
+[02:34:32] join conditions or in your wear Clause
+[02:34:34] if you index that field that operation
+[02:34:37] is going to be much faster now by
+[02:34:39] default whatever field is the primary
+[02:34:42] key of the table that is by default
+[02:34:45] automatically indexed by your database
+[02:34:48] right you don't have to manually do it
+[02:34:50] so in the join condition two fields are
+[02:34:51] involved the ID field and the project ID
+[02:34:54] field from Project table and the task
+[02:34:56] table so since ID field is the primary
+[02:34:59] key in the projects table we don't have
+[02:35:01] to think about this this is
+[02:35:02] automatically indexed by the database
+[02:35:05] but in the task table we have the field
+[02:35:08] project ID is is a foreign key and this
+[02:35:11] is involved in the join condition and
+[02:35:13] since it is involved in the join
+[02:35:15] condition we want to index it because it
+[02:35:17] is not index by default since it is a
+[02:35:19] foreign key it is not the primary key in
+[02:35:21] this table so that is the reasoning
+[02:35:23] behind indexing in this migration we are
+[02:35:27] creating an index on the project ID
+[02:35:29] field on the task table because we have
+[02:35:32] a join condition where we want to fetch
+[02:35:35] all the task of a particular project
+[02:35:37] right for that we have to make a left
+[02:35:39] join in the left join we we have a
+[02:35:41] condition where we are matching by the
+[02:35:43] project ID and that's the reason we want
+[02:35:46] to make that operation little faster
+[02:35:48] that's why we are indexing by project ID
+[02:35:50] field in the task table same way in the
+[02:35:53] task table we have an assigned to okay
+[02:35:57] this is also a foreign key so imagine
+[02:35:59] another API where we want to fetch all
+[02:36:04] the task of a particular user so this
+[02:36:06] assigned to is a foreign key which
+[02:36:08] references the users table so this will
+[02:36:12] have a corresponding entry in the user
+[02:36:13] table with ID of that user right so to
+[02:36:16] implement that a what we have to do we
+[02:36:19] have to take
+[02:36:20] the users table and we have to join it
+[02:36:23] with the task table on the condition
+[02:36:25] that assign to has to match users. ID
+[02:36:29] right since ID is the primary key of the
+[02:36:31] users table we don't have to think about
+[02:36:33] that but in this table assign two is a
+[02:36:36] foreign key right so we have to Index
+[02:36:40] this field to make the join operation of
+[02:36:43] joining users table with task table a
+[02:36:45] little faster that's why we are creating
+[02:36:49] an index on the assigned to field in the
+[02:36:51] task table okay next we are creating an
+[02:36:55] index on the created at field in
+[02:36:57] descending order in the task field
+[02:37:00] because the same reasoning if you want
+[02:37:03] to return the list of all tasks to show
+[02:37:05] it on our front end by default the API
+[02:37:08] returns all the tasks sorted by the
+[02:37:11] created at field in descending order
+[02:37:13] because we want to return all the latest
+[02:37:15] tasks and we can fetch all the latest
+[02:37:18] task by sorting all the tasks in
+[02:37:20] descending order and to fetch all the
+[02:37:23] tasks in descending order to make that
+[02:37:25] operation a little faster we are
+[02:37:27] creating an index on the created it
+[02:37:30] field in the task table in descending
+[02:37:31] order right same way we are creating an
+[02:37:34] index on the status field because in the
+[02:37:36] get all tasks API let's say we have a
+[02:37:39] filter condition in the filter condition
+[02:37:41] what we are doing we want to fetch all
+[02:37:43] tasks so if we go to task status we are
+[02:37:46] creating an custom ENT type and we have
+[02:37:48] four types of status pending in progress
+[02:37:51] completed and cancelled now let's
+[02:37:52] imagine in the get all tasks API we want
+[02:37:55] to fetch all tasks which have the status
+[02:37:58] pending okay we have a requirement like
+[02:38:00] that and the front end the user can pass
+[02:38:04] any Dynamic status right the pending
+[02:38:06] progress completed whatever right and we
+[02:38:10] want to quickly fetch all the tasks
+[02:38:12] depending on what is the status of the
+[02:38:14] task and because the status field was
+[02:38:17] involved in a wear Clause what is the
+[02:38:19] condition for creating an index or what
+[02:38:21] is the thumb rule if that field is
+[02:38:23] involved in join condition or in a wear
+[02:38:26] clause or in a sort condition okay these
+[02:38:29] three are your primary guidance on when
+[02:38:33] you should consider creating an index
+[02:38:35] for that field okay since status field
+[02:38:38] is used in a Weare Clause we can
+[02:38:42] consider creating index on the status
+[02:38:44] field in the task table now another
+[02:38:46] thing is you should not create an index
+[02:38:48] right away whenever you have a condition
+[02:38:51] that field is used in a we clause or a
+[02:38:53] join condition or a s by you have to see
+[02:38:57] and you have to evaluate how frequently
+[02:38:59] that query is being called or if the
+[02:39:03] performance trade-off is worth it or not
+[02:39:05] since to maintain an index the database
+[02:39:09] at all times has to take that field
+[02:39:11] let's say you have the project ID field
+[02:39:13] in the task table project ID and in the
+[02:39:17] lookup we have all the locations of the
+[02:39:19] task right we have all these entries to
+[02:39:22] maintain this index to have the latest
+[02:39:25] state of all the tasks in that index
+[02:39:28] what the database has to do every time
+[02:39:30] you do an insert task or every time you
+[02:39:33] do an update task this index has to be
+[02:39:37] accurately maintained and to maintain
+[02:39:39] that every time you do an insert or
+[02:39:41] update the database has to do some kind
+[02:39:44] of operation to store the latest state
+[02:39:47] of the task in the index
+[02:39:49] table right and which adds some kind of
+[02:39:53] overhead some kind of overhead even
+[02:39:56] though it is not a lot and it depends
+[02:39:58] what is the size of your database how
+[02:40:00] many entries you have in your database
+[02:40:02] index operations them CS can add some
+[02:40:07] kind of overhead so as a backend
+[02:40:10] engineer you have to evaluate these
+[02:40:11] conditions that whether creating an
+[02:40:14] index is worth it or not whether the
+[02:40:17] overhead of maintaining an index IND is
+[02:40:19] worth it or not and that depends on how
+[02:40:22] frequently your database query is
+[02:40:23] executed and what kind of user
+[02:40:26] experience that you want to provide at a
+[02:40:28] tri you have to consider a lot of
+[02:40:30] parameters but on a very high level
+[02:40:32] without thinking about all this micro
+[02:40:35] optimizations you can take these three
+[02:40:37] parameters that whether that field is
+[02:40:38] involved in a join condition or a wear
+[02:40:40] clause or a sort operation if it is and
+[02:40:44] you see that that query is frequently
+[02:40:46] called then you can go ahead and create
+[02:40:48] an index on that
+[02:40:49] and if you in the future you see that
+[02:40:51] that query is not being frequently
+[02:40:53] called then you can just go ahead and
+[02:40:55] delete that Index right okay but as a
+[02:40:57] start you can consider creating it and
+[02:41:00] monitoring your performance etc etc same
+[02:41:02] way we are creating an index for project
+[02:41:05] I in Project members we are creating an
+[02:41:07] index on user ID in Project members etc
+[02:41:09] etc right the same logic the same kind
+[02:41:11] of reasoning applies everywhere okay
+[02:41:13] that's pretty much all about index now
+[02:41:15] coming to the triggers part as I said we
+[02:41:18] want to automate the operation of every
+[02:41:20] time we update a particular Row in any
+[02:41:22] table we also want to update the updated
+[02:41:26] field of that row so that we don't have
+[02:41:29] to do it manually from our application
+[02:41:31] code for that what we are doing we are
+[02:41:34] creating a function in postgress we have
+[02:41:36] the ability to create custom functions
+[02:41:39] and we are creating a function and we
+[02:41:41] are naming it something and we are
+[02:41:43] seeing it returns a trigger and we are
+[02:41:45] starting a transaction okay and what we
+[02:41:47] are saying is take the row and the
+[02:41:50] updated field of that row and update it
+[02:41:53] to the current time stamp and return the
+[02:41:56] new row whatever with the new value of
+[02:41:59] the updated field and now we have a
+[02:42:00] custom function that is ready to use
+[02:42:03] okay next what we are doing we are
+[02:42:05] creating Triggers on different different
+[02:42:06] tables right we are taking all the
+[02:42:09] different different tables users user
+[02:42:10] profiles project tasks and we are
+[02:42:12] creating Triggers on each table what we
+[02:42:14] doing we are naming the trigger
+[02:42:16] something so that it is easier to drop
+[02:42:18] the trigger later on in in our down
+[02:42:21] migrations okay and what you are doing
+[02:42:23] you're saying every time we are doing
+[02:42:26] some kind of update operations on this
+[02:42:28] table go to that row whatever row is
+[02:42:31] updated in that operation and execute
+[02:42:34] this function and what this function
+[02:42:35] does it takes the updated field and sets
+[02:42:38] it to the current time stamp okay and
+[02:42:40] with that setup what happens every time
+[02:42:42] we do an update operation this will
+[02:42:45] automatically update the updated at
+[02:42:47] field for that r okay now that's pretty
+[02:42:51] much it we are creating triggers for all
+[02:42:53] the tables and in the down migrations we
+[02:42:55] are deleting all the triggers we're
+[02:42:57] deleting the function and we're deleting
+[02:43:00] all the
+[02:43:00] indexes that we created then we can go
+[02:43:04] ahead and execute these migrations for
+[02:43:07] that we can do dbate up and this is
+[02:43:10] applied now going back to our table plus
+[02:43:14] let's do that update operation again
+[02:43:17] right so we remove this this this was
+[02:43:20] our earlier update operation right and
+[02:43:24] let's execute this say updated bio 3
+[02:43:28] okay and let's apply it and go to this
+[02:43:32] Row And now when you see the updated at
+[02:43:35] field you can see that this is the
+[02:43:37] current time when I am recording this
+[02:43:39] video and this is the current date and
+[02:43:40] time the time stem accurately matches so
+[02:43:43] our trigger accurately worked right we
+[02:43:45] did some kind of oper update operation
+[02:43:48] on this particular row and this field is
+[02:43:50] automatically updated and that's the use
+[02:43:53] of triggers now with that we have
+[02:43:56] created database queries for all these
+[02:43:59] apis okay now going through each of
+[02:44:03] these apis and creating a database query
+[02:44:04] is going to take a lot of time at least
+[02:44:07] a few hours more and I don't want to
+[02:44:09] make this video longer than what it
+[02:44:12] already is so you can go ahead and with
+[02:44:15] all the uh reasoning that I have
+[02:44:18] explained here and all the SQL Basics
+[02:44:21] and the postgress basics that you have
+[02:44:22] already learned you can go ahead and
+[02:44:24] create the database queries for all
+[02:44:26] these apis right and you can see how the
+[02:44:29] join conditions work how the indexes are
+[02:44:31] coming into place how the triggers are
+[02:44:33] working etc etc etc right and that's
+[02:44:36] pretty much all you need to know and of
+[02:44:39] course that's not all you need to know
+[02:44:41] but that's pretty much 80% of what you
+[02:44:44] are going to be doing as a backend
+[02:44:45] engineer while you are dealing with
+[02:44:47] databases okay you're going to take apis
+[02:44:50] and you're going to analyze what all
+[02:44:53] payload is coming from the user and you
+[02:44:55] have to construct a dynamic query
+[02:44:57] depending on that you have to use
+[02:44:59] parameterized queries to securely pass
+[02:45:02] whatever user value that you have and
+[02:45:05] you have to execute that query and you
+[02:45:07] have to return the data right that's a
+[02:45:09] very high level work through of what
+[02:45:11] you're going to be doing as a backend
+[02:45:14] engineer when it comes to databases of
+[02:45:17] course there are a lot of other things
+[02:45:19] but this pretty much covers on a very
+[02:45:21] high level the most of the things that
+[02:45:23] you'll be doing

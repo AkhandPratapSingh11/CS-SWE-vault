@@ -1,0 +1,162 @@
+Title: L-5.15: Paging Questions in Operating System(OS) | Imp Question for all competitive exams
+Video URL: https://www.youtube.com/watch?v=ucNJMcX-duE
+Video ID: ucNJMcX-duE
+======================================================================
+
+[00:00] Hello friends Welcome to Gate Smashers
+[00:02] Today's question is from the operating system
+[00:05] and the topic which I have chosen is memory management.
+[00:08] Let us start the question.
+[00:09] Consider a virtual address space of 32 bits and
+[00:14] page size of 4kb.
+[00:16] System is having a RAM of 128 kb.
+[00:21] Then what will ratio of
+[00:23] page table and inverted page table size
+[00:27] if each entry in both is of size 4 B?
+[00:32] Here we have given virtual address space
+[00:36] of 32 bits
+[00:37] So let's start with virtual address space first
+[00:41] Virtual address is made up of two things
+[00:45] In virtual address space we have number of pages
+[00:48] and page offset.
+[00:51] We also call page offset as page size.
+[00:55] We are given one of the two values
+[00:58] Total we have is of 32 bits
+[01:01] 32 bit means
+[01:05] In the question, sometimes it is also given that
+[01:07] the size of the virtual address is something.
+[01:10] If a virtual address space is given then it will always be in bits.
+[01:13] If we have to find the virtual address
+[01:15] What is the size of the virtual address?
+[01:17] The size will be 2 raised to power 32
+[01:20] which can be written as 2 raised to power2
+[01:24] multiplied by 2 raised to power 30.
+[01:26] Always remember 2 raised to power 30 is GB.
+[01:30] which is Gigabyte
+[01:32] and why I am taking this in bytes?
+[01:34] Because memory is by default byte-addressable.
+[01:37] Even if it is not mentioned to you you still have to take it as Byte Addressable.
+[01:41] And 2 raised to power 2 is 4.
+[01:44] Sometimes it may be given as
+[01:46] Consider a virtual address
+[01:48] of size 4 GB.
+[01:51] You just have to convert it into bits
+[01:54] Now we have 32 bits address
+[01:56] Now page size or page offset is 4 kb.
+[02:00] We have to convert 4 kb quickly.
+[02:05] In kb, k is 2 raised to power 10
+[02:09] M means 2 raised to power 20
+[02:11] and G means 2 raised to power 30
+[02:14] and after that T that is terra byte 2 raised to power 40.
+[02:17] Here k is given here that is 2 raised to power 10
+[02:21] and convert 4 into 2 raised to power 2
+[02:24] So how much is this total? If the base is the same then the power will be added.
+[02:27] 2 raised to power 12
+[02:29] Don't convert the byte
+[02:30] keep this point in mind.
+[02:33] Don't convert byte into a bit and take an extra 3 bits here.
+[02:37] Memory is by default byte-addressable
+[02:39] Sometimes words are given as addressable
+[02:42] and size of words is also given as 2, 3 4 byte, like that
+[02:47] Here nothing is given then by default assume it as 1 byte.
+[02:51] The value we got is 12.
+[02:55] So if this 12 and total size is 32
+[02:58] so here our number of pages will be 20.
+[03:01] The number of pages is not 20
+[03:03] the number of pages is 2 raised to power 20.
+[03:06] Because 20 is the number of bits
+[03:08] that we are using to represent.
+[03:11] So the first value we got is 2 raised to power 20.
+[03:14] Now on every page
+[03:17] 2 raised to power 20 means there are 1 mega page
+[03:20] What will be there in these mega pages?
+[03:22] On every pages we stored some values
+[03:26] and the most important value is frame number.
+[03:30] Actually where the page is lying
+[03:33] what is its frame number
+[03:34] Apart from these, you'll find valid bit, the reference bit
+[03:36] and lots of other types of page entries are there.
+[03:39] On page entry, the given size is 4 bytes.
+[03:43] So what will be the total size of the page table?
+[03:46] So page table means Let say
+[03:49] If this is a page table that I have
+[03:52] and how many entries are there in the page table.
+[03:56] 2 raised to power 20
+[03:58] The size of each entry is 4 bytes.
+[04:02] In that 4-byte frame, the number is important
+[04:06] Apart from that, there are valid bit, reference bit
+[04:08] and there are many other values too.
+[04:09] So here if you multiply it with 4 byte
+[04:13] then what we got here is page table size.
+[04:16] Then we have to find the size of inverted page table
+[04:20] You have to keep in mind in the inverted page table
+[04:23] that there is a problem in paging
+[04:25] For every process we make a page table.
+[04:28] which causes too much overhead.
+[04:31] But in the inverted page table
+[04:33] there is only one page table.
+[04:37] And in that page table
+[04:39] how many entries will be there?
+[04:41] On that page table number of entries
+[04:43] is equal to the number of frames.
+[04:47] This means the number of frames is equal to the main memory.
+[04:51] So how will you find number of frames in main memory?
+[04:55] So you have to remember these points also
+[04:57] we have seen the formula of logical and virtual address.
+[05:01] Now I am telling you about the physical address.
+[05:04] Physical address means the size of the main memory.
+[05:06] The size of the main memory is 128 kb.
+[05:09] So when you convert 128 kb
+[05:13] in bits
+[05:14] so this become 2 raised to power 7
+[05:18] k is 10 so total it becomes 2 raised to power 17
+[05:23] and nothing to do with the byte.
+[05:25] So total physical address space we have is
+[05:27] 17 bit.
+[05:29] And page size given is 4 kb
+[05:32] We always know that the size of the page and the size of frame are equal.
+[05:37] So write 12 immediately.
+[05:40] So the remaining value is 5
+[05:43] because 17-12=5
+[05:46] 2 raised to power 5 is
+[05:49] the number of frames in the main memory.
+[05:51] In this question
+[05:54] I'm assuming you know the concept of inverted paging.
+[05:59] Because if you solve this directly then you might get confused.
+[06:03] If this question comes in your test
+[06:05] then I am assuming that you know the concept of paging and inverted paging.
+[06:09] I will share the link to those videos
+[06:11] I have already made videos on this.
+[06:13] In each and every page table entry what values are there?
+[06:17] I have made a video on that also and I will share the link to that video too.
+[06:20] Sometimes such questions also come.
+[06:22] So you have to understand that concept
+[06:24] then you can solve this numerical.
+[06:27] The number of frames is 2 raised to power 5
+[06:32] There are 2 raised to the power 30 frames in the main memory.
+[06:36] In each frame, there are entries of 4 bytes.
+[06:40] Here it is given that size of both entries are 4 bytes.
+[06:43] We just have to find the ratio
+[06:45] and to find the ratio
+[06:47] 2 raised to power 20 multiplied by 4 byte
+[06:50] this is the page table size.
+[06:53] and 2 raised to power 5 multiplied by 4 byte
+[06:57] this is the inverted page table size.
+[07:01] I am writing it in short Inverted Page table size.
+[07:04] and this is a normal page table size.
+[07:06] Now if you convert this
+[07:08] It is very simple to find in the ratio
+[07:11] 2 raised to power 20 divide by 2 raised to power 5
+[07:16] if you take it up then you'll get
+[07:18] if the base is the same if you subtract then what you'll get
+[07:21] 2 raised to power 15 ratio 1.
+[07:26] So this is the actual answer
+[07:27] Here option A is matching with our answer
+[07:30] So that is how you have to solve these types of questions.
+[07:33] And these types of questions have come many times
+[07:36] From page table on Paging.
+[07:38] Memory management is one of the most important topic in the operating system.
+[07:43] So please prepare well for this before you go.
+[07:46] If you like this video then please like this video.
+[07:48] Please subscribe to my channel
+[07:50] Thank you.

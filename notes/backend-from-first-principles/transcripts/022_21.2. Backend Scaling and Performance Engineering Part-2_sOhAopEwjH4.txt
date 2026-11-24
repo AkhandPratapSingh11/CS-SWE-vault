@@ -1,0 +1,3454 @@
+Title: 21.2. Backend Scaling and Performance Engineering: Part-2
+Video URL: https://www.youtube.com/watch?v=sOhAopEwjH4
+Video ID: sOhAopEwjH4
+======================================================================
+
+[00:00] In the previous video, we were talking
+[00:01] about different types of scaling and the
+[00:04] last thing that we discussed was
+[00:06] horizontal scaling and this is the
+[00:08] continuation of that video. So if you
+[00:11] are watching this video the first time,
+[00:14] so please watch the first part of the
+[00:16] video to have better context. We'll just
+[00:19] jump ahead and continue from where we
+[00:21] left off. I divided this video into two
+[00:23] parts because of some frame corruption
+[00:26] issue in my recording software. Dividing
+[00:28] videos into part one, part two is not my
+[00:31] intention, but I had to do it for this
+[00:33] one. Anyway, continuing from where we
+[00:35] left, a very important property when we
+[00:39] are talking about horizontal scaling is
+[00:43] statelessness. The key enabler or the
+[00:47] key property that makes horizontal
+[00:49] scaling possible is this property which
+[00:52] is statelessness. And what do we mean by
+[00:55] statelessness? If we have our backend
+[00:57] applications and we have multiple
+[00:59] instances of our backend application
+[01:01] that is what we mean by horizontal
+[01:03] scaling if you remember which is adding
+[01:06] different machines of the same capacity
+[01:08] instead of increasing the capacity of a
+[01:11] single machine. That's what we mean by
+[01:13] horizontal scaling. So for horizontal
+[01:15] scaling we add multiple instances of our
+[01:18] back end which means multiple servers
+[01:21] which is which are running the same
+[01:23] code. And when we finally deploy our
+[01:26] application which is multiple instances
+[01:28] of our application over the internet and
+[01:31] the internet traffic comes our users
+[01:34] start making request to our back end or
+[01:37] they use our front end which in turn
+[01:39] makes request to our back end. All these
+[01:42] requests from our client is distributed
+[01:45] among all these instances. But before
+[01:47] that we are discussing about
+[01:49] statelessness. Now the only reason
+[01:51] horizontal scaling is possible because
+[01:54] of this property which is called
+[01:55] statelessness which means this is
+[01:57] possible because one server one instance
+[02:01] one machine in this chain does not
+[02:03] contain any kind of data which is
+[02:06] exclusive to this server. That is what
+[02:08] we mean by being stateful. When we say
+[02:12] stateful we mean that our server holds
+[02:14] some kind of information, some kind of
+[02:16] data which is exclusive to that server.
+[02:19] It remembers some kind of information
+[02:21] about the client, about the user and it
+[02:23] stores that information in the server.
+[02:25] And if something like that happens, if
+[02:28] let's say this is instance A, B, C and
+[02:31] D. If the instance D holds some amount
+[02:34] of data which the instance C or the
+[02:36] instance A does not have access to and
+[02:38] it is exclusive to this instance only
+[02:41] then our horizontal scaling will not
+[02:43] work as expected and we will see weird
+[02:46] errors pop up in our entire stack. So
+[02:49] this is what we meant in the initial
+[02:51] part of the discussion when we said
+[02:54] horizontal scaling requires planning
+[02:56] your entire stack from ground up. It
+[02:58] requires changes in our code as compared
+[03:01] to vertical scaling which only means we
+[03:03] go to our infrastructure management
+[03:05] dashboard and we just add more capacity
+[03:08] and more CPU cores and more memory to
+[03:10] our instance as compared to horizontal
+[03:12] scaling where we have to plan from the
+[03:15] ground up. It will affect our code, it
+[03:17] will affect our infrastructure and it
+[03:19] will affect our entire stack. In
+[03:21] horizontal scaling, we have to ensure
+[03:23] statelessness which means that it does
+[03:25] not matter which server the request goes
+[03:29] to. Let's say this is our internet and
+[03:32] our users communicate via their browser
+[03:34] and through internet our servers get the
+[03:37] requests. And what we are saying is it
+[03:40] does not matter what server ends up
+[03:42] getting a particular request. The result
+[03:45] should always be the same. Which means
+[03:48] even if one of these servers get
+[03:50] deleted. Let's say we get rid of B. Even
+[03:52] in that case A combined with C and D
+[03:55] should have the exact same behavior.
+[03:58] That's what we mean by statelessness. No
+[04:01] instance of our server should hold any
+[04:03] piece of information which is not
+[04:05] accessible by all the instances. Which
+[04:08] means that any kind of data if we need
+[04:10] to persist any kind of data then that
+[04:13] should live somewhere here outside of
+[04:16] all our servers which can be accessed by
+[04:18] any instance of our server. Okay, that's
+[04:21] pretty much what we mean by
+[04:23] statelessness. And a couple of examples
+[04:26] of where we exactly use this
+[04:28] statelessness property. One is sessions.
+[04:31] In our typical authentication flow, when
+[04:34] a user comes, they enter their password,
+[04:36] they enter their email and our server
+[04:39] gets that request, it checks whatever
+[04:41] authentication procedure and finally it
+[04:44] has successfully authenticated the user.
+[04:46] It creates a session for that user and
+[04:49] it saves the session ID in the user's
+[04:52] browser cookie and also it saves the
+[04:54] session somewhere in the server so that
+[04:56] the next time a new request comes with
+[04:59] the session ID cookie it can check the
+[05:01] stored session and it can match with the
+[05:04] ID and it can verify the user's
+[05:06] identity. That's how a typical state
+[05:08] full authentication works. Now if let's
+[05:11] say for our horizontal scaling scenario
+[05:14] we have three instances of our server A
+[05:17] B and C and the user while
+[05:19] authenticating it communicated with the
+[05:22] instance A of our server and instance A
+[05:24] created a session stored the cookie in
+[05:26] the user's browser and created a session
+[05:28] variable or the session session instance
+[05:31] but what it did it stored the session
+[05:34] information inside the memory which
+[05:36] means it had something like an array and
+[05:38] it stored the users information here
+[05:41] along with other users information but
+[05:43] the instance B and instance C since this
+[05:46] is an in-memory data structure they
+[05:48] don't have access to this and in turn
+[05:51] what happens because we have a
+[05:53] horizontal scaling setup and we have not
+[05:55] discussed the load balancer part but
+[05:57] next time the user requests the request
+[06:00] ends up with the instance B now B does
+[06:03] not have access to the session
+[06:04] information of this user since the user
+[06:07] authenticated with instance A and
+[06:09] instance say stored information inside
+[06:11] its own memory. Now what happens? B
+[06:14] throws a 401 error and it says that you
+[06:17] have to authenticate first which creates
+[06:19] a very confusing a very frustrating user
+[06:22] experience for our user. So for any kind
+[06:24] of session related information that is a
+[06:26] clear use case of the property of
+[06:28] statelessness. So instead of storing it
+[06:31] inside its memory what instance A should
+[06:34] have done it should have stored it in a
+[06:36] inmemory database storage but but it
+[06:39] should use something like radius and
+[06:41] this radius instance should be
+[06:43] accessible by all the instances so that
+[06:46] the next time a new request comes to
+[06:49] instance B what B can do it can check in
+[06:52] the radius instance since the instance A
+[06:55] after authenticating the user saved the
+[06:57] session information inside radius and
+[07:00] since the radius instance is accessible
+[07:01] to all the instances B can make sure
+[07:04] that B can verify that the user is
+[07:06] already authenticated and it will be
+[07:08] successfully able to process that
+[07:10] request and this is how statelessness
+[07:13] property helps with session related use
+[07:15] cases similarly if we let's say talk
+[07:18] about file storage same use case user A
+[07:21] uploaded a file and because of our
+[07:24] horizontal scaling setup the first
+[07:26] request ended up with instance A what
+[07:28] instance A did it took the file and it
+[07:31] saved it in its own storage SSD or
+[07:35] whatever storage it has it just saved
+[07:37] that file inside its own storage and
+[07:40] because of that the next request when it
+[07:42] landed on instance C this C did not have
+[07:46] access to that and it threw an error. In
+[07:48] this case again to support our
+[07:50] horizontal scaling architecture instead
+[07:53] of storing it inside the file storage of
+[07:56] instance A it should upload it to some
+[07:59] kind of object storage something like S3
+[08:01] or cloudflare R2 or maybe their onremise
+[08:06] menu instance whatever but storage and
+[08:09] object storage ideally which is
+[08:11] accessible by all the instances. So this
+[08:14] kind of pattern will keep repeating but
+[08:16] the intuition is very clear. Once you
+[08:18] have decided that you are going with
+[08:20] horizontal scaling you have to make sure
+[08:22] that at every point of time at your code
+[08:25] level you have to make sure that no
+[08:27] piece of information no piece of file
+[08:30] nothing should be saved inside a
+[08:33] particular instance. Everything should
+[08:36] be centralized. So for in-memory
+[08:39] database you should use something like
+[08:40] radius. for file uploads S3 or any kind
+[08:44] of blob storage. Same way for databases
+[08:47] instead of using something like SQLite
+[08:49] and saving the DB file in your own
+[08:52] server you should use something like
+[08:54] centralized SQLite or posgress or RDS
+[08:57] whatever that is the thumb rule
+[08:59] basically if you're using horizontal
+[09:01] scaling make sure that no piece of
+[09:03] information it's stored in a single
+[09:05] instance and always think about the
+[09:08] statelessness property of your whole
+[09:11] architecture. Okay. Now let's talk about
+[09:13] load balancer. We have been delaying it
+[09:15] for too long even though we have
+[09:17] mentioned it so many times. Load
+[09:19] balancers are one of the very important
+[09:23] and one of the mandatory components of a
+[09:26] horizontal scaling architecture and
+[09:28] we'll see why without a load balancer
+[09:30] the setup of horizontal scaling is
+[09:33] almost impossible. In fact, it starts by
+[09:36] thinking about a load balancer by
+[09:38] setting up a load balancer. The
+[09:39] intuition is very simple if you think
+[09:41] about it. So we have already said that
+[09:44] in horizontal scaling we have multiple
+[09:46] instances of our server again repeating
+[09:49] the same thing and let's say these are
+[09:52] our users who want to communicate and
+[09:55] they are each communicating through a
+[09:58] web browser and this is the internet
+[10:01] internet and these browsers are making
+[10:04] requests through the internet. Now at
+[10:07] this point if you think about it if we
+[10:09] have multiple instances of our server at
+[10:12] what point in our whole stack do we
+[10:14] decide that when a user makes a
+[10:17] particular request which instance do we
+[10:20] send that request to how do we decide
+[10:22] and more importantly where exactly do we
+[10:24] decide where exactly do we make that
+[10:26] decision and that's exactly where the
+[10:28] role of load balancers come in. So you
+[10:31] can imagine a load balancer at somewhere
+[10:34] around this point. In short form we call
+[10:37] it LB a load balancer. So again the
+[10:40] solution is pretty simple. All the
+[10:41] requests that are coming from all the
+[10:44] clients from all our users they all go
+[10:47] to our load balancer instead of going to
+[10:49] our servers directly. They all go to the
+[10:52] load balancer. Now load balancer what it
+[10:54] does takes all those requests and there
+[10:57] is some amount of logic here where it
+[11:00] decides which instance should it forward
+[11:03] this particular request to and we'll
+[11:04] talk about this particular logic but
+[11:06] after it decides which instance it
+[11:08] should send this particular request to
+[11:11] it just redirects those requests using a
+[11:14] piece of logic using a using a few
+[11:17] algorithms and the server instance takes
+[11:20] the request they process it and return
+[11:23] the response in whatever form that we
+[11:26] are sending and the load balancer again
+[11:28] takes that and returns in the same HTTP
+[11:31] connection. That part is pretty
+[11:33] straightforward. The load balancer is
+[11:35] pretty much a middleman which takes the
+[11:38] requests from the internet and forwards
+[11:41] them to our server instances, takes the
+[11:43] responses back and sends them back. The
+[11:45] important part is this the piece of
+[11:48] logic where it decides to which instance
+[11:51] exactly should we forward this
+[11:53] particular request. That's what we call
+[11:56] as the load balancer algorithm. The idea
+[11:59] is simple here. Our load balancer wants
+[12:01] to decide which server it should send
+[12:04] the request to. The first and the
+[12:06] simplest kind of algorithm that we have
+[12:08] is the roundroin. Round dropping which
+[12:11] works in a way. Let's say this is our
+[12:13] load balancer and these are our servers.
+[12:17] So for roundroin algorithm it sends the
+[12:20] requests in a rotating order. What that
+[12:22] means is let's say the first request
+[12:24] comes this is the internet and this is
+[12:26] getting all the requests here. The first
+[12:28] request comes and it sends that to
+[12:30] server one. Second one to server B and
+[12:33] third one to server C. These are A, B,
+[12:36] C. Okay. And the fourth one comes again
+[12:38] it goes to server A, B and C for the
+[12:42] sixth one and the cycle continues.
+[12:44] That's why we call it a roundroin
+[12:46] fashion or a rotating order of sending
+[12:48] requests. And this kind of algorithm the
+[12:51] roundrobin algorithm works best in a
+[12:53] setup where the requests that are being
+[12:57] received by the load balancer they are
+[12:59] similar kind in the sense the the the
+[13:02] cost of those requests the kind of
+[13:04] operations that we are performing the
+[13:05] server is performing like database
+[13:07] operations or Q operations whatever they
+[13:09] are roughly the same kind and the
+[13:12] servers hold the same amount of capacity
+[13:15] each have let's say 4 GB of RAM and
+[13:18] let's say two cores of CPU. If we have
+[13:21] this kind of setup, then a very simple
+[13:25] roundroin algorithm for our load
+[13:27] balancer works like we can get through a
+[13:30] lot of traffic with a simple algorithm.
+[13:32] But consider we have two kinds of
+[13:34] requests. Let's say request one and in
+[13:37] red we have also request two. request
+[13:40] one what it does it does a very simple
+[13:43] database read operation select operation
+[13:46] some kind of select star from users etc
+[13:49] right let's say fetching the user
+[13:50] profile which performs roughly depending
+[13:53] on which region your database in where
+[13:55] are your users but on an average you can
+[13:58] say takes around 200 to 300 millconds
+[14:02] but then we have our request two type
+[14:05] which is a which we consider as an
+[14:08] expensive request and what do we mean by
+[14:10] expensive request. Let's say after
+[14:12] getting the request, it has to make an
+[14:14] HTTP call to an external server. Let's
+[14:17] say something like elastic search or
+[14:20] you're sending an email some kind of
+[14:22] external server which is not our own
+[14:24] server. It has to make a call to an
+[14:26] external server. After getting the
+[14:28] response, it has to make a database
+[14:29] write operation. The right operation
+[14:31] happens on a very big table which has a
+[14:34] lot of rows and a lot of indices. Also
+[14:36] as we already know indices even though
+[14:38] they help speed up select operations
+[14:41] help speed up our join operations but
+[14:43] every time we do a write operation any
+[14:45] kind of modification like update or
+[14:47] inserting a new row it has to update all
+[14:49] the indices of our databases. So let's
+[14:52] say we have a couple of indices here and
+[14:54] every write operation is expensive
+[14:56] because of that. So all in all this
+[14:58] whole API call with the external service
+[15:01] call the database write operation and
+[15:04] everything it takes around 2 seconds to
+[15:06] respond. Now our load balancer since it
+[15:09] is using a simple roundroin algorithm it
+[15:12] sends the request in a pretty mindless
+[15:14] way. Let's say it got the request in
+[15:17] this order. The first request was of
+[15:19] request type one. The second one was of
+[15:22] request type two. The third one again
+[15:24] request type two. The fourth one was
+[15:26] again request type one. And since the
+[15:29] load balancer has no idea what kind of
+[15:31] request that we are dealing with or any
+[15:33] kind of intelligent logic to route the
+[15:35] request, it will keep sending without
+[15:38] realizing all the expensive requests to
+[15:40] a single server and there is a chance
+[15:42] that this particular server will
+[15:44] eventually crash if a skew like this
+[15:47] happens in our request traffic. So there
+[15:50] is a different variation of the round
+[15:52] robin algorithm. Let's say this is again
+[15:54] our load balancer. We have our servers
+[15:56] here A, B and C. And the load balancer
+[16:00] is sending the requests in a roundrobin
+[16:02] fashion. But there is a variation which
+[16:04] is called weighted weighted roundroin
+[16:06] which means that let's say our server A
+[16:09] has 8 GB of RAM and four cores of CPU
+[16:13] and server B has again 4 GB of RAM, two
+[16:16] core CPU. C also has 4 GB of RAM, two
+[16:18] core CP. If we have a setup like this,
+[16:20] what we can do? We can configure our
+[16:23] load balancer in a weighted roundrod
+[16:24] robin fashion so that it sends twice as
+[16:28] many requests to server A as compared to
+[16:30] the other servers. So if it gets a
+[16:33] request burst eight requests first it
+[16:36] will send two requests to server A then
+[16:38] one request to server B then one request
+[16:40] to server C then again two requests to
+[16:42] server A and so on. So server A will
+[16:45] always receive twice as many requests.
+[16:48] Since server A has more amount of
+[16:51] capacity to deal with the request to
+[16:53] process those requests. But even if you
+[16:55] have this kind of setup, the load
+[16:56] balancer still cannot decide
+[16:59] intelligently what kind of request
+[17:01] should be sent to which server. So we
+[17:04] have a different algorithm for our load
+[17:06] balancer which we can consider a little
+[17:09] smarter than the roundroin algorithm
+[17:11] which is called leash connections. And
+[17:13] the way it works is again we have a load
+[17:16] balancer and three servers instances A,
+[17:20] B and C. And again we have all the three
+[17:24] servers with the same amount of capacity
+[17:26] 4 GB RAM and two CPU codes. And we are
+[17:29] getting all the requests here. But the
+[17:30] way this particular algorithm works is
+[17:32] instead of sending the request
+[17:34] mindlessly in a rotating order, what the
+[17:37] load balancer does, it checks which
+[17:39] server currently holds the least number
+[17:41] of active connections and depending on
+[17:44] that it will send requests to the other
+[17:47] server. And since you already know that
+[17:49] the HTTP protocol, the one which we
+[17:52] typically use in our backend front end
+[17:54] connections, it works on a request and
+[17:57] response cycle. The client sends a
+[17:59] request and the server sends a response
+[18:01] back with a code something like 200 400
+[18:04] or whatever and the client the browser
+[18:07] it sends the request and waits for the
+[18:09] response and while it waits for that
+[18:12] response we call that as an active
+[18:14] connection. the HTTP connection and
+[18:16] behind the scenes the TCP connection is
+[18:18] active while the server is processing
+[18:20] while the server is making that external
+[18:22] API call while the server is uh doing
+[18:24] that database write operation and
+[18:26] whatever heavy operations that the
+[18:28] server is performing at that point the
+[18:31] connection is still waiting for the
+[18:33] server's response and after the server
+[18:35] is done it sends a response back and the
+[18:38] connection is closed and depending on
+[18:39] whether you are using HTTP2 HTTP 3 the
+[18:42] connection closing the connection
+[18:44] multiplexing those logic will be
+[18:46] different but in a very simple manner if
+[18:49] you are talking about HTTP 1.1 the
+[18:51] server will send the response back and
+[18:53] the connection will be closed. So for
+[18:55] the least connections algorithm how it
+[18:58] works is for expensive operations the
+[19:01] connection will stay active for a longer
+[19:03] amount of time. So let's say we again
+[19:06] have two types of requests the request
+[19:08] one which is a very lightweight request
+[19:10] type and the request two which is a
+[19:12] heavy request type. So let's imagine the
+[19:15] first request that the load balancer
+[19:18] sends is the server A. Since when all
+[19:21] the servers are started, none of the
+[19:23] servers have any amount of active
+[19:25] connections at that point. The load
+[19:26] balancer can choose any servers in a
+[19:29] random order. So for the first request,
+[19:31] it chooses the server instance A and the
+[19:34] request type is obviously the request
+[19:37] type two which takes 2 seconds. Then
+[19:39] comes the next request which is of the
+[19:42] request type one. And then the load
+[19:45] balancer checks the server instance B
+[19:47] and the server instance C are empty and
+[19:50] they have zero number of active
+[19:51] connections. So the second request which
+[19:54] is the request type one goes to server
+[19:56] instance B. And if there is a third
+[19:58] request which is again the request type
+[20:01] one, it goes to server C. Then comes the
+[20:04] fourth request. And by the time the
+[20:06] fourth request comes and since we
+[20:08] already know that the request type one
+[20:10] is a lightweight request which resolves
+[20:12] in let's say around 200 millconds. So by
+[20:15] the time the next request comes the
+[20:17] server A is still serving the request
+[20:19] type two since it is a heavy API call
+[20:22] and the connection is still active. But
+[20:25] by the time the next request arrived
+[20:27] which is the request number four either
+[20:29] server B or server C were done with the
+[20:32] initial request and their connection
+[20:34] went to zero. So the next request will
+[20:36] go to either server B or server C. And
+[20:38] since server A is already dealing with a
+[20:41] heavy API call it will not be sent more
+[20:44] request to process. So by tweaking our
+[20:47] algorithm to consider the active
+[20:50] connections, we can make it decide
+[20:52] intelligently which server should get
+[20:54] the next request which performs a little
+[20:56] better than just using the roundrobin
+[20:59] algorithm which just sends the request
+[21:00] in a rotating order. There is also a
+[21:02] variation on top of the list connections
+[21:05] algorithm the weighted version of it
+[21:06] which means that we'll use the same
+[21:08] algorithm but again the server
+[21:10] capacities will change. Instead of all
+[21:12] of the server instances having the same
+[21:15] capacity, let's say server A has 8 GB
+[21:17] RAM, four core CPU and B and C has 4 GB
+[21:21] RAM and two core CPU. So it will use the
+[21:23] same algorithm but the server A the
+[21:26] instance A will receive twice as many
+[21:28] requests by using the same algorithm.
+[21:30] And similarly we have other load
+[21:32] balancer algorithms. Algorithms like
+[21:35] least response time which means that the
+[21:38] load balancer will check which servers
+[21:41] or which server instances are returning
+[21:44] responses much faster and they will try
+[21:46] to send more requests to those servers
+[21:48] and in turn the servers which are
+[21:51] sending slower responses which are
+[21:53] already struggling with the resources
+[21:55] they will get less number of resources.
+[21:57] Same way we also have resource-based
+[21:59] algorithms which will check which server
+[22:02] has currently high amount of CPU or high
+[22:05] amount of memory or RAM usage and the
+[22:08] servers which have less amount of
+[22:10] resource usage the CPU or RAM they will
+[22:13] receive more number of requests right
+[22:15] similarly there are other algorithms but
+[22:17] the idea is always the same the load
+[22:20] balancer depending on some piece of
+[22:22] logic it decides which server instance
+[22:25] it should send The next response to the
+[22:28] next interesting question that you might
+[22:30] ask is let's say here we have a load
+[22:32] balancer and three server instances A B
+[22:36] and C and let's say the load balancer
+[22:39] was following the roundroin algorithm or
+[22:41] least connections algorithm whatever
+[22:43] whichever you want to take and for some
+[22:46] reason our server A crashed it got more
+[22:49] amount of request because of our simpler
+[22:51] roundroin algorithm or maybe some kind
+[22:54] of infrastructure misconfiguration
+[22:56] happened and server A crashed while
+[22:58] using the list connections algorithm and
+[23:00] it is not able to respond to any more
+[23:03] requests since this machine is
+[23:05] completely stopped. It is not working.
+[23:07] Now if the load balancer is using
+[23:09] roundroin algorithm or if the load
+[23:12] balancer is using list connections or
+[23:14] any other algorithm what will happen if
+[23:16] it is using the roundroin algorithm it
+[23:18] will keep sending the request in
+[23:19] rotating order. Let's say first A second
+[23:22] B second C then A then B then C. So
+[23:25] every request that goes to the server A
+[23:28] or the server instance A the request
+[23:30] will obviously fail. The client will get
+[23:32] something like 502 or 503 and those
+[23:35] clients those users will keep getting
+[23:38] these errors and the other users they
+[23:40] will not get any errors because their
+[23:43] requests are going to server instance B
+[23:45] or server instance C. But again since
+[23:47] this is roundroin the next request of
+[23:50] the user whose request was previously
+[23:52] served by server instance B the next
+[23:54] time it might go to server A and they
+[23:56] might also face the same errors which
+[23:58] can quickly become a very frustrating
+[24:00] user experience. So how do we actually
+[24:03] solve this problem? How do load
+[24:04] balancers they solve this problem of a
+[24:07] particular server instance going dead or
+[24:09] a particular server instance not being
+[24:11] able to serve any more requests. So
+[24:14] that's where we have this concept called
+[24:17] L checks which is a very simple but
+[24:19] effective technique. What happens we
+[24:22] have our load balancer here servers here
+[24:24] and these are the typical requests that
+[24:27] are coming from our users that the load
+[24:30] balancer is forwarding to the server and
+[24:32] returning the responses back to our
+[24:34] users. While that is happening, what the
+[24:37] load balancer does, it keeps sending its
+[24:40] own request, test request, a very
+[24:42] simple, let's say a get endpoint to all
+[24:45] the servers. Let's say every second,
+[24:48] every second. While sending these actual
+[24:51] requests, the requests that are coming
+[24:53] from our users, it also sends a test
+[24:55] request every second to all the server
+[24:57] instances. It keeps sending us. And in
+[24:59] the response, it expects a success
+[25:02] response, which means something like 200
+[25:04] 201. But of course the practice is to
+[25:07] send a 200 response. So if the server is
+[25:10] online, if the server is currently
+[25:12] processing request, it will obviously
+[25:14] get that test request and it will send
+[25:16] 200 response back immediately because
+[25:18] usually it's just a test request. No
+[25:21] kind of heavy operation happens here. So
+[25:24] it does not really cause any kind of
+[25:26] load on our instances because of us
+[25:29] sending this test request every second.
+[25:32] But the moment let's say server A the
+[25:34] instance A went down and the next second
+[25:37] when the load balancer sent a test
+[25:39] request to the server A it did not send
+[25:42] a 20 response and by default the server
+[25:45] the load balancer got something like 502
+[25:48] response from the HTTP client and the
+[25:50] moment it gets a error response or any
+[25:53] kind of response which is not the 200
+[25:56] series responses it will immediately put
+[25:59] this server under blacklist. list or
+[26:02] some kind of list which means that we
+[26:04] will not be sending any kind of user
+[26:07] requests which are the requests that are
+[26:09] marked in blue here that are coming from
+[26:11] our actual users. Those requests will
+[26:13] not be sent to this particular instance
+[26:16] from now on. So all the user requests
+[26:18] they will go to either server B or
+[26:20] server C depending on whatever algorithm
+[26:22] that you are using round robin list
+[26:24] connections or whatever but meanwhile it
+[26:27] will keep sending this test request to
+[26:29] this server instance otherwise how will
+[26:31] it know that this server instance has
+[26:34] come back online it is able to serve
+[26:37] responses now so these test requests
+[26:39] they will keep going here and after it
+[26:42] gets a successful response something
+[26:44] like 200 then it will remove that
+[26:47] instance from blacklist and from the
+[26:49] next request onwards it will also send
+[26:51] these blue requests the requests that
+[26:54] are coming from our users to server A.
+[26:56] So using this simple technique called
+[26:58] health checks our load balancer can
+[27:00] decide whether a server is healthy or a
+[27:03] server is able to cater to our users
+[27:06] requests. So that's pretty much all
+[27:08] about load balancers and horizontal
+[27:11] scaling that I wanted to talk about. Of
+[27:13] course, it's not comprehensive in any
+[27:15] way, but it's good to know what are the
+[27:18] components that play an important role
+[27:21] while you are thinking about scaling
+[27:23] your backends and load balancers are a
+[27:26] very big part of scaling your backends.
+[27:28] That's a very brief introduction but
+[27:31] enough so that you can continue your own
+[27:34] reading on load balancers. Okay, next
+[27:36] let's talk about database scaling. Now
+[27:39] scaling our application, our back end,
+[27:42] whatever code that we write our
+[27:44] application, scaling that part is or
+[27:48] becomes straightforward once you
+[27:50] externalize state. That's what we
+[27:51] learned, right? Because the clear winner
+[27:54] was obviously horizontal scaling, not
+[27:56] vertical scaling. And the key to
+[27:58] horizontal scaling was externalizing
+[28:00] your state. Instead of limiting any kind
+[28:03] of information, any kind of state or any
+[28:05] kind of connections, any kind of state
+[28:07] to a particular instance of the server,
+[28:09] you externalize it. Which means you do
+[28:11] not keep any kind of cache limited to a
+[28:14] particular server. You do not keep any
+[28:16] kind of files limited to a server
+[28:18] instance. You do not keep any kind of
+[28:21] session data or any kind of information
+[28:24] that you can think of. You externalize
+[28:27] everything. You use radius. You use
+[28:28] databases for all the session related
+[28:31] information and use a object file
+[28:34] storage like S3 for storing your files
+[28:36] instead of keeping in your own local
+[28:38] instance. Right? All the stuff that we
+[28:40] discussed. Once you externalize your
+[28:43] state, you add more servers behind your
+[28:45] load balancers and your capacity will
+[28:48] increase linearly the more number of
+[28:50] servers that you can add that you can
+[28:52] afford. But while you're doing that, the
+[28:55] part that becomes a little difficult to
+[28:58] scale or a little tricky to scale is
+[29:00] your database, which is a stateful part
+[29:03] of your architecture. Because your
+[29:05] database, they cannot be duplicated the
+[29:08] way you just duplicated your server.
+[29:10] Each database they hold some amount of
+[29:13] data, a lot of data in their files, in
+[29:16] their local storage. And that data again
+[29:19] must be consistent. Which means if you
+[29:22] have multiple database instances, when a
+[29:24] request arrives and that particular
+[29:26] database instance receives that request,
+[29:29] the data it sends back, that should be
+[29:32] exactly the same as the other instance
+[29:35] of the database sending the data back
+[29:36] and making this coordination work.
+[29:39] That's what makes scaling databases a
+[29:42] very tricky part of scaling your overall
+[29:45] backend architecture. So of course we
+[29:47] already have a couple of solutions, a
+[29:50] couple of tried and tested solutions in
+[29:52] our industry for scaling our database
+[29:55] component. The stateful component of our
+[29:57] backend architecture. The first one and
+[30:00] the obvious one in most of the use cases
+[30:02] is called read replicas. Now read
+[30:05] replicas it's a very simple and an
+[30:08] intuitive architecture of scaling
+[30:10] databases. So here is our single
+[30:13] database instance and since the number
+[30:16] of servers since going with horizontal
+[30:19] scaling they are growing because we want
+[30:21] to cater to millions and billions of
+[30:23] user traffic. So all these servers they
+[30:27] are still dealing with the same database
+[30:29] instance right we were able to scale our
+[30:31] application code our processing logic
+[30:34] but our storage logic which is the
+[30:36] database component which we interact
+[30:38] with to store and retrieve data that is
+[30:41] still a single instance and eventually
+[30:44] this particular database which is again
+[30:46] a server let's say it has 4 GB or RAM
+[30:49] and four cores of CPU this is still a
+[30:52] server and eventually it will run lot of
+[30:55] resource to cater to all these requests
+[30:58] that your back end is demanding from
+[31:00] your database. So we also have to figure
+[31:02] out some way of scaling our database.
+[31:05] Read replicas are one way to do that to
+[31:08] scale your database operations across
+[31:10] multiple instances. And since database
+[31:13] are a stateful component in our
+[31:16] architecture, we cannot just add more
+[31:18] instances, right? They will have all
+[31:20] this problem of data consistency. So one
+[31:23] popular architecture that we have is the
+[31:25] read replica and this is how it works.
+[31:27] We have one database instance which we
+[31:30] call as primary or parent whatever or
+[31:33] master. There are multiple terminologies
+[31:35] here. You can call it primary or master
+[31:38] instance whatever. This one is the
+[31:40] primary database instance and we have
+[31:43] three replicas which are secondary
+[31:45] instances or child instance or slave
+[31:48] instances. Again depends on the
+[31:50] terminology but the idea is all these
+[31:52] instances of our database they will hold
+[31:55] the data but these instances they will
+[31:58] only cater to read requests which means
+[32:01] select ones. You can only read data from
+[32:04] these instances. You cannot write data
+[32:06] back to these instances. So that is the
+[32:08] number one rule. And typically what we
+[32:11] do we create these replicas or instances
+[32:15] of our database which holds all the data
+[32:17] that the primary holds and we spread it
+[32:21] across the world. So if you have users
+[32:24] in India and US and China then you can
+[32:28] have one primary instance the primary
+[32:32] database in US and you can have three
+[32:34] read replicas one in India one in China
+[32:37] and one in Japan etc. So users that are
+[32:40] sending request from those countries of
+[32:43] course assuming that you also have your
+[32:45] backends spread across these countries
+[32:48] then those backend instances combined
+[32:50] with those database instances will be
+[32:53] able to cater to the users of those
+[32:55] countries and in turn the requests and
+[32:58] the responses will be faster as compared
+[33:00] to all the requests coming to a single
+[33:03] instance of US. So that is there there
+[33:05] are two benefits of reader replicas. One
+[33:07] is low usage or less amount of load that
+[33:11] your primary database instance has to
+[33:14] take up and the second one is latency.
+[33:16] Your back end will experience less
+[33:18] amount of latency. So read replicas are
+[33:20] obviously a very good solution. all your
+[33:23] read queries and if we take a look at
+[33:26] most of the applications at least SAS
+[33:28] applications where the context of
+[33:31] backend comes primarily 90 or let's say
+[33:34] even if you are being conservative 70%
+[33:37] of the requests that we receive are read
+[33:40] requests the back end mostly does select
+[33:43] requests to our database right those are
+[33:45] read requests and all those 70% of the
+[33:48] requests will be served by these
+[33:50] replicas read replicas And the rest of
+[33:53] the 30% of the requests that are things
+[33:56] like insert or update or delete all
+[33:59] these requests any kind of a write
+[34:01] operations based request they will go to
+[34:04] our primary instance. So initially our
+[34:06] database had to deal with 100% of the
+[34:09] requests. Now it came down to only 30%.
+[34:12] So the resource utilization will be much
+[34:15] lower. the resource load will be much
+[34:18] lower and we were able to scale our
+[34:21] databases linearly. Now, of course, it
+[34:23] does not come without its trade-offs or
+[34:26] problems. The problem is consistency.
+[34:28] And what do we mean by consistency?
+[34:31] Let's take an example. Let's say we have
+[34:34] a user here. We have a user here from
+[34:36] their browser. They just updated their
+[34:40] name in their user profile page. And
+[34:42] since it is a write operation, that
+[34:45] particular request by the back end,
+[34:47] let's say there is a back end here, back
+[34:48] end instance, that particular request
+[34:50] went to our primary database instance or
+[34:53] our primary replica which handles any
+[34:56] kind of write operation, right? And the
+[34:58] moment they updated their name, they
+[35:01] refreshed the page. And since page
+[35:04] refreshing means fetching the user
+[35:06] profile data back from our database and
+[35:09] sending it to the client to the browser
+[35:12] the request type is a read request. It
+[35:14] is not a write request and that
+[35:16] immediately after let's say only a few
+[35:18] milliseconds 200 millconds the request
+[35:20] obviously went to a read replica. Now
+[35:23] let's assume that this interaction
+[35:26] happened from India and the primary
+[35:29] database instance that is in US. So the
+[35:33] write operation happened in our primary
+[35:35] database instance. So this particular
+[35:38] database instance currently holds the
+[35:40] updated data the updated name of the
+[35:42] user. So let's say the user changed the
+[35:44] name from A to A. Now at this point of
+[35:47] time at this particular 10 milliseconds
+[35:50] range only this primary database holds
+[35:53] the updated data. Of course if we have
+[35:56] this read replica based architecture
+[35:58] there will obviously be some kind of
+[36:01] replication algorithm right we cannot go
+[36:04] into the depths of the replication
+[36:06] algorithm and all but most of the modern
+[36:08] databases posgress MySQL SQLite on all
+[36:11] these databases they have native
+[36:14] features to support replication right so
+[36:17] you can imagine there is some algorithm
+[36:20] some kind of setup happening here using
+[36:22] which the data from our primary database
+[36:25] flows back to the read replicas, right?
+[36:28] It makes sense intuitively if you have
+[36:30] this kind of architecture. If these
+[36:32] replicas are a copy of our primary
+[36:34] databases, then there has to be some
+[36:37] kind of mechanism when any kind of
+[36:39] updated data flows back to all these
+[36:42] read replicas. But even if that
+[36:44] mechanism is in place, we still have to
+[36:47] consider physics. The distance between
+[36:50] these two servers, these two physical
+[36:53] servers from US to India, there is some
+[36:56] amount of latency there. let's say 200
+[36:59] milliseconds or 300 milliseconds because
+[37:02] at the end of the day our data travels
+[37:04] through optic fiber cables from under
+[37:07] the sea or any kind of medium so that
+[37:10] one server can send some data to another
+[37:12] server and the physical distance between
+[37:15] two servers have the largest role to
+[37:18] play when it comes to latency. We cannot
+[37:20] beat that. We cannot beat physics. So
+[37:22] the distance between US and India
+[37:24] assuming the fastest medium assuming the
+[37:28] latency is 200 millconds. So the
+[37:30] replication lag what we call the
+[37:33] technological term for this is called
+[37:34] replication lag which is 200
+[37:37] milliseconds. But this particular
+[37:39] interaction usually in our client apps
+[37:42] what happens usually in our form fields
+[37:45] especially in our form fields we make an
+[37:47] update to that particular field and we
+[37:50] click on the save button and the moment
+[37:53] we click on the save button the request
+[37:55] goes to our server. Our server does the
+[37:58] write operation and it sends something
+[38:00] like a successful response either 20 0
+[38:03] or 201 if it created a resource. Now the
+[38:06] moment it receives a successful response
+[38:08] if we are talking about SP single page
+[38:11] applications or server rendered pages
+[38:13] here the client framework it issues a
+[38:17] get request which means we want to fetch
+[38:20] the latest form field data for this user
+[38:22] profile. So the moment we get a
+[38:24] successful response in that millisecond
+[38:26] only we fire another get request and
+[38:28] since this is a read request it goes to
+[38:30] the read replica and since it has not
+[38:34] been 200 milliseconds so the replication
+[38:36] is not complete. This particular read
+[38:38] replica does not have the updated user
+[38:40] data the updated user's name which is
+[38:42] AB. So even though our client said that
+[38:45] your username has been updated, your
+[38:48] name has been updated from A to A but in
+[38:51] the next moment the read replica will
+[38:53] send an outdated response which is A. So
+[38:56] that particular user interaction will
+[38:58] become a very confusing or if it is a
+[39:03] more sensitive operation something like
+[39:05] payment related operation or invoice
+[39:07] related operation it can also cause a
+[39:09] lot of damage to our application. So
+[39:11] this problem of consistency is the
+[39:14] biggest challenge when we are talking
+[39:16] about read replica based architecture
+[39:18] for database scaling. Of course over the
+[39:20] time there has been a lot of proposed
+[39:23] solutions and a lot of implemented
+[39:25] solutions to deal with this problem of
+[39:28] consistency in a read replica based
+[39:30] architecture. A couple of them are if
+[39:33] some kind of write operation happens. So
+[39:35] that will go to our primary database
+[39:37] instance right and the right operation
+[39:39] happened on the user profile entity the
+[39:43] user profile model the user profile
+[39:46] database table whatever. So one solution
+[39:48] that we can do is since users table was
+[39:52] updated for this particular interaction
+[39:54] whatever read query that comes after
+[39:57] that particular write query we route it
+[40:00] to our primary instance instead of
+[40:02] routing it to our read replicas we route
+[40:05] it to our primary instance. That is one
+[40:08] solution that you can implement routing
+[40:10] requests intelligently. Another thing
+[40:12] that you can do is you can track this
+[40:14] replication lag that we talked about
+[40:16] which is like 200 milliseconds to copy
+[40:19] updated data from our primary instance
+[40:22] to our read replicas. That latency is
+[40:25] called the replication lag. So you can
+[40:27] keep tracking this replication lag. So
+[40:29] average something like 200 250
+[40:31] milliseconds. And while that is
+[40:34] happening you can block all your read
+[40:36] queries or you can make all your read
+[40:38] queries wait until the replication is
+[40:41] complete and only after the replication
+[40:43] is complete you send the updated data
+[40:45] back in the response. So that is another
+[40:47] solution that you can implement. Apart
+[40:49] from that you can also architect your
+[40:52] front end in a way that the updated data
+[40:55] is not fetched that instant only. there
+[40:58] is some amount of planned latency there
+[41:01] after let's say 300 milliseconds you
+[41:03] fire the next get request. So all these
+[41:06] different kinds of solutions that we
+[41:09] need to implement and the kind of
+[41:11] solution that you will implement depends
+[41:13] on what kind of tradeoff that you are
+[41:15] willing to do. Every time you are
+[41:17] talking about distributed systems the
+[41:20] one that we talked about here the read
+[41:22] replica based architecture which is a
+[41:24] distributed system concept. So every
+[41:27] time you are talking about a distributed
+[41:30] systembased solution, you always have to
+[41:32] make some amount of trade-off and most
+[41:34] of the time it is about consistency. How
+[41:37] do you make sure that all of your
+[41:40] instances have the updated information
+[41:43] about your server or your users? But
+[41:46] anyway, all these modern database
+[41:48] providers like let's RDS, Google Cloud,
+[41:52] SQL and these manage database providers,
+[41:55] they make it very easy to implement read
+[41:57] replicas and to implement read replicas
+[42:00] in particular regions. It just takes a
+[42:02] few configuration flags or a couple of
+[42:04] toggles in UI and your read replicas
+[42:07] will be ready. And they also have a lot
+[42:09] of tried and tested robust solutions to
+[42:12] deal with all these different kind of
+[42:14] consistency based problems for read
+[42:16] replicas. You as a backend engineer will
+[42:19] not have to worry about these deep
+[42:21] infralevel problems. But it is still
+[42:24] nice to know that these kinds of
+[42:26] trade-offs always happen in your
+[42:28] infrastructure based setups especially
+[42:30] when you're talking about database
+[42:31] scaling. Now moving on, another famous
+[42:34] technique that will keep coming up
+[42:36] whenever we are talking about database
+[42:38] scaling is sharding also known as
+[42:41] partitioning. Okay, sharding basically
+[42:43] means that let's say you have a orders
+[42:47] table. you are an e-commerce based
+[42:49] application something like Amazon,
+[42:51] Flipkart or whatever and you have a
+[42:53] database table where you store orders
+[42:56] information and of course for an
+[42:58] e-commerce based application you get
+[43:00] thousands of orders millions of orders
+[43:02] every day. So your orders table
+[43:04] eventually becomes billions of rows. And
+[43:08] whenever you want to fetch some data
+[43:11] from this orders table, you run
+[43:14] something like select star from orders
+[43:18] where user id equals to five. Right? If
+[43:21] you want to fetch all the orders of a
+[43:23] particular user, user went to their
+[43:26] orders page and you want to fetch all
+[43:27] the orders of that user. So you'll run a
+[43:30] query like this. But running a
+[43:32] particular query like this on a table
+[43:35] which has billions and hundreds of
+[43:37] billions of rows, it can take a long
+[43:39] amount of time and even though you have
+[43:42] index implemented for let's say the user
+[43:45] ID column, it will still take a lot of
+[43:47] time because the volume of rows billions
+[43:51] and hundreds and thousands of billions
+[43:53] of row that we're talking about if you
+[43:54] are a very famous e-commerce based
+[43:56] company. to deal with query latency.
+[44:00] That is the first problem that we have.
+[44:02] The second is obviously we are talking
+[44:04] about database scaling and database
+[44:07] scaling in the context of scaling so
+[44:10] that our databases can handle a large
+[44:13] amount of requests in a short time which
+[44:15] means more resource which more resource
+[44:17] means more instances of our database
+[44:20] right. So scaling instances that is the
+[44:23] second problem. So sharding solves both
+[44:26] of these problems. And how does it
+[44:28] solve? So let's take the orders table.
+[44:32] And what do we do? We shard this table.
+[44:35] We partition this table. Which means we
+[44:37] divide this table. Say this is the whole
+[44:40] table. And instead of billions, let's
+[44:42] imagine just to understand this concept.
+[44:44] It has 10 rows, right? And if you
+[44:47] imagine one row as a representation of 1
+[44:51] billion rows. So it has 10 million rows
+[44:54] but we are talking in the context of 1
+[44:56] to 10. So it has 10 rows and what we do
+[44:59] and what we did we divided this into two
+[45:03] parts. Two parts and this is one
+[45:06] database instance and 6 to 10. This is
+[45:09] the second database instance. So we took
+[45:12] the orders table and we divided the
+[45:15] table in a way that they are physically
+[45:17] in two separate database instances.
+[45:19] Right? And how did we divide it? So
+[45:22] every time you think about sharding one
+[45:24] of the very tricky problems is figuring
+[45:27] out what should be the sharding key
+[45:29] which means that what should be the
+[45:31] parameter according to which you can
+[45:33] divide this table. How do you actually
+[45:36] decide that this particular data should
+[45:39] live in this instance and this
+[45:41] particular amount of data this should
+[45:43] live in this instance. You have to come
+[45:45] up with some kind of criteria that we
+[45:47] will divide according to dash. Now in
+[45:49] this instance what you can do is in
+[45:52] first database instance for first
+[45:55] physical database you will only hold the
+[45:58] orders of January to June and in the
+[46:02] second database instance you will hold
+[46:04] the orders from June to December. Right
+[46:07] now this order date has become your
+[46:10] starting key. Now what is the benefit?
+[46:12] You have two database instance, two
+[46:14] physical database instance which has the
+[46:16] clear benefit that two database instance
+[46:18] can serve more amount of requests per
+[46:21] second. Right? If this is our internet,
+[46:24] this is our server instances. Then since
+[46:27] we have two databases now, they can
+[46:29] handle more amount of requests. So that
+[46:31] solves second problem. Now the first
+[46:33] problem which was query latency since
+[46:35] instead of dealing with 10 rows instead
+[46:38] of dealing with 10 billion rows this
+[46:40] particular database instance only has to
+[46:42] now deal with 5 billion rows or five
+[46:44] rows. So query latency also in turn
+[46:47] becomes less because the amount of rows
+[46:49] become less. Now of course this was a
+[46:52] very simple example to show the concept
+[46:54] but depending on your volume you can
+[46:57] also shard this by month also. For
+[46:59] January, you can keep one instance. For
+[47:02] February, you can keep another shard.
+[47:04] For March, you can keep another shard.
+[47:06] Right? So, in your back end or in some
+[47:09] place in the your in your routing layer,
+[47:12] in your backend in your database routing
+[47:14] layer, you can decide and here before
+[47:16] making the request, you decide at this
+[47:19] point that which particular shard holds
+[47:21] this data and you send the request to
+[47:24] that particular shard and it sends the
+[47:26] response back and you return it back to
+[47:28] the user. So that's pretty much what
+[47:30] sharding is which is basically means
+[47:32] dividing your data into multiple
+[47:34] physical database instances instead of
+[47:36] keeping all the data in one table you
+[47:40] divide the table physically right so
+[47:42] those are two important concepts that
+[47:44] you will keep hearing replication and
+[47:46] sharding read replicas and database
+[47:48] shards of course there are a lot of
+[47:50] technical complexities behind the scenes
+[47:52] of how to interact with them how to
+[47:54] create the charts but now we are just
+[47:55] focusing on the concepts the things that
+[47:58] you should know about but to actually
+[48:01] learn them how to implement them how to
+[48:03] understand them in a deep technical way
+[48:06] you can do your own reading now moving
+[48:08] on talking about current times which is
+[48:11] current time in the sense right now it's
+[48:13] 2025 December the current trend when it
+[48:16] comes to scaling databases are
+[48:19] distributed databases right some of the
+[48:21] famous examples are planet scale which
+[48:24] uses pus behind the scenes which is
+[48:27] primarily MISQL
+[48:29] based database. We also have neon when
+[48:32] we are talking about posgress. Neon is
+[48:34] purely written in rust and it is
+[48:38] considered as a serverless database.
+[48:40] Similarly, we also have cockroach DB. We
+[48:43] also have Yugabyte, right? A lot of
+[48:46] distributed databases which handle all
+[48:48] these problems. the problem of sharding,
+[48:51] the problem of replication, the problem
+[48:53] of distributed transactions and
+[48:55] everything all the complexities that
+[48:58] arise when we talk about database
+[49:00] scaling they automatically handle that.
+[49:03] So talking in a realistic scenario if
+[49:05] you are a backend engineer you just go
+[49:07] ahead whatever database provider that
+[49:09] you want to use with whether it is RDS
+[49:12] or whether it is neon planet scale
+[49:14] whatever database that you want to use
+[49:16] obviously it is never recommended
+[49:18] especially when you're starting out
+[49:19] especially if you don't have very deep
+[49:21] expertise in databases and database
+[49:24] administration or database scaling then
+[49:26] you should not roll out your own
+[49:28] database infrastructure because as we
+[49:30] have already talked about the
+[49:32] replication sharding and the database
+[49:34] backup is another problem. How do you
+[49:36] keep your users data safe and in
+[49:39] multiple places? So there are a lot of
+[49:41] complexities when it comes to databases
+[49:42] and obviously it is not recommended that
+[49:45] you roll out your own database
+[49:46] infrastructure even though the fact that
+[49:48] you know all these concepts is good and
+[49:51] it is advised but should not roll out
+[49:54] your own database infrastructure unless
+[49:56] you know what you're doing exactly. So
+[49:59] realistically you will just choose
+[50:00] whatever database provider that you want
+[50:02] to go with depending on their features
+[50:04] depending on the pricing depending on
+[50:06] your team's preference AWS neon plan
+[50:10] whatever and you'll just sign up create
+[50:12] a database and you'll get a URL of the
+[50:15] database username password whatever
+[50:18] credentials the database has you just
+[50:20] plug it in in your database in your back
+[50:22] end and you'll start interacting with it
+[50:25] right you do not have to think about
+[50:26] replication you do not have to think
+[50:28] about sharding and anything. But you
+[50:30] have to know this concept so that you
+[50:32] can go into your database console, your
+[50:35] database provider console and you can
+[50:37] configure things. You can configure that
+[50:39] how frequently you want to take database
+[50:41] backups in what regions of the world
+[50:44] that you want to keep read replicas and
+[50:46] how do you want to plan your sharding.
+[50:49] The actual activity of replication, the
+[50:51] actual activity of sharding, the actual
+[50:53] activity of distributing your replicas
+[50:55] that you don't have to do. But you still
+[50:58] have to understand what all these terms
+[51:00] mean, what all these concepts, what all
+[51:03] these techniques do so that you can
+[51:05] express how do you want to configure
+[51:07] your database. That's why it was
+[51:09] important that we talked about database
+[51:11] scaling. Even though in a realistic
+[51:12] scenario, you will not actually have to
+[51:14] do any of this as long as you understand
+[51:16] what all these terms mean. So far we
+[51:19] have discussed caching within your data
+[51:22] centers. But there is another layer of
+[51:26] caching that we have not discussed yet
+[51:28] and that layer operates on the global
+[51:31] level. We think about geography when we
+[51:34] think about this layer of caching and we
+[51:37] call that cydians content delivery
+[51:40] networks. And to understand why CDNs
+[51:45] matter, I actually have a video about
+[51:48] CDNs in depth, which is of course in a
+[51:51] different context. I was talking about
+[51:54] how serverless platforms like Versel
+[51:57] work. But if you want to learn more
+[52:00] about Cydians, if you want to understand
+[52:01] cydians in a much more technically
+[52:04] deeper way, then please watch that
+[52:07] video. We'll also talk about cydians in
+[52:09] this video but not in that much depth
+[52:12] since that video was completely about
+[52:13] cydians. Okay. To understand why cydians
+[52:17] matter, why do we need cydians in the
+[52:19] first place, you have to understand one
+[52:22] fundamental constraint or one limitation
+[52:26] of our world or physics per se which is
+[52:30] the speed of light. Now light travels at
+[52:33] around 200,000
+[52:38] kilometer per second through fiber optic
+[52:42] cables. We are not talking about lights
+[52:44] speed in space but in fiber optic cables
+[52:48] which are at the end of the day the
+[52:50] speed of our internet. We cannot cross
+[52:53] this speed ever because whatever data
+[52:56] that is transmitted from one country to
+[52:59] another from one part of the world to
+[53:00] another end of the day it is all going
+[53:03] through under sea cables and that
+[53:05] happens at this speed. This is our cap
+[53:08] 200,000 km/s.
+[53:11] So if a request is going from Tokyo to a
+[53:15] server which is in Virginia or North
+[53:18] Virginia is the region US East one where
+[53:22] you'll find most of our commercial
+[53:24] applications most of your famous servers
+[53:27] are hosted in they have instances there
+[53:30] is US east one which is north Virginia
+[53:32] for this request to make a round trip
+[53:34] roundrip in the sense to send a request
+[53:36] from the browser and getting the
+[53:39] response back from the server. to make
+[53:41] this whole round trip which is roughly
+[53:43] around 20,000
+[53:45] km and at the speed of light in optical
+[53:49] fiber cables that's roughly around 100
+[53:52] milliseconds and this is our cap this is
+[53:55] our physics cap which means no amount of
+[53:59] optimization no amount of technology at
+[54:01] least the kind of technology that we
+[54:03] have access to these days it cannot beat
+[54:06] this for making a roundtrip the minimum
+[54:08] amount of latency that the user is going
+[54:10] to face for a request response sound
+[54:13] trip is going to be 100 millconds for a
+[54:15] user based in Tokyo. And 100
+[54:17] milliseconds honestly does not sound
+[54:20] much but this we are talking about only
+[54:23] the round trip of sending the request
+[54:25] and getting the response back. There is
+[54:28] still stuff happening after getting the
+[54:30] request. The first thing obviously is
+[54:32] the routing layer and the routing layer
+[54:34] is pretty fast if you think about it.
+[54:37] Mostly it's a regular expression based
+[54:39] routing depending on which resource the
+[54:42] user has sent a request to and depending
+[54:44] on that the respective handler picks it
+[54:47] up but after the handler whichever
+[54:49] function that is supposed to deal with
+[54:51] this particular request picks it up the
+[54:53] first step that happens is a des
+[54:54] serialization process which means taking
+[54:57] the HTTP message and deserializing it
+[55:00] into the data structure of that pro
+[55:03] programming language. If it is something
+[55:05] like NodeJS, it'll become a JavaScript
+[55:07] object from the JSON. And same for if
+[55:10] it's a go programming based back end, it
+[55:13] will become a strct etc. Right? And
+[55:15] usually this des serialization process
+[55:18] of JSON takes some time depending on how
+[55:21] large the payload is, right? And that is
+[55:23] still not the largest cause of latency.
+[55:26] That is just the entry point. After
+[55:28] that, we have our service layer. We run
+[55:31] any some amount of business logic and
+[55:34] that typically involves dealing with our
+[55:36] database and databases again depending
+[55:40] on what is the distance between your
+[55:42] server and your database and assuming
+[55:44] the best case scenario. So server and
+[55:47] database are in the same region in the
+[55:49] same data center or similar kind of
+[55:51] setup. Still for a midlevel to complex
+[55:55] query it might take somewhere around 50
+[55:57] milliseconds to 100 milliseconds. On top
+[56:00] of that if there are any external API
+[56:03] calls for that particular API then again
+[56:05] that might cause another 200
+[56:07] milliseconds. If you combine all that
+[56:10] that 100 milliseconds which is the
+[56:11] minimum amount of latency that a user
+[56:14] from Tokyo was about to face that
+[56:16] quickly becomes somewhere close to 500
+[56:19] to 800 millconds right so even if you
+[56:22] forget about all this which we already
+[56:24] discussed what kind of optimization that
+[56:26] we can do on database level what kind of
+[56:29] automation that we can do on the caching
+[56:31] level using things like inmemory caches
+[56:33] like radius etc etc the last cause of
+[56:36] latency it all still boils boils down to
+[56:38] the physical distance between your user
+[56:40] and your server the geographical gap and
+[56:43] this is exactly the problem that CDNs
+[56:46] are supposed to solve. So what we do
+[56:48] instead of the requests that originated
+[56:51] from Tokyo instead of going to US
+[56:54] instead of going to the US server what
+[56:56] it does we place the CDN edge locations
+[57:00] or also called as pops points of
+[57:02] presence in the same region let's say in
+[57:05] Tokyo. So instead of traveling all the
+[57:07] way to 20,000 km for the whole round
+[57:11] trip, this will come down to something
+[57:13] like 100 to 200 km and the latency will
+[57:18] come down from 100 millconds to
+[57:19] something like 2 to 3 millconds. That is
+[57:22] a huge performance win. Even though from
+[57:25] human perceived time 100 millconds in 2
+[57:27] 3 mconds does not make a lot of
+[57:29] difference but since we are talking
+[57:31] about scaling and performance this is a
+[57:33] huge difference coming from 100 to 2
+[57:35] millconds. So that is one advantage of
+[57:38] CDNs. We take a particular piece of
+[57:41] content and we cache it at CDN and we
+[57:43] place that particular server that
+[57:45] particular node which is going to serve
+[57:47] the content which is going to send the
+[57:49] content back to the user close to the
+[57:51] users. Right? So one obvious win of
+[57:53] using CDNs is the latency latency.
+[57:56] Second is the load and since we are
+[57:58] placing all these CDN nodes these points
+[58:01] of presence closer to users one node in
+[58:04] Tokyo one node in let's say Mumbai
+[58:07] another in Singapore and depending on
+[58:10] where the user's request is coming from
+[58:12] that particular CDN node is going to
+[58:14] send the content. Of course, there is
+[58:15] another layer of logic where we decide
+[58:19] what particular piece of content are we
+[58:21] going to cache in CDN. That is a
+[58:23] different discussion which you can find
+[58:25] in the CDN video. But assuming that we
+[58:27] have already done that, we have already
+[58:29] place this particular piece of content
+[58:31] in CDN. Then the user just requests for
+[58:34] that content and the CDN sends it back.
+[58:37] And because of that our primary server
+[58:40] which is in US let's say it does not get
+[58:43] as much amount of traffic. So the
+[58:45] traffic gets distributed across all the
+[58:48] CDN nodes and it gets 50% less amount of
+[58:51] traffic roughly speaking. So that is
+[58:54] another win of using CDN. Your primary
+[58:56] server is not going to use a lot of
+[58:59] resources. you don't have to worry about
+[59:01] horizontal scaling as frequently if
+[59:03] you're using CDNs and if you are
+[59:05] prioritizing caching your content across
+[59:08] CDN nodes. So the obvious next question
+[59:10] is what can you put in your CDN content
+[59:13] and what kind of content that we usually
+[59:15] put in our CDNs and one obvious starting
+[59:19] point is static content. What do you
+[59:21] mean by static content? things like our
+[59:23] JavaScript bundles or CSS bundles, HTML
+[59:26] files and images and videos, fonts,
+[59:29] right? These kinds of contents, they
+[59:32] don't change as often. Usually when we
+[59:34] deploy our front-end application, that
+[59:37] becomes a bundle of JavaScript, CSS, and
+[59:39] HTML. Assuming that it is a SPA, single
+[59:42] page application, something like React.
+[59:44] We take that bundle and we cache it
+[59:46] across CDN nodes. So when a user
+[59:49] requests for our front-end application
+[59:52] instead of going to the primary server
+[59:53] where uh it gets the request it sends a
+[59:56] request to something like an S3 bucket
+[59:59] and serves it back that particular
+[01:00:01] request will go to the CDN and since the
+[01:00:03] CDN is closer to the users that response
+[01:00:06] will be faster. So that is the idea
+[01:00:08] since static content does not change as
+[01:00:10] often caching it in CDN make a lot of
+[01:00:13] sense and this is typically how we
+[01:00:16] deploy our SPS single page applications
+[01:00:17] or static site application like blogs it
+[01:00:19] etc and also the images fonts etc. These
+[01:00:24] are also called static content and a
+[01:00:26] very good candidates for caching in
+[01:00:28] CDNs. But apart from that, we can also
+[01:00:31] cache a few API responses. For example,
+[01:00:34] if you have an e-commerce page and you
+[01:00:36] have a product catalog and you know that
+[01:00:40] this catalog is not going to change
+[01:00:42] anytime soon or as often or as
+[01:00:44] frequently. Of course when we are using
+[01:00:47] CDN there are also techniques for
+[01:00:49] invalidating the cache or in CDN
+[01:00:52] terminology purging the cache we have
+[01:00:54] used cloudflare CDN which is one of the
+[01:00:57] largest CDN providers they have a lot of
+[01:00:59] mechanisms using you can provide tags to
+[01:01:02] your CDN content and depending on a
+[01:01:05] particular condition let's say some data
+[01:01:07] change or a user uploaded a new blog
+[01:01:10] then you can take a tag let's say a tag
+[01:01:12] which had the user ID and all the blogs
+[01:01:15] of that user. You can take that tag and
+[01:01:17] you can say that let's purge all the
+[01:01:19] cache which means delete all the cached
+[01:01:22] content of this particular user all the
+[01:01:24] blocks of this user and fetch new data
+[01:01:26] from our primary server and cach it
+[01:01:29] again in the CDN. So depending on all
+[01:01:31] these conditions you can of course
+[01:01:33] decide when do you remove stuff from
+[01:01:35] your CDN cache and when do you load new
+[01:01:37] data. So those conditions are there you
+[01:01:40] don't have to worry about serving old
+[01:01:42] content etc etc. That's a different
+[01:01:43] strategy of how to manage CDN content.
+[01:01:45] So API responses are also cached
+[01:01:48] depending on our use cases. A third use
+[01:01:51] case of CDNs especially the cloud flares
+[01:01:55] USB when they are selling their CDN is
+[01:01:58] the security perspective. One of the
+[01:02:00] famous modern-day attacks are DOS
+[01:02:03] attacks, which means that an attacker
+[01:02:06] has control over a lot of computers,
+[01:02:09] over the internet, a lot of bots using
+[01:02:12] some kind of malware. And the attacker
+[01:02:14] uses all these bots spread across the
+[01:02:17] whole world. Let's say it has control
+[01:02:19] over around 20,000 bots using some kind
+[01:02:21] of malware. So what it does if it wants
+[01:02:24] to target your server, it will write
+[01:02:27] some kind of script. So that let's say
+[01:02:29] this is your server and computers nodes
+[01:02:31] from all over the world will start
+[01:02:34] sending traffic to your server and since
+[01:02:37] our servers have a particular limit on
+[01:02:40] the amount of resources eventually those
+[01:02:43] limits will be crossed and either our
+[01:02:46] server is going to crash if there are
+[01:02:48] some hard limits or if we have
+[01:02:50] configured horizontal scaling all the
+[01:02:52] advanced scaling techniques then what
+[01:02:54] our servers will do it will keep
+[01:02:56] spinning up new instances to deal with
+[01:02:58] all that traffic and in turn will incur
+[01:03:01] a heavy amount of charge. So you will
+[01:03:04] like $50,000 for one day because all
+[01:03:07] these new instances were spun up and it
+[01:03:10] catered to a large amount of traffic. So
+[01:03:12] you will either face damage in the sense
+[01:03:15] your server will crash or financial
+[01:03:17] damage. So DOS is still very relevant.
+[01:03:20] You every other day you read in the news
+[01:03:23] that this particular server was attacked
+[01:03:24] with the DOS etc. So Cloudflare CDN one
+[01:03:27] of its offerings is you have your server
+[01:03:29] and you place the Cloudflare CDN in
+[01:03:33] front of your servers. So all the
+[01:03:35] traffic goes through Cloudflare and then
+[01:03:38] it goes to your server. If there is some
+[01:03:40] cache content it returns from this point
+[01:03:41] otherwise it sends to your server. And
+[01:03:44] this cloudfare CDN layer it also works
+[01:03:47] as a security layer in the sense if in a
+[01:03:49] very short time span it gets a lot of
+[01:03:52] traffic they have a very advanced
+[01:03:54] methodologies to detect these kinds of
+[01:03:56] attacks because they've been working on
+[01:03:58] this for years. So the moment they
+[01:04:00] detect this attack there are certain
+[01:04:02] number of steps that they trigger things
+[01:04:04] like asking all your users to captures
+[01:04:08] right all the suspicious users etc etc
+[01:04:10] and on top of that all this traffic it
+[01:04:13] cannot really do any damage to your
+[01:04:15] servers because there is another
+[01:04:17] additional layer in front of your
+[01:04:19] servers and since Cloudflare CDN is one
+[01:04:21] of the largest CDN providers in the
+[01:04:23] whole world all this traffic gets
+[01:04:25] distributed across their nodes so no
+[01:04:28] serious damage can be done even though
+[01:04:30] the traffic is in terabytes terabytes or
+[01:04:33] pabytes of data because Cloudflare's CDN
+[01:04:37] network is so large. So that is the
+[01:04:39] third advantage of using CDN. Another
+[01:04:42] interesting thing that keeps coming up
+[01:04:44] while we are talking about CDN is edge
+[01:04:47] computing. Now traditionally the word
+[01:04:49] edge used to mean that so we have our
+[01:04:52] CDNs we have our users in Tokyo, India,
+[01:04:56] Singapore and we have our CDN nodes for
+[01:05:00] all these regions and these nodes are
+[01:05:02] usually called edge nodes because they
+[01:05:05] are at the edge of the network right
+[01:05:06] because we interact with our internet
+[01:05:09] service providers ISPs and usually CDNs
+[01:05:12] are strategically placed in
+[01:05:14] collaboration with our ISPs so that when
+[01:05:16] a user request triggers at the edge of
+[01:05:19] the network. At the first point of
+[01:05:21] interaction of the network, we place our
+[01:05:23] CDN nodes and that is the reason the CDN
+[01:05:25] responses are very fast. They are
+[01:05:27] strategically placed at the edge of the
+[01:05:29] network, the first point of the network.
+[01:05:31] That was the initial use case of this
+[01:05:33] word in the context of CDNs, the edge
+[01:05:36] nodes. Now in the modern times, a
+[01:05:38] different term, a similar sounding term
+[01:05:41] which causes a lot of confusion is edge
+[01:05:43] computing. Now edge computing is also in
+[01:05:45] the context of CDNs. But when we say
+[01:05:48] edge computing what it means?
+[01:05:49] Traditionally CDNs have always been used
+[01:05:52] as a layer for sending static contents
+[01:05:56] like JavaScript or images or videos etc.
+[01:06:00] All the static content. So a user from
+[01:06:03] Tokyo they request a particular video or
+[01:06:06] they request a front-end application
+[01:06:08] with bundle of JavaScript CS and HTML.
+[01:06:11] Your CDN gets that request and
+[01:06:14] immediately finds the file, sends it
+[01:06:16] back. There is no processing layer
+[01:06:18] happening here. There is no complex
+[01:06:20] processing happening here. You request
+[01:06:21] the exact file, the name of the file and
+[01:06:24] the CDN sends it back. It does not think
+[01:06:26] about it at all. Now what edge computing
+[01:06:28] means, you send a request and there is
+[01:06:31] some additional processing happening
+[01:06:32] here. Then it sends whatever response
+[01:06:35] that you're expecting. Now this
+[01:06:37] processing that happens at the CDN layer
+[01:06:40] at the edge node layer is called edge
+[01:06:42] computing and since our traditional
+[01:06:45] servers they are placed in primary data
+[01:06:47] centers like US east and all the big
+[01:06:50] regions that we have available in or GCP
+[01:06:53] these edge nodes or CDN nodes the number
+[01:06:56] of CDN nodes are and always will be
+[01:06:59] greater than the number of primary data
+[01:07:01] centers because primary data centers
+[01:07:02] they require a lot of resources they
+[01:07:04] require a lot of geographic
+[01:07:06] strategy and a lot of investment both
+[01:07:09] financially and operationally. But since
+[01:07:11] CDN nodes are placed and created in
+[01:07:14] collaboration with your ISPs, so ISPs
+[01:07:17] are primary infrastructure for placing
+[01:07:19] your CDNs. Even though there are these
+[01:07:21] big players like Cloudflare and Aless
+[01:07:23] they have their own CDN infrastructure
+[01:07:26] in collaboration with ISP but
+[01:07:27] traditionally speaking CDNs have always
+[01:07:30] been an infrastructure primarily based
+[01:07:32] on ISP's infrastructure your internet
+[01:07:34] service providers and since there are
+[01:07:36] more number of these CDN edge nodes and
+[01:07:38] they are very close to users you send a
+[01:07:41] request to this edge node the processing
+[01:07:42] happens very quickly even though the
+[01:07:44] processing itself might take the same
+[01:07:47] amount of time that our primary data
+[01:07:49] center or primary service would take.
+[01:07:51] But since the request and response
+[01:07:53] roundtrip latency is less, it feels like
+[01:07:56] our edge computing whatever edge
+[01:07:58] computing level responses are faster
+[01:08:00] than our traditional server based
+[01:08:02] responses and for good reasons. One
+[01:08:04] solid example of one of the most used
+[01:08:07] use cases of edge computing is
+[01:08:08] authentication. So again take the same
+[01:08:10] example of an us user in Tokyo and our
+[01:08:13] primary data center in US and for
+[01:08:16] authentication if we are going stateful
+[01:08:18] authentication we send whatever session
+[01:08:20] information that we have using cookies
+[01:08:22] etc. So the user sends a cookie to the
+[01:08:25] server. The server checks using the
+[01:08:26] session ID from the cookie. It checks
+[01:08:28] from database or radius whether the
+[01:08:30] cookie is valid or not. The session is
+[01:08:31] valid or not. And if it is valid, it the
+[01:08:34] request passes through and if it is not
+[01:08:36] valid then it sends an error response
+[01:08:38] something like 401 which is
+[01:08:39] unauthorized. But the whole round trip
+[01:08:42] spend around 100 milliseconds just to
+[01:08:44] get an error response that you are not
+[01:08:46] authorized to make this request which
+[01:08:48] seems like a lot of waste of your
+[01:08:51] bandwidth and your service resources
+[01:08:54] just to send a rejection. So for this
+[01:08:56] use case what alternatives have come up
+[01:08:59] is instead of sending this
+[01:09:01] authentication based request directly to
+[01:09:04] your primary server you send it to your
+[01:09:06] edge node. So this is your edge node
+[01:09:08] whatever CDN node which is capable of
+[01:09:11] doing some kind of processing. So you
+[01:09:13] send it and it checks the same amount of
+[01:09:15] logic that you would have done in your
+[01:09:17] server layer you do it at the edge
+[01:09:18] layer. You check the session information
+[01:09:20] you check the session ID if it is not
+[01:09:22] valid instantly send 401. Now instead of
+[01:09:24] getting a 401 response after 100
+[01:09:26] millconds, you get it in 2 to 3
+[01:09:28] millconds and your server was not
+[01:09:30] disturbed with a lot of unauthorized
+[01:09:32] based requests and only if this user is
+[01:09:36] authorized then we let the request pass
+[01:09:38] to our server. So the server only deals
+[01:09:41] with legit requests which in turn
+[01:09:43] reduces a lot of traffic unnecessary
+[01:09:45] traffic. So that is a very good and
+[01:09:48] famous use cases of using edge
+[01:09:50] computing. They can also do a lot of
+[01:09:51] other things. For example, let's say
+[01:09:53] they get a request and depending on user
+[01:09:56] location since the edge nodes they are
+[01:09:58] very close to the users they know which
+[01:10:00] region they are serving. So the request
+[01:10:01] coming from Tokyo they can check the
+[01:10:03] headers and if the request says that the
+[01:10:06] user's browser language is something
+[01:10:08] like Japanese. So instead of sending the
+[01:10:10] content let's say it's a blog instead of
+[01:10:12] sending it in English or instead of
+[01:10:14] doing the localization based
+[01:10:16] configuration of your website in English
+[01:10:18] they can directly send a response. This
+[01:10:20] is a Japanese version of your website
+[01:10:21] and all of this happens very fast. So
+[01:10:24] all this users location based
+[01:10:26] configuration customization and user
+[01:10:29] preferences. This is also a solid use
+[01:10:31] case for using edge computing. But one
+[01:10:33] question that you might have is if edge
+[01:10:35] computing is so fast and so useful then
+[01:10:38] why not use everything? Why not use edge
+[01:10:41] computing for everything? And the reason
+[01:10:43] for that is constraints. What kind of
+[01:10:45] constraints that we are talking about?
+[01:10:47] As I've already said, edge computing or
+[01:10:50] CDN nodes have always been an
+[01:10:52] infrastructure of our ISPs. So you can
+[01:10:54] imagine a request from a user from
+[01:10:57] Tokyo, it goes through and the first
+[01:10:59] point of contact is going to be the ISP,
+[01:11:02] the company which provides you with
+[01:11:05] internet. So let's say if you're from
+[01:11:07] India, so a company like Etel or a
+[01:11:09] company like ACT or whatever ISP that
+[01:11:12] you're using that gets your request and
+[01:11:14] they have a number of routing layers,
+[01:11:16] hobs as you can call it. It goes from
+[01:11:18] one point then another point and then
+[01:11:20] another point then eventually it crosses
+[01:11:22] the undersea cables and goes to another
+[01:11:24] country then they have another ISP there
+[01:11:27] and eventually it reaches your server.
+[01:11:29] Right? So all these routing happens
+[01:11:31] throughout the way. So traditionally
+[01:11:33] CDNs are usually let's say an ISP has an
+[01:11:37] infrastructure here to route the
+[01:11:39] internet request. So at this particular
+[01:11:41] infrastructure they'll have some
+[01:11:43] collaboration with a company like
+[01:11:44] Cloudflare and they will provide a CDN
+[01:11:47] level functionality here but their
+[01:11:50] primary responsibility has always been
+[01:11:51] routing the internet requests. CDN is
+[01:11:54] just something they do in collaboration
+[01:11:55] with all these providers like Cloudfare
+[01:11:57] and AWS. So the kind of infrastructure
+[01:12:00] they provide it is not very robust which
+[01:12:02] means that they have limited amount of
+[01:12:04] RAM. So instead of having like 8 GB of
+[01:12:06] RAM or 16 GB of RAM they'll have
+[01:12:07] something like 1 GB of or one core CPU.
+[01:12:10] Right? So the resource constraints are a
+[01:12:13] big problem when we are talking about
+[01:12:14] edge computing. That is one point. The
+[01:12:17] second point is the whole idea of edge
+[01:12:19] computing has always been very low
+[01:12:21] latency based computing. So one primary
+[01:12:25] example of edge computing is Cloudflare
+[01:12:28] workers right one of the most famous
+[01:12:30] edge computing based infrastructure that
+[01:12:32] we have available today and Cloudflare
+[01:12:34] workers they use V8 isolates a
+[01:12:37] JavaScript runtime from Chrome and they
+[01:12:40] use this V8 based runtime to process
+[01:12:44] your request to do any kind of
+[01:12:46] computations and this edge computing
+[01:12:48] environment comes with a lot of
+[01:12:49] constraints like it cannot interact with
+[01:12:51] your file system it cannot do things
+[01:12:53] like TCP protocols etc etc. So all these
+[01:12:56] resource constraint all these runtime
+[01:12:58] processing constraints are the reason
+[01:13:00] that we cannot offload everything to CDN
+[01:13:03] nodes our primary servers are robust
+[01:13:06] data center infrastructure they have to
+[01:13:09] be there but we can offload some amount
+[01:13:12] of logic strategic logic which makes
+[01:13:14] sense to be placed at the CDN level at
+[01:13:17] the edge computing level so that the
+[01:13:20] edge nodes and our primary servers can
+[01:13:22] work together to provide a very seamless
+[01:13:24] experience to our users. Things that we
+[01:13:26] already discussed like authentication or
+[01:13:29] user customization or validation or
+[01:13:32] routing which server the request should
+[01:13:34] go to etc. All these things they are
+[01:13:36] very good at but they cannot completely
+[01:13:38] replace our primary servers as of now.
+[01:13:40] Moving on to our next topic which is
+[01:13:43] asynchronous processing. Whenever we
+[01:13:45] talk about reducing the latency of our
+[01:13:48] backend application, at least reducing
+[01:13:50] the perceived latency, the kind of
+[01:13:51] latency that the user faces while
+[01:13:54] interacting with our application on the
+[01:13:56] front end side, then asynchronous
+[01:13:58] processing is typically one of the
+[01:14:00] solutions that we opt for and it is not
+[01:14:03] something that we implement at the later
+[01:14:06] stage. For example, horizontal scaling
+[01:14:08] is something that we go for at a
+[01:14:11] particular threshold. Let's say we have
+[01:14:13] crossed 10,000 users, 50,000 users. When
+[01:14:16] vertical scaling does not make any
+[01:14:17] sense, we go for horizontal scaling. But
+[01:14:19] asynchronous processing is one of those
+[01:14:22] solutions that we typically opt for at
+[01:14:23] the start of our application only
+[01:14:25] because of the very obvious benefits
+[01:14:27] that it has that we are going to talk
+[01:14:28] about. What do we mean by asynchronous
+[01:14:30] processing? Typically what happens, we
+[01:14:33] have our users, they interact with our
+[01:14:36] server using a browser. So for a normal
+[01:14:39] API call, a normal HTTP API call, they
+[01:14:41] send a request. We do some amount of
+[01:14:44] processing and we send a response back.
+[01:14:46] For example, let's say the user is on
+[01:14:49] their profile page. They updated the
+[01:14:51] name from A to B. We take that, we call
+[01:14:55] a DB query by interacting with the
+[01:14:57] database. We run update update user set
+[01:15:01] name equals to B returning user do ID
+[01:15:04] whatever. and that database operation is
+[01:15:07] successful and only after that database
+[01:15:09] operation is successful, we send a
+[01:15:11] response back. We cannot tell the user
+[01:15:13] that okay your username has been updated
+[01:15:17] before the database response is
+[01:15:19] successful. Right? It has to be only
+[01:15:21] after the database operation is
+[01:15:23] successful. We can tell the user that
+[01:15:25] okay this is a 20 response. This is a
+[01:15:28] successful response which means that
+[01:15:30] when the user does a refresh when they
+[01:15:32] hit a refresh page or if you have
+[01:15:35] automatic reloading of the user profile
+[01:15:37] page they immediately see this change
+[01:15:40] their name getting changed from A to B.
+[01:15:42] So this is a typical experience that we
+[01:15:44] have in most of our operations. But
+[01:15:47] there are some kind of operations which
+[01:15:49] do not have to be synchronous in the
+[01:15:52] sense synchronous behavior. I'm not
+[01:15:53] talking about synchronous processing but
+[01:15:55] synchronous behavior. The users do not
+[01:15:57] have to see the change immediately after
+[01:15:59] the response. So for them what we do so
+[01:16:02] let's take an example in most of our SAS
+[01:16:05] applications there is a functionality
+[01:16:06] that you have your workspace or you have
+[01:16:11] your team if you have used a software
+[01:16:13] like Jira or notion or pretty much all
+[01:16:16] the SAS applications these days offer
+[01:16:18] this functionality of having your own
+[01:16:20] workspace and team and you can add more
+[01:16:23] members of your team to your workspace
+[01:16:25] so that you can all work together work
+[01:16:28] have access to the same kind of
+[01:16:29] resources So usually in our front end
+[01:16:31] there is some kind of UI where you go
+[01:16:33] and you type the email. Say you want to
+[01:16:36] invite one atgmail.com
+[01:16:40] and you hit enter. Okay, invite or
+[01:16:43] whatever the button is to submit this
+[01:16:45] request and to invite this user. So the
+[01:16:48] first thing that happens is obviously
+[01:16:50] the browser JavaScript converts it into
+[01:16:53] an STP API call and you get this in your
+[01:16:56] server. All right. Now in your server
+[01:16:58] the first layer is routing layer. Then
+[01:17:00] your handler gets it and it gets the
+[01:17:03] request body and in turn it finds out
+[01:17:05] the email that you want to invite user
+[01:17:07] one atgmail.com. So what would this
+[01:17:10] processing look like? There are the
+[01:17:13] obvious layers of validating this
+[01:17:15] particular request authenticating that
+[01:17:17] the that user but we'll ignore all that.
+[01:17:19] Purely focusing on the service layer on
+[01:17:21] the pure business layer and the database
+[01:17:23] layer. This is how it would look like.
+[01:17:25] First using our database we will check
+[01:17:27] whether this particular user is already
+[01:17:29] part of this team or not just as a
+[01:17:31] database level validation layer and once
+[01:17:33] it passes that the next thing we do we
+[01:17:36] save this database entry in a table in a
+[01:17:39] table something like invites table or
+[01:17:42] team members table or organization users
+[01:17:46] table depending on how you are
+[01:17:48] structuring your database in some kind
+[01:17:50] of table you will add this data this is
+[01:17:52] the particular email that the user has
+[01:17:54] invited to and the status of that. There
+[01:17:56] will be other fields and these are the
+[01:17:58] primary ones. The status is it is
+[01:18:00] pending by default. It'll be in pending
+[01:18:02] state. The user has not accepted the
+[01:18:04] invite yet. Then accepted then rejected
+[01:18:08] whatever logic that you have. Okay. Once
+[01:18:10] that is done, the next phase typically
+[01:18:13] involves sending an email to this
+[01:18:16] particular user email user 1@gmail.com
+[01:18:18] because that's how they'll get the
+[01:18:20] invite and that's how they'll be able to
+[01:18:21] come to the platform and accept the
+[01:18:22] invite. But for that we have to send an
+[01:18:24] email. So now from your backend server
+[01:18:27] all this processing is very fast because
+[01:18:29] you are doing whatever processing that
+[01:18:31] you have and you are interacting with
+[01:18:32] your database which is like assuming
+[01:18:34] closer to your server when talking about
+[01:18:36] the data center region. So this
+[01:18:38] typically consists let's say somewhere
+[01:18:39] around 50 to 80 millconds or max to max
+[01:18:42] 100 millconds. Now after doing all this
+[01:18:45] we have to send an email. Now to send an
+[01:18:47] email we have to usually send an make an
+[01:18:50] API call to an external email provider
+[01:18:52] something like Mailchimp or send grid or
+[01:18:55] resend whatever email provider that
+[01:18:56] you're using they all pretty much do the
+[01:18:58] same thing they take the email they take
+[01:19:00] either a template ID or a readym made
+[01:19:02] HTML template and you make an API call
+[01:19:04] and they send a successful response back
+[01:19:07] but this typically since we do not have
+[01:19:09] any control or we do not have any idea
+[01:19:11] about where this particular mail server
+[01:19:13] is and how their infrastructure consists
+[01:19:15] stop. We can assume that this external
+[01:19:18] API call usually takes somewhere around
+[01:19:19] 200 to 300 millconds. Now our own
+[01:19:23] processing was around 100. Then we on
+[01:19:25] top of that added another 300 millconds
+[01:19:28] for this external API call. And after we
+[01:19:31] got the response from this external
+[01:19:32] email provider that okay this email
+[01:19:35] request has been processed then we send
+[01:19:37] a response back to the user. So the user
+[01:19:40] enters the email, clicks on the enter
+[01:19:42] button, then they see the loader for 400
+[01:19:45] milliseconds, then they see a tick mark
+[01:19:47] or a toast message. Okay, this you have
+[01:19:49] successfully invited this user and we
+[01:19:51] refresh the invited users list in the
+[01:19:53] and they can see that this user has not
+[01:19:55] accepted the invite and it's in a
+[01:19:57] pending state all that but this whole
+[01:19:59] interaction took 400 millconds but if
+[01:20:01] you think about it after doing our own
+[01:20:04] processing after adding this particular
+[01:20:05] entry in our database which was around
+[01:20:07] 100 millconds what we can do instead of
+[01:20:10] making the API call making the HTTP call
+[01:20:13] to our email provider to send the email
+[01:20:15] after doing our own processing we can
+[01:20:17] send a response responds back. It's a
+[01:20:19] 200 response and the user will see a
+[01:20:21] tick mark that okay this user has been
+[01:20:23] successfully invited and they will see
+[01:20:25] in their UI that okay this is in pending
+[01:20:26] state all that but now this whole user
+[01:20:29] interaction has come down from 400
+[01:20:31] millconds to 100 millconds which is a
+[01:20:33] very snappy experience even though 400
+[01:20:35] is itself not that slow but you can
+[01:20:38] assume there are other API calls maybe
+[01:20:40] the email provider is down whatever
+[01:20:42] reason is that but our goal was to
+[01:20:45] reduce the perceived latency of the user
+[01:20:47] the user who is interacting with our
+[01:20:49] system and that has come down
+[01:20:51] significantly on a server level. How we
+[01:20:53] handle it before we send a successful
+[01:20:55] response back. Usually how we implement
+[01:20:58] asynchronous processing is we take that
+[01:21:01] request of sending the email. So we call
+[01:21:04] that is some kind of task or some kind
+[01:21:06] of job. So if you have watched the
+[01:21:08] background job processing video then you
+[01:21:11] would understand what I'm talking about
+[01:21:12] since and obviously that video came
+[01:21:14] before this. So I'm assuming that you
+[01:21:16] already have the knowledge about message
+[01:21:18] cues and background job cues. So
+[01:21:20] typically we take the task of sending
+[01:21:22] the email or the job of sending the
+[01:21:24] email and we push it into queue. Now
+[01:21:26] this Q can be something like radius Q or
+[01:21:30] Rabbit MQ these are the most popular
+[01:21:32] options also other ones like Kafka event
+[01:21:35] based processing etc etc lot of options
+[01:21:36] but usually Reddis Q or Rabbit MQ based
+[01:21:39] Q library will do the job. So our server
+[01:21:42] as a producer we call it because it is
+[01:21:45] producing the task or it is producing
+[01:21:48] the job any kind of job. Now it pushes
+[01:21:50] task into a queue. This is a radius Q or
+[01:21:54] rabbit MQ based cube and there is
+[01:21:57] another phase of this Q which is a
+[01:21:59] consumer. Consumers or we also call them
+[01:22:03] workers. Now there is a distinction
+[01:22:05] here. this consumer or this worker. It
+[01:22:08] can either be in the same code that is
+[01:22:12] running your server which means it just
+[01:22:14] spins up a new worker based on the same
+[01:22:16] code or it can be a different code base
+[01:22:19] itself so that when you have a lot of
+[01:22:22] traffic you can also horizontally scale
+[01:22:24] your workers. That is another
+[01:22:26] infrastructure choice usually people
+[01:22:27] make when they're scaling their infra.
+[01:22:29] So this workers these consumer they pick
+[01:22:33] this task out of the queue when they
+[01:22:35] detect one and they perform the job or
+[01:22:38] they perform the task whatever handle
+[01:22:40] logic that we have we take the email we
+[01:22:42] make the API call to send grid resend
+[01:22:44] whatever email provider that we have and
+[01:22:47] that's done but for our users they do
+[01:22:49] not need to know all that because
+[01:22:51] sending an email or inviting a user into
+[01:22:55] the platform this is not a kind of
+[01:22:57] operation that the user needs to see the
+[01:23:00] result of instantly because anyway the
+[01:23:02] user will get an email they will
+[01:23:04] eventually come to the platform and
+[01:23:05] they'll accept the invite or reject the
+[01:23:07] invite. So this is not a synchronous
+[01:23:09] behavior-based operation or synchronous
+[01:23:11] computing synchronous behavior based
+[01:23:12] operation. So this is a very good
+[01:23:14] example and it is one of the most famous
+[01:23:16] examples of when we opt for asynchronous
+[01:23:19] processing in our backends sending
+[01:23:20] emails sending notifications also users
+[01:23:23] don't expect the moment they perform
+[01:23:25] some task in the next millisecond that
+[01:23:27] notification should be there. They don't
+[01:23:29] expect that. That is a standard user
+[01:23:30] experience. Same way another good
+[01:23:32] example is video processing. So let's
+[01:23:35] say you have a video processing
+[01:23:37] platform. Let's talk about YouTube. So
+[01:23:39] when you upload a video to YouTube, so
+[01:23:43] YouTube usually has this kind of
+[01:23:45] interaction where you pick the file and
+[01:23:47] you click upload and the upload starts.
+[01:23:49] And while that upload is happening, you
+[01:23:52] have to keep that tab open for obvious
+[01:23:54] reasons because it is reading bytes from
+[01:23:56] your local file system and it is
+[01:23:57] uploading YouTube servers. But after the
+[01:24:00] upload is finished, after the upload is
+[01:24:02] finished, you don't have to keep the tab
+[01:24:04] open. You can close the tab or whatever.
+[01:24:06] In the background, what YouTube does
+[01:24:08] after the upload is done, it pushes a
+[01:24:10] number of tasks into the queue. Whatever
+[01:24:12] Q logic they have, the most likely a
+[01:24:14] very robust Qbased logic. But typically
+[01:24:17] imagining after the upload job is
+[01:24:19] complete, it pushes a number of tasks.
+[01:24:20] The tasks like generate thumbnails and
+[01:24:23] encode the video into HD or generate
+[01:24:27] subtitles. All these tasks maybe
+[01:24:29] parallelly, maybe in sequence, whatever
+[01:24:32] logic that they have. But the point is
+[01:24:34] all these tasks are done asynchronously.
+[01:24:37] You as a user do not have to wait or you
+[01:24:40] do not expect to see all this in a
+[01:24:42] particular time frame. Sometimes all
+[01:24:44] these tasks happen let's say in 10
+[01:24:47] minutes. Sometime it might take 20
+[01:24:48] minutes depending on the server load of
+[01:24:51] YouTube etc. But the point is all these
+[01:24:53] are asynchronous processes that we as
+[01:24:56] users expect that these will take time.
+[01:24:58] So there is a category of tasks or there
+[01:25:01] is a category of operations that are out
+[01:25:04] there where you can safely offload them
+[01:25:07] to an asynchronous process. um video
+[01:25:10] uploads and image uploads, image
+[01:25:13] resizing and we already talked about
+[01:25:16] sending emails. Another thing that you
+[01:25:18] might have noticed is in some SAS
+[01:25:20] platforms there is an option to delete
+[01:25:22] account. Delete account and what does it
+[01:25:25] mean by delete account? you are using a
+[01:25:27] particular SAS for let's say 1 month or
+[01:25:29] 2 months or 3 months and after 3 months
+[01:25:31] that you decided that for some reason
+[01:25:33] for some fault on their side or maybe
+[01:25:36] you do not need it anymore for some
+[01:25:37] reason you want to delete your account
+[01:25:39] and never come back or maybe you want to
+[01:25:41] come back after a year with a different
+[01:25:43] account but the point is you want to
+[01:25:45] delete your account and deleting account
+[01:25:47] usually means that deleting all your
+[01:25:49] data in that platform which means that
+[01:25:52] let's say it is a to-do based
+[01:25:54] application so if If you delete your
+[01:25:56] account, it means that deleting all your
+[01:25:58] to-dos obviously the first thing. Then
+[01:26:00] all your categories of to-dos. Then your
+[01:26:03] profile, whatever profile information
+[01:26:05] that you have used, your profile
+[01:26:07] picture, your bio etc. all your calendar
+[01:26:10] schedules. Basically, we have a lot of
+[01:26:12] database tables and in a lot of tables
+[01:26:15] we have data related to a particular
+[01:26:17] user. So imagine you are the backend
+[01:26:19] engineer of this application, this to-do
+[01:26:22] based application and a user clicks on
+[01:26:24] delete account. So what do you do in a
+[01:26:26] very naive approach? The browser makes
+[01:26:29] the request of delete account. It's a
+[01:26:31] delete HTTP API call. And what you do
+[01:26:34] you run a number of database queries in
+[01:26:37] transaction because either you want to
+[01:26:39] delete all of them or you don't want to
+[01:26:41] delete in it will be classified as a
+[01:26:43] database transaction. So first what you
+[01:26:44] do you delete all the categories of the
+[01:26:46] user that they have created. Then you
+[01:26:48] delete all the calendar schedules. Then
+[01:26:50] you delete the all the to-dos of the
+[01:26:52] user. Then you delete the user's profile
+[01:26:54] data. And at last you delete the entry
+[01:26:56] from the users table which comes last
+[01:26:59] because all these have foreign keys
+[01:27:01] associated with this table. And finally
+[01:27:03] after running delete queries in let's
+[01:27:05] say seven or eight database tables you
+[01:27:09] send a response back something like 200
+[01:27:11] and the user is logged out from the
+[01:27:12] browser. But assume that this is a big
+[01:27:14] platform or the user has let's say a
+[01:27:18] million tasks created because they've
+[01:27:20] been using for last 10 years and they
+[01:27:22] have a million tasks created and same
+[01:27:24] for other tables also. Each table has a
+[01:27:27] million rows that you have to delete. So
+[01:27:29] obviously running a delete operation
+[01:27:31] finding out all the data of the user
+[01:27:33] then deleting them takes time. So each
+[01:27:35] database table deletion takes somewhere
+[01:27:38] around 5 milliseconds let's say. So if
+[01:27:41] you deleted data from eight tables, it
+[01:27:43] took around 4 seconds and adding some
+[01:27:47] business logic related processing and
+[01:27:49] the request latency etc. The total
+[01:27:51] roundtrip time of this request response
+[01:27:54] life cycle was around 8 seconds. So the
+[01:27:57] user after clicking on delete account
+[01:27:59] they saw the spinner for 8 seconds. So 8
+[01:28:02] seconds is obviously a very bad user
+[01:28:05] experience no matter what the operation
+[01:28:07] is unless you have clearly specified in
+[01:28:09] the dialogue that please do not close
+[01:28:12] the tab or do not please wait for at
+[01:28:14] least 10 seconds or 20 seconds which
+[01:28:15] again is not something that you can
+[01:28:17] expect from your users. So in that case
+[01:28:20] also instead of doing everything
+[01:28:22] synchronously the user makes a request
+[01:28:25] to delete their account your server does
+[01:28:27] some very basic processing that checks
+[01:28:29] whether this user exists or not they're
+[01:28:31] authenticated or not which takes
+[01:28:32] somewhere around 50 to 80 millconds and
+[01:28:35] after that the server immediately sends
+[01:28:37] a response back saying that your account
+[01:28:39] is deleted and the browser sees the
+[01:28:42] successful response and logs the user
+[01:28:43] out. Okay. Now the user only had to see
+[01:28:46] the spinner for let's say for a moment
+[01:28:48] only 100 millconds and they've been
+[01:28:50] logged out. But in the background what
+[01:28:52] you do after doing all your sanity
+[01:28:54] checks checking the user exists or not
+[01:28:56] or whatever you again push a task is
+[01:28:59] called delete user with the ID of the
+[01:29:01] user or whatever into the queue and
+[01:29:03] later on the consumer can pick up the
+[01:29:05] task and that can in turn run all these
+[01:29:08] database queries one by one and it does
+[01:29:10] not matter whether it takes 5 seconds or
+[01:29:12] 10 second or 30 seconds because your
+[01:29:14] user is not waiting for that response
+[01:29:16] and it all is happening in the
+[01:29:18] background after the user has been send
+[01:29:21] a response. So this is typically what we
+[01:29:23] mean by asynchronous processing. One of
+[01:29:26] the very very easy solutions when you
+[01:29:29] are trying to scale your application or
+[01:29:32] when you're trying to reduce the latency
+[01:29:34] of application a very easy solution you
+[01:29:36] just create a radius instance mostly a
+[01:29:39] managed radius something like radius
+[01:29:41] instance or opt stash which is a very
+[01:29:43] good radius instance or we have these
+[01:29:45] libraries if you're using a nodejs bull
+[01:29:47] mq bull mq is a very famous background
+[01:29:51] job based library and it uses radius
+[01:29:53] behind the scenes radius pops up But it
+[01:29:56] manages a lot of things like error
+[01:29:57] handling, rate limiting and all the
+[01:30:00] things that you expect from a production
+[01:30:02] grade robust queue. So you can use
+[01:30:04] something like this and you can easily
+[01:30:06] implement a background job a Q- based
+[01:30:09] solution for your asynchronous based
+[01:30:11] task. Of course the first thing is to
+[01:30:12] identify which kind of task which task
+[01:30:15] exactly can you offload to your queue.
+[01:30:18] So as I already said things like sending
+[01:30:20] emails, sending notifications, deleting
+[01:30:23] user data, video uploads, image uploads,
+[01:30:26] all these tasks where the user does not
+[01:30:28] expect to see the response immediately,
+[01:30:30] you can offload to a queue and that in
+[01:30:32] turn significantly improves your
+[01:30:34] perceived latency. A very easy solution
+[01:30:36] and a very recommended solution while
+[01:30:38] you are trying to increase the
+[01:30:40] performance of your application and
+[01:30:42] reduce the latency. Now moving on to
+[01:30:44] another important question which is
+[01:30:47] micro services. Very fancy term and a
+[01:30:51] very trendy term. If you are a backend
+[01:30:53] engineer even a front-end engineer also
+[01:30:56] at some point you will keep hearing this
+[01:30:58] term called microservices because
+[01:31:00] apparently every company these days goes
+[01:31:02] for this microser architecture. Whenever
+[01:31:04] you ask around about how to scale your
+[01:31:07] application, how to scale your back end
+[01:31:09] application, someone is going to suggest
+[01:31:11] you eventually that you should divide
+[01:31:13] your application into multiple
+[01:31:15] independent services or also called as
+[01:31:17] microservices. That is the only way to
+[01:31:19] scale your application or maybe you'll
+[01:31:22] join a company one day which already
+[01:31:24] uses this micros service-based
+[01:31:26] architecture. So understanding this what
+[01:31:29] are microservices and when do we use
+[01:31:31] them is important. Of course, dealing
+[01:31:34] with microservices or implementing
+[01:31:36] microservices is a very different topic
+[01:31:38] in itself and it involves a lot of
+[01:31:40] technologies and a lot of methodologies.
+[01:31:43] We'll not get into that but we'll talk
+[01:31:45] briefly about microservices and what
+[01:31:47] role they play in scaling your wagon. So
+[01:31:50] let's start with what we currently have
+[01:31:53] right now which we call is monoliths.
+[01:31:56] What is a monolith? A monolith is an
+[01:31:59] application and whenever I say
+[01:32:01] application I mean a backend application
+[01:32:03] because that's what we are talking about
+[01:32:05] currently. So a monolith is an
+[01:32:08] application which is considered as a
+[01:32:09] single deployable unit. So all
+[01:32:13] functionality does not matter whether it
+[01:32:15] is authentication functionality or your
+[01:32:18] order processing, your notifications,
+[01:32:21] your payments, your web hooks, all these
+[01:32:24] functionalities are just different
+[01:32:26] different files in your codebase and all
+[01:32:28] of them live in the same codebase. They
+[01:32:31] interact with each other and they
+[01:32:32] function together. And you can take all
+[01:32:35] of this every time you make a change.
+[01:32:36] You take all of this and you deploy your
+[01:32:38] an application which serves your users,
+[01:32:40] right? One single deployable unit which
+[01:32:43] runs as a single process or if you're
+[01:32:45] horizontally scaling multiple process
+[01:32:47] but one process consists of all these
+[01:32:50] things together. They are just different
+[01:32:52] modules in a same service or in a same
+[01:32:55] application. And monoliths are pretty
+[01:32:57] intuitive and pretty easy to manage
+[01:33:00] because they are very simple to develop.
+[01:33:03] They are very simple to test and they
+[01:33:05] are very simple to deploy. All your code
+[01:33:07] lives in one place in your one codebase,
+[01:33:09] one GitHub repository. Whenever you
+[01:33:11] refactor, you make a change in one
+[01:33:13] module and you go to the other module,
+[01:33:16] make the change and you take all that
+[01:33:18] and you deploy that. So refactoring is
+[01:33:20] also very straightforward. Testing is
+[01:33:22] also very straightforward because
+[01:33:23] everything runs in one process and
+[01:33:25] deployment is obviously simple from the
+[01:33:27] start. Now the question is why would you
+[01:33:30] consider anything else? Why would you
+[01:33:32] even think about microservices? You can
+[01:33:34] just take a monolith and you can
+[01:33:35] horizontally scale it whenever you want
+[01:33:38] to scale your application. You always
+[01:33:40] have the option of horizontally scaling
+[01:33:42] your monolith application. So why do you
+[01:33:44] need microser? Now microservices
+[01:33:47] primarily they are not necessarily to
+[01:33:50] scale your performance of your
+[01:33:52] application but microservices are more
+[01:33:56] about scaling your team. It's more about
+[01:33:58] scaling your human interaction. It's not
+[01:34:00] really about scaling your machine's
+[01:34:03] performance. It's about scaling your
+[01:34:04] team's performance. The humans behind
+[01:34:07] the machine because monoliths have a
+[01:34:09] couple of problems. If you are working
+[01:34:11] in a large team that is that is the
+[01:34:13] number one prerequisite of having a
+[01:34:16] micros service based architecture if you
+[01:34:18] don't have a large team and when I say
+[01:34:21] large it can be subjective but we are
+[01:34:23] talking about more than 100 or 200
+[01:34:25] developers working on the same
+[01:34:27] application that's the point when you
+[01:34:29] start considering a micros service
+[01:34:31] architecture so what are the problems of
+[01:34:33] monoliths one obvious one is the
+[01:34:35] deployment dependency and what do you
+[01:34:37] mean by that let's say we have different
+[01:34:40] different modules in our application. We
+[01:34:41] have our payment module. We have our
+[01:34:44] order processing. It's an e-commerce
+[01:34:45] based application that you can imagine.
+[01:34:47] We have our notification based module
+[01:34:49] and the people the engineers who are
+[01:34:52] working on the payments module they
+[01:34:54] implemented some critical change or some
+[01:34:56] important user experience which change
+[01:34:58] and they want to deploy that so that
+[01:35:01] users can start using that. But while
+[01:35:03] they do that there are some changes from
+[01:35:06] our notification team in our main
+[01:35:08] branch. Typically the branch that we
+[01:35:10] deploy in production they have some
+[01:35:12] change in the main branch which is not
+[01:35:14] ready yet it's not broken but it is not
+[01:35:16] ready for sending to our users. Now of
+[01:35:19] course you can say that there are
+[01:35:20] solutions like feature flags. There are
+[01:35:22] solution like planning your life cycle
+[01:35:24] in a way that you only keep the ready to
+[01:35:27] deploy things in your main branch. But
+[01:35:29] in a very abstract way in a very
+[01:35:32] oversimplified way you can imagine like
+[01:35:34] you have some changes in one module but
+[01:35:36] since it is a monolith application and
+[01:35:38] since you have to deploy everything as a
+[01:35:40] single module sometimes you will face
+[01:35:42] difficulties. Again as I said these
+[01:35:45] problems you cannot relate unless you
+[01:35:47] work in a very large team and the
+[01:35:49] communication between different teams
+[01:35:51] it's not as close because typically when
+[01:35:54] we work in a startups 10 15 or 30
+[01:35:57] developers pretty much everybody knows
+[01:35:59] what everybody is working on. The team
+[01:36:01] works in a very closely coupled way. So
+[01:36:04] we are able to plan our things our git
+[01:36:07] life cycle our feature flag and
+[01:36:09] everything in a way that this particular
+[01:36:10] problem does not happen. If something is
+[01:36:12] on main branch then we can go ahead and
+[01:36:14] deploy it. But if it is a very lasting
+[01:36:16] 500 developers or thousand developers
+[01:36:18] you will start seeing this problem that
+[01:36:20] when rapid development is happening in
+[01:36:22] one module and another module is not
+[01:36:24] ready yet this problem will start
+[01:36:26] happening. So that is one the
+[01:36:28] organization based problem. The second
+[01:36:30] one is scaling which is an obvious one.
+[01:36:32] Taking the same three modules for
+[01:36:34] example our notification module let's
+[01:36:36] say it is not as resourceheavy we just
+[01:36:40] make some database queries and we just
+[01:36:42] insert some database queries because it
+[01:36:44] is inapp notification and maybe some
+[01:36:46] websocket based operation but our order
+[01:36:49] processing logic or our payment based
+[01:36:51] logic it requires a lot of resources a
+[01:36:53] lot of CPU resources a lot of memory
+[01:36:55] resources and basically harder resources
+[01:36:58] if we get a lot of user traffic or if we
+[01:37:00] are expecting a lot user traffic. If you
+[01:37:03] want to be ready to the point that we
+[01:37:05] cannot afford any kind of payment
+[01:37:07] related failures or order related
+[01:37:09] failures, then we have to scale our back
+[01:37:11] end applications vertical scaling or
+[01:37:13] horizontal scaling. But the problem is
+[01:37:15] when we scale our application, we scale
+[01:37:17] the whole thing. We cannot say that okay
+[01:37:19] since notification does not use as much
+[01:37:22] amount of resource, we do not want to
+[01:37:24] scale notification. We only want to
+[01:37:25] scale payments. We cannot do that. We
+[01:37:27] cannot scale independent modules. So
+[01:37:29] that is another use case of
+[01:37:31] microservices. You can since you have
+[01:37:33] already divided services into different
+[01:37:35] maybe code bases or maybe not but
+[01:37:37] different deployable units and because
+[01:37:39] of that you can scale different services
+[01:37:41] depending on your expected user traffic
+[01:37:43] or your current user traffic independent
+[01:37:45] of other modules. Third thing is text
+[01:37:48] stack. So let's say you have a blog
+[01:37:52] platform something like medium. You are
+[01:37:54] an engineer of an platform like medium
+[01:37:56] or hash node or dev all these famous
+[01:37:59] blogging platforms and in your back end
+[01:38:02] there are some parts where you have to
+[01:38:05] deal with markdowns since is a blogging
+[01:38:08] based application and you have to deal
+[01:38:09] with markdown based cleaning or maybe
+[01:38:12] some kind of website parsing and all
+[01:38:14] these different stuff and for this you
+[01:38:16] either have to go with a NodeJS app or a
+[01:38:20] Python app because in NodeJS and Python
+[01:38:23] ecosystems there is a choice of
+[01:38:26] thousands and millions of libraries for
+[01:38:28] pretty much all the use cases. So you
+[01:38:31] found out that for a particular
+[01:38:33] operation let's say a markdown based
+[01:38:36] parsing or markdown based rendering
+[01:38:38] application there is a very famous
+[01:38:39] library. So this part of your module
+[01:38:41] which deals with content or especially a
+[01:38:44] markdown content it absolutely needs a
+[01:38:46] NodeJS based environment because it has
+[01:38:49] to use a particular npm package but in a
+[01:38:51] different part in a different part of
+[01:38:54] your same back end let's say you are
+[01:38:56] taking the images that the user uploads
+[01:38:58] and you do some kind of image
+[01:39:00] manipulation or image resizing or any
+[01:39:02] kind of image related operation and you
+[01:39:05] find that using a programming language
+[01:39:07] like Go or Rust makes this whole image
+[01:39:11] manipulation based operation very fast.
+[01:39:13] Since these programming languages are
+[01:39:16] very efficient at CPUbound tasks and if
+[01:39:19] you use something like Python or NodeJS
+[01:39:21] for this, the latency becomes something
+[01:39:23] like 500 millconds. And when you use Go
+[01:39:26] or Rust, it becomes 50 mconds. Though
+[01:39:28] obviously the performance benefits are
+[01:39:31] huge. But since for one module you need
+[01:39:34] in the NodeJS ecosystem since you have
+[01:39:36] to use an npm package or a Python
+[01:39:38] library and another module where it is
+[01:39:41] CPU bound you need pure raw performance
+[01:39:44] of a systems based programming language.
+[01:39:46] Now you face another dilemma that since
+[01:39:49] all your modules are a single deployable
+[01:39:52] unit, you cannot use different
+[01:39:53] programming languages. And if you have
+[01:39:55] microservices, you can just divide this
+[01:39:57] into a different service which uses
+[01:39:59] NodeJS and this into a different service
+[01:40:00] which use Rust and you deploy this
+[01:40:03] separately and you deploy this
+[01:40:04] separately. That is another advantage.
+[01:40:06] So these are a couple of very obvious
+[01:40:09] advantages of using microser not just
+[01:40:12] for pure machine performance but mostly
+[01:40:15] for organizational performance. Now the
+[01:40:17] question is if microservices have all
+[01:40:20] these performance organizational wins
+[01:40:22] then why don't we use microservices as a
+[01:40:24] default architecture and as we already
+[01:40:26] know every solution comes with its
+[01:40:29] trade-offs. So microser also come with a
+[01:40:32] lot of trade-offs, a lot of
+[01:40:33] disadvantages also, a lot of
+[01:40:35] complexities also. The first one is
+[01:40:37] network since you have divided your
+[01:40:41] application into different different
+[01:40:42] services. Previously it was just depend
+[01:40:44] different modules all of the code work
+[01:40:46] together and was deployed as a single
+[01:40:49] process and now you have divided into
+[01:40:51] different service and they have physical
+[01:40:54] distance between them. So previously it
+[01:40:56] was just a pure function call. Now it
+[01:40:59] has become a network call. Whether it is
+[01:41:01] a gRPC based network call or an HTTP
+[01:41:04] network call, it can be any of them. But
+[01:41:06] the truth is it is still a network call.
+[01:41:09] So the latency will start showing up
+[01:41:12] depending on how you're organizing your
+[01:41:13] services. And latency is not just the
+[01:41:16] only problem. The moment we talk about
+[01:41:18] networks, there is obviously the
+[01:41:20] question of failures. An HTTP call might
+[01:41:24] fail, right? So you have to start
+[01:41:26] worrying about how to handle your
+[01:41:27] failures, how to retry etc. How to
+[01:41:30] configure timeouts. So dealing with
+[01:41:32] network is a huge complexity that comes
+[01:41:36] the moment you go for a micros
+[01:41:37] service-based architecture. Second is
+[01:41:40] microservices are primarily a
+[01:41:42] distributed systemsbased architecture
+[01:41:44] and when you're trying to understand a
+[01:41:46] request let's say you are trying to
+[01:41:48] debug a particular request and you find
+[01:41:50] out at the entry point let's say the
+[01:41:52] request went through your load balancer
+[01:41:54] then it went through your routing layer
+[01:41:56] then it went to your order service then
+[01:41:59] it went to your payment service then it
+[01:42:01] went to your notification service etc
+[01:42:03] etc. So if you want to debug a
+[01:42:05] particular request, you have to check
+[01:42:06] logs of four different services
+[01:42:09] primarily four different services at the
+[01:42:12] same time to understand a simple
+[01:42:14] request. So debugging becomes a little
+[01:42:16] complex. You have to opt for distributed
+[01:42:19] tracing based tools that we have and you
+[01:42:21] also have to architect your applications
+[01:42:23] in a way that they make it easy for
+[01:42:27] debugging a single request across
+[01:42:29] different different services. Then third
+[01:42:30] is data consistency. When we are talking
+[01:42:34] about very complex micros service based
+[01:42:36] architecture, each service eventually
+[01:42:39] holds an instance of its own database
+[01:42:42] and as we have already talked about when
+[01:42:44] we are talking about scaling your
+[01:42:46] database or different different
+[01:42:47] databases number one concern is
+[01:42:49] consistency. How do we make sure that
+[01:42:51] change in one database even though we
+[01:42:53] have features like replication etc etc
+[01:42:56] but still there is some amount of
+[01:42:58] replication lag that comes the moment we
+[01:43:00] talk about different different database
+[01:43:02] instances. So that becomes another
+[01:43:04] problem you have to start worrying about
+[01:43:06] replication lag or data consistency
+[01:43:08] across different different databases and
+[01:43:10] there are other disadvantages of
+[01:43:12] microservices that you can read more
+[01:43:14] about. But the question is when do you
+[01:43:16] decide or how do you decide that
+[01:43:18] microservices are a very good solution
+[01:43:20] for you? As I have already said large
+[01:43:22] teams are one of the mandatory
+[01:43:25] requirements before you even consider a
+[01:43:27] micros service-based architecture
+[01:43:29] because large teams intuitively have
+[01:43:31] very clear boundaries and microser
+[01:43:34] architecture itself has very clear
+[01:43:35] boundaries so that human organization
+[01:43:38] and this technical organization aligns
+[01:43:40] very well. The second obvious criteria
+[01:43:42] is different scaling needs. As we talked
+[01:43:45] about, if one service needs to scale
+[01:43:47] independently, then something like
+[01:43:49] microservices makes a lot of sense. Then
+[01:43:51] technology, if you need to use different
+[01:43:53] different technology for different
+[01:43:55] different parts of your back end, then
+[01:43:56] also microser make a lot of sense. But
+[01:43:59] all these complexities that we talked
+[01:44:00] about in microservices, they outweigh
+[01:44:03] the advantages. So going for a micros
+[01:44:05] service-based architecture is a very big
+[01:44:07] decision. And unless you have clear
+[01:44:09] answers for all these questions, whether
+[01:44:11] you have a large team or not, whether
+[01:44:12] you have very specific technology
+[01:44:14] requirements across your different
+[01:44:16] different parts of your back end and
+[01:44:18] your deployment velocity, etc., etc.,
+[01:44:20] going for a microser based architecture
+[01:44:22] is typically not worth it. And the last
+[01:44:24] thing that I want to talk about in the
+[01:44:27] context of performance and scaling is
+[01:44:30] serverless which has in modern times
+[01:44:33] become the go-to way of scaling any kind
+[01:44:36] of applications especially backend
+[01:44:38] applications with the advent of
+[01:44:40] platforms like Versel, Netleifi,
+[01:44:43] Cloudflare which have popularized
+[01:44:46] serverless computing to a large extent.
+[01:44:48] I have created a different playlist
+[01:44:50] where I talk solely about serverless
+[01:44:54] computing, their origin, how it all
+[01:44:56] started and how platforms like Versel
+[01:44:58] work, how serverless databases work and
+[01:45:01] everything related to serverless. If you
+[01:45:02] are more curious about how serverless
+[01:45:04] computing works, you can of course give
+[01:45:06] that playlist a watch. But here we are
+[01:45:08] going to talk about the intuition of
+[01:45:10] serverless since we are already talking
+[01:45:12] about scaling and serless is such an
+[01:45:14] important part of that process. Now
+[01:45:17] before we talk about serverless
+[01:45:19] computing we need to understand what
+[01:45:20] came before that. So when you run your
+[01:45:23] application a backend application it
+[01:45:25] runs on a server which means some kind
+[01:45:27] of VM inless EC2 or whatever cloud
+[01:45:31] you're using it runs on a server which
+[01:45:33] has an operating system like Ubuntu some
+[01:45:36] kind of Unix distribution. So
+[01:45:38] traditionally what you do you take a VM
+[01:45:40] from a cloud provider which comes with
+[01:45:42] an operating system like Ubuntu. You
+[01:45:44] configure or you provision your server
+[01:45:46] there. You install whatever software
+[01:45:48] that you need like NX or Docker or
+[01:45:52] containerizing your application.
+[01:45:53] Whatever stack that you have for
+[01:45:55] deploying your application. You install
+[01:45:56] all those applications. You configure it
+[01:45:58] so that it can fetch your code or it can
+[01:46:01] build your core or it can run your code
+[01:46:04] etc etc. configure that particular
+[01:46:06] server with your application and you
+[01:46:08] keep managing that server how it works
+[01:46:10] whether the configuration breaks or not
+[01:46:12] whether the DNS is working or not and
+[01:46:14] all of that you are responsible for
+[01:46:16] managing your server throughout the
+[01:46:18] lifetime as long as you are using that
+[01:46:20] server now this whole process this whole
+[01:46:22] model of deploying our application or
+[01:46:25] provisioning our server has been working
+[01:46:27] for decades now you know exactly what
+[01:46:29] you have with a particular VM or a
+[01:46:32] particular machine with two cores of CPU
+[01:46:34] or four cores of CPU or 16 GB of RAM, 32
+[01:46:38] GB of RAM or 4 GB of RAM and you have 30
+[01:46:41] GB of SSD capacity or hard drive
+[01:46:45] whatever you want to call and what
+[01:46:47] network capacity that you have something
+[01:46:49] like 1 TB in a month or whatever that
+[01:46:51] your cloud provider is providing you and
+[01:46:54] your application runs on this particular
+[01:46:56] machine with this limit with 4 GB of
+[01:47:00] RAM, two core CPU, 30 GB of hard drive
+[01:47:02] space and one terab terabyte of
+[01:47:05] bandwidth per month. You know exactly
+[01:47:07] what you're getting, the exact machine
+[01:47:09] that you are getting and your
+[01:47:10] application starts serving starts
+[01:47:12] processing requests as they arrive. Now
+[01:47:14] the challenge that arises with this kind
+[01:47:18] of setup or this kind of model is first
+[01:47:20] one is capacity planning. What do you
+[01:47:22] mean by capacity planning? It means that
+[01:47:25] you need to decide beforehand before you
+[01:47:28] even start serving your users. You need
+[01:47:30] to decide how many servers if you are
+[01:47:32] going for horizontal scaling how many
+[01:47:34] servers that you need and for each
+[01:47:36] server what should be the capacity of
+[01:47:39] the machine how much RAM it should have
+[01:47:41] how much CPU cores it should have and
+[01:47:43] how much hard drive capacity that it
+[01:47:46] should have all of this you have to
+[01:47:48] decide beforehand which means that you
+[01:47:50] have to predict your user traffic you
+[01:47:52] have to predict your users's behavior
+[01:47:54] before you even deploy your application
+[01:47:56] why because if you provision too little
+[01:48:00] let's say you only provision for 4GB of
+[01:48:02] RAM for your server and a huge traffic
+[01:48:05] spike happens because of some kind of
+[01:48:08] online campaign or some kind of blog and
+[01:48:11] your server is not able to process that
+[01:48:13] many requests per second and it starts
+[01:48:16] crashing. So either that or your server
+[01:48:19] becomes very unresponsive. Every request
+[01:48:22] takes 3 to 4 seconds to send a response
+[01:48:24] back. So your users either they will
+[01:48:27] start experiencing slowness or they will
+[01:48:30] start experiencing a lot of errors, a
+[01:48:32] lot of error toast messages in their
+[01:48:34] front end and because of that they will
+[01:48:36] start quitting your application. If they
+[01:48:39] are new users then you lost a chance for
+[01:48:41] them to become your paid users. But if
+[01:48:44] they are already paid users they might
+[01:48:46] be motivated to quit your platform and
+[01:48:48] start looking for alternatives. The
+[01:48:50] point is you start experiencing losses
+[01:48:53] either financial losses or loss in terms
+[01:48:56] of reputation because you could not
+[01:48:59] predict your user traffic or you could
+[01:49:00] not plan what kind of traffic that you
+[01:49:03] might receive and you could not plan the
+[01:49:05] capacity of your server according to
+[01:49:07] that. And the other side of that is if
+[01:49:09] you provisioned too much. Let's say you
+[01:49:12] did not want to risk all of this and
+[01:49:14] instead of going for 4 GB RAM, you went
+[01:49:17] for 32GB of RAM and the traffic spike
+[01:49:20] happened and your server got request and
+[01:49:23] it was able to send all the responses
+[01:49:25] back. But since you overprovisioned
+[01:49:27] which means you configured a capacity
+[01:49:30] which is much more than what you needed.
+[01:49:33] You only needed 8 GB of RAM which would
+[01:49:35] have done the job perfectly depending on
+[01:49:37] the user traffic. But since you went
+[01:49:40] ahead and configured 32GB of RAM for
+[01:49:42] your server instance, you had to pay for
+[01:49:45] this machine for as long as it was
+[01:49:47] running. Let's say you ran it for 1
+[01:49:49] week. then it cost you around, let's
+[01:49:51] say, $5,000 for running at 32GB RAM of
+[01:49:54] capacity. Even though you only used 20%
+[01:49:57] of the capacity, if you had configured 8
+[01:50:00] GB of RAM, then it would have only cost
+[01:50:02] you around $500. But now it cost you
+[01:50:05] $5,000. Why? Because you could not
+[01:50:07] predict your user traffic. Again, it
+[01:50:10] does not matter whether you
+[01:50:11] underprovision or you overprovision. In
+[01:50:14] both cases, you suffer some amount of
+[01:50:16] loss because predicting is obviously
+[01:50:18] impossible of your user behavior. There
+[01:50:20] is an obvious solution to this and it
+[01:50:22] has been around for a long time which is
+[01:50:24] autoscaling. Autoscaling. What is
+[01:50:26] autoscaling? Autoscaling basically means
+[01:50:28] depending on your CPU usage. Let's say
+[01:50:31] you initially provisioned only two
+[01:50:32] servers of 4 GB RAM each, a lot of users
+[01:50:35] started coming. So these two servers
+[01:50:38] resource usage will start going up and
+[01:50:41] an autoscaling config will detect that
+[01:50:43] these two servers have already reached
+[01:50:46] 70% of their memory usage. So what it
+[01:50:49] will do it will spin up a new instance.
+[01:50:50] Now all these requests will start
+[01:50:52] getting distributed across three servers
+[01:50:54] and the memory usage of each server will
+[01:50:56] come down to 40%. So autoscaling is
+[01:50:59] definitely a solution for our problem of
+[01:51:01] underprovisioning or overprovisioning
+[01:51:04] but it again comes with a couple of
+[01:51:06] drawbacks or a couple of trade-offs.
+[01:51:08] Number one is time. When we say your
+[01:51:11] autoscaling config or your autoscaling
+[01:51:13] infrastructure, it spins up a new server
+[01:51:16] instance. What it means is it starts
+[01:51:18] provisioning a new server. And what that
+[01:51:21] includes first booting a new operating
+[01:51:23] system. You are most likely using some
+[01:51:26] kind of Linux distribution something
+[01:51:27] like Ubuntu. The first thing that
+[01:51:29] happens when we say we are spinning up a
+[01:51:32] new instance through our autoscaling
+[01:51:34] config is booting up the operating
+[01:51:36] system Ubuntu operating system. Second,
+[01:51:38] configuring your application which means
+[01:51:41] building your code or fetching your code
+[01:51:43] and starting your application in a
+[01:51:45] process then exposing that process to
+[01:51:47] the internal network to our load
+[01:51:49] balancer etc etc whatever it takes to
+[01:51:51] configure our application and all of
+[01:51:53] this depending on what operating system
+[01:51:56] that you use, what programming language
+[01:51:58] that you use, the build time and
+[01:51:59] everything. All of this can take
+[01:52:01] somewhere from a few seconds to a few
+[01:52:04] minutes. So if a lot of users start
+[01:52:07] sending you request in a very small
+[01:52:10] window, let's say in 3 to 4 seconds,
+[01:52:12] your autoscaling infrastructure might
+[01:52:14] not have enough time to scale because of
+[01:52:17] this constraint of how much time it
+[01:52:20] takes to boot up a new server instance.
+[01:52:22] Second, scaling has its limits. Whenever
+[01:52:25] you are configuring your autoscaling
+[01:52:27] infrastructure, there are two fields
+[01:52:29] that you have to set. One is the minimum
+[01:52:31] instance and the second is the maximum
+[01:52:33] instance. If you set maximum too low as
+[01:52:36] we talking about earlier now you're back
+[01:52:39] to your underprovisioning problem which
+[01:52:41] means after a certain amount of instance
+[01:52:43] let's say after 10 instances you set in
+[01:52:45] your autoscaling infra that you cannot
+[01:52:48] scale beyond 10 instances. So now you're
+[01:52:51] capped at this and if you get even more
+[01:52:54] amount of user traffic then they'll
+[01:52:56] start experiencing the same
+[01:52:57] unresponsiveness and errors. If you set
+[01:53:00] the maximum too high, let's say you set
+[01:53:02] the maximum as thousand in the sense
+[01:53:03] that you don't care how many instances
+[01:53:05] you spin up, but you have to cater to
+[01:53:08] all of your users traffic. If this
+[01:53:10] happens and some kind of attack happens
+[01:53:13] or maybe it is a genuine user traffic,
+[01:53:15] let's say some Black Friday sale is
+[01:53:16] happening. Now your user traffic because
+[01:53:19] of your user traffic, your instances
+[01:53:21] actually went up till let's say 500 or
+[01:53:23] 600 and because of that you incurred a
+[01:53:26] charge of something like $100,000 in one
+[01:53:29] day. and now you're beyond your budget.
+[01:53:31] That is a completely different problem.
+[01:53:33] Third is a very serious problem which is
+[01:53:36] the reactiveness of autoscaling which
+[01:53:38] means that the way autoscaling works is
+[01:53:41] let's say you have two instances which
+[01:53:42] we have already talked about and the
+[01:53:44] memory of age is 4 GB RAM. The
+[01:53:47] autoscaling infrastructure will only
+[01:53:49] start spinning up new containers or
+[01:53:51] spinning up new instances of your server
+[01:53:54] when it starts seeing that your memory
+[01:53:56] has crossed 70% threshold. Now by the
+[01:53:59] time it starts a new server instance you
+[01:54:01] are already overloaded because it is
+[01:54:03] reactive. It is not proactive. It cannot
+[01:54:06] predict the user traffic beforehand. It
+[01:54:08] can only spin up new instances when it
+[01:54:11] knows that you are under load. And if
+[01:54:13] that window of time is too less then you
+[01:54:17] cannot say that you will be able to
+[01:54:19] scale in time. You might still
+[01:54:20] experience crashes or errors. But even
+[01:54:23] though we have all these limitations of
+[01:54:25] autoscaling, autoscaling is still one of
+[01:54:27] the most standard practice for scaling
+[01:54:30] our applications. But the other problem
+[01:54:33] which is the the always on cost even
+[01:54:36] with autoscaling you have a minimum. Now
+[01:54:39] if we are talking in the context of
+[01:54:40] horizontal scaling maybe you have two
+[01:54:42] instance minimum but even if you talk
+[01:54:45] about vertical scaling or you think
+[01:54:47] about in the context of a single machine
+[01:54:49] you still have a minimum which is that
+[01:54:51] machine's configuration let's say this
+[01:54:53] machine has 4 GB of RAM two cores of CPU
+[01:54:56] 30 GB of hard disk this is your minimum
+[01:54:58] it does not matter whether you have a
+[01:55:00] 500 requests per second or you have zero
+[01:55:03] requests per second you are constantly
+[01:55:06] paying for this server for this
+[01:55:08] particular configuration which is your
+[01:55:10] machine's minimum capacity. So if your
+[01:55:13] application is something which receives
+[01:55:15] constant and steady amount of requests a
+[01:55:18] very predictable flow of request then
+[01:55:21] this model definitely makes sense. The
+[01:55:23] traditional serverful model the server
+[01:55:25] which is always online even if there is
+[01:55:28] one request it can still cater to it and
+[01:55:30] it can still send a response back for
+[01:55:33] that kind of setup. This model makes a
+[01:55:35] lot of sense which is typically most of
+[01:55:37] our SAS applications but because of some
+[01:55:41] requirements some kind of setups where
+[01:55:43] this does not make any sense which does
+[01:55:46] not have very predictable amount of user
+[01:55:48] request people have come up with a new
+[01:55:50] model which is called serverless. Now
+[01:55:53] simply speaking what serverless means is
+[01:55:56] you do not worry about servers at all.
+[01:55:59] It's not like serverless does not
+[01:56:01] include servers. They definitely include
+[01:56:04] server otherwise there is no amount of
+[01:56:06] processing that can happen. We still
+[01:56:08] need a machine. We still need a VM. We
+[01:56:10] still need some kind of operating system
+[01:56:12] and we still need to configure our
+[01:56:13] application in that operating system so
+[01:56:15] that it can start responding to
+[01:56:18] requests. But the difference between
+[01:56:20] serverless and a traditional
+[01:56:22] architecture is you do not have to worry
+[01:56:25] about the machines itself. You do not
+[01:56:27] have to worry about the operating
+[01:56:29] system. You do not have to worry about
+[01:56:31] whether your server has 4 GB of RAM, 8
+[01:56:33] GB of RAM, nothing. And you do not have
+[01:56:35] to worry about configuring your server
+[01:56:37] to work with your operating system or to
+[01:56:39] work with your server. The only thing
+[01:56:41] that you manage, the only thing that you
+[01:56:44] provide is you provide your code or in
+[01:56:46] serverless terminology, we call it
+[01:56:49] functions. Particular functions which
+[01:56:52] will be triggered based on particular
+[01:56:54] events. These are the two core
+[01:56:56] functionalities. These are the only two
+[01:56:58] things you have to worry about. These
+[01:56:59] are the only two things you have to
+[01:57:01] manage. The way the computing model
+[01:57:03] differs from traditional computing is
+[01:57:05] let's say you get a request and there is
+[01:57:08] some kind of front here. You of course
+[01:57:10] do not go to your function execution
+[01:57:12] layer, your serverless layer directly.
+[01:57:14] Usually we have what we call as an API
+[01:57:17] gateway here which means that it takes
+[01:57:20] HTTP calls at this point and depending
+[01:57:23] on what route that we are trying to
+[01:57:26] access it spins up a particular
+[01:57:28] function. So it maps routes to the
+[01:57:30] functions address since we as developers
+[01:57:33] we only worry about functions and the
+[01:57:36] events. So the events are these routes
+[01:57:38] and the functions are the code that we
+[01:57:40] write. So API gateway works as a
+[01:57:42] middleman which takes a particular user
+[01:57:45] request. If we are talking about
+[01:57:46] traditional backend based request
+[01:57:48] response cycle comparing with serverless
+[01:57:50] this is how it would work. Then APA
+[01:57:52] gateway lives here it takes an HTTP
+[01:57:55] request depending on the route it spins
+[01:57:57] up a new function. So what does it mean
+[01:57:59] to spin up a new function or spin up a
+[01:58:02] new uh serverless function is
+[01:58:03] traditionally what we were saying we
+[01:58:05] have a server it has some amount of
+[01:58:07] capacity let's say 4 GB of RAM two core
+[01:58:10] processor 30 GB hard disk etc and it is
+[01:58:13] always ready to cater to any amount of
+[01:58:15] requests whether it is zero request
+[01:58:17] whether it is 500 request it's always
+[01:58:18] there always present always listening
+[01:58:20] for requests and we are paying for this
+[01:58:23] how serverless works we do not worry
+[01:58:25] about the machine's capacity or the
+[01:58:26] machine at all we just Okay, if there is
+[01:58:28] a request for this route, we want to run
+[01:58:31] this particular piece of code. That's
+[01:58:32] all we say. Now the provider, our
+[01:58:34] serverless provider, whether it is
+[01:58:36] lambda or cloudflare workers etc etc.
+[01:58:39] Now they handle this machine handling
+[01:58:42] part. So when a new request arrives,
+[01:58:44] let's say it is the first time you
+[01:58:46] deploy your server, no machine is
+[01:58:48] provisioned for you. You just push your
+[01:58:50] code and it's just there. But the first
+[01:58:53] time a new request arrives or a new
+[01:58:55] event happens which needs the code
+[01:58:58] running the serverless infrastructure
+[01:59:00] your serverless provider it takes your
+[01:59:02] code whatever that you have provided it
+[01:59:04] spins up a new instance this machine now
+[01:59:07] we don't know what machine is this or
+[01:59:09] how much capacity it has or whatever any
+[01:59:12] information about the machine just that
+[01:59:13] our code is going to run in some machine
+[01:59:16] and it is going to send a response back
+[01:59:18] and this happens only after we get a
+[01:59:20] request and After we send the response
+[01:59:23] back either depending on your
+[01:59:25] configuration of your serverless
+[01:59:26] infrastructure provider it lives for a
+[01:59:28] few seconds let's say 3 5 seconds or 30
+[01:59:31] seconds or it goes to a pool of
+[01:59:33] connections so that when the next
+[01:59:35] request comes instead of spinning a new
+[01:59:37] machine an existing machine can cater to
+[01:59:40] that request that is the difference in
+[01:59:42] the computing model. The second
+[01:59:44] difference is the pricing model. In our
+[01:59:45] traditional servers, we always pay for
+[01:59:48] our servers 24/7 cost. As long as our
+[01:59:51] server is running, we pay for that. But
+[01:59:53] in serverless based setup, we only pay
+[01:59:56] for this interaction. The request, the
+[01:59:59] moment our request comes here and our
+[02:00:01] serverless instance spins up, whatever
+[02:00:04] processing that we do here, we only pay
+[02:00:07] for that amount of time, the CPU time,
+[02:00:09] the memory time, whatever it is. The
+[02:00:11] moment we send the response back, we are
+[02:00:13] done with this. So our monthly cost is
+[02:00:16] only going to be a sum of all these
+[02:00:18] interactions, all the milliseconds that
+[02:00:22] the CPU was actually executing our code.
+[02:00:24] So which in turn saves a lot of money
+[02:00:27] because we're not paying for 24/7. Now
+[02:00:30] the question is where is the catch?
+[02:00:31] Since we already know no solution comes
+[02:00:33] without its own set of trade-offs. So
+[02:00:36] the number one problem the number one
+[02:00:38] issue that we face when it comes to
+[02:00:41] serverless computing is what we call as
+[02:00:43] cold start times. Since the way
+[02:00:45] serverless works is we do not have any
+[02:00:48] pre-assigned machine. We do not have any
+[02:00:50] machine which is ready to take any
+[02:00:52] request. We only spin up a new machine a
+[02:00:54] physical server. Does not matter the
+[02:00:57] capacity of the server but we only spin
+[02:00:59] up a new physical instance of a server
+[02:01:01] after getting the first request. And
+[02:01:03] that instance only lives for a few more
+[02:01:06] seconds until we give it back or we
+[02:01:08] close the instance forever. Because of
+[02:01:10] this nature, this time which it takes to
+[02:01:13] spin up a new instance, this is what we
+[02:01:16] call as a cold start time. This has
+[02:01:18] always been the number one problem of
+[02:01:20] using serverless technologies. Now there
+[02:01:22] has been a lot of solutions people are
+[02:01:24] still inventing to get around the cold
+[02:01:27] start problem of serverless. Some of the
+[02:01:29] famous ones are keeping a few instances
+[02:01:33] always ready through some kind of
+[02:01:35] automated pings. Right? You automate a
+[02:01:37] couple of requests from your own
+[02:01:39] infrastructure so that every few seconds
+[02:01:41] you send a request so that an instance
+[02:01:44] comes up to cater to that request so
+[02:01:47] that when an actual user request comes
+[02:01:49] there is an instance always ready to
+[02:01:51] serve to that user's request. So this
+[02:01:53] hack exists but you cannot go overboard
+[02:01:56] with it. Otherwise you'll end up with
+[02:01:59] always having a few instances of your
+[02:02:02] servers ready and you again start paying
+[02:02:04] for them 24/7 which completely defeats
+[02:02:07] the problem of serless again. So that is
+[02:02:10] one solution that we have come up with.
+[02:02:12] Second is another one which is the most
+[02:02:15] efficient one that you can say which is
+[02:02:17] coming up with runtimes with minimum
+[02:02:20] cold start. Some of the largest reasons
+[02:02:23] of big cold start timing is two reasons.
+[02:02:25] One is booting up a new operating system
+[02:02:28] or a new VM which comes with an
+[02:02:30] operating system. Second is the language
+[02:02:33] runtime. Whether it is it can be a Java
+[02:02:35] application or a rust application or go
+[02:02:37] application or a NodeJS application or a
+[02:02:40] Python application whatever your
+[02:02:42] language is. These are the two primary
+[02:02:44] calls of cold start time. one if it is a
+[02:02:47] traditional VM something like hypervisor
+[02:02:50] or VM etc etc then that takes a long
+[02:02:53] time to boot up a new operating system
+[02:02:56] to prevent the OS related the VM related
+[02:02:59] cold start timing has come up with this
+[02:03:02] new container technology new VM
+[02:03:05] technology a new VM technology which
+[02:03:07] works which is called as KVM technology
+[02:03:10] called firecrackers which is what they
+[02:03:12] use for their lambdas and this has
+[02:03:15] become the indust industry standard for
+[02:03:16] any kind of serverless based
+[02:03:18] architecture. The second one, the second
+[02:03:21] major one you can say is Cloudflare
+[02:03:23] workers. They are again one of the
+[02:03:25] largest providers of serverless
+[02:03:26] computing. They use V8 isolates. Now V8
+[02:03:30] is a JavaScript runtime which you can
+[02:03:32] read more about. But V8 isolates, they
+[02:03:35] provide an isolation level, a VM like
+[02:03:38] functionality where your code can run
+[02:03:40] which is extremely fast. They claim that
+[02:03:42] it's something like 0 to 1 millconds to
+[02:03:44] boot up a new V8 isolate. So these kinds
+[02:03:47] of technology that we keep innovating
+[02:03:49] they help with the cold start timing of
+[02:03:52] operating system related. The second is
+[02:03:54] language. A language like JavaScript or
+[02:03:57] Python which is an interpreted language
+[02:04:00] which means it does not have any kind of
+[02:04:02] compilation step. You just provide the
+[02:04:04] code and the code starts running line by
+[02:04:06] line. there is no pre-ompiled phase and
+[02:04:09] because of that these languages are much
+[02:04:12] faster in a serverless environment
+[02:04:14] compared to a language like Java which
+[02:04:16] has its own compilation JVM and all that
+[02:04:19] and same for other system languages
+[02:04:21] which has a compilation phase. So that
+[02:04:23] is another big factor and that is why
+[02:04:25] Cloudflare workers the one of the
+[02:04:27] largest providers of serverless
+[02:04:29] computing they use V8 isolates which
+[02:04:31] prevents the OS booting problem and they
+[02:04:34] use JavaScript. So combined with these
+[02:04:37] two they have extremely low cold start
+[02:04:39] time somewhere around 5 millconds you
+[02:04:41] can say but again the cold start timings
+[02:04:44] will always be there. We can never beat
+[02:04:47] the traditional serverful compute when
+[02:04:49] it comes to cold start because
+[02:04:51] traditional servers are always online
+[02:04:53] always online to cater to our requests.
+[02:04:56] But every time we talk about serverless
+[02:04:58] computing the cold start problem will
+[02:04:59] always be there because of the nature of
+[02:05:01] how serverless computing works. Now
+[02:05:04] second problem first was the cold start
+[02:05:07] timing. Second was limits. Most of these
+[02:05:09] serverless providers levelless lambda
+[02:05:11] they have some amount of limit. For
+[02:05:13] example the list lambda functions they
+[02:05:15] can run for at least like 15 minutes. So
+[02:05:17] if you have a long running HTTP call
+[02:05:19] something which takes a long amount of
+[02:05:21] time like 30 minutes then this will fail
+[02:05:23] halfway right. So most of the serverless
+[02:05:26] computing environments they have certain
+[02:05:28] amount of limits on how long they can
+[02:05:31] keep the request alive. Third is
+[02:05:33] statelessness. Now this is a big problem
+[02:05:35] which we discuss in depth in the
+[02:05:38] serverless based video. But in short
+[02:05:41] most of our setup in a traditional
+[02:05:44] server it is based on the premise that
+[02:05:47] our server is stateful which means that
+[02:05:50] to interact with the database we
+[02:05:52] establish TCP connections which is a
+[02:05:54] active connection that we hold with our
+[02:05:57] database. Same way if we have some kind
+[02:06:00] of websocket based connection that we
+[02:06:02] established with our browsers.
+[02:06:04] Similarly, we have a lot of stateful
+[02:06:06] behaviors associated with our
+[02:06:08] traditional servers. But the moment we
+[02:06:10] are talking about serverless which
+[02:06:11] because of their execution limits, they
+[02:06:13] can only be alive for a few seconds or
+[02:06:16] they cannot hold any data inside the
+[02:06:18] operating system because every few
+[02:06:21] seconds we are replacing the machines.
+[02:06:23] We are running the same code but the
+[02:06:25] machines in which the code is running
+[02:06:27] they keep getting replaced depending on
+[02:06:29] the user traffic and because of all
+[02:06:31] these behaviors our architecture when it
+[02:06:34] comes to serless is primarily stateless.
+[02:06:37] So all these behaviors of statefulness
+[02:06:39] the TCP connections the websocket
+[02:06:41] connections all of these have to be
+[02:06:43] reimagined on how they work the moment
+[02:06:46] you go and start using a serverless
+[02:06:48] based architecture in your back end. So
+[02:06:50] with all this when should you start
+[02:06:53] using or when should you start migrating
+[02:06:56] to a serverless architecture. Now it is
+[02:06:58] easy to say when should you not use a
+[02:07:00] serverless architecture which is latency
+[02:07:02] sensitive applications. Latency plays a
+[02:07:05] huge role something like any kind of
+[02:07:07] userfacing sensitive application like
+[02:07:09] banking application or payment based
+[02:07:11] applications where latency you cannot
+[02:07:13] afford any amount of latency. Then
+[02:07:15] serverless does not make a lot of sense.
+[02:07:17] Then comes the long running procedures.
+[02:07:19] If you have HTTP calls or websocket
+[02:07:22] connections on somewhere then serverless
+[02:07:24] does not make a lot of sense or
+[02:07:26] applications which require a lot of
+[02:07:28] database connections then also you'll
+[02:07:31] have to figure out a lot of missing
+[02:07:33] components you have to opt for a
+[02:07:35] serverless database if you make your
+[02:07:37] backend serverless first. So some of the
+[02:07:40] ideal use cases of serverless that we
+[02:07:42] typically use is very specific
+[02:07:45] operations in our workflow. One famous
+[02:07:47] one is video processing or image
+[02:07:50] processing or image resizing as it is
+[02:07:52] since these are tasks or jobs in our
+[02:07:55] application which is not very regular
+[02:07:57] unless it is your application purely
+[02:07:59] does video processing it is not very
+[02:08:01] regular. So in a typical serverlessbased
+[02:08:03] architecture we can just instead of
+[02:08:05] running our heavy infrastructure heavy
+[02:08:08] infrastructure which handles the video
+[02:08:10] processing the image processing etc
+[02:08:11] instead of paying for that 24/7 we just
+[02:08:13] keep a serverless instance and depending
+[02:08:16] on when we get a request to process a
+[02:08:18] new video or process a new image we can
+[02:08:21] spin up a new serverless instance and
+[02:08:23] finish the task and return a response.
+[02:08:25] So that is a very good use case for
+[02:08:26] serless or any kind of event based
+[02:08:29] operations for example a new message
+[02:08:32] appeared in cues or any kind of file
+[02:08:35] upload that I just mentioned or
+[02:08:37] something like a database changes. So if
+[02:08:40] you are thinking in the context of event
+[02:08:43] triggering some kind of pipeline or
+[02:08:45] event triggering some kind of operation
+[02:08:47] there also serverless makes a lot of
+[02:08:48] sense. Currently the industry is
+[02:08:51] somewhat overhyped when it comes to
+[02:08:52] serverless. It is definitely a powerful
+[02:08:54] tool for very specific use cases but in
+[02:08:58] my opinion not a universal replacement
+[02:09:00] for servers but understanding where it
+[02:09:03] fits why we have come up with it how it
+[02:09:06] works and when should you use it
+[02:09:08] definitely is a very good tool in your
+[02:09:10] arsenal whenever you are thinking in the
+[02:09:12] context of scaling and performance. So
+[02:09:15] we have covered a lot of topics in both
+[02:09:19] of these videos about scaling and
+[02:09:21] performance from the fundamentals of
+[02:09:23] latency and throughput through database
+[02:09:26] optimization and caching and vertical
+[02:09:28] scaling horizontal scaling distributed
+[02:09:30] systems and infrastructure components
+[02:09:33] that come into play like API gateways
+[02:09:35] load balancers and organization
+[02:09:37] practices when it comes to microservices
+[02:09:39] etc etc. So let let me summarize it. Let
+[02:09:42] me give you a couple of thumb rules, a
+[02:09:45] couple of mental models that you can
+[02:09:46] take away from all this information.
+[02:09:49] First one is always start with a
+[02:09:52] problem. All these things, all these
+[02:09:55] techniques, all these topics that we
+[02:09:57] discussed in these videos, they are
+[02:09:59] primarily solutions. So even though we
+[02:10:02] came from a context of what problem they
+[02:10:04] solve, but still the discussions were
+[02:10:07] about solutions. So before you start
+[02:10:10] reaching for solutions, you should
+[02:10:12] understand where you stand with your
+[02:10:14] problem. Whether your system is actually
+[02:10:17] slow or not and how slow is that you
+[02:10:19] have to actually measure your system
+[02:10:22] using practices like observability,
+[02:10:24] using traces, metrices, logs and
+[02:10:27] performance testing, load etc. So
+[02:10:29] measuring is a very big part which
+[02:10:31] answers your question where exactly your
+[02:10:33] system is slow. Which component is
+[02:10:35] exactly slow in your whole system? What
+[02:10:38] exactly is your bottleneck? Unless you
+[02:10:40] know the answers to these and you know
+[02:10:43] the specific answer to this, you have to
+[02:10:45] know that if your database is the
+[02:10:47] bottleneck, then it is the bottleneck
+[02:10:49] because of the absence of this
+[02:10:51] particular index. It is the bottleneck
+[02:10:53] because of the absence of sharding.
+[02:10:55] Unless you know the specific answers all
+[02:10:58] these solutions that we talked about you
+[02:11:00] should not opt for them because when we
+[02:11:02] do that that's what we call as premature
+[02:11:04] optimization which is not something I
+[02:11:07] would advise so always measure first
+[02:11:10] measure everything then profile trace
+[02:11:12] your requests there are tools that you
+[02:11:14] can configure like Prometheus Graphana
+[02:11:16] to trace every single request to find
+[02:11:19] out where your bottlenecks are or you
+[02:11:21] can go with some paid service or some
+[02:11:24] managed tool something like New Relic
+[02:11:26] which makes measuring your system a lot
+[02:11:28] easier. And after doing all this,
+[02:11:31] understand where actually the time goes
+[02:11:33] before trying to make your system faster
+[02:11:36] because the worst thing that you can do
+[02:11:39] while solving your performance related
+[02:11:41] problems is solving the wrong problem or
+[02:11:44] fixing the wrong bottleneck because it
+[02:11:46] gives you the impression that you have
+[02:11:48] fixed your problem which in turn becomes
+[02:11:51] a much larger problem along the way. So
+[02:11:54] if you want to take something from both
+[02:11:56] of these videos, this advice, measure
+[02:11:59] every single interaction of your system
+[02:12:01] using tools like New Relic or if you
+[02:12:03] want to go to the custom solution
+[02:12:06] something like Prometheus Graphana only
+[02:12:07] after you have measured every single
+[02:12:09] component of your system only after you
+[02:12:11] know all the numbers. What is your
+[02:12:13] average latency? What is your average
+[02:12:15] amount of errors and everything once you
+[02:12:17] have all the numbers in front of you
+[02:12:19] then only go for solutions only after
+[02:12:21] that go for caching go for aggressive
+[02:12:24] indexing and whatever all the solutions
+[02:12:25] that we discuss in this video. Second
+[02:12:28] always prefer simple solutions. What do
+[02:12:31] we mean by simple solutions? One example
+[02:12:34] that we discussed just before this was
+[02:12:36] the microser architecture. Now microser
+[02:12:39] architecture is one of those things
+[02:12:41] which do have a lot of benefits but the
+[02:12:44] complexities that they come with. It is
+[02:12:46] usually not worth switching and
+[02:12:49] microservices are not what we call as a
+[02:12:52] simple solution. It can get very
+[02:12:54] complicated unless you have experience
+[02:12:57] dealing with and handling microservices.
+[02:12:59] So that is one example. Same way while
+[02:13:01] we are discussing horizontal scaling
+[02:13:04] dealing with something like Kubernetes
+[02:13:06] if you are interacting with your infra
+[02:13:08] part dealing with Kubernetes is again
+[02:13:10] what we will not consider as a simple
+[02:13:13] solution. So unless you have no choices
+[02:13:16] left and unless you know you definitely
+[02:13:18] need this particular tool then only go
+[02:13:20] for these complicated solutions
+[02:13:22] otherwise always try to stick to simple
+[02:13:25] solution because they are easy to
+[02:13:26] understand they are easy to debug and
+[02:13:28] they are easy to operate. So starting
+[02:13:30] with a large server with a large
+[02:13:32] vertical scaling based solution is
+[02:13:34] always simpler than going with like from
+[02:13:37] day one of development going with a
+[02:13:39] horizontal scaling based architecture.
+[02:13:40] Right? Same way indexing your database
+[02:13:43] queries. Implementing proper indices for
+[02:13:46] your database query is a much simpler
+[02:13:48] solution than placing a radius cache in
+[02:13:51] front all of your database queries. And
+[02:13:53] a monolith is always simpler than going
+[02:13:55] with a micros servicebased architecture
+[02:13:58] because complexity has costs. It always
+[02:14:01] has costs. Every component that you add
+[02:14:03] to a system is another component that
+[02:14:06] can fail is another component that you
+[02:14:08] have to monitor. Is another component
+[02:14:10] that you have to understand and operate.
+[02:14:12] So only accept complexity when
+[02:14:14] simplicity is genuinely insufficient.
+[02:14:16] You have no other choices. Of course,
+[02:14:19] this does not mean that you always
+[02:14:21] choose the simplest possible approach.
+[02:14:23] Sometimes complexity is necessary, but
+[02:14:26] you have to understand the fact that
+[02:14:28] complexity is a cost and it requires
+[02:14:31] enough amount of justification before
+[02:14:33] you start implementing it. Third, scale
+[02:14:36] for the problems you have. What do you
+[02:14:40] mean by this? You do not need to build
+[02:14:43] for a million users on your first day of
+[02:14:46] development. you probably will not ever
+[02:14:48] reach a million users. Most platforms do
+[02:14:51] not make it. So build for the scale that
+[02:14:54] you currently have with some headroom
+[02:14:56] for growth, keeping some amount of
+[02:14:58] buffer, reasonable buffer. And as you
+[02:15:00] grow, you will learn where your
+[02:15:03] bottlenecks are. As long as you have
+[02:15:05] properly implemented your observability,
+[02:15:08] which means your logs, metrics, and
+[02:15:10] traces. Your specific application has
+[02:15:13] its own set of specific characteristics.
+[02:15:16] So generic advice from internet from
+[02:15:19] from engineering blogs that are from big
+[02:15:22] companies Netflix or Facebook or Google
+[02:15:26] they might not apply to your specific
+[02:15:28] situation. So learning from measuring
+[02:15:30] your system is much more valuable and a
+[02:15:34] much more solid approach as compared to
+[02:15:36] taking some performance engineering blog
+[02:15:39] from a big company and start
+[02:15:41] implementing their solution for your
+[02:15:43] systems. Which brings me to the fourth
+[02:15:45] problem and measure. Now I cannot stress
+[02:15:48] this enough. Observability is one of
+[02:15:50] those components in your backend systems
+[02:15:53] that you should have from day one. So in
+[02:15:56] the first point as I said that always go
+[02:15:59] for the simplest solution. So this is
+[02:16:01] one of those cases where you have to
+[02:16:03] make an exception. Now you might think
+[02:16:06] that on your day one going for simple
+[02:16:09] logs and ignoring metrics and traces are
+[02:16:13] a good way until you reach like 50,000
+[02:16:16] users or one lakh users. But from my
+[02:16:18] experience, measuring your systems,
+[02:16:20] which means implementing proper
+[02:16:22] production grade observability from day
+[02:16:24] one always pays off. You never have to
+[02:16:27] face random errors. You never have to
+[02:16:29] face random crashes in your system. You
+[02:16:31] never have to guess where your system's
+[02:16:34] bottleneck is. Everything is in front of
+[02:16:37] your face all the time. And as your
+[02:16:39] system grows, you have enough headroom.
+[02:16:41] You get enough headsups that you can
+[02:16:43] scale. You can make changes to your
+[02:16:45] system. You can make changes to your
+[02:16:47] infra before they cause any kind of
+[02:16:50] problems because you measure every
+[02:16:52] single thing. So this is very important.
+[02:16:55] Now the last thing is mindset. Similarly
+[02:16:57] as we talked about in the security
+[02:16:59] video, security is a mindset. You have
+[02:17:01] to constantly learn about new threats.
+[02:17:03] You have to constantly learn about new
+[02:17:05] ways to secure our application. Same way
+[02:17:07] performance optimization and scaling is
+[02:17:10] an ongoing learning phase. It is a
+[02:17:13] mindset and it comes from experience.
+[02:17:16] You will build your systems and you will
+[02:17:18] watch your systems struggle and you will
+[02:17:21] optimize and see what helps and what
+[02:17:23] does not help. And over the time after a
+[02:17:25] lot of trial and errors you can say that
+[02:17:28] your system can scale. Your system has
+[02:17:31] all the performance tweaks all the
+[02:17:33] performance related changes all the
+[02:17:35] scaling needs so that it can cater to
+[02:17:38] any amount of user traffic. At least the
+[02:17:41] kind of user traffic your application
+[02:17:43] gets, not the generic number based user
+[02:17:46] traffic. And a single tutorial cannot
+[02:17:49] teach you all that. Your job as a
+[02:17:51] backend engineer is not to predict all
+[02:17:53] kinds of problems that can happen, but
+[02:17:56] to build systems that handle problems
+[02:17:58] when they do happen in a graceful manner
+[02:18:01] and to develop skills so that you can
+[02:18:03] measure these things and so that you can
+[02:18:06] diagnose these problems and you can
+[02:18:08] resolve them quickly when they do

@@ -1,0 +1,111 @@
+Title: L-1.4: Types of OS(Real Time OS, Distributed, Clustered & Embedded OS)
+Video URL: https://www.youtube.com/watch?v=YQZbIT9FcUk
+Video ID: YQZbIT9FcUk
+======================================================================
+
+[00:07] Hello students, Welcome to Gate Smashers
+[00:09] In today's video I'm going to explain
+[00:11] Real time, distributed, clustered and embedded operating system
+[00:16] So talking about these all four operating system for competitive exams or with college\university exam point of view
+[00:25] then there're no chances to get questions based on these
+[00:28] Because mainly questions come from multi programming, multi tasking or little bit on Batch also
+[00:34] But just for the sake of completion because whole playlist of operating system has been completed
+[00:40] so I'm telling you the leftover minor points here
+[00:43] And talking about distributed or clustered operating system,
+[00:48] they are very vast technologies in their own, so it's not possible to explain them in one single video
+[00:54] But still I'm telling you little bit minor points so if they'd ask about it in exam then you can answer something
+[01:02] So let's start first of all with real time operating system
+[01:06] In real time operating system what word I'm using here is... Real time
+[01:10] So we work in two ways... one is batch processing and other is real time
+[01:16] Means if you would say non real time then it means that let's say I gave some work to the system,
+[01:24] and it gave the output after couple hour or more
+[01:28] means there's no time constraint, means I just want the output only, time doesn't matter
+[01:35] But real time means immediately There, time matters a lot
+[01:40] Taking a simple example... YouTube streaming We are using YouTube
+[01:45] Now look.. I created this video and uploaded it after editing
+[01:49] Now when are you watching that video?... Maybe you watched it right away, or after a month or couple years
+[01:57] So here I don't want that you must watch it right away
+[02:01] But If I'm coming live on YouTube, then what my expectation is
+[02:05] if I came live here and you also came live there
+[02:09] then the points that I'm telling you, you are listening it right away
+[02:12] So here we call it real time environment
+[02:16] So in real time, there's only constraint of time
+[02:19] that there can't be delays, time matters a lot
+[02:22] So here also, further category comes i.e. Hard and soft real time
+[02:27] In hard, as the name says It's very strict about the time
+[02:31] So much restrictions on time, Means there can't be delays
+[02:35] Like if we'd talk about missile system Obviously they can't bear delays in missile system
+[02:42] Talking about flight simulation, then there also we can't bear any delay
+[02:47] Because if we take example of missile system
+[02:50] If you launched a missile and gave a time to hit the target after 5 sec
+[02:56] If it got delayed there, or got some error or some other process started in between
+[03:00] Like as we discussed that some other process pre-empt in between
+[03:04] then other process started.... What will happen in that case?... Missile will hit the wrong target
+[03:10] Means we don’t want any delay here
+[03:13] In soft you can say, it's little bit soft, means you can divide it based on the application
+[03:19] Like if we'd talk about computer gaming Then in gaming although I don't want much delay
+[03:25] But if it got even little bit delay then there will be no critical situation
+[03:29] Here, critical situation can arise
+[03:32] Here it won't be critical situation, like Youtube Live streaming,
+[03:34] if I'll say something in it then you'll here it after 5-10 seconds
+[03:39] then it's fine, we can bear it... There'll be no critical situation
+[03:42] So that'll be the example of soft real time operating system
+[03:47] Then comes distributed and cluster
+[03:49] In distributed, as the name says like distributed
+[03:54] that the systems are not distributed to operating system
+[03:59] this is actually the environment, means the processing environment that I've made,
+[04:05] I've distributed it all over the world and dispersed it geographically
+[04:10] Means I've one machines here, second one here and third one here,
+[04:15] 4-5th somewhere else & I connected all of them through a network
+[04:21] Means here I've the machines here laying in loosely coupled environment
+[04:27] loosely coupled means its own kernel, its own memory, its own disk  and so on.
+[04:33] Each one have its own environment and resources
+[04:40] and its geographically separated, not at one location and working independently
+[04:47] Yeah it's possible that if a system fails somewhere then you can get the work done through other system
+[04:55] Like if we talk in database also, then One is centralized, means placing all data at one place
+[05:00] And other is distributed, like facebook, google They creates a distributive environment
+[05:05] rather than keeping each and everything in a single area
+[05:08] We distributed them all over the geographical region
+[05:12] So this is the advantage here of distributed
+[05:15] And what is clustered??... It's also doing the work like if I've different machines, I've used them as one cluster
+[05:24] The main thing here is that they're connected through the local network
+[05:29] Means I've kept them in a single network
+[05:32] I've connected them in a single network
+[05:34] Like in LAN, I connected multiple devices together
+[05:38] and they are working like one server,
+[05:41] so you can call them as a super computer so your computation power increased
+[05:47] Now it's working like one machine,
+[05:49] and you added 100 machines in one, so your computation power increased
+[05:55] Here your processing power also increased
+[05:58] So, the operating system we use to manage this environment that's your clustered
+[06:04] And the one we use for distributed environment That's distributed operating system
+[06:09] So if they'll ask you what's the advantage? Then main advantage here is availability
+[06:13] So here you get increased availability,
+[06:17] Fault tolerance... If any system got fail here, then rest of the systems will bear its load
+[06:23] Means you can easily do load balancing here fault tolerance, scalability is also an important factor
+[06:29] Let's say, Today you have computation power "X" and then tomorrow you want twice of "X"
+[06:35] Then you can do it easily because you have cluster of systems available here
+[06:39] Rather than one system, you've collected thousands of systems and have created a cluster
+[06:46] Finally we have embedded... Embedded is also a type of system
+[06:51] Talking about the embedded system
+[06:55] Embedded system are those which works only on a fixed functionality
+[06:57] Like the microwave, machine, AC all these are embedded systems
+[07:02] And the operating system working in them
+[07:05] which is managing all this, that'll be an embedded operating system
+[07:09] You can't do changes in it Whatever functionality you gave to it
+[07:12] It will only work on it
+[07:14] If you'll ask washing machines to heat the food then it won't do it
+[07:19] That's work of other machine
+[07:22] So you can't do further changes in its code or motherboard, it'll stay fixed
+[07:27] But what we can do in normal computer is we can change the instructions in normal computer
+[07:32] Talking about hard wire or micro programmed
+[07:35] Based on that we can adjust the power and functionalities of our system,
+[07:42] that's the advantage of non-embedded system
+[07:45] So the system which works in these environments, you can add it with it
+[07:52] So this is all about different types of operating system
+[07:55] So, no one will ask you more than this This is more than sufficient
+[07:58] Otherwise you can study it more in detail
+[08:01] Like talking about cluster, then if you want to study in detail about cloud computing,
+[08:05] then you have to study some extra
+[08:07] But in the topic of operating system they won't ask you anything more than this
+[08:12] Thank You!

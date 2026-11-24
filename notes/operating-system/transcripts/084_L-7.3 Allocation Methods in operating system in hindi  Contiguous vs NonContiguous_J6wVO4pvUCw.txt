@@ -1,0 +1,140 @@
+Title: L-7.3: Allocation Methods in operating system in hindi | Contiguous vs NonContiguous
+Video URL: https://www.youtube.com/watch?v=J6wVO4pvUCw
+Video ID: J6wVO4pvUCw
+======================================================================
+
+[00:07] Hello friends, Welcome to Gate Smashers
+[00:09] In this video I am going to explain allocation method
+[00:12] or you can call it as file  allocation method
+[00:15] which is the most important point of the file allocation system
+[00:18] and this is important for your competitive exams
+[00:20] and very much important even for your college and university exams
+[00:24] because from this topic many questions come in exams
+[00:28] So guys quickly like this video and subscribe this channel
+[00:31] if you have not done till now and also press the bell button
+[00:33] so you get all the latest notifications.
+[00:36] So let's start
+[00:37] What is the actual purpose  allocation method?
+[00:39] means the file system we have
+[00:42] What it does?
+[00:43] Let's say I have a file,
+[00:45] file name is F1
+[00:47] and on the other side what do we have?  we have hard disk
+[00:50] that is your secondary storage
+[00:52] Now what we do? what actually the file system does?
+[00:55] It divides this file logically
+[00:57] in blocks.
+[00:59] Means before putting this file as it is in disk what it will do?
+[01:03] divide this file logically in to blocks
+[01:06] and on the other side the hard disk we have
+[01:08] or the permanent storage we have
+[01:10] what we have in that storage?
+[01:12] It has sectors.
+[01:13] Which you can call physical blocks.
+[01:15] means where the data actually resides
+[01:19] and what do we call them? Sectors
+[01:20] Although sectors are not like this
+[01:22] We have platters, on platter we have surfaces
+[01:26] on surface we have tracks
+[01:28] on tracks there are sectors in this way.
+[01:31] So here just I am showing you by visualizing simply
+[01:36] how the data is loaded on sectors.
+[01:40] So what the file system did? First it divided the data
+[01:43] divided the file and did logical partitions
+[01:46] and now what will it do with these blocks?
+[01:48] on these physical sectors
+[01:50] put it over these physical sectors of the disk
+[01:54] now see depending on how we put it
+[01:57] Where are we putting a particular block or block of a file
+[02:01] in what way we are putting,  that is actually allocation method
+[02:05] So the allocation method can be contagious
+[02:07] or it can be non contagious
+[02:09] and in non contagious further we have two types
+[02:12] Linked list allocation
+[02:13] and indexed allocation
+[02:15] So there is a simple way  to understand this.
+[02:17] Let's say we have a lot of students,
+[02:21] there are lot of students
+[02:23] Now what we did? On other side we have a room
+[02:25] and inside the room we have seats
+[02:28] there are vacant benches
+[02:30] Now what are we doing?
+[02:31] In actual what the file system is doing?
+[02:34] What we have to do now?
+[02:35] We have to take the students in to the room
+[02:38] We have to allocate bench to students  inside the rooms,
+[02:41] that you sit on this bench,  you sit on this bench,
+[02:43] you sit on this bench,  you sit on this bench
+[02:45] what actually the file system is doing?
+[02:47] It is not like that we are sending  students directly
+[02:49] What I did first? I divided the  students in sections
+[02:53] means made sections like
+[02:55] section 1, section 2, section 3,  section 4
+[02:58] and then what are we doing?
+[03:00] we are moving these sections  into the rooms
+[03:04] So what we can call them inside the room?
+[03:06] One is contagious, what is the  meaning of contagious?
+[03:08] that I will say roll no. 1 sit  on bench no. 1
+[03:11] after that roll no. 2 on bench no. 2
+[03:14] 3 on bench no. 3
+[03:15] in this way we will make  contagious allocation
+[03:18] but this is not necessary that  roll No. 1 on bench No. 1
+[03:20] you can also start roll No. 1 from  bench No. 10
+[03:24] Let's say you said roll No. 1  go to bench No. 10
+[03:27] now where will roll No. 2 sit, he will  sit on bench no. 11
+[03:31] where will 3 sit, sit on 12
+[03:32] means 13 then 14 means
+[03:34] you have to start contagiously but you  can start from any place
+[03:39] So that is actually the  contagious allocation.
+[03:41] similarly you can put randomly
+[03:43] said to roll No. 1 to go to bench no. 5
+[03:46] roll No. 2 go to bench No. 90
+[03:49] roll No. 3 go to bench No. 53
+[03:51] that is the random allocation
+[03:53] so based on our requirement
+[03:55] based on the scenario we do contagiously
+[03:58] and non contagiously also
+[04:01] so if someone ask you what is the  purpose of allocation method?
+[04:05] What are we achieving from that?
+[04:06] So first thing we are achieving
+[04:09] efficient disk utilization
+[04:11] means the disk we have that we  have to utilize properly
+[04:16] so what does this means to utilize properly
+[04:18] So disk has some capacity let's  say 1 terabyte capacity
+[04:22] so that capacity I have to use properly or  utilize in efficient way
+[04:26] it should not happen that there is  some fragmentation effect
+[04:29] or external fragmentation is happening
+[04:31] or some blocks are not filled properly
+[04:33] meaning we want that we  can utilize it properly
+[04:36] and second advantage that we are giving
+[04:39] is access
+[04:40] we are saying that the data we  have to put on the disk
+[04:43] It does not mean that we will never  access that data
+[04:46] Obviously what are you doing? In your  laptop you store data daily.
+[04:50] sometime you download sometime you  bring it in pen drive
+[04:53] you received from mail and  downloaded from there
+[04:56] So through multiple ways you  are collecting data
+[04:58] Now to collect that data
+[05:00] why are you obviously collecting it?
+[05:02] So that when you need you can access it.
+[05:05] means you can retrieve it
+[05:07] so access should be faster
+[05:11] So if we use allocation method properly
+[05:13] so the access I have should be faster
+[05:16] means access time should be less
+[05:18] then obviously you can say that
+[05:20] performance of the system will increase
+[05:22] because in less time you are trying to access more and more data
+[05:27] accessing more and more data in less time
+[05:29] so you can say access time should be less
+[05:32] or you can say like this also
+[05:34] that my access speed should be faster
+[05:37] So these are actually our two aim
+[05:39] of the allocation method
+[05:41] how to efficiently utilize disk space
+[05:43] and how to make access faster
+[05:46] so now in next video we will discuss
+[05:48] What is contagious allocation?
+[05:50] What are the advantages and disadvantage?
+[05:52] same way, what are the advantage and  disadvantage in non contagious?
+[05:56] Thank You.

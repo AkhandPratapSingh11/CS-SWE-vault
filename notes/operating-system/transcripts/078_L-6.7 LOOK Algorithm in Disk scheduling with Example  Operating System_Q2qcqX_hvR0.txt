@@ -1,0 +1,95 @@
+Title: L-6.7: LOOK Algorithm in Disk scheduling with Example | Operating System
+Video URL: https://www.youtube.com/watch?v=Q2qcqX_hvR0
+Video ID: Q2qcqX_hvR0
+======================================================================
+
+[00:00] Now the algorithm is LOOK
+[00:02] It is also one of the  disk scheduling algorithm
+[00:04] We are solving these  also with questions.
+[00:06] Where I have 200 tracks 0 to 199
+[00:09] and these are the requests
+[00:11] which I have to cover which I have to service
+[00:14] That I already have in the queue
+[00:16] Current position is given at 50
+[00:18] So algorithm which I am using here is LOOK,
+[00:21] and here what is the concept of LOOK?
+[00:23] LOOK like SCAN is somewhat similar
+[00:27] the little difference it has that  I will explain here in this video.
+[00:30] So if we are starting from 50
+[00:32] So here also at first I should know about the direction.
+[00:36] In FCFS and FFTS direction is not required
+[00:40] but you should know direction in scan
+[00:43] as well as in look
+[00:45] Otherwise you will not know  in which direction you have to move.
+[00:49] So here I have written the direction
+[00:51] that I have to move towards larger value
+[00:55] So which is the larger value than 50  definitely it is 82.
+[00:59] So first of all I will move to 82,
+[01:03] first we have covered 82
+[01:05] then after 82 where will I go? 140
+[01:09] means I have to move towards larger value
+[01:12] and whatever be the last value  I have to reach up to there
+[01:15] and then have to cover all the request one by one in between.
+[01:19] So the next request coming after 140  is 170
+[01:24] so covered 170 also
+[01:26] and then next is 190
+[01:28] so covered 190 too
+[01:30] In scan the direction in which we move
+[01:34] we go up to the last in that direction
+[01:37] I have told you in the last video,
+[01:39] you have to go up to 199
+[01:41] but look says why  there is need to go to 199
+[01:46] because the last request is 190,
+[01:48] so why should I make an extra move?
+[01:51] So look will move from 190
+[01:55] and come back from 190.
+[01:57] So the first request while coming back is 43
+[02:01] so covered 43
+[02:03] after 43 next request I have is 24
+[02:06] so covered that and then last request is 16
+[02:09] so covered that too,
+[02:11] means what was there in scan
+[02:13] means this portion 190 to 199
+[02:17] this portion was extra there
+[02:19] but look will not cover this portion.
+[02:22] If you want to do  this in other direction here
+[02:25] also you have to do the same.
+[02:27] If we move from 50 towards lower value
+[02:30] so first  we will go to 43
+[02:32] from 43 we move to 24
+[02:34] and from 24 we move to 16
+[02:36] So in scan it moved to 0 after 16,
+[02:41] it will go up to zero value
+[02:42] but look will not go up to 0 value
+[02:47] it will go past 16
+[02:50] means that the extra portion
+[02:53] we were following in scan that portion  will not come here.
+[02:57] So in this when you will calculate value
+[02:59] there is no need to calculate value  one by one
+[03:03] you can do in that way one by one,
+[03:05] It is best to see the last value  in the direction you are moving
+[03:08] so what is the last value it is 190
+[03:11] so (190 – 50) + (190 – 16)
+[03:17] You will get the answer directly
+[03:21] If you want to calculate one by one  that also you can do
+[03:24] that is your own choice,
+[03:27] so what answer I am getting here, 314
+[03:31] which is less than the scan,
+[03:33] and obviously it will be less
+[03:35] because in scan we were covering  this extra portion
+[03:39] due to which 18th value was coming more
+[03:42] that 18th is like a overhead
+[03:45] therefore look is performing better  as compared to scan
+[03:50] and here the same thing that  we have discussed in the last question,
+[03:53] If the time to move from one track to another
+[03:57] is 1 nanosecond then what is the total time?
+[04:01] So to find the total time
+[04:02] at first you have to find the movement.
+[04:05] So the movement you have is 314
+[04:07] means you have to move 314 tracks
+[04:11] to cover these requests by using the look
+[04:15] So you are moving 314 tracks,
+[04:17] to cover 1 track you take 1 nanosecond
+[04:19] so to cover 314,  314 nanoseconds
+[04:23] is the answer.
+[04:24] This is all about the LOOK. Thank you.

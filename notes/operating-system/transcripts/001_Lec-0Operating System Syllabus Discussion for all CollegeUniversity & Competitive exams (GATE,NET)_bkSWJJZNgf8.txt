@@ -1,0 +1,176 @@
+Title: Lec-0:Operating System Syllabus Discussion for all College/University & Competitive exams (GATE,NET)
+Video URL: https://www.youtube.com/watch?v=bkSWJJZNgf8
+Video ID: bkSWJJZNgf8
+======================================================================
+
+[00:00] Hello Friends, Welcome to Gate Smashers The topic is Syllabus of operating system
+[00:05] Before I start this video I just want to request you all,
+[00:08] especially those who are watching my video first time
+[00:11] Please subscribe my channel & please share with your friends
+[00:14] and please press the bell button for latest notifications
+[00:18] Now we are starting this video
+[00:21] What we are going to talk in this video is Syllabus of operating system
+[00:25] Now you must be thinking Syllabus of operating system??
+[00:29] I mean its already available at many places
+[00:32] If you wish to download syllabus of operating system of a particular university,
+[00:36] or for GATE exam, or for UGC NET exam, It'll be easily available to you
+[00:42] But... What's my main motive to make this video is.... First
+[00:46] I'm giving you clear cut information that if you are preparing operating system for GATE or UGC NET
+[00:53] Then what are those topics that are mandatory, star mark... Means you must do before exam
+[00:59] And what are those topics that you can prepare by just taking an overview before the exam
+[01:04] So what's the benefit with this is...
+[01:06] First those who prepares at very late time or starts to study just before the exam
+[01:13] Then it's very beneficial for them... Even it's beneficial for those who are doing proper study
+[01:19] Because I'm going to cover all the topics Including the main topics and their sub topics also
+[01:26] And all the topics that we are mentioning in this video is based on what??... Questions
+[01:31] All the questions that have appeared in last years Whether it's GATE exam or UGC NET exam
+[01:37] Because their pattern of questions is same
+[01:40] Many times GATE's questions appears in UGC NET exam
+[01:44] In GATE's exam, questions gets repeat many times but with a different language
+[01:52] That's why this video is very important here The second point here is... Smart Work
+[01:58] As we all know that hard work is very important.... But
+[02:01] along with hard work, Smart work is also very important
+[02:04] If you have remember that, right now
+[02:07] we have got latest report from Forbes,
+[02:10] according to it, World's no.1 richest man i.e. Amazon's head,
+[02:16] so see how much smart work that guy has done
+[02:22] He don't have any industries,
+[02:24] where he would be manufacturing something like shoes, apparel or anything else
+[02:28] that they are selling in their application or website
+[02:33] But still his total wealth...
+[02:37] has surpassed all the billionaires which includes our India's Mukesh Ambani and many other Billionaires
+[02:46] So that's an example of smart work Definitely there's hard work
+[02:50] But along with it, smart work is also there Without any industry, Without any big investment
+[02:56] they are just transferring goods here and there and this is called smart work
+[03:00] So we are implementing that same smart work here
+[03:03] So the first topic here is basic introduction
+[03:07] So what comes here in basic introduction is...
+[03:09] Normal definition of operating system Along with that, Types of operating system
+[03:17] Types of operating system consist
+[03:19] Batch operating system, Multi program, Multi tasking, Real time... you should know all that
+[03:24] After that what I have here is... Process Diagram
+[03:29] Means, when we execute a process or when CPU executes a process
+[03:34] Then, Though what stages that process passes
+[03:38] Other than Types of operating system & process Diagram... What we have here is
+[03:44] Basic system call, Definition of system calls which includes your Fork system call,
+[03:51] Other than that you should know about basics like fork and kernel system calls
+[03:57] But the main important point here is diagram of the process
+[04:02] Means the stages of the process That is very important point
+[04:08] and then we have process scheduling Which we can call CPU scheduling also
+[04:14] So scheduling includes a lot of various algorithms
+[04:18] And this whole topic is important... I can't say any particular thing important in this
+[04:24] this whole topic is important
+[04:26] It has variety of algorithms like FIFO, SJF, Pre-emptive, Round Robin
+[04:35] Okay?... It consists variety of algorithms
+[04:41] So this portion is very important because
+[04:44] every year there will be a question in GATE & UGC NET from this topic
+[04:49] So you can say that this topic is mandatory for you
+[04:53] Means you have to prepare this topic before exam and it's very easy
+[04:57] If you would practice 1-2 numerical of each, then you can easily solve this
+[05:02] Third topic is process synchronization
+[05:06] In this topic there comes the concept of Semaphore
+[05:11] Concept of Semaphore... Binary Semaphore especially comes in this
+[05:17] You must have to prepare it before the exam, because that is the most important part,
+[05:22] other than this there is Peterson solution, you should know the basic that how it synchronize the processes
+[05:29] but here question comes from the concept of semaphore
+[05:32] This is little bit complex topic
+[05:35] but if you'll study it properly then definitely it'll be clear to you that how Semaphore works
+[05:42] So I would say that this semaphore topic is mandatory that you must do before the exam
+[05:49] The next is Deadlock and Threads
+[05:51] In Deadlock and Threads, The Deadlock portion is very easy portion
+[05:56] Basic definition, Deadlock Prevention & Avoidance
+[06:00] And especially it has Banker's algorithm
+[06:03] You should know how banker's algorithm works... It's very easy
+[06:07] You can check my videos for this
+[06:09] I've explained this with very nice example there, even through GATE's question
+[06:14] So you have to do Banker's algorithm Other than this
+[06:17] I've mentioned basic questions also in my videos based on Deadlock
+[06:22] This topic is totally completed in my video
+[06:26] Process synchronization also
+[06:28] Process scheduling, and the basic one also.... All this is already covered
+[06:35] Then.... Memory management In memory management we have here is
+[06:40] Especially
+[06:42] Concept of paging
+[06:44] Concept of segmentation
+[06:47] And other than that... Fragmentation
+[06:50] Many times question comes on internal and external fragmentation
+[06:54] So you must do this portion
+[06:56] Although there comes the concept of multi-level paging also... And
+[07:00] segmentation with paging they are little bit complex topics
+[07:04] If you have time and you are doing proper preparation of it
+[07:07] then definitely do the portion of multi-level paging, segmented paging etc.
+[07:12] But if you are just giving normally then for this you've to do basic paging,
+[07:16] how segmentation works, types of fragmentation
+[07:20] and other than that here comes the concept of virtual memory
+[07:25] Make sure to do the concept of virtual memory
+[07:28] Here you get numerical questions like you'll be given time, and you've to find out effective memory excess time
+[07:40] You should know Basics of thrashing,
+[07:42] and other than this the very important point is page replacement algorithms
+[07:51] I would definitely like to highlight it here because why it is important??
+[07:57] Because first of all it's a very easy topic,
+[08:01] if you'll just practice 1-2 question then you'll never do it wrong
+[08:06] That's why this portion... and every year question is coming from this topic
+[08:10] It's easy and also question is coming then obviously you have o secure it
+[08:13] And talking about GATE exam, It's not important how many no. of questions I'm attempting
+[08:19] What important is How many no. of correct questions I'm attempting... Means correctness is important there
+[08:25] There's no negative marking in UGC NET until now so you can take little bit risk there... But
+[08:30] Here you have to move towards correctness first
+[08:33] Because in case you answered wrong then negative marking in GATE's exam gives a lot of trouble
+[08:40] After page replacement algorithms you get Disk Scheduling
+[08:44] In Disk Scheduling we have this numerical portion here You can call it numerical, kind of
+[08:50] And it's Disk scheduling, here also we get
+[08:55] scan algorithm, Cscan algorithm
+[09:02] A basic FCFS
+[09:06] And other basic algorithms I've already made videos on this also
+[09:14] So you can cover all those videos I've explained every single question
+[09:18] You can practice it there properly
+[09:21] After Disk scheduling, we have UNIX commands
+[09:24] This portion comes in UGC NET more as compared to the GATE exam
+[09:29] But still this can get covered in GATE's exam also
+[09:33] UNIX command comes in basic Linux commands
+[09:36] For example LS Command, MKDIR, CD There're many commands
+[09:41] But all the basic commands Like CD, CHMOD command
+[09:46] Just now recently in July 2018 exam of UGC NET, A question has appeared based on this
+[09:55] And other than this you should know about open system call also
+[09:59] Other than open system call, you should be aware of system calls related to file
+[10:07] and you should know their parameters also
+[10:10] So you can get question based on basic Linux command like this
+[10:13] Although this question haven't been asked much in GATE exam
+[10:17] But for UGC NET this portion is very important
+[10:20] Then comes file management and security, this portion that specially comes in file management
+[10:26] That how various algorithms fetch data from the files where you get sequential access ,
+[10:34] Random Access
+[10:37] Linked Access.... There are 3-4 methods whose basics you should know
+[10:42] You'll not get a lot of questions based on this
+[10:47] but you should know working of these algorithms, what are advantages and disadvantages between them,
+[10:53] You should know what are their complexities Means how's the working
+[10:57] Sequential, Random and Linked
+[10:59] There is allocation also And Accessing of the files also
+[11:03] And in security we have basic definition
+[11:06] What is virus?, what are vulnerability?, What are loopholes?
+[11:10] They can ask basics of encryption
+[11:11] But encryption actually gets covered in the cryptography portion in network
+[11:18] But if we'll see from this point, then you should know just some basics
+[11:21] And this portion will get covered there so you can relate it from there
+[11:26] So basic definition of virus, loopholes, vulnerabilities
+[11:29] and other than this what are attacks, types of attacks,
+[11:33] you should know basic of all this
+[11:35] So here...
+[11:37] This is whole syllabus of operating system No matter what exam you are preparing for
+[11:43] I have marked double star on this first portion i.e. Process scheduling
+[11:48] because you can't leave this portion
+[11:51] The second one here is Memory Management portion
+[11:56] No matter what you have to do this portion
+[12:00] Then the portion of Disk Scheduling,
+[12:03] This is also very important because First the algorithms here are very easy,
+[12:08] if you'll just practice 1-2 questions then you'll always remember this
+[12:12] Now process synchronization, Deadlock are also very important
+[12:16] But as I said before, Process Synchronization is little bit complex and tricky topic
+[12:22] If you can do it then its very good otherwise you can check out the concept of Binary Semaphore
+[12:27] Deadlock & threat concept are little bit theoretical Here only Banker's Algorithm is a numerical
+[12:36] Other than this there's all theory in it Deadlock Avoidance, No Pre-emption, circular weight etc.
+[12:41] And in thread we have two types of threads
+[12:45] So you should know basic about kernel level thread or user level thread
+[12:50] So this is the whole syllabus of operating system here
+[12:54] So you can follow it no matter what exam you are preparing for
+[12:58] Alright?.... Thank You!

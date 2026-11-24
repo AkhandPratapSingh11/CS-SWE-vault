@@ -1,0 +1,1623 @@
+Title: 16. Error Handling and Building Fault Tolerant Systems
+Video URL: https://www.youtube.com/watch?v=8NaM_9aKS24
+Video ID: 8NaM_9aKS24
+======================================================================
+
+[00:00] In the world of back-end development,
+[00:03] errors are not just problems to solve.
+[00:06] They are a normal part of building
+[00:09] applications. And every developer needs
+[00:12] to understand that errors will happen.
+[00:15] And the key is to being ready for them,
+[00:18] being ready to detect them, being ready
+[00:21] to fix them. And here is a reality. Your
+[00:25] database queries, they will sometimes
+[00:28] fail. your external APIs, they will
+[00:30] sometimes time out and your users will
+[00:34] sometimes send bad data which will break
+[00:37] your APIs if you're not ready for them
+[00:39] or if you are not expecting them and
+[00:42] your business logic will hit unexpected
+[00:45] edge cases sometimes. So the question is
+[00:47] not whether errors will happen but how
+[00:50] you will handle them when they actually
+[00:52] do. So in this video there are no tools
+[00:56] that I want to talk about. There are no
+[00:58] frameworks, there are no examples, code
+[01:00] snippets, nothing. It is a mindset. When
+[01:04] you are a backend engineer, when you're
+[01:06] responsible for executing your core
+[01:08] business logic, when you're responsible
+[01:10] for making sure every single
+[01:13] transaction, every single user activity
+[01:16] goes seamlessly. Then you need a
+[01:20] particular mindset, a fault tolerant
+[01:22] mindset so that you are prepared for the
+[01:27] worst and you know how worse it can get
+[01:30] and there are some things that you need
+[01:33] to keep your eyes on and there are some
+[01:36] tips on how to detect them and how to
+[01:40] prevent them. What are the best
+[01:41] practices people usually implement?
+[01:43] whether it's a startup, whether it's a
+[01:47] big enterprise or open-source
+[01:49] repositories, etc., etc. Let's start
+[01:51] with what are the different types of
+[01:54] errors that you might encounter in your
+[01:57] day-to-day life as a backend engineer.
+[02:00] The first type, I think this is the most
+[02:02] common type, which logic errors. Logic
+[02:06] errors. Now, these are the sneaky ones.
+[02:09] It's not always very easy to detect them
+[02:13] or to fix them. Logic errors are
+[02:15] probably in my experience the most
+[02:18] dangerous type because they don't crash
+[02:21] your application as such but they just
+[02:23] make it do the wrong thing. Your code
+[02:26] which you have written it runs fine but
+[02:29] the results are incorrect. The results
+[02:31] are unexpected. So to take an example
+[02:34] let's say we have an e-commerce store.
+[02:38] you are a back end engineer in a
+[02:40] e-commerce kind of SAS application and
+[02:43] this store that accidentally applies a
+[02:47] discount twice and that gives customers
+[02:50] negative shipping costs. The app does
+[02:53] not really crash in this particular
+[02:55] scenario. But now your uh platform, the
+[02:58] platform that you are working for as an
+[03:00] engineer, your platform is losing money
+[03:04] and it is losing money on every single
+[03:06] order because of this one logic issue.
+[03:09] Now these errors can go unnoticed for
+[03:12] weeks and even months while quietly
+[03:15] causing problems if you don't you're not
+[03:17] monitoring them or if your users are not
+[03:20] reporting them and your platum is just
+[03:23] facing more and more loss every single
+[03:26] week. So when do they actually happen
+[03:28] and why do they happen? Some of the
+[03:30] common scenarios are for example if you
+[03:33] let's say misunderstand
+[03:35] requirements or you implement algorithms
+[03:40] incorrectly or if you just don't think
+[03:44] about edge cases. So these are some of
+[03:47] the usual scenarios when logic errors
+[03:50] occur. The first thing is
+[03:52] misunderstanding requirements. Let's say
+[03:54] your typical sprint cycle follows by
+[03:58] having a one-on-one discussion with your
+[04:00] client or with your product managers and
+[04:03] during those discussions some of the
+[04:05] points came across a little confusing
+[04:08] and you noted down the requirements
+[04:10] which were not the intended ones. So you
+[04:14] went ahead and implemented those and
+[04:16] that went straight to production and
+[04:18] with lack of testing it also went to the
+[04:21] users and it started causing problems.
+[04:24] So misunderstanding requirements is a
+[04:26] pretty common one. Then you might have
+[04:29] uh let's say it's a very complicated
+[04:30] algorithm depending on the user's
+[04:33] behavior and depending on the user's
+[04:35] past purchase history. You are issuing
+[04:38] different different discount codes and
+[04:39] different different discount workflows.
+[04:41] And in those complicated algorithms you
+[04:44] made uh one slight miscalculation and
+[04:47] that in turn caused all this discount
+[04:50] related loss in your platform. Or it
+[04:53] might be that you did not expect a
+[04:55] particular user activity, a particular
+[04:57] user behavior in a payment workflow in a
+[05:01] discount based workflow and that caused
+[05:03] some issue. So these are some of the
+[05:06] scenarios where logic related errors
+[05:09] might occur and they are pretty
+[05:10] dangerous ones. If we are talking about
+[05:12] payments or monies or uh security in
+[05:15] that aspect, they can corrupt data and
+[05:18] they can produce wrong business results
+[05:21] over time without getting detected. So
+[05:24] that's all about logic errors. Second
+[05:26] type is database errors. Now database
+[05:30] errors can bring your entire system down
+[05:32] since most backend apps they rely
+[05:35] heavily on their database. And these
+[05:38] errors range from a simple connection
+[05:40] problem to complex issues like deadlocks
+[05:43] and transaction related issues. And
+[05:46] connection errors happen when your app
+[05:48] cannot talk to your database. Your back
+[05:50] end throws a couple of 500 errors and
+[05:52] your front end just shows empty screen
+[05:55] everywhere. Or it can also be because
+[05:57] the network is down and the database
+[06:00] server is overloaded. Or you have run
+[06:04] out of connection pools. We you make use
+[06:06] of this concept called connection pools
+[06:09] so that your back end can hold a couple
+[06:12] of open connections to your database
+[06:14] server open TCP connections so that it
+[06:17] does not have to do the whole process of
+[06:19] TCP handshake and all every time a new
+[06:21] request comes. So database pooling is
+[06:23] kind of an optimization to prevent uh
+[06:26] TCP connection based setup costs. So in
+[06:30] a pooling based setup that can also
+[06:33] cause an error and when these errors
+[06:36] happen your app basically cannot really
+[06:38] function because your back end needs to
+[06:41] interact with the source of the data to
+[06:44] send something to the front end to and
+[06:46] the front end needs something to show
+[06:48] right. So if your database is down if
+[06:51] your database is throwing error then
+[06:52] your whole platform your whole app
+[06:55] cannot really function properly. That's
+[06:57] about the first kind of database errors
+[07:00] which I just mentioned are connection
+[07:03] errors. Connection errors. Second thing
+[07:05] can be about constraint violation. Now
+[07:08] this is something which is not very
+[07:10] apparent. By constraint violation I mean
+[07:13] that you are trying to perform some kind
+[07:15] of operation which breaks the database
+[07:18] rules. For example, you might try to
+[07:20] create a user with an email that already
+[07:22] exists. In that case, your database just
+[07:25] throws a unique constraint error. And if
+[07:28] we'll come back to that in the later
+[07:30] part of the video, but if you are not
+[07:32] properly handling that error, the unique
+[07:34] constraint error and you're not sending
+[07:36] a properly formatted message to your
+[07:39] user to your front end, then that error
+[07:41] might bubble up to your to your main
+[07:44] process and it might throw a 500 error
+[07:47] to your front end. So that is one kind
+[07:50] of constraint violation, the unique
+[07:51] constraint violation. If you're trying
+[07:53] to create a user with the same email or
+[07:55] it can also be that you are trying to
+[07:57] reference a customer that does not
+[07:59] really exist in another table. For
+[08:01] example, you have two tables. One is
+[08:05] customers and second is orders. So in
+[08:09] the orders table you have a field called
+[08:12] customer ID and this is a foreign key to
+[08:16] this table and this is let's say not
+[08:19] nullable and you are trying to insert a
+[08:22] new record into the orders table with a
+[08:25] customer ID which does not really exist
+[08:27] in the customer table and since it is a
+[08:30] foreign key and you are referencing the
+[08:32] customers table the database throws an
+[08:34] error if it cannot find a associated
+[08:38] entry in the customer's table. So that
+[08:41] can also be a cause of constraint
+[08:43] violation. And the reason for these
+[08:46] kinds of violation, the constraint
+[08:48] violation is usually lies in your
+[08:51] validation layer. If you're not properly
+[08:53] handling all the edge cases both in your
+[08:55] front end and your back end, then these
+[08:58] kinds of constraint violation error
+[08:59] might occur. So that is something to
+[09:02] keep in your mind in order to avoid the
+[09:05] database constraint violation related
+[09:07] errors. Then you have to make your
+[09:09] validation layer stronger. But of course
+[09:11] the constraint violation errors like
+[09:13] unique key errors they cannot be
+[09:16] avoided. Only the database knows whether
+[09:18] a new entry a new email is unique or
+[09:21] not. So for those use cases of course
+[09:23] you have to focus on your error
+[09:24] formatting. How to send a properly a
+[09:26] user-friendly message to your front end
+[09:28] so that your front end can show a proper
+[09:31] message that try a different email this
+[09:33] email already exists something like
+[09:34] that. And then in the database we have
+[09:38] another kind of error which is called
+[09:39] query errors. Query errors basically
+[09:42] happen when your SQL is malformed. For
+[09:45] example, you are trying to access tables
+[09:47] that don't exist because you made a typo
+[09:50] in your SQL query. Let's say you wrote a
+[09:54] query something like select star from
+[09:57] customers. This is a proper query. But
+[09:59] instead of writing this, you ended up
+[10:01] writing something like you made a typo
+[10:04] and that caused an error that this table
+[10:07] that you are trying to query from this
+[10:09] does not really exist. So that is a
+[10:11] error which happened because of a typo a
+[10:13] malformed SQL query or it can also
+[10:16] happen when your queries are too complex
+[10:18] and they time out etc. deadlocks.
+[10:21] Deadlocks are another reason. Deadlocks
+[10:24] are particularly tricky and they occur
+[10:27] when multiple database operations are
+[10:30] waiting for each other and they create
+[10:33] kind of a circular dependency. Now
+[10:35] that's where we have a dreadlock kind of
+[10:37] situation. So that's also something you
+[10:39] have to be worry about. Next we have
+[10:42] external service errors. uh most of the
+[10:45] modern apps that we have uh these days
+[10:48] SAS applications mostly that we are
+[10:50] talking about they depend on a lot of
+[10:52] external services external services like
+[10:55] uh payment processors or email providers
+[10:58] or let's say cloud storage stoages like
+[11:01] object storage like S3 or radius or
+[11:05] let's say you are using a external
+[11:07] provider something like oz0ero or clerk
+[11:10] for your authentication system so that
+[11:12] is also an external dependent dependency
+[11:14] and each one of these external
+[11:15] dependencies is a point of failure that
+[11:18] you don't really have any control over
+[11:20] and that is a big problem and you cannot
+[11:23] really avoid that. It's not like you can
+[11:25] abandon using any external dependency
+[11:28] that's not possible because you have to
+[11:30] build a lot of systems from scratch a
+[11:32] lot of complex systems that people have
+[11:34] spent years of effort on. So that is not
+[11:36] really something that is practical. So
+[11:39] you have to expect that all these
+[11:41] external services might fail and you
+[11:43] have to be prepared that when they fail
+[11:46] these are the things that we are going
+[11:47] to do to make it up for our users and
+[11:50] couple of reasons why these external
+[11:53] services might fail. First thing is of
+[11:55] course network. This is how we from our
+[11:58] backend application connect to an
+[12:00] external services either through HTTP or
+[12:02] through TCP or through websocket any
+[12:05] other kind of connection. But the
+[12:07] backbone the medium is of course the
+[12:10] network the internet and the internet is
+[12:14] not really perfect. So you'll have to
+[12:16] deal with things like connection
+[12:18] timeouts and DNS failures and network
+[12:23] partitions. This is affected by your
+[12:26] routing etc. Partitions right and you
+[12:30] need to expect this and you need to plan
+[12:33] for them. For example, let's say you are
+[12:35] using a authentication provider
+[12:37] something like clerk or something like
+[12:40] ozero. Another thing to keep in mind
+[12:43] when you're using an external provider
+[12:45] is authentication errors happen when
+[12:48] external services like clock or ozero
+[12:51] they reject request due to either
+[12:53] because bad credentials the username
+[12:56] password is not correct the email is not
+[12:58] correct or expired tokens or
+[13:00] insufficient permissions etc. So just
+[13:03] because you're using an external
+[13:04] services for your authentication is not
+[13:06] secure enough in itself because you are
+[13:09] using them as an integration you still
+[13:11] have your own back end they are not
+[13:13] standalone and in your own back end you
+[13:16] can cause security issues security
+[13:18] issues like you might expose sensitive
+[13:21] user informations in your logs etc. So
+[13:24] that is something that you have to keep
+[13:26] in your mind since we are talking about
+[13:29] external dependencies authentication
+[13:31] etc. I just thought of mentioning this
+[13:33] point. Now, next thing is rate limiting.
+[13:36] When you are using external services,
+[13:39] let's say you are integrating some kind
+[13:41] of AI functionality and you are using an
+[13:44] open AI key or you are using something
+[13:47] like resend for your emails etc. And
+[13:51] these external services they pretty much
+[13:53] all of them have this functionality
+[13:56] called rate limiting. And rate limiting
+[13:58] exists so that their users so our
+[14:02] external services let's say an email
+[14:04] provider like resend and we are their
+[14:06] users business users but still users we
+[14:09] cannot abuse them. They prevent
+[14:12] malicious users who send abnormal amount
+[14:15] of request in a particular time frame
+[14:18] and they have mechanisms rate limiting
+[14:20] mechanisms implemented so that they can
+[14:22] prevent uh users like us and users with
+[14:25] bad intentions and for some reason let's
+[14:28] say your platform because of some kind
+[14:32] of user activity in your platform or
+[14:34] let's say some kind of logic errors you
+[14:36] ended up hitting their API a abnormal
+[14:39] amount of times. and it started failing
+[14:42] because and their rate limiting
+[14:44] algorithm triggered and they started
+[14:47] blocking you or sending you 4 to 9. So
+[14:50] we get the response code 4 to9 when we
+[14:53] make too many requests. It means too
+[14:56] many requests and you started getting
+[14:58] this error code 429. So in these kinds
+[15:00] of scenarios you have to expect them
+[15:03] from beforehand and you have to be ready
+[15:05] for them. And by be ready for them, I
+[15:08] mean you have to implement strategies.
+[15:10] Strategies like let's say exponential
+[15:13] backoff. Exponential backup is a pretty
+[15:16] common strategy that we usually
+[15:18] implement in case of rate limiting
+[15:20] related errors. For example, once we
+[15:23] start getting 4 to9 requests. So we have
+[15:26] a condition in our error handling logic
+[15:28] that if we start getting 4 to 9 then
+[15:31] wait for a minute wait for 2 minutes
+[15:34] then try again. If you still get 4 to 9
+[15:37] then wait for double that amount of
+[15:39] time. If we previously waited for 2
+[15:41] minutes now we'll wait for 4 minutes and
+[15:42] we'll try again and until we start
+[15:45] getting successful responses we'll keep
+[15:48] doing this. That's why it's called an
+[15:50] exponential backup strategy. So in order
+[15:53] to deal with rate limiting errors you
+[15:55] have to implement these strategies.
+[15:56] Strategies like exponential backoff. And
+[15:58] the last one when you are dealing with
+[16:01] external dependency the most inevitable
+[16:04] one is service outage or service going
+[16:09] down. Now this we see pretty much
+[16:11] happening every once in a while. Let's
+[16:14] say some major cloud provider something
+[16:16] like GCP or something like some services
+[16:18] of AWS face some kind of issue some kind
+[16:21] of incident and they go down and when
+[16:24] they go down a lot of their clients go
+[16:25] down and we have this u chaos in the
+[16:28] internet in the Twitter that this
+[16:30] service is down these users are
+[16:32] complaining etc. So external services
+[16:35] going down is something we as software
+[16:38] engineers don't really have a lot of
+[16:41] control over. They are inevitable and
+[16:44] sometimes they go down because of
+[16:46] unexpected incidents or sometimes they
+[16:48] go down because of maintenance and your
+[16:50] app your back end needs to handle these
+[16:53] kinds of errors also gracefully either
+[16:56] with fallbacks you have to have let's
+[16:59] say your radius service goes down then
+[17:03] you should have a second layer of backup
+[17:06] something like in-memory caching or a
+[17:10] second radius node etc like some kind of
+[17:12] fallback so that your app can handle
+[17:15] that gracefully and without affecting
+[17:17] any kind of major user functionality
+[17:20] like payments or something like order
+[17:21] processing etc. In the next category we
+[17:24] have and this is a famous one input
+[17:26] validation errors and these are
+[17:30] something which happen because of users
+[17:33] in our platform because of the consumers
+[17:36] of our platform. Input validation errors
+[17:38] happen. They happen because users uh
+[17:41] send bad data that does not really meet
+[17:43] our requirements, meet our system
+[17:46] requirements, meet our rules and the
+[17:48] validation layer which throws these
+[17:51] errors. This is our first line of
+[17:53] defense against any kind of bad data or
+[17:55] malicious inputs since we are detecting
+[17:58] at the entry point in our backend
+[18:00] application and we are just throwing
+[18:01] errors if something does not meet our
+[18:03] requirements. And there are different
+[18:05] types of rules that we usually enforce.
+[18:08] If you watch the validation video in
+[18:10] this playlist, then you'll have a much
+[18:13] deeper understanding about the different
+[18:15] kinds of validation that we like to do.
+[18:17] But usually it's something like format
+[18:20] validation where we check if let's say
+[18:22] an email is an appropriate email format
+[18:24] or not, whether a phone number looks
+[18:27] like a phone number or not, or a date is
+[18:30] an appropriate date or not, etc., etc.
+[18:33] And you need to be clear even if it's
+[18:35] some kind of custom data we need to be
+[18:37] clear what exact format that we are
+[18:40] expecting and we should only accept that
+[18:42] format for the sake of security for the
+[18:46] sake of fall tolerance. We also have
+[18:48] range validations that handles numeric
+[18:50] inputs whether the maximum amount is too
+[18:53] high or the minimum amount is too low
+[18:56] etc or if the string is too long or if
+[18:59] it is too short. If the array has at
+[19:01] least three items or if the array has
+[19:04] more than 100 items, things like this
+[19:06] are called range based errors. We also
+[19:08] have required field validation and this
+[19:11] check if a particular field which is
+[19:14] mandatory for a particular operation to
+[19:17] happen is present or not. If they are
+[19:19] not present then we throw an error and
+[19:21] usually in these kinds of errors we
+[19:23] throw a 4handed which is a bad request
+[19:28] error from back end and these kinds of
+[19:31] errors are the easiest ones to expect
+[19:34] and the easiest ones to handle because
+[19:36] we already know the requirements of our
+[19:38] data and we just enforce those rules at
+[19:41] the entry point of our backend
+[19:43] application and if anything seems off we
+[19:46] just throw an error right unlike the
+[19:48] other kinds kinds of errors that we saw
+[19:50] above which are external dependency
+[19:53] which we don't really have any control
+[19:54] over logic errors which are hard to
+[19:57] detect. It's a validation errors are the
+[20:00] easiest ones to handle. So make sure you
+[20:03] have a very robust validation layer.
+[20:06] Does not matter what kind of backend app
+[20:08] that you are building. Next up we also
+[20:10] have configuration errors. What does
+[20:13] this mean? Configuration errors can
+[20:16] prevent your app from starting if you
+[20:18] have that kind of setup in your app,
+[20:22] which you should have. And they also can
+[20:24] make your production environment behave
+[20:27] unexpectedly. And these kinds of errors,
+[20:29] configuration errors, they usually show
+[20:31] up when you are moving between your
+[20:33] development, your staging and your
+[20:35] production environment. For example,
+[20:37] while development, you added a
+[20:40] particular environment variable. Let's
+[20:42] say something like open AI API key. You
+[20:46] added this in your env file and you
+[20:51] raised APR and it is merged and you
+[20:54] forgot to add this particular variable
+[20:56] in whatever your production environment
+[20:59] variable flow is whether it is manual or
+[21:01] whether it is coming coming from AWS
+[21:03] parameter store etc etc and you just
+[21:06] forgot to add that there and the
+[21:09] deployment went successful from this
+[21:10] point. If you forgot to add that two
+[21:13] things can happen. If you are checking
+[21:15] at the start of your application, you're
+[21:18] validating the presence of all the
+[21:20] required environment variables. If you
+[21:22] have that kind of setup in your back
+[21:23] end, then your app fails to start. And I
+[21:28] think this is the best case scenario.
+[21:30] That's why if you are building a backend
+[21:32] app, make sure your environment variable
+[21:35] or your configuration settings whatever
+[21:37] that you are reading either from
+[21:38] environment variables or from remote
+[21:40] stores whatever all these variables
+[21:42] which are required for your app to
+[21:45] function properly which are not
+[21:47] optional. Make sure you validate them at
+[21:49] the first step before your server
+[21:52] starts. And if any of them are missing,
+[21:54] if any of them are corrupt, then fail
+[21:57] your app there. So that when you make a
+[21:59] new deployment and since most of the
+[22:02] deployments have kind of a setup like
+[22:04] blue green deployment where unless the
+[22:06] new deployment is successfully starts,
+[22:09] the previous deployment does not really
+[22:11] stop. So if you push something and a new
+[22:14] deployment starts and it fails, your
+[22:17] previous deployment is still running and
+[22:19] uh your app is not really down. As
+[22:21] compared to another scenario where
+[22:24] you're not doing this kind of setup
+[22:26] setup where at the start of your app
+[22:29] you're checking all the required
+[22:30] environment variables, the configuration
+[22:32] variables are present or not and you're
+[22:34] not throwing any kind of error. You're
+[22:36] not stopping your app. But because of
+[22:38] this kind of setup, what happens in your
+[22:42] API handlers? API handlers which make
+[22:45] use of this new OpenAI service to make
+[22:48] an API call to the OpenAI servers to
+[22:50] let's say generate some kind of image or
+[22:54] something. So when that API is finally
+[22:56] hit by some user then uh this service is
+[23:01] triggered and since that service tries
+[23:03] to access this particular configuration
+[23:05] variable which is open a API key and it
+[23:08] cannot find it and it errors out and
+[23:11] your users get a 500 errors fails during
+[23:15] runtime and this is the worst case
+[23:17] scenario. We always prefer to crash our
+[23:20] app at the start before it it starts to
+[23:24] serve real users as compared to this.
+[23:27] This is a bad scenario is something
+[23:29] which should not happen. So that's all
+[23:32] about configuration errors. It happens
+[23:34] when we are moving between development,
+[23:36] staging, production and it is pretty
+[23:38] common. So in order to prevent these
+[23:40] kinds of errors, make sure you have this
+[23:42] kind of setup where before you start
+[23:44] your app, you are validating all your
+[23:46] required configuration variables. In the
+[23:48] next video in the series, we are talking
+[23:49] about configuration management of
+[23:52] backend apps. So there we'll do a deep
+[23:54] dive on what kind of configuration that
+[23:55] we need, where to store them etc etc.
+[23:58] But just to give a high level advice
+[24:00] that make sure you validate your
+[24:02] configuration variables before your
+[24:04] server starts so that you can avoid
+[24:06] these sneaky kind of errors while your
+[24:09] application is running your while your
+[24:11] back end is running. Now let's talk
+[24:13] about prevention. Since we discussed
+[24:16] what are the different kinds of errors
+[24:17] that might happen and what are the
+[24:19] things that you have to keep an eye on
+[24:22] have to make a note of. Let's see what
+[24:25] we actually can do. So in my opinion one
+[24:28] of the best strategy is finding errors
+[24:31] before they spread. This is the best
+[24:34] strategy does not matter what
+[24:35] environment that we're talking about
+[24:37] whether we are talking about front end
+[24:38] backend infrastructure does not matter.
+[24:40] Finding errors the moment they happen
+[24:42] before they cause any actual damage that
+[24:46] is the best strategy a any kind of
+[24:48] system can have the best kind of error
+[24:51] handling. So this is the key point in
+[24:53] this video which is the best error
+[24:57] handling starts before error happens.
+[25:01] This is your key strategy and it should
+[25:04] be the best kind of error handling. It
+[25:07] starts before errors happen. So health
+[25:10] checks are fundamental in this. They
+[25:13] continuously monitor your system. We
+[25:16] typically have if you are talking about
+[25:18] monitoring your servers HTTP servers
+[25:20] then we expose a endpoint something like
+[25:24] health or something like status in an
+[25:28] endpoint which will return some kind of
+[25:30] generic response that it is okay. The
+[25:33] key thing is not the response it returns
+[25:35] the response code is important. As long
+[25:37] as it returns a 200 response code it
+[25:40] means that it's running. If it's
+[25:42] returning something like 400 or
+[25:44] something like 500 then something is
+[25:46] wrong. So that's why you make use of
+[25:48] health checks so that any external
+[25:51] service any external tool can keep
+[25:54] pinging keep hitting this particular
+[25:56] endpoint to make sure that it is active.
+[25:59] It is error-free. But this only checks
+[26:02] whether they are running or not your
+[26:04] services and your servers are running or
+[26:06] not. But that is in itself not enough.
+[26:10] You should not just check if the
+[26:12] services are running. You should also
+[26:14] check and you should also verify that
+[26:16] they are really doing their job. And
+[26:18] when we are talking about that, first
+[26:20] thing that comes to mind is databases.
+[26:23] To make sure that your back end is doing
+[26:25] its job, the primary component that
+[26:27] comes to mind is databases. And for that
+[26:29] we also have database based health
+[26:32] checks. and database based health checks
+[26:35] they test connectivity whether we are
+[26:38] whether we can successfully connect to
+[26:40] our databases or not and things like
+[26:43] query performance if some of the queries
+[26:45] which used to take let's say 500
+[26:47] millconds they have suddenly started
+[26:49] taking 4 seconds or 5 seconds then there
+[26:52] is something wrong or the data integrity
+[26:55] things like that a simple ping or a
+[26:58] simple health check endpoint which only
+[27:00] checks that our server is running or not
+[27:03] that in itself is not enough. Running a
+[27:06] representative query and checking the
+[27:08] results how much time it took and how
+[27:11] much time it takes on average etc etc.
+[27:14] And the second thing in our pack is of
+[27:17] course the external services. Now we
+[27:20] should also implement some kind of
+[27:22] health check kind of functionality for
+[27:25] our external services to make sure that
+[27:27] we can successfully connect to them and
+[27:29] they are functioning as they are
+[27:31] supposed to function. For example, for
+[27:34] payment processors, you can implement
+[27:37] test transactions so that when an actual
+[27:39] transaction happens from a user side, we
+[27:43] already know that since the last test
+[27:45] transaction 5 minutes back was
+[27:47] successful, then we are good to go. when
+[27:50] it comes to real transactions with real
+[27:52] users. Same way for email services, send
+[27:55] test messages to your internal email
+[27:58] addresses to make sure that the emails
+[28:00] are delivering and your connectivity can
+[28:03] be established with the external service
+[28:05] etc etc. Same way for authentication
+[28:08] services, you can generate test tokens.
+[28:10] You can test those tokens against
+[28:13] validation endpoints that your
+[28:15] authentication service exposes. And that
+[28:18] way you can verify that your
+[28:20] authentication service is functional.
+[28:22] And the last thing is core
+[28:23] functionality. These tests basically
+[28:25] involves that your configuration. As I
+[28:28] mentioned just before this point that at
+[28:31] the start of the app we should make sure
+[28:32] that all the required configuration
+[28:34] variables are present. If they're not
+[28:36] present then we are stopping at that
+[28:38] point and showing a meaningful message
+[28:40] so that whichever operator the wagon
+[28:42] operator the infrastructure operator
+[28:43] they can appropriately configure those
+[28:46] variables and start the service again
+[28:48] successfully. So making sure that the
+[28:50] configuration is properly loaded. The
+[28:52] caches some of the default caches the
+[28:55] caches which are necessary to run on
+[28:57] production workload they are populated
+[29:00] and some of the internal data structure
+[29:03] whether it's about configuration or
+[29:05] about external service etc etc they are
+[29:08] consistent. So these are called some of
+[29:11] the core functionality. So we should
+[29:13] also keep an eye on these things. So all
+[29:16] of this combined we can say that these
+[29:18] are proactive error detection ahead of
+[29:22] time making sure we are already prepared
+[29:25] for all these worst case scenarios and
+[29:28] we have methodologies to prevent them
+[29:31] and if they occur to fix them. So that's
+[29:34] why we call all of these as proactive
+[29:37] error detection. Then one of the major
+[29:39] components especially when we are
+[29:41] talking about error handling and fault
+[29:44] tolerant systems then this is something
+[29:47] which will always show up which is
+[29:50] monitoring and observability. Now this
+[29:54] is a huge topic logging monitoring and
+[29:57] observability and we have I think the
+[30:00] next to next video in this series is
+[30:02] going to be about logging monitoring and
+[30:04] observability that's why I don't want to
+[30:06] spend much time here in this video which
+[30:09] is all about the mindset that we need to
+[30:12] deal with errors right it's nothing
+[30:14] concrete just a scope to touch base upon
+[30:17] that's why we are not going to talk much
+[30:19] about monitoring and observability in
+[30:21] this video but The whole idea about
+[30:24] monitoring is it detects errors quickly
+[30:27] and while they are happening and it
+[30:29] provides enough context for us to debug
+[30:33] those errors. One point to keep in mind
+[30:36] in that area is don't just track if for
+[30:39] people who are already familiar with
+[30:41] practices of monitoring and
+[30:43] observability. One of the advices is to
+[30:46] don't just track error rates. Also
+[30:48] monitor performance metrics that might
+[30:51] indicate problems before they cause
+[30:53] failures. One of the early telltale
+[30:55] signs before a system is going to break
+[30:58] is the performance implications. If you
+[31:02] are seeing the degradation of
+[31:03] performance in some of your services,
+[31:06] then it might mean that they are going
+[31:08] to fail soon. So by monitoring
+[31:11] performance we can successfully avoid
+[31:13] some of the failures. Uh your monitoring
+[31:15] setup should track different types of
+[31:18] errors across different parts of your
+[31:20] application including uh HTTP errors,
+[31:23] database errors, external service
+[31:25] failures, business logic errors. It
+[31:28] should cover everything your monitoring
+[31:30] setup whatever service that you are
+[31:32] using for monitoring or whatever
+[31:34] methodology that you are implementing in
+[31:36] your back end. It should try to cover as
+[31:39] many sources of errors as possible. And
+[31:42] when we are talking about performance
+[31:43] metrics or performance monitoring, it
+[31:46] should track things like response times
+[31:49] or resource usage and throughput, your
+[31:53] business metrics monitoring. It should
+[31:55] keep track of performance indicators,
+[31:57] things like a sudden drop in successful
+[32:01] transactions, assuming you are running
+[32:03] some kind of e-commerce uh back end.
+[32:06] Then in a scenario like where the rate
+[32:08] of successful transaction suddenly drops
+[32:11] and you're seeing a lot of failed
+[32:12] transactions then it might indicate some
+[32:15] kind of technical problem even though
+[32:16] the error rates are normal. That's why
+[32:19] tracking business metrics metrics like
+[32:21] transactions successful authentications
+[32:24] etc etc that's also important. Then
+[32:26] logging good practices they provide
+[32:28] information you need to understand and
+[32:30] debug errors. You should implement
+[32:32] things like structural logging formats
+[32:34] like JSON logs which can be easily
+[32:36] passed and more metadata can be added to
+[32:39] it and tools like Graphana or Loki.
+[32:43] These external tools which are meant to
+[32:46] be log aggregation tools they can take
+[32:48] those logs the JSON logs and they can
+[32:51] appropriately parse them and you can
+[32:53] explore your error rates in a visual
+[32:56] dashboard kind of setup. You can search
+[32:59] through them, you can store them in
+[33:00] external storage etc etc. So that's
+[33:03] pretty much all about monitoring and
+[33:04] observability on a very high level. We
+[33:07] are going to dive deep into that the
+[33:09] tools that are usually used etc etc in a
+[33:13] future video but for now when it comes
+[33:16] to error rates and a fall tolerant
+[33:18] system monitoring and observability is a
+[33:21] key part to that. That's why we had to
+[33:23] mention it here. And next up I want to
+[33:25] talk about some of the philosophies that
+[33:28] have always helped me especially in the
+[33:29] scenario of error handling or building
+[33:32] robust systems. First thing is immediate
+[33:35] error response. Now when an error
+[33:38] happens your immediate response that
+[33:41] determines whether it becomes a minor
+[33:44] issue or a major failure and the
+[33:48] strategy depends on the error type and
+[33:51] the context of that error. For example,
+[33:53] for recoverable errors, things that we
+[33:56] already talked about the email sending
+[33:59] workflow. Let's say you have in an
+[34:02] external service something like resend
+[34:04] or sending an email and that service
+[34:07] failed. Now you are in a situation of
+[34:10] error handling. And if you think about
+[34:12] it, it is a recoverable error. Sending
+[34:14] an email is not something that has to
+[34:17] happen uh under milliseconds. We can
+[34:19] afford some kind of delay. So in
+[34:22] scenarios like these for recoverable
+[34:24] errors, retry mechanisms or exponential
+[34:28] backup strategies they are a good
+[34:30] solution and they work well for network
+[34:33] errors or temporary resources
+[34:37] or let's say we have run out of database
+[34:39] connections in our database. So in these
+[34:42] kinds of network errors or resource
+[34:45] utilization kind of errors in these
+[34:47] kinds of errors retry mechanisms
+[34:49] exponential backup strategies they work
+[34:52] quite well from my own experience but
+[34:54] something that you have to be careful
+[34:56] about is not to overwhelm already
+[34:59] stressed systems. So should keep the
+[35:02] error handling logic, whatever retrying
+[35:04] logic, whatever exponential backoff
+[35:07] logic that you're implementing, the
+[35:09] resource overutilization logic that you
+[35:11] have implemented, they should not add
+[35:13] more stress to your system since your
+[35:15] system is already under stress. That is
+[35:18] something that you have to keep an eye
+[35:20] on. And the second is nonreoverable
+[35:23] errors. The first one is that we talked
+[35:25] about sending an email or running out of
+[35:27] database connections in our pool. So
+[35:29] those are called recoverable errors. But
+[35:32] talking about non-reoverable errors, the
+[35:34] strategy that works best is containment
+[35:38] and graceful degradation. Containment
+[35:42] and graceful.
+[35:44] In this we usually do solutions like
+[35:48] switching to cast data or disabling
+[35:51] non-essential features or providing
+[35:55] alternative functionality providing some
+[35:57] kind of backup as a fallback and
+[36:01] containing the scope of that damage. So
+[36:05] that is a key strategy that we try to
+[36:07] implement in the cases of non-reoverable
+[36:11] errors. So that's about immediate error
+[36:13] responses. How should you react to two
+[36:17] different kinds of errors. One is
+[36:18] recoverable errors and the second is
+[36:20] non-reoverable errors. The second
+[36:22] thought or the second key idea is error
+[36:26] recovery strategies. Now this depends of
+[36:29] course on the error nature and the
+[36:31] functionality criticality. But automatic
+[36:34] recovery can handle many errors without
+[36:37] human interventions. For example, if a
+[36:40] service has failed and it is in a state
+[36:44] of not responding to any kind of
+[36:46] requests etc etc then restarting that
+[36:49] service automatically having some kind
+[36:51] of tool or some kind of setup in our
+[36:54] workflow for restarting that service or
+[36:57] that particular process works pretty
+[36:59] much all the time. Then implementing
+[37:02] cleanup functionality like cleaning up
+[37:05] corrupted caches. If we have problem
+[37:08] related to caches or switching to a
+[37:11] backup systems that also works most of
+[37:13] the time but you should design these
+[37:16] things carefully because some of the
+[37:18] times these things might make the
+[37:20] problems worse. You have to adopt a
+[37:23] trial and error based strategy. Try
+[37:25] these things. Try to reach that error
+[37:29] threshold ahead of the time and see what
+[37:31] works for you. What kind of error
+[37:34] recovery strategy works for what kind of
+[37:37] service. Now for some other kinds of
+[37:39] services, manual recovery is pretty much
+[37:42] necessary because it requires human
+[37:45] judgment and human decision making. So
+[37:48] for these kinds of errors which needs a
+[37:51] manual intervention, I should plan to
+[37:54] document these processes. So that all
+[37:57] your team members and your new hires are
+[38:01] aware of these kinds of workflows. What
+[38:03] to do in a situation of incident or any
+[38:07] kind of uh service failure and you
+[38:09] should test them so that you are already
+[38:11] prepared. you know that they are
+[38:13] definitely going to work when the
+[38:15] situation arises and they can be
+[38:17] executed quickly especially in a
+[38:18] stressful situation where taking
+[38:20] decisions quickly is the key to
+[38:23] providing a better user experience to
+[38:25] your user base and in scenarios like
+[38:28] these one of the key things to keep in
+[38:30] mind is not to corrupt your data. So
+[38:33] data recovery strategies data is the
+[38:36] most important part in your application
+[38:38] because all the other things are
+[38:40] basically the code that is running the
+[38:42] services that are running but the only
+[38:44] tangible thing is the data that you hold
+[38:47] the data of your user the data of all
+[38:49] your transaction of your orders or
+[38:51] whatever kind of platform that you are
+[38:53] building. So data integrity should be
+[38:55] one of your number one priorities. So
+[38:58] this should involve taking backups at
+[39:01] the key moments and restoring from
+[39:03] backups, replaying transaction logs
+[39:06] using specialized recovery tools. Third
+[39:08] thing is propagation
+[39:11] control. Not all errors should be
+[39:13] handled exactly the moment they occur.
+[39:16] Sometimes errors need to propagate up to
+[39:20] higher levels when there is more context
+[39:23] to the error. And we also use the word
+[39:25] stack trace in scenarios like these. But
+[39:28] you should have this kind of setup where
+[39:30] you are intentionally bubbling up your
+[39:33] errors to a particular process, the
+[39:35] primary process or the secondary
+[39:37] process. But you should have the whole
+[39:40] bubbling workflow in your control.
+[39:42] Otherwise, this might spread to other
+[39:45] services or it might shut down your main
+[39:47] service. We have this concept called
+[39:50] exception handling in most programming
+[39:52] languages. whether we are dealing with
+[39:54] JavaScript or Python where we have this
+[39:56] exception based workflow we we handle
+[39:59] errors using try catch. So these
+[40:01] exception handling hierarchies provide
+[40:05] the structure for error propagation. So
+[40:08] catching lower level exceptions and
+[40:11] wrapping them with enough context and
+[40:13] bubbling them up to higher level
+[40:15] exceptions so that we have more business
+[40:18] context so that we have enough
+[40:20] information in our hands so that we can
+[40:23] log the appropriate data. We can send a
+[40:25] meaningful error to our front end or if
+[40:29] we need to we can trigger some kind of
+[40:32] recovery strategy at that point. So
+[40:36] planning this whole thing bubbling up
+[40:38] the low-level error up to our highle
+[40:41] process with enough context that is
+[40:44] something which is pretty common that we
+[40:46] implement in pretty much all our backend
+[40:49] applications. We also have a different
+[40:50] name for this which is called global
+[40:52] error handling and we'll come back to
+[40:54] that in the next point. So error
+[40:56] boundaries these boundaries where the
+[40:58] last point where we stop the errors from
+[41:02] propagating further these error
+[41:04] boundaries in service architecture
+[41:06] especially they prevent errors in one
+[41:09] service from affecting others. So that's
+[41:12] the reason we should aim to use separate
+[41:15] processes and implement timeouts things
+[41:17] like timeouts which protect service
+[41:19] level boundaries and use things like
+[41:22] message cues to decouple different
+[41:25] different services instead of having
+[41:27] them in the same process. uh we should
+[41:28] implement things like rabbit MQ
+[41:31] different other kinds of message Q-
+[41:33] based architecture so that we have a
+[41:35] asynchronous communication between two
+[41:38] different services so that a bug in one
+[41:40] service does not cause the failure of
+[41:42] another service now coming back what I
+[41:45] like to call as the final safety net
+[41:49] global error handling final safety net
+[41:54] is one of my favorite error handling
+[41:57] mechanisms something which I pay a lot
+[41:59] of attention to in pretty much every
+[42:02] backend app that I have built with is
+[42:05] because this is one of those modules
+[42:07] which you spend a lot of time initially
+[42:09] when you're setting your whole platform
+[42:11] up when you are getting to know the
+[42:14] features that you might need the
+[42:16] services that you are using etc etc but
+[42:19] from that point on you only make slight
+[42:22] tweaks or add more conditions to check
+[42:25] etc etc but this is a one-time effort
+[42:27] And this is a single effort which pays a
+[42:30] lot in the future, not even in the
+[42:33] distant future, the immediate future
+[42:36] because this is the most important error
+[42:39] handling strategy you can implement in a
+[42:42] backend app. A global error handling
+[42:45] workflow. So this is how it typically
+[42:47] works. I want to explain this global
+[42:50] error handling workflow using real life
+[42:52] workflows that we typically use in
+[42:55] backend apps. So from our earlier videos
+[42:57] that we already know in a very common
+[43:01] backend architecture we usually have the
+[43:03] first entry point is of course the
+[43:06] routing layer. From there we reach the
+[43:10] handler. The routing layer decides which
+[43:13] handler is going to take care of a
+[43:16] particular request. And the handler
+[43:18] deals with taking or extracting whatever
+[43:21] data from that payload that we're
+[43:23] receiving the performing operations like
+[43:26] des serialization and validation and
+[43:29] binding etc etc. And once it has all the
+[43:32] appropriate data it calls a particular
+[43:35] service method we call it service
+[43:38] because in a typical service method we
+[43:40] might make use of one or more repository
+[43:43] methods. So service method is basically
+[43:46] an orchestrator for different repository
+[43:49] methods. Now what do we mean by
+[43:50] repository method? These are the leaf
+[43:52] nodes in a backend function which
+[43:56] usually do one thing and usually that is
+[44:00] running a database query. So we might
+[44:04] have functions like get user by id that
+[44:07] is a repository method and a service
+[44:10] might fetch a particular user by its ID
+[44:13] and then it might do additional
+[44:15] operations like it can fetch all the
+[44:18] users posts in the same service method
+[44:20] by calling a different repository
+[44:22] method. So one service which returns a
+[44:25] user and all its posts can call two
+[44:27] repository method. That's why we have
+[44:29] made this separation so that repository
+[44:32] methods are unit level. We try to keep
+[44:36] their scope limited to one single kind
+[44:40] of database operation and we let the
+[44:43] service the concerned service decide
+[44:46] what repository method and how many
+[44:49] repository method that it wants to call
+[44:51] etc. So in this architecture that most
+[44:55] back end apps follow when we are talking
+[44:58] about error handling let's say in the
+[45:00] repository layer so the route that we
+[45:03] are talking about let's say we we have a
+[45:06] a good readads kind of platform which is
+[45:09] a to oversimplify it a book management
+[45:12] book management platform and in a
+[45:15] typical endpoint of a book management
+[45:18] platform that we are trying to create a
+[45:22] new book. That's what we want to do. It
+[45:25] is a endpoint, an API endpoint. To
+[45:28] create a new book and to create a new
+[45:30] book, we want a couple of fields in our
+[45:33] payload. The first thing is name. Then
+[45:36] name of the book, which is a mandatory
+[45:38] field that we need to insert into the
+[45:41] database or let's say some optional
+[45:43] field called description. So these are
+[45:46] the two fields that we need to create a
+[45:48] new book. So there are different types
+[45:50] of errors that can happen in this
+[45:52] particular API. So first thing is let's
+[45:55] say so let's say in the entry point at
+[45:57] this point in our handler since the
+[45:59] handler performs operations like
+[46:02] validation etc then validation etc and
+[46:06] we have a business rule that the name of
+[46:08] the book cannot exceed more than 500
+[46:11] characters. We have this rule in our
+[46:13] violation layer and the user has sent a
+[46:17] new book name which is around 700
+[46:20] characters. So the data the payload
+[46:22] reaches our handler and in our handler
+[46:26] when the validation fails you want to of
+[46:27] course error out and return a meaningful
+[46:30] error to the user. So that is one kind
+[46:33] of error that can happen. Now going
+[46:35] inside we let's say passed the service
+[46:38] layer and we finally reached the
+[46:40] repository layer and in the repository
+[46:43] layer we have created a function a
+[46:45] function called insert new book and in
+[46:48] that function we are running this insert
+[46:50] query using SQL we are using posgress
+[46:53] imagining and we try to insert this new
+[46:56] book but we get a database error which
+[47:00] is a unique constraint violation error
+[47:02] which says that a book with this
+[47:05] particular name already exists in our
+[47:07] table in our books table that's why this
+[47:10] operation cannot be performed and we get
+[47:12] a database level error so that is a
+[47:14] different kind of error that we might
+[47:16] get so these are the two different kinds
+[47:17] of errors we might get in a single API
+[47:20] endpoint but the whole point of global
+[47:23] error handling is there are a couple of
+[47:25] advantages to it but the pattern usually
+[47:28] works by does not matter in what level
+[47:31] we uh get a new error or what kind of
+[47:35] error that is. Usually what we try to we
+[47:37] try to bubble that error up up to our
+[47:41] global error handler middleware. Usually
+[47:44] we try to keep our global error handling
+[47:46] in a middleware layer so that it has
+[47:49] access to all the incoming requests and
+[47:52] all the outgoing responses. So the aim
+[47:56] is to does not matter at what layer we
+[47:59] get a particular type of error. We try
+[48:01] to bubble that error up. So if it is a
+[48:05] exception handler kind of language let's
+[48:08] say something like JavaScript or Python
+[48:09] we just throw that error and we catch
+[48:12] that error in our middleware in our
+[48:14] final error handler or if it's a
+[48:17] language like Go where we return the
+[48:20] error then we keep returning the error
+[48:23] from our repository to our service to
+[48:25] our handler until it reaches our
+[48:27] middleware layer and the plan is to from
+[48:30] all these different places that a error
+[48:32] can arise and an error can be thrown
+[48:35] from for example from our repository
+[48:38] layer we might throw database errors
+[48:41] from our service layer we might throw
+[48:44] our internal errors and from our handler
+[48:48] layer we might throw validation related
+[48:50] errors and in every single programming
+[48:52] language we have this ability to create
+[48:54] custom errors. So in our final global
+[48:58] error handler middleware what we try to
+[49:01] do we read the error and depending on
+[49:04] what kind of error that is we perform
+[49:06] different different kinds of operation
+[49:08] and we return a particular kind of an
+[49:11] error response back to the user assuming
+[49:13] it's an userfacing backend application.
+[49:16] For example, if it is a validation
+[49:18] error, we return an error response back
+[49:20] to the user with the response code of
+[49:22] 400 and whatever validation error
+[49:25] messages they need to fix their data. So
+[49:28] the first kind can be a 400 error. We
+[49:32] return a new HTTP message with the
+[49:35] response code of 400 which means bad
+[49:38] request. And we attach all the form
+[49:41] field related errors or any kind of
+[49:43] business logic error etc. and we let the
+[49:46] user fix them that came from the handler
+[49:48] layer. Second thing, the other scenario
+[49:50] that we talked about where the name of
+[49:53] the book already exists in our books
+[49:55] table that's why our database threw us a
+[49:59] unique constraint violation error and
+[50:02] for that in the global error handler
+[50:04] middleware we got a new error which is a
+[50:09] database error. Now even for a database
+[50:12] error we'll have different different
+[50:14] ways to deal with them and different
+[50:16] different kinds of message formats to
+[50:19] send to the user. For example, for this
+[50:22] use case for a unique constraint
+[50:24] violation kind of error the ideal
+[50:27] response since it is an error which was
+[50:31] thrown because of some data sent by the
+[50:34] user. So ideally we can send something
+[50:37] like a HTTP error with a response code
+[50:41] of 400 which is for bad request. We are
+[50:44] saying that this payload is a bad
+[50:46] request and because in the message we
+[50:49] can say that this is for the code HTTP
+[50:52] code and in the message field in HTTP
+[50:55] error we'll have an structure. So some
+[50:57] of the usual fields in an HTTP error
+[51:00] structure is a code the HTTP status code
+[51:03] which is 400 in this case a message or
+[51:06] any other form field related error data
+[51:08] which we usually send in a array in an
+[51:11] array of dictionaries or array of
+[51:13] objects or an array of JSONs. So in the
+[51:16] message field we can say that this this
+[51:18] book already book already exists in our
+[51:22] database or just book already exists and
+[51:26] this we did for a unique constraint
+[51:29] violation error. Same way let's say
+[51:32] there is a different API endpoint for
+[51:35] fetching the details of a single book.
+[51:38] So there is a URL in the front end a
+[51:41] user can go to this particular books and
+[51:44] in the book 1 2 3 when this is our front
+[51:48] end domain and when they navigate to
+[51:51] this particular route what we want to do
+[51:54] we in the front end we want to show the
+[51:56] details of the book and for the front
+[51:58] end to be able to show the details of
+[52:00] the book it has to call an API and our
+[52:02] back end serves that API uh in a similar
+[52:04] route in the back end also we have this
+[52:06] particular route And the front end makes
+[52:08] a request to this particular route the
+[52:11] books route with the path parameter of 1
+[52:13] 2 3. So it reaches the handler uh it
+[52:15] goes through there is no particular
+[52:17] validation that we want to do for this
+[52:19] particular request since there is no
+[52:21] body and the ID is a number and that
+[52:24] passes the validation layer. It passes
+[52:26] the service layer and it finally reaches
+[52:29] the repository layer. In the repository
+[52:31] layer what we do? We run a select query.
+[52:33] So we do select star from books where
+[52:37] the ID of the book is 1 2 3. Right? You
+[52:41] can add a valid SQL query here. But for
+[52:44] the sake of this example, this is what
+[52:45] you want to do. You want to select a
+[52:47] particular book from the books table
+[52:49] whose ID is 1 2 3. Now assuming that
+[52:52] because of some malformed link or
+[52:55] someone trying to scam our user for any
+[52:57] kind of reason the front end the user in
+[53:00] the front end reach this particular
+[53:02] route but this book with this ID does
+[53:05] not really exist in our platform and the
+[53:08] front end made a request with this
+[53:10] particular ID and we reached our
+[53:12] repository layer and we ran this
+[53:14] particular query and because the book
+[53:17] does not exist the database through us a
+[53:21] no rows. So most of the drivers database
+[53:25] drivers especially in the relational
+[53:27] database field has this particular
+[53:29] common error which is no rows. If for a
+[53:32] particular SQL query especially for a
+[53:34] select query there are no rows for those
+[53:37] conditions the driver will throw an
+[53:40] error right there are no rows and what
+[53:42] we did we just bubbled it up so that our
+[53:45] global error handler can deal with it.
+[53:47] So that's why we reached here. So the
+[53:49] first kind of error that we talked about
+[53:51] that the global error handling
+[53:53] middleware has to deal with is unique
+[53:55] constraint violation error and same way
+[53:58] the second kind of error that we just
+[53:59] talked about is no rows error. So the
+[54:03] global error handling middle sees that
+[54:05] it is a database error and it is not a
+[54:07] uni constraint violation error. It is a
+[54:09] no rows returned kind of error. So for
+[54:12] this use case the data the error
+[54:15] handling middleware can see that it is a
+[54:18] route where a particular resource with a
+[54:21] particular ID was requested but the
+[54:24] database through error response and
+[54:27] because of this it can finally deduce
+[54:29] that this particular resource does not
+[54:31] really exist in our database and for
+[54:34] that kind of scenario we have an
+[54:36] appropriate error code which is the 404.
+[54:39] We use the 404 response code in HTTP
+[54:42] errors when we are trying to request a
+[54:45] particular resource but that resource
+[54:47] does not really exist. At this point the
+[54:50] error handling middle finally throws an
+[54:52] error with the code 404 and the message
+[54:56] that the book with ID 123 does not
+[54:59] exist. That is the second kind of
+[55:00] database error. Another different kind
+[55:03] of database error that comes to mind is
+[55:05] a foreign key violation error. So let's
+[55:08] take a scenario where we are talking
+[55:10] about a book management platform. So in
+[55:13] a particular endpoint we are creating a
+[55:15] new book with a new author and for that
+[55:19] endpoint for that API to work
+[55:21] successfully there has to be an existing
+[55:23] author and we have to pass the author ID
+[55:26] in the post payload in our body. So we
+[55:29] send a payload with the book name, the
+[55:32] book description which is optional and
+[55:34] an author ID. It passes our validation
+[55:36] layer and it finally reaches our
+[55:38] repository layer. And in our repository
+[55:40] layer, we are inserting we are running
+[55:43] an insert query. Insert into books name,
+[55:47] description, author ID with values
+[55:49] whatever the values the user has passed.
+[55:52] But for some reason the user or the
+[55:55] front end has passed an author ID which
+[55:57] does not really exist in our database.
+[55:59] And since in our database the books
+[56:03] table for the author id field for the
+[56:05] author ID column the constraint is it is
+[56:08] a foreign key which references a row
+[56:12] particular row in our authors table and
+[56:14] since there are no authors with that
+[56:16] particular author ID our database throw
+[56:18] us an error. This particular query
+[56:20] breaches the foreign key reference
+[56:22] violation error whatever. So that can be
+[56:25] another kind of database error that our
+[56:28] global error handling middleware has to
+[56:30] deal with. So for that scenario, what
+[56:32] can we do? If you think about it, the
+[56:34] front end passed a ID which does not
+[56:38] exist. The resource does not exist in
+[56:40] our database. So we can throw a 404
+[56:44] saying that this author ID does not
+[56:46] really exist. That's all about global
+[56:50] error handling middle. This is a final
+[56:53] safety net that I like to call it where
+[56:56] we can come up with and define different
+[56:58] different kinds of error that our
+[57:00] platform has to face throughout its life
+[57:04] cycle and we define all these rules
+[57:07] about how to deal with those errors and
+[57:09] what kind of responses to return to our
+[57:12] users. So it has two major advantages.
+[57:15] The first one is of course more robust
+[57:18] and secure because it does not matter
+[57:22] where in which layer an error occurs. We
+[57:25] are handling it in our final gateway in
+[57:28] our final middleware. It is considered
+[57:30] more robust since there is no way we'll
+[57:33] forget some kind of condition because if
+[57:36] let's say for a unique constraint
+[57:38] violation error if we did not have a
+[57:40] global error handling middleware and we
+[57:43] let the layers where the error actually
+[57:45] occurred to send a meaningful error
+[57:46] message to our users in that kind of
+[57:49] scenario. Let's say in our repository
+[57:51] layer unique constraint violation error
+[57:52] occurs. So it is the responsibility of
+[57:55] the repository layer to send a bad
+[57:59] request error to our user saying that
+[58:02] this book already exists in our
+[58:03] database. But for a particular
+[58:06] repository method, let's say we forgot
+[58:08] to add that condition and the database
+[58:10] function through an error. And since in
+[58:12] most of the backend setups if a
+[58:15] particular error is not appropriately
+[58:17] handled or appropriately identified and
+[58:20] dealt with what we do we convert that
+[58:23] error into a 500 error which basically
+[58:25] says that internal server error we don't
+[58:27] really know what happened something just
+[58:29] went wrong so try again sometimes later.
+[58:32] So the user instead of getting a
+[58:33] meaningful error message like the book
+[58:35] already exists in our database it will
+[58:37] get a 500 internal server error
+[58:38] something went wrong. So that is the
+[58:40] problem uh with not having a global
+[58:42] error handler and not having all your
+[58:44] error handling logic in a single place
+[58:46] that sometimes we forget to add all the
+[58:49] conditions. So in scenarios like those
+[58:51] having a final safety net which catches
+[58:54] all the different kinds of errors that
+[58:56] has a possibility to arise. The second
+[58:58] thing is connected to the same point
+[59:00] only which is reducing redundancy. If we
+[59:05] don't have a central point of error
+[59:07] handling logic, then all these different
+[59:09] kinds of error handling logic that we
+[59:12] have in a single file or a single
+[59:15] function, we have to spread them out in
+[59:18] all different layers and we have to let
+[59:21] that particular layer to handle those
+[59:24] kinds of error. For example, let's say
+[59:26] we discuss three different kinds of
+[59:28] database error that might occur in a
+[59:31] particular SQL query. So if we did not
+[59:34] have a centralized error handling logic
+[59:36] then for each repository method in every
+[59:40] place where we are executing an SQL
+[59:42] query we have to call a particular
+[59:44] function or we have to add all these
+[59:46] conditions that this is not a unique
+[59:48] constant violation error. This is not a
+[59:50] foreign key violation error etc. And if
+[59:52] it is that error then deal with it that
+[59:54] way. So that significantly increases the
+[59:58] redundancy of our code and it is also
+[01:00:01] prone to more bugs. Those are the two
+[01:00:04] major advantages of having a global
+[01:00:06] error handling logic in a single place.
+[01:00:09] Since we are talking about error
+[01:00:11] handling, the last two things that I
+[01:00:14] want to bring up is which is mostly
+[01:00:16] related to the security aspect of error
+[01:00:19] handling. So first thing that you have
+[01:00:22] to keep in mind is you have to be very
+[01:00:24] mindful about what kind of error
+[01:00:26] messages that you are exposing to your
+[01:00:29] users to your consumers. What kind of
+[01:00:32] details are leaving your backend app
+[01:00:35] which might compromise the security of
+[01:00:38] your application which might expose
+[01:00:40] information about some of your users
+[01:00:42] which can fall into wrong hands and they
+[01:00:45] can perform or compromise the security
+[01:00:47] of your users which are equally bad.
+[01:00:50] Whether it is compromising the security
+[01:00:51] of your platform or compromising the
+[01:00:53] security of your users, it is equally
+[01:00:55] bad. In fact, compromising the security
+[01:00:57] of your users is worse than your
+[01:01:00] platform because that harms your
+[01:01:02] goodwill, your trust in the market,
+[01:01:04] etc., etc. Now, it can happen in a
+[01:01:08] couple of places. The first one is you
+[01:01:11] have to make sure that whatever default
+[01:01:13] error handling mechanism in your back
+[01:01:15] end is whether it is in the global error
+[01:01:17] handler or whatever place you are
+[01:01:20] keeping it in it is not leaking any kind
+[01:01:22] of internal details back to the
+[01:01:24] consumer. For example, let's say you
+[01:01:28] your database threw some kind of unique
+[01:01:30] constraint violation error or some kind
+[01:01:32] of database error which has some details
+[01:01:35] about the table names or the indexes or
+[01:01:39] the constraint etc etc the internal
+[01:01:41] details of your database. So in your
+[01:01:44] global error handling middleware, if
+[01:01:46] you're just taking whatever error that
+[01:01:48] has bubbled up from your lower layers,
+[01:01:50] for example, in this case, the
+[01:01:52] repository layer and you're sending that
+[01:01:54] message back to the user in the message
+[01:01:56] field of your error structure, then that
+[01:01:59] can cause severe damage to your
+[01:02:01] platform. Because for advanced users,
+[01:02:04] for malicious users, they can take
+[01:02:06] details like your table names, your
+[01:02:08] constraint names, etc., etc. from your
+[01:02:10] database internal details and they can
+[01:02:13] try more advanced attacks, more advanced
+[01:02:15] forms of SQL injection. They can just
+[01:02:18] make your platform a target and they can
+[01:02:21] actively come up with more and more
+[01:02:22] strategies to bypass your security and
+[01:02:26] it will be harder for you to prevent
+[01:02:28] those kinds of attacks. So that is the
+[01:02:30] reason in all the error messages try to
+[01:02:34] have as much control as you can over the
+[01:02:36] messages. So try to understand what kind
+[01:02:39] of error is being thrown from whatever
+[01:02:42] layer it is being thrown from and
+[01:02:44] generate a message which is meant for a
+[01:02:48] user. For example, as I talked about in
+[01:02:50] your default error handling logic
+[01:02:52] instead of throwing a 500 and attaching
+[01:02:54] whatever message that bubbles up from
+[01:02:56] your lower layers add 500 and in the
+[01:02:59] message just say something went wrong.
+[01:03:01] Since if you have reached 500 which is a
+[01:03:04] default error handling mechanism which
+[01:03:07] means that in the previously you have
+[01:03:09] tried to check whether it is a
+[01:03:10] validation layer whether it is a
+[01:03:12] uniconent validation error whether it is
+[01:03:13] a business error etc etc you have
+[01:03:16] checked all the different kinds of
+[01:03:18] errors and finally you have reached this
+[01:03:20] stage where you don't really know what
+[01:03:21] kind of error that is. So for that kind
+[01:03:25] of situation you don't really want your
+[01:03:27] user to know what kind of error was
+[01:03:29] thrown. So it most probably has some
+[01:03:32] kind of internal details in the error
+[01:03:33] message and that is why in the default
+[01:03:36] error handling logic you always want to
+[01:03:38] have a generic message something like
+[01:03:40] something went wrong or the default
+[01:03:44] error message in most library which is
+[01:03:47] internal server error that is one aspect
+[01:03:50] the second aspect is let's say we are
+[01:03:53] dealing with a authentication or
+[01:03:55] authorization module let's say it is a
+[01:03:58] login endpoint you are expecting
+[01:04:00] expecting an email and password and
+[01:04:02] after you get the email and password
+[01:04:04] from the post request body you'll take
+[01:04:06] that you'll check from the email whether
+[01:04:08] a user exists or not if the user does
+[01:04:10] not exist you'll send an error and then
+[01:04:13] if the user exists you proceed you check
+[01:04:16] whether the password is correct or not
+[01:04:18] if the password is correct you'll throw
+[01:04:19] an error etc etc that's what comes to
+[01:04:21] our mind when we think about a login
+[01:04:24] endpoint but here also when we are
+[01:04:28] talking about error handling Something
+[01:04:29] that you have to keep in mind is
+[01:04:31] authentication is one of the most
+[01:04:33] targeted modules in most of the apps
+[01:04:35] that attackers malicious users usually
+[01:04:38] like to target. So in this case you have
+[01:04:41] to follow some of the security
+[01:04:43] practices. This particular resource
+[01:04:46] which is called OAS cheat sheet. This
+[01:04:48] resource has good practices and advices
+[01:04:51] for a lot of different kinds of
+[01:04:54] workflows. For example, authentication,
+[01:04:56] you'll get these different different
+[01:04:58] advices that don't do this, don't do
+[01:05:00] this, this will compromise your platform
+[01:05:02] in this way, this will compromise your
+[01:05:03] users in this way, etc. So, you can
+[01:05:05] follow some of the security practices
+[01:05:08] whatever is relevant to your use case
+[01:05:10] from a a resource like this. But uh the
+[01:05:13] whole idea is let's say we are talking
+[01:05:14] about a sign-in endpoint or a login
+[01:05:17] endpoint and in the first step you took
+[01:05:19] the email which was provided in the body
+[01:05:22] and you checked that whether a user with
+[01:05:24] this particular email exists or not. So
+[01:05:27] if the user does not exist with that
+[01:05:29] email instead of saying a user with this
+[01:05:32] email does not exist you should return
+[01:05:35] an error response which says that
+[01:05:37] invalid username or password invalid
+[01:05:39] email or password so that we can avoid
+[01:05:42] scenarios scenarios like let's say you
+[01:05:44] have a malicious user who is trying to
+[01:05:46] bypass some of the accounts of our legit
+[01:05:49] users or harmless users. So what
+[01:05:53] strategy they are trying to come up
+[01:05:55] with? So they are trying different
+[01:05:57] different email addresses and with
+[01:05:59] various passwords. If you are returning
+[01:06:03] very detailed error messages like a user
+[01:06:07] with this email does not exist or your
+[01:06:09] password is incorrect then what they can
+[01:06:12] do they can implement a step-by-step
+[01:06:14] approach for this attack. And what they
+[01:06:16] can do first they will try different
+[01:06:19] different emails with a single password
+[01:06:21] and for each email they'll keep getting
+[01:06:24] this message that a user with this email
+[01:06:26] does not exist a user with this email
+[01:06:28] does not exist and finally when they hit
+[01:06:31] an email for which a user exists since
+[01:06:34] we are naively returning error messages
+[01:06:38] they will get an error message saying
+[01:06:39] that your password is incorrect since
+[01:06:42] they are able to find an email for which
+[01:06:45] a user already exists in our platform.
+[01:06:48] Now they are getting an error message
+[01:06:50] which says that your password is
+[01:06:52] incorrect and now they have an email
+[01:06:55] which they know that a particular user
+[01:06:57] exist with this email. Now they can try
+[01:07:00] different different passwords uh common
+[01:07:02] passwords which have better chances of
+[01:07:05] getting a hit and with that they are
+[01:07:09] able to compromise the security of our
+[01:07:11] platform. So just using error messages
+[01:07:14] just using the weakness in our error
+[01:07:16] handling mechanism attackers malicious
+[01:07:19] users can compromise our security and
+[01:07:22] the security of our users. So that is
+[01:07:24] the reason try to follow security best
+[01:07:26] practices when it comes to error
+[01:07:27] messages. And the second thing which
+[01:07:30] comes to mind is especially in the
+[01:07:32] aspect of security is logs. On a very
+[01:07:35] high level, the idea is try to not
+[01:07:38] expose the sensitive information like
+[01:07:41] user's email, users passwords, their API
+[01:07:44] keys or their credit card numbers, etc.,
+[01:07:48] etc. in your logs, logs which you think
+[01:07:51] are limited to your own servers, your
+[01:07:54] own infrastructure, which are not
+[01:07:55] getting leaked to any kind of external
+[01:07:59] malicious user. But that's not how it
+[01:08:02] always works. In most of the major data
+[01:08:05] breaches, what happens since major
+[01:08:07] companies use external services,
+[01:08:09] multiple services to manage their logs
+[01:08:11] because for a particular company which
+[01:08:14] has a fair amount of user traffic, they
+[01:08:16] generate hundreds of GBs of logs every
+[01:08:19] day, right? And they have to use
+[01:08:21] multiple services, storage services,
+[01:08:23] analysis services, observability
+[01:08:25] services, different kinds of services to
+[01:08:27] manage their logs efficiently. So what
+[01:08:29] happens in these major data breaches the
+[01:08:32] company's logs gets leaked and from
+[01:08:35] these logs if they are not following
+[01:08:37] best security practices like not logging
+[01:08:39] users credit card numbers not logging
+[01:08:41] users emails not logging users passwords
+[01:08:44] API keys etc etc that detail gets leaked
+[01:08:47] and hundreds of malicious users have
+[01:08:50] access to them in case of errors let's
+[01:08:52] say authentication error occurs you
+[01:08:54] should not log any sensitive information
+[01:08:56] about the user always log user's ID ID
+[01:08:59] instead of their email and only
+[01:09:01] correlation ID so that you have enough
+[01:09:03] context. That's pretty much all I have
+[01:09:05] to say about error handling and creating
+[01:09:08] fall tolerant systems. This is mostly
+[01:09:10] theory just a couple of ways of looking
+[01:09:13] at systems and making the systems more
+[01:09:17] robust and keeping our mind open for
+[01:09:20] different kinds of errors and different
+[01:09:22] kinds of error handling mechanisms.

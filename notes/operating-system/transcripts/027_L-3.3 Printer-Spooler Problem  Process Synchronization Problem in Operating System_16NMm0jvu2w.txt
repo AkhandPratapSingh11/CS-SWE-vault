@@ -1,0 +1,125 @@
+Title: L-3.3: Printer-Spooler Problem | Process Synchronization Problem in Operating System
+Video URL: https://www.youtube.com/watch?v=16NMm0jvu2w
+Video ID: 16NMm0jvu2w
+======================================================================
+
+[00:00] Printer-Spooler problem, printer-spooler problem is a standard problem of process synchronization
+[00:06] in which we have 1 printer, meaning I have a network in which there is only 1 printer and
+[00:12] there are many users who are using that printer to print the documents.
+[00:17] Now printer as we know, it is a peripheral device which is slower, which is very slow
+[00:21] as compared to others like CPU and all, memory. So, we maintain a spooler in it.
+[00:27] What is a spooler? It is like a program what it does is when multiple users print documents,
+[00:34] all documents go in the spooler directory and then spooler takes the programs one by one and
+[00:40] gives it to the printer sequentially and then it is printed.
+[00:45] So here if I have a process, that process its document, in the spooler directory,
+[00:52] like this is a spooler directory, wants to put a program in that spooler directory
+[00:58] then it has to execute this four line code. This is a spooler program.
+[01:03] Now, in this let's say we'll take a simple case that a process P1 came,
+[01:08] P1 wants to put a document file1.DOC, there is an f1.DOC file which P1
+[01:19] wants to put in this spooler directory meaning wants to print but it won't be printed directly
+[01:24] it will first go in the spooler directory then gets printed from there.
+[01:27] And to send the document in the spooler directory every process has to follow this.
+[01:32] It has to execute this four line code. How will it do it?
+[01:36] Firstly Load m[in], IN is a shared variable here. Now we have taken one single process.
+[01:44] It is possible at a time we'll discuss cases further in which
+[01:47] at a time many processes come at the same time. Then at that time all those processes
+[01:52] will share a variable which we have named IN variable. And what does IN variable show?
+[01:59] It shows the position where the document is to be put in the spooler directory.
+[02:03] Meaning it shows empty slots. Like in this already spooler directory is fully empty,
+[02:07] so by default, the value in IN is zero because 0th position is empty,
+[02:14] IN variable will give information of whichever position is empty.
+[02:18] So m[in] memory location, that is the memory location of IN,
+[02:24] what is the memory location of IN? Zero because indexing is starting from zero.
+[02:28] So zero will be Loading into Ri, Ri is what? A register. We'll take value of i as P1.
+[02:37] Process is P1, so the index of the process we will put in the register.
+[02:43] So my register becomes R1. R1 is register because we have taken value of i as 1 from here.
+[02:49] Now in this register we put a value this memory of IN, memory location of IN.
+[02:55] m[in] in what? Zero, so value in Ri is zero. We have loaded the zero value in the register.
+[03:02] Then Store File Name, what is the file name? f1.DOC, a doc file f1 in the
+[03:11] Spooler Directory of Ri, Ri is a location, Spoller Directory of zero
+[03:17] because Ri value is zero. Ri means R1. R1 value is zero. So in the Spooler Directory of zero
+[03:24] we put f1.DOC stored in it. We stored this file in which position?
+[03:34] Spooler Directory of 0th position. Then incremented Ri because already this slot has been filled,
+[03:41] so we incremented Ri from 0 to 1, we incremented register from 0 to 1.
+[03:47] Now we will update 1 value again in the IN variable. So updated value will become 0 to 1.
+[03:54] Meaning my IN is showing value at 1 which means the next empty slot is 1, that is fine,
+[04:00] so already at 0 file1.DOC has come. Now what will happen,
+[04:04] the printer will take this file from here and and print it. This is a normal case
+[04:11] on how we put these documents in the Spooler Directory.
+[04:17] Now let's see another case
+[04:22] in which we have not one process but multiple processes. Let's say there are 2 processes,
+[04:34] there are 2 processes P1 and P2.
+[04:41] P1 process is a file like f4.DOC and there is P2 which wants to put f5.DOC file in the spooler.
+[04:57] Let's say we have in the spooler already some of the files are present
+[05:02] like f2.DOC, f3.DOC these files are already present in spooler directory.
+[05:10] Which means IN will be next empty slot that is 3. So at some point of time
+[05:16] there are 3 files in spooler f1, f2, f3.DOC and IN is pointing out my next empty slot that is 3rd position
+[05:25] And now at this time 2 processes have come which are cooperative processes,
+[05:30] cooperative processes means which come at the same time, are parallel and share something in common,
+[05:36] what will they share in common? P1 says I want to put file4.DOC in the spooler and
+[05:42] P2 says I want to put file5.DOC in the spooler. Now both will share the same code
+[05:51] because P1 will have to execute these 4 lines to put the file,
+[05:57] P2 also will have to execute these 4 lines to put the file. So both share the same code
+[06:03] and the value in the same code is IN. IN is a variable which they share.
+[06:09] Now see guys what problem can be created here.
+[06:15] Lets say that both processes are parallel so any one of the two can come first,
+[06:20] whether P1 comes first or P2 comes first, means if both come at the same time,
+[06:24] they are concurrent processes, still only one of the two will get the CPU first,
+[06:29] which means only one can start first and any of the two, either P1 can start first or P2.
+[06:34] Let's say that P1 comes first,
+[06:40] P1 executed first instruction means it executed this I1 instruction.
+[06:46] Let's say this is the I1
+[06:50] I1, I2, I3, I4. I1 was executed, what is I1?
+[06:57] memory location of IN will be Loading into Ri, what is the memory location? Third, 3.
+[07:04] So it loaded 3 in Ri. Ri means, what is the index of that process? P1. 1.
+[07:09] So means Ri, Ri is a register, so in the register let's say, I'll write here, R1.
+[07:20] Value in R1 is 3, just zoom in, in R1 value is 3, because P1 came and first
+[07:33] memory location which was first 3 it loaded 3 in Ri, R1 is a dedicated register for process P1.
+[07:40] Now the File Name, what is the File Name of P1? f4.DOC
+[07:47] it will be loaded, stored by this spooler directory of Ri, what is the R1? 3.
+[07:54] So in the third location name of the file is f4.DOC so we put f4.DOC in third location.
+[08:04] Now, Increment of Ri, Increment of Ri was done meaning value of R1 becomes 4,
+[08:11] value was Incremented from 3 to 4. Let's say that at this time the process got pre-empt
+[08:18] meaning P1 ran I1, it ran I2, it ran I3 also but this time it became pre-empt,
+[08:26] here it became pre-empt meaning there was switching. After switching which process came? P2.
+[08:33] Now, let's say P2. When P2 came it similarly ran I1 instruction. I1 instruction.
+[08:42] What is the I1 value? Memory Location of IN. What is the location of IN? 3.
+[08:49] Memory location of IN is 3. So 3 was loaded in Ri. Ri means dedicated register,
+[08:56] let's say for this we take dedicated register R2. It was R1 for P1, for P2 we take R2.
+[09:02] So what value was loaded in R2? 3. Store spooler directory of Ri means location of R2 is 3,
+[09:10] so File Name in third location, what is the name of the file that P2 wants to load? f5.
+[09:16] So f5.DOC will be stored in which location? SD of Ri means in the third location value will change,
+[09:28] means f5.DOC will be loaded or you can say stored on third location.
+[09:38] Now, P2 executed third, second also, executed third, what is the INCR of Ri? means Incremented,
+[09:47] from 3 the value became 4. Now, Store Ri into m[in] what is the Ri value? 4.
+[09:55] Here we updated 4 in IN. Meaning R2 my process P2 is fully completed, terminated.
+[10:03] Now we will again come back to process 1 meaning here again system got pre-empt. Prompted again here,
+[10:11] contact switch also occurred, so P2 executed all its instructions till I4,
+[10:16] but one instruction of P1 I4 was remaining so it executed its I4 instruction.
+[10:21] What is I4 instruction? Store Ri. Which was the register for P1? R1. What is the value in R1? 4.
+[10:28] It loaded 4 means stored in Memory Location of IN. What is the value of IN? 4.
+[10:33] It was again updated to 4. Means fourth location is empty.
+[10:39] Yes, next location which is empty that is fourth.
+[10:42] Now, if you look at this carefully, what is the problem in this? The problem is that
+[10:48] P1 put its file f4.DOC at third location and P2 also, due to non-synchronization,
+[10:59] stored or loaded its file at the same location. So when this file f5.DOC was also loaded
+[11:08] at the same location, f4.DOC was overwritten, means that file was removed from here.
+[11:17] This means that there is a very big problem here that is loss of data. The data got lost
+[11:24] means there was no synchronization and due to that the data of a process was lost.
+[11:30] If you run this in this manner I1 I2 I3 first of P1 then pre-empt then ran I1 I2 I3 I4 of P2,
+[11:39] then pre-empt I4. You can also execute P2 first. This is one of the sequence.
+[11:43] This sequence here is very important because if you remember this sequence
+[11:48] then you will come to know why the problem is created. You can also execute this P2 first,
+[11:53] that is not a problem. But the main problem over there is that f5.DOC was loaded
+[12:02] but what happened to f4.DOC? It was lost because f5 was loaded at the same location where f4 was.
+[12:09] So here what happened to my data? It was lost. Now why is this occurring?
+[12:14] Because there is no synchronization here. When 2 or more processes at the same time
+[12:20] share common data, common code, common variable then problem is created.
+[12:27] Now this case is the same as when we discussed in Producer-Consumer it is the same here that
+[12:33] there many cases in the real world when we bring a problem or situation.
+[12:38] So this one case is a special case made that if we execute this in this manner
+[12:43] then problem is created. But if we synchronize this whether we use semaphore or monitors,
+[12:52] multiple methods are there. So after using those methods we can remove this problem from here,
+[12:58] that is permanent. So this is a standard problem that is the printer-spooler demo, fine?
+[13:04] So if you liked this video then please like it, share it
+[13:08] and comment in case you have any query. Thank you so much.

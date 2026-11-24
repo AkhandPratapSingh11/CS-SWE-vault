@@ -1,0 +1,125 @@
+Title: L-1.6: Imp Linux Commands(Operating System) | Must Watch for College/University & Competitive exams
+Video URL: https://www.youtube.com/watch?v=-Mq8Mm_NGxI
+Video ID: -Mq8Mm_NGxI
+======================================================================
+
+[00:00] Hello friends... Welcome to Gate Smashers
+[00:03] In today's video we're going to discuss about all UNIX commands
+[00:07] That's an important portion of operating system even in competitive exams
+[00:11] you can get many questions on UNIX command
+[00:13] So like the video fast and subscribe the channel if you haven't done yet
+[00:18] And please press the bell button so you can keep getting all latest notifications
+[00:22] So let's start with question no. 1
+[00:24] Which command is used to assign only read permission to all the three category of file "note"
+[00:33] And we know that if we have to provide permissions on some file or directory or change them then we uses Chmod command
+[00:44] That's change mode... mode means in which mode we wan t to keep it, like read mode, write mode or execute mode
+[00:50] And to change it we use... CHmod so let me tell you about Chmod little bit
+[00:58] In Chmod we use it generally Let's say 4,5, 6, 7, 8, 9
+[01:04] First of all the 3 positions we have are for the users which we denote by U
+[01:12] so if you'll talk abut any file or directory Then there's basically 3 category in it
+[01:18] That's user, groups and others
+[01:21] Now talking about the permissions, then there're three types of permissions
+[01:25] Either user can read, or can write or change or can execute that file
+[01:33] If it's a code file then he can execute it
+[01:37] So there're three types of permissions That's read, write and execute
+[01:41] And there're three types of categories that who is owner in this... i.e. either user, group or others
+[01:48] So first of all the three positions here are for users then next three positions are for group
+[01:56] And in third, last three positions are for others you've to remember this point
+[02:02] Now why are they 3-3... Because we have three types of permissions
+[02:09] Let's say if you'll write here... read... write... read... write.... and so on
+[02:17] If I'll write like this then what it means? That I've given user the permission of read and write
+[02:23] And third is execute... If I'd keep execute empty it means it didn't get executed
+[02:28] And if I want to give, then I'll write X here so it means user have all three permission over the file
+[02:38] and you have to remember it in this same sequence read- write - x... read- write.... read- write
+[02:44] It means I gave permission of read - write to the group but didn't gave execute permission
+[02:49] And to others also I gave permission to read and write but not to execute
+[02:52] you can give it if you want,
+[02:54] if you don't want to give any permission let's say you don't want give write permission
+[02:58] then you can just remove write from here so this way we generally gives permissions
+[03:03] so here it's saying in question that which command is used to assign only read
+[03:08] Then either we can use R i.e. only read So here Chmod a - rw
+[03:17] so this is simply not because we are taking back the permission from here
+[03:21] Then if go + r i.e. I'm giving other permission to group and other
+[03:24] Here go means group and other and I'm giving them read permission
+[03:32] But in question it said all three category means U,G,O... i.e., user, group and others
+[03:38] So I gave read mode to all of them so your third option is correct here
+[03:46] u+ r... it's also right that you are giving to the user g+ r is also right...
+[03:51] but o - x i.e. other - x, you are taking back X from others "-" means taking back
+[03:58] Means its not correct according to my question
+[04:01] so ugo = r means we are providing read mode to user, group and others
+[04:08] you can do "+ x" here also... so these are multiple ways of writing in commands
+[04:13] so the more you'll do execute, if you'll do execute on the Linux terminal
+[04:17] then you'll understand about it more better as verbally there're a lot of variations possible on it
+[04:26] Here I gave one more question based on it Chmod ugo + rw... Means
+[04:30] Means I'm giving read write mode to user, group and other..
+[04:36] So this command can be written or can be represented in octal notation
+[04:41] If I ant to represent it in octal notation then as I said there are different ways to write it
+[04:48] so if I'm talking about read or write then we give it numbering also
+[04:52] For read.. It's 4 and it's fixed for write it's 2... and for execute it's 1
+[04:59] Now if you want to give read write then 4 + 2 = 6
+[05:04] Let's say if you want to give read and execute then read means 4 and execute means 1
+[05:09] then it became 5... If you want to give all three i.e. read, write & X
+[05:15] then 4 + 2 + 1 = 7 This is the way we generally denote
+[05:22] So here if we'll see, question says to give in read- write Read- write means 4 + 2 i.e. 6
+[05:30] Read means 4... write means 2 then 4 + 2 = 6
+[05:34] But I'm giving it to user, group and other also So we've to write 3 times... 6.... 6.....6
+[05:43] So it means option (b) is correct because this 6 means I'm giving read, write both to the user
+[05:52] 6 for group... read, write both 6 for others... read, write both
+[05:57] Now if I'd talk about this option well, this option (b) is correct completely
+[06:02] But for your understanding let me explain couple more
+[06:04] Lets say 5, 5, 5... What it means
+[06:08] It means read execute, because 4 for read and 1 for execute
+[06:13] then 4 + 1 = 5, Means to the user I'm giving read - execute.....read - execute.....read - execute
+[06:20] I'm giving read execute permission to all same if we'd talk about third one
+[06:24] 3 means... write 2- execute 1,
+[06:28] so 2 + 1 = 3... means write - execute.... write - execute....write - execute
+[06:35] And talking about the last option then 444 means read... means read to user
+[06:41] read to group, and read to others so it means here it's giving read permission to all three in this case
+[06:48] So you have to give read- write both then your option (b) would fit right
+[06:52] so you can in that question also
+[06:54] that which command is used to assign all the read to all 3 categories of the file
+[07:00] So if you'd write here, Chmod 444 note still it'd be true.
+[07:09] Either you can write option (a) or if you'll write this also
+[07:13] still it'll give read permission to all 3 categories i.e. user, group and other
+[07:18] But according to the question all the options which are given to you
+[07:22] you have to go with those options only
+[07:24] Then question 3... Suppose you have a file F1 it has content "1234567890abcdefghij"
+[07:34] this continuous content is written in that file here Lseek is used...
+[07:39] Lseek is also treated as command many times But generally Lseek is system call
+[07:44] Main system calls which are important for your exam Lseek, read, write and fork
+[07:52] these 3-4 system calls are very important you should know all that
+[07:56] In Lseek, if you want to move read write hand if you want to move read write hand back and forth
+[08:03] or want to access data randomly
+[08:06] Then you have move read write hand to access data randomly
+[08:09] and to move it we use Lseek command
+[08:13] By default read write head stays on position no. 1 which if we want to give index,
+[08:19] then you can say 0 index that read write head stays on 1st position by default
+[08:24] But if you want to move it back and forth then for that we use Lseek command
+[08:29] So here we used Lseek 2 times.. first here Lseek (n Here n is file descriptor....
+[08:35] Means somewhere above that we read a file and placed it in "n"
+[08:39] n is the file descriptor... so we placed it in the file descriptor (10, SEEK_CUR)
+[08:45] Current means that whatever the current position is, right now current position is first one
+[08:52] Now from this position we took it to 10th position Means we moved forward to 10th position
+[08:59] So (LSEEK 10) means it'll reach to 10th location by default
+[09:04] 10th location means if we'd say 123467890 means it'll reach to 10th location
+[09:14] When it'll reach to 10th location, so current means whatever the current position is
+[09:20] It'll move this much position ahead that it
+[09:23] so going forward means before it was on 0 then you'll add 10 so it'll reach to this position
+[09:28] Then we did SEEK_SET...
+[09:32] SEEK_SET means if you want to set on a particular location, so for that we use SEEK_SET
+[09:39] and it has given a value 5
+[09:41] Means you can set at value 5 when you'll set at 5 value then it'll reach to 5th position
+[09:50] Means after applying the LSEEK 2 times, if I'd apply both of them
+[09:54] then what will be the current position of read write hand
+[09:58] First you took it to 10th position from 10 you set it again at 5
+[10:03] Means your B option is correct i.e. your read write hand will go to 5th location
+[10:10] same way we use SEEK_END also End means that how much you've to move from the last position
+[10:17] we use "-" in that case... so if you'll use "-" then it'll from last towards the left
+[10:24] so these are variation basically in LSEEK that we use generally
+[10:29] If you'll use the SET first, and would use this one later
+[10:33] then set means first you moved to 5th or if you wrote current one later
+[10:39] then 5 + 10, then it'd reach to 15, 15 means it'll reach to this position
+[10:45] then in that case if you'll write it first and other one after it then you can say its answer would be 15
+[10:51] But you have to solve according to the question only
+[10:53] So its answer would be "B"
+[10:56] Thank You!

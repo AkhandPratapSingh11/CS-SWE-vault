@@ -1,0 +1,108 @@
+Title: L-6.3: Disk Scheduling Algorithm | Operating System
+Video URL: https://www.youtube.com/watch?v=9uoa_p8q47Y
+Video ID: 9uoa_p8q47Y
+======================================================================
+
+[00:00] Hello friends, welcome to the Gate Smashers the topic is disk scheduling algorithm
+[00:04] The goal of disk scheduling algorithm is
+[00:06] To minimize the seek time and  what is seek time
+[00:10] Time taken to reach up to the desired track
+[00:13] to understand this thing we will understand  the architecture of the hard disk
+[00:17] Over here I have made a simple diagram
+[00:20] Hard disk is first of all collection of  multiple platters
+[00:24] Means in one hard disk there will be  multiple platters
+[00:28] So what is the first terminology over here platter
+[00:31] And in every platter there will be  different different tracks
+[00:35] And what will be inside every track  sector
+[00:38] Means first of all you will have to  remember the hierarchy
+[00:42] So the first term is platter
+[00:44] Platter you can understand like there used  to be CD
+[00:47] Like the shape of CD, CD used to be in  circular shape
+[00:51] That you can assume as a platter
+[00:53] And similar to that 12, 15, 20
+[00:56] You can say that after combining multiple  CDs one hard disk made
+[01:00] Now if I take out one CD, that is  one of the platter
+[01:04] means what will be on that CD, surfaces there is 1 upper surface, 1 lower surface
+[01:09] Now if I talk about one surface
+[01:11] What will be on that surface
+[01:13] On the surface you'll see so many  circular lines
+[01:17] What do we call those circular lines tracks
+[01:20] And what will be inside those tracks there will be sectors
+[01:24] Means when the user stores the data
+[01:27] When operating systems stores the data  on memory
+[01:30] So where does it store, data is stored  in these sectors
+[01:35] now when again the data will have to fetch
+[01:37] Then how will we fetch, obviously we will have to fetch from sectors
+[01:41] But how will you reach to the sectors
+[01:44] So to reach sectors first of all I will  have to reach platters
+[01:48] After platter I will have to reach to that  surface
+[01:51] After that surface I'm writing here
+[01:54] Firstly we have to reach to the desired  platter
+[01:57] After platter I have to reach  to desired surface
+[02:01] means?, let's say my data is stored in the  platter 1
+[02:04] now i reached in the platter
+[02:06] now in platter 1, is it stored in the  upper surface or lower surface
+[02:10] Because each surface contains the tracks
+[02:14] so let's say i got to know that it is  stored in the upper surface
+[02:17] So on that surface, what next  thing I will find, track
+[02:21] Means on that surface on which track  there are so many tracks
+[02:26] On those tracks on which track this  data is stored
+[02:30] After track finally I will have to reach  to the sectors
+[02:35] When I will reach to the sector,
+[02:37] Then in actuality I will find that data  over there
+[02:40] Now to do this thing
+[02:42] From the platter to reach the journey  of sector
+[02:47] Who helped me over here  the actuator arm
+[02:50] here what is kept above every platter  read write head
+[02:54] in actualities what are the characteristics  of this read write head
+[02:57] ..is that it moves back and forth
+[02:59] Means it will move this way  forward or backward
+[03:03] So every platter will have its own  read  write head above it
+[03:07] Now when you will reach to a desired track
+[03:12] What does it mean to reach a desired track
+[03:15] You will have to visualize this diagram  a little bit
+[03:19] Let's say there are so many tracks in  this platter
+[03:22] There are so many tracks on this
+[03:24] It may be that the read write head is on  any of the my of the track
+[03:29] Let's say it is mounted on the track   number 1
+[03:32] But my data is on track number 20, 30, 40 it is on some other track
+[03:37] So I will have to move the read write head  from that track to desired track
+[03:45] Means operating system moves it from  its end
+[03:48] That time taken in that moment is called  as seek time
+[03:53] So here the first very important time is  seek time
+[03:57] Where is that used
+[03:59] when we service the desk
+[04:01] Means whenever a request comes
+[04:03] What will be written on that request that I need this particular data
+[04:08] So to bring the data from that sector
+[04:12] So many different times are used, like  seek time rotational time transfer time
+[04:18] That we will discuss in further video, but  here I'm concentrating on seek time only
+[04:24] What is seek time in actuality
+[04:26] The read write head which we have
+[04:28] The read write head which we have, that read write head is kept on any track
+[04:34] So the time taken to bring from that  track to the desired track
+[04:39] That is what is called seek time
+[04:41] You can also say in the best case
+[04:43] Your read write head
+[04:46] is standing on the same track from  where the data is to be fetched
+[04:50] or in the worst case it can happen
+[04:53] Let's say your read write head is on  track number 1
+[04:56] And where the data is stored that is the  last one...nth
+[05:01] So you will have to travel whole journey
+[05:04] What I meant to say is you will have to  bring read write head till the innermost
+[05:09] Exactly to the desired track
+[05:11] So this time we call as seek time
+[05:14] And what is the basic goal of disk  scheduling algorithm over here
+[05:19] That we want to minimize this service time
+[05:23] So to minimize that I have a different  methods over here
+[05:28] like first come first serve, shortest seek  time first, scan, look
+[05:31] Circular scan circular look
+[05:34] Now we will discuss this with the help of  a numerical
+[05:36] That how can we find out the seek time through first come first serve
+[05:42] So this thing we are going to discuss with  a proper numerical
+[05:46] So in this video my basic motive was to  tell
+[05:49] what is the goal of disk scheduling  algorithm
+[05:51] And what is the concept of seek time
+[05:55] For the time being do not think about the  rotational time and transfer time
+[05:58] Don't think about that now I will tell in  the next video
+[06:02] but for time being we are focusing only on  the disk scheduling algorithm, thank you

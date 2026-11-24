@@ -1,0 +1,347 @@
+Title: TLBs Toughest Question asked in GATE exam | Operating System
+Video URL: https://www.youtube.com/watch?v=10tZ7JBiN0w
+Video ID: 10tZ7JBiN0w
+======================================================================
+
+[00:06] Dear students welcome to Gate Smashers
+[00:08] I am going to solve in this video
+[00:10] Question on TLB
+[00:12] I have already made a video on TLB
+[00:14] What is TLB, how does it work?
+[00:17] Even inside of them, I
+[00:19] 1 or 2 examples that has been explained
+[00:21] But this is the question of the gate
+[00:24] Many student requests were coming
+[00:26] That Explain this question
+[00:27] The question which is seems to be a bit tough level
+[00:30] But in actual it is not so
+[00:32] I will explain this question
+[00:34] to you in a very easy way
+[00:36] And all the TLB questions
+[00:37] related to this will be there?
+[00:39] You can understand how it will be solved?
+[00:41] So please like the video immediately
+[00:42] and subscribe the channel
+[00:44] If you haven't yet
+[00:45] And even if you do,
+[00:45] you can subscribe from other devices
+[00:47] Subscribers are very important
+[00:49] So let's start!
+[00:50] First of all
+[00:51] Whenever such a question comes,
+[00:52] so at first read the statement carefully
+[00:54] And after reading that statement,
+[00:55] make a diagram first
+[00:57] Even if you make a raff
+[00:58] but it is very important to make a diagram
+[01:00] consider a paging system uses 1 level page table
+[01:03] so 1st line
+[01:04] It turns out that the page table
+[01:06] is a single level page table
+[01:08] If two label can also be given,
+[01:10] 3 level can also be given
+[01:11] here 1 level
+[01:12] And my page table inside it
+[01:14] is of main memory and TLB
+[01:16] then the main memory access time is given
+[01:18] TLB lookup takes this
+[01:19] Each page transfer
+[01:21] takes this time to/from disk
+[01:23] Meaning if page fault collision occurs
+[01:25] Then what do we do?
+[01:26] Get the page from disc
+[01:28] And then we access the page
+[01:30] TLB hit ratio ok
+[01:32] The page fault rate is indicated
+[01:33] Assume that for 20% of total page fault
+[01:37] a dirty page has to be written back
+[01:40] to the disk before required page is read
+[01:42] This is a small point extra
+[01:44] what is saying?
+[01:45] That if I have to bring the
+[01:47] page from disk to main memory
+[01:50] So 20% of the cases are like this!
+[01:52] Inside which the dirty page, means!
+[01:54] I have to send a page from
+[01:57] already main memory to disk
+[01:59] And then I have to load the page as it is
+[02:01] Means space will have to be freed
+[02:03] Inside Main Memory!
+[02:04] And how do you empty it?
+[02:06] Already which is the Existing Page
+[02:08] You will make this run away from there
+[02:10] That You go to the disc
+[02:11] So that I can bring any other page from disk
+[02:15] So that is your simple concept of virtual memory
+[02:18] which we are using here
+[02:20] It is very important to draw the diagram first
+[02:22] So I have CPU
+[02:23] What will the CPU do first?
+[02:25] Will do the lookup in TLB
+[02:27] So will look into TLB
+[02:28] If inside TLB i got reference
+[02:30] Means!
+[02:31] got hit
+[02:32] So what shall we do?
+[02:33] Will pick up that page from main memory
+[02:36] TLB will give just reference
+[02:38] If got hit
+[02:39] So I will take that page out of main memory
+[02:42] Ok
+[02:42] The story ends here
+[02:43] When Is It?
+[02:44] While TLB Hits?
+[02:46] If let say TLB missed
+[02:48] What if TLB Miss?
+[02:50] Meaning I didn't get reference from TLB
+[02:53] Then what shall we do?
+[02:54] We have been given a page table
+[02:56] single level, there is a
+[02:57] single level page table
+[02:58] so what will i do?
+[02:59] Go to the page table
+[03:01] Single level
+[03:02] If multi-label had two levels,
+[03:03] we would have made two page table
+[03:05] Simple!
+[03:05] There is one level here
+[03:07] So we will go to that page table
+[03:09] If I got physical address from that table
+[03:12] that, It is lying here in the main memory
+[03:14] So what shall we do?
+[03:16] will call it hit
+[03:17] I got it in the page-table
+[03:19] Not found in TLB
+[03:20] But got reference in page table
+[03:22] So I go to that memory location
+[03:23] I'll pick up the page
+[03:24] But here comes a worst case
+[03:28] Miss one
+[03:29] Not even in page-table
+[03:31] Means if
+[03:31] its reference is not found in page table
+[03:34] So that means
+[03:35] it is not in main memory at all
+[03:36] We call it page fault!
+[03:38] If a page fault occurs
+[03:40] So we use page-fault service time
+[03:42] And page fault service has been told many times
+[03:45] What happens?
+[03:46] We From disc,
+[03:47] from where?
+[03:48] from disk
+[03:49] Will bring the page
+[03:51] Which is secondary storage memory
+[03:53] From secondary memory
+[03:55] We from inside the disc
+[03:56] Will bring the page
+[03:58] This is called page fault!
+[03:59] But even here are two cases of page fault?
+[04:02] Which are those 2 cases?
+[04:04] A case is telling
+[04:05] That's ok
+[04:06] You did not find the page
+[04:07] Page fault collision, done
+[04:08] So you go to disk!
+[04:10] And pick up that page from disk
+[04:12] and put it in main memory
+[04:13] You will get
+[04:14] But there is another 20% of the cases
+[04:16] 20%
+[04:17] This is fine in 80% of the cases
+[04:19] You'll pick up the page
+[04:20] from the disc, get it
+[04:21] But what is in 20% of the cases?
+[04:23] like that
+[04:24] You will even pick up the page from the disc
+[04:27] So, will not be able to put in main memory
+[04:29] Because main memory is full
+[04:31] Some dirty page from here
+[04:32] Means a page that has been updated
+[04:35] After getting it out of here,
+[04:36] we will send it to the disc first
+[04:38] Then, by removing it from the
+[04:39] disc, we'll bring the page here
+[04:41] This case which is 20%
+[04:43] That's the whole story
+[04:45] You get clear from this diagram
+[04:47] Now just enter the values
+[04:48] Watch First TLB Hit one!
+[04:50] TLB hit ratio is also given
+[04:52] 95%
+[04:54] So 0.95 I wrote here
+[04:56] What does 90% mean?
+[04:58] Obviously .95
+[04:59] so .95
+[05:01] What shall we do in this case?
+[05:02] Will see in TLB first
+[05:04] Watching time in TLB is 20
+[05:06] And then from there we
+[05:07] Going straight to main memory will pick up the page
+[05:10] It's over!
+[05:10] This is your TLB hit!
+[05:12] If not found in TLB
+[05:14] Meaning this one
+[05:15] Missing case
+[05:16] So on the miss case side, that's 0.05
+[05:19] ok isn't it?0.05
+[05:20] Because 95 like TLB hit
+[05:22] so .05
+[05:23] Take note of this
+[05:24] Sometimes students write 0.5 by mistake
+[05:27] 0.05 will be your miss ratio
+[05:30] Miss of TLB!
+[05:31] And if we miss, what will we do?
+[05:33] We will go to the page table
+[05:34] But before going to the page table
+[05:36] We looked at TLB
+[05:38] That's when I found out
+[05:39] That man! missed in TLB
+[05:41] In TLB we saw earlier
+[05:43] We have spent 20 nano seconds
+[05:44] Then it turned out that it was not in TLB
+[05:46] Then we will go to the page table
+[05:48] Where is the page table exiting?
+[05:50] in main memory
+[05:51] Already given
+[05:52] Neither has been given
+[05:52] So let's assume that
+[05:53] the page table is inside your main memory
+[05:55] That is, how much time does it
+[05:57] take to access the main memory?
+[05:58] same the page-table
+[05:59] So it will take hundreds of
+[06:00] time to access my page table
+[06:02] And here I got it
+[06:04] Means I got hit here
+[06:06] So if it got hit here
+[06:08] So how much time will take?
+[06:10] Mine will take a hundred more time
+[06:12] So this is the time
+[06:13] What time it is!
+[06:15] How many times is this happening?
+[06:17] How many times is this happening?
+[06:18] It has been given to us
+[06:19] What is the page fault rate?
+[06:21] 10%
+[06:22] What is the page fault rate?
+[06:23] 10%
+[06:24] So that means page fault will happen
+[06:26] when the page is not found in the table
+[06:27] But what is the case here?
+[06:29] that I saw in TLB
+[06:31] Not found in TLB
+[06:32] So I went to the page table
+[06:33] There I found that reference!
+[06:35] So I took it from main memory
+[06:36] That is, the page fault collision did not happen
+[06:38] So if the page fault rate is 10%
+[06:40] So reverse the page fault rate!
+[06:42] Means page fault is not happening!
+[06:44] So how much will be 95%?
+[06:45] So that means you multiply it by 90%
+[06:49] So this is yours
+[06:51] It became an equation
+[06:52] You can multiply first
+[06:53] It's the same thing
+[06:54] So what is the 0.90% case becomes this one
+[06:58] Comes back to us in the last!
+[07:01] case with 0.10
+[07:03] case with 0.10
+[07:04] Now which one is the case with .10?
+[07:07] If page fault collision occurs
+[07:09] Now page fault collision occurred
+[07:10] So how many? 10%
+[07:11] So i.e. .10
+[07:13] Or you can write 0.1 as well
+[07:15] In .10 we have two cases made
+[07:18] One with a dirty page
+[07:19] And the one without dirty page
+[07:21] Ok
+[07:22] Meaning even the story
+[07:23] would have been understood
+[07:24] What does the case with .10 say?
+[07:26] If I talk about without dirty page?
+[07:29] then what will happen?
+[07:30] The first thing you'll look for in TLB?
+[07:32] Not found
+[07:33] Then what will happen to you after that case?
+[07:35] Not found in TLB then
+[07:36] you will go to page table
+[07:38] You didn't find it there either
+[07:40] Then I came to know that
+[07:40] this dirty page is here
+[07:42] What will you do after that?
+[07:44] You will bring that page from disk
+[07:46] Will put in main memory
+[07:47] So from the disk
+[07:49] The time taken to fetch the page
+[07:51] and put it in the main memory
+[07:52] that has been given to you here
+[07:54] that is 5000 ns
+[07:56] Each page transfer takes 5000 ns to/from Disk
+[08:00] So what is the time taken to fetch it from disk?
+[08:03] 5000
+[08:04] So 5000 times your this will be added
+[08:07] But remember
+[08:08] It did .10 Page Fault!
+[08:10] Now which case is this page fault?
+[08:13] There is a case without one
+[08:15] Without dirty page
+[08:17] Ok isn't it
+[08:17] without dirty page
+[08:18] And how much is that yours?
+[08:20] That is!
+[08:21] 80%
+[08:22] how much is that
+[08:23] 80%
+[08:24] So rested are
+[08:25] Rest 20%, which one?
+[08:27] What do you have to do in Rest 20 case?
+[08:30] The dirty page must first be removed
+[08:32] from the main memory and sent to disk
+[08:34] Send it back before here!
+[08:36] Then bring the second page from there
+[08:38] So what's the difference?
+[08:39] First you searched in TLB
+[08:41] Not found!
+[08:41] Then you
+[08:43] Find it in the page table
+[08:44] Not found!
+[08:45] Because it is dirty page
+[08:46] Then you
+[08:47] Will also bring it from disk
+[08:49] So There that is saying
+[08:50] that there are 20% such cases
+[08:51] There is no place
+[08:52] So that means first you have to send
+[08:54] it out from the main memory to the disk
+[08:56] In which
+[08:57] 5000 extra will be taken separately
+[08:59] And then after that!
+[09:00] The new page from disk will have
+[09:02] to be brought to the main memory
+[09:04] So it will take 5000 separately
+[09:06] So this is the only difference
+[09:07] between these two cases
+[09:09] Ok
+[09:09] So that's the whole story of what it is
+[09:11] This bracket closes here
+[09:13] And the big bracket closes here
+[09:14] So this bracket is that
+[09:16] Remembering that in the proper way
+[09:17] It has over here
+[09:18] And this is to multiply .05 with the whole
+[09:23] So that's that
+[09:24] .10 It will multiply with this whole
+[09:27] Meaning write it in a proper way
+[09:30] This turned out to be your case with dirty page
+[09:33] So all the cases which are there have
+[09:34] been explained to you in a proper way
+[09:36] When will you solve this whole?
+[09:38] So it will come 154. Something
+[09:41] Which you can round off and write 155 ns
+[09:46] So the whole story of this
+[09:47] whole thing works in this way
+[09:49] of your TLB
+[09:51] Thank you!

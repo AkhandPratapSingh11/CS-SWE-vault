@@ -1,0 +1,114 @@
+Title: L-1.7: System Calls in Operating system and its types in Hindi
+Video URL: https://www.youtube.com/watch?v=tWPa-rZiGM8
+Video ID: tWPa-rZiGM8
+======================================================================
+
+[00:00] Hello friends, Welcome to Gate Smashers
+[00:02] The topic is system call... In the last video we discussed how we work in user mode & kernel mode
+[00:09] If the user is using any application or API or writing any program
+[00:16] then we generally writes it in user mode
+[00:19] But if I wants to access any functionality of operating system then I have to go in kernel mode
+[00:27] So because our access is on the user mode because we are accessing the user
+[00:32] so to go in kernel mode we use system call
+[00:36] System call is a programmatic way through which we shifts from user mode to kernel mode
+[00:45] or can access the functionalities of kernel and operating system
+[00:51] Like if I'd take a simple example if we are writing a C program
+[00:55] and I want to get any value printed on monitor let's say 2 + 2 = 4
+[01:02] then 2 + 2 is up to user mode, processor will do 2 + 2 no problem
+[01:06] But we have to get it printed on the monitor or if I want to get something printed
+[01:12] or I want to access printer, so wherever I have to access devices, I've to take help and do it through kernel
+[01:22] Kernel means through operating system `Same way if I want to access some file
+[01:27] Let's say I want o perform a transaction want to change data in some file
+[01:31] File is in hard disk.. so again, to access any file or hard disk, I've to go in kernal mode
+[01:38] Because these all devices and resources are being governed by operating system
+[01:45] so in operating system kernal is the main logical unit
+[01:53] So here I've to take help of system call and system call is generally...
+[01:59] Many times many operating systems are like if we talk about Linux,
+[02:03] then when we write C program in the text editor then we can use system call there directly
+[02:11] Like we can use read, write, close, open, fork etc and many other system calls directly
+[02:17] And generally in Linux operating system or if we'll talk about any other system also
+[02:22] There're hundreds of system call...
+[02:24] same way if we'd talk about window's then there're around 700 system calls
+[02:28] But there are many operating systems where we don't write system calls directly
+[02:33] We rather use APIs or we uses the local libraries like printf
+[02:40] Or scanner... printf means that we want to get some value printed,
+[02:44] then we're writing Printf. But that printf or scanner is not system call
+[02:52] Printf is a function, but that function is accessing the system call,
+[02:58] so print means writing on the monitor so whether you use system call directly
+[03:06] or you use some API or any function but at the end work will be done through system call
+[03:13] because system call will invoke kernal to perform this work
+[03:19] so as I said system call generally varies according to operating system
+[03:24] Many of them have around 300 system calls Window 7 have around 700 system calls
+[03:29] so we categories these system calls First we have file related system call
+[03:37] First we have file related system call means where we want to access any file
+[03:42] Let me tell you with a simple example
+[03:46] What happens generally is... when we write any C program
+[03:50] then we are writing that program using some API or application
+[03:57] But when we execute that program
+[04:00] then we says in operating system that the program has become process now
+[04:04] means when it's in running mode then it became process
+[04:08] And running mode means that process will in the RAM
+[04:13] Means that process has arrived in the RAM now and our operating system also i.e. kernal is in RAM also
+[04:23] I'm just taking a general architecture...
+[04:25] many times just a part of code lies in the RAM rather than whole code or kernal
+[04:31] so we are talking through a simple example where it says that our kernal is in main memory and process also
+[04:39] Now if we want to do any execution in the process
+[04:42] Let's say I want to access some file, then this process don't have privilege
+[04:48] that privilege will be given by kernal So process will invoke system call and will access that file
+[04:59] So all this work here has been done through system call So if we'd talk about file, then what we do in file?
+[05:07] Let's say I've to create some file... Create a file
+[05:10] let's say I want to open a file, want to read a file or write some file
+[05:15] so all the file related work that we are doing here
+[05:21] we are doing all that through file related system calls
+[05:26] Next is device related system call, so device related system call means
+[05:31] if I want to access any device or hardware here we are calling device as hardware
+[05:37] If we want to access hardware whether it is hard disk, printer or monitor...
+[05:43] so to access all these devices... User can never do direct access, he has to take privilege
+[05:51] Privilege will be given by operating system so here we'll again take privilege through system call
+[05:56] Whether we are reading any device or writing on a device or repositioning value of that device
+[06:03] or we are accessing its attributes
+[06:05] Same way we use IOctrl... we use this to control input output devices
+[06:13] or to control a file also... although, file control is a header file but we generally use it here
+[06:21] Next we have... Information related
+[06:24] Information means regarding processes or devices, if I want to take information of any attribute
+[06:33] there we use information related system call like getpid is a simple example
+[06:40] We use getpid if I want to know about some process's ID, getppid means if I want to know about parent ID
+[06:48] Wherever we need any process related information which we call metadata in general term
+[06:54] Means metadata related to a data is...
+[06:57] data is like there's a audio file... and the content in audio file is its data
+[07:06] But data related to it.. like its size, file name, file's permission, file's extension...  All this is called attribute
+[07:14] So if I want to access a data like this for this we use information related system call
+[07:20] Same way if I want access system's time, system's date, system's data...
+[07:28] then in that case we use information related
+[07:31] Then process control... this is also a major system call that we use
+[07:36] where if you are getting a process loaded
+[07:41] As I just told you, generally the programs that we write or save,
+[07:45] we are doing that in secondary memory in hard disk because we want to save it permanently
+[07:50] But when we have to load them in main memory or want execute them
+[07:56] for that we use process control system call
+[08:00] if you want to abort a process...
+[08:02] Fork system call... this is a very important system call
+[08:06] fork system call means like we talk about multi processing environment in operating system
+[08:13] Means we want to do multiple processes and tasks at a time
+[08:19] for that we use multi threading environment means we run multiple threads related to the process
+[08:25] or we can use fork system call... In fork system call, a process creates its own child process
+[08:33] And that child process is doing its work parent process is also doing its work
+[08:36] this way we can create a multiprocessing environment here
+[08:40] so we create fork system call also through process control system call
+[08:46] wait & signal... we use it under process synchronization
+[08:50] if you want some process to wait or want to increase semaphore values,
+[08:55] or want to allocate memory, so we can access all these things through this system call
+[09:00] Then communication... In communication we generally use inter process communication
+[09:06] Inter process communication means... two processes are communicating with each other
+[09:11] they can either use this Pipe() method or shared memory
+[09:16] so here we have pipe(0 system call, Shmget() that we use to get value of shared memory
+[09:23] or if I want to create or terminate connections, we have system calls related to it here
+[09:29] So these are major categorizations of system call we have system calls other than these also
+[09:34] Like system calls related to protection and security where we use chmod, privileges...
+[09:40] if I want to change on any file
+[09:42] then we can use chmod, umask and many other privileges and system calls that we use
+[09:49] so you con't have to directly memorize these system calls
+[09:53] but at least you should be clear with their idea that why we use system call
+[09:58] and what is there importance in operating system
+[10:02] So this is all about the system calls
+[10:05] Thank You!

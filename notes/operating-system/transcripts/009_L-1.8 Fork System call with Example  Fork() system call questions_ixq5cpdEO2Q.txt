@@ -1,0 +1,127 @@
+Title: L-1.8: Fork System call with Example | Fork() system call questions
+Video URL: https://www.youtube.com/watch?v=ixq5cpdEO2Q
+Video ID: ixq5cpdEO2Q
+======================================================================
+
+[00:01] Hello Friends, Welcome to Gate Smashers
+[00:03] Today's topic is fork system call
+[00:06] We're going to discuss about fork system call in this video
+[00:09] And in the last of this video
+[00:11] you'll get two questions based on everything that we're going to discuss in this video
+[00:15] Whose answer you can share with me in the comment box
+[00:18] So first we are talking about fork, which is our system call
+[00:23] We use fork system call to create a child process
+[00:27] Means let's say there's a process Let's say I wrote a program in C... print F "Hello World"
+[00:34] So print F "Hello World" is a main program which we can call a parent program
+[00:39] But in the parent program if I would write fork anywhere,
+[00:43] then a child of that parent will get created
+[00:46] Let's say I want to place this marker from here to here
+[00:53] So let's say I'm the parent process If parent process is busy somewhere
+[00:58] Then we have to create a child process Child process means it'll be my exact clone
+[01:05] Child process will be parent's clone which will have its own ID
+[01:10] Means Child have its own ID and Parent have its own ID
+[01:14] And that child will pick it up from here and will place here
+[01:18] Or we have one more method We can use the method of thread
+[01:22] What we do in thread is We don't have to make full clone
+[01:25] Let's say My both hands are busy then I can create a third hand here
+[01:29] Third hand means that rest of the area is doing sharing,
+[01:34] means maximum things are getting shared just an extra thing is performing this task
+[01:40] But when we do fork then everything is new
+[01:44] Although we are doing little bit sharing there also, There also we are sharing code but...
+[01:50] Still it has it's own process ID, I'll have its own registers, there are a lot of values, that it does separately
+[01:57] That we'll discuss in the video where we'll talk about differences between fork and thread
+[02:03] But here we're talking about what is a fork system call,
+[02:07] then fork system call simply means to create a child process
+[02:12] So the moment we creates a child process then what happens is,
+[02:15] fork system call generally returns a value 0 + 1 or -1
+[02:25] You can say +1 or positive value also Zero means child process
+[02:31] Zero denotes child, it returns a child value
+[02:35] Positive means that process itself which you can call parent process
+[02:39] We denotes -1, if child process didn't get created because of some reason
+[02:45] Let's say operating system and kernel is busy, so child process didn't get created
+[02:49] But we do not consider this case because we are assuming that child process will surely create
+[02:55] means you just have to keep only two values in mind, zero means denotes child process
+[03:01] And positive value means we're denoting parent process
+[03:05] So let's say If I would write here If we'd write a simple program
+[03:10] Main()... If I'll write in main, fork() And in fork system call I'll write PrintF ("Hello")
+[03:21] PrintF ("Hello")... Now what is the meaning of this The moment I wrote fork...
+[03:27] Let's say if I won't write fork here then main()... printF ("Hello")
+[03:31] so hello will get printed once because this is a parent process
+[03:34] You can call main process, parent process also That process will get execute
+[03:38] And it'll print hello on the monitor
+[03:40] But, the moment you wrote fork here Fork means... If you wrote fork inside parent process
+[03:49] So a child process of parent process will create
+[03:55] Means it's already a parent, child process will generate and run in it's parallel and congruently
+[04:01] So the child process will create which I'm denoting from C1
+[04:04] So this child process and parent process will execute parallelly
+[04:09] Means how many times hello will print here? Two times
+[04:12] Reason... Child process will print hello and parent will definitely do it
+[04:19] So Hello will print 2 times here So that's the important point
+[04:25] Whenever you write fork and we are talking about child process in fork
+[04:28] so you can denote child with 0 and we generally denotes parent with positive number
+[04:35] If I would write two times fork here... let's say if I would write the fork statement two times
+[04:42] Writing fork statement two times means that one is parent process that's complete main process,
+[04:49] that's the general process or main process
+[04:51] The moment I wrote fork in that parent then fork means parent got a child
+[04:58] But parent is still there It didn't get killed... It's alive
+[05:04] A child process congruent to it has created here
+[05:08] Now next fork, this was the output of writing first fork
+[05:15] But the moment you wrote second fork second fork means
+[05:19] that this C1 is like a parent for second fork
+[05:23] Parent means C1 will create a further child process C2
+[05:28] and C1 is there already...
+[05:31] and this parent P will also create its own child process... let's say C3, and P is already there
+[05:40] So It means C2, C1, C3 and P All four will print Hello
+[05:47] Means these are four are running congruent,
+[05:50] out of which these three are child process and one parent process is also here
+[05:57] So there're three and one parent
+[06:00] This is a very very Important point
+[06:02] And talking from GATE and UGC NET point of view, or any other competitive exam in computer science
+[06:08] then fork in operating system is a frequently asked topic Many times question comes on fork
+[06:15] Let's check once more... Let's say if I will take fork three times here Fork... Fork... Fork
+[06:22] And below it let's say I wrote printF... Hello
+[06:25] So what it means is... It's a very simple thing
+[06:28] Again what we did here... P is a parent process
+[06:34] The moment I wrote fork in parent first time
+[06:37] Then a child process of parent i.e. C1 got created and parent is already there
+[06:42] Now in child I wrote fork once again The other fork will create a child of this child i.e. C2
+[06:51] And C1 will already get executed
+[06:54] Now this P which was running parallel to it
+[06:56] this fork will create another child of that P, let's say C3 and P is already there as we saw
+[07:05] Now when you'll write fork third time, what will happen is...
+[07:08] This C2 will create its child, Let's say C4 And this C2 is already there
+[07:14] This C1 will create its own child process let's say C5 and C1 is already there
+[07:20] Now C3 will create its own child process let's say C6 and C3 is already there
+[07:26] And this P will have its own child Let's say C7 and P is already there
+[07:31] So if we'll talk at leaf then 7 child processes are there
+[07:36] and one parent process that was the main program
+[07:39] So there's one main program that you can call parent, and 7 others are child
+[07:44] So how many times Hello will print It'll print total 8 times
+[07:48] So how can you calculate total times hello will be printed... 2^n
+[07:52] Means the no. of times fork is written, that's the number "n"
+[07:59] And many times they asks how many child process will be generated
+[08:03] Total no. of child processes are 2^n - 1
+[08:08] You can see when we used 3 Then these 7 are child processes from C1 to C7
+[08:15] But P is parent process, here if we'll say we wrote fork two times
+[08:19] So 2^2 - 1 i.e. 3... C1, C2, C3 which is child
+[08:24] and P is parent, but totally how many times hello will get print is 2^n
+[08:29] Means total execution will be 2^n and total child process will be 2^n - 1
+[08:39] This is a very important point guys, here first you have to remember this very important point in the video
+[08:44] Second, It always returns the ID of child process
+[08:49] The moment you'll write fork, it'll return child process's identity as zero
+[08:53] We write parent process's ID as positive You can get it as positive 1 at many places then it's fine
+[08:59] Here number is not important, here it's positive, negative or zero
+[09:03] So negative means child didn't even created
+[09:06] Don't consider this case, because we are using fork so child will definitely create
+[09:11] But in the worst case it may be possible that kernel is busy somewhere
+[09:16] If there's is any problem or error then maybe it won't create child process
+[09:19] But if this comes in question, then they'll mention it definitely
+[09:22] And in actual we have used fork to create child
+[09:26] so in this type of question you never have to use -1
+[09:30] Just remember these main two values and these two formulas
+[09:34] over this you'll get many questions that you can try
+[09:37] just by putting direct value you'll easily get the question solved
+[09:41] So guys if you liked this video then please hit the like button
+[09:45] Share it as much as possible
+[09:46] And please subscribe my channel
+[09:48] Thank You!!

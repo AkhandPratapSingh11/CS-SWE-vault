@@ -1,0 +1,717 @@
+Title: Lec-8: Protection & Security in Operating system | Full OS playlist
+Video URL: https://www.youtube.com/watch?v=DKb7KhfoZmU
+Video ID: DKb7KhfoZmU
+======================================================================
+
+[00:07] Hello Friends Welcome to NIC Classes
+[00:09] In this class I am going to explain the topic
+[00:12] Protection and Security in Operating System
+[00:15] Look, the topic which is this one
+[00:16] is a complete theoretical topic
+[00:18] And the chances of getting
+[00:20] questions from this topic are very less.
+[00:22] But when we have to complete the
+[00:24] operating system completely, then it
+[00:26] becomes necessary to get this topic
+[00:28] done just for the sec of completion.
+[00:30] So that somewhere some points go
+[00:33] into your mind, you listen to some points
+[00:35] And note down those points.
+[00:37] maybe if they cover the topic
+[00:39] I may be if he tries to put one or half question.
+[00:41] So can be of very basic level
+[00:44] Some theoretical question may come
+[00:46] then first of all start with privacy and security
+[00:49] So speak privacy or speak protection
+[00:51] Basically what does privacy mean?
+[00:54] That no one should do what an
+[00:55] unauthorized person does in between me.
+[00:57] Do not interfere.
+[00:58] Meaning like we talk about RAM.
+[01:00] So in RAM
+[01:02] We have multiple processes
+[01:04] Means multiple processes are present in RAM
+[01:06] at the same time
+[01:07] So we want that one process
+[01:09] should not interfere in the
+[01:11] address of any other process
+[01:13] And if we talk like this.
+[01:14] Unauthorized person
+[01:16] Unauthorized means that
+[01:17] which we have not authorized at all.
+[01:18] Those people or particular processes
+[01:21] Do not use our resources
+[01:24] So basically what is Privacy Protection Security?
+[01:27] That's what it means.
+[01:28] And that's the terms!
+[01:29] not in the operating system
+[01:31] Are you listening to these terms in your daily life
+[01:33] is hacking
+[01:34] This again if we talk about phishing attack
+[01:36] Denial of service
+[01:37] You must have heard many such words.
+[01:39] So this topic is related to it somewhere
+[01:41] or the other.
+[01:42] But the topic of security will come to you
+[01:44] in more detail.
+[01:45] in networks
+[01:46] So here we are just once
+[01:48] We will discuss what is the introduction part
+[01:50] It may be asked whether it is which of it.
+[01:52] So let's see first of all if we talk
+[01:54] protection model
+[01:55] then, computer consists of a collection of object
+[01:58] Hardware, Software
+[02:00] There are many objects
+[02:01] Disk Drive is
+[02:02] Monitor is
+[02:03] Keyboard is
+[02:04] Mouse is
+[02:05] Apart from that
+[02:05] there is different softwares
+[02:07] which exist inside it
+[02:08] there are many applications
+[02:09] which are running
+[02:10] so we want
+[02:11] Utilize them properly
+[02:13] What are we telling them?
+[02:14] multiple objects
+[02:16] Each object has a unique name
+[02:18] and can be accessed through
+[02:20] a well-defined set of operations.
+[02:21] Now, what does the operating system do?
+[02:23] whatever our hardware is inside it
+[02:25] whatever our!
+[02:27] whatever is inside the system
+[02:28] them by unique name or by unique id
+[02:31] The operating system it recognizes.
+[02:34] And he wants that in a proper way
+[02:36] because resource allocator acts as
+[02:39] And the resource allocator will
+[02:40] obviously work properly only then
+[02:42] If all the resources are utilized properly
+[02:46] And the process!
+[02:47] Authorized process if demanding
+[02:50] So we can provide resources to him
+[02:51] in a proper way.
+[02:53] And what is the problem of protection here
+[02:55] Ensure that each object is accessed correctly
+[02:58] and only by those processes that are
+[03:00] allowed to do so
+[03:02] means which we have authorized.
+[03:04] whom we have given permission
+[03:06] like in your college university
+[03:07] You have taken admission,
+[03:09] you have got an identity card.
+[03:10] ok you are authorized
+[03:11] you are authorized
+[03:13] You can take a class by going to the university.
+[03:15] Ok!
+[03:15] can you talk to a teacher
+[03:17] because you are an authorized person
+[03:19] So the authorized person is using the resources
+[03:22] that is fine
+[03:23] But Unauthorized person
+[03:24] If Unauthorized person will use that thing
+[03:28] So obviously
+[03:28] the authorized person will keep on waiting.
+[03:30] and the unauthorized person obviously why?
+[03:32] Why would use?
+[03:34] Somewhere in his mind it must be that, man!
+[03:36] I will do some harm to this system
+[03:39] means, try to do something wrong with this system
+[03:42] So that is what the
+[03:43] Our main goal is to protect from this thing.
+[03:46] So look!
+[03:47] Who's first to you in security, isn't it?
+[03:49] Whether we talk about the operating system
+[03:51] No matter what question comes from you in security
+[03:53] So the most important topic is here!
+[03:55] CIA!
+[03:56] that is
+[03:57] Confidentiality
+[03:58] Integrity
+[04:00] Availability
+[04:00] remember this point
+[04:01] You can be asked this anywhere.
+[04:03] This you
+[04:04] You can also be asked this from the point
+[04:05] of view of the networks
+[04:06] Or the basic terminology you have, the techniques
+[04:09] that is going on today, the technology is going on.
+[04:11] Even in that you do not know that there is a
+[04:13] basic question which should be asked above.
+[04:15] so look!
+[04:15] What is the meaning of confidentiality.
+[04:17] That unauthorized person
+[04:19] Should not be able to read the data
+[04:21] means our data
+[04:22] There is some data lying in our system
+[04:24] So the unauthorized person to
+[04:26] whom we did not give permission
+[04:27] he can't read my data
+[04:30] but look!
+[04:31] Somewhere in our system we can save.
+[04:33] We have put everything like username, password etc.
+[04:36] But when we travel the data.
+[04:38] When does data communicate?
+[04:40] Meaning when data communicates from
+[04:42] one place to another.
+[04:43] So there may be a problem somewhere.
+[04:45] so we!
+[04:46] Wherever you ask
+[04:47] what is the meaning of Confidentiality?
+[04:48] That nobody should be able to read the data
+[04:51] and Nobody means Unauthorized person
+[04:53] Anyone who is authorized can read it.
+[04:55] Now look!
+[04:56] No matter how hard you try now,
+[04:57] you cannot achieve this.
+[04:59] That Nobody should be able to read
+[05:00] Somewhere the hacker who is so smart in today's time
+[05:03] He will hack the data
+[05:05] But
+[05:06] We can use another way to save from it
+[05:08] "Encryption"
+[05:09] So if you are asked anywhere
+[05:11] that How to achieve Confidentiality?
+[05:13] So encryption is a best thing.
+[05:15] With encryption we did that
+[05:16] which is plain text
+[05:18] The data which we are seeing in actual
+[05:19] We convert that to cipher text
+[05:22] So that if any person will see the data
+[05:24] He can see the data
+[05:26] but will not be able to understand it
+[05:27] Because that is not the actual data in the original
+[05:29] We have converted it and given it
+[05:31] in some other form.
+[05:32] Just like there is WhatsApp, there is Facebook
+[05:34] these are all the applications.
+[05:36] All of them use encryption techniques.
+[05:39] So that when data moves from one system to another
+[05:42] So it goes encrypted
+[05:44] And in other systems it gets decrypted
+[05:45] But don't go into too much detail
+[05:47] But now want to understand all this in more detail,
+[05:49] encryption, etc.?
+[05:51] So this we will do in more detail in the networks
+[05:53] But
+[05:54] still if you want to understand?
+[05:55] So I have already made a separate video on it
+[05:58] In which I have explained to you the
+[06:00] complete encryption-decryption.
+[06:02] So you can check that video
+[06:04] Next is- Breach of integrity
+[06:06] What is mean by Breach of integrity
+[06:08] that, unauthorized modification in the data
+[06:11] Meaning we want our integrity to be achieve.
+[06:13] Meaning no one can modify the data
+[06:16] unauthorized person can not modify the data
+[06:18] But there may be a bridge somewhere
+[06:19] There may be some loop hole, vulnerabilities
+[06:22] Where the person is able to modify by
+[06:24] entering the system.
+[06:25] Then Breach of availability
+[06:27] Means data should be 24*7 available
+[06:30] Look there's Gmail
+[06:31] You have facebook and all other applications!
+[06:33] Provide 24*7 data available.
+[06:36] Is not that
+[06:37] Someone has imposed the Denial of service attack
+[06:40] has imposed the distributed Denial of service attack
+[06:42] So the system has come to a standstill
+[06:44] although, there are many attacks on them
+[06:46] Attacks are happening on a daily basis
+[06:47] But still, they have robust
+[06:49] their system in this way.
+[06:51] That somewhere they keep the availability 24*7.
+[06:56] Then Theft of service
+[06:57] unauthorized use of the resources
+[06:59] that to your system!
+[07:00] If someone is using unauthorized way
+[07:02] So somewhere there is obviously a
+[07:03] theft of service
+[07:05] Meaning how many applications do you have running?
+[07:08] From there data can be stolen
+[07:10] From there some or the other privacy may
+[07:11] leak your information.
+[07:13] You already know these terms somewhere
+[07:15] same like deny law service
+[07:16] I tell you
+[07:18] Prevention of legitimate user
+[07:20] mean like
+[07:20] Who is actually a Legitimate User
+[07:23] Means which we have authorized
+[07:25] He can't even use it
+[07:26] Because the unauthorized person
+[07:28] Denial of service
+[07:29] Ping of death
+[07:30] We attack like Ping of Death.
+[07:32] Meaning we sent thousands of requests
+[07:34] on the same server
+[07:35] Will it happen that the buffer of the server will be full?
+[07:38] And it will not be able to handle the new request.
+[07:40] Because of this, the person who is legitimate
+[07:42] That too will be done that user!
+[07:44] Unable to use the application
+[07:46] The principle of protection
+[07:48] Means there is our program
+[07:50] Users, systems should be given just enough privileges
+[07:53] This is a very important point
+[07:55] It is not that everyone should be
+[07:56] given privilege in the same way.
+[07:58] Whoever came, everyone
+[07:59] got the same privilege, NO
+[08:00] Look, you look at your university, college!
+[08:02] Everyone's Privilege!
+[08:03] Privilege means role
+[08:04] You can say set off permission!
+[08:06] What we have given
+[08:07] is different for each one
+[08:08] HOD is different
+[08:10] The teacher is different, the professor is different.
+[08:12] Student permissions vary.
+[08:14] The chancellor is different
+[08:15] So this set of rules
+[08:16] are being maintained somewhere
+[08:17] So that any person who is there, he
+[08:19] cannot work by going above his privilege.
+[08:22] Obviously If you will set of privileges
+[08:25] So what will be the damage that
+[08:28] I have somewhere, will it be limited?
+[08:29] Then can be static(during the life of a time)
+[08:32] (during the life of a process)
+[08:34] It may also happen that we
+[08:35] give privileges to a process.
+[08:37] When the process is complete,
+[08:39] take the privilege back.
+[08:40] It is not that any privilege is
+[08:41] given for the whole life time.
+[08:43] OK, do you want to give?
+[08:44] Meaning that somewhere the administrator is there
+[08:46] and takes care of all the things.
+[08:51] These are basic terms.
+[08:52] of these from you.
+[08:53] Look what is here
+[08:54] First comes the structure of the domain!
+[08:56] What is he talking about in the structure of the domain?
+[08:57] If it asks you what is the domain?
+[08:59] Domain is a set of access-rights
+[09:02] I mean what can the guy do?
+[09:04] We called it one domain
+[09:06] Look this!
+[09:07] For example, object.
+[09:08] What do we have in the domain?
+[09:10] Objects and permissions
+[09:11] Object means!
+[09:12] that let say there is Drive
+[09:13] any process, any program
+[09:15] That's all our objects!
+[09:17] Now on top of that Permission
+[09:18] Permission means read
+[09:20] Right
+[09:21] The man can only see
+[09:22] The man can change that.
+[09:24] The man can neither see this nor can he change this.
+[09:26] Only the file can be executed
+[09:28] So this multiple permission can be used by you somewhere.
+[09:31] Such is the print
+[09:32] Can print data
+[09:33] So what is this permission?
+[09:35] we can decide in the domain.
+[09:38] Next see!
+[09:40] You see domains and we use them basically?
+[09:43] Here!
+[09:44] Access Matrix
+[09:45] This is a small point
+[09:47] Where may be ask you something.
+[09:49] If in one and half Number
+[09:50] That what is a Access Matrix?
+[09:51] So it is a view protection as a matrix
+[09:53] What do we do in this?
+[09:55] which is our column.
+[09:56] Look what is this ours?
+[09:58] The object is on this side!
+[09:59] And what is ours?
+[10:01] Domains!
+[10:01] Domains Means!
+[10:02] In a way you can say Users!
+[10:04] As the user has become Varun
+[10:05] As the user has become Ram
+[10:07] As the user has become anyone
+[10:09] there is particular multiple users
+[10:10] And what is this our?
+[10:12] Rows
+[10:12] What do we have in Rows?
+[10:13] Look at it users
+[10:14] D1 is a user
+[10:16] And what did we give him?
+[10:17] read permission
+[10:18] Above whom, object?
+[10:19] Which is the object?
+[10:20] let say file 1
+[10:21] File 2
+[10:22] File 3
+[10:23] Printer
+[10:24] Hard drive, many more
+[10:25] What did we do with them?
+[10:26] Created an access matrix
+[10:28] What have we done in this way?
+[10:30] defined
+[10:31] So the operating system will
+[10:32] see from this access metric.
+[10:34] Which user?
+[10:36] On which object
+[10:37] what permission have we given?
+[10:39] So it's the users.
+[10:41] We also call them domains, Users
+[10:43] And we sometimes call them subjects too.
+[10:46] Ok!
+[10:46] So what is object?
+[10:47] You have become the object
+[10:49] which is actually the devices
+[10:51] Which printer do you have?
+[10:52] OK, there's a hard drive,
+[10:54] there's a printer monitor
+[10:55] Or apart from that you have different files.
+[10:57] And what is meant by domain in actual
+[10:59] users or subjects
+[11:02] So if we talk about access metrics
+[11:05] So where are you?
+[11:07] you read this theory
+[11:08] You do not need to go into any more detail in this
+[11:10] This!
+[11:11] Means if there is a limited number of users
+[11:14] Limited number of objects
+[11:15] Then it will work
+[11:16] But if there are many users
+[11:18] There are many subjects
+[11:19] And giving them multiple permissions
+[11:21] So somewhere your matrix becomes too big
+[11:23] Then what does he make somewhere in that case?
+[11:26] We can also store it in table form
+[11:28] Meaning you can also create Access tables
+[11:30] So in tables like we did in database
+[11:32] So what did we do with multiple tables?
+[11:34] We have defined in the table that brother!
+[11:36] Who is the user?
+[11:37] Which is the object?
+[11:39] and what are our permissions on that?
+[11:41] In this way we can also create tables
+[11:43] Or even make a capability model
+[11:45] What does the Capability Model do?
+[11:47] Like a linked list in this way, brother!
+[11:49] This is the user
+[11:51] What permissions does this user have on this file?
+[11:53] And what are the permissions on the second file?
+[11:55] What is the permission on the third object?
+[11:57] In this way also we can make the capability model
+[12:00] different ways
+[12:05] Apart from this, if we talk about security
+[12:08] So these are short terms
+[12:09] like Threat
+[12:10] Threat is a potential security violation
+[12:12] See guys!
+[12:13] What does threat mean?
+[12:14] Like, China threatens on a daily basis
+[12:16] That brother, will do this, he will do that
+[12:18] ok
+[12:19] What does attack mean?
+[12:20] When the threat turns into an attack
+[12:22] means what is the threat now?
+[12:24] There is danger somewhere
+[12:25] But what does attack mean?
+[12:27] That's already Happened
+[12:29] getting the point
+[12:30] Means what is attempt?
+[12:31] is a
+[12:32] Attack is attempt to breach the security
+[12:35] And what we normally have in an attack
+[12:38] Active attack
+[12:39] Passive attack
+[12:40] what does mean active attack?
+[12:41] In which the hacker attacker,
+[12:43] he actively participates
+[12:45] Ok
+[12:45] Like Masquerading
+[12:47] What to do in Masquerading?
+[12:48] Pretending to be an authorized user
+[12:50] to escalate the privileges
+[12:51] Means someone else
+[12:53] But what is he doing by using someone
+[12:54] else's identity?
+[12:56] Showing himself that he is that person
+[12:58] But in Actual He is not the original person
+[13:01] by spoofing someone else's identity
+[13:03] He is sitting in the middle of the network
+[13:05] It's more in the network though
+[13:07] You don't need to go into too much detail here
+[13:10] Just listen once
+[13:11] That's how we have replays
+[13:13] Meaning I sent a message to someone
+[13:14] Someone caught that message on the way
+[13:16] Look like what we have
+[13:18] It has arrived
+[13:20] It was the sender
+[13:21] and it was the receiver
+[13:22] And attack it in the middle
+[13:23] Ok
+[13:23] Now what happened in this?
+[13:24] What is the Masquerading doing?
+[13:26] Who is this attacker, isn't it?
+[13:27] What is the attacker doing in between?
+[13:29] With whom is he communicating?
+[13:32] with fellow
+[13:32] So the two guys were actually communicating with each other
+[13:35] They are not doing it with each other
+[13:37] Any identity that is
+[13:38] The attacker used someone's identity
+[13:40] In between he is working as a legitimate person
+[13:44] So somewhere or the other,
+[13:45] it is the bridge of security
+[13:47] In replay means
+[13:48] trying to modify the data in the middle
+[13:50] Which is also called man in the middle attack
+[13:52] Ok Session hijacking
+[13:54] The sessions that happen
+[13:55] By hijacking it
+[13:56] someone else did a particular transaction
+[13:59] That's why
+[13:59] when we do online transactions in general
+[14:02] sbi icici any
+[14:04] if you will use online banking?
+[14:06] So if you won't work on it for long
+[14:07] So automatically the session
+[14:09] which is there is over
+[14:10] You get out of session
+[14:11] Because if the session will be longer
+[14:13] So you may not have done the transaction at all
+[14:15] But after a while the message came
+[14:17] on your mobile!
+[14:18] That 10000 got debited from your account
+[14:21] Anyone else can do whatever is on that session
+[14:24] But don't go into details
+[14:25] This is some kind of concept of cyber security
+[14:27] So in our syllabus it is not in so much detail
+[14:30] But just once what it is
+[14:31] to the point of view of syllabus completion
+[14:33] Listen carefully
+[14:34] next this!
+[14:35] It has come to us that security is at level 4
+[14:39] What we have is physical
+[14:41] Means there are data centres,
+[14:42] there are servers
+[14:42] We have to save them too
+[14:44] Human
+[14:45] Social engineering
+[14:46] phishing attack
+[14:47] There are many
+[14:48] You normally get mails
+[14:49] Although Gmail goes into spam!
+[14:51] But some mail that is
+[14:53] not even able to detect spammers
+[14:55] So you opened that mail by mistake
+[14:57] Clicked on the link
+[14:58] What happens when you click on the link?
+[15:00] your information
+[15:01] Meaning that in a way viruses are attached to them
+[15:04] which are executable
+[15:05] Meaning it will be executed in your system
+[15:07] And it will try to harm the system
+[15:10] Likewise at the operating system level
+[15:12] That, somewhere here
+[15:13] It is very important to have a protection mechanism
+[15:15] Somewhere on the network level also
+[15:17] What is to be protected is very important
+[15:22] Next came on this, threats
+[15:24] Like Trojan Horse
+[15:26] Ask this sometime
+[15:27] So what is a Trojan Horse?
+[15:28] Trojan horse is not a virus.
+[15:30] It is a destructive program
+[15:32] that looks as a genuine application
+[15:35] It is not like a virus
+[15:36] Trojan Horses don't replicate themselves
+[15:38] but they can just be destructive
+[15:41] Meaning what is it in actual?
+[15:42] That, like viruses do not replicate
+[15:44] Look like now the corona virus is going on so much
+[15:46] So whatever the virus is
+[15:48] some carrier is needed for it
+[15:50] Some or the other like human being
+[15:51] Someone is an animal
+[15:53] He wants a career
+[15:54] So it replicates in this way
+[15:56] But what is a Trojan horse?
+[15:57] It looks like a genuine application
+[15:59] will run in your system
+[16:00] And somewhere
+[16:01] it keeps on destracting your system
+[16:03] Works in destructive way
+[16:05] And it basically opens a back door!
+[16:07] back door entry, Means
+[16:09] Not front door entry, back door entry
+[16:11] Like making a back door entry in your house
+[16:13] Try to enter an unauthorized person
+[16:16] Trojan Horse works this in Actual
+[16:18] So what happens with this?
+[16:18] Hackers find a loop hole
+[16:22] to enter the system
+[16:23] And then that obviously!
+[16:24] Confidential data that will be
+[16:26] personal information
+[16:26] Will try to steal it
+[16:29] Virus
+[16:30] So what is a virus basically?
+[16:32] computer virus
+[16:33] attaches itself to a program or file
+[16:35] so it can spread from one computer to another
+[16:38] leaving infections as it travels
+[16:40] The same is working like Corona
+[16:42] Just like the human virus works
+[16:44] In exactly the same way these people who are they
+[16:46] send the virus into the system
+[16:48] And then it keeps on replicating in the system
+[16:50] And then there are the genuine applications
+[16:52] What does that do to them too?
+[16:53] Harmful for them too
+[16:55] So almost all viruses are attached to the
+[16:58] executable file, which means
+[16:59] the virus may exist on your computer
+[17:01] but it cannot infect your computer
+[17:03] unless you run or open
+[17:05] the malicious program
+[17:06] This can be asked any number of times
+[17:07] Like a worm
+[17:09] The difference between them is sometimes asked
+[17:11] Look this! like worm
+[17:12] Worm is a similar to a virus by its design
+[17:14] but it consider to be a
+[17:16] sub class of virus
+[17:17] Worms spread from
+[17:19] one computer to another
+[17:20] but it is not like a virus
+[17:21] it has the capability to
+[17:23] travel without any help from a person.
+[17:25] The difference I think
+[17:26] you must have cleared
+[17:27] Between Worm and Virus
+[17:29] And worm
+[17:30] takes advantage of file or information
+[17:32] transport features of your system
+[17:34] Meaning you are transferring data
+[17:36] Obviously TCP, UDV and many more
+[17:38] Let the protocol run
+[17:39] Somewhere attached to them automatically
+[17:42] Keeps traveling
+[17:44] You can read a little bit of theory about it
+[17:47] You don't need to go into much detail
+[17:50] On the basis of this theory,
+[17:51] you should note down some points
+[17:53] Ports scanning and so on
+[17:55] OK
+[17:55] Somewhere in your system there are ports
+[17:57] Like
+[17:58] multiple ports are in your system
+[18:00] is for lan
+[18:01] IP, Mac address
+[18:03] So somewhere
+[18:04] an attempt is made to spoof them
+[18:08] Denial of service attack
+[18:10] Means ping of death
+[18:11] Multiple SYN flooding attacks are also called
+[18:13] That, so many packets have
+[18:15] been sent to the server
+[18:16] What did the server actually
+[18:18] do to those packets?
+[18:19] those packets
+[18:20] Means Its entire buffer is full
+[18:23] And because of that
+[18:24] The person who is the authorized,
+[18:25] even he could not use it
+[18:28] Don't go into too much
+[18:30] detail about cryptography
+[18:31] Just, What does Cryptography mean?
+[18:33] That,
+[18:33] we have to convert plain text to ciphertext
+[18:37] And then when it reaches to the receiver
+[18:39] then it will convert the
+[18:41] ciphertext to plain text again
+[18:43] You have multiple encryption systems
+[18:45] is symmetric
+[18:46] asymmetric
+[18:47] In symmetric we use one key
+[18:49] And in asymmetric we use two keys
+[18:51] Public key
+[18:52] and Private key
+[18:54] And if you want to do about it in more detail
+[18:57] So that's link
+[18:58] I have already made videos on this
+[18:59] which contains the question
+[19:00] But don't go into too much detail of it
+[19:02] Because this part I will get you
+[19:05] completed better in computer network
+[19:07] Because here in this
+[19:09] Talking about the operating system
+[19:10] So in operating system
+[19:12] You don't need to enter that much
+[19:14] And finally there are firewalls too
+[19:16] I have already made a video
+[19:17] on the firewall as well
+[19:18] What does a firewall basically do?
+[19:20] To front door Means
+[19:21] Let say this is your network
+[19:23] So we put it on the starting
+[19:24] Like at the gate of University College
+[19:26] guards are standing
+[19:27] So we give them instruction that
+[19:29] brother, if any vehicle is coming from this states
+[19:31] Or let say some student is coming
+[19:32] without ID card
+[19:34] So don't let him enter
+[19:35] So the rules we gave him
+[19:36] He works according to those rules
+[19:39] So this is a basic story
+[19:41] Apart from this, if we
+[19:41] talk about authentication
+[19:43] if it asks you
+[19:43] What is authentication?
+[19:45] Authentication is your username, password
+[19:47] Ok, your identity
+[19:48] And as for Windows
+[19:50] So Windows uses Carbros Security Protocol
+[19:52] Carbros
+[19:53] Through Carbros Security Protocols
+[19:55] All passwords!
+[19:56] All Data!
+[19:59] Somewhere he keeps it secure
+[20:01] So this is basically a story
+[20:03] Related to privacy and security!
+[20:06] So what do you basically have to do here?
+[20:08] in Privacy and Security
+[20:09] All the points I have told you
+[20:11] Note down them
+[20:12] And apart from this
+[20:13] I am providing you a file of questions
+[20:16] In which I think have 25 to 30 questions
+[20:19] You just go through them once
+[20:21] so that you will know
+[20:22] What type of question?
+[20:24] may be if come
+[20:25] So in this way questions can come up somewhere
+[20:28] Note down all these questions
+[20:30] and write them in your notes
+[20:33] And on this topic no live class is needed
+[20:35] Because there is not much concept in it
+[20:37] There is no Numerical portion,
+[20:38] there is no such
+[20:39] That where you should be
+[20:41] explained well in detail
+[20:42] So the questions that will be given to you
+[20:44] It is a completely theoretical question
+[20:45] Just check their answers
+[20:47] You will not find any such question
+[20:49] that you need to take more
+[20:51] detail knowledge in it
+[20:53] Thank you!

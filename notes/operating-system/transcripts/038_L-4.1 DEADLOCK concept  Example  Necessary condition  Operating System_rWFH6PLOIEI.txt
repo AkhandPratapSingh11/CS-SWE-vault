@@ -1,0 +1,116 @@
+Title: L-4.1: DEADLOCK concept | Example | Necessary condition | Operating System
+Video URL: https://www.youtube.com/watch?v=rWFH6PLOIEI
+Video ID: rWFH6PLOIEI
+======================================================================
+
+[00:00] Deadlock, deadlock is what? If 2 and more processes are waiting on happening of some event
+[00:07] but that event doesn't happen, that is called the deadlock.
+[00:10] And those 2 processes are in the deadlock state. Means to understand by a simple example,
+[00:16] Let's say that I want to open an account in a bank. I go to the bank and tell the bank personnel
+[00:22] that I want to open an account but that person is saying that first you have to deposit
+[00:27] this minimum amount then we will open the account. But I am saying that
+[00:31] first I will open the account after that if I want I can submit the money.
+[00:36] But that is what? A deadlock situation. Because what I am saying is that
+[00:40] definitely I will give the money but open the account first.
+[00:45] But what bank personnel are saying is first you deposit money to us then we will open the account.
+[00:51] So both are waiting on happening of some event, but that event will not occur,
+[00:55] that is what? The deadlock situation. Let's say with one more example,
+[01:00] Like there are 2 cars A and B, 2 drivers are driving those cars. A is saying that
+[01:06] I am on the right direction, he is moving towards this direction.
+[01:09] And at the same time some B person that is also moving towards A. So let's say that
+[01:16] B is moving wrong side, so this happens in India normally, that me as A,
+[01:22] I think that I am going in my direction but B is also thinking that my direction is also this.
+[01:27] So in this situation what will happen? Both are waiting for some event. What is the event?
+[01:32] A says that I want to go in this direction towards this direction, B is saying
+[01:37] I want to go in this direction. But how will they go? Either A will have to take the car back,
+[01:43] or B will have to take the car back. But why will they do it? Ego is a thing.
+[01:49] So that's why neither A will remove the car neither B will remove it. So that is what?
+[01:55] A kind of deadlock situation. So both are stuck. Both are stuck here.
+[02:01] This situation is known as deadlock situation. Or if we talk in technical terms,
+[02:06] then synchronization, in synchronization also we had talked about deadlock.
+[02:10] Like there are 2 semaphores S1 and S2. There is a process, it wants 2 semaphores S1 and S2.
+[02:22] And there is one more process P2 which wants S2 and S1. So let's say that
+[02:29] P1 has taken the semaphore S and waiting for S2 and P2 is having semaphore S2 and waiting for S1.
+[02:41] So that is what again called deadlock situation because P1 got one semaphore S1
+[02:48] but didn't get S2. Why it didn't get S2? Maybe because of Sleep, maybe got pre-empt here,
+[02:55] so P2 got S2 but when it was getting S1, it also went in sleep, means again control to P1,
+[03:02] so P1 has S1 and says I want S2 and P2 has S2 and says I want S1.
+[03:10] So both are waiting on happening of some event. What is that event?
+[03:14] That P1 gets S2 and P2 gets S1. But they won't get
+[03:20] because P1 made S1 down, P2 made S2 down,
+[03:26] both are in the blocked state. Now who will unblock them, no one. That is called the deadlock situation.
+[03:35] If we see with a simple example, like there is a resource, resource R1 and R2 2 resources,
+[03:44] 2 processes P1 and P2. Let's say that R1 is allocated to P1.
+[03:51] This line is showing that P1 has taken R1 and P1 is saying that I need R2 because
+[04:03] P1 is requesting for the R2. And R2 is held by P2 and P2 is saying I need R1.
+[04:15] So this situation is what? This situation is a kind of deadlock. It is not exactly a deadlock.
+[04:21] Now we can't call it a deadlock. Why we can't call that will be clear to you now.
+[04:25] Here we are saying that P1 is sitting with a resource R1,
+[04:31] P1 is using R1, but saying that
+[04:36] I will execute if I get R2. P1 is saying I'm having R1 but please give me R2.
+[04:47] If you give R2 to me then I will get execute, but R2 is already taken by P2.
+[04:58] This, R2 is already taken by P2. And P2 is also saying I will get execute
+[05:05] but just give me R1 because it is requesting for R1. But won't get, why?
+[05:10] Because P1 will not execute, when will P1 execute? When it gets R2. And it has R1,
+[05:19] but when it gets R2 it will execute. And when will P2 execute? When it gets R1,
+[05:25] but it won't get R1 because P1 has R1 and P1 will not get R2 because P2 is holding R2.
+[05:35] So means this is what? A kind of deadlock situation. But now we can't call it a deadlock
+[05:41] because for deadlock there are 4 necessary conditions. The conditions are,
+[05:54] mutual exclusion,
+[06:02] no pre-emption,
+[06:09] hold and wait,
+[06:16] and circular wait.
+[06:27] These 4 are necessary conditions for the deadlock.
+[06:33] These 4 are necessary conditions
+[06:43] These 4 are necessary conditions for the deadlock.
+[06:46] What is the first condition? Mutual exclusion. Mutual exclusion means
+[06:51] whatever resource you are using, in the scenario, whatever resource you are using,
+[06:56] that resource must be used in a mutual exclusive way. Means it should not happen that
+[07:02] more than one processes can also use that resource at a time. Like a printer,
+[07:07] like if there is a process that is using the printer means one process is using the printer
+[07:13] to print something and at the same time one more process comes then P1, the first process
+[07:19] will not be pre-empt, means it will not be stopped there, it is not like P2 is also working in between,
+[07:24] means P2 pages are also printing, P1 process pages are also printing,
+[07:28] both are printing at the same time. No, this should not be there.
+[07:31] Means these are necessary conditions, if out of these 4 any condition does not get true
+[07:36] then there will be a chance that deadlock may not occur. So that's why,
+[07:41] what is the mutual exclusion? Mutual exclusion is that whatever resource you are using,
+[07:46] all the resources must be used by all the processes in a mutual exclusive manner,
+[07:52] means one by one. Interleaving is not allowed.
+[07:59] Second, no pre-emption. No pre-emption means like P1 is using R1, R1 is allocated to P1
+[08:09] and P1 is saying I need R2 and P2 is saying I need R1. So pre-emption is not there.
+[08:17] Pre-emption means it shouldn't happen that one process is holding some resource and
+[08:23] another process came and we pre-empted the first process, that release your resources. No.
+[08:30] Pre-emption will not be there, means here there is no priority system that
+[08:33] if high priority comes then low priority, we are talking about equal priority here.
+[08:38] So that's why pre-emption will also not occur. One process which is holding will keep holding
+[08:44] till it executes it will not be pre-empt, means it will not be switched.
+[08:50] Third one is hold and wait, hold and wait is what? This is a situation of hold and wait also.
+[08:56] Hold and wait means P1 is holding one resource that is R1 and waiting for R2,
+[09:03] and P2 is holding one resource that is R2 and waiting for R1. This is the hold and wait.
+[09:11] It should not happen that P1 says that I want R2 and it releases the R1, means
+[09:18] it released what it was holding. No, whatever it is already holding that must be with the P1
+[09:27] and it can request for more resources. So means one resource or two resources
+[09:33] as many P1 has, it will hold them and wait for the another resources, which it doesn't have.
+[09:41] The fourth one is circular wait. Circular wait means this is what? A kind of circle.
+[09:48] This is what? A kind of circle. Circle means like there is a loop in this.
+[09:54] If there is a loop here then definitely a deadlock situation can occur here.
+[09:59] I am still saying it can occur because all 4 conditions are very important,
+[10:04] after these 4 conditions I can decide whether deadlock is there or not.
+[10:09] Let's see one more example of circular wait. Let's say that there is a process P1 which is
+[10:17] holding some resource R1. This arrow means if this arrow is going towards the process,
+[10:26] we call it hold, means that process is holding that resource. Means it is allocated.
+[10:32] So R1 is allocated to P1 process, and there is a process P2 which is saying I need R1.
+[10:42] I need R1, need means I am requesting for R1, for request we draw arrow towards the resource.
+[10:52] And P2 is holding some resource R2. P2 is requesting for R1 and holding R2.
+[11:04] And let's say there is another process P3 which is requesting for R2 and it is holding R3.
+[11:15] Means R3 is held and requesting for R2. And P1 which is holding R1, it is requesting for
+[11:25] a resource R3, it is requesting for resource a R3. So let's see that here circular wait,
+[11:33] means this P3 is having R3 waiting for R2, P2 is having R2 waiting for R1,
+[11:41] P1 is having R1 waiting for R3, so this is what? A kind of circular wait. A loop comes here.
+[11:50] So these 4 conditions are necessary conditions, which we call necessary and sufficient conditions
+[11:57] to become a deadlock situation. So not one situation alone, mutual exclusion, no pre-emption,
+[12:03] hold & wait, circular wait, if all 4 necessary conditions are there then we can say
+[12:07] deadlock is occurring. So that's why these 4 conditions are very important.
+[12:13] This is a simple explanation of what is a deadlock, and
+[12:16] what are the conditions of the deadlock. Thank you.

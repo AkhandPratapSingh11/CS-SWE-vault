@@ -1,0 +1,122 @@
+Title: L-7.4: Contiguous Allocation in Operating system | Advantages & Disadvantages
+Video URL: https://www.youtube.com/watch?v=XHx-ms5Ldi4
+Video ID: XHx-ms5Ldi4
+======================================================================
+
+[00:07] - Hello friends, Welcome to Gate Smashers.
+[00:09] - In this video I'm going to explain contiguous allocation.
+[00:12] - And we will discuss all the important points related to contiguous allocation.
+[00:16] - that will be helpful in your competitive exams and even in your college and university exams.
+[00:21] - so guys like the video and subscribe the channel if you haven't done it yet. Please press the bell button so that you can get all the latest notifications.
+[00:29] - Let's start with contiguous allocation.
+[00:32] - As the name suggests, that we're allocating memory in continuous to the blocks of our file.
+[00:38] - Means, the storage we have, we are placing the data in continuous way in the storage
+[00:44] - there's a simple example, like, we often tell students to sit roll number wise in class
+[00:50] - so obviously what happens there, let say roll no.1 sat on bench no.1, roll no.2 on bench no.2, roll no.3 on bench no.3, roll no.4 on bench no.4
+[00:58] - so it is allocated in contiguous way.
+[01:02] - so obviously it is not necessary that roll no.1 must be sitting on bench no.1, wherever it will start
+[01:07] - obviously, we'll keep the next bench for the next roll no.
+[01:12] - so this is the simple concept of contiguous allocation
+[01:15] - so let me explain you by a simple example, let say we have 3 files A, B and C
+[01:21] - It is directory
+[01:22] - what is the actual use of directory, why we use directory, because directory contains all the information, all the information related to files.
+[01:32] - so here I've taken only 3 information’s, Name of file, where the file starts from and what is the length of the file.
+[01:39] - Means, what we've done, let say we have a file, File A , So what we have done , We divided that file A
+[01:46] - in 3 parts i.e. part 1, part 2, part 3
+[01:50] - so obviously it becomes block 1, block 2 and block 3
+[01:54] - so this is the actual meaning of length. So actually we understand by length that how much blocks it acquires in memory/storage.
+[02:02] - how much physical block it will acquire. Similarly, we've file B, we've divided that into 5 parts.
+[02:08] - we've file C, we have divided that into 4 parts.
+[02:10] - because what we do to the data
+[02:12] - it may be like the size of the sector is small and the file is very big. Because nowadays we're dealing in gigabytes of data, terabytes of data
+[02:22] - so obviously, the whole file in gigabyte won't be stored as it is
+[02:26] - so we divide it, so that is actually logical division.
+[02:29] - so this directory contains all the information
+[02:33] - So look what we have done, we started file A from block number 0 or you can say from sector number 0
+[02:41] - so what I have, A disk, We have made the disk from inside like, usually we make disk like track/sector
+[02:48] - but here we've made it in simple way. Now see, we have physical sectors inside the disk
+[02:54] - the location, physical location where the data will come. So now what we're doing, we are starting from 0.
+[03:00] - Means we are starting the first block from 0 of file A. So that means, from 0 to 3 of file A
+[03:08] - the meaning of 3 is length 3. So the meaning of length 3 is that the first is placed at 0, second is placed on 1 and third is placed on 2.
+[03:17] - So this is actually length 3. So the meaning of length 3 is that there are 3 blocks of file A.
+[03:23] - So I've placed first block at 0, so where will I place the second block, obviously the next location is 1.
+[03:28] - Where will I place the third block, obviously the next location is 2.
+[03:32] - that is the meaning of the contiguous. You have to place it contiguously not like randomly anywhere.
+[03:37] - Similarly, look at file B. We're starting file B from 6.
+[03:41] - so here is my six no. block. Now how many, we've divided it into 5 blocks.
+[03:46] - so obviously you can say, we started from 6, so, 1, 2, 3, 4, 5
+[03:52] - So look, we have stored file B from 6 to 10
+[03:57] - Similarly file C, we are starting file C from 14 and we are dividing it into 4 blocks that means physically it will take 4 blocks
+[04:06] - So start from 14. 1, 2, 3, 4. So we placed the data contiguously like this.
+[04:13] - so this is the simple meaning of contiguous allocation.
+[04:17] - Now let's talk about what the advantages and disadvantages
+[04:20] - because a lot of questions are asked like this. They're of very simple level
+[04:24] - but many times, if you don't know the concept then you won't be able to visualise it easily
+[04:30] - that what is actually happening. So look, the first advantage is 'Easy To Implement'
+[04:35] - this method is easy to implement because we use pointers in other methods
+[04:42] - we place data randomly so there we have to use pointers or in index one we have to make extra index
+[04:49] - so there neither we are using pointers not we are making index. We simply said that start from 0
+[04:57] - put the data contiguously according to length
+[05:00] - Next, excellent read performance. This is a very important part.
+[05:04] - Either we are doing sequential access or we are doing direct access, these both methods are easy to access
+[05:13] - Why? What's the reason of this? You know from this now that
+[05:17] - I've to read the data. So look, at the time of reading, sequential
+[05:21] - Sequential means, let say I have to read 6, 7, 8, 9, 10, all. So actually what happens in a disk
+[05:28] - let say this is my one track, now in this track let say here is the 6 number. So we entered the data in 6
+[05:35] - The next block is on 7, the next, on 8 and the next to it, on 9 and the next to it on 10
+[05:42] - because we placed from 6 to 10. So we allocated this sectors contiguously.
+[05:48] - Now see, when our read write hand will reach here that means when read write hand will reach the particular track where the data is lying actually
+[05:57] - so it took 1 seek time, and from that seek time
+[06:00] - What is seek time? It is the time taken to reach the desired track. So it reached on desired track
+[06:06] - now after reaching the desired track, it has to do nothing, simply just rotate the disk
+[06:12] - and after rotating you get all the data 6, 7, 8, 9, 10
+[06:18] - and if you would have placed the data randomly, let say you placed 6 here, and next block in another track, and next in another track
+[06:27] - then obviously you've to change track again and again. And as often you change the track seek time will increase accordingly
+[06:34] - so because of that our access will increase. So that's why, in order not to increase access time
+[06:40] - what we did, we placed the data sequentially. So, as soon as we reached the particular track
+[06:46] - just rotate the disk and you'll retrieve all the data. So this example, actually this is the advantage
+[06:53] - read performance is excellent in case of contiguous. And the meaning of direct is that, Let say, 9th
+[07:01] - You don't have to access the whole file, you just have to access the 9th no. block of the file. So it's easy in this case also, because you get to 6
+[07:09] - and after that you know obviously it is placed contiguously. That means, like you entered in the class and you know students are sitting contiguously in class
+[07:18] - And you, let say, you have to go to roll no. 10. So to get to 10, and obviously if you are standing at roll no.1
+[07:25] - then obviously you know that he must be sitting after 10 benches because roll no.1 is on bench no.1, roll no.2 on bench no.2, 3, 4, 5
+[07:33] - So it's not like you have to search randomly. You reached at one place, like you reached on 6 now you know that 9 must be after 3 locations
+[07:42] - So, 7, 8, 9. You'll get 9 after three. So either you do direct access or sequential, even if you access the whole file
+[07:50] - your access time will be less or you can say access speed will be faster. So this is the main advantage of the contiguous allocation.
+[07:59] - Now let's talk about disadvantage. So the disadvantage here is
+[08:04] - the first disadvantage is fragmentation. Fragmentation generally happens in two ways, internal fragmentation and external fragmentation
+[08:12] - Actually internal fragmentation is, let say, that your block, one physical block
+[08:19] - that data we have, the size of a physical block inside a disk, let say, 5 kb, I'm just taking a simple example
+[08:26] - 5 kb is the size of a disk block and the block of your file, let say it's size is 3 kb. So you entered 3 kb data there
+[08:36] - then the 2 kb space which is remaining will not be utilised. So obviously this is called internal fragmentation. So there is no solution of internal fragmentation
+[08:46] - internal fragmentation can occur everywhere but the major problem here, that is a external fragmentation
+[08:53] - because the internal fragmentation, if the file size is low so obviously what can we do in that case, nothing. But external fragmentation is quite popular here
+[09:02] - What is the meaning of external fragmentation, it has a simple meaning, look, now you have placed the block here, let say, you placed 1, 2, 3, have also put this, have also put this
+[09:11] - now you know you have, let say, 3, 4, 5 these three. You have these three empty. And let say after that this one is empty and these three are empty.
+[09:21] - now see, let's suppose we don't have any after that, means that's all we have in a block. Now a new file enters, D.
+[09:28] - D file enters and D file wants, let say, 4 block. It needs 4 block that means it's total length is 4 block.
+[09:37] - So look, although how many block you have empty, 1, 2, 3, 4, 5, 6
+[09:44] - You have 6 empty blocks, it's clearly visible. Here it is, 1, 2, 3, 4, 5, 6
+[09:50] - But the problem is these 6 are not contiguous. First you have 3 empty, then there's data, then 1 is empty, then 2 are empty and then there's data.
+[10:02] - what it meant to say is that you have 6 blocks empty, then if 6 blocks are empty so if a file demands of 4 blocks or 5 blocks then you have to place that
+[10:13] - but you can't place them. Reason behind that is that this is contiguous. You can't do that you placed 3 blocks here and 1 block there out of 4 blocks, No.
+[10:22] - Because it is contiguous allocation. It want the 4 blocks collectively.
+[10:27] - So that is called the external fragmentation. Means, you have available space but you can't enter the data because of contiguous.
+[10:35] - So this is a major disadvantage of the contiguous allocation
+[10:39] - further, that is removed by linked list of index but it is the main purpose here.
+[10:45] - Second, difficult to grow the file. What we're doing in this, we already told
+[10:49] - let say, file A enters, we placed it in 0, 1, 2. After that, let say, another file enters, E, and we started it from 3
+[10:57] - just for example, from 3. And let say we provided it 3 blocks too. That means it is placed here easily, here, here and here.
+[11:06] - Means it is filled. Let say, file A demands, which was in 0, 1, 2.
+[11:11] - it demands of some more space. We added something to it. Like normally we make edits in files.
+[11:17] - We edited the file and it's size increased. Now if the file size increased I cannot provide space to the data
+[11:25] - why I can't do that? Because the next location is full. The next location is filled.
+[11:31] - Now, however, the space is available but it is not contiguous, it is far away somewhere. So I cannot grow the file now.
+[11:38] - Means, I already mentioned, that A file needs 3 block, B needs 5 blocks, C needs 4 blocks, but if they grow
+[11:47] - it becomes difficult as if the space is available contiguously then you can place but if fhe space isn't available it will not allow it to grow.
+[11:56] - but if this was random, then let say, you placed 3 here, and if it demands of 1 more blocks, so if it wants 1 more block then ok take this block
+[12:05] - but you can't provide it here because it needs data contiguously.
+[12:09] - So it becomes difficult to grow the file, to increase it's size or to edit and add something in it
+[12:15] - and second, specially external fragmentation
+[12:18] - although internal fragmentation is also present but that will be present in all cases. Internal fragmentation don't have any particular solution. - So these are the major important points related to the contiguous allocation, Thank You.
+[12:26] - That obviously if your file size is low then what can you do

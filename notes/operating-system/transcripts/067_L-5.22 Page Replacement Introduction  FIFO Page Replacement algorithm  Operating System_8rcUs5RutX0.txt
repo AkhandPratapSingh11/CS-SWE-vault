@@ -1,0 +1,356 @@
+Title: L-5.22: Page Replacement Introduction | FIFO Page Replacement algorithm | Operating System
+Video URL: https://www.youtube.com/watch?v=8rcUs5RutX0
+Video ID: 8rcUs5RutX0
+======================================================================
+
+[00:00] Page replacement algorithm
+[00:02] We have seen in the concept of paging  that by dividing the processes in pages
+[00:07] we put them in the frames of main memory,
+[00:09] what does the concept of virtual memory say?
+[00:12] That we never bring the entire  process inside the main memory
+[00:17] and not all the pages of a process
+[00:20] at the same time we try to keep in the  main memory
+[00:24] no, Here we provide the reason to the programmer through virtual memory
+[00:28] that all the processes you have.
+[00:31] We can accommodate the maximum number of  processes inside the main memory.
+[00:36] but actually how it is done
+[00:38] If we will keep the entire process in the main memory
+[00:41] So it may be that our main memory is  completely finite.,
+[00:44] so my main memory will get filled with one or two processes.
+[00:47] So what do we do instead?  Virtual memory
+[00:50] one or two pages,  Each process brings one or two pages into the main memory.
+[00:56] which have demand.
+[00:58] When their need runs out, we swipe out those pages
+[01:01] and then swipe in fresh pages.
+[01:04] So this swipe in and swipe out funda  we saw in virtual memory.
+[01:08] Now which page do we have to bring  inside the main memory?
+[01:13] And when that page will come  inside main memory
+[01:16] it is possible that the main  memory is already filled,
+[01:19] all the frames are already filled in it.
+[01:22] So if I want to bring the new page  inside the main memory
+[01:26] and get it accommodated,
+[01:28] So for that one page from the main memory
+[01:31] will have to be taken out from there
+[01:34] So that I can clear a frame over there
+[01:37] So what is my concept here?
+[01:39] of page replacement, Means
+[01:41] I am bringing a page to the main memory
+[01:45] If my main memory is full,
+[01:47] then I will remove the old page from there by swiping out
+[01:51] and make space on it and place the new  page in that place.
+[01:55] So how to replace these pages?
+[01:58] There are three methods,
+[01:59] first is the first in first out,
+[02:03] optimal page replacement
+[02:05] and least recently used.
+[02:07] These three algorithms which are common and most of the time are used
+[02:11] to replace the page.
+[02:13] If there is a space in the main memory
+[02:15] then there is no problem
+[02:17] Then you can put the new page on that empty space.
+[02:20] But the problem is that the size of the processes are very big,
+[02:24] and the number of processes are very high
+[02:26] but the size of main memory is limited and it is finite.
+[02:30] So in order to bring more  and more processes
+[02:33] What I have to do?
+[02:35] I have to remove old pages
+[02:38] and replace them with new pages
+[02:40] So how do we replace it?
+[02:42] let's start with first of all  first in first out,
+[02:46] here I have one string
+[02:49] this is what? It is called a reference
+[02:53] reference string
+[02:55] reference string means
+[02:57] the CPU is demanding pages
+[02:59] Let's say the CPU is executing a process.
+[03:02] Executing any process
+[03:04] and we have divided that process into different pages
+[03:08] Now the CPU has sent a demand
+[03:11] that first I want page number 7
+[03:14] then one then 0, then 1, then 2  and again 0,
+[03:17] this is the sequence,  means
+[03:20] this is the reference, it is in sequence
+[03:22] it is already in the order, here I have taken this sequence
+[03:27] now whenever the CPU is demanding, for what?
+[03:30] that is page number 7
+[03:32] then 0, then 1, then 2
+[03:34] and this is how it moves
+[03:36] and here I have three frames of  the main memory
+[03:39] Means in this process, its pages
+[03:43] out of these three frames
+[03:46] can appear anywhere
+[03:48] Now if we see this in real time,
+[03:50] then in real time
+[03:51] pages of a process
+[03:54] we do not give the 5th number of frames
+[03:56] Meaning the number of frames can be more or less.
+[04:00] But Just for Solving the Example or Numerical
+[04:04] So that we can understand these three concepts very well.
+[04:07] So I fixed here
+[04:09] that for this process,
+[04:10] for the pages of this process
+[04:12] three frames have been given in the main memory
+[04:15] Frame 1, Frame 2, Frame 3
+[04:21] Now let's start with solving
+[04:23] how first-in-first-out works?
+[04:26] So here's what the CPU has demanded first
+[04:28] that is of page No.7
+[04:30] Means the CPU is saying that the byte
+[04:33] because the CPU does not even know  that we have used any paging concept,
+[04:37] then the byte that the CPU has demanded
+[04:40] the byte that it is demanding, Where is that byte?
+[04:43] on page No. 7,
+[04:45] We converted the logical address and found out
+[04:48] that it is demanding for page number 7
+[04:51] When I saw page number 7 in the main memory,
+[04:54] it is neither in frame one nor in two nor in three,
+[04:57] that is, that page is not present anywhere
+[04:59] So if that page is nowhere then what do we call?
+[05:02] Page fault
+[05:03] We have already discussed this
+[05:06] whenever the CPU is looking for a page
+[05:08] and that page is absent in main memory
+[05:11] we call it page fault.
+[05:14] So whenever a page fault happens,  we service it.
+[05:17] Means we bring it from the hard disk
+[05:19] and keep it in the main memory.
+[05:22] Although it is very time consuming
+[05:24] And one of the motives of the page replacement algorithm is
+[05:29] to minimize page faults.
+[05:32] Because whenever a page fault happens
+[05:34] My time is wasted because the hard disk gets involved.
+[05:38] and where hard disk is involved,
+[05:40] definitely hard disk is very slow
+[05:43] so obviously my time will increase
+[05:45] and performance will decrease.
+[05:47] So for this we would like to minimize the page fault.
+[05:53] but that is just numerical so we check  how many page faults occur in it.
+[05:58] Or how many page hits occur,
+[06:00] when page number 7 comes, page number 7  is not here.
+[06:04] So that means what happened here
+[06:07] fault happened, then we called page number 7 from the hard disk
+[06:11] and let's say we put it in frame number 1.
+[06:14] Along with this, you should also mention   here's what it actually is,
+[06:19] a page fault because the page you were looking for was not there
+[06:23] now it has arrived, now that page has arrived
+[06:26] Now page No. 0
+[06:28] Second of CPU is saying that I have  demand for page number zero.
+[06:31] But even if you look carefully for zero,  it is not there.
+[06:34] Zero also have to be brought
+[06:36] that is also called a page fault.
+[06:38] So here too there is a page fault
+[06:40] because zero page is also not present  in main memory
+[06:45] so I will bring page number 0 from the hard disk
+[06:48] and place it in frame 2 of main memory.
+[06:52] Now there is no need to replace
+[06:54] do not replace this 7 because you already have vacant space.
+[06:57] So when the space is empty, fill that space first.
+[07:01] Why are you replacing it? The point of replacement will come
+[07:05] when the entire space is filled.
+[07:06] But still the slot was empty, so I put this 0 here,
+[07:10] You can start from the top also,
+[07:12] it is our own way of practice
+[07:14] I was used to practice this from beginning
+[07:16] I used to solve like this
+[07:19] I first placed 7 here then 0 in the second
+[07:21] now next frame came 1
+[07:24] sorry next is page number 1,
+[07:26] Now if you look carefully So page number one is also not there
+[07:29] So here again page fault is occurring
+[07:31] so I will bring page number one from the hard disk
+[07:35] and put it in the main memory.
+[07:37] So the three frames here are all filled up
+[07:40] and all of these three are page faults.
+[07:43] Next frame No. 2
+[07:46] Page No. 2
+[07:47] there is demand for page number 2
+[07:49] whether I have page number 2 first you have to check that.
+[07:52] That if page number 2 is there it is a hit, isn't it?
+[07:55] The page got hit, but if you look carefully,
+[07:58] the CPU is demanding page number 2,
+[08:00] but page number two is not here.
+[08:03] and here the space also ran out
+[08:05] Means we have three frames saved and all are full
+[08:08] then what will I do an old page will have to be replaced.
+[08:12] So what does FIFO do?
+[08:14] First in first out, means
+[08:16] the frame which was filled first
+[08:21] empty that frame first
+[08:25] Means what will I fill here in place of 7, 2
+[08:28] and rest as it is
+[08:30] rest as it is, means
+[08:33] means we brought 2 in place of 7,
+[08:35] and 0 and 1 as it is,
+[08:37] So what is this? This is also a page fault.
+[08:39] Because the page you were asking for is not present.
+[08:44] After that, if you look carefully,
+[08:46] Whose demand has come next? page number zero,
+[08:49] So is my page number zero present here?
+[08:53] You have to check here recently
+[08:55] as this is an updated report. You have to check it in the updated
+[08:58] Is page number zero there?
+[09:00] Yes, my page number zero is present.
+[09:03] So if page number zero is present then what is it called?  Page hit,
+[09:07] Hit means?
+[09:08] The thing you were asking for is already present in main memory.
+[09:12] So we copy the hit case as it is.
+[09:15] Means copy it here as it is
+[09:18] if hit occurs
+[09:20] I also note here, Let me write,
+[09:22] that is called a hit
+[09:23] because the page you were demanding was found.
+[09:27] Next 3
+[09:28] Check if 3 is there or not? No, 3 is not there,
+[09:32] So I'll have to replace it.
+[09:33] Which frame was the first to be replaced according  to First In First Out?
+[09:37] Which frame did we change? In frame one,
+[09:40] now which one has to be changed?
+[09:41] frame 2, means you have to remove frames one by one.
+[09:45] Will send this zero out of the frame.
+[09:47] and we'll bring 3 in place of that zero.
+[09:50] Means we will replace this zero with 3
+[09:52] keep the rest as it is.
+[09:54] And what is this too? Page fault
+[09:57] because the number three page was not present
+[09:59] We have brought it now.
+[10:01] Next 0,
+[10:03] Zero, page No. 0
+[10:05] Is page no. 0 there?
+[10:07] No it's not there.
+[10:08] Now again we have to do replacement
+[10:10] with whom we will replace now?
+[10:11] with frame No. 3
+[10:12] first of all frame No. 1
+[10:14] then replaced in 2
+[10:16] now in 3, you have to replace line-wise
+[10:19] so in frame no. 3 we replaced 1 with 0
+[10:22] we are in this frame
+[10:23] on this page No.
+[10:25] 3, 2
+[10:26] and what is this?
+[10:29] This is miss or page fault.
+[10:31] because the page you were having  demand for is not there.
+[10:34] after that we come on page No. 4
+[10:36] Is page No. 4 present there? No, it is not
+[10:39] Page No. 4 is not present,  so what will we replace?
+[10:42] Frame 1, Why?
+[10:44] because first we replaced frame 1,  then 2 then 3
+[10:47] now we have come back on frame No. 1
+[10:51] so we will replace 2 with 4
+[10:54] and rest write as it is
+[10:56] and this is also page fault, because
+[10:58] because page No. 4 was also not present
+[11:01] Next is 2,
+[11:03] Is 2 present?
+[11:05] No, 2 is not present
+[11:07] as 2 is not present so we will replace 3 with 2
+[11:10] and rest 2, 0, 4
+[11:13] because after frame 1, replacement will be in frame 2
+[11:16] Next 3,
+[11:18] Now we are on this page No.
+[11:20] Is page No. 3 there? No, it is not.
+[11:22] So again page fault occur here
+[11:25] What we will replace? Frame No .3
+[11:27] You just have to replace line-wise
+[11:32] After this comes page No. 0,
+[11:36] Page No. 0
+[11:37] Is Page No. 0 present? No it is not.
+[11:40] So we are again on frame No. 1
+[11:43] We replaced 4 with 0
+[11:46] 2, 3
+[11:47] Again what I am having here? Miss
+[11:51] then after 0, I am having 3
+[11:55] Page No. 3
+[11:57] Is page No. 3 present?
+[11:59] Yes page No. 3 is already there.
+[12:01] So the page which CPU is demanding is present in main memory
+[12:06] This we call hit.
+[12:08] So when there is hit you don't have to do any changes
+[12:11] just copy previous one as it is.
+[12:14] and write here that it is a hit
+[12:18] then, page No. 1
+[12:21] Is page No. 1 present here?
+[12:23] No, page No. 1 is not present.
+[12:25] So, what will we replace?
+[12:28] this one, because we have already replaced frame No.1
+[12:31] now it's turn of frame 2
+[12:33] So in frame 2 we replace 2 with 1 and
+[12:38] keep rest as it is.
+[12:40] that is again called a miss.
+[12:42] or page fault
+[12:44] after that Page No. 2
+[12:48] Is page No. 2 present? No Page No. 2 is not present
+[12:51] So what do we replace now
+[12:53] 3rd frame, replaced 3rd frame
+[12:56] put 2 in its place
+[12:58] and rest as it is.
+[12:59] That is again called a page fault.
+[13:02] After that came page No. 0,
+[13:05] Is page No. 0 present?
+[13:07] Yes page No. 0 is present.
+[13:09] So when it is present we call it hit,
+[13:12] So you copy it as it is.
+[13:16] That is called a hit.
+[13:18] So this is how we have to follow.
+[13:20] No matter how big this referencing is
+[13:23] you will not face any problem
+[13:25] because you have to follow a simple method
+[13:28] that you have to replace frame wise
+[13:30] first you have to replace frame 1
+[13:32] then 2, then 3
+[13:35] then again 1, 2 and 3
+[13:36] again 1, 2, 3
+[13:37] but when? when frames are already full
+[13:41] means all slots are filled
+[13:43] and the page which CPU is making demand
+[13:45] is not there.
+[13:47] means there is page fault.
+[13:49] So now you can check here how much hit I am having?
+[13:52] and how many page fault or miss are there.
+[13:55] We can call this page fault
+[13:59] or page miss.
+[14:03] and this is page hit.
+[14:06] So how many page hit came
+[14:08] 1, 2, 3
+[14:11] That is called page hit.
+[14:12] and how many page fault came?
+[14:14] 1, 2, 3, 4, 5, 6, 7
+[14:17] 8, 9, 10, 11, 12
+[14:23] So 12 No. of page faults.
+[14:27] and how many hits 3
+[14:29] Many times you can be  asked
+[14:31] What is the... all this question is given
+[14:34] at last it is asked what is the hit ratio?
+[14:37] or what is the miss ratio?
+[14:39] So if you want to find hit ratio or miss ratio first of all
+[14:42] find number of hits and number of miss
+[14:45] now I know if I have to find hit ratio
+[14:49] How will you find hit ratio?
+[14:51] number of hits divided by
+[14:55] total number of references
+[14:59] so the number of hits I am having is 3
+[15:02] number of hits are 3,
+[15:04] and the number of references 1, 2, 3
+[15:09] 15
+[15:11] So 3 divided by 15
+[15:13] multiplied by 100
+[15:16] and what is the miss ratio or page fault ratio?
+[15:20] 12 divide by 15
+[15:21] multiplied by 100
+[15:23] So this is the way how we can solve.
+[15:26] Solve it further
+[15:32] So 20% is the hit ratio
+[15:36] and if you solve this
+[15:38] definitely it will come 80 %
+[15:40] If hit ratio is 20 %
+[15:42] so what would be 100 - 20%
+[15:45] that would be miss 80%
+[15:47] This is how we can solve the question of
+[15:51] FIFO
+[15:52] first in first out, in which you
+[15:54] have to go frame wise just frame wise
+[15:56] don't worry about how reference came
+[15:59] just go on replacing frames one by one
+[16:01] in sequence
+[16:03] So this is all about first in first out
+[16:05] Thank You.

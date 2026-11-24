@@ -1,0 +1,213 @@
+Title: L-3.8: Semaphores | Wait, Signal Operation | Counting Semaphore | Example| Operating system
+Video URL: https://www.youtube.com/watch?v=eoGkJWgxurQ
+Video ID: eoGkJWgxurQ
+======================================================================
+
+[00:00] Hello everyone, welcome to Gate Smashers. Today we are going to discuss topic Semaphore
+[00:05] In GATE and other competitive exams many times questions are asked on semaphore.
+[00:10] What actually is semaphore? It is a method or it is a tool which is used to prevent race condition
+[00:17] Means when we synchronize processes or run multiple processes at a time,
+[00:23] and specially cooperative processes in between them something is common,
+[00:26] if so many processes are run at a time then race condition can occur in them.
+[00:32] Due to race condition loss of data, deadlock and many problems occur.
+[00:37] Now to remove that race condition or we want to prevent it. One of the methods for that
+[00:44] is the semaphore. Now semaphore, we start with the definition, semaphore is an integer variable
+[00:51] which is used in a mutual exclusive manner by various concurrent cooperative processes
+[00:57] in order to achieve synchronization. So what is a semaphore? It is first of all integer variable.
+[01:05] It is an integer variable and to this integer variable means whatever the value in this,
+[01:10] that value in a mutual exclusive way using many different processes and
+[01:16] ultimately what I want to achieve? Synchronization. Now semaphore used are of basically 2 types,
+[01:22] Counting and Binary semaphore. Counting semaphore means what? In which value of integer variable,
+[01:29] this integer variable, its value can vary from minus infinity to plus infinity and in Binary
+[01:37] there are only 2 values like you know, 0 and 1. So first we talk about counting semaphore.
+[01:43] So before starting counting semaphore we use many different operations in synchronization,
+[01:50] where do we use operations? Like our critical section. In critical section basically common code,
+[02:00] means between multiple processes whatever is common that common piece of code we keep inside critical section.
+[02:08] Now as many processes, as many processes, multiple whatever number of processes all of those
+[02:14] try to use critical section, means they want to enter critical section,
+[02:19] but to enter critical section they have to first run entry code and
+[02:26] when they complete their work in critical section, they have to run code of exit section.
+[02:34] Means one is an entry code and one is an exit section. So after executing this thing their
+[02:40] processes can be terminated. Now in entry code and exit code there are various operations.
+[02:46] What are operations?
+[02:52] And these operations we are going to use in semaphore.
+[02:56] Operations are P() and V().
+[03:02] There is one more synonym of P which we use that is Down and for there we use Up.
+[03:12] And one more is Wait and there is Signal. With Signal we use Post also sometimes, Post or Release.
+[03:36] This P(), Down, Wait these operations we use in the entry code. In entry code we use
+[03:45] either P() operation, corresponding to P() we use V(), corresponding to Down we use Up,
+[03:51] corresponding to Wait we use Signal or Wait-Post or Wait-Release. So now,
+[03:57] what is the meaning of P() and V() or Up and Down, so I have already written this
+[04:02] what is the meaning of Down and what is the meaning of Up. Now let's say that in critical section
+[04:11] initially critical section is free, critical section is totally free
+[04:21] and multiple processes want to enter into the critical section. Now to enter critical section
+[04:27] they have to first execute the entry section code. What is the entry section code here? Down.
+[04:34] As I have already told you Down, P() or Wait these three are synonyms.
+[04:38] You can use any of these three means if I write P in place of Down, doesn't matter it's the same.
+[04:44] Or instead of P if I write Wait, instead of Down if I write Wait that doesn't matter,
+[04:49] these are the various operations. When we do coding in C, or we can code this thing, at that time
+[04:56] we use any of the operations out of these operations. Let's say, first of all Down,
+[05:01] Down means entry section.
+[05:03] Entry section.
+[05:07] Now in entry section what we do in Down first of all S, S is what? A semaphore.
+[05:13] It is a integer variable let's say S, A, B, C whatever variable name you want to give,
+[05:18] let's say the S value is the semaphore value.
+[05:23] Now this value in the counting semaphore can vary from minus infinity to plus infinity.
+[05:30] So S Value= S Value-1. So let's say semaphore value is initialized with 3.
+[05:38] You can initialize with any value let's say it is initialized with 3. Now when a process comes
+[05:44] let's say P1 comes. P1 wants to enter into the critical section but for P1 to enter critical section
+[05:52] it has to run entry section code. What is entry section code? Down. When it runs this Down code
+[06:00] then what is the first line? S Value= S Value-1. Means the value of 3 will be reduced to 2.
+[06:10] Successfully value has been reduced from 3 to 2. Now check if S Value is less than 0, No.
+[06:16] So means we don't need to use this. If S Value less than 0 was true then we would execute this,
+[06:22] but it is false, so means this process P1 will easily enter critical section.
+[06:30] Let's say 1 more process P2, P1 is already there in the critical section,
+[06:36] it is already sitting in critical section. Let's say P2 comes. Now P2 also
+[06:40] has to run entry section code to enter, what is entry section code? Down. Now to run Down
+[06:47] S Value= S Value-1. What is S Value now? 2. So from 2 value becomes 1. 1 value was reduced,
+[06:56] Now check if S Value is less than 0. No, S Value is still 1. So means this line was not executed
+[07:05] so it will exit, so will return. Return means this P2 also successfully enters critical section.
+[07:14] Now let's say P3, third process comes P3. P3 also wants to enter
+[07:21] so it will also run entry section code, S Value= S Value-1. The value of S will be reduced to 0.
+[07:29] Now check if S Value is less than 0, whether 0 is less than 0? False, it is false. So it is false,
+[07:39] so this line will again not run, so therefore we directly exit, so means P3 also
+[07:44] is successfully inserted in critical section. Now you might be thinking that
+[07:50] now we are talking about mutually exclusive that multiple processes will use it one by one.
+[07:56] Yes, they will use one by one, but we are just for the sake of example that
+[08:00] how is the Down code executed for that I took value of S as 3. If you take Value of S as 1
+[08:09] then you can simply say that only one process can enter at one time. It is just for explanation
+[08:15] that how we execute Down. So now say we continue this, one more process comes P4,
+[08:25] Now when P4 wants to enter then it will also run the entry section code, S Value= S Value-1.
+[08:32] But now see what is the S Value? 0. So from 0 what does the value become? -1. One value was reduced.
+[08:41] But now we will check if S Value is less than 0, means what is the value? -1.
+[08:47] Whether -1 is less than 0? True. True means put the process means this line will run,
+[08:53] put the process (PCB) in the suspended list, that is called the Sleep operation.
+[09:00] Means we will not bring this process, this P4 process in critical section. Its PCB, PCB is what?
+[09:09] Process Control Block where all the information of this process is stored, its process ID,
+[09:14] list of open files, priority and all, all that information related to this process,
+[09:20] all of that we will store where? directly put in suspended list or we can say we have blocked P4.
+[09:27] Means there is a block list here, queue is there, in that we put P4 in it, because
+[09:33] we could not successfully execute P4, could not put in critical section so means we will block it.
+[09:40] Or in technical terms we call it Sleep, means it went to sleep, went in blocked state.
+[09:46] Now similarly if one more process wants to try let's say P5 also wants to try. If P5 tries
+[09:54] then again S Value= S Value-1. What is S Value? -1, again it will be reduced to -2.
+[10:05] Check, put, this... Sorry. If S value is less than 0, -2 is less than 0? Yes, -2 is again true
+[10:14] that is less than 0. So put again PCB of this process into the suspended list.
+[10:20] Means we will block P5 also.
+[10:28] So this is how we execute the Down operation. So if I take a simple value, let's say that
+[10:36] semaphore value at present is let's say -4. Semaphore value is -4.
+[10:48] If at present semaphore value is -4 then what we can assess? The answer is that at this time
+[10:59] there 4 processes which are sitting in blocked state means there are 4 processes
+[11:05] which have been suspended or sitting in blocked state. So if I make S Value 0,
+[11:11] let's say S Value is 0. What is the meaning of S Value 0? Means further any process, any further process, if S Value is 0 then any further process cannot enter critical section.
+[11:26] This is the last value because after this if we make the value -1 then definitely
+[11:32] -1 value less than 0 this line will be true and that process will go in suspended list.
+[11:39] So if S value comes 0 then this is the last value, after this no process can enter critical section
+[11:47] so they will all go in blocked state. So if all these processes like some processes
+[11:52] enter critical section, some went in blocked state. Now these blocked processes how we unblock them,
+[12:00] so what we do after this when this P1, P2, P3, let's say that
+[12:05] P1, P2, P3 are already sitting in critical section, when some process comes out of critcal section
+[12:10] then it has to run exit section code or what is called executing exit section code.
+[12:17] Let's say that if P1 says that my work is done now I want to exit critical section,
+[12:24] let it exit, no problem, but it will have to run exit code. What is exit code? This Up.
+[12:34] At exit it will be this Up code will be executing. What can we already call Up? Up means V()
+[12:41] or Signal or Post. You can call it anything, call it V(), call it Signal, call it Post,
+[12:49] all these are like synonyms. These are all the synonyms. So when a process exits critical section
+[12:57] then it has to run this code. Now what is the meaning of this code? S Value= S Value+1
+[13:05] Now what was the current scenario? The current scenario is,
+[13:15] we are moving further with the same example let's complete this example. In the example
+[13:21] we had successfully inserted P1, P2, P3 in critical section but when P4 and P5 wanted to come
+[13:28] they both went to blocked state and this semaphore value, current semaphore value going on is -2.
+[13:35] I'll take this example so that you will get clear on the whole example when we do from start to end
+[13:40] after that we will discuss 1-2 more examples, first we will complete this example so that
+[13:45] you will know all steps that how particular Down or Up works. So at present
+[13:52] what is the value of semaphore? -2 and there are 3 processes in critical section P1, P2, P3 and
+[13:59] there are 2 processes in blocked state P4 and P5. As I have already told that
+[14:04] if semaphore value is -2, what is the meaning of this? 2 processes are in suspended list.
+[14:11] So obviously, there are 2 processes P4 and P5. Now we are saying that P1 says that
+[14:17] my work is done now I want to exit, let it exit but it will have to run this Up code.
+[14:23] When it runs the Up code, let's say semaphore S, S Value is the same variable, S Value= S Value+1
+[14:32] S value, what is S value? -2. From -2 we made one value up, one up and the value becomes -1.
+[14:43] Now check if S value is less than equal to 0? Is value of S less than equal to 0? Yes,
+[14:50] because what is S Value at present? -1. Is -1 smaller than 0? Yes, -1 is smaller than 0.
+[14:59] If yes it is true, then this line will execute. What is this line saying?
+[15:04] Select a process from suspended list and wake up().
+[15:12] Means whatever processes are lying in blocked list out of those pick one process and wake it up,
+[15:20] What is the meaning of wake up? They are lying in blocked state, now from blocked state
+[15:25] they cannot go to running state directly so they have to be put in ready queue first.
+[15:29] So what does it mean to put in ready queue? We are waking them up making them active.
+[15:34] Now you might be thinking that out of P4 and P5 which one will we wake up, now you can pick anyone
+[15:41] but FIFO, we generally follow FIFO. So what is First in? P4. So First out should be what? P4.
+[15:48] So we will pick P4 from suspended list and we will wake it up. So I picked P4 from blocked list
+[15:58] and made it wake up. Wake up doesn't mean that we put it in critical section, now it can again try,
+[16:05] P4 can try again to enter critical section. Now let's say, once again we'll run the code,
+[16:14] Let's say that P2 also says that I want to exit critical section. No problem,
+[16:19] P2 can also exit critical section, but when it comes out then it will have to run exit code
+[16:24] and what is exit code? This Up. S Value= S Value+1. What is the S value? -1. We made it up
+[16:33] so it becomes 0. What is this value? 0. Now see if 0 is less than equal to 0, there is a equal to
+[16:42] here there was no equal to but there is a equal to, 0 equal to 0, true.
+[16:47] Means select a process from suspended list and wake up. Means one more process that is there
+[16:55] pick it up from here and make it also wake up. So what was the other process? P5.
+[17:01] So we will bring P5 out from suspended list and again it doesn't mean putting it in critical section,
+[17:08] it can now try means it is now in wake up, in ready queue, now it can try to enter critical section.
+[17:17] This is the meaning of how we actually execute the Down and Up. Let's say
+[17:23] now P1 and P2 both have exited critical section so I will erase this from here.
+[17:30] But still what is there in critical section? P3. Let's say that now P4 says that I want to enter,
+[17:40] P4 wants to enter critical section because now it has come out of block list so it can try but
+[17:45] let's say that on entry section when it runs code, which code will it run? Down.
+[17:51] So when it runs Down code let's say S Value= S Value-1. What is S value? -1.
+[18:00] Put process, if value of S is less than 0, yes, so put the process again in the suspended list.
+[18:06] So P4 again will be suspended because already a process P3 is in it P4 now again cannot come,
+[18:14] we will have to suspend it again. So we cannot try this. Let's say our value is still 0.
+[18:23] Now P3 says that I also want to exit critical section. No problem, let it exit,
+[18:30] it will run exit code, what is exit code? This one. S Value= S Value+1.
+[18:35] Means the value of 0 will be updated to 1. If S value, what is S value? 1.
+[18:42] 1 less than equal to 0? False. So means this line will not run it will directly execute
+[18:49] means it has come out, it has exited and value of S is now updated by 1.
+[18:54] Now what is the meaning over there? If value of S is 0,
+[19:05] and if we are running Up operation value of S means that, 0. Because if value of S was -2, -3, -4 then they would be suspended
+[19:12] if you are asked a simple question that value of S is 0, value of semaphore is 0,
+[19:17] how many processes are in the suspended list?
+[19:29] because when that value becomes minus then it gets suspended. But value of S is now 0, so means
+[19:34] how many are there in suspended list? None. So if there is nothing in suspended list
+[19:39] then obviously this code is not required to run. You can directly make value of S from 0 to 1
+[19:45] if you are running Up and no process is in the suspended list so no need to wake them up.
+[19:51] So this is how we actually execute the Down and Up. So let's see one more question is there.
+[20:06] At any point of time Semaphore value is 10.
+[20:16] If I now ask you how many processes can enter into the critical section successfully?
+[20:23] Value of Semaphore is 10, how many processes successfully can enter into the critical section?
+[20:30] 10. Because value from 10 is 9, 9 to 8, 8 to 7, 7 to 6, so it will be up to 0.
+[20:39] So all these 10 processes can enter critical section. Now when value will go from 0 to minus then
+[20:47] they will automatically be suspended. So means if value of S is 10 then how many processes can come?
+[20:52] All 10 of them can come in critical section. So if value of S is 10
+[20:59] then how many successful operations can be performed? That answer is also 10.
+[21:04] Successful means if a process is inserted in critical section successfully
+[21:10] then it is called successful operation. But if it is blocked
+[21:14] then we call it unsuccessful operation. Like if value of S is 0 and
+[21:21] now if we perform a Down operation, Down means what? We will make value of S as -1.
+[21:26] and -1 less than 0? Yes, then process gets what? suspended. Means in this case how many successful?
+[21:34] This is not a successful, this is unsuccessful operation because successful means that
+[21:41] a process is entering the critical section. Unsuccessful means it was blocked.
+[21:46] So if I take value of S as 10
+[21:53] at any point of time and after that if I perform 6 P operations and 4 V operations sequentially
+[22:06] initial value of S is 10 after that if I am performing 6 P operations then 4 V operations,
+[22:14] what will be the final value of semaphore? This question has already come in GATE,
+[22:20] quite some time before but still it is important. So what to do? Nothing.
+[22:24] What is the current value of semaphore? 10. Then you run 6 P operations, P means Down,
+[22:33] means how many times you did Down? 6. Means 6 processes must have come,
+[22:38] so in 6 processes 6 times Down was run. Down means what? 6 times they reduced the value.
+[22:45] So what is the value? 4. And then 4 V operations were done means 4 times we made the value Up.
+[22:54] So means plus 4 so the answer will be finally 8. This is how we have to solve the
+[23:02] simple, very simple question. Let's say S value is 17 then I am performing like 5 P operations,
+[23:12] 3 V operations, 1 P operation in sequence. S value 17 then I am performing 5P, 3V, 1P
+[23:24] then what is the final value of semaphore? Simple. What is the value at present? 17.
+[23:30] After that 5 processes may have come, those 5 processes successfully did their work
+[23:36] entered critical section, P means what? -5. After that 3 Up were done, Up means what?
+[23:46] we have added one by one to S value from 0. So how many times we added? 3 times.
+[23:53] After that again 1 P opertion was done means value was done minus. What is the answer?
+[23:58] 17-5 that is 12 plus 3, 15 minus 1, 14.
+[24:08] Minus 2 minus 3 yes, so answer will be 14. So this is how, these simple questions have come in GATE
+[24:16] so you have to remember only 2 things in this whole thing, one is what is P and V concept,
+[24:23] P value we make Down, by V we make value Up and this is how we have to solve the question.
+[24:33] So thank you guys, if you like this video then like it and please subscribe my channel.
+[24:39] Thank you.

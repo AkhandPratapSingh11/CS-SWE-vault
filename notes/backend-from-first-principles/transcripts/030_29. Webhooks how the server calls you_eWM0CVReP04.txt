@@ -1,0 +1,1479 @@
+Title: 29. Webhooks: how the server calls you
+Video URL: https://www.youtube.com/watch?v=eWM0CVReP04
+Video ID: eWM0CVReP04
+======================================================================
+
+[00:00] Throughout this playlist, in all these
+[00:02] videos, we have been working with the
+[00:03] premise that the client always starts
+[00:06] the connection. It starts the
+[00:08] communication with the server and the
+[00:09] server responds back. It is never the
+[00:11] other way around. In the real-time
+[00:13] systems video, we did some modification
+[00:16] to that premise by exploring different
+[00:18] patterns of how to make the server send
+[00:21] something to the client without the
+[00:23] client actively asking. But the core
+[00:25] primitive there also was the same thing.
+[00:28] The client will always have to establish
+[00:31] a connection at some point then only
+[00:34] later on in future the server can
+[00:36] respond back. That premise has never
+[00:39] been broken. And in this video we want
+[00:41] to explore a different kind of
+[00:43] communication which is going to be a
+[00:46] servicetoervice communication primarily
+[00:48] between two backends. And why do we need
+[00:50] this? We need this kind of communication
+[00:53] in scenarios where our back end needs to
+[00:57] know about a piece of information from
+[00:59] some other back end. And keep this in
+[01:02] mind that we are not talking about any
+[01:04] browser in between. There will be no
+[01:06] stream which will be open by the browser
+[01:08] through which the server will
+[01:10] communicate. We are purely talking about
+[01:12] two services. There is no human involved
+[01:14] anywhere. To make the intuition a little
+[01:16] concrete, let's take an example. Going
+[01:18] back to our taskboard application, let's
+[01:21] say our application has a pricing page
+[01:24] and we sell a paid plan. And whenever a
+[01:27] user makes a purchase through our
+[01:29] platform, our payments go through a
+[01:31] payment provider something like Stripe,
+[01:33] which is one of the biggest payment
+[01:35] providers in the world. Then what
+[01:36] happens when the payment succeeds, when
+[01:40] the payment is successful, we need to
+[01:42] remember that the successful operation
+[01:45] that we are saying here, this happened
+[01:47] in their system, in Stripe system, not
+[01:49] ours. So how do we exactly know that we
+[01:53] send the payment to Stripe and Stripe
+[01:55] was able to receive the payment and no
+[01:58] issues happened on their end. The
+[02:00] complete operation of us sending the
+[02:03] money and them receiving it is
+[02:04] completely successful. How do we know
+[02:06] that information? So naturally we need
+[02:08] some kind of signal and only when we get
+[02:10] the signal from Stripe then only we can
+[02:13] unlock the plan for that user after they
+[02:16] make the purchase. And the constraint
+[02:18] here is the system which needs to know
+[02:21] about this signal that the payment was
+[02:23] successful on strive send. It is not
+[02:26] going to be your browser which is open
+[02:27] in the users window. Why? Because at any
+[02:30] moment there can be some kind of network
+[02:33] error because we are talking about our
+[02:34] users network not our servers network.
+[02:36] So there can be any kind of network
+[02:38] error or the user may close the browser
+[02:41] tab by mistake or maybe their system
+[02:43] crashes because of too much of workload.
+[02:46] Anything can happen and if we depend on
+[02:49] the browser as a system to receive this
+[02:52] signal then that will not be reliable.
+[02:54] The signal can be lost in any of these
+[02:56] instances. That is number one. The
+[02:58] second thing is security. We cannot
+[03:00] trust is such a critical operation with
+[03:02] such a critical signal that a payment
+[03:04] was approved from a client side because
+[03:07] through various techniques a clientside
+[03:09] operation can be modified. It can cause
+[03:12] a lot of security issues. So it has to
+[03:14] be our server who gets the signal. Our
+[03:17] system should only be the source of
+[03:19] truth for all these signals. So what is
+[03:22] the first way? How do we know that the
+[03:25] payment was successful from the stripes?
+[03:27] The very first solution that we can come
+[03:29] up with the same way that we did for our
+[03:31] realtime systems video the brute force
+[03:34] solution the natural intuitive solution
+[03:36] is from our server after we send the
+[03:38] request to stripe we start a polar let's
+[03:41] say every second we make some kind of
+[03:43] API call to check the status of the
+[03:46] payment and if it is still pending then
+[03:49] we keep the polar on the moment
+[03:51] something happens some decision happens
+[03:53] in stripe system about the payment let's
+[03:56] say the payment is fixed field then it
+[03:58] sends that data back in the response
+[04:00] through the same API that we are pulling
+[04:02] with and we update in our database we
+[04:04] send the response back to our front end
+[04:06] or whatever same way if it is successful
+[04:08] then also we update our database we send
+[04:10] a signal to the browser that the payment
+[04:13] was successful and the user's plan is
+[04:15] activated and naturally the brute force
+[04:17] solution is never the right solution so
+[04:19] what is the problem with this approach
+[04:21] first is the delay if you remember the
+[04:23] formula from our real-time systems video
+[04:25] the average delay in this case is going
+[04:27] to be half a second because we are
+[04:29] pulling every second. That is number
+[04:30] one. The second is all the requests that
+[04:33] we are doing which is going to waste. So
+[04:35] every time the response is still
+[04:38] pending, our request is completely
+[04:40] wasted. But one more serious problem
+[04:42] here is the load of all these requests.
+[04:45] Why? Because let's say the payment
+[04:47] provider has around 10,000 merchants
+[04:50] like us and all of them are polling
+[04:52] every single second. which means the
+[04:54] payment provider is getting 10,000
+[04:56] requests per second which is reaching
+[04:58] their API. So naturally in order to
+[05:00] protect their infrastructure very
+[05:02] aggressively all these merchants. So now
+[05:04] in that situation we cannot even poll
+[05:06] every second will be severely rate
+[05:08] limited which means that the payment
+[05:10] signal that the payment was successful
+[05:12] that will fall to the average which is
+[05:15] if the polling interval is 60 seconds
+[05:17] will fall back to 30 seconds of average
+[05:19] delay. So what is the solution here? The
+[05:21] solution is to flip the communication
+[05:23] direction. So instead of us asking the
+[05:26] payment provider every second, we trust
+[05:29] the service, the payment provider
+[05:30] service that once the payment is
+[05:32] successful, they will tell us on their
+[05:34] own. We don't have to repeatedly ask
+[05:36] them whether it is successful or not.
+[05:38] This mechanism of a service
+[05:40] communicating back to us once an event
+[05:43] happens. This is called as a web hook.
+[05:45] Now web hook itself is nothing fancy. It
+[05:48] is just a very plain normal looking HTTP
+[05:51] post request that the provider or any
+[05:54] service sends to us and it does not send
+[05:57] to any random endpoint. We provide a
+[05:59] particular URL a URL where we are
+[06:02] listening we have exposed and we provide
+[06:05] that URL to the service so that they can
+[06:07] send the event data back to us using
+[06:10] this API. So they'll just do a post
+[06:12] request to this API endpoint and that's
+[06:14] what we call as a web hook. So this
+[06:16] whole scenario is like a reverse API
+[06:18] call because usually we call our
+[06:21] services APIs whenever we need them. But
+[06:24] in this scenario they are going to call
+[06:26] our API to tell us about a particular
+[06:29] event. And to cover a little bit of
+[06:30] history, in 2007, a person named Jeff
+[06:33] Lindseay, he proposed this idea that the
+[06:36] web architecture also needs a concept
+[06:39] like the Unix pipe, a communication
+[06:41] primitive where there is a way to push
+[06:44] output by a service to another service
+[06:46] when a particular event happens. and he
+[06:49] called them web hooks which are
+[06:50] structured like userdefined callbacks
+[06:53] which is possible with HTTP post request
+[06:55] and it is compared to the Unix pipe is
+[06:57] because uh it is similar to rerouting a
+[07:01] standard output that we typically do in
+[07:03] our terminals. Okay. Then 2 years later
+[07:05] some engineers at Google they built a
+[07:07] protocol on the same idea for blog feeds
+[07:10] and they called that pub subhub. And
+[07:12] before we start with the whole web hooks
+[07:15] concept I want to cover a small note
+[07:18] here because every single provider's
+[07:20] documentation they use this a little bit
+[07:23] differently. Not all the implementations
+[07:25] look similar. So here the provider or
+[07:28] the sender is the system where the event
+[07:31] actually happens. The consumer or the
+[07:33] receiver is us. The endpoint is the URL
+[07:36] on our side. The URL that we have
+[07:38] exposed that the provider will send a
+[07:41] post request to. And an event can be
+[07:43] anything that you predefine. For
+[07:45] example, a payment getting successful
+[07:47] from our previous example or maybe a
+[07:50] task moved from one board to another,
+[07:52] right? These are called events. What is
+[07:54] a delivery? A delivery is just one
+[07:57] attempt to send the event to the
+[08:00] endpoint. And it is important here
+[08:02] because one event can have multiple
+[08:04] deliveries which is a very important
+[08:06] thing to keep in mind whenever you are
+[08:09] working with web hooks. You have to
+[08:11] implement with this assumption that the
+[08:13] event can be delivered multiple times.
+[08:16] And we'll come back to why that is the
+[08:17] case. But that is something to keep in
+[08:20] mind. A subscription is just our
+[08:22] registration in the service which
+[08:24] basically says that this is the URL that
+[08:26] we are exposing and these are the event
+[08:28] types that we'll be expecting before we
+[08:30] receive any web hooks. This is the code
+[08:32] that is going to receive it. There are
+[08:33] three packages here in the main. It sets
+[08:35] up one route which is a post request
+[08:38] for/hooks/github.
+[08:40] The inbox package that is the handler.
+[08:42] It reads the complete body. Then it
+[08:44] checks the signature using this package
+[08:46] called verify. Then it stores the
+[08:47] delivery ID and it responds back. That
+[08:50] is the typical structure of a web hook
+[08:52] handler. And this is the receiver that
+[08:54] is running on a Linux machine. It does
+[08:56] not have a public address. So for this
+[08:59] to receive any kind of communication
+[09:02] from the internet, we need to open a
+[09:03] tunnel. So that's what I have done here.
+[09:05] A tunnel is basically a program which
+[09:08] gives a particular port which is not
+[09:10] exposed to the internet a public HTTPS
+[09:14] address. And we have various services
+[09:15] like Enro or Cloudflare tunnel and so
+[09:19] on. Anyway, this random host name that
+[09:20] you are seeing here, now it forwards to
+[09:22] port number 8081. So on the repository,
+[09:25] we add a web hook, the same URL, a JSON,
+[09:28] a secret, and for now only the push
+[09:30] event. And then GitHub pings this new
+[09:32] web hook. And here you can see the ping.
+[09:34] And when I push a commit, if you see the
+[09:36] receiver, you can see that we have
+[09:38] received one post request and you can
+[09:40] see the event name in the header, a
+[09:42] delivery ID, a signature, and the
+[09:44] response that we returned, which is 202.
+[09:46] GitHub also keeps its own copy of all
+[09:49] these items. So if you check recent
+[09:51] deliveries, it will show the same
+[09:53] headers, the payload and the response
+[09:55] that we returned. Okay. Now we want to
+[09:57] take a closer look at what actually did
+[10:00] we receive. First thing as we have
+[10:01] already discussed a post request to the
+[10:04] URL we have exposed. Then a content type
+[10:06] header which says that the body is JSON
+[10:08] which is obvious because we are
+[10:10] expecting JSON. Then there is a header
+[10:12] which says what is the type of the event
+[10:14] which is X GitHub event. And then we
+[10:17] also have a header with a unique
+[10:18] delivery ID with a key X GitHub
+[10:20] delivery. Then we also have a signature
+[10:22] header with XHub signature 256 which we
+[10:26] are going to come back to the whole
+[10:27] signature process. And then we have a
+[10:30] body the complete event data as JSON.
+[10:32] Now how does the provider who is sending
+[10:35] the web hook will know that the delivery
+[10:37] was successful. The answer is like any
+[10:39] other HTTP request, the provider is
+[10:41] going to depend on the status code. So
+[10:43] any response with the status code in the
+[10:46] series of 200 will be considered as
+[10:49] success. It can be 200 or 2002 that does
+[10:52] not really matter in most cases. But if
+[10:54] you send any other status code like 300
+[10:56] or 400, then that will always be
+[10:58] considered as a failure. Then the second
+[11:02] condition is the time. For example, if
+[11:04] we take GitHub as example, you only have
+[11:07] 10 seconds to respond back to the web
+[11:10] hook to the post request. Similarly,
+[11:12] Shopify has the time constraint of 5
+[11:15] seconds. For Slack, it is going to be 3
+[11:18] seconds. Same for Microsoft Graph. If
+[11:20] you are working with Outlook APIs and
+[11:22] all, so it is important that whatever
+[11:25] provider that we are using, we check the
+[11:27] documentation and we check this time
+[11:28] that the provider has assigned us to
+[11:30] respond back. If we don't then they are
+[11:33] going to consider that as a failure. And
+[11:35] of course in cases of failure also all
+[11:37] these providers have their own retry
+[11:39] mechanism which we'll cover in a bit.
+[11:41] Now what does the registration process
+[11:43] looks like? What does the process of us
+[11:46] providing or exposing our endpoint to
+[11:48] our provider looks like? The web hook
+[11:50] registration form usually has a URL, a
+[11:53] secret and a list of event types. One
+[11:55] advice here is if you have multiple
+[11:57] providers integrated in your backend
+[11:59] service which most likely you have
+[12:01] because if you have a fairly complicated
+[12:04] fairly advanced back end then you are
+[12:06] most likely interacting with multiple
+[12:07] providers. For example, let's say you
+[12:09] have a GitHub integration and a Stripe
+[12:11] integration. So the advice here is you
+[12:13] should always keep different URLs for
+[12:16] each provider. So for GitHub it should
+[12:18] be something like /hooks/github
+[12:20] and for stripe it should be something
+[12:22] like /hooks/stripe.
+[12:24] You should never generalize them
+[12:26] something like /h hooks/callback.
+[12:28] Each provider should get its own URL.
+[12:31] Why? Because each provider has their own
+[12:33] set of headers, their own style of
+[12:36] signatures and they have different retry
+[12:38] mechanisms. All of those are specific to
+[12:42] the handler that you're going to
+[12:43] register for that provider and you have
+[12:45] to keep all that into account in the
+[12:46] handler logic. So it is always a good
+[12:49] idea to separate the endpoints, the
+[12:51] handlers and everything based on the
+[12:53] providers. Some of the providers also
+[12:55] add an extra step before they start
+[12:58] sending their first event which is
+[12:59] called a handshake. Handshake basically
+[13:01] means that the provider will first send
+[13:04] a request to the new URL that you just
+[13:06] registered and it will wait for a
+[13:08] specific answer and once it receives the
+[13:10] answer then it will start sending
+[13:12] whatever that you are registering for.
+[13:14] To take a few examples for Microsoft
+[13:17] graph it will expect you to send a
+[13:20] validation token that you need to return
+[13:21] in plain text. Similarly for Discord, it
+[13:24] sends a ping message and it will expect
+[13:26] a pong message in response. For Amazon
+[13:28] SNS, it will send you a subscription
+[13:31] confirmation message and a URL which
+[13:33] you'll have to visit and do a certain
+[13:35] operation. Why do they do all this? Why
+[13:38] do they add this extra step? Because a
+[13:40] web hook system whatever URL that you
+[13:43] provide during the registration, it will
+[13:45] call that URL. It will send the events
+[13:47] to the URL. It means that if there is no
+[13:50] handshake mechanism for web hook
+[13:52] registration, anyone a malintentioned
+[13:55] person they can register a victim's
+[13:57] address to a system that they are trying
+[13:59] to target and they can redirect a
+[14:01] provider let's say AWS provider or
+[14:03] stripe provider or GitHub provider by
+[14:05] signing up for all the event types and
+[14:07] continuously sending all these events to
+[14:10] the victim as a form of DOS attack. One
+[14:12] more practical thing that you'll face
+[14:14] frequently while developing in local is
+[14:17] a web hook request by its nature is a
+[14:20] inbound request. Which means a request
+[14:22] which is coming from the internet to
+[14:25] your system. Which means that if your
+[14:27] laptop while at least you are doing
+[14:29] local development is behind a home
+[14:31] router which most of our laptops are
+[14:33] then these routers these consumer home
+[14:35] routers they do not really forward
+[14:37] requests to the devices which they have
+[14:40] received from the internet for obvious
+[14:41] reasons and on top of that the address
+[14:44] local host does not really mean anything
+[14:46] to any server that is operating in the
+[14:48] internet. They work with domain names
+[14:50] and IP addresses. So during development
+[14:53] if you implemented a feature then a web
+[14:56] hook event cannot really reach you. it
+[14:58] cannot reach your laptop. And for that
+[15:01] exact scenario during development if you
+[15:03] want to test your feature you have to
+[15:04] use a tunnel something like enrock or
+[15:07] cloudflare all these tunnel services
+[15:09] they will give you a temporary HTTPS
+[15:12] endpoint and you can use that URL to
+[15:14] register for your web hooks so that
+[15:17] whenever a event is received on that URL
+[15:19] they forward that to your local port
+[15:21] through a very secure mechanism and then
+[15:23] you can test whatever implementation
+[15:24] that you have done and if you have not
+[15:27] noticed a major major security threat to
+[15:31] this whole web hooks concept. Let me
+[15:33] point that out for you. The endpoint
+[15:35] that we talked about that we are going
+[15:37] to expose for our external provider
+[15:40] during registration that endpoint is
+[15:42] going to be a public URL and it is going
+[15:45] to receive a post request with some kind
+[15:47] of data and what is the result of that?
+[15:49] We are going to take that request and we
+[15:52] are going to unlock some users paid plan
+[15:55] from that event which means that anyone
+[15:57] who can guess the URL because most of
+[15:59] these web hooks URLs follow a standard
+[16:02] pattern/ web hooks or hooks or callback
+[16:05] something like that if someone can guess
+[16:07] it and they can post a JSON body which
+[16:10] says that the payment is successful for
+[16:13] this particular user ID then they can
+[16:15] take serious advantage of our system
+[16:17] which is a major security threat. And if
+[16:20] you're thinking HTTPS is the answer
+[16:21] here, that is not going to help because
+[16:24] the primary mechanism of using HTTPS is
+[16:26] so that nobody can intercept or nobody
+[16:29] can read the bytes while it is in
+[16:32] transit over network. But it does not
+[16:34] really help you with any kind of owner
+[16:36] information or who exactly wrote this
+[16:39] data. So we need a mechanism to make
+[16:42] sure that this event data that we're
+[16:44] receiving in our exposed endpoint it
+[16:47] comes from our provider. We need a
+[16:50] guaranteed way to know this information.
+[16:52] And there are five different ways to
+[16:54] implement this security mechanism. The
+[16:56] first one is the weakest kind where the
+[16:59] provider is going to send the secret
+[17:01] token in the URL itself. kind of like a
+[17:03] basic authentication which can work but
+[17:06] the problem with that is since URLs are
+[17:09] logged in different systems in our local
+[17:11] log files or in your production log
+[17:14] services like something like cloud watch
+[17:15] or elastic search or any kind of log
+[17:17] service then the token is also going to
+[17:20] be printed everywhere. So if some kind
+[17:22] of leak happens then again we have that
+[17:24] risk of someone intercepting or sending
+[17:26] a fake request with that token. The
+[17:28] second method is an IP allow list. All
+[17:30] these services that we are talking about
+[17:32] GitHub, stripe or another payment
+[17:34] provider called polar all these web hook
+[17:36] systems all these web hook providers
+[17:38] they expose a list of IPs and they say
+[17:41] that all our events are only going to
+[17:43] come from these IPs. Then what you do in
+[17:46] your firewall configuration in your
+[17:47] cloud infra you only allow requests from
+[17:50] these particular IPs and for all the
+[17:52] other ones you block it which is more
+[17:54] secure than the first solution but it is
+[17:56] not complete on its own. Then comes the
+[17:59] third method. This is called a mutual
+[18:01] TLS. Here what happens? The provider
+[18:02] gives you a client certificate and we
+[18:04] are supposed to make use of that. The
+[18:06] fourth one is the most common one.
+[18:08] Pretty much all the platforms in our
+[18:10] ecosystem uses this mechanism where what
+[18:13] happens a signature is calculated over
+[18:16] the request body and the secret key to
+[18:19] calculate that signature is only thing
+[18:21] that only you have and your provider
+[18:24] has. No one else has that secret. So
+[18:26] almost 65 to 80% of the providers that
+[18:29] you will see in the market they use this
+[18:32] mechanism. And the fifth mechanism is
+[18:34] using a signature with a public key
+[18:36] where the provider has the private key
+[18:38] and they sign using the private key and
+[18:40] you have the public key to verify
+[18:42] whether it was signed by your provider
+[18:44] or not. This is something that is done
+[18:46] by Discord. But throughout this video,
+[18:49] what we are going to use is the fourth
+[18:50] method, which is the most common way of
+[18:53] implementing security in our web hooks
+[18:56] implementation. And this signature thing
+[18:58] that we talked about as our fourth
+[19:00] method, this is called an HMAC, which
+[19:03] stands for hashbased message
+[19:05] authentication code. If you remember our
+[19:07] HTTP video and the security video, we
+[19:10] have already discussed about hashing
+[19:11] which is a kind of a formula or a
+[19:14] function which takes some data which
+[19:16] takes some bytes and does not matter
+[19:18] what data that you provide as an output.
+[19:20] It gives you a fixed length string, a
+[19:23] fixed length checkpoint, a fixed length
+[19:25] fingerprint and even if you change one
+[19:28] letter, one bite of the input data, the
+[19:30] whole fingerprint is going to change. So
+[19:32] what the provider does they compute the
+[19:35] HMAC SHA 256 hashing of the body using
+[19:39] the shared secret which you also have
+[19:41] and they put the result in the header.
+[19:43] Then once you receive the web hook
+[19:45] event, you compute the same thing over
+[19:47] the same body that you have received
+[19:50] with the same secret that the provider
+[19:52] has already given you. And then you
+[19:54] compare both the signatures and if your
+[19:57] signature matches with the signature
+[19:59] that the provider has sent in the
+[20:00] header, then we can be rest assured that
+[20:03] this has been sent by our provider and
+[20:06] not by some external user who is trying
+[20:08] to take advantage of the system. This is
+[20:10] tribes go SDK and this is the file which
+[20:13] actually verifies the web hook. And if
+[20:14] we look at the header parsing code here
+[20:17] t is the unix timestamp and v_sub_1
+[20:19] equals the signature and there can be
+[20:22] more than one v1 and then it compares
+[20:24] with hmac doe equal but here what
+[20:27] exactly the provider is going to sign
+[20:30] with the key that is going to be
+[20:32] different for each provider and you have
+[20:34] to check the documentation of that
+[20:36] provider to know if you're sure. For
+[20:38] example, GitHub only signs the body, but
+[20:40] Stripe signs the time stamp a dot and
+[20:42] the body and it adds the timestamp so
+[20:44] that you get protection from any kind of
+[20:46] replace. We'll talk about replace next.
+[20:48] In the standard web hook scheme, if you
+[20:50] check it says to sign the delivery ID, a
+[20:53] dot and a timestamp and a dot and the
+[20:56] body. So the ID also gets protection.
+[20:58] Similarly, if we look at Twio, it signs
+[21:00] the complete URL of your endpoint with
+[21:02] all the form fields in the sorted order
+[21:05] with SHA1 to enforce that the exact URL
+[21:09] also matches. Now, there is a issue that
+[21:10] can happen here since the signature that
+[21:13] gets calculated is over the same bytes,
+[21:15] the exact bytes. Let's say you use some
+[21:18] kind of framework, for example, you use
+[21:19] NodeJS with Express, it reaches your
+[21:21] handler, which is what express.json
+[21:23] does. Then you take that object and you
+[21:26] encode it back to a string and then you
+[21:28] compute the HMAC. And if the provider
+[21:30] wrote the JSON with no spaces and your
+[21:32] encoder puts a space after every column,
+[21:35] the data is going to be different for
+[21:37] both the cases. And as a result, the
+[21:39] HMAC is also going to be different and
+[21:41] the delivery is going to fail all the
+[21:44] verifications that you're doing there.
+[21:45] So the general rule when it comes to
+[21:48] your handler which is going to receive
+[21:50] the web hooks is you need to read the
+[21:52] body as bytes first then verify those
+[21:55] bytes and then you parse. You should not
+[21:57] parse before you have verified the bytes
+[21:59] itself using the secret key using hmac.
+[22:01] So if you want to take a look at some of
+[22:03] the failure modes here first the
+[22:05] receiver verifies the signature over the
+[22:07] raw bytes and it sends 202 as a
+[22:10] successful response. Now if I change the
+[22:12] secret on GitHub side and then redeliver
+[22:15] the header will no longer match what we
+[22:17] will compute and the receiver will
+[22:18] answer 401 as unauthorized and GitHub
+[22:21] will also record that part that we
+[22:24] responded with 401. Third time we will
+[22:26] correct the secret but in the receiver
+[22:28] side we will first pass the JSON and
+[22:30] then reenccode instead of first
+[22:32] verifying and then the verification will
+[22:34] again fail. Why? Because you're not
+[22:37] supposed to parse then encode and then
+[22:39] verify. You are supposed to verify first
+[22:41] then you passse otherwise the
+[22:43] verification is going to fail. Okay. Now
+[22:45] the solution for our first security
+[22:47] issue is this HMAC which is identifying
+[22:50] the provider that is fixed by the HMAC
+[22:52] mechanism. But then the next problem
+[22:54] that we face is the time. Let's say
+[22:56] through some kind of man-in-the-middle
+[22:58] attack the attacker is successfully able
+[23:01] to catch or capture one delivery attempt
+[23:04] which is made by your provider to your
+[23:06] service. It was able to get all the
+[23:07] headers and all the data and everything.
+[23:10] One payload complete payload and then
+[23:12] after 1 hour or 2 hours the attacker
+[23:14] tries to make the same request to you
+[23:16] with the same headers with the same data
+[23:19] and everything which the attacker got
+[23:21] from the provider or maybe the attacker
+[23:22] tries to make this request a thousand
+[23:24] times. This time what happens since this
+[23:27] is a real signature because it was a
+[23:28] captured request. This time your handler
+[23:31] is going to verify successfully and it
+[23:34] is going to let it through for that web
+[23:35] hook handler. This is what we call as a
+[23:37] replay attack. And to prevent this we
+[23:40] make use of timestamps. That is why
+[23:42] stripe in its web hook it puts the time
+[23:46] of the attempt inside the signed string.
+[23:48] It is part of the signature and that's
+[23:49] why it cannot be altered or it cannot be
+[23:52] broken without breaking the whole
+[23:54] signature. And its library also rejects
+[23:56] anything which is older than 5 minutes.
+[23:58] One small note here is when you are
+[24:00] trying to compare your computed
+[24:02] signature with the one in the header
+[24:04] that the provider has sent you, try not
+[24:06] to use the ordinary equals that your
+[24:09] programming language has given you. Why?
+[24:11] Because if we use an ordinary string
+[24:13] comparison, the way it works is the
+[24:15] moment it finds the first bite in that
+[24:18] string which does not match with the
+[24:20] string that you're trying to compare
+[24:21] with, it will fail at that point. It
+[24:24] will stop comparing. So the time
+[24:26] difference there is going to be some
+[24:28] kind of time difference there. So if
+[24:30] there is an attacker who can measure
+[24:31] that time over many requests over
+[24:33] thousand requests or a million requests
+[24:35] let's say then they can build the
+[24:37] signature derive the signature bite by
+[24:40] bite by some kind of algorithm and that
+[24:42] is why every programming language gives
+[24:43] us this function this feature called as
+[24:47] constant time comparison. For example in
+[24:49] go we have hmac.equal in nodejs we have
+[24:52] crypto.timings timing safe equal. In
+[24:54] Python, we have hmac.compare digest. All
+[24:57] these functions what they do, it does
+[24:59] not matter how much of a difference
+[25:01] there is between two strings. The time
+[25:03] to compare both of them are always going
+[25:05] to be equal no matter how many times you
+[25:07] try. So there is no pattern to figure
+[25:10] out the mechanism of how the signature
+[25:13] works, where it stops and all these
+[25:15] telltales. There is one more security
+[25:17] problem here, but this time it is on the
+[25:19] provider side. for example on Stripe's
+[25:21] site or GitHub site. Here what happens
+[25:23] your provider it calls whatever URL the
+[25:26] customer types in the registration form
+[25:28] and the provider calls this URL from its
+[25:31] own network. So let's say if the
+[25:33] attacker registers something like HTTP
+[25:35] col this IP address which on most of the
+[25:37] cloud providers is the metadata service
+[25:40] and what does this metadata service do?
+[25:42] It gives you the credentials or it gives
+[25:44] you the host name of an internal admin
+[25:46] service and as usual the provider's web
+[25:49] hook dispatcher. It makes a post request
+[25:51] to that and using this whole loophole
+[25:54] the attacker can do a lot of destructive
+[25:56] things. This kind of attack is what we
+[25:58] call as a serverside request forgery. So
+[26:01] what is the solution for this? Just
+[26:02] checking the URL during registration
+[26:05] that is not going to be enough because
+[26:06] if the attacker wants they can configure
+[26:09] it in a way that the domain resolves to
+[26:12] a public address during registration
+[26:15] while you are doing your own checking
+[26:16] but later on once the registration is
+[26:18] over they can convert that into a
+[26:20] private address or maybe the public
+[26:22] address will do some kind of redirection
+[26:24] to the private address. So the right
+[26:26] kind of defense here for this kind of
+[26:28] scenario is first always try to resolve
+[26:31] the name yourself and check the address
+[26:34] against a fixed set of private ranges
+[26:37] that you have previously configured in
+[26:39] your checking code and never follow any
+[26:41] kind of redirects because in HTTP
+[26:44] whenever we get a response like in the
+[26:47] series of 300 302 or something like that
+[26:50] the standard behavior is you are
+[26:52] supposed to follow whatever redirect
+[26:55] that you have gotten along with the
+[26:57] status code. But in case of web hooks,
+[26:59] it is a security thread. So you should
+[27:01] never follow any redirects. That is
+[27:03] exactly why when you are using a web
+[27:05] hook provider and if you return any
+[27:07] other status code other than 200, it is
+[27:10] going to be considered as failure. So as
+[27:12] you are thinking from the perspective of
+[27:15] the webbook provider itself, you also
+[27:18] need to take the same security
+[27:19] mechanisms. So only consider it as a
+[27:22] success if that status code is 200
+[27:25] series otherwise you consider it as a
+[27:27] failure and if you can you should always
+[27:30] send the web hook from a separate
+[27:32] network through something called as an
+[27:33] egress proxy. Stripe has an open-source
+[27:36] version of this called smoke screen
+[27:38] which you can take a look at. Okay. Now
+[27:40] let's assume that the signature is right
+[27:43] but we face another problem. Now the
+[27:45] provider has sent you the post request,
+[27:48] you received it and the handler which
+[27:50] received the event, it did its work.
+[27:52] Whatever database row it had to write,
+[27:54] it did that and then it responded with
+[27:57] the status code of 200. But that 200 got
+[28:00] lost in the network. It did not reach
+[28:02] your provider for some reason. Maybe the
+[28:04] connection dropped or the load balancer
+[28:06] got restarted during that time.
+[28:08] Something happened which is very common
+[28:09] when you're talking about backend
+[28:10] services and cloud infrastructure. So
+[28:12] the provider never received that
+[28:14] response. So from the perspective of the
+[28:17] web hook provider that delivery is a
+[28:19] failure. So as any provider should do,
+[28:22] it tries to retry the delivery with the
+[28:25] same payload. So even though you have
+[28:27] already done the work for the same
+[28:29] event, you will receive the same event
+[28:31] again. Maybe after a few seconds or a
+[28:33] few minutes in any order, which is not
+[28:35] predictable beforehand. This is exactly
+[28:37] why in pretty much every provider's
+[28:39] documentation, they use this phrase
+[28:41] called at least once. Which means that
+[28:43] you can be rest assured that the event
+[28:46] will reach your service. It will reach
+[28:47] your back end at least once. It will
+[28:49] never get lost. But the other side of
+[28:51] that issue is it can be more than once.
+[28:54] It will never be exactly once. Why?
+[28:56] Because of the issue that we just saw.
+[28:59] The acknowledgement that we are trying
+[29:00] to send to the provider, it can be lost
+[29:03] due to some kind of issue in the
+[29:04] network. So what is the solution here?
+[29:06] The solution here is our receiver which
+[29:09] is receiving all these events and it is
+[29:11] handling all these events doing some
+[29:13] kind of side effects. It should be safe
+[29:16] to call this receiver with the same
+[29:17] event multiple times. No matter how many
+[29:20] times we call this receiver function
+[29:22] with the same event. The side effects
+[29:24] should happen only once. And how can
+[29:26] that happen? Using this mechanism called
+[29:28] the delivery ID which every provider
+[29:31] gives you for a particular event. In
+[29:33] case of GitHub which we already saw it
+[29:34] is going to be in the header X GitHub
+[29:36] delivery and in case of stripe it is
+[29:38] going to be inside the body called event
+[29:40] ID and the standard web hook
+[29:42] specification says it will be something
+[29:43] like web hook ID. So the point here is
+[29:46] does not matter how many times your
+[29:48] provider does the retry for a particular
+[29:50] event in case of failing to receive the
+[29:53] acknowledgement the delivery ID for a
+[29:56] single event is always going to be the
+[29:59] same across all these retries. So using
+[30:01] that delivery id what we can do from our
+[30:03] receiver side we can keep a table in our
+[30:05] database and what do we store there we
+[30:08] can store all the web hooks that we have
+[30:10] already processed and we will store the
+[30:13] delivery ID and we will make that
+[30:15] delivery ID as a unique constraint.
+[30:17] There can never be two rows in our table
+[30:20] with the same delivery ID. Then what
+[30:22] happens but this mechanism itself is not
+[30:25] safe yet. One more safety mechanism,
+[30:27] consistency mechanism that you have to
+[30:29] implement inside the receiver function
+[30:31] is you have to make sure you insert the
+[30:34] delivery ID in the table that you are
+[30:36] storing all the web hooks that are
+[30:38] getting processed in the same
+[30:40] transaction where you are doing the
+[30:41] actual work. Maybe you are inserting
+[30:43] some kind of row as a side effect of
+[30:45] that event or whatever that you're
+[30:47] doing. It should happen in the same
+[30:48] transaction where you also store the
+[30:50] delivery ID. Why is that important?
+[30:52] Because if you do the work first,
+[30:54] whatever side effect and then store the
+[30:56] ID afterwards, if there is some kind of
+[30:58] crash that happens during these two
+[31:01] operations, maybe your back end got
+[31:02] maybe your container gets restarted
+[31:04] because of out of memory error,
+[31:06] something happens, then you already did
+[31:08] the work but you could not store the
+[31:11] delivery ID in your database. So when a
+[31:14] replay happens from the provider side
+[31:16] you get that event but this time you did
+[31:18] not find an entry in your table that you
+[31:21] have already processed that event and
+[31:22] because of that you do that work again
+[31:25] which can cause a lot of issues in your
+[31:27] system. Similarly, if you do the other
+[31:29] way around, if you store the delivery ID
+[31:31] first and then do the work, but if for
+[31:33] some reason the work fails, the database
+[31:36] insertion fails, the update fails or
+[31:37] something happens, then the next time
+[31:39] you get the same event as a retry, you
+[31:42] will see that okay, you have already
+[31:43] stored the delivery ID. So, you don't
+[31:45] need to do the same work again even
+[31:47] though the work itself has failed and
+[31:50] you would have benefited from doing the
+[31:52] work again. So as a safety mechanism you
+[31:55] should always keep both of them in a
+[31:57] single transaction. So either both of
+[31:59] them happen or none of them. This
+[32:02] property is what we call as item potency
+[32:04] which means that it does not matter how
+[32:06] many times a request is made. The effect
+[32:08] is the same because of how the request
+[32:11] handler is implemented. The second issue
+[32:13] that happens because of the retries is
+[32:15] the order. In 2017, the person who was
+[32:18] working on stripes API at that time, he
+[32:20] wrote down this case of the issue that
+[32:23] happens with the order. Suppose you have
+[32:24] the scenario where the provider
+[32:27] generates two events for one object
+[32:29] created then deleted. The delivery of
+[32:32] the created event, it fails once maybe
+[32:35] because your server was getting deployed
+[32:37] or something and then it gets retrieded
+[32:39] after 5 minutes. But the delivery for
+[32:41] the deleted event that gets sent in a
+[32:44] second and that gets successful. So here
+[32:46] what happened you received the deleted
+[32:49] event first and then you received the
+[32:51] created event and if your handler which
+[32:53] is processing the web hook events it
+[32:56] takes those events at phase value. Now
+[32:58] you will have a row in your database for
+[33:00] a object which does not exist which has
+[33:03] already been deleted. So this is why in
+[33:05] stripes documentation you can find that
+[33:07] where they say events are not delivered
+[33:09] in order and the time stamp that you get
+[33:12] they are calculated in seconds. So if
+[33:15] two events get generated almost
+[33:17] instantly no matter in what order they
+[33:19] are going to share that time stamp if
+[33:21] they happen under 1 second. So what is
+[33:23] the solution here? Number one we need to
+[33:25] take that event just as a signal but we
+[33:27] should not take the data from itself.
+[33:29] Once we receive the signal, we fetch the
+[33:33] original state, the current state of the
+[33:35] object from the source from the
+[33:37] provider's API and then we take our
+[33:38] decision based on the current state.
+[33:40] Then the order will not affect us
+[33:42] because we are always taking the current
+[33:44] state as the source of truth. But it is
+[33:46] going to cost us one API call. Second
+[33:48] solution, attach a version or an updated
+[33:51] at field on the object itself and we
+[33:54] only apply that event if it is something
+[33:56] that is newer than what we already have.
+[33:58] And we'll do that in one transaction.
+[34:00] And the third solution is we keep a
+[34:03] buffer and we will keep holding events
+[34:06] in that buffer for a particular object
+[34:08] until all the earlier events have
+[34:11] arrived there. But this buffering
+[34:12] solution can cause some issues because
+[34:14] there is no way for this to be
+[34:16] predictable. Some providers do offer
+[34:19] strict ordering as a feature which means
+[34:21] that they guarantee you the order that
+[34:24] you will receive your events in. Those
+[34:25] are the accurate orders. You do not have
+[34:27] to worry about the correct ordering and
+[34:29] of course they charge you extra for
+[34:31] that. So what does the provider do when
+[34:33] the delivery fails? When your endpoint
+[34:36] returned a failure response or no
+[34:39] response at all the request time out or
+[34:41] something happened naturally it retries.
+[34:43] Pretty much every single web hook
+[34:45] provider they have some kind of retry
+[34:47] mechanism. But the strategy for this
+[34:50] retry is not the same. Every provider
+[34:52] has its own retry schedule. So before
+[34:55] you integrate any provider you have to
+[34:57] check the documentation what is going to
+[34:59] be the retry schedule for that provider.
+[35:02] For example, stripe if you talk about it
+[35:04] retries with some kind of exponential
+[35:06] backoff and it retries up to 3 days. If
+[35:09] it is still failing even after 3 days
+[35:12] then it completely disables that
+[35:13] endpoint the endpoint that you have
+[35:15] exposed and registered with the stripe
+[35:17] provider and then it sends you an email.
+[35:19] Similarly, Swix which is a very popular
+[35:22] web hooks as a service provider which a
+[35:24] lot of companies use. Why? Because
+[35:26] implementing the web hook service itself
+[35:29] takes a lot of work and it takes a lot
+[35:31] of engineering effort. You have to take
+[35:33] into account all these edge cases that
+[35:35] we've been talking about. You have to
+[35:36] take into account all these security
+[35:38] issues that we've been talking about. So
+[35:40] it is not a small feature. So Swix is a
+[35:43] very popular service which most
+[35:45] companies use so that they can delegate
+[35:48] all these functionalities of handling
+[35:50] web hooks to Swix and it provides some
+[35:54] kind of embedded interface or maybe you
+[35:56] can use its APIs to implement whatever
+[35:58] that it is providing you so that you
+[36:00] don't have to worry about all these edge
+[36:02] cases the security issues then these
+[36:04] retries and all that. Anyway, so Swix,
+[36:06] if you are using Swix as a service for
+[36:09] your web hooks, then the way it works is
+[36:11] it retries once immediately after a
+[36:13] failure happens, then after 5 seconds,
+[36:16] then 5 minutes, then after 30 minutes,
+[36:18] then after 2 hours, then after 5 hours,
+[36:21] then after 10 hours and so on.
+[36:22] Similarly, Shopify, Slack, Polar, all
+[36:25] these services, they all have different
+[36:27] retryuling. But if we are talking about
+[36:30] GitHub, then it does not retry. It
+[36:32] retries zero times. So if your server
+[36:34] was down when GitHub was trying to
+[36:37] deliver a event then that delivery is
+[36:40] completely gone. GitHub from its own
+[36:42] side it will not try to redeliver that.
+[36:44] What you have to do is you have to
+[36:46] manually press the redeliver button or
+[36:49] you can write a script which interacts
+[36:51] with GitHub's API. It lists all the
+[36:53] failed deliveries that happened and then
+[36:56] through the API it tries to redeliver
+[36:58] them. Okay. Now if we try to combine the
+[37:00] concepts let's say you have 10 seconds
+[37:02] or 5 seconds or 3 seconds to respond to
+[37:05] the delivery attempt and every time you
+[37:08] miss to acknowledge this delivery
+[37:10] attempt then that becomes a retry from
+[37:12] your provider side and all these retries
+[37:14] they get added to your existing traffic
+[37:17] load that is happening because of your
+[37:19] own users. Similarly and bus traffic is
+[37:22] very common because of scenarios like
+[37:24] let's say if you are using some kind of
+[37:26] billing provider then on the first of
+[37:28] the month the provider it renews all the
+[37:30] subscription at once or if you are using
+[37:33] some kind of marketing tool then it
+[37:35] sends an email to let's say half a
+[37:38] million people and it will send you the
+[37:40] delivery receipt for each recipient and
+[37:42] suppose your handler the way it works is
+[37:45] it does all the work inside the request
+[37:47] the verification part then updating two
+[37:50] or three tables as a side effect then
+[37:53] calling other APIs and then responding
+[37:55] back then giving the acknowledgement to
+[37:57] the web provider. If it happens like
+[37:59] that then most likely it is going to
+[38:01] miss the deadline that your provider
+[38:04] gives you either 10 seconds or 5 seconds
+[38:06] or 3 seconds then every time it misses
+[38:09] that deadline that again becomes a retry
+[38:12] which is more traffic load. So the ideal
+[38:14] workflow that we should do to protect
+[38:17] our infrastructure to protect our
+[38:18] service from all these load scenarios is
+[38:21] your receiver should be very thin. It
+[38:23] should only do a fixed number of steps.
+[38:26] First read the body then verify the
+[38:28] signature. Then store the delivery
+[38:30] attempt in your database table. Then
+[38:33] answer back immediately with some 200
+[38:35] series code and then stop. Do not do
+[38:38] anything. Wait for the next event. Then
+[38:40] what happens? the component that should
+[38:42] actually do the work that should happen
+[38:45] from a background worker. Ideally, you
+[38:47] should have some kind of queue. We
+[38:48] talked about task cues in one of our
+[38:50] earlier videos. So, this background
+[38:52] worker takes all the entries from the
+[38:54] queue and then it does all the
+[38:56] processing in a asynchronous manner.
+[38:58] Everything that we have discussed so far
+[39:00] was about the receiving part when we are
+[39:03] the receivers and we are depending on a
+[39:06] provider something like GitHub or stripe
+[39:08] to send us some events. So now let's
+[39:11] talk about the sending side when we
+[39:13] become the web hook provider when we
+[39:16] offer these registrations when we have
+[39:18] to send events to other services. So
+[39:20] going back to our earlier task board
+[39:22] application there if you see every time
+[39:24] you move a particular task across
+[39:26] different boards there is an event that
+[39:29] is happening which is task domoved and
+[39:31] every event has a sequence number the
+[39:34] task who exactly moved it and when did
+[39:36] they move it and let's say one of your
+[39:38] users a customer they want to know or
+[39:41] they want to be signaled with this event
+[39:43] which is whenever a task moves to the
+[39:46] status done they want to get that signal
+[39:48] programmatically so that they can post
+[39:50] it to some kind of chat or some kind of
+[39:53] channel or they can build some of their
+[39:55] own logic on top of that. So for that
+[39:57] what they do they give us a URL since we
+[40:00] are the web hook providers now we take
+[40:02] that URL so they give us the URL and we
+[40:05] have to give them a secret the same way
+[40:07] stripe used to give us the same way
+[40:09] GitHub used to give us so as a naive
+[40:11] implementation as an obvious version of
+[40:13] this implementation in the move handler
+[40:15] after saving the move in our database we
+[40:18] call http.post post to the customer's
+[40:20] URL, whatever URL our customer has given
+[40:22] us. But if we do that, there can be
+[40:24] three issues here. First, if the
+[40:27] customer's API endpoint is slow or it is
+[40:29] down, then what happens? Our move
+[40:31] handler itself, it takes that latency
+[40:34] inside of it. Now, it has to wait until
+[40:37] that URL resolves. Then only it can
+[40:39] respond back to our front end. So if
+[40:42] their API is down or their API is not
+[40:45] optimized or it has some issues then
+[40:47] that becomes part of our latency which
+[40:49] obviously we do not want. The second
+[40:52] issue let's say the move operation was
+[40:54] successful and we were able to update
+[40:57] that data in our database but for some
+[40:59] reason our container went down or our
+[41:01] server was redeployed something happened
+[41:03] or some kind of crash happened and we
+[41:06] were not able to make that post request.
+[41:08] we were not able to send that event to
+[41:10] our customer which means that the
+[41:12] operation was successful but we did not
+[41:15] do the web hook attempt. The third issue
+[41:17] where let's say we try to do the web
+[41:20] hook attempt first. We do the post
+[41:22] request first and then we tried to do
+[41:24] our own work which is updating our
+[41:25] database but let's say the post was
+[41:27] successful, the attempt was successful
+[41:29] but for some reason our database
+[41:31] operation itself failed or maybe our
+[41:33] back end crashed after we did the post
+[41:35] request. Then what happens? We told our
+[41:37] customer that the move was successful.
+[41:39] The move has already happened. But that
+[41:42] is false. It has not happened because
+[41:44] that has not happened in our database.
+[41:46] So what is the solution here? The
+[41:47] solution is a concept called as outbox.
+[41:49] What is an outbox? An outbox is just any
+[41:52] normal table in your database. The same
+[41:54] database where you store everything even
+[41:56] the tasks itself. So the way to
+[41:58] implement this is your move handler
+[42:00] which actually moves the task. It starts
+[42:02] a transaction where it updates the task
+[42:05] first in our database in the task table
+[42:07] and then in the same transaction it also
+[42:10] inserts a row in the outbox table which
+[42:13] has the complete event data and then it
+[42:15] commits it. So because both of them are
+[42:17] inside one database transaction we can
+[42:20] be sure that either both of them happen
+[42:22] or none of them happen. And then what we
+[42:24] do we start a separate process maybe a
+[42:27] background worker which then reads all
+[42:29] these entries from these outbox and it
+[42:31] does the delivery attempt as a
+[42:33] asynchronous process. And if you
+[42:35] remember the databases video, this is
+[42:37] exactly the write ahead log mechanism
+[42:39] that we talked about which is relevant
+[42:41] in the context of databases. But here we
+[42:44] are applying that in the context of
+[42:45] events where we write our intention
+[42:48] first to somewhere which is durable
+[42:51] which is protected from any kind of
+[42:53] crashes and then we let another process
+[42:56] some other worker to do the actual
+[42:58] delivery and as a result our move
+[43:00] handler it is also not affected from any
+[43:02] kind of latency which is caused by our
+[43:05] customer's URL. It can return the
+[43:06] response to the browser to our front end
+[43:09] as fast as it was doing before. Here we
+[43:11] can see we have three tables endpoints
+[43:14] which has the URL and the secret the
+[43:16] outbox and the deliveries where we add
+[43:19] one row per each attempt. If you look at
+[43:22] the move handler now it inserts into the
+[43:24] outbox inside the same transaction as
+[43:26] the task update and then the dispatcher
+[43:28] it takes one outbox row at a time. It
+[43:31] signs the body with the endpoint secret
+[43:33] in the standard web hooks format that we
+[43:36] already discussed. Then it does a post
+[43:38] request with a 10-second timeout and it
+[43:40] saves that attempt in the database. And
+[43:43] based on the response that we get, it
+[43:45] either marks it as delivered or it
+[43:47] schedules the next retry. We also have a
+[43:50] security guard here which resolves the
+[43:53] URL before any of this happens so that
+[43:55] we don't do any of the private calls
+[43:58] that we talked about which can cause a
+[44:00] security issue. And to understand a
+[44:02] little bit more about what exactly the
+[44:04] dispatcher does per delivery. First it
+[44:07] has to do the signing and it signs the
+[44:09] ID the time stamp and the body in the
+[44:12] standard web hooks format using what?
+[44:14] Using the endpoints secret that our
+[44:17] customer has given us. Then it does the
+[44:19] post request with a timeout. And here we
+[44:22] have chosen to keep the 10 seconds
+[44:24] timeout. There is no hard rule here
+[44:26] based on what kind of service that you
+[44:28] are providing based on the constraints
+[44:30] and your promises you can derive on any
+[44:33] timeout value but 10 seconds is the
+[44:35] standard which most people keep. That's
+[44:37] why we have kept the 10 seconds timeout.
+[44:40] Then it also records the attempt. It
+[44:42] stores in database the status code that
+[44:45] it received the first 2 KB of the
+[44:47] response and the time. If it received a
+[44:50] 200 response, which is a successful
+[44:52] response, it saves that event as
+[44:54] delivered. We don't need to do any kind
+[44:56] of retrying since the attempt was
+[44:59] successful. If it is anything else, then
+[45:01] it tries to compute when should the next
+[45:04] retry happen with some kind of
+[45:06] exponential backup and jitter. What is
+[45:08] exponential backup? It means that
+[45:10] instead of keeping a fixed time for your
+[45:13] retry, instead of retrying every 5
+[45:15] minutes, you keep extending the time.
+[45:17] Let's say first retry happens at 5
+[45:20] seconds, then after 5 minutes, then
+[45:21] after 15 minutes, then after 1 hour, we
+[45:24] try to increase the time every time we
+[45:27] do a retry attempt. And what is jitter?
+[45:29] Jitter is basically a way to add some
+[45:32] kind of randomness. You compute a random
+[45:35] number and you add that to your
+[45:37] exponential backup time. So let's say
+[45:39] your exponential backup says that the
+[45:41] next retry should happen at 5 minutes.
+[45:44] On top of that, what you do? you add
+[45:46] some kind of jitter which means you add
+[45:48] some kind of random seconds. So instead
+[45:50] of happening at exactly 5 minutes, it
+[45:53] happens at let's say 5 minutes 42
+[45:56] seconds. And the reason we do that is
+[45:58] because if we have multiple retries,
+[46:00] let's say we have a,000 retries based on
+[46:02] different users, then all of them do not
+[46:05] fall in the same window. All of them do
+[46:07] not happen at the same 5 minutes mark.
+[46:10] They get a little spread out. One
+[46:11] happens at 5 minutes 1 seconds. one
+[46:14] happens at 5 minutes 35 seconds. That is
+[46:17] what we mean by jitter. Then we also try
+[46:19] to respect the retry after field that
+[46:22] the customer has given us. We use this
+[46:24] field when the receiver end. It provides
+[46:27] us this field to tell us that okay right
+[46:30] now some kind of service issue is
+[46:31] happening. So instead of following your
+[46:33] schedule you should retry at least after
+[46:36] 1 hour or 6 hours. So we also try to
+[46:38] respect that field given by our user.
+[46:41] Then after the last attempt, it stores
+[46:43] the event as exhausted and after 10
+[46:46] consecutive failures, it completely
+[46:48] disables the endpoint and it sends an
+[46:50] email to the owner. On top of that, we
+[46:52] are also doing one Q per endpoint. Why?
+[46:55] Because if some customer's URL is a dead
+[46:58] end or it is causing some issues, then
+[47:00] that Q does not stall other customers
+[47:03] deliveries. So here if you see a demo I
+[47:06] move a task and the outbox already has
+[47:08] this row before anything is done before
+[47:10] we have sent anything and here the
+[47:13] customer's endpoint our users endpoint
+[47:15] is answering 500. So the first attempt
+[47:17] is failed and if you check the
+[47:18] deliveries table it already has the time
+[47:21] for when the next attempt should be made
+[47:23] and if you look at the delays they grow
+[47:25] after each attempt because of our
+[47:27] exponential backup and jitter logic. Now
+[47:30] if we go and fix the customer's endpoint
+[47:32] the next attempt that we make it gets a
+[47:35] 200. So the delivery is successful. We
+[47:37] mark the event as delivered and we don't
+[47:39] retry again. And if we try to test the
+[47:42] guard that we have added let's say I try
+[47:44] to register the taskboard's own admin
+[47:47] route as a web hook URL on the loop back
+[47:50] address. And here we can see that it
+[47:51] gets refused with Y as a reason.
+[47:54] Similarly, if some customer gives us a
+[47:57] host name which resolves to a private
+[47:59] address that also gets refused the same
+[48:01] way. And this security check happens
+[48:03] every time we are trying to send
+[48:05] something not just during registration.
+[48:07] So that even if a malicious customer
+[48:10] gives us a URL which resolves to
+[48:12] something public during registration but
+[48:14] later on it gets changed then also we
+[48:16] are protected because we are doing it
+[48:18] every time during send. Okay. Now comes
+[48:20] the question when should you use web
+[48:22] hooks and when is it a wrong tool to use
+[48:26] to take a very high level look at web
+[48:29] hooks themselves web hooks are basically
+[48:31] notifications a notification about
+[48:33] something that happened and this is a
+[48:36] data of that notification this exact
+[48:38] thing happened if you want to take a
+[48:39] look at it okay that's pretty much the
+[48:41] whole mechanism of web hooks so when you
+[48:44] use web hooks as notifications they are
+[48:46] the right tool for example when this
+[48:48] event happens post that to a chat to a
+[48:51] channel or when this event happens start
+[48:54] a CI/CD pipeline or a build in our
+[48:56] GitHub actions or if this event happens
+[48:59] then unlock this plan for this user. In
+[49:01] those scenarios web hook is the right
+[49:03] tool but because of how web hooks work
+[49:06] some people use it in a way which is not
+[49:09] the right use for web hooks for example
+[49:11] as a syncing mechanism as a way to keep
+[49:14] a copy of the provider's data in our own
+[49:16] database. For example, one of the
+[49:18] notorious cases that I have personally
+[49:20] faced is if you use clerk, which is a
+[49:23] very famous authentication service that
+[49:25] apparently everyone is using these days.
+[49:27] What is clerk? Basically, instead of
+[49:29] implementing every single authentication
+[49:32] mechanism in your own codebase, instead
+[49:34] of implementing your own email password
+[49:36] logic, implementing your own sign in
+[49:38] with Google, sign in with GitHub, all
+[49:40] these different oath providers, or
+[49:43] implementing your own email sending
+[49:45] flows on sign up, on login, on password
+[49:48] reset because authentication has a lot
+[49:50] of these cases that every single one of
+[49:53] your user is going to need. they will
+[49:55] need to see their sessions forget a
+[49:58] particular device from their session
+[49:59] history. So all these cases if you build
+[50:02] authentication from scratch then
+[50:04] depending on the needs of your user you
+[50:06] have to implement at least most of these
+[50:09] features. So to prevent every single
+[50:11] company to reinvent the wheel we have
+[50:14] clerk which is a authentication and
+[50:16] authorization provider. So you just use
+[50:18] their SDKs both in front end and in back
+[50:21] end and all your authentication
+[50:22] authorization logic becomes just a few
+[50:24] lines of code where you are
+[50:26] communicating with the clerk APIs. But
+[50:28] anyway coming back to our point since
+[50:30] you are using clerk as your
+[50:32] authentication and authorization
+[50:33] provider all the data for your roles
+[50:35] permissions everything lives in clerk's
+[50:38] database and if you want to keep a copy
+[50:41] of your user data or your organization
+[50:43] data or your roles and permissions data
+[50:46] in your own database and why would you
+[50:47] want to do that so that every time you
+[50:49] need to do some kind of check every time
+[50:52] you need to fetch your user every time
+[50:55] you need to fetch a list of users you
+[50:57] don't have to make a couple of calls to
+[51:00] clerk's API every time because that adds
+[51:03] a lot of latency as compared to making
+[51:05] those calls to your own database which
+[51:07] may be hosted in the same region as your
+[51:09] server. So instead of let's say 50 to 60
+[51:12] millconds you are facing 500 to 600
+[51:14] millconds because of all these network
+[51:16] calls. So the natural solution most
+[51:18] people come up with is they keep using
+[51:20] clerk as their authentication and
+[51:22] authorization provider but they keep a
+[51:24] copy of that data in their own database
+[51:27] as a users table or organizations table
+[51:29] or roles permissions table and they try
+[51:31] to sync that information with clark and
+[51:33] how do they sync it using web hooks.
+[51:35] Clark provides this extensive
+[51:38] configuration for web hooks. You can
+[51:40] subscribe to every single event. Let's
+[51:42] say if you want to be told through an
+[51:44] event that a user is created or a user
+[51:47] is updated or a user is deleted. Same
+[51:49] way for organizations. A organization is
+[51:51] created, updated, deleted or a role is
+[51:53] updated, created or deleted. For all
+[51:55] these events, cler sends you events. So
+[51:58] what you do, you create a couple of
+[52:00] endpoints for let's say each entity and
+[52:02] based on those web hook calls, based on
+[52:04] those events that you are receiving from
+[52:06] clerk, you insert data in your database.
+[52:09] And that's how you create a copy of
+[52:13] clerk's data in your own local database
+[52:15] to fight with the latency. And the
+[52:17] moment you come up with that solution,
+[52:19] you have to take into account every
+[52:22] single edge case that web hooks provide,
+[52:24] the timeouts that we talked about, the
+[52:27] replace that we talked about, the
+[52:29] ordering problem that we talked about,
+[52:31] the events can come in any order. So all
+[52:33] this has to make sense for your copy of
+[52:36] the data to be valid. So the point here
+[52:38] is if you are using web hooks to
+[52:41] maintain a copy of your provider's data
+[52:44] in your database then there is nothing
+[52:46] wrong with it. It's just the way you are
+[52:49] using the web hooks to maintain that
+[52:51] copy to sync that copy. That is the
+[52:53] problem. So what is the right solution
+[52:55] here? We are still going to use web
+[52:56] hooks but in a different way in a more
+[52:59] robust way. So one feature that all
+[53:01] these providers have even clerk has is
+[53:04] they have this log of events which they
+[53:07] provide you through some API or through
+[53:09] some UI which you can explore from their
+[53:11] dashboard and that log is guaranteed to
+[53:14] be ordered right because that is
+[53:15] inserted that is created that is updated
+[53:17] in their own infrastructure. So they
+[53:19] don't have the ordering problem that we
+[53:21] talked about. The ordering problem only
+[53:23] comes in a distributed scenario when
+[53:26] there are different network calls when
+[53:27] it is hard to keep two network calls in
+[53:30] one transaction. So they don't have that
+[53:32] problem. So what they can do they can
+[53:35] provide you a complete log of every
+[53:37] single event that has happened since the
+[53:40] start. So using that log through the API
+[53:42] that they are giving you with something
+[53:44] like /events endpoint what you can do
+[53:47] solution one is if the copy that you are
+[53:50] maintaining in your database is not
+[53:52] urgent if it is fine if you have let's
+[53:54] say 5 minutes of outdated data or
+[53:57] something like that if it is not
+[53:58] critical then every 5 minutes you can
+[54:00] start a background worker which fetches
+[54:03] all these events from your provider's
+[54:05] events API and based on those events it
+[54:08] inserts or updates or deletes data from
+[54:11] your copy which is stored inside your
+[54:13] database and in your database somewhere
+[54:16] you also maintain the last event ID so
+[54:18] that the next time this worker starts it
+[54:21] does not start from scratch it starts
+[54:23] from the point where it last processed
+[54:26] that event so it does not have to do a
+[54:28] lot of work every time a lot of
+[54:30] redundant and wasteful work that is
+[54:31] strategy number one the second strategy
+[54:34] is now you are using web hooks but in a
+[54:36] different way where you subscribe for a
+[54:38] web hook call for what kind of event
+[54:40] whenever your provider does a entry in
+[54:44] the events log then it should also make
+[54:46] a web hook call to your service then
+[54:49] what happens let's say you are using
+[54:51] clerk and a user's name got changed from
+[54:54] front end and since we are using clerk's
+[54:56] SDKs in our front end directly so from
+[54:59] the front end a user can change their
+[55:01] name without letting your back end know
+[55:03] because that goes through the clerk's
+[55:04] service when that happens clerk updates
+[55:07] the user's name and in the same
+[55:09] transaction it adds a events entry to
+[55:12] the event log and since you have
+[55:14] subscribed to that event what event
+[55:16] whenever stripe adds an entry to its
+[55:18] event log you want to be known then what
+[55:20] happens stripe makes a web hook call to
+[55:23] your service telling you that okay
+[55:25] recently a new event was added to the
+[55:27] event log and once you get that signal
+[55:30] you start a background process
+[55:31] immediately and with the last event ID
+[55:33] that you have already stored from there
+[55:35] on you check all the events that has
+[55:38] been added since Then and based on that
+[55:40] since the user's name was updated you'll
+[55:42] find a event with something like
+[55:44] username updated or something then you
+[55:46] update the same user's name in your
+[55:49] database. Now within a few milliseconds
+[55:51] or within a few seconds your copy of the
+[55:54] provider's data and the provider's data
+[55:55] itself are both in sync and you're not
+[55:58] abusing web hooks. You're not using web
+[56:00] hooks the way they are not supposed to
+[56:02] be used. That's pretty much all about
+[56:03] web hooks.

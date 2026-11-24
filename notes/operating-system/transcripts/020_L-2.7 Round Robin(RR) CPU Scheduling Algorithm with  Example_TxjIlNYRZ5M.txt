@@ -1,0 +1,171 @@
+Title: L-2.7: Round Robin(RR) CPU Scheduling Algorithm with  Example
+Video URL: https://www.youtube.com/watch?v=TxjIlNYRZ5M
+Video ID: TxjIlNYRZ5M
+======================================================================
+
+[00:00] Hello friends, Welcome to Gate Smashers
+[00:02] Let's solve a question on round robin CPU scheduling
+[00:05] So in the question we have given 4 processes Arrival time and burst time is given
+[00:10] The criteria of round robin scheduling is Time quantum let's see first what does Time quantum means
+[00:21] When processes are in ready queue
+[00:24] Means first we bring all the processes in ready queue in the RAM, ready queue lies in the RAM
+[00:32] From there we selects a process and takes it in the running queue
+[00:38] Running queue means... CPU
+[00:40] Means we selects a process and gives to CPU to execute it
+[00:47] In non preemptive case,
+[00:49] when we give a process in running state then it'll get execute completely
+[00:56] But in Round robin, here CPU uses time quantum Time quantum means...
+[01:03] Let's say time quantum is 2... Then CPU will run this P1 process up to two times
+[01:12] Means CPU doesn't care about its burst time It'll just run it up to 2 time unit
+[01:20] and after 2 time unit, that process will go back in ready queue
+[01:27] then we'll bring a different process in the running state and will run that process also up to 2 time quantum
+[01:35] And then will take it back to ready queue if there's still it's burst time left
+[01:42] Means if a process have burst time 2 only then it'll get complete
+[01:47] It'll obviously get complete in that 2 time quantum or even in 1
+[01:52] But if burst time is more than 2 then obviously some of its portion is complete then we sent it back in the ready queue
+[02:02] So ready queue's sequence is the main important thing here
+[02:07] That how processes are coming in ready queue and how they are getting pre-empt and going back to ready queue
+[02:13] which we call context switching... that I'll explain here
+[02:17] So most important thing you have to keep in mind is sequence
+[02:21] Sequence of processes in ready queue
+[02:29] So to bring the sequence properly in the ready queue We placed a ready queue separately here
+[02:35] Until now we used to keep a running queue in all questions, which we call Gantt chart also
+[02:40] We used to maintain that running queue
+[02:43] But in round robin, you can maintain 2 queue because it's very important to maintain 2 queue
+[02:51] It'll be clear to you that why you have to make a separate ready queue
+[02:55] So let's solve this question and mode is pre-emptive and round robin can never be pre-emptive
+[03:01] Because after every given time quantum CPU will get switch
+[03:10] then after second time quantum CPU will switch again
+[03:13] so the CPU keeps switching between the processes
+[03:17] So here at time 0... which processor is ready
+[03:24] Ready means... obviously if it's ready then it came in RAM
+[03:30] Now we'll pick that process from the RAM and will give it to CPU
+[03:34] So we checked which process is ready up to 0 time
+[03:37] At 0, only one process is ready i.e. p1 Then placed it in ready queue first
+[03:44] If there's any other processes ready also then place them in ready queue first
+[03:49] And you have to place them according to their arrival time
+[03:58] Now in this portion only one process came at 0 i.e. P1 and we placed it
+[04:02] Now, extract P1 from here and place in running queue
+[04:07] Obviously our aim is to execute it so for that I have to bring it i running queue
+[04:14] But up to how much time you have to run? For that you have given time quantum i.e. 2
+[04:20] So we'll run P1 from 0 to 2
+[04:24] If we ran P1 from 0 to 2 then burst time of reduced from 5 to 3
+[04:31] Now first check if P1 got completed? NO, P1 is not completed yet
+[04:39] Now we are at point 2, because this is showing time here, and I reached at time 2
+[04:48] So check which processes are ready at 2, we saw at 2, P2 & P3 are both ready
+[05:01] P2 is ready at 1 and P3 is ready at 2 so both of these processes got ready
+[05:07] So first place both these processes in the ready queue sequence wise according to their arrival time
+[05:13] So according to arrival time P2 came first, so  we placed P2 first
+[05:18] then P3 came and we placed it also
+[05:22] Meanwhile what's going on in the running state We ran P1 from 0 to 2
+[05:29] Now after 2 CPU will say, Take P1 out of the running state, preempt it and bring another process
+[05:38] Now we call it here context switching Right now, context switching is happening here
+[05:47] Context switching means...
+[05:51] Save the running process and bring the new one
+[05:59] Saving the context of running process means... Context means PCB, process control block
+[06:06] PCB contains all the information of that process
+[06:09] So I have to save the context of the process that we were running here
+[06:16] Because when that process will come again in future, then I don't have to run it again from 0
+[06:22] I've to resume it not restart
+[06:27] There'll be advantage only if we'll resume it If we'll restart then the work we did here will be waste
+[06:34] So for this we should save the context of this process and bring a new process here
+[06:41] We'll bring P2 here and here you have to check that this P1 ran from 0 to 2 but 3 is still left
+[06:52] Because 3 is still left then when P1 will go in ready queue then it'll come behind P1
+[07:01] First reason is when context switching was going on here then we are saving P1's values fast
+[07:09] And at that time P2 and P3 came in ready queue
+[07:13] And other reason is if we'll write P1 here
+[07:17] then P1 was running continuously, where was context switching??
+[07:20] P1 is again running after P1 like that
+[07:22] So this is the case of CPU scheduling round robin That it'll switch to some other process after 2 time unit
+[07:29] But for that we placed P2 & P3 first, if P1 is still left then we added it in the last
+[07:37] Now we took out P2 from here and inserted here
+[07:39] And for how much time we'll run it? Again time quantum is 2 then we'll run up to 2
+[07:45] The moment we ran up to 2, then this value became two
+[07:49] This 2 is still left right?... Yess
+[07:52] First check which processes are ready at 4, this was already in ready
+[07:58] P4 also got ready, so P4 got ready then first of all place P4 in the ready queue
+[08:04] First place the processes, then you have to check if P2 is left
+[08:10] Yess, P2 is still left 2
+[08:12] So now place P2 in ready queue after it because here when we are saving context of P2
+[08:21] At the same time P4 already came in the ready queue
+[08:24] And we saved P2's context and successfully sent it in the ready queue
+[08:30] So that we can bring some new process i.e. P3 So we brought P3 here for two time quantum
+[08:35] So we brought P3 here for 2 time quantum Means the value became 6, so I ran it here
+[08:45] But if you'll see here then P3 got complete
+[08:49] It's burst time was 2 and we ran it Up to 2 and it got completed
+[08:54] Now check at 6 if there's any new process ready
+[08:59] All the process already came in ready queue There's no any new ready process
+[09:05] If there'd be any new process then we'll place it in ready queue
+[09:08] but all processes are in ready queue already
+[09:11] Then we have to check if P3 is still left
+[09:14] If P3 is still left, then we'd add it here but P3 is already completed
+[09:20] So P3 is already done terminated So we can remove P3 from here
+[09:26] Now you just have to move it forward simply Take out P1 from here
+[09:36] When we executed P1 for 2 time quantum Means from 6 to 8
+[09:43] And we reduced the burst time also So time reduced from 3 to 1
+[09:50] Now first you have to check if some new process came on 8
+[09:54] No new process came because all 4 processes have already been in the ready queue
+[09:59] What else we have to check is, if P1 is still left Yess, P1 is still left 8 times... So we'll place P1 in the read queue
+[10:10] First you have to check...  if there came any new process at the current point
+[10:16] If there arrived some new process then bring it first, then in 2nd step you have to check if P1 is still left
+[10:23] So no new process came there, but P1 is still remaining so we placed P1 here
+[10:28] Next P4... You have to take out from here 1 by 1
+[10:33] we took out P4 from here and placed in ready queue for 2 time quantum
+[10:38] But if you'll see that P4 need only one time then why would you run up to 2
+[10:47] We ran from 8 to 9, P4 got executed and got terminated
+[10:54] So in this case you don't have to run from 8 to 10 Many students can do mistake her
+[10:59] that if we'd run 8 to 9 then 9 to 10 then what will happen in 9 to 10... It'll stay idle
+[11:06] But you don;t have to keep CPU Idle, so that's why run it up to 1 time only
+[11:11] and at 9 you can bring some new process
+[11:16] Because P4 left already, P4 is not there if it'll be left then we'll add it here
+[11:22] So next process is P2, we took out P2 from here and bought here for 2 time...
+[11:30] so it became 11 and P2 completed here
+[11:36] After a certain time round robins gets very easy
+[11:40] it just gives little bit problem in staring in maintaining ready queue, after that round robin gets normal
+[11:48] When all process came in ready queue once then it'll be very easy for you
+[11:54] Now check if P2 is still left... No it's over so there's no need to put anything in end
+[11:59] Then we have P1, we ran P up to 11 because it has just one type left
+[12:05] We made it 0 also after running up to 12 Means all process got completed at 12
+[12:14] This is why the ready queue is very important
+[12:17] otherwise if this sequence got even bit changed then your question will get wrong
+[12:22] And you can't remember this sequence in mind without making ready queue
+[12:27] That's why it's very important to make this sequence
+[12:30] Just keep picking up from this sequence and placing them here
+[12:36] Where P1 got completed?... Check in the last
+[12:39] Now there's no use of ready queue, now we'll check running queue only
+[12:43] P1 is written in the last here i.e. 12 So 12 is its completion time
+[12:48] Check where is P2 written in the last.... It's here, 11
+[12:53] Where's P3 written in the last... Here it's 6 And P4 in last here, it's 9... so completion time will be this
+[13:03] Turn around time = completion time - arrival time So simply... 12... 10.... 4.... 5
+[13:13] And waiting time = turn around time - burst time Burst time which was original & given in starting
+[13:20] Don't do mistake here... 12-5 = 7 10 - 4 = 6...... 4 - 2 = 2...... 5 - 1 = 4
+[13:34] So this is the waiting time... This is the waiting time here
+[13:40] We used waiting time here and along with that if you want to calculate avg. waiting time or turnaround time
+[13:47] then you can total it and divide by no. of processes
+[13:50] Let's calculate response time here first... RT = CPU first time - AT
+[13:57] So when did P1 got CPU first time? How to check it?
+[14:02] Where's P1 written first time in Gantt chart... It's here It got CPU at 0 and it arrived at 0 also
+[14:09] So 0 - 0 = 0... Simple
+[14:13] Now check P2... P2 is written first time here In it's left in the substrate below it's two
+[14:19] It came at 1... So 2 - 1 = 1
+[14:25] So when P3 got first time... At 4 So 4 - 2 = 2
+[14:32] And P4 is written first time here It got CPU at 8, and it arrived at 4
+[14:39] So 8 - 4 = 4,
+[14:42] So this is how we have to calculate the turnaround time, waiting time and response time
+[14:46] If they would ask average, then you can total it divide by number of processes
+[14:53] That's important... but other that there's one more thing important here i.e. Context switches
+[14:59] Means many times they ask how many times context switching happened
+[15:05] So context switching means...
+[15:09] saving the running process, sending it back and loading the new process
+[15:20] So check how many times you did it? You did it in starting?... NO
+[15:24] In starting we bought new process, didn't load the old one
+[15:29] But at this point we did... At this point we saved P1, and called P2
+[15:35] At this point we saved P2, and called P3
+[15:40] At this point we saved P3, and called P1
+[15:43] At this point we saved P1, and called P4
+[15:47] Means all these are your context switches Means 1... 2... 3... 4.. 5... 6..
+[15:56] Neither you have to calculate first one nor you have to calculate the last one... Because in last also you saved P1
+[16:03] But didn't called any new process, so we don't have to calculate the first and last line
+[16:10] Just count the lines in between, that will become the number of context switches
+[16:18] So this is all about the round robin process scheduling
+[16:21] Thank You!

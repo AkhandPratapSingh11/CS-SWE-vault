@@ -12,8 +12,8 @@ This repository serves as a centralized, high-density knowledge base for core co
 
 | Subject / Course | Source Curriculum | Master Notes | Transcripts / Raw Material | Lectures / Scope |
 | :--- | :--- | :---: | :---: | :---: |
-| **Backend Engineering from First Principles** | *Backend from first principles* | [`COMPLETE_BACKEND_NOTES.md`](notes/backend-from-first-principles/COMPLETE_BACKEND_NOTES.md) &bull; [PDF Guide](notes/backend-from-first-principles/Backend_from_First_Principles_Notes.pdf) | [`transcripts/Backend from first principles/`](transcripts/Backend%20from%20first%20principles/) | 31 Chapters (Networking, Databases, Caching, Queues, Distributed Storage, DevOps) |
-| **Operating Systems (Complete Course)** | *Knowledge Gate* (Sanchit Jain) &bull; [YouTube Playlist](https://www.youtube.com/playlist?list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p) | [`COMPLETE_OPERATING_SYSTEM_NOTES.md`](notes/operating-system/COMPLETE_OPERATING_SYSTEM_NOTES.md) | [`transcripts/Operating System (Complete Playlist)/`](transcripts/Operating%20System%20(Complete%20Playlist)/) | 92 Lectures (Kernel Architecture, CPU Scheduling, Concurrency, Deadlocks, Paging, Inodes) |
+| **Backend Engineering from First Principles** | *Backend from first principles* | [`COMPLETE_BACKEND_NOTES.md`](notes/backend-from-first-principles/COMPLETE_BACKEND_NOTES.md) &bull; [PDF Guide](notes/backend-from-first-principles/Backend_from_First_Principles_Notes.pdf) | [`transcripts/`](notes/backend-from-first-principles/transcripts/) | 31 Chapters (Networking, Databases, Caching, Queues, Distributed Storage, DevOps) |
+| **Operating Systems (Complete Course)** | *Knowledge Gate* (Sanchit Jain) &bull; [YouTube Playlist](https://www.youtube.com/playlist?list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p) | [`COMPLETE_OPERATING_SYSTEM_NOTES.md`](notes/operating-system/COMPLETE_OPERATING_SYSTEM_NOTES.md) | [`transcripts/`](notes/operating-system/transcripts/) | 92 Lectures (Kernel Architecture, CPU Scheduling, Concurrency, Deadlocks, Paging, Inodes) |
 
 ---
 
@@ -24,17 +24,15 @@ This repository serves as a centralized, high-density knowledge base for core co
 ├── notes/
 │   ├── backend-from-first-principles/
 │   │   ├── COMPLETE_BACKEND_NOTES.md         # Master 31-Chapter backend guide (2,500+ lines, 57 diagrams)
-│   │   └── Backend_from_First_Principles_Notes.pdf # Compiled master notes PDF
+│   │   ├── Backend_from_First_Principles_Notes.pdf # Compiled master notes PDF
+│   │   └── transcripts/                      # 31 individual video transcripts + combined master file
 │   └── operating-system/
-│       └── COMPLETE_OPERATING_SYSTEM_NOTES.md # Master 8-Module OS reference guide (Worked problems & formulas)
-│
-├── transcripts/
-│   ├── Backend from first principles/        # 31 individual video transcripts + combined master file
-│   └── Operating System (Complete Playlist)/  # 92 individual lecture transcripts + combined master file
+│       ├── COMPLETE_OPERATING_SYSTEM_NOTES.md # Master 8-Module OS reference guide (Worked problems & formulas)
+│       └── transcripts/                      # 92 individual lecture transcripts + combined master file
 │
 ├── get_playlist_transcripts.py               # Universal YouTube playlist transcript downloader & merger
 ├── requirements.txt                          # Dependencies (yt-dlp, youtube-transcript-api)
-├── .gitignore                                # Environment, transcript caches, and Python ignores
+├── .gitignore                                # Environment and Python ignores
 └── README.md                                 # Central documentation hub
 ```
 
@@ -186,15 +184,15 @@ pip install -r requirements.txt
 ### 2. Usage Examples
 
 ```bash
-# Download transcripts for the Operating System playlist
+# Download transcripts for the Operating System playlist into its folder
 python get_playlist_transcripts.py "https://www.youtube.com/playlist?list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" \
-  -o "./transcripts" \
+  -o "./notes/operating-system/transcripts" \
   -l en hi en-US en-GB \
   --combine
 
-# Download transcripts for the Backend from first principles playlist
+# Download transcripts for the Backend from first principles playlist into its folder
 python get_playlist_transcripts.py "https://www.youtube.com/playlist?list=PLui3EUkuMTPgZcV0QhQrOcwMPcBCcd_Q1" \
-  -o "./transcripts" \
+  -o "./notes/backend-from-first-principles/transcripts" \
   --combine
 
 # Save raw structured JSON alongside formatted text transcripts

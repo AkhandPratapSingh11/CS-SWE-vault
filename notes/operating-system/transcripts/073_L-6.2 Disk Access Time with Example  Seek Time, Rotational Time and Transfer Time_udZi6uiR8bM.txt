@@ -1,0 +1,292 @@
+Title: L-6.2: Disk Access Time with Example | Seek Time, Rotational Time and Transfer Time
+Video URL: https://www.youtube.com/watch?v=udZi6uiR8bM
+Video ID: udZi6uiR8bM
+======================================================================
+
+[00:00] Hello friends, welcome to  Gate Smashers
+[00:02] in this video we are going to discuss disk access time
+[00:05] if we talk from competitive exam  point of view
+[00:08] even we talk from college or university  exam point of view
+[00:11] topic is very important
+[00:13] because we get most of the numericals from this topic
+[00:17] with examples i am going to explain in this  video, about different different times
+[00:20] we are going to discuss such examples so  that you will remember all these points
+[00:26] so guys quickly like the video, subscribe  the channel
+[00:29] and if you have not till now, please press  the button
+[00:32] so that you get all the latest notification
+[00:35] so let's start disk access time
+[00:37] the first important time over here is,  seek time
+[00:40] so what is seek time, time taken by read  write head to reach to the desired track
+[00:46] so disk architecture,
+[00:48] in last video i discussed about the disk architecture,
+[00:52] if you have not checked that video so once check that video,
+[00:55] so that you get to know, these tracks  sectors or whatever we are talking about
+[01:00] actually it comes under architecture
+[01:02] if you have not checked that video, so check that video, link is in description
+[01:06] if you already know about the tracks and sectors,
+[01:09] then directly you can come to this video
+[01:11] let me give brief overview
+[01:14] what we have inside the disk,
+[01:16] we have multiple platters, and these platters we have
+[01:19] are connected with one spindle
+[01:21] and that spindle over here
+[01:23] is used to move it, mean either it will  rotate clockwise or anticlockwise
+[01:28] this will rotate in any of these two  directions
+[01:30] in this manner these platters move
+[01:33] what do we have on these platters,
+[01:35] on these platters we have tracks
+[01:37] there are multiple tracks on these platters
+[01:40] so it have one upper surface and one  lower surface
+[01:42] so like this is one upper surface and one  lower surface
+[01:44] we also have tracks in upper surface
+[01:47] in lower surface also what we have,  circular tracks
+[01:51] now if i see this platter from top view
+[01:54] here it looks like this
+[01:57] on this it has track like this and  on this also it has tracks like this
+[02:00] now if i see it's top view, means if we see it this way
+[02:03] then how will it look like
+[02:04] like, this one i have platter
+[02:06] what we have on this platter, multiple tracks
+[02:10] now the read write head which we have the read write head
+[02:14] somewhere it will be present on any  of the track
+[02:19] means?, like in last video also i gave you  the example of gramophone
+[02:23] you must have seen that gramophone in the  movies
+[02:26] the black color CD is ther, and above that  they lift that and keep the spindle
+[02:32] actually that is a read write head
+[02:34] and along with that music starts playing because
+[02:37] that read write head, what it starts doing, it starts accessing the data
+[02:41] so the read write head which i have over  here
+[02:44] movement of read write head matters
+[02:46] this read write head which we have
+[02:48] cannot move like this, means it can not  move all around
+[02:52] either it will go forward or backward
+[02:55] all the read write head are there
+[02:57] this platter has it's own read write head
+[02:58] this has it's own read write head this has it's own read write head
+[03:01] this has it's own read write head
+[03:02] whatever the read write head are there, either it will move forward or backward
+[03:08] is if i make it move forward,  so what does it mean?
+[03:11] it is going towards inner most track
+[03:13] if i make it move backward,
+[03:15] means it is going from innermost track  to outermost track
+[03:19] so what it does,  it moves to tracks one by one
+[03:22] so actually this track's movement which we  have,
+[03:26] or the read write head's movement is track by track
+[03:30] now what seek time tells,
+[03:32] time taken by the read write head to reach desired track
+[03:37] what desired track means is..
+[03:39] your data might be on this track, on this  track, on this track,
+[03:44] it can be on any track
+[03:46] now let's say by default read write head will be at some position
+[03:50] it can be anywhere in outermost, may  be it is in middle somewhere
+[03:54] may it is somewhere in inner most, so
+[03:56] so wherever it is, what we have to do is
+[03:59] we have to bring it to desired track
+[04:03] let's say my data is on this track,  so what you do
+[04:06] so bring the read write head on this track
+[04:10] it has to make it move from here to here, and from here to here
+[04:13] so the time taken in this movement, this  time called as seek time
+[04:18] so actually we take it as average, so  what does it mean to take average
+[04:21] it can happen in best case that,
+[04:23] your read write head is already on that track from where data is to be picked
+[04:29] what can happen in worst case
+[04:31] you are in the outermost track and you have to go innermost track
+[04:36] so we take average case, so  what does the average case means
+[04:39] on an average you will have to move half  the number of tracks
+[04:44] and seek time matters fairly enough
+[04:46] whatever the time we have over here, which  we are going to discuss,
+[04:50] among those all seek time is most  important
+[04:52] because actually this only creates the maximum gap
+[04:57] so if whatever the amount of seek time  we can decrease,
+[05:00] that much of the performance will get  improved
+[05:03] because that same amount is the latency
+[05:05] latency means?... we do not want it take time
+[05:08] but at some point it has to take some time,
+[05:12] because firstly you have to reach to a  desired track
+[05:16] so the time taken to reach to desired track seek time
+[05:19] this is given in most of the questions
+[05:23] next rotation time, now what is rotation time?
+[05:26] time taken for one full rotation that is 360 degree
+[05:30] now here one question arises,  why should the rotation be done
+[05:34] so see where we have reached, we have  reached to the desired track
+[05:38] now what is there inside that track
+[05:41] let's say this is my track
+[05:42] now what is inside the tracks,  inside the tracks we have sectors
+[05:46] means if we discuss with simple real life example
+[05:50] you searching a particular house
+[05:52] so firstly before searching the house you will have to go to the colony
+[05:56] now time taken to reach that colony is seek time
+[06:00] now what is in the colony,  there are different different sectors
+[06:03] mean sectors, like if i talk about Chandigarh
+[06:05] so firstly you have to reach Chandigarh
+[06:07] now you reached Chandigarh,  seek time is over
+[06:10] now what is inside that, there are  multiple sectors
+[06:12] you have to reach to desired sector
+[06:15] then only you will go inside the house, so  to reach inside the desired sector
+[06:18] what we have to do, we have to use rotation time
+[06:22] now what is the meaning of rotation
+[06:23] like at some point, i am talking about one track, this whole is one track
+[06:28] what do we have inside this track, there are multiple sectors
+[06:31] now your read write head
+[06:33] when we used seek time, what happened in seek time
+[06:35] read write head has reached to the  desired track
+[06:38] so when it will reach to the desired track, then it will reach to any of the sector
+[06:44] it will be on any of the sector by default
+[06:46] but, now here story begins
+[06:49] now let's say this is sector number 1
+[06:52] now your data which is stored, it can be in sector number..
+[06:56] in 2, in 4, in 5,  it can be anywhere
+[07:00] now here read write head can not move up  and down
+[07:03] i have already told you, read write head either it will go forward or backward
+[07:07] so it moved forward, and it has reached  to this track
+[07:10] it has reached to this sector, but
+[07:13] your desired data is in any other sector
+[07:17] now what will happen, disk will rotate
+[07:19] either it will rotate clockwise or  anticlockwise
+[07:23] it rotate in one direction only
+[07:24] let's say my disk is rotating here,
+[07:29] who rotates it, this spindle rotates it, so what will spindle do, it will rotate
+[07:34] so in one full rotation, means you were on S1
+[07:37] let's say you are moving like this, moving clockwise
+[07:41] so obviously, S5, S6, S7, S8, S9, S10
+[07:47] now here you are on sector number 1, when it rotate fully..360
+[07:53] then where your sector number 10 will reach it will reach here
+[07:57] so here in full rotation
+[08:00] how much time it takes in one rotation that is called a rotation time
+[08:05] third is rotational latency
+[08:07] in actuality what is rotational latency
+[08:09] it is time taken to reach to the desired  sector, which we have reached
+[08:13] and this is important point, that  it is half of rotation time
+[08:17] we do not have to consider the time taken in one rotation
+[08:21] we have to consider half of that
+[08:23] why? ... again average
+[08:25] what is the meaning of average,  that is same point
+[08:28] in the best case it can happen,  in whatever the sector you reached
+[08:31] let's say you reached to Chandigarh,  in Chandigarh there are multiple sectors
+[08:35] and by default you reached to sector 43
+[08:37] and whom you wanted to find, his house is also in sector 43
+[08:41] so means that becomes a best case,
+[08:43] means the sector you reached that has stored the data
+[08:46] what can happen in worst case,
+[08:48] you want to go farthest, let's say, you  want sector 11, sector 9, sector 1
+[08:53] so you will have to move full one rotation
+[08:56] so what will be worst case,  one full rotation
+[08:59] best case means, 0 rotation
+[09:01] worst case mean, full rotation, one full rotation
+[09:04] so neither you take worst take, not take  the best case
+[09:07] you take the average case,  that is called half of the rotation time
+[09:12] make sure you note these points
+[09:14] because when we will do numericals in next video, all these points will be used
+[09:19] next, it is also called rotational latency  or it is also called rotational time
+[09:24] next is transfer time
+[09:25] what is transfer time, data to be  transferred divide by the transfer rate
+[09:30] now they will ask how much data, either  it will be given in the question,
+[09:33] that this much of data is to be transferred
+[09:36] whatever it be let's say, you have to  transfer data of two sectors
+[09:39] of three sectors, of one sector, or all the sectors, that will be given in question
+[09:44] divide by transfer rate
+[09:46] now what will be transfer rate too
+[09:48] it is per second how much data i can  transfer
+[09:52] what is transfer rate, kind of, like we discuss about the bandwidth in network
+[09:55] what is bandwidth, like 1Mbps, like i can transfer 1 mega bits in one second
+[10:02] same we are doing over here, what is  transfer rate,
+[10:05] how much data you can transfer per second
+[10:08] that you have to put below, and data to be transferred
+[10:11] how much data you have want to transfer that you have to keep here
+[10:15] now many a times you are not given transfer rate,
+[10:18] in case you are to find out the transfer  rate
+[10:21] what is the formula for transfer rate or data rate
+[10:23] it is number of head into capacity of one track into rotation of
+[10:30] number of rotation in one second
+[10:31] now in actuality what is this story
+[10:33] number of head means number of surface
+[10:36] How many surfaces do you have inside the  disc?
+[10:39] Like if we talk about this example.
+[10:42] one two, how many surfaces are there
+[10:44] One above one below. One above one below.
+[10:47] Total there are 8 surfaces
+[10:50] now what is every read write head,  it is sitting, holding like this
+[10:53] Means if it is your upper surface and it  is your lower surface.
+[10:56] Read write heads like this.
+[10:57] Now what is read head,  let's say it is my  outermost
+[11:00] and this is innermost moves like this
+[11:03] From outermost to innermost and from innermost outermost.
+[11:06] So we discussed seek time and we  discussed rotational time
+[11:09] Now we are talking, under the  transfer time
+[11:11] The number of heads
+[11:13] Whatever the heads we have.  Whatever the surfaces we have.
+[11:16] What will happen on that one surface
+[11:18] In one full rotation, means
+[11:20] What you are doing is In one full rotation.
+[11:23] You are reading whole track.
+[11:25] when you rotated one full rotation,    see here what the example we have done
+[11:29] In one full rotation you have rotated one  full disk.
+[11:35] What happened in that rotation?
+[11:37] You have read all the sectors on it.
+[11:40] what do you mean by reading all sectors, you have read one full track.
+[11:46] One track, one full track.
+[11:48] now you have read track of this one, you  also have read the bottom one parallelly
+[11:53] you read it's track and as well as the  bottom one's track
+[11:56] also, it's one track and also the bottom  one
+[11:58] also its one full track and also the  bottom one full track.
+[12:01] So here number of head means, whatever  the amount of surfaces you are given.
+[12:04] into what is the capacity of one track,
+[12:07] Means you find out the capacity of track.
+[12:10] What is the number of tracks, That you  will get in the question.
+[12:13] And how will you find out the capacity  of one track?
+[12:16] In actuality, how many sectors you have in  one track?
+[12:19] How much data is there on that sector
+[12:21] you multiply and you will get the capacity  of one track.
+[12:25] and the number of rotation in one second.
+[12:27] Like it will be given in the question.  Like 3000 RPM.
+[12:31] Means in one minute, that is called  rotation per minute
+[12:36] If you are given in this way, 3000  rotation in one minute.
+[12:40] So you'll get. Just divide by 60.
+[12:42] Means how many rotations in one second
+[12:45] Like 3000 rotations are completing in 60  seconds.
+[12:50] Then how much time for one rotation
+[12:52] 60 divided by 3000 seconds
+[12:56] So this is the time of one rotation
+[12:59] Now you want to find out
+[13:01] If i am doing 3000 rotations in one  second, or in 60 seconds
+[13:05] Then how much rotations I'm doing  in one second
+[13:08] You divide and that will be the  number of rotations per second
+[13:12] You multiply all these three and that is  called the transfer rate
+[13:15] In actuality these points are the  important points
+[13:18] Seek time rotation time rotational time and transfer time
+[13:21] Except this the controller time is also  given
+[13:24] what is controller, controller means which  controls all this architecture
+[13:27] It's a kind of software, like we say driver
+[13:33] Driver is which is controlling all the  points
+[13:36] Many times they also give that time
+[13:38] That controller took these many seconds  and milliseconds
+[13:42] So you also have to add that time you  don't have to calculate
+[13:46] If that is given in the question just add  that
+[13:48] If it's not given then don't add
+[13:50] So if you talk about the disk access time
+[13:53] Total access time of disk
+[13:56] What I got,
+[13:57] So the total access time came
+[13:59] Seet time plus rotational time plus  transfer time
+[14:03] Seek time plus rotational time
+[14:05] and what is rotation time, half of the  rotation time plus transfer time
+[14:10] And if in case you are given the  controller time
+[14:13] You add the controller time on it
+[14:15] This is optional this is not necessary that  it will be given in every question
+[14:19] Except this they also give queue time
+[14:21] What is queue time
+[14:22] the disk you have is comparatively  slower than the CPU obviously
+[14:27] Many times so many requests come in the  disk
+[14:30] So inside the buffer in the queue we store  them
+[14:33] And we fulfil all these requests one by  one
+[14:36] So whatever the time in the buffer
+[14:40] Whatever the buffer was there or the area  where all these requests were stored
+[14:44] They waited at least for some time
+[14:47] If that wait time is given to directly  at that
+[14:51] So this is what you got disk access time
+[14:54] But among these these three are  important time
+[14:56] Which will be given in every question
+[14:59] In case any of these is not given
+[15:01] Then you don't consider it and put zero
+[15:03] Otherwise these three points are most  important
+[15:07] That is seek time rotational time and  transfer time, thank you

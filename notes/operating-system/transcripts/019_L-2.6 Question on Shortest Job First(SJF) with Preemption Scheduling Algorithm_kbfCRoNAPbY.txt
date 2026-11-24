@@ -1,0 +1,100 @@
+Title: L-2.6: Question on Shortest Job First(SJF) with Preemption Scheduling Algorithm
+Video URL: https://www.youtube.com/watch?v=kbfCRoNAPbY
+Video ID: kbfCRoNAPbY
+======================================================================
+
+[00:00] Hello friends, Welcome to Gate smashers
+[00:03] Today we're going to discuss a question arrived in UGC NET July 2018
+[00:09] And this question has arrived from operating system
+[00:12] and from CPU scheduling topic in operating system
+[00:16] So the topic of CPU scheduling in operating system is a very important topic
+[00:22] And it's important in terms of frequency
+[00:26] that every time from this topic, question comes in GATE and UGC NET exam both
+[00:35] And secondly it is important because if any question comes in exam from this topic
+[00:42] then it shouldn't get wrong
+[00:45] Because it is a type of topic that all those who are preparing for UGC NET, they all covers this topic
+[00:54] But in every question there's a point where they tries to trick you in the question
+[01:00] So you just have to find out that crucks and then solve the question easily through it
+[01:06] So that's why this portion of CPU scheduling is very important, there're different algorithms in it
+[01:12] But, the question that has came this year in July 2018... That's a very simple question
+[01:20] There are three processes P1, P2, P3 Arrival time is 0, 1, 2
+[01:25] And burst time is given 7, 4, 8
+[01:28] And what they're asking, the Gantt chart for the pre-emptive SJF scheduling algorithm is
+[01:34] And they've given 4 Gantt chart here in the option
+[01:37] You have to find out correct Gantt chart according to Pre-emptive SJF algorithm
+[01:44] So first of all you have to focus on algorithm Algorithm is shortest job first
+[01:51] It's shortage job first, but along with that it's pre-emptive
+[01:55] Means when it's shortage job first along with pre-emptive
+[01:59] then you can call it as SRTF also, i.e. shortest remaining time first
+[02:05] Where we have to check first that which job is has the lowest burst time
+[02:15] I have to execute the one with lowest burst time
+[02:20] But it should be pre-emptive mode, means we don't have to fully execute one job,
+[02:25] we have to check regularly that which job's time
+[02:31] So let's see how to solve this question
+[02:36] So I'm making a new Gantt chart here from the starting
+[02:41] The Gantt chart always starts with 0 because we always starts the time with zero
+[02:47] At time zero, first you have to check which processes have arrived
+[02:52] Means which are those processes that are already arrived
+[02:56] Which process has arrived at 0?... Only P1
+[02:59] Only P1 has arrived, so first of all we'll run P1 here
+[03:07] But here it's pre-emptive, so in pre-emptive you have to keep in mind
+[03:12] that we'll run P1 but for only 1 unit time
+[03:18] Because after one unit we'll check again
+[03:22] if there's any other shorter job that's ready which we can run first
+[03:28] If this would be SJF only, then you will run P1 completely up to 7
+[03:34] But now you won't run i like that because it is pre-emptive,
+[03:37] in case of pre-emptive, run only up to one and then reduce 1 from here
+[03:43] Because P1 ran up to one burst time, then the leftover is 6
+[03:48] Now we have to check again, we are at 1 now
+[03:51] Because now we are standing at one then check again which process has arrived
+[03:57] arrived means they are in ready queue
+[04:00] P1 is already in the ready queue, its already ready and even it's done running also
+[04:07] So we sent it in ready queue back from running and P2 also came in ready queue
+[04:12] Now P1 and P2 both are in ready queue So which one will we select first?
+[04:18] We'll select the shortest first, the one with low burst time
+[04:22] So out of 6 and 4 which one has lower burst time?... P2 have lower burst time
+[04:25] So we'll get P2 executed here
+[04:29] And we'll give that P2 to whom? We'll give it to CPU to get it executed
+[04:34] Now CPU will execute it only up to one time unit
+[04:39] First you have to run only up to one time Let's suppose it ran from 1 to 2
+[04:43] Now P2 is left 3
+[04:47] Now at time 2, check again which processes has arrived
+[04:53] At 2 time all three processes have already arrived and already ready
+[04:58] But which one is the shorter out of all these?... That's P2
+[05:04] So you have to run again P2
+[05:08] Let's say you ran P2 again for one time unit and now here left it is 2
+[05:14] Now again we have to run P2 because is shortest here,
+[05:17] it's getting lower here, others are obviously greater value than this
+[05:20] So that's why we have to run P2 again
+[05:23] You can write it also that we ran P2 up to 2 time unit together
+[05:28] means we ran it up to 5 and P2 got over here
+[05:33] Now when P2 got over here, then which one is short out of the two....P1
+[05:39] So we'll run P1 again And for how much time we'll run it?
+[05:44] we can run it up to 5 but then it'll be 5 left and still lower than this
+[05:50] So now you can run it complete up to 6 Means 5+6 = 11
+[05:55] So you can get P1 completed up to 11 and then obviously only P3 is left
+[06:01] So there's no need to run P3 one by one because it's the only one left
+[06:05] There's no one else in the competition
+[06:07] so when there's no on in competition then you can run it completely
+[06:10] But when two or more process are in competition Then you can check burst time
+[06:15] So we'll run P3 completely... means it's burst time is 8 then it'll be 19
+[06:22] You can also write it in a way like first we ran P1 up to 1
+[06:28] Then we can P2 continuously up to 5
+[06:33] Then we ran P1 again up to 11
+[06:36] Then we ran P3 finally up to 19
+[06:38] So which Gantt chart matches it? The option is B or 2
+[06:45] Option 2 matches with this, so this is the correct answer
+[06:50] So this is very simple question actually
+[06:53] Even this is only just Gantt chart
+[06:55] they can even ask you about turn around time after it and even about waiting time
+[07:00] So this whole concept of scheduling algorithm is important
+[07:05] And the video of shortest job first with pre-emption,
+[07:09] I've explained video of this whole concept with example
+[07:14] And I've already shared the link of that video in the description box
+[07:18] So you can check it there and can study about this topic in more detail there
+[07:24] Even I've covered all scheduling algorithms with example
+[07:28] Make sure to do it one by one because this is a topic that comes in exam every year
+[07:33] And this is a topic that every student tries to cover
+[07:38] So that's why, you can do any question wrong But don't do this question wrong
+[07:44] So this is all about the concept of shortest job first with pre-emption
+[07:50] Thank You!!

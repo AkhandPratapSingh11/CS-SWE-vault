@@ -1,0 +1,132 @@
+Title: L-1.9: Questions on Fork System Call With Explanation | Operating System
+Video URL: https://www.youtube.com/watch?v=uMMvYLB4cys
+Video ID: uMMvYLB4cys
+======================================================================
+
+[00:00] Hello Friends, Welcome to Gate Smashers
+[00:03] In today's video we'll be discussing about Questions on Fork() system call
+[00:07] In last video I gave basic details about Fork() system call
+[00:11] And two very important points also on the basis of which
+[00:14] you can solve any question based on Fork
+[00:17] If you haven't watched that video then please check it out once
+[00:20] I've already mentioned link to that video in the description box below
+[00:23] So if you'll check out that video once
+[00:25] then you'll understand the basics about Fork() system call
+[00:28] And in the last of that video
+[00:31] I gave this question And I've got request from many students asking to explain this question
+[00:37] So that they can get a basic idea
+[00:39] that if this type of question will appear then how to solve it
+[00:43] And other than that I want to tell you
+[00:45] Many times questions have appeared on Fork() system call in many competitive exams like GATE, UGC NET etc
+[00:52] If these two points are clear to you then you can easily solve any question
+[00:56] So let's start this question First of all...
+[00:59] Here, we have this program written in C language
+[01:02] There are header files, main function And in main function here "if" is being used
+[01:08] Obviously we know that when compilation will start here
+[01:10] What this whole part is?? We've saved this whole program as .C
+[01:15] So what can you call this whole?
+[01:18] It's like a single program which you can call it as a parent process in its own
+[01:22] It means this main program is a parent process in its own
+[01:26] I'm calling it parent because Fork() system call has been used here
+[01:30] And what fork always do is It generates child process always
+[01:34] Means we uses it for parallel processing
+[01:37] Parent is already there, but along with parent
+[01:40] child is also there, so parent will be executed separately
+[01:42] and child will be executed separately also Both will get concurrent execute
+[01:46] So the moment we starts its compilation How it'll get execute?
+[01:50] First up to int main() And then bracket start... if
+[01:54] In "if", what's written first of all guys? Its fork written here
+[01:58] When It'll read fork
+[02:00] Reading fork means that a child of this whole parent process will create
+[02:07] and that returns what?? Zero (0)
+[02:11] Child returns 0 and parent... Value of parent is always positive number
+[02:17] Generally we calls it positive one i.e. +1 But you can assume it any positive number
+[02:23] Next...after if and fork What's important here is...
+[02:28] This is operator here.... "&" operator
+[02:32] And as we are explaining here that this is child process and this is parent process
+[02:37] And both of these are running parallel Means running concurrent with each other
+[02:41] So we have to consider both the cases
+[02:44] Let's see first we executes child process
+[02:46] If we executes child process then what child is returning is.... Zero (0)
+[02:51] So the moment fork returned this zero(0)
+[02:54] Then whatever you'll do with zero(0) what your answer will be?? its Zero (0)
+[02:58] Means if you'll do 0 and 1 then what will be your answer?
+[03:01] It'll be surely 0
+[03:02] Means it'll return if(false
+[03:05] The moment it'll return false then here
+[03:09] This fork will not get executed
+[03:11] because it'll exit "if" and will directly reach to print f ("Hello")
+[03:15] Means what this C1 will print?
+[03:18] It'll print "Hello" once and will get end
+[03:23] But if we'll talk about parent process
+[03:26] This was 0
+[03:27] It returned zero (0)... But if we'll talk about parent process
+[03:31] About other process i.e. parent process So what it returned here is
+[03:35] It returned a positive number
+[03:37] So can we take it directly to fork?? NO!
+[03:40] If this would be OR
+[03:42] If there would be OR operator at the place of &
+[03:44] Then you could have gone down but...
+[03:47] This is & operator and if first value is positive in &
+[03:50] Then it definitely checks the second one
+[03:53] If first value is in (+) in OR operator
+[03:55] Then there's no need to check the second one
+[03:57] You can directly go in... But this is &
+[04:00] In & if one of them is 1 then who knows the second value will be 0
+[04:04] And 1 & 0 is equals to 0
+[04:07] 1 & 1 is equals to 1
+[04:10] So means until we don't reach to this second value
+[04:12] we can't go in the output, I mean we can't go internally
+[04:15] So we found out that first one is 1 means a positive number
+[04:19] So the moment we entered in second
+[04:21] What's the next statement written after &??
+[04:24] Fork
+[04:25] Means, Again a child process will create after this parent
+[04:30] And it's already a parent itself
+[04:33] So this child.... What this child always returns??.... Zero (0)
+[04:37] And what parent returns is positive
+[04:39] So have a look here very carefully
+[04:41] We have already got this value positive This value is positive
+[04:46] So positive &...
+[04:47] Now if we'll talk about this case first, About this one
+[04:50] Then what it will return?
+[04:51] Zero (0)
+[04:52] Mean Positive & 0
+[04:55] so positive & 0 means 0
+[04:58] So if...
+[05:00] What it'll return??... False
+[05:02] So false means this will not execute this fork
+[05:06] It'll reach to print f directly
+[05:08] And print f means what this C2 will print?
+[05:11] It'll print "Hello"... That's it
+[05:13] And talking about the next case i.e. P
+[05:16] So what it returned is Positive...
+[05:18] And what this P also returned is Positive
+[05:20] So positive & positive is equals to positive number...
+[05:23] Means what's returning here in if?
+[05:26] True
+[05:27] And the moment it'll return True Mean this fork statement will execute
+[05:32] And when this fork one will execute then
+[05:34] Then what this P will also be ahead?
+[05:37] It'll form a child and it's already a parent in itself
+[05:40] So the moment next statement came after fork... i.e. print f ("Hello")
+[05:44] Then this C3 which was a child will also print "Hello"
+[05:49] And this P here will also print "Hello"
+[05:52] It means, Total how many time Hello will print here?
+[05:56] It'll print 4 times
+[05:57] So guys this is how you have to solve
+[05:59] And the main point that you've to remember is
+[06:03] That what this child always returns is Zero (0)
+[06:05] And parent always returns positive number
+[06:07] And second point,
+[06:08] It's very important point that how many times you are executing fork
+[06:12] So guys, you can solve this same question with other operator also
+[06:17] And if you want to share its answer with me
+[06:20] then you can share it with me in the comment box
+[06:22] Rest of the question is as it is
+[06:23] You can just use OR operator at the place of & operator
+[06:27] So this is guys, how to solve these kind of questions
+[06:30] So overall if you liked the video then please hit the like button
+[06:33] Share it as much as possible
+[06:34] And please subscribe my channel
+[06:36] Thank You!!

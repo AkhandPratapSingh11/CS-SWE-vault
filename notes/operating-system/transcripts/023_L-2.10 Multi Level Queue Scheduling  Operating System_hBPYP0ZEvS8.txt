@@ -1,0 +1,55 @@
+Title: L-2.10: Multi Level Queue Scheduling | Operating System
+Video URL: https://www.youtube.com/watch?v=hBPYP0ZEvS8
+Video ID: hBPYP0ZEvS8
+======================================================================
+
+[00:00] Hello friends, welcome to Gate Smashers The topic is multi-level queue scheduling
+[00:04] All the scheduling algorithms we saw until now we just take only one ready queue there
+[00:09] that all the processes that we have to execute What we do is, we try to put all the processes in the RQ
+[00:19] And in ready queue, out of all the processes
+[00:23] we'll try to extract some processes to CPU and will give them to CPU
+[00:31] Means out of all these process, we pick some process on the basis of scheduling algorithm and executes it on the CPU
+[00:39] But what the multi-level Queue scheduling concept is when we don't have one type of processes in real life
+[00:47] Processes can be of different types so when processes are of different types
+[00:52] then why there's only one RQ from that
+[00:56] So what multi level queue says that it has three types of process,
+[01:00] system processes, which has the highest priority
+[01:05] Like Interrupt... If interrupt generates in the system then all the working will stop
+[01:10] First of all operating system will handle the interrupt
+[01:13] Same with interactive process, interactive process means
+[01:15] like if you are watching movie on VLC, or interacting with an application directly
+[01:23] That's called the interactive process
+[01:25] Batch process are those with lowest priority they are called background process also
+[01:29] where we give multiple process to the system and system keeps executing them in the background
+[01:36] So if I have this much different types of processes which have different priorities also
+[01:41] Then why there's only one queue for that
+[01:44] we place all of them in one RQ without checking what type of that process is
+[01:49] and forward it to CPU from there... NO What multi-level queue says is
+[01:54] that there must be different queue for every process
+[01:57] Means each one will have its own RQ
+[02:00] When a system process will come, we'll place it in this queue
+[02:03] When there'll be an interactive process then in this one
+[02:05] If batch processes then we’ll place in this one
+[02:07] And we've already decided the priority also in it
+[02:11] Second point that's important here is that every process can have its own algorithm also
+[02:16] Means if a process is system process then it'll be with round robin scheduling algorithm
+[02:22] Means if I've 5-10 system processes
+[02:25] Then how to execute those 5-10 system processes??... through round robin
+[02:29] If I've 5-10 Interactive processes, then how to execute them?...
+[02:34] Like shortest job first, means I can use any scheduling algorithm
+[02:39] These scheduling algorithms can be same and different also
+[02:44] And we'll give them to CPU one by one
+[02:47] So the biggest advantage here is,
+[02:49] We're categorising the processes according to their different real life scenarios
+[02:55] But the problem is, obviously if we'd keep getting too much system processes
+[03:01] then there'll be no turn of interactive and batch process
+[03:05] they'll run so late on the CPU
+[03:07] So whenever system process will come, it'll get executed first
+[03:10] Batch and interactive process will keep waiting
+[03:12] So there'll be problem of starvation
+[03:15] because the processes on lower priority will keep waiting for its turn
+[03:20] So, to remove this we can use multi-level feedback queue, that's its next version
+[03:26] So that's it in the multi-level queue scheduling
+[03:29] If they'll ask any question, then maximum it could be based on theory
+[03:35] There's no such practical or numerical question existing on this
+[03:39] Thank You!

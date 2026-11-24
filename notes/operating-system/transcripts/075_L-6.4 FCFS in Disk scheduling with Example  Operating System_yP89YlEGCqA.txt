@@ -1,0 +1,141 @@
+Title: L-6.4: FCFS in Disk scheduling with Example | Operating System
+Video URL: https://www.youtube.com/watch?v=yP89YlEGCqA
+Video ID: yP89YlEGCqA
+======================================================================
+
+[00:00] Hello friends, welcome to the Gate Smashers the topic is first come first serve
+[00:04] in disk scheduling algorithm
+[00:06] So here first of all I'm going to discuss with the question
+[00:09] a disk contains 200 tracks the numbering is 0 to 199
+[00:15] Request queue contains the track numbers 82 170 43 140 24  16 190
+[00:18] This is the details or this is the list of the track numbers
+[00:21] Over here the first important point is
+[00:25] Request queue means every disk have  a request queue
+[00:29] And what comes in that queue is
+[00:31] The moment any user creates the request let's say I want to access some data
+[00:36] that data in what particular track stored in, memory management after mapping it
+[00:42] Whatever the track number comes it inserts  in the queue number
+[00:47] Let's say at a point of time
+[00:49] queue contains 82 170, this is the queue number, this is the request number
+[00:55] Current position of the read write head is  50 this is the important point
+[00:59] otherwise where we have to start we  will not get to know
+[01:02] That's why it's very important to know the current position
+[01:05] Calculate the total number of track movements by read write head
+[01:09] that is, what the meaning of seek time is
+[01:12] How many movements is the read write head doing
+[01:15] To come to the desired track
+[01:18] That is called the seek time
+[01:19] And what the meaning of seek time over here is..
+[01:22] This is number of movements by the read write head
+[01:25] So here we're finding the number of movements
+[01:27] So to solve this question, or to solve any question of this type
+[01:32] first of all what you have to do
+[01:33] Whatever the tracks you are given just represent them like this
+[01:37] 0 to 190
+[01:40] Although this is not in this manner  it is in circular shape
+[01:43] means the tracks will be like this
+[01:45] ..internally, if I see the top view of  any platter
+[01:49] So what will be on that top view
+[01:51] There will be multiple tracks track number 1 2 3 4 5 6 up to 200
+[01:57] but now we are solving the numericals, so that's why i have represented properly
+[02:03] i have written numbering from 0 to 199
+[02:05] why 50 is written over here,
+[02:07] because we know that the current position  of the read write head is 50
+[02:12] means the read write head is standing on 50
+[02:16] now what i have to do is, i have to pick the requests one by one
+[02:20] and what is the algorithm FCFS
+[02:22] so what is the first request..82
+[02:24] so without thinking much, we have to reach  to 82 directly from 50
+[02:31] i went to 82 track,
+[02:33] in 82 track, from whichever sector i had to pick the data, i fetched from that place
+[02:40] now after desired track 82,  what is my next request  170
+[02:45] so from 82 where did i make my next  movement, 170
+[02:51] this way you keep writing simultaneously
+[02:54] so that you know how is your movement progressing
+[02:57] then 43,
+[02:59] after 170, the desired track, the data i have to find is stored in 43 track number
+[03:06] so for 43 tack number i will have to come back
+[03:10] and here track number 43 is kept and i fetched the data from there
+[03:16] then 140, so again i have to go to 140, i will have to make a movement again
+[03:23] so i can cover 140 here
+[03:29] after 140, next request is 24
+[03:32] so again i have to go next one, 24 so i am making a movement towards 24
+[03:39] so over here, the read write head is following a kind of zig zag path
+[03:45] so we reached to 24, after 24 16
+[03:48] so to go to 16  there is no need to change  the direction of movement
+[03:53] so on the same direction 16 will come
+[03:56] so i read 16 from here
+[03:59] then the last request is 190
+[04:01] again here, i will have to change the direction
+[04:05] and i am moving to 190
+[04:10] so 190 which was my last request  i completed that
+[04:15] what i have to find out is, total number of  track movements
+[04:19] this point or this diagram, it might be asked, the total number of track movements
+[04:24] or how many times the direction has changed
+[04:27] means this direction is changing
+[04:29] what is the meaning of changing the direction,
+[04:32] that the read write head only moves back and forth
+[04:36] so these are the tracks so either it will  go forward or backward
+[04:41] it is going to towards this direction  or this direction
+[04:45] that's why it is following the zig zag path
+[04:49] because one request is coming more than 50 and another less than 50
+[04:53] so now finally, to find out the total number of movement
+[04:56] you have to simple minus, how?
+[04:59] one way is this, your first request was 82,
+[05:03] so what you do, 82 minus 50
+[05:07] 82 minus 50 plus
+[05:11] then you went to 170, so 170 minus 82, 170 minus 82,
+[05:19] plus
+[05:20] after that you gone to 43 from 170
+[05:23] so do not do 43 minus 170
+[05:25] otherwise the answer will be in minus
+[05:27] and movement, obviously we are talking about the time so it will only be in plus
+[05:31] so 170 minus 43, 170 minus 43
+[05:36] plus
+[05:38] we reached to 43 and then we went to 140
+[05:41] so 140 minus 43, 140 minus 43
+[05:46] plus
+[05:48] so from 140 we went to 24, so 140 minus  24 plus
+[05:55] from 24 we went to 16 so, 24 minus 16
+[06:00] and the last one 190 minus 16
+[06:03] 190 minus 16, this calculation you will have to do here
+[06:09] let me tell you one more point
+[06:11] so in place of doing only calculation
+[06:14] you know that, this movement has  gone till here,
+[06:17] so you can also find directly, 170 minus 50
+[06:22] plus 170 minus 50 plus
+[06:25] 170 minus 43
+[06:27] means where the direction is same, take that till the end
+[06:30] 170 minus 43, 170 minus 43 plus
+[06:37] again here direction has changed 140 minus 43
+[06:40] 140 minus 43 plus
+[06:46] here next direction came, this one
+[06:48] 140 minus 16, take it till the very last
+[06:52] 140 minus 16 plus
+[06:57] the very last value is this one,
+[06:59] that is 190 minus 16, 190 minus 16
+[07:05] you can follow this method or this method
+[07:09] through this your calculation will be easy
+[07:13] and definitely the chances to get right result will be more
+[07:16] And when you solve it you'll get the  answer 642
+[07:23] And you can do the calculations
+[07:25] So the advantage of FCFS is  that there  is no starvation in this algorithm
+[07:30] Starvation means one request is waiting  for its turn that when will we service it
+[07:36] But over here in whatever the sequence  the requests have entered
+[07:42] So on that sequence itself we are  servicing it
+[07:45] So there is no such request which will  wait for a long time, for it's turn
+[07:52] In whichever term, whichever sequence  they have
+[07:55] On that same sequence we are servicing  the request
+[07:58] That's why there is no problem of  starvation over here
+[08:02] But here the problem we are facing is  about the performance
+[08:04] Means this one without looking at data
+[08:07] it can also happen, that from 50 onwards
+[08:10] Or let's say when one point came  that from 50 we're going to 170
+[08:16] And I also know that I have to go at a  point 190 somewhere
+[08:19] Although I have to go towards future but  I also have to cover 190
+[08:23] so if I can cover quickly the nearer  values
+[08:27] so that the movement or the direction  change will  be minimized
+[08:31] but FCFS don't follow this
+[08:34] That's why here the performance
+[08:35] so at some point the seek time value comes  more, as compared to other algorithm
+[08:40] so this is all about the FCFS Thank you

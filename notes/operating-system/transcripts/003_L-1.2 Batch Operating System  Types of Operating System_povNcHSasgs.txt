@@ -1,0 +1,86 @@
+Title: L-1.2: Batch Operating System | Types of Operating System
+Video URL: https://www.youtube.com/watch?v=povNcHSasgs
+Video ID: povNcHSasgs
+======================================================================
+
+[00:07] Hello Students.. Welcome to Gate Smashers In today's video, I'll be explaining types of operating system
+[00:12] And first we'll talk about batch operating system Although I have completed operating system in my playlist
+[00:20] If you'll check in the playlist, Maximum portion in operating system has been completed
+[00:25] But just for the sake of completion, Because I haven't told some minor points
+[00:30] So I'm just completing them here so if students are preparing for university, college exam or competitive exams,
+[00:39] so none of their point should get missed and all points should be cleared
+[00:43] So here in types of operating system, first comes the batch operating system,
+[00:48] then multi program, multi-tasking, real time, distributed, clustered & embedded system
+[00:53] This is the mainly category... you can expand it more also
+[00:57] but mainly we have just this category where multi programmed and multi-tasking
+[01:04] multi programmed and multi-tasking are very important
+[01:10] Because Many questions comes on it in operating system
+[01:13] and I've already made a video on it and it's link is in the description box
+[01:18] So let's start first with bath operating system
+[01:20] Batch operating system, as the name tells that batch of job
+[01:25] Means we are making a batch of similar kind of job and giving to the computer so it can execute it
+[01:33] This is the main funda we have, now the scenario here is when we used to use these systems at the time of 1960s
+[01:40] at that time if someone wants to get his work executed
+[01:45] now everyone used to not use computers in 1960s like now
+[01:53] Only major companies like NASA or ISRO,
+[01:59] means the companies which are working on heavy computation & research...
+[02:04] Only they used to need to do some some computations
+[02:07] Now what they used to do is they used to use punch cards
+[02:11] Punch cards or paper cards or paper tape
+[02:17] Or we can call it as magnetic tape also
+[02:20] So they used to load their jobs offline on them
+[02:24] let's say I have to do some calculations then I just loaded those job or process offline on it
+[02:32] and now I have to reach to the system, because system used to not be available in every home
+[02:38] All our CPUs and computers are just stored in a company
+[02:43] so what have to do is... we have to go there with our system or process in these cards
+[02:48] and have to give to the company saying that you want to get this work executed
+[02:51] Although links are already there, it's known which person is working on what type of work
+[02:57] So what I'll do here is, I'll give my jobs to the operator
+[03:04] Operator means... Like in today's time we directly interacts with the system,
+[03:09] means we can write command, or use GUI interface, it was not like that at that time
+[03:15] Your work in batch was just to load the job offline on it and give in the company
+[03:21] Let's say there's an operator in the company, you provided him...
+[03:25] means you didn't inserted anything in the system directly, you just gave to the operator,
+[03:30] What operator would say is.. that we'll provide you information
+[03:34] when your job will be executed and then you can get the result
+[03:37] Then your work is done... you gave your job to the operator and provided the punch card
+[03:42] Now what operator will do is... will convert the batches
+[03:48] Means we have to create a batch of similar kind of jobs
+[03:51] and let's say one batch is B1 B2 and other is B3
+[03:56] Now let's say we have 2-3 similar kind of jobs in batch one
+[04:02] So first of all we have to give batch one to the CPU...
+[04:05] Means operating system will pick up first job and will give to CPU
+[04:11] What operator did is, added the punch card And we provided first job of first batch to the CPU
+[04:17] And now CPU have to execute it,
+[04:19] Now we already know that the processes that we have either demands for CPU's time
+[04:26] Or if we have to do some input-output process in between
+[04:28] Means if I have to read some file, or have to read some peripheral devices or write something from it
+[04:33] or if they want to access something
+[04:35] So what CPU does is... It allows to do the input output process in it
+[04:42] Until this time CPU will stay Idle... This was a major disadvantage or problem at that time
+[04:51] that we gave a job to CPU and the job is asking to process input- output
+[04:54] Or it want to read some file from the disk or want to read or write something in a device
+[05:01] then CPU will stay idle until that time It won't proceed to next job
+[05:05] So when it'll come back to CPU after completing Then CPU will execute it properly and then will come to next job
+[05:11] Means it's like a non pre-emption kind of scenario
+[05:13] Along with non pre-emption you can say that CPU is not proceeding to next job
+[05:22] But our next, that's multi programmed There was RAM in the case of multi programmed
+[05:27] Now we added multiple jobs in the RAM and gave one job to the CPU
+[05:32] Let's say that job is asking to perform input- output then CPU will allow and will proceed to next job
+[05:39] Here next job won't come until the first job won't get completed
+[05:44] So that's why there's a lot of idle time of the CPU Because of which it'll obviously take so much time
+[05:50] so what used to happen at that time was Operator took your job
+[05:54] but you don't know when will you get the result Maybe you'll get result after a day or a week or month or year
+[06:03] And you have to go there even to take the result they'll provide you the result
+[06:08] you can add that result offline in your tape or punch card and can do whatever you want to perform in your lab
+[06:17] So this was the whole story of batch operating system
+[06:21] Then gradually it got a lot of refinement
+[06:24] Major refinement was the monitors
+[06:28] To end the system of operators they introduced monitors,
+[06:34] saying that you can at least punch the punch cards directly in it so we can provide a job to the CPU
+[06:44] So monitors used to used at that time IBM created this system called FORTRAN
+[06:49] FORTRAN system was designed by IBM Along with that IBSYS 709X
+[06:58] All this was in 1960s
+[07:00] So if you get asked in a question then it's more than sufficient you don't have to study more than this from anywhere
+[07:07] This is all about the batch operating system
+[07:09] Thank You!

@@ -1,0 +1,172 @@
+Title: L-5.16: What is Thrashing | Operating System
+Video URL: https://www.youtube.com/watch?v=IyWaK8pbN6A
+Video ID: IyWaK8pbN6A
+======================================================================
+
+[00:00] Hello friends Welcome to Gate Smashers
+[00:02] The topic is thrashing in the operating systems.
+[00:04] Thrashing is an important topic  in operating systems.
+[00:07] Thrashing is directly linked with degree of multi-programming.
+[00:10] The degree of multi-level programming is
+[00:13] the number of processes present in RAM.
+[00:16] Meaning if I bring more and more processes inside RAM
+[00:20] it directly increases CPU utilization.
+[00:25] If you bring more and more processes inside RAM
+[00:31] This is a RAM
+[00:32] and there is a limitation in the size of RAM.
+[00:36] The size of RAM is limited.
+[00:39] If I bring only two or three processes inside RAM
+[00:45] The problem is
+[00:47] Sometimes processes demand input-output operations.
+[00:50] So as soon as those processes demand input-output operations
+[00:54] So according to the process state we put them in the block state.
+[00:58] So at that time, the CPU becomes idle.
+[01:02] Throughput will decrease as soon as the CPU becomes idle
+[01:05] Meaning the performance will start degrading.
+[01:08] So we have to keep the CPU busy all the time.
+[01:11] To keep CPU busy and to bring maximum utilization
+[01:16] I have to bring more and more processes inside RAM.
+[01:21] But RAM is limited
+[01:23] so I can't bring the whole process inside RAM
+[01:27] So here we use the concept of paging.
+[01:31] In paging what we do is
+[01:33] we divide processes in pages
+[01:37] then it inside RAM.
+[01:39] This means if I have a lot of processes let say I have 100 process
+[01:44] So first, we will divide 100 processes into pages
+[01:48] And we will bring those pages inside Ram.
+[01:52] So here is how to maximize the degree of multi-programming.
+[01:56] Funda is simple
+[01:59] how to maximize the degree of multi-programming?
+[02:02] If I bring only one page of each and every process
+[02:08] inside RAM.
+[02:10] Meaning whatever my processes are
+[02:13] The maximum number of processes
+[02:16] involved will be within RAM.
+[02:17] This means all the processes will feel that
+[02:20] we are present inside RAM.
+[02:22] But the entire process is not inside RAM.
+[02:26] We bring only one or two pages of it inside RAM.
+[02:30] I am not bringing the whole process
+[02:33] I am taking only 10% or 20% portion of a process inside RAM.
+[02:38] So I have an advantage with that
+[02:40] whenever CPU will ask for any particular process or data
+[02:45] So I will give that page to the CPU.
+[02:48] But what is the problem here
+[02:50] The worst-case scenario could be
+[02:52] let say
+[02:54] I brought page number 1 of Process P1 inside Ram
+[02:59] page number 1 of Process P2 inside Ram
+[03:03] then page number 1 of Process P3 inside Ram
+[03:06] page number 1 of Process P4 inside Ram
+[03:08] let say page number 1 of Process P100 inside Ram
+[03:12] So this helped me achieve one thing and that is
+[03:15] Degree of Multi Programming.
+[03:17] Meaning I tried to bring maximum
+[03:22] processes inside RAM.
+[03:25] But what is the problem with it?
+[03:27] Is the entire process of P1 is inside RAM?
+[03:30] No!
+[03:31] Only one page of it is present in Ram.
+[03:35] If the CPU is asking for
+[03:36] page 1 of process P1
+[03:41] then there is no problem
+[03:42] there is also no problem with page 1 of process p2 either
+[03:46] No problem with page 1 of process P3
+[03:48] But in case
+[03:50] if CPU asked for page 2 of process P1
+[03:55] page 2 of the process P1 is not present anywhere
+[03:59] so this will be called a page fault.
+[04:02] And whenever page fault occurs,
+[04:04] we use page fault service time.
+[04:07] I mean to say that
+[04:08] We will bring the page from the hard disk
+[04:11] in to the main memory
+[04:13] and it takes a lot of time.
+[04:15] I have already explained this topic
+[04:17] what is the page fault service time in virtual memory?
+[04:20] so you can follow that video.
+[04:22] Here we are talking from the point of view of thrashing.
+[04:25] If CPU asked page 2 of process P2
+[04:30] that is also not present. Again page fault
+[04:33] page 2 of process P3
+[04:36] that is also not present. Again page fault
+[04:38] page 2 or 3 of process P4
+[04:40] that is also not present
+[04:42] A point can also come
+[04:45] we maxed out-degree of multi-programming
+[04:48] Meaning I have brought more and more
+[04:50] pages of processes inside RAM.
+[04:53] But whatever is the demand of the CPU
+[04:57] that page is not present inside the RAM.
+[05:00] So as soon as the pages will not be present inside RAM
+[05:03] we call it a page fault.
+[05:06] When we service a page fault
+[05:09] it takes a lot of time.
+[05:11] The entire operating system will get busy
+[05:15] in servicing page fault.
+[05:19] Obviously, due to this, my performance of the operating system will degrade.
+[05:24] This is what I have shown in this diagram.
+[05:28] If my Degree of multi-programming is on the x-axis
+[05:31] and CPU utilization is on the y-axis
+[05:33] As soon as I increase the degree of multiprogramming
+[05:36] means I am increasing degree of multiprogramming
+[05:39] I am bringing more and more processes inside RAM.
+[05:43] As soon as I am bringing more and more
+[05:45] processes inside RAM
+[05:47] If one or two processes asked
+[05:49] to do the input-output operation
+[05:52] so they went from running state to block state.
+[05:54] So the CPU will not sit free
+[05:57] because I already have a lot of processes in ready state
+[06:01] I will pick it up from the ready state and put it in running state
+[06:05] So my CPU's utilization will run very well
+[06:09] it will increase gradually.
+[06:10] But, a point will come
+[06:13] let say λ
+[06:14] At that point my degree of
+[06:16] multiprogramming is maximum.
+[06:19] Sorry not degree of multiprogramming
+[06:21] CPU utilization is maximum.
+[06:23] Degree of multiprogramming is at any particular point.
+[06:27] But after that, there will be instant thrashing
+[06:31] Thrashing means
+[06:32] too many page faults occurred
+[06:35] Page Hit decreases and  Page fault becomes heavy
+[06:39] and due to page fault
+[06:41] The system is wasting all the time in servicing pages.
+[06:47] Means in bringing the pages from hard disk to memory.
+[06:49] Then CPU will be idle in that case.
+[06:53] Due to that CPU utilization will decrease suddenly.
+[06:56] So this is the funda of the Thrashing.
+[07:00] How can we remove it?
+[07:02] If I want to remove Thrashing How will I remove it?
+[07:05] There is a simple example or method.
+[07:09] Either you can increase the size of main memory
+[07:12] means main memory size increased.
+[07:16] But increasing main memory size is not an easy task.
+[07:21] If you're purchasing a particular laptop or a particular machine
+[07:24] then it is not very easy to increase the main memory on regular basis.
+[07:28] You will increase after some particular time
+[07:31] but you cannot do it on regular basis.
+[07:33] Then there can be another solution in this case
+[07:36] Long term scheduler
+[07:38] What is long term scheduler?
+[07:41] There are three types of scheduler in an operating system
+[07:44] Long term, short term, and middle term
+[07:46] The responsibility of long term scheduler is
+[07:50] Bringing the maximum number of processes
+[07:53] inside RAM or in the ready state.
+[07:57] Bringing maximum number of processes inside RAM.
+[08:00] If we ask long term scheduler to decrease its speed.
+[08:04] Don't take the degree of multiprogramming
+[08:06] to the absolute maximum level
+[08:09] decrease it a little bit.
+[08:10] So obviously I could save thrashing here.
+[08:14] With these two points, we can control
+[08:16] degree of multiprogramming  at some point or the other.
+[08:19] And due to that, we can save thrashing
+[08:22] Otherwise if the system will come in thrashing
+[08:24] So the whole CPU Utilization will be completely degraded
+[08:27] and due to that the performance and throughput will decrease.
+[08:32] Thank you!

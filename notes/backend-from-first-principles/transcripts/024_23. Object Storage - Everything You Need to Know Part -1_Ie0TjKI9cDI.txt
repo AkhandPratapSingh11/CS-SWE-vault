@@ -1,0 +1,2004 @@
+Title: 23. Object Storage - Everything You Need to Know: Part -1
+Video URL: https://www.youtube.com/watch?v=Ie0TjKI9cDI
+Video ID: Ie0TjKI9cDI
+======================================================================
+
+[00:00] Okay, so far we have talked about a lot
+[00:03] of things. You have built a back end and
+[00:06] it works well on a lot of ends. It has
+[00:09] authentication, it has database, it has
+[00:11] your handlers, your services, your
+[00:14] repositories, pretty much everything
+[00:16] that we have discussed so far in this
+[00:18] playlist. Now let's imagine a real life
+[00:21] scenario where a new requirement comes
+[00:24] in for your back end. And what is that
+[00:28] requirement? pretty straightforward and
+[00:30] practical. You have users in your
+[00:33] system. You have users in your database
+[00:35] and they need to upload files and the
+[00:38] files can be for many reasons but let's
+[00:42] imagine a very basic scenario. They want
+[00:44] to update their profile picture, right?
+[00:46] That's the whole requirement of why they
+[00:49] need to upload files. Now starting from
+[00:51] there if you want to implement this
+[00:54] let's follow our intuition without
+[00:57] knowing the right way without uh knowing
+[01:00] what is the production grade way and
+[01:03] what is the textbook way what comes to
+[01:05] our mind what is the intuitive way what
+[01:08] is the naive way of doing this we are
+[01:11] getting a file and we need to store it
+[01:14] somewhere the first thing that will come
+[01:17] to our mind is that you will take Take
+[01:20] that file and you'll take it how the
+[01:22] front end browser sends you the file
+[01:25] using something called as form data
+[01:28] which is what we use for sending files.
+[01:31] Then you extract that from the request
+[01:34] from the form data and you save it
+[01:36] somewhere in your local file system.
+[01:39] Why? Because it is a file and where do
+[01:41] we save files in our local file system?
+[01:44] because we are running a back end on top
+[01:47] of a system, a physical system which has
+[01:49] its own memory. It has its own CPU and
+[01:52] its own storage. So naturally we have it
+[01:56] in the storage which is a file system.
+[01:59] So assuming it is a Linux file system
+[02:01] because that's where most of the servers
+[02:02] are deployed. It can be something like a
+[02:05] FS or ext4 or any typical file system
+[02:09] that you might encounter in the wild.
+[02:11] After saving the file somewhere in our
+[02:13] local file system, the next obvious
+[02:16] thing to do is record where we stored
+[02:19] it. After the user has uploaded the
+[02:21] file, naturally the next request is
+[02:24] going to be to fetch the file back so
+[02:26] that the browser can render it and they
+[02:28] can see the profile picture in their
+[02:31] page. So we need to record the path of
+[02:35] where we stored that file in our back
+[02:37] end. So we save the file in the file
+[02:40] system, record the path in a database
+[02:42] and we are done. This is the most
+[02:45] intuitive and naive way we can imagine
+[02:48] of handling files in a typical back end.
+[02:51] And from my very obvious stone, you have
+[02:54] probably already guessed that this is
+[02:56] the wrong way. But let's keep at it.
+[03:00] Let's let's still humor ourselves and
+[03:03] see how and where it goes. And I have to
+[03:06] mention here that even right after
+[03:09] storing it in the next second when the
+[03:12] user requests a file back there is a
+[03:14] very good chance that our whole flow our
+[03:17] whole intuition breaks here which I'll
+[03:19] come back to for the sake of the
+[03:21] explanation. Let's keep going. Let's not
+[03:24] come to the list of problems yet. We'll
+[03:26] explore the list of problems one by one.
+[03:29] Okay. Let's assume that you have stored
+[03:31] the file and the path in the database
+[03:34] and everything worked. In the next
+[03:37] request when the user requested their
+[03:40] profile details, they got the path or
+[03:43] the file which is stored in the local
+[03:45] file system and you were able to send
+[03:47] the file back to the user and they were
+[03:50] able to render it in the browser in
+[03:52] their prov. Okay, happy case. Now let's
+[03:54] come to the first problem. Not
+[03:56] technically the first problem but the
+[03:59] first simple and obvious problem because
+[04:02] let's not get into the whole complicated
+[04:04] uh distributed system problem yet. Let's
+[04:06] start with the obvious one which is the
+[04:09] size of the file. Typically when users
+[04:11] upload for their profile pictures they
+[04:14] are small somewhere from 300 KB to a max
+[04:18] of 10 MB and if they have taken the
+[04:22] picture from their iPhones it can be in
+[04:24] that range. If it is from a very fancy
+[04:27] mirrorless camera then it can be let's
+[04:30] say 15 MB to 20 MB but still small
+[04:33] comparatively most of the time
+[04:35] everything fits into your servers memory
+[04:37] and there is no traffic spike of any
+[04:40] sort. So things work out pretty well. So
+[04:44] now that you have a pattern for dealing
+[04:46] with files in your back end a new
+[04:49] requirement comes in and here you have
+[04:52] to deal with videos. This can be
+[04:54] something like uh if you are a social
+[04:56] media site, the videos are probably for
+[04:58] their feed for users to post in their
+[05:01] feed or if it is some kind of a
+[05:04] messaging feature. Users want to send
+[05:06] videos to other users. In any case, you
+[05:09] need to deal with files and videos which
+[05:12] are typically very large. They can be as
+[05:16] small as a few megabytes or as big as a
+[05:19] few gigabytes. So let's say you use the
+[05:22] same pattern of getting the file from
+[05:24] the form data, saving it in your local
+[05:27] file system and saving the path in the
+[05:29] database for the video also. Now imagine
+[05:33] our first problematic scenario, the size
+[05:36] based problem of this whole pattern.
+[05:38] Let's say a user uploads a 4GB video to
+[05:42] your server and they want to post that
+[05:45] video in their feed. So they need to
+[05:47] upload that video. The moment that video
+[05:50] reaches your server, the moment you
+[05:53] start processing the request, a lot of
+[05:56] things happen and most of those things
+[05:58] are bad as you can guess. Talking about
+[06:01] a server, let's say you are a midsize
+[06:04] startup and each instance of your server
+[06:07] is around 4GB. We'll get to the multi-
+[06:10] instance part in a bit. And the instance
+[06:14] that starts processing this request is
+[06:17] provisioned with 4G of total memory. And
+[06:20] since your server has only 4 GB of total
+[06:23] memory and your framework, whatever you
+[06:25] are using very helpfully reads that
+[06:28] entire file into memory and hands it to
+[06:31] you. So for obvious reasons, your server
+[06:33] runs out of memory because it reads the
+[06:35] whole file into memory. Your memory is
+[06:37] empty and the container gets killed
+[06:39] instantly. So assuming you have set up
+[06:42] the whole production grade scaling
+[06:44] infrastructure which we have discussed
+[06:46] in our past videos, your container
+[06:48] automatically restarts. The moment it
+[06:51] restarts, every file that was ever
+[06:53] uploaded to this instance that you had
+[06:56] stored in your local file system is gone
+[06:59] completely. The profile pictures, the
+[07:01] videos and everything is wiped clean.
+[07:04] Why? Because containers file systems are
+[07:07] what we call as ephemeral. meaning the
+[07:10] storage is not persistent and not
+[07:13] permanent. It only lasts up to the point
+[07:17] when the container is restarted. The
+[07:19] moment it gets restarted, everything
+[07:21] gets wiped. And since we talked about
+[07:24] the scaling in our previous video, we're
+[07:26] assuming that you have scaled your
+[07:27] backend instances to let's say three
+[07:29] instances last month only to deal with
+[07:32] your user traffic and to deal with your
+[07:35] load. And turns out that even the files
+[07:38] that did survive because they got
+[07:41] uploaded to other instances, they only
+[07:44] survive in those instances. This
+[07:46] particular instance that we're talking
+[07:48] about which got killed and restarted, it
+[07:51] cannot access those files. So
+[07:53] statistically speaking, one out of every
+[07:56] three requests for a profile picture
+[07:58] returns a 404 status not found error. So
+[08:02] what went wrong? Why did this happen? It
+[08:05] was because of one wrong assumption that
+[08:08] we made which is that a file is
+[08:11] something our application owns which is
+[08:14] not true. A file is a data that is that
+[08:18] that has a completely different shape
+[08:21] from the data that we are used to
+[08:23] dealing with which is mostly JSON. Your
+[08:26] server 95% of the time it deals with
+[08:29] JSON and files are completely different
+[08:31] from that. They have a completely
+[08:33] different access pattern. a completely
+[08:35] different cost profile and for obvious
+[08:38] reasons for the failures that we just
+[08:40] noticed they need a completely different
+[08:43] kind of storage system and that is the
+[08:46] topic of this video because this
+[08:49] particular storage system is called
+[08:51] object storage and in this video we are
+[08:53] going to talk about object storage and
+[08:56] we'll see what object storage actually
+[08:58] is why does it exist what are the
+[09:01] trade-offs of using it and all sorts of
+[09:04] stuff. We'll look at how it works behind
+[09:07] the scenes. How exactly your data the
+[09:10] the bytes that are getting transferred
+[09:12] is actually laid out in your physical
+[09:14] drives. And of course, we are going to
+[09:16] solve the whole user uploading files to
+[09:19] your server problem properly the
+[09:21] production way which is to answer in one
+[09:24] word using pre-signed URLs and the whole
+[09:27] workflows around that. We'll also talk
+[09:29] about large files, how to deal with them
+[09:32] using multiart uploads and resumable
+[09:35] uploads. We'll talk about download size,
+[09:38] range requests, how video seeking
+[09:40] actually works and the whole cost
+[09:43] profile because this is one of those
+[09:45] areas of backend engineering where cost
+[09:48] is something that you have to keep in
+[09:50] mind when you are dealing with files.
+[09:53] Now, as usual, before we get to the core
+[09:56] topic, we have to cover a little bit of
+[09:58] the surrounding area. Before before we
+[10:02] talk about object storage and what it
+[10:04] actually is, let's spend some time on
+[10:07] why it exists. Because if you don't know
+[10:10] what exactly is the problem that it is
+[10:12] solving, what exactly is the pain point
+[10:15] it is fixing, then all the concepts that
+[10:18] we are going to cover, they will mostly
+[10:19] sound vague. they will mostly sound
+[10:21] theoretical and we'll have no motivation
+[10:24] to learn about a new technology to solve
+[10:28] the problem that we already have. So
+[10:31] let's break let's divide our motivation
+[10:34] into a couple of problems and we'll
+[10:36] cover one problem at a time. Now the
+[10:39] number one problem that is your service
+[10:42] disk is ephemeral which you just saw and
+[10:46] we have already covered that what
+[10:49] ephemeral means. It means that
+[10:52] everything all the memory the primary
+[10:55] memory secondary memory whatever you are
+[10:56] storing inside the server that only
+[10:59] lasts till you restart your container
+[11:03] till the next restart. That is more or
+[11:05] less what ephemeral means. So if you are
+[11:08] deploying your servers your backends
+[11:10] with docker and kubernetes with any of
+[11:13] the modern platform as a service
+[11:16] providers like railway render and if you
+[11:18] are going serverless then platforms like
+[11:20] versel netifi there are a lot of them
+[11:23] and we have pretty much covered all
+[11:25] these platforms deployments kubernetes
+[11:28] docker all this stuff in one of our
+[11:31] previous videos but anyway the point is
+[11:34] if you are deploying with docker and
+[11:36] cubern Kubernetes, then your application
+[11:39] is running inside a container. And as we
+[11:41] just saw, the container's file system
+[11:44] only exists as long as the container
+[11:47] exists because every time a container is
+[11:50] killed or every time a container is
+[11:52] restarted, a new container is booted up.
+[11:55] In place of that, the image is the same,
+[11:58] the container image is the same, but the
+[12:00] container instance is completely new.
+[12:03] And that is one of the reasons we call
+[12:05] it as stateless. Typically during
+[12:08] deployment when you push your code for
+[12:11] CI/CD deployments, you deploy a new
+[12:13] version of the image with the latest
+[12:16] version of your code and the old
+[12:18] container is destroyed. It is killed and
+[12:21] it is replaced with a completely new
+[12:23] container created from the latest
+[12:25] version of your Docker image which has
+[12:27] the latest code of your application or
+[12:28] your back end. Now this particular
+[12:30] image, this docker image, it does not
+[12:33] contain your users files. So every
+[12:35] single time you deploy all of your users
+[12:37] files, if you're storing them inside the
+[12:40] container file system, they are
+[12:41] completely wiped. So at this point, if
+[12:44] you are already familiar with how
+[12:46] Docker, Kubernetes, and the whole
+[12:49] container ecosystem works, you already
+[12:52] have a partial solution in mind, which
+[12:55] is attaching a persistent volume. Now we
+[12:58] have not covered Docker, Kubernetes and
+[13:00] the whole infrastructure world in this
+[13:01] playlist yet which is probably going to
+[13:03] the last video of this playlist. But a
+[13:06] persistent volume is basically any
+[13:08] storage that you attach to a container
+[13:11] for this precise problem that we just
+[13:13] saw the femoralness of the container.
+[13:16] Not the problem of storing users files
+[13:20] in the file system. That is not what it
+[13:22] is for even though you can use it. But
+[13:25] the problem of avoiding the issues of
+[13:28] whatever the storage being ephemeral
+[13:31] that is the solution persistent volumes
+[13:33] provide anyway if you are thinking about
+[13:36] persistent volumes which is fine you can
+[13:39] do that but even if you are using
+[13:41] persistent volumes it is still going to
+[13:44] fail on problems two and three which
+[13:48] we'll cover shortly. Now the second
+[13:51] problem is horizontal scaling. If you
+[13:53] have watched the previous videos and
+[13:55] your memory is still fresh even though
+[13:57] it should not be it's almost been a
+[14:00] decade since I uploaded the last video
+[14:02] but we have talked about all the scaling
+[14:04] performance and all this stuff. So let's
+[14:06] say you have three instances of your
+[14:09] server behind a load balancer which is a
+[14:12] completely normal thing to do and we
+[14:14] have discussed this in the scaling
+[14:16] video. So a user uploads a file and the
+[14:19] load balancer happens to route that
+[14:21] request to instance number one. The file
+[14:25] is returned to the instance one's disk,
+[14:28] its local file system because we are
+[14:30] still on the knife problem. We have not
+[14:32] gotten to the production way yet. So 2
+[14:34] minutes later, the same user requests
+[14:37] that file back because they uploaded the
+[14:39] file, navigated away to some other page
+[14:42] or they walked away from the screen.
+[14:44] Whatever happened they came back after 2
+[14:46] minutes and requested the file back
+[14:48] which basically means that uh the
+[14:50] browser is trying to render the profile
+[14:52] picture and it is asking for the files
+[14:55] data. So that goes through the load
+[14:57] balancer because it is the first point
+[14:59] of contact for our infrastructure. Now
+[15:02] the load balancer usually has algorithms
+[15:05] for how to route requests to different
+[15:07] instances. Let's say the algorithm that
+[15:10] was in use in this scenario was very
+[15:13] simple a roundroin algorithm which means
+[15:16] that it just rotates in order in a
+[15:20] particular order between all three
+[15:22] instances which means that the next time
+[15:25] this request goes to instance number
+[15:27] three for some reason because the last
+[15:29] request went to instance number two. Now
+[15:32] the problem is that instance three has
+[15:34] no idea that this particular file that
+[15:36] the user is requesting it exists. That
+[15:38] means that the server is going to return
+[15:40] 404 not found. And the more you scale
+[15:44] out or the more horizontal scaling that
+[15:47] you do meaning the more instances of
+[15:50] your server that you keep adding because
+[15:52] of your user load and your traffic for
+[15:54] whatever reason the worse it is going to
+[15:56] get. The probability of hitting the
+[15:59] correct instance out of all these
+[16:01] instances depending on the algorithm the
+[16:04] load balancer is using is more or less
+[16:06] one divided by number of instances and
+[16:10] storing files on the instances local
+[16:13] file system. It breaks the single most
+[16:15] important property of a horizontally
+[16:18] scalable server which is statelessness.
+[16:21] Your server should never hold any state
+[16:24] that other servers do not have. Great.
+[16:28] Now comes the third problem. The disk is
+[16:31] of a fixed size and growing or
+[16:34] increasing in size is a vertical
+[16:35] operation which means that you cannot
+[16:38] keep adding more disks to your server.
+[16:41] You just have to increase the capacity
+[16:43] of your existing disks because as your
+[16:46] traffic grows you can add more instances
+[16:48] of your server to your infrastructure.
+[16:51] But disk is something that you have to
+[16:53] increase vertically not horizontally. So
+[16:56] for a disk you can only grow by making
+[16:58] the disk bigger which usually means that
+[17:01] you'll have some downtime. Why? Because
+[17:03] you have to disable the existing disk
+[17:06] increase the size and attach the new
+[17:08] disk with all the data copied more or
+[17:10] less these are going to be the steps in
+[17:13] any cloud infrastructure. Basically a
+[17:15] resize operation on your disk. And
+[17:18] another problem attached to that is
+[17:21] there is always going to be a ceiling
+[17:23] which means that there is always going
+[17:25] to be a maximum size of the disk that
+[17:28] you can add depending on the cloud
+[17:30] provider that you are using. Meanwhile
+[17:32] files that are getting uploaded by your
+[17:34] users are pretty much the fastest
+[17:37] growing data in almost every application
+[17:40] that you can imagine. A lot of users can
+[17:43] upload a lot of files at any instant at
+[17:46] any time throughout the day. So let's
+[17:49] say thousand users uploading 100 MB each
+[17:52] is going to be 100 GB a month of growth
+[17:55] forever and that is not going to shrink
+[17:58] because the number of times people
+[18:00] delete their files is far less than the
+[18:03] times they upload. Okay. Now the fourth
+[18:06] problem is durability because your
+[18:08] server has one disk and if that disk
+[18:11] dies and discs do die in real life for a
+[18:15] lot of reasons including power failure
+[18:17] some kind of hardware crash even our
+[18:20] personal system our personal laptops
+[18:22] even their discs failed sometimes. So it
+[18:26] is a completely normal and expected
+[18:28] operation that can happen at any time.
+[18:30] So if your disk dies which contains all
+[18:33] your users files all of those files are
+[18:36] gone since that was the only copy and
+[18:39] here I want to introduce two terms
+[18:42] availability and durability. What is
+[18:44] availability? Availability means that
+[18:47] whether you can reach a particular piece
+[18:49] of data right now. But durability means
+[18:52] whether your data still exists somewhere
+[18:56] somewhere in the world. If one copy of
+[18:59] your data exists somewhere then we can
+[19:01] call it durable. And the reason we are
+[19:04] introducing these terms now is to
+[19:06] explain that you can recover from an
+[19:09] availability problem by waiting. That's
+[19:12] the worst case scenario. If your server
+[19:14] is unavailable or it has some kind of
+[19:16] latency problem, your users just have to
+[19:19] wait and eventually the problem will go
+[19:21] away with some kind of fix and they will
+[19:23] get their data at that point of time.
+[19:26] But you cannot say the same for a
+[19:28] durability problem. You cannot recover
+[19:31] from a durability problem. At least not
+[19:33] by waiting because that data is gone.
+[19:36] That pile is gone from existence. And
+[19:40] pretty much everywhere in our tech
+[19:42] industry, the only solution to
+[19:44] durability is replication, which is just
+[19:47] a fancy term of keeping some piece or
+[19:50] some backup of your data somewhere else.
+[19:53] So at any point there should be multiple
+[19:55] copies of your data and the moment you
+[19:58] have these backups these copies you also
+[20:00] have things like check sums and you also
+[20:02] need background processes that can
+[20:05] detect when there is some kind of data
+[20:08] corruption and they need to fix it and
+[20:10] all these very hard engineering problems
+[20:12] replication check sums repair processes
+[20:15] it's a completely different engineering
+[20:17] area and is a very big area which is not
+[20:20] something that you want to tackle or
+[20:22] even think about when you're building
+[20:24] your small to-do app. So, not worth the
+[20:27] trouble. The fifth problem is that let's
+[20:31] let's forget about the uploads for a
+[20:32] while. Let's talk about downloads. After
+[20:35] saving the file, your server has to send
+[20:38] the file back whenever a user requests
+[20:41] it. Serving or sending a file back to
+[20:45] the user is also an operation which
+[20:47] involves your back end. So let's say a
+[20:50] file is of 50 MB and you have a user on
+[20:54] a mobile connection with a internet
+[20:57] speed of let's say around 2 MB per
+[20:59] second 2 mgabits per second not 2
+[21:02] mgabytes now that download the download
+[21:06] from the mobile is going to take around
+[21:07] 3.5 minutes and for those 3.5 minutes
+[21:12] one of your servers workers if you are
+[21:14] using something like go then one of your
+[21:16] go routines and if you are using
+[21:18] something like nodej is then one of your
+[21:20] event loop workers. Whatever language
+[21:23] runtime that you're using, whatever
+[21:24] concurrency primitive that you're using,
+[21:26] that thing, that worker is just sitting
+[21:28] there and it is doing nothing but
+[21:31] copying data, copying bytes very slowly
+[21:34] to a internet deprived phone thousands
+[21:38] of miles away. That's the only thing
+[21:40] that is doing. And the reason it is a
+[21:42] problem is your server is not built for
+[21:46] that job. I mean of course it can do
+[21:48] that job and they they do it all the
+[21:49] time but that's not the best use of its
+[21:52] time because it is not a content
+[21:54] delivery network. CDN exist just to
+[21:57] solve this problem and in this case your
+[22:00] server it is a very expensive very slow
+[22:02] content delivery network with probably a
+[22:05] let's say 100 concurrent connection
+[22:07] limit and we discussed this shortly in
+[22:10] our concurrency video that your server
+[22:13] at any point of time is doing two
+[22:15] different kinds of work either it is IO
+[22:18] bound or it is CPUbound what does
+[22:20] CPUbound mean it means that it is using
+[22:24] the CPU simply ly speaking and doing
+[22:27] some kind of processing that requires
+[22:28] CPU. It is involving the actual CPU
+[22:31] coursees. And what does IOB bound mean?
+[22:33] It means it is either sending to some
+[22:36] other component like a database or a
+[22:38] external client, external API, external
+[22:41] server or reading files from your file
+[22:43] system or something. It is either
+[22:45] sending some data or waiting for data
+[22:48] from any of these. And we already know
+[22:50] that we don't like IO bound work. We
+[22:53] should avoid it as much as we can if we
+[22:56] can manage to do that. Okay. Now finally
+[22:59] the sixth problem which is a little hard
+[23:01] to wrap our head around that is files
+[23:05] and database rows they have no
+[23:07] transaction between them which means
+[23:09] that they are two completely different
+[23:12] systems. They have no control over each
+[23:15] other. And why are we saying this? Let's
+[23:18] imagine a scenario where you write the
+[23:21] file to disk and then take the path of
+[23:24] that file where it is stored in the disk
+[23:26] and insert that as a row into your
+[23:29] database. If the insertion fails, you
+[23:31] have a file on your disk but you don't
+[23:34] have a corresponding database row. So
+[23:36] the users have no way to access it. that
+[23:40] file is completely orphan and in the
+[23:42] worst case scenario it costs you just
+[23:44] more money because of that uh orphan
+[23:47] storage. But if we flip the scenario,
+[23:50] you do it the other way. You insert the
+[23:53] row into your database first right after
+[23:56] getting the file and then you try to
+[23:58] create the file on your disk in your
+[24:00] local file system. And if the file
+[24:02] creation fails, writing to disk fails.
+[24:05] Now you have a row in your database with
+[24:07] a column with a path which is invalid.
+[24:11] So every time the user tries to fetch
+[24:13] their profile picture, your server tries
+[24:15] to access that file from that path and
+[24:17] it throws an error. So depending on your
+[24:20] error handling logic, they either get a
+[24:21] 500 or something like 404. And the
+[24:24] reason we have this scenario this uh
+[24:26] file system and database syncing
+[24:29] scenario is that we don't have any kind
+[24:31] of transaction. We don't have a way to
+[24:34] ensure that either both the operations
+[24:37] happen or both fail. We don't have any
+[24:39] control over both the systems at the
+[24:42] same time. And we'll come back to this
+[24:44] particular problem later in the video
+[24:46] because there is a pattern for it. And
+[24:49] right now I just want you to notice that
+[24:51] this problem does not really go away
+[24:54] when we start using the object storage.
+[24:56] But it just becomes a little easier to
+[24:58] solve. But object storage is not a
+[25:00] direct solution for this problem. Now
+[25:03] that we have established our intuitive
+[25:05] approach, our naive approach which
+[25:08] breaks in production at scale to
+[25:10] understand a little bit about the
+[25:12] context of the problem, we need to go
+[25:14] one level down and we need to ask a
+[25:17] question. What are the different kinds
+[25:19] of storage that are available to us? And
+[25:22] the answer is majorly three and each one
+[25:25] of them has their own set of trade-offs.
+[25:29] First one is block storage. The block
+[25:31] storage it gives you a raw array of
+[25:35] fixed size blocks. typically from some
+[25:39] of the famous file systems that we have
+[25:40] available like ext4bit and some of the
+[25:43] legacy ones and for Windows if you're
+[25:46] talking about NTFS etc. Typically these
+[25:49] blocks are around 5 12 bytes or 4 KB
+[25:52] each and each block has a number that's
+[25:55] pretty much the whole interface of block
+[25:58] storage. So at any point you can read or
+[26:01] write to block number let's say 9
+[26:04] million and it will allow you to do that
+[26:07] and there is no concept of a file a name
+[26:10] or a folder that is exactly what an SSD
+[26:13] is a solid state drive and that is what
+[26:17] services like Amazon EBS the elastic
+[26:20] block storage offers you. One of the
+[26:22] primary reasons people use EBS or block
+[26:26] storage is that it is the lowest level
+[26:28] interface and it is usually the fastest.
+[26:32] The typical latency that we see that we
+[26:34] encounter while using the storage is in
+[26:37] microsconds. That is why most of our
+[26:40] database systems like posgress or MySQL
+[26:42] sit on top of this block storage. They
+[26:46] still make use of file system but not in
+[26:49] the way that we use it as users. They
+[26:52] keep some kind of direct interface
+[26:54] between them and the block storage so
+[26:57] that they can keep that microcond
+[26:58] latency that we mentioned that block
+[27:00] storage offers. But the trade-off here
+[27:03] is that the interface of block storage
+[27:06] is so so basic, so primitive that you
+[27:09] cannot really build an application on
+[27:11] top of it directly. The second and it's
+[27:15] a critical limitation is a block device.
+[27:20] A block storage device can be attached
+[27:22] to exactly one machine at a time. You
+[27:25] cannot attach the same storage to
+[27:26] multiple machines for any kind of
+[27:29] sharing. Now the second kind which is
+[27:31] the file storage. Now the file storage
+[27:34] the file system is one abstraction on
+[27:37] top of block storage. On top of blocks,
+[27:40] a file system can build hierarchy of
+[27:43] things like directories or folders,
+[27:46] files, paths, permissions or iodes, all
+[27:49] these technical computer science file
+[27:51] system stuff. And in return, it gives
+[27:54] you a very rich interface which is full
+[27:56] of features. You can do a lot of
+[27:58] operations like opening a file or
+[28:01] closing the file, seeking to byte number
+[28:04] 9 million or 5 million, overwriting four
+[28:07] bytes. Exactly four bytes in the middle
+[28:09] of a file, renaming a folder instantly
+[28:12] and atomically locking a file, appending
+[28:15] to it, updating it, whatever operation,
+[28:17] all these operations that we do every
+[28:18] single day through various applications
+[28:20] and through our finder, our file manager
+[28:23] or whatever. And all these operations
+[28:26] that I just mentioned, these are called
+[28:28] as PZIX semantics. And what exactly is
+[28:32] this PZIX? POSIX is just a standard a
+[28:35] standard for operating systems primarily
+[28:38] and it defines all the various
+[28:40] operations that a typical operating
+[28:43] system should offer and if the operating
+[28:46] system offers most of the POSIX
+[28:48] semantics then it is called POSIX
+[28:50] compliant. All these operations that we
+[28:52] just discussed are the file system
+[28:55] category under the POSIX semantics and
+[28:58] they are extremely convenient and as
+[29:01] usual convenience does come with a set
+[29:04] of trade-offs. All these operations that
+[29:06] are provided by our operating systems by
+[29:08] the file system they need coordination.
+[29:11] For example, a rename operation which we
+[29:15] do without even thinking twice. It has
+[29:18] to be completely atomic. Otherwise, a
+[29:20] lot of operations, a lot of system
+[29:23] operations will immediately break. A lot
+[29:26] of applications and systems depend on
+[29:29] this property of our file system that a
+[29:32] rename will be completely atomic in the
+[29:36] sense it will either go successful or it
+[29:39] will fail. There should not be any in
+[29:42] between corrupted partial state.
+[29:44] Similarly, a partial write it has to be
+[29:48] visible consistently. What does that
+[29:50] mean? So, if you are using an editor,
+[29:52] something like uh VS code, Sublime Text
+[29:54] or something like that and you start
+[29:57] making edits to a file, you start
+[29:58] editing your TypeScript or JavaScript or
+[30:00] whatever file. The moment you start
+[30:02] editing and before that file is saved,
+[30:06] VS code the the the VS code process
+[30:08] which is currently holding the file
+[30:11] handle for each edit it will create for
+[30:14] that edit operation it will create a
+[30:16] temporary file in whatever temporary
+[30:18] file location that your operating system
+[30:20] is offering and it will keep writing to
+[30:23] it and only after you hit save at that
+[30:26] point it will create a new file move all
+[30:28] the contents of the temporary file to
+[30:30] the new file and delete. both the old
+[30:32] and the temporary file. All these things
+[30:35] happen so that at any point of time if
+[30:38] someone tries to access the file they
+[30:40] either get the old version, the original
+[30:43] version before the edit or the
+[30:45] completely new version which is after
+[30:46] the edit, they never get the partial
+[30:48] state while the process is writing to
+[30:50] it. Similarly, two processes, two
+[30:53] applications in our operating system, if
+[30:55] they're writing to the same file, so
+[30:57] they need some kind of locking. This is
+[31:00] very famous in most of our log files
+[31:03] where where multiple programs are trying
+[31:05] to write to the log file and this
+[31:08] locking and coordination. This property
+[31:11] does not really scale across the network
+[31:13] boundary across data centers across
+[31:15] continents and that is exactly why
+[31:18] network file systems like NFS they exist
+[31:22] with of course their own set of
+[31:23] trade-offs. Now finally the last one the
+[31:26] third one which is object storage. Now
+[31:29] this starts from a completely different
+[31:30] question. So instead of asking how do we
+[31:33] give people the richest possible
+[31:36] interface or a large set of features, it
+[31:39] asks this question that what is the
+[31:42] absolute minimum interface we can get
+[31:45] away with. Why? So that it can scale to
+[31:49] unlimited capacity. It can scale to
+[31:52] xabyte or what we call as planet scale
+[31:55] which is just a way of saying that can
+[31:57] scale to the extent that no other file
+[31:59] system can at least when it comes to the
+[32:02] coordination problem. So what exactly is
+[32:05] this minimum interface that it comes
+[32:07] with basically four operations put an
+[32:10] object with a name or upload an object
+[32:13] with a name get an object by its name
+[32:16] delete the object by its name and list
+[32:19] all names. That's pretty much all of it.
+[32:22] Four operations. That's everything that
+[32:25] an object storage gives you when it
+[32:27] comes to the interface. Now, let's look
+[32:29] at the trade-offs here. First, you
+[32:31] cannot really modify an object in place.
+[32:35] You cannot update or append a file or
+[32:40] technically an object. Whatever we store
+[32:42] in the object storage, we call it an
+[32:45] object, not a file. We can call it a
+[32:48] file but in a technical sense it is not
+[32:50] really a file. It is an object because
+[32:54] when you call it a file you expect all
+[32:56] the features that typically come with
+[32:59] the name file which an object does not
+[33:02] offer. For example updating very much
+[33:06] expected from a file but it is not
+[33:08] offered by an object. Similarly, there
+[33:11] is no seek, there is no partial rate
+[33:14] that the files in your operating system
+[33:17] offer you. So, if you want to change one
+[33:19] bite in the middle of a 1 GB object,
+[33:23] what you need to do, you need to
+[33:24] download the whole 1GB file, make
+[33:27] whatever changes that you want to make,
+[33:28] then upload the whole 1GB file back with
+[33:31] the same key. Why? Because objects, as I
+[33:34] said, cannot be modified. They are
+[33:37] immutable. they can only be replaced.
+[33:41] Then there are no real directories, no
+[33:44] real folders. And why do I say there are
+[33:47] no real folders? In most of our object
+[33:50] storage providers to give people a sense
+[33:54] of folders, we have what we call as
+[33:57] prefixes in the object storage world
+[34:01] using which we can build a very minimal
+[34:03] file folder structure. But as I said, it
+[34:05] is just an illusion. And we'll come to
+[34:08] why I'm saying it is just an illusion.
+[34:12] Similarly, there is no rename in the
+[34:14] world of object storage. A rename means
+[34:17] you copy the whole thing to the new name
+[34:20] and then you delete the old one. And
+[34:23] because of that, a rename costs you the
+[34:26] complete size of the object that you're
+[34:28] trying to rename. Similarly, there is no
+[34:30] file locking like the kind of locks
+[34:33] offered by your operating system. And if
+[34:37] we look at the latency numbers, it is
+[34:39] not in microsconds which is offered by
+[34:42] your block storage and also your file
+[34:45] system. In object storage, it is at
+[34:48] least a few milliseconds or even tens of
+[34:51] milliseconds. Why? Because every single
+[34:54] operation that you perform in object
+[34:56] storage is an HTTP request that is going
+[35:00] over a network, it is crossing a network
+[35:03] boundary to a machine that is somewhere
+[35:05] in some data center. Now the question is
+[35:07] with all these trade-offs, all these
+[35:10] limitations that object storage offers,
+[35:13] why would anyone on earth use object
+[35:15] storage in the first place? What
+[35:17] advantage do they offer in return? to go
+[35:21] over a few of them. Since there is no in
+[35:24] place modification, there is no object
+[35:27] modification, there is nothing to
+[35:29] coordinate and because of that an entire
+[35:33] class of distributed systems problem are
+[35:36] completely eliminated. Second, there is
+[35:39] no hierarchy at all. No folders, no
+[35:42] directory structures. So there is no
+[35:44] tree to maintain, no tree to lock and no
+[35:47] tree to rebalance which all happens in
+[35:50] typical file systems the locking the
+[35:53] rebalancing the tree and all these
+[35:54] things. Third, every operation is a
+[35:58] self-contained HTTP request. And because
+[36:01] of that, any of the 10,000 servers
+[36:04] spread across the whole world can serve
+[36:07] any request, which is just a way of
+[36:10] saying that the system it scales
+[36:12] horizontally without any limit. Then
+[36:15] your capacity is pretty much infinite.
+[36:18] You never have to provision, you never
+[36:20] have to resize, you just keep uploading
+[36:22] your objects. And if you're using one of
+[36:25] the famous object storage systems like
+[36:27] Amazon S3, you also get the durability
+[36:30] guarantee which famously called as 11
+[36:33] 9s. We'll come to what that 11 9s mean
+[36:37] and the whole mathematics side of it in
+[36:39] a little bit. Every object is directly
+[36:43] addressable via HTTP the HTTP protocol
+[36:46] which means that any system whether it
+[36:49] is a browser a C video player a mobile
+[36:51] app whatever system that speaks the H
+[36:55] protocol which is pretty much every
+[36:57] single device every single system in
+[36:59] this era they all speak HTTP whatever
+[37:02] computing device that you can imagine
+[37:05] and because of that all of them all
+[37:07] those systems can talk to can
+[37:10] communicate with object storage without
+[37:12] going through any servers in between. By
+[37:15] the way, just a footnote, this set of
+[37:17] trade-offs that we talked about, this is
+[37:20] not really unique to storage. If you
+[37:22] read about distributed systems, the same
+[37:25] set of trade-offs that we just saw is
+[37:27] also available when it comes to caching,
+[37:29] when it comes to stateless servers, when
+[37:31] it comes to immutable deployments. So in
+[37:34] distributed systems almost every time
+[37:37] you go to infinite scale every time you
+[37:40] want to achieve infinite scale the
+[37:42] tradeoff that comes with it is
+[37:45] mutability. You have to give up
+[37:47] mutability which means that modifying a
+[37:51] state of something in place that's what
+[37:53] we mean by mutability. So when it comes
+[37:56] to the larger distributed systems
+[37:58] ecosystem, object storage is just one of
+[38:00] the purest and one of the most famous
+[38:03] examples of that trade-off. Okay, now
+[38:07] enough about the context. Let's see
+[38:09] precisely what exactly an object is.
+[38:12] Let's explore that part from the
+[38:15] structure of it. So an object has four
+[38:17] things. A key which is a string. That
+[38:20] string is the complete and entire
+[38:23] identity of that object. Then a value
+[38:26] which is just an array of bytes just a
+[38:29] blob of bytes is binary. Then some
+[38:32] metadata which is things like the size,
+[38:36] the last modified time, the content type
+[38:39] and the e tag. And this is called system
+[38:42] metadata. There is also a section which
+[38:44] is called user metadata which are just
+[38:47] uh dynamic key value pairs that you can
+[38:50] attach as the user of the object storage
+[38:53] for your own server use cases. For
+[38:56] example, if you want to record who
+[38:58] uploaded that particular object, then
+[39:00] you can add a field called as uploaded
+[39:02] by where you can add the user ID which
+[39:05] is mapped to what is stored in your
+[39:06] database and that gets stored at the
+[39:08] object level in the object storage. All
+[39:11] of these objects they live inside a
+[39:13] bucket. A bucket is the term that we use
+[39:16] which is not exactly a folder but it is
+[39:21] something that exist one level up of
+[39:25] objects. Objects are stored inside a
+[39:28] bucket. So bucket is just a named
+[39:30] container and the bucket name combined
+[39:33] with the key of the object it has to be
+[39:36] globally unique. Which means that if we
+[39:39] talk about a particular cloud platform
+[39:41] like AWS, your bucket name has to be
+[39:44] unique across the whole platform. Now
+[39:46] let's talk about the biggest controversy
+[39:49] or the biggest gotcha of object storage
+[39:52] which is there are no folders, there are
+[39:56] no directories and there is no concept
+[40:00] of folders or directories. It is just an
+[40:03] illusion. So when you look at the AWS
+[40:06] console or your Cloudflare dashboard you
+[40:10] see a folder whatever folder you have
+[40:12] created something called let's say
+[40:13] uploads and if you double click it there
+[40:16] is another folder called 2026 and inside
+[40:21] that there is an image. This whole
+[40:24] hierarchy is just an illusion just a lie
+[40:27] which is created just to keep the
+[40:29] interface a little more intuitive
+[40:31] because that's what we are used to.
+[40:33] imagining our files inside a hierarchy.
+[40:37] What is actually happening behind the
+[40:38] scenes is that there is just one object
+[40:41] and its key is the whole string which is
+[40:45] uploads/2026/cat.png.
+[40:50] There is just one object and these
+[40:52] slashes are just any character in a
+[40:56] string that is just part of the name.
+[40:58] They do not really have any special
+[41:00] value. any other character like if you
+[41:02] want to replace with hyphen at the rate
+[41:05] or hash or whatever you can do that it
+[41:08] does not hold any special operational
+[41:11] value. The directory the folder that you
+[41:13] are seeing that is not exactly a
+[41:16] separate object. There is no concept of
+[41:19] a parent no nested level that is
+[41:22] happening here. It is just one bucket
+[41:24] with millions billions and trillions of
+[41:26] string keys inside. That's pretty much
+[41:28] the whole concept. to take a look at
+[41:31] this uh whole illusion. Let's say I put
+[41:34] one object using AWS CLI with this name
+[41:38] and this key has slashes in it after
+[41:43] uploads and after 2026.
+[41:45] Now if you look at the dashboard, it
+[41:48] shows two folders and it pretty much
+[41:50] invented both of them. It is just as I
+[41:52] said an illusion. the raw listing if we
+[41:56] check using the CLI it shows what is
+[41:59] actually there which is just one key one
+[42:02] string and when I ask for the prefix
+[42:06] with a delimiter the folder will show up
+[42:09] in a field called common prefixes that
+[42:12] that's array that you're seeing that is
+[42:14] the entire folder feature that we have
+[42:17] if you look at this when I ask for a
+[42:19] prefix of uploads slash and a delimiter
+[42:22] of slash The server finds every key in
+[42:26] the whole bucket that starts with that
+[42:29] prefix and for each one of them it looks
+[42:33] at the rest of the string and if the
+[42:36] rest of the string contains the delimter
+[42:38] it chops it from there and it reports it
+[42:42] once as a common prefix. That's pretty
+[42:44] much the whole algorithm of how it is
+[42:48] constructing this whole idea of folders.
+[42:51] Folders are just a group by algorithm if
+[42:55] you can imagine it on a string. And this
+[42:58] is exactly why moving a folder inside a
+[43:01] bucket takes a long time and it also
+[43:04] costs you money. Why? There is no folder
+[43:06] to move in in the first place. There are
+[43:09] these 40,000 individual objects and they
+[43:12] each have to be copied to a new key and
+[43:15] the old ones have to be deleted. And
+[43:17] that is the same reason you cannot have
+[43:19] an empty folder. Why? Because the
+[43:21] folders themselves have no identity in
+[43:24] the object storage. An empty folder is
+[43:27] something which is conceptually
+[43:29] technically impossible to exist. But
+[43:32] there are some tools and workflows to
+[43:34] fake the whole empty folder thing by
+[43:36] creating a zero byte object whose key
+[43:39] ends with a slash. And because of the
+[43:43] algorithm does that whole chopping
+[43:45] thing, you can technically fool the
+[43:46] system into having an empty folder. But
+[43:49] internally it is just a zero byte
+[43:51] object. Now let's talk about the design
+[43:53] of the key. This is one of the most
+[43:55] common places where a back end engineer
+[43:58] who is dealing with object storage has
+[44:00] to make a real decision about the key.
+[44:02] And since key is the entire identity of
+[44:05] the object, there has to be some thought
+[44:07] put into it. So rule number one which is
+[44:11] also non-negotiable.
+[44:13] Never use the file name that the user
+[44:15] gave you as the key of the object.
+[44:17] Never. Why? Because there are there are
+[44:21] three separate reasons for this. The
+[44:23] first one is collisions. If two users
+[44:27] upload the same ré pdf, the second one
+[44:32] will silently replace or destroy the
+[44:34] first one's file. Why? Because the
+[44:36] operation you use to upload a file into
+[44:39] object storage is called a put operation
+[44:41] for a reason. And if you have watched
+[44:43] the HTTP video, we already know that the
+[44:46] put rest API operation. The put method
+[44:50] is used when you want to replace a whole
+[44:53] entity with another entity. That is why
+[44:56] object storage uses the word put. They
+[44:59] don't use post which is for creating a
+[45:02] new entry always. That is a promise of
+[45:04] post. When you send a new object with
+[45:07] the same key, what it will do? It will
+[45:10] overwrite whatever object that already
+[45:13] exists with the same key and it will not
+[45:16] throw any error. It will not give you
+[45:17] any warning that it replaced something.
+[45:20] It will just do the replacing silently.
+[45:22] Second problem, the second reason is
+[45:25] path traversal. A file name can contain
+[45:28] any characters including dots and other
+[45:31] special characters. And depending what
+[45:34] you do with that downstream, this can
+[45:37] completely escape the prefix you thought
+[45:40] you were writing into the folder that
+[45:42] you are writing into and that will
+[45:44] create other problems. And finally, if a
+[45:47] user is uploading a file, it can contain
+[45:50] anything. It can contain an emoji, a
+[45:52] right to left override character. It can
+[45:54] also contain null bytes. Pretty much
+[45:56] whatever you can imagine that can come
+[45:58] from a random user. And if something
+[46:01] like that is present in the name then it
+[46:04] can become a bug in your system in your
+[46:06] back end. So what is the solution? What
+[46:09] is the right way to design the key?
+[46:10] Generate the key yourself for that is
+[46:13] the first thing. Ideally something
+[46:14] random and store the original file name
+[46:17] that the user gave you somewhere in your
+[46:19] database. And if you want you can also
+[46:22] store it in the user metadata inside the
+[46:25] object at the object storage level. The
+[46:27] only time that you will use this
+[46:29] original file name is when someone asks
+[46:32] for the same file. Second rule is for
+[46:35] designing the key is anything random
+[46:38] that you want to put inside the key.
+[46:40] Always put it at the front not at the
+[46:43] back because a lot of people write keys
+[46:45] like upload slash then a time stamp then
+[46:49] the ID and the problem with that is the
+[46:52] object storage system. It partitions the
+[46:55] index by the key prefix. And because
+[46:59] it's a huge sorted index, we'll talk
+[47:02] about the index in the next section. If
+[47:04] every key you write in the next 1 hour
+[47:08] starts with the same prefix and it will
+[47:11] because you are using the time stamp,
+[47:13] the hour will be same for the next 1
+[47:15] hour. So all the files that you upload
+[47:18] for the next 1 hour, it will keep
+[47:20] hitting the same index partition. And
+[47:22] that's what people mean when they say
+[47:24] hot partition. And typically it ends up
+[47:27] as give throwing uh 503 slowdown errors
+[47:31] when there is a lot of traffic. So what
+[47:33] is the fix? simple which is put
+[47:36] something highly random early in the key
+[47:39] and technically it is called high
+[47:41] entropy which means that uh in very
+[47:43] simple terms very random something like
+[47:45] a UYU ID or some user ID which is
+[47:49] generated or maybe the first few
+[47:51] characters of a hash something like that
+[47:53] which is proven to be random so instead
+[47:56] of something like date/ user/file
+[47:59] you'll do something like user/tenant
+[48:01] ID/U ID even though AW WS itself has
+[48:06] improved the automatic partitioning a
+[48:08] lot over the last few years. You will
+[48:10] probably not face this issue at your
+[48:13] scale at a small scale but it costs you
+[48:17] literally nothing to do it the right way
+[48:19] from day one instead of trying to fix
+[48:21] the whole strategy once you reach the
+[48:23] scale. Now rule three which is now this
+[48:26] is a personal one that is make the key
+[48:29] carry the ownership. What does that
+[48:31] mean? If your key is something like
+[48:34] tenant ID/ user ID/object ID, then your
+[48:39] authorization check at your middleware
+[48:41] level, it can just be a string
+[48:42] comparison and that you can do before
+[48:46] you even talk to the object storage or
+[48:48] S3 and you can write your access policy
+[48:51] so that it scopes a set of credentials
+[48:54] to exactly one prefix. But if your keys
+[48:57] are just random UU ids in a very flat
+[49:00] name space, pretty much every
+[49:02] authorization check that you need to do,
+[49:04] it has to go through your database. So
+[49:06] by doing this small naming decision, you
+[49:09] can skip one network hop. Okay, now that
+[49:12] we know the interface, it's time to go
+[49:14] behind the interface to find the answer
+[49:16] to the question that when you send a put
+[49:18] request with a 100 MB file, what exactly
+[49:21] happens behind the scenes? The first
+[49:24] thing that happens is your request lands
+[49:26] on one of the thousand thousands or
+[49:30] millions stateless front-end nodes that
+[49:33] is served by AWS S3. Since we are
+[49:35] talking about AWS S3 primarily, it's one
+[49:37] of the most famous object stoages. So,
+[49:40] one of those nodes authenticates the
+[49:42] request which means it recomputes the
+[49:45] signature. We'll come back to the
+[49:46] signature part. Now at this point the
+[49:50] system splits into two completely
+[49:52] separate problems and that separation is
+[49:56] one of the most famous core
+[49:59] architectural idea of a object storage.
+[50:02] So what is that separation? Two things
+[50:05] one metadata plane two the data plane.
+[50:09] The data plane's job is to take the 100
+[50:12] MB of bytes and store them so that they
+[50:16] survive they exist. they don't die. Now
+[50:18] the metadata plane's job is to remember
+[50:21] that the key of upload/2026/cat.png
+[50:26] in this bucket maps to those particular
+[50:29] pieces of data in those particular
+[50:31] places and these two systems they have
+[50:35] completely different characteristics.
+[50:37] The data plane it deals with huge
+[50:40] volumes but very simple operations no
+[50:42] complexity here. The metadata plane on
+[50:45] the other hand deals with a very small
+[50:48] volume. It is compared to the data
+[50:50] plane. But the number of operations are
+[50:52] huge, countless number of operations.
+[50:56] And the most important fact is it needs
+[50:58] to be strongly consistent and extremely
+[51:00] fast. Now pay attention to this phrase
+[51:03] which is strongly consistent. We'll try
+[51:06] to cover this in a bit more thorough
+[51:08] manner later. to explain in one
+[51:11] paragraph. This is one of the concepts
+[51:13] of distributed systems which is
+[51:15] eventually consistent and strongly
+[51:17] consistent. Strongly consistent means
+[51:19] that if one of the users made or
+[51:22] uploaded a file to the storage system,
+[51:25] then any other user doing a read
+[51:28] operation or trying to fetch that same
+[51:30] file is guaranteed to get a successful
+[51:32] result even if they do it the very next
+[51:35] second. That's what it means by being
+[51:38] strongly consistent. On the other hand,
+[51:40] eventually consistent means that if some
+[51:43] user adds a file, some user uploads a
+[51:45] file, there will be some latency, there
+[51:47] will be some delay before another user
+[51:50] can fetch it. There will be some gap
+[51:52] between the last write and the latest
+[51:54] read. So between these two planes, the
+[51:58] storage system and the metadata plane,
+[52:00] the metadata plane is the harder
+[52:02] engineering problem. Why? Because
+[52:05] storing xabytes on drives has been a
+[52:08] solved problem for decades. But
+[52:12] maintaining a strongly consistent
+[52:14] globally distributed sorted index over
+[52:17] hundreds and trillions of keys where a
+[52:21] single lookup or fetch has to be just a
+[52:24] few milliseconds. That is a extremely
+[52:28] hard problem to solve. Even at the scale
+[52:30] of AWS, countless production systems
+[52:33] that we see today, they all depend on
+[52:35] the single characteristic of object
+[52:37] storage which is strongly consistent.
+[52:40] And since the data plane is
+[52:42] comparatively the easy problem to solve,
+[52:44] let's cover that first. The naive way to
+[52:48] make data durable as we have already
+[52:50] discussed is replication. These are just
+[52:52] buzzwords. But durable just means that
+[52:55] whether the data exists somewhere in the
+[52:58] world or not. Whether it exists or it is
+[53:02] completely gone and permanently deleted.
+[53:05] That's what durability means. At least
+[53:07] the data exists somewhere in the system
+[53:10] somewhere in the world. Replication
+[53:12] basically means that it is a different
+[53:14] copy of that data. Intuitively speaking,
+[53:17] if you want to make your data durable or
+[53:20] in a simple manner of speaking, if you
+[53:22] want to make your data available at
+[53:24] least somewhere in this whole world,
+[53:27] then naturally it has to have a backup
+[53:29] which is replication. You keep three
+[53:32] copies on three different machines
+[53:34] ideally in three different failure
+[53:36] domains. This means that if some kind of
+[53:39] failure happens, it cannot affect all
+[53:41] the three different machines at the same
+[53:43] time. This whole architecture works. It
+[53:46] is pretty simple. If one machine dies,
+[53:48] you copy the same data from another
+[53:50] machine. But what is the problem here is
+[53:53] the cost. To store one pabyte of
+[53:56] customer data, you have to buy 3 pabyte
+[53:58] of drives, right? Because you need three
+[54:01] copies. So that is almost 200% of
+[54:05] overhead. And when you have billions of
+[54:07] customers, that is almost billions of
+[54:09] dollars just for the replication. To
+[54:12] solve that problem, to solve the problem
+[54:15] of cost, these large object storage
+[54:18] providers, they use this technique
+[54:20] called erasure coding, which means that
+[54:23] you take the object and you split it
+[54:26] into let's say 14 shards, 14 different
+[54:29] parts and you run a mathematical
+[54:32] formula, a mathematical transformation
+[54:35] over these 14 different parts or shards.
+[54:38] And there's this algorithm called read
+[54:40] solomon. It's a classic algorithm and it
+[54:43] produces six additional parts which is
+[54:47] also called as parity shards. So now you
+[54:50] have 20 shards in total. You had 14
+[54:52] earlier and six additional parts were
+[54:55] created by this algorithm. Now what you
+[54:57] do, you spread, you scatter those 20
+[55:00] shards across 20 different drives in
+[55:03] different racks, different sections of
+[55:06] your data center in completely different
+[55:08] power domains so that the power failure
+[55:10] does not affect all the drives at once.
+[55:12] You keep them in different different
+[55:14] buildings ideally. But the the special
+[55:17] property the magical property of this
+[55:19] whole eraser coding is is that any 14 of
+[55:22] those 20 parts if you have even one of
+[55:25] those parts out of the 20 any one part
+[55:28] out of those 14 are enough to
+[55:31] reconstruct the original object
+[55:34] completely. It does not matter which of
+[55:37] the 14 parts that you have in your
+[55:39] position but you can construct the
+[55:42] complete object because of the
+[55:44] algorithm. It is pretty magical what you
+[55:46] can do with mathematics. So let's run
+[55:49] the numbers on this. 20 shards for 14
+[55:52] shards of real data is about 1.43 times
+[55:55] the overhead versus our earlier which
+[55:58] had three times for replication. Almost
+[56:01] half the cost. And at the same time it
+[56:04] can tolerate six simultaneous failures
+[56:07] instead of two. On top of that it's also
+[56:09] cheaper because you need a less number
+[56:11] of drives and it is more durable.
+[56:14] But what you pay for this is the CPU.
+[56:17] The CPU to compute this whole parity
+[56:20] thing, this whole algorithm plus the
+[56:22] extra reads that you do on recovery. But
+[56:25] the drives are more expensive when it
+[56:28] comes to the overall cost as compared to
+[56:30] CPU operations. So it's a pretty good
+[56:33] trade. Okay. Now coming back to
+[56:35] something I mentioned earlier, AWS S3
+[56:38] has this famous promise of 11 9s. 11 9
+[56:42] of durability which means 99.9999999%.
+[56:48] And what that number means is roughly
+[56:51] speaking that if you store 10 million
+[56:55] objects you should statistically expect
+[56:58] to lose one of them once every 10,000
+[57:01] years which sounds pretty ridiculous but
+[57:04] that's what that number means. And that
+[57:07] number is calculated from the whole
+[57:08] shard math that we did above. And one
+[57:11] more thing that I want to mention is
+[57:12] durability does not really mean backup.
+[57:15] It is something that I say to wrap your
+[57:19] head around the whole concept to
+[57:21] simplify the concept of durability but
+[57:23] strictly speaking it is not a backup. So
+[57:26] the 11 9s that AWS S3 promises you it
+[57:29] protects you against the drives getting
+[57:32] destroyed or dying but they do not
+[57:35] protect you against the actions you
+[57:37] take. Which means that if you run a
+[57:40] delete operation on a wrong prefix which
+[57:43] you did not want to do but you did it
+[57:46] for some system bug or some user
+[57:48] programmer bug then the system will very
+[57:52] durably very reliably and very
+[57:54] accurately with 11 9ths of confidence
+[57:58] delete all your data all the data
+[58:00] associated with the prefix. Now the
+[58:02] distinction here I wanted to make is it
+[58:05] is not a backup because after doing this
+[58:09] disaster you cannot ask it since the
+[58:12] data is durable I want my data back
+[58:15] because you have a backup that is not
+[58:17] how it works if you delete your data you
+[58:20] are not going to get it back that's why
+[58:22] I wanted to explain that durability does
+[58:26] not mean backups similarly if your app
+[58:29] has a bug and because of that it
+[58:32] overwrites a few objects and if that
+[58:35] happens you can have 100% trust in the
+[58:38] system in the storage system that it
+[58:40] will every time store the corrupted
+[58:42] version. It is not going to give you
+[58:44] back the original version. So if the
+[58:47] data matters it is important something
+[58:50] that you can do which is offered by AWS
+[58:52] S3 or some of the object stoages are
+[58:55] turn on versioning and if you do that
+[58:58] what it gives you is if you do any kind
+[59:00] of overwriting or some delete operation
+[59:02] on top of an object a new version of
+[59:05] that object gets created instead of
+[59:06] destroying or changing the old version.
+[59:09] to deal with that wrong prefix deletion
+[59:12] thing. What you can do is you can set up
+[59:15] your own replication to a second bucket
+[59:17] ideally in a different cloud account in
+[59:19] a different AWS account because if your
+[59:22] credentials are compromised then you
+[59:24] don't want the attacker to have access
+[59:26] to both the accounts at the same time.
+[59:28] So those two things are some of the
+[59:32] preventions that you can do to avoid
+[59:35] cases like that. Okay. Now let's talk
+[59:38] about the hard engineering problem which
+[59:40] is the metadata plane. Now conceptually
+[59:43] speaking it is just a huge sorted key
+[59:47] value index. You can imagine it as a
+[59:50] distributed B tree also called as a
+[59:53] balance tree. If you are familiar with
+[59:55] data structures and algorithm concepts
+[59:57] you might have heard of B tree. B tree
+[59:59] is also something that is heavily used
+[01:00:01] by various databases. One of the most
+[01:00:03] famous data structures that we have. So
+[01:00:06] you can imagine it as a distributed
+[01:00:09] balance tree that maps a bucket plus the
+[01:00:12] key to the location of the shards plus
+[01:00:16] the size and the e tag and the content
+[01:00:18] type and all of it. So the index that we
+[01:00:21] are talking about is partitioned by the
+[01:00:23] key range which is why we talked earlier
+[01:00:26] about the hot partition issue. So
+[01:00:29] because of that property because of that
+[01:00:31] uh structure if you run a list operation
+[01:00:34] on an object storage bucket let's say it
+[01:00:36] is pagenated at thousand keys that is
+[01:00:40] going to become very slow why because it
+[01:00:43] is a range scan over a distributed
+[01:00:46] sorted index if you can imagine it. So
+[01:00:49] range scans are fundamentally very
+[01:00:52] different and they're more expensive
+[01:00:53] than a straightforward lookup. Which
+[01:00:56] brings us to the single most important
+[01:00:59] rule in this area which is never use a
+[01:01:02] list operation. Never use a list method
+[01:01:04] as part of the request path. And what
+[01:01:07] that means is your database should be
+[01:01:10] the index of what files exist in your
+[01:01:14] bucket. The bucket is where you store
+[01:01:16] the file where the data lives. But if
+[01:01:19] you have to call the list objects API on
+[01:01:22] top of the bucket every time to answer
+[01:01:25] the question of what files exist for
+[01:01:27] this user in the bucket, that is
+[01:01:30] something that is not going to scale
+[01:01:32] very beautifully and it is going to
+[01:01:34] cause a lot of latency issues. And this
+[01:01:37] property also explains why there is no
+[01:01:39] atomic rename in an object storage. Why?
+[01:01:43] because rename would mean that changing
+[01:01:46] a key in the index while the data is
+[01:01:49] still the same. Now that sounds easy but
+[01:01:52] the key itself decides the partition and
+[01:01:55] that's why it's hard which also explains
+[01:01:57] why the object storage can tell you the
+[01:02:00] object's size instantly without uh
+[01:02:02] touching a single drive or checking the
+[01:02:04] size of it. Historically S3 was
+[01:02:06] eventually consistent which means if you
+[01:02:09] uploaded an object and immediately did a
+[01:02:11] get request for that object you will get
+[01:02:14] a 404 not found. This is because the
+[01:02:16] read request used to hit an index
+[01:02:19] replica that is not yet updated with the
+[01:02:22] latest state. That exact behavior used
+[01:02:25] to cause a lot of pain across a lot of
+[01:02:27] industries or a lot of systems. Now
+[01:02:30] starting from December 2020 the behavior
+[01:02:33] changed and now it is what we call as
+[01:02:35] strong read after write consistency. So
+[01:02:39] what that means is if you upload a file
+[01:02:41] it returns a 200 status even if you
+[01:02:44] request the file right after the next
+[01:02:46] second. So if you go through some of the
+[01:02:49] old blog post or old stack overflow
+[01:02:52] answers you'll see a lot of people
+[01:02:54] recommending things like retry loops or
+[01:02:56] sleeps after uploading the file. so that
+[01:02:59] you don't get a 404 status right after
+[01:03:02] requesting it. But now that pattern is
+[01:03:05] uh completely outdated because S3
+[01:03:07] natively supports strongly consistent
+[01:03:09] patterns now. Okay. Now let's talk about
+[01:03:12] my favorite and one of the most
+[01:03:13] fascinating behaviors in object storage
+[01:03:16] especially in AWS S3 which has this
+[01:03:19] behavior. And this is also one of the
+[01:03:22] reasons there is a lot of buzz around
+[01:03:24] write ahead log on top of S3 these days
+[01:03:26] on Twitter. if you're active there and a
+[01:03:30] lot of distributed systems building on
+[01:03:32] top of S3 is because of this single
+[01:03:34] feature which is conditional rights and
+[01:03:37] this is pretty recent for the last
+[01:03:40] almost 20 years object storage had no
+[01:03:43] such behavior of compare and swap. So
+[01:03:46] for an upload request or a put request
+[01:03:49] for a file or an object it always
+[01:03:51] overwrote any existing ones. So if two
+[01:03:54] different processes wrote to the same
+[01:03:57] key at the same time, one of them would
+[01:03:59] silently win and the other one would
+[01:04:02] fail. And that is not a problem. But the
+[01:04:04] problem is there was no way to detect
+[01:04:06] the failure. There was no way to find
+[01:04:09] out which of the two process actually
+[01:04:11] was successful. There was no way to
+[01:04:14] define this condition programmatically.
+[01:04:17] That only write this if does not already
+[01:04:21] exist. only write this if it does not
+[01:04:23] already exist. So that that behavior
+[01:04:26] changed in 2024 when S3 added the
+[01:04:29] feature of conditional rights. Now you
+[01:04:31] can send an upload request or a put
+[01:04:34] request with a header called if none
+[01:04:36] match and set the value to star which
+[01:04:40] means that create this object only if
+[01:04:42] this key does not already exist. If it
+[01:04:45] does exist, you get a 412 status code
+[01:04:48] which means precondition failure instead
+[01:04:51] of it silently overwriting any existing
+[01:04:54] ones. There is also another header
+[01:04:57] called if match which takes an e tag and
+[01:05:00] you will use this one when you want to
+[01:05:02] express the intention of replacing the
+[01:05:05] object only if its current content is
+[01:05:09] still what I read. And that expression
+[01:05:12] helps us implement the compare and swap
+[01:05:14] operation that we talked about earlier.
+[01:05:17] So to explain a very simple scenario
+[01:05:20] when you might need the if match header,
+[01:05:23] let's imagine there are two clients,
+[01:05:25] client A and client B. Client A reads
+[01:05:28] the object from S3 and S3 gives it a
+[01:05:30] unique E tag with some kind of
+[01:05:32] fingerprint. So imagine it as some kind
+[01:05:35] of ID. So client A modifies the file
+[01:05:38] locally. then sends a write request
+[01:05:42] let's say a put request which contains
+[01:05:44] the if match header with the value of
+[01:05:47] the original E tag it got from S3 when
+[01:05:50] it reaches S3 what does S3 do if the
+[01:05:52] object's E tag it is sending matches the
+[01:05:56] E tag S3 also contains it will be a
+[01:05:59] successful operation and S3 will commit
+[01:06:01] that update and it will generate a new E
+[01:06:03] tag for that but in the meantime while
+[01:06:07] client A was working on the file locally
+[01:06:10] and before client A's request reached
+[01:06:12] S3, if client B also updated the same
+[01:06:16] file, client B's update request reached
+[01:06:19] the S3 before client A's request reach
+[01:06:21] S3. In that case, S3 has already updated
+[01:06:25] that object's E tag with client B's
+[01:06:28] request. And because of that, client A's
+[01:06:31] put request will fail with a 412 status,
+[01:06:35] which means precondition failed. And
+[01:06:37] what exactly is the benefit of this
+[01:06:39] whole interaction that we talked about?
+[01:06:41] Previously, depending on whose right
+[01:06:43] request reached S3, either client A's or
+[01:06:46] client B's, their right would have
+[01:06:48] persisted. The client whose right
+[01:06:50] request reached S3 earlier would have
+[01:06:52] lost their right. Now since we have this
+[01:06:55] condition, client B's data which would
+[01:06:57] have been lost without this comparent
+[01:06:59] swap feature is secure because S3
+[01:07:02] protects it using this whole if match
+[01:07:04] header and E tag. If we take a look at a
+[01:07:07] demo here using AWS CLI, the same
+[01:07:10] command that we're tying the first one
+[01:07:13] returns 200 and an E tag here. The
+[01:07:16] second one when we try the same request
+[01:07:20] now it returns a 412. Why? Because in
+[01:07:23] the earlier one the object was already
+[01:07:25] created. But since we are attaching this
+[01:07:29] header which is if none match with star
+[01:07:32] we are saying that only upload this
+[01:07:35] object if it does not exist in the
+[01:07:39] object storage. And since it already
+[01:07:41] exists because of the earlier command it
+[01:07:44] throws us the 412 error right in the
+[01:07:46] next line. And this 412 error that you
+[01:07:50] are seeing this is a huge deal. This is
+[01:07:52] what we call as a distributed lock in a
+[01:07:55] distributed file system concept. This
+[01:07:58] whole interaction this is a huge deal
+[01:08:00] for distributed systems as I have
+[01:08:02] already mentioned and a lot of systems
+[01:08:04] built on top of S3 depend on it because
+[01:08:08] of these two headers which enable the
+[01:08:11] conditional write property. Object
+[01:08:13] stories now has a primitive on top of
+[01:08:16] which you can build the whole
+[01:08:18] coordination interaction and because of
+[01:08:21] that people are doing a lot of different
+[01:08:23] fancy things on top of object storage
+[01:08:25] like distributed systems and leader
+[01:08:28] elections and even databases are using
+[01:08:30] object storage for their write ahead
+[01:08:32] logs. Why? Because now you can guarantee
+[01:08:36] that exactly one writer wins because of
+[01:08:39] this whole conditional write property
+[01:08:41] and that is the number one requirement
+[01:08:43] for a right ahead log. On top of that
+[01:08:47] combined with the strongly consistent
+[01:08:49] property that we just saw of object
+[01:08:51] storage they are perfect for being the
+[01:08:54] storage of a right ahead log. So for the
+[01:08:57] sake of this video to make it easy to
+[01:08:59] visualize the scenario the immediate use
+[01:09:02] for us is far simpler. So what is the
+[01:09:06] immediate value? Now you can guarantee
+[01:09:08] that an upload by any client by any user
+[01:09:12] never silently corrupts any existing
+[01:09:15] object which in turn protects you from
+[01:09:17] the whole duplicate key bug that we
+[01:09:19] talked about earlier. One disclaimer in
+[01:09:22] the cloud market there are a lot of
+[01:09:24] object storage providers
+[01:09:27] and a lot of them claim to be S3
+[01:09:30] compatible. That is one term that you
+[01:09:32] will hear a lot in the object storage
+[01:09:35] ecosystem. S3 compatible. What that
+[01:09:38] means is in one line that roughly
+[01:09:42] speaking that they support the same
+[01:09:44] protocol as AWS S3. For example,
+[01:09:47] Cloudflare R2 is called S3 compatible
+[01:09:50] because you can use the AWS SDK to
+[01:09:53] interact with Cloudflare's ecosystem.
+[01:09:55] Cloudflare R2 to be precise. That is
+[01:09:58] what people mean when they say S3
+[01:09:59] compatible. The S3 compatible does not
+[01:10:02] always mean that they support this
+[01:10:04] critical feature which is conditional
+[01:10:05] right. For example, back blaze which is
+[01:10:08] also a very famous consumer object
+[01:10:11] storage provider but it does not support
+[01:10:13] conditional write even though it is S3
+[01:10:16] compatible. So before depending on this
+[01:10:20] critical feature you need to check the
+[01:10:23] documentation to see whether even though
+[01:10:25] they are compatible the object storage
+[01:10:28] has the conditional feature or not
+[01:10:30] conditional write feature or not. Now we
+[01:10:32] get to the part where we answer how does
+[01:10:35] a file actually get from a user's laptop
+[01:10:38] into your object storage into your S3
+[01:10:41] bucket. Now there are two architectures
+[01:10:44] for this. First one is through your
+[01:10:46] server. This is the obvious one where
+[01:10:49] the browser posts the file to your API.
+[01:10:52] Your back end receives it and it
+[01:10:54] forwards it to the S3 bucket in the
+[01:10:56] object storage. Your back end sees every
+[01:10:58] bite. So it can validate the content
+[01:11:01] properly, scan it, compute the hash if
+[01:11:03] it wants to, and it can reject it for
+[01:11:06] any reason before it reaches object
+[01:11:08] storage. And any kind of authorization
+[01:11:11] that you'd implement here is just your
+[01:11:14] normal authorization middleware. No,
+[01:11:16] nothing fancy. You won't have to
+[01:11:18] configure any kind of additional course
+[01:11:20] or anything like that. And mostly for
+[01:11:24] small files like profile picture, CSV
+[01:11:26] files, documents under a few megabytes,
+[01:11:28] this can be fine. And we do use this
+[01:11:32] pattern sometimes and there is no
+[01:11:35] objective way to say that this is a
+[01:11:37] wrong pattern because it does work for
+[01:11:40] small files and there is no denying
+[01:11:42] that. But there is a problem hiding in
+[01:11:45] this one and the problem is buffering.
+[01:11:48] For example, if you call something like
+[01:11:50] parse multipart form in a language like
+[01:11:54] Go or you use the default body parser in
+[01:11:57] a node web framework, the entire file
+[01:12:00] gets read into the memory into the RAM
+[01:12:02] of your server. What happens with that
+[01:12:05] is a 100 megabyte upload is obviously
+[01:12:08] 100 megabytes of memory. We already know
+[01:12:10] that. So if you have 20 concurrent
+[01:12:14] uploads which means 20 users uploading
+[01:12:16] files at the same time and each one is
+[01:12:19] 100 megabytes you can easily exhaust the
+[01:12:23] 2GB memory threshold that you have
+[01:12:25] instantly and which brings us back to
+[01:12:29] the same problem that we faced at the
+[01:12:31] beginning of the video. Your container
+[01:12:33] hits its memory limit depending on how
+[01:12:36] much memory you have assigned to the
+[01:12:37] container. It can also get killed
+[01:12:39] because of the out of memory error and
+[01:12:41] it has to be restarted. Out of memory
+[01:12:44] error is very famous for containers. The
+[01:12:47] tricky part with this pattern is that
+[01:12:50] while you are developing locally, it is
+[01:12:52] not visible. This whole issue of
+[01:12:54] container running out of memory. Why?
+[01:12:56] Because your local development you
+[01:12:59] usually test with small files or a
+[01:13:01] couple of small files and your
+[01:13:03] connection is usually fast connected to
+[01:13:06] 100 MPS networks
+[01:13:09] and your machine where you are doing the
+[01:13:11] development is usually very powerful
+[01:13:13] more than 16 GB of RAM. So nothing
+[01:13:16] really causes any problem. But the
+[01:13:18] correct implementation if you are going
+[01:13:20] with this pattern is to stream the data
+[01:13:24] so that you never hold the whole file in
+[01:13:26] memory. You read from the request body
+[01:13:29] in chunks and write those chunks to the
+[01:13:31] storage client using Amazon S3 SDK or
+[01:13:34] whatever you are using as they are
+[01:13:36] arriving so that your memory usage is
+[01:13:38] just one buffer, one small part of your
+[01:13:41] whole memory block. That is typically a
+[01:13:44] few kilobytes regardless of how large
+[01:13:46] the actual file is. whether it is 1
+[01:13:48] mgaby or 1 GB. So in go it would look
+[01:13:52] something like this. You are using the
+[01:13:54] multiart reader directly getting a part
+[01:13:56] as a reader and handing that reader to
+[01:13:59] the uploader. So you are delegating
+[01:14:01] without involving memory too much rather
+[01:14:03] than parsing the whole form. And in
+[01:14:06] pretty much every language, one safety
+[01:14:09] mechanism you should have is to wrap the
+[01:14:13] body in a size limit before you even
+[01:14:16] begin to read anything from it. So that
+[01:14:18] this whole class of error never happens.
+[01:14:21] If a client sends a 4GB of data or 4 GB
+[01:14:24] of file, they get cut off at your limit
+[01:14:27] instead of being allowed to try. So if
+[01:14:30] we take a look at a demo for this whole
+[01:14:32] inmemory thing, we have two servers and
+[01:14:36] both of them are uploading the same 500
+[01:14:40] MB file twice and we have this program
+[01:14:44] called BTOP and we are watching the
+[01:14:46] process to monitor the memory. First one
+[01:14:49] buffered version which means that it
+[01:14:51] reads the whole file into memory before
+[01:14:53] sending it to storage. So as you can see
+[01:14:56] the memory column on the right side it
+[01:14:59] is climbing as the body is arriving into
+[01:15:02] the server. So by the end of it it ends
+[01:15:06] up folding about 500 mgabytes more than
+[01:15:09] it started with. Now if you try the
+[01:15:12] streaming version the same file the same
+[01:15:14] client and the time is also the same
+[01:15:17] which is 6 and 1/2 seconds but this one
+[01:15:20] only holds a single chunk at a time. So
+[01:15:24] now if you look at the memory, it is
+[01:15:26] pretty flat. The line barely moves. And
+[01:15:29] that is the whole difference between
+[01:15:31] holding the whole file into memory and
+[01:15:32] just passing it through. And even with
+[01:15:35] streaming, this particular technique has
+[01:15:37] some limits that you cannot get around
+[01:15:39] because your bandwidth is now the
+[01:15:42] bottleneck. Your load balancer typically
+[01:15:44] has an idle timeout of let's say 60
+[01:15:46] seconds by default in most cases. And if
+[01:15:50] it is a slow mobile connection, it will
+[01:15:52] most likely hit the limit unless you
+[01:15:54] have increased the default idle timeout.
+[01:15:56] Similarly, if you are using a reverse
+[01:15:59] proxy, most likely something like
+[01:16:00] EngineX or Caddy or the popular ones. It
+[01:16:04] also has a body size limit and EngineX
+[01:16:07] is pretty notorious for the 413 error
+[01:16:11] which is request entity too large. And
+[01:16:13] the reason is exactly this scenario. And
+[01:16:16] if you're using a serverless function or
+[01:16:18] an API gateway, you also have a hard
+[01:16:22] payload cap of a few megabytes. And that
+[01:16:26] is something you cannot even raise. So
+[01:16:28] all in all, this architecture works in
+[01:16:31] some scenarios if you're lucky with
+[01:16:33] small files for some traditional
+[01:16:35] servers, but it is not recommended. It
+[01:16:38] is not something that we call production
+[01:16:40] grade architecture. Which brings us to
+[01:16:43] the second architecture which is the
+[01:16:45] pre-signed URLs which is the right
+[01:16:47] architecture the right pattern to
+[01:16:49] implement it. The solution to all the
+[01:16:51] problems that we saw is to let the
+[01:16:54] browser talk directly to the bucket
+[01:16:56] instead of us instead of us delegating
+[01:17:00] or acting as a relay server. We just let
+[01:17:03] the browser talk to the bucket so that
+[01:17:05] the data the bytes never go through our
+[01:17:07] server or touch our server. But the
+[01:17:10] problem is that in most production
+[01:17:13] systems the bucket is private and it
+[01:17:16] should be that is the right thing to do
+[01:17:18] because making your bucket public is a
+[01:17:20] major security risk. So it has to be
+[01:17:24] private and on top of that obviously we
+[01:17:28] cannot really give our AWS S3 or storage
+[01:17:31] credentials to the browser also
+[01:17:33] directly. Now the problem is how to give
+[01:17:36] a client a browser permission or
+[01:17:38] capability to talk to the bucket and to
+[01:17:42] communicate with it without any security
+[01:17:45] risk. And it needs to be able to do
+[01:17:49] exactly one operation on exactly one
+[01:17:52] key, one object for exactly the next 5
+[01:17:56] minutes without leaking any kind of
+[01:17:58] credential. And that exactly is the
+[01:18:01] answer this architecture has which is
+[01:18:02] pre-signed UR. It's a very beautiful
+[01:18:04] architecture. Solves the problem in a
+[01:18:07] very graceful manner. Now a pre-signed
+[01:18:10] URL is just a normal URL with a bunch of
+[01:18:13] query parameters. An algorithm, your
+[01:18:16] access key ID, your timestamp, an expiry
+[01:18:20] which is written in seconds, a list of
+[01:18:22] which headers are covered, signature
+[01:18:25] which is an HMAC, a keyed hash, and it
+[01:18:29] is computed over a string that describes
+[01:18:32] the request which is an H method, the
+[01:18:34] bucket, the key, the expiry and pretty
+[01:18:37] much all of it. All of that is hashed
+[01:18:39] with your secret key. So looking at the
+[01:18:42] flow, the browser works this way. It
+[01:18:45] sends a put request to that URL and the
+[01:18:49] storage service your Amazon S3 takes the
+[01:18:52] request and it rebuilds the same string
+[01:18:54] from it. It computes the HMAC with its
+[01:18:58] own copy of the secret and it tries to
+[01:19:00] compare both of them. If the match then
+[01:19:03] the request is passed through and it is
+[01:19:05] authorized. But if the browser changes
+[01:19:07] even one character of the key or the
+[01:19:10] method or it tries to use it after the
+[01:19:13] expiry, the recomputed hash, the
+[01:19:15] recomputed signature will not match and
+[01:19:18] it gets rejected. And this whole thing
+[01:19:20] completely solves our problem which is
+[01:19:23] the credential never leaves our server
+[01:19:26] but the browser gets the capability to
+[01:19:28] communicate with our bucket without any
+[01:19:31] security risk. to see a demo for this
+[01:19:34] presign URL thing. We have a page here,
+[01:19:38] a front-end app which is talking to S3
+[01:19:41] through our server. So first thing is
+[01:19:44] the page asks our own server for a
+[01:19:46] signed URL and this is what it comes
+[01:19:49] back the algorithm the credential the
+[01:19:52] date an expiry of 60 seconds and the
+[01:19:56] headers it covers and the signature at
+[01:19:59] the end. Now we try to upload with it.
+[01:20:02] So if you look at the network panel, the
+[01:20:04] request is a put request straight to the
+[01:20:08] bucket's own domain, not to our server
+[01:20:10] and it carries no credentials at all.
+[01:20:14] And the status that comes back is 200,
+[01:20:17] which means it is stored successfully.
+[01:20:19] Now there is a button here which when we
+[01:20:22] click it simulates the whole thing which
+[01:20:24] is wait 60 seconds and send exactly the
+[01:20:28] same request again. And when we do that
+[01:20:31] we get a 403 forbidden error because the
+[01:20:34] URL is dead now. And similarly if we try
+[01:20:38] another experiment here which is a URL
+[01:20:41] which is still alive but we change one
+[01:20:44] single character of the key. That's what
+[01:20:46] this button does and when we click on it
+[01:20:49] the signature does not match and the
+[01:20:51] bucket refuses it with the 403 error.
+[01:20:54] Now there is a bug hidden in this
+[01:20:56] architecture which is you generate a
+[01:20:58] pre-signed upload URL for a user who
+[01:21:01] says that they want to upload a profile
+[01:21:03] picture. Now the question is what is
+[01:21:06] stopping the user from uploading a 5GB
+[01:21:10] file to that URL? Nothing because the
+[01:21:13] signature covers the method the bucket
+[01:21:16] the key but no one really enforces the
+[01:21:21] size limit of the body. So what is the
+[01:21:23] solution for that? That is a pre-signed
+[01:21:26] post URL with a policy. So instead of
+[01:21:29] signing a URL, you sign a small JSON
+[01:21:32] policy document and hand the client back
+[01:21:35] a URL plus a set of form fields. And
+[01:21:38] that policy form will contain the
+[01:21:40] conditions. What kind of conditions? The
+[01:21:42] important one here is the content length
+[01:21:44] range, which is a hard minimum and
+[01:21:47] maximum size enforced by the object
+[01:21:49] storage service itself. Our server does
+[01:21:52] not have to get involved in that. We
+[01:21:55] delegate that responsibility to the
+[01:21:57] object storage. On top of that, you can
+[01:21:59] also enforce the requirement that the
+[01:22:02] content type should start with something
+[01:22:04] like image slash if you want. You can
+[01:22:07] also enforce that the key starts with a
+[01:22:09] specific prefix so that the client
+[01:22:11] cannot write outside their folder to
+[01:22:14] bypass any of the security restrictions.
+[01:22:17] And if the client violates any of these
+[01:22:20] conditions, the object storage itself
+[01:22:22] rejects the whole request and you will
+[01:22:24] get this entity to large error. The data
+[01:22:27] will never get stored. This is what it
+[01:22:29] looks like on the server. There are
+[01:22:31] three conditions. A size range between 1
+[01:22:34] kilob and 5 mgaby. A content type that
+[01:22:38] has to start with an image and a key
+[01:22:41] that has to start with this tenant and
+[01:22:44] user prefix so that it cannot escape.
+[01:22:47] And on the client side, if we take a
+[01:22:49] look at this, two things that we have to
+[01:22:51] mention, which is the file field has to
+[01:22:55] be appended last in the form data and
+[01:22:59] should not set the content type on the
+[01:23:01] fetch. It should let the browser set the
+[01:23:04] multiart boundary itself. Now coming
+[01:23:07] back to our earlier demo, we have the
+[01:23:09] same page but a second tab. We have two
+[01:23:11] rounds. Round one, let's do the knife
+[01:23:15] flow. The page asks for a pre-signed UR
+[01:23:18] for a profile picture. And then instead
+[01:23:21] of uploading an image of a few
+[01:23:23] kilobytes, it uploads 300 megabyte file
+[01:23:26] instead. So if you look at the network
+[01:23:28] panel, this is an actual put request.
+[01:23:31] 300 mgabytes of file going straight into
+[01:23:34] the AWS S3 bucket. And it approves it.
+[01:23:37] It takes the file. It stores it. We get
+[01:23:40] the 200 status code. And now the bucket
+[01:23:43] holds 314 million bytes from a URL that
+[01:23:47] was signed for a profile picture which
+[01:23:50] is obviously wrong. Now round two the
+[01:23:54] same file but this time the URL comes
+[01:23:57] with a policy and now if we try it we
+[01:24:00] get a 400 which is entity too large and
+[01:24:03] nothing is stored in our S3 bucket. Now
+[01:24:06] with the policy if we try with another
+[01:24:09] file which is around 415 kilob image
+[01:24:15] with the same policy now it goes through
+[01:24:18] the file is stored because it matches
+[01:24:21] the policies size condition. Similarly,
+[01:24:24] if we try to enable this toggle which
+[01:24:27] tries to upload it in a different users
+[01:24:31] prefix and this time we get another
+[01:24:33] error which is 403 again and S3 refuses
+[01:24:37] it and it also tells us the exact
+[01:24:39] condition of why it failed. The last
+[01:24:42] piece of the upload problem is one of
+[01:24:44] the problems we discussed at the
+[01:24:46] beginning of the video, which is if the
+[01:24:48] browser uploads directly to the storage,
+[01:24:51] how does the server know about it? It
+[01:24:54] will never see the upload happen, right?
+[01:24:56] If the server never sees it, how will
+[01:24:58] the database find about it? How will it
+[01:25:00] store the path or whatever it needs to
+[01:25:03] fetch it the next time? Because later on
+[01:25:06] when the they issue a get request to
+[01:25:09] fetch their profile picture or their
+[01:25:11] video we can refer to the particular
+[01:25:14] database row and column to find the S3
+[01:25:16] object storage path fetch the file from
+[01:25:18] the object storage and return it. But if
+[01:25:20] you don't know the exact key we cannot
+[01:25:22] serve it and the answer to that is a
+[01:25:26] two-phase flow. First the client the
+[01:25:29] browser it asks the backend for an
+[01:25:32] upload. The backend authorize it,
+[01:25:35] verifies it and generates the key for
+[01:25:37] the object beforehand. It creates the
+[01:25:40] name beforehand which is going to be the
+[01:25:43] identity of the object and it writes a
+[01:25:46] database row with the status pending. It
+[01:25:49] also saves the key and whatever other
+[01:25:51] expected conditions and constraints. In
+[01:25:54] return, it sends back the pre-signed
+[01:25:56] post URL back to the browser. Before any
+[01:25:59] data moves from the client to the
+[01:26:01] server, the database already has a
+[01:26:03] record of the intent of the client with
+[01:26:05] the identity of the object. Now the
+[01:26:08] client, the browser starts the upload.
+[01:26:10] After the upload is finished, it calls a
+[01:26:13] completion API on your back end with the
+[01:26:16] upload ID it got from the phase one, not
+[01:26:18] the key, the upload ID. Then the server
+[01:26:21] initiates a head request, a head object
+[01:26:24] to be precise, to the object storage in
+[01:26:26] S3. And this head call this is just a
+[01:26:29] metadata call and it does not really
+[01:26:31] cost anything. What it does is it
+[01:26:34] verifies whether the object actually
+[01:26:36] exists whether the size is within the
+[01:26:38] expected range and whether the content
+[01:26:41] type is expected or not. When all these
+[01:26:44] conditions are passed in database we
+[01:26:46] change the status from pending to
+[01:26:48] something like completed or ready. Now a
+[01:26:50] logic hole here is we need some kind of
+[01:26:53] cleanup workflow some kind of cleanup
+[01:26:55] path. Why? Because some percentage of
+[01:26:58] these uploads will get abandoned because
+[01:27:01] of various client behaviors, connection
+[01:27:03] errors or browsers getting cut off from
+[01:27:05] network or the tab closing whatever can
+[01:27:08] happen because it is client set which we
+[01:27:11] don't have any control over and if it is
+[01:27:13] a slow network or a mobile network there
+[01:27:16] can be hundreds of reasons why the file
+[01:27:18] did not get uploaded or the file got
+[01:27:20] uploaded but the completion API never
+[01:27:22] got called and there are various
+[01:27:24] scenarios that can happen for that. And
+[01:27:28] we usually have a life cycle rule on the
+[01:27:31] bucket that deletes anything under the
+[01:27:34] pending prefix after 24 hours. Usually
+[01:27:37] with a small background job. We have
+[01:27:40] already covered background jobs in a
+[01:27:41] previous video. And that background job
+[01:27:44] scans all the pending rows from the last
+[01:27:47] 24 hours and it marks them as expired.
+[01:27:50] And this job is pretty important because
+[01:27:52] it keeps your database and your object
+[01:27:55] storage from drifting apart from the
+[01:27:59] issue of having different sources of
+[01:28:01] truth. Because your database is the
+[01:28:03] source of truth for what files exist and
+[01:28:07] the bucket is the source of truth for
+[01:28:09] the actual data of the files, the actual
+[01:28:11] bytes. And anytime those two different
+[01:28:14] systems disagree, we need some kind of
+[01:28:17] background job to clean that up, to
+[01:28:19] resolve that.
+[01:28:20] One more small thing that will help you
+[01:28:23] avoid any confusion later is related to
+[01:28:26] course. Whenever we are talking about
+[01:28:28] the browser course will always come up.
+[01:28:31] So when a browser uploads directly to a
+[01:28:34] different origin which is three,
+[01:28:37] Cloudflare R2, back blaz B2 or whatever
+[01:28:40] object storage service that you're using
+[01:28:42] it is a cross origin request. That's
+[01:28:44] when course gets triggered. So for that
+[01:28:46] request to be successful, your object
+[01:28:49] storage bucket should have a course
+[01:28:52] configuration that explicitly allows the
+[01:28:54] front-end site origin, your front end's
+[01:28:57] domain. It should allow the put or post
+[01:29:01] method and it should also expose the E
+[01:29:04] tag header. We'll cover the use of the E
+[01:29:06] tag header in the next section where
+[01:29:08] we'll need this header for the multi-art
+[01:29:10] uploads also. So if your upload works in
+[01:29:14] curl in your terminal or in Postman but
+[01:29:17] it fails in your browser then most
+[01:29:20] likely it is because of the course and
+[01:29:22] you should probably check your bucket's
+[01:29:25] course policy.

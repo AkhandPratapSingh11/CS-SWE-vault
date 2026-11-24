@@ -1,0 +1,172 @@
+Title: L-5.5: First Fit, Next Fit, Best Fit, Worst fit Memory Allocation | Memory Management | OS
+Video URL: https://www.youtube.com/watch?v=N3rG_1CEQkQ
+Video ID: N3rG_1CEQkQ
+======================================================================
+
+[00:00] Various allocation methods in Contiguous Memory Management. So basically we are using 4 algorithms
+[00:07] how we are allocating the memory to the processes. Means in our memory
+[00:13] as many processes are already present and as many available holes we have,
+[00:19] how we allocate processes in those holes. So basically there are 4 algorithms,
+[00:25] First Fit, Next Fit, Best Fit, and Worst Fit.
+[00:29] So let's examine this according to this diagram,
+[00:32] this is showing a process has already occupied this memory area. This is what,
+[00:40] already there is a process let's say process10, there is one process11, a process12,
+[00:48] process13, process14, process15. So these processes are already there in the memory and
+[00:58] this is representing the holes, these are the holes, means leftover space.
+[01:04] So how we can manage this leftover space? We will be using these algorithms.
+[01:09] So let's start with the first, First Fit algorithm.
+[01:12] According to the First Fit algorithm, allocate the first hole or partition,
+[01:18] we can say partition also but majority we use it to manage the holes.
+[01:23] So allocate the first hole that is big enough means let's say there is a process P1,
+[01:31] and process size is 15K.
+[01:36] Process size is 15KB.
+[01:39] So if process of 15K is coming, so according to the First Fit what it will check?
+[01:45] It will simply check the first location that is big enough which can hold the 15K.
+[01:53] Means it will start from this, so this is already occupied, occupied, occupied,
+[01:59] this is the empty space. So this is one hole, what is the size of this hole? 25K.
+[02:04] So 25K can easily accommodate the 15K, so according to the First Fit,
+[02:09] it will simply stop searching, which search? Hole searching it will stop,
+[02:16] and simply allocate P1 to this partition or we can say hole.
+[02:22] Means where will it accommodate P1? In this space. First such hole
+[02:26] where I can fit that process, that we'll call the First Fit. It is easiest.
+[02:33] Because here my searching time is also very less, I'm not searching the entire list,
+[02:39] when I get the first hole, I will accommodate the process there.
+[02:44] According to the Next Fit, Next Fit is modified version of the First Fit.
+[02:50] So in Next Fit also we are doing same, same as first fit but start searching
+[02:54] always from the last allocated hole. Means the last allocated hole given to some process
+[03:01] we will keep a pointer on that. Let's say that according to first fit I put P1 here,
+[03:08] so I allocated P1 here. Now here a pointer, I will keep a pointer at this area.
+[03:16] That pointer will help with what? Next time if a process comes,
+[03:20] let's say process comes P2, one more process comes P2 and size of P2 is let's say 18K.
+[03:29] Size of P2 is 18K, so from where it will start searching?
+[03:34] It will not start searching from the beginning.
+[03:37] It will start searching from the last value or last space where the process was allocated.
+[03:44] Means last where it was? On this hole, so it will start searching from here
+[03:49] and whatever the next, let's say 40K is enough, in 40K we can easily put 18K,
+[03:55] so this area will be taken by P2. So advantage of Next Fit is that
+[04:00] we need not search from the beginning again and again,
+[04:04] whatever last hole I gave to some process from that hole next we will start
+[04:11] for the empty hole means we will start searching for the next empty hole so that
+[04:15] I can accommodate next process in that.
+[04:19] So here according to Next Fit I will again not start from zero to search,
+[04:26] where will I start from? From this hole. Because this hole I had already given in First Fit
+[04:31] so I will next start form 40K. In 40K I can easily accommodate process of 18K
+[04:38] so I will put P2 here. This is the concept of the Next Fit.
+[04:44] Third one is Best Fit, what is the concept of Best Fit? From the name it is clear,
+[04:48] it will search the entire list and it will try to search that hole which will lead to
+[04:56] minimum internal fragmentation. The main thing is that let's say my process is
+[05:03] Let's start this again, if process size is 15K.
+[05:08] Size of process is 15K.
+[05:11] Then 15K process according to the First Fit I can put in this.
+[05:17] According to the Next Fit also I can put in this. But according to Best Fit,
+[05:22] although according to Best Fit also in this already 15K can be accommodated in this.
+[05:27] But it will search the entire list, let's say 40K, it can be accommodated in 40K also
+[05:33] but the leftover space is very huge. So remaining portion should be minimum,
+[05:39] it will try to search for that hole. So at last where will it come? In 20K.
+[05:45] 20K can accommodate P1? Yes, 20K can accommodate P1 easily. And what is the leftover space?
+[05:52] If I allocate P1 here, so if P1 is allocated then how much is my leftover space? 5K.
+[06:03] Because remaining area is taken by what? P1. P1 takes the remaining area,
+[06:09] so leftover space is what? 5K.
+[06:12] So it will search the entire list, it will search all holes and choose that hole
+[06:19] in which if I put that process then remaining memory, remaining portion will be least.
+[06:26] This is the concept of the Best Fit. So that my internal fragmentation should be minimum in that case.
+[06:33] According to the Worst Fit, what we do in Worst Fit, we simply select the largest hole.
+[06:40] Means in this also we will search the entire list, but which process we will put in it?
+[06:45] Or in which hole we will put the process? Where my leftover space is maximum.
+[06:51] Means this is exact opposite of Best Fit, it is reverse of Best Fit, so if size of P1 is 15K
+[06:58] then I can put it here also, here also, here also, different places.
+[07:01] But according to the Worst Fit where will I put P1? In this hole.
+[07:06] Because when P1 is put here, P1 is accommodated here. So how much is remaining portion?
+[07:13] Rest of the portion is 85K, which is leading to the maximum memory leftover.
+[07:19] So means according to the Worst Fit where we put any process? Where my left space,
+[07:27] after putting that process my hole size is very big. Now if these are compared
+[07:33] then First Fit is easiest method, very simple. It is very simple to implement and very fast.
+[07:42] The advantage is it is very fast. Because it is directly searching for the first hole
+[07:50] that is big enough to hold my process. It has nothing to do whether leftover space is
+[07:57] high or low, if a process can be accommodated by a hole then the first hole found
+[08:04] it will allocate that process in it.
+[08:07] So here my advantage is simple, it is fast but what is the disadvantage here?
+[08:13] It is possible that disadvantage may be that the remaining portion, the remaining hole,
+[08:19] let's say if I accommodate P1 here then the remaining portion, it will create holes,
+[08:26] big holes it can create. Means remaining you see if I put 15K here,
+[08:31] means if I accommodate P1 here, then how much remaining space I have?
+[08:35] Further hole of 10K remains.
+[08:38] Now in this 10K hole if some process of 10K comes then I can accommodate in this,
+[08:44] but if processes of large size are coming then I cannot accommodate in this.
+[08:50] So this is the advantage of the First Fit. Next Fit is same according to the First Fit.
+[08:57] But one more advantage is First Fit will always start searching from zero,
+[09:03] as soon as first slot is found, first hole is found, it will put the process in that.
+[09:08] But in Next Fit we did little faster, how we made fast? As soon as we put P1 here,
+[09:15] we put a pointer here, now next time when we search for some hole then
+[09:20] we will start searching from this point, we will not start again form zero.
+[09:26] So in Next Fit also same, when one more process comes,
+[09:30] let's say if one more process of 15K comes then which is the next hole found? This hole.
+[09:35] What is the size? 40K. And what is the size my process? 15K.
+[09:39] So I can easily put the 15K in this.
+[09:44] Third one is Best Fit. In Best Fit what advantage I get here is that
+[09:49] in this internal fragmentation will be very less. Means the portion that will be left laterwards
+[09:55] will be a very small portion. But in a way this can be disadvantage also.
+[10:00] Let's say that a process comes, size of process is
+[10:06] if size of process is 35K.
+[10:11] Then according to the Best Fit I will put in this slot, I can put in this also
+[10:17] because 100K can also accommodate, but Best Fit says that after putting a process in the hole
+[10:23] remaining space should be the least. So according to that rule I will simply put this
+[10:30] let's say the process is P2, this P2 process in this.
+[10:34] So what is the remaining portion left? Only 5K. So many times what this Best Fit does
+[10:40] it creates such small, tiny holes that in it I may not be able to further accommodate a process.
+[10:48] because in such small holes it is possible that my process may not accommodate.
+[10:52] Process sizes are little larger and there are tiny holes. In those tiny holes
+[10:58] I cannot put the process but if we see from normal point of view then
+[11:02] we are basically searching for such a hole in which my internal fragmentation is lowest.
+[11:09] And there is one more big disadvantage in Best Fit, the point is it will search the entire list.
+[11:16] It will search the entire list then it will know in which hole to put that process
+[11:24] so that the leftover portion should be least. To know this it will have to compare everywhere.
+[11:31] P2 size is 35K, hole size is 40K, so leftover portion is 5K. Next 100K,
+[11:38] P2 size is 35K, hole size is 100K, leftover portion will be near about 65K which is huge.
+[11:45] So it will search for entire holes, and then it will decide in which hole
+[11:50] I have to put the process so that leftover portion is least. Means here in Best Fit
+[11:57] in advantages we can say that the internal fragmentation
+[12:04] internal fragmentation will be less
+[12:10] or we can say that the remaining holes will be left in very small portions,
+[12:16] but if we see its disadvantages then disadvantage is very slow, this is very slow.
+[12:23] Because it will search for the entire list. Worst Fit is also same.
+[12:28] In Worst Fit what are we searching for? For such a hole in which
+[12:32] my remaining portion is very high. Means if a process comes,
+[12:38] let's say size of process is 15K or let's say size of process is 20K.
+[12:46] So 20K process where we will accommodate according to the Worst Fit?
+[12:52] We will simply accommodate here so that, we put this 20K here, we put this process here,
+[13:01] how much is the remaining portion I have? 80K. So means in Worst Fit an advantage is
+[13:09] that although it is searching for that hole which is big enough and which is leaving the
+[13:15] maximum leftover space. So here maximum leftover space is 80K. But this space is so enough
+[13:23] that if one more process comes or two, three more processes come,
+[13:27] here I can accommodate those also. So means here I don't have so small portions left
+[13:34] of 1-2 bytes, of 1-2 kilobytes in which I don't put the process.
+[13:39] Where was this problem coming? In Best Fit. But in Worst Fit one more 80K hole is left,
+[13:45] now in this 80K hole let's say process P2 comes, P2 size is 10K.
+[13:53] Or let's say size of P2 is let's take 10K.
+[13:57] So according to 10K if I use Worst Fit then again I will put this 10K in this 80K hole,
+[14:05] so that again my leftover portion will again be biggest that is 70K.
+[14:11] So means there are chances of putting more processes in it.
+[14:15] But in Best Fit when you put a process then remaining portion, remaining memory is so less
+[14:23] that in that remaining hole chances of putting further processes are very less.
+[14:29] But in Worst Fit chances are still there because remaining portion is still enough
+[14:34] that you can accommodate another two, three processes. But here also what is the problem?
+[14:40] Slow. Why is it slow? Obviously, it will also search for the entire list,
+[14:46] after searching for the entire list, then it will decide in which hole to put the process
+[14:53] so that remaining memory or remaining space is highest, remaining space is maximum.
+[15:00] In Best Fit remaining space should be minimum, and in Worst Fit remaining space
+[15:04] after putting the process, remaining space in that hole should be maximum.
+[15:09] So Best Fit and Worst Fit are what? Exact opposite. So on this many times
+[15:14] question comes in GATE, like if you are given a diagram that
+[15:18] here how many processes are already occupied and some holes are there, then
+[15:23] according to First Fit, Next Fit, Best Fit or Worst Fit how can I accommodate processes in hole.
+[15:31] So if we see in real life then we can say that First Fit is the most convenient method
+[15:37] because if we simply talk according to time, then among these four, or
+[15:41] basically among these three, because this Next Fit is a modified version of this.
+[15:45] So we can overall compare First Fit, Best Fit and Worst Fit because
+[15:50] this is the modified version of First Fit. So this is the most convenient method
+[15:56] because here time taken is least. But if you normally get a question
+[16:02] then in the question, any scenario may be there. Maybe there Worst Fit works best,
+[16:06] maybe First Fit works best, so you don't need to cram this but
+[16:11] how these algorithms are actually working, that is the important thing.
+[16:15] So if you like the video then please like it, share it and please subscribe my channel, thank you.

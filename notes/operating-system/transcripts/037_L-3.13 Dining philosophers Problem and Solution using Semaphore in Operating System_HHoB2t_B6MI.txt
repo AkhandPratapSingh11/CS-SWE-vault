@@ -1,0 +1,284 @@
+Title: L-3.13: Dining philosophers Problem and Solution using Semaphore in Operating System
+Video URL: https://www.youtube.com/watch?v=HHoB2t_B6MI
+Video ID: HHoB2t_B6MI
+======================================================================
+
+[00:00] Hello friends, welcome to Gate Smashers. I am going to discuss Dining Philosophers Problem.
+[00:05] Dining Philosophers Problem is a standard problem of the Operating System
+[00:09] like Producer Consumer, Printer Spooler, Reader Writer.
+[00:12] Let's first of all discuss what the Dining Philosophers Problem says,
+[00:16] we are having one dining table, on the dining table we have 5 philosophers sitting over there,
+[00:22] means P0, P1, P2, P3, P4 these are 5 philosophers who are sitting around the dining table and
+[00:30] F0, F1, F2, F3, F4 these are 5 forks, why are these forks kept here? Rice bowl,
+[00:38] because what is in the centre? Rice bowl. To eat the rice bowl here 5,
+[00:43] at many places you may get chopsticks instead of forks, so that is same.
+[00:49] And it is possible that instead of rice bowl you may get spaghetti or noodles is written,
+[00:53] so don't focus on that, focus on the main concept, don't focus on the food, focus on the concept.
+[00:58] So rice bowl is there, so here I have 5 philosophers P0, P1, P2, P3, P4
+[01:07] and 5 forks F0, F1, F2, F3, F4.
+[01:11] Now every philosopher is having 2 states, thinking and eat
+[01:18] Think and eat,
+[01:22] because philosophers' job is to think, so either they think, when they get tired of thinking,
+[01:30] feel hungry, so they will start eating. Now for eating we have designed a code.
+[01:35] Here every philosopher will follow this code.
+[01:39] Philosopher will do what? When it is in thinking phase, no problem.
+[01:43] When it comes out of the thinking phase, it will take the ith fork, ith fork means left of the fork.
+[01:50] First of all, it will take left fork
+[01:56] means philosopher will pick the fork on his left side, then right fork,
+[02:05] after that it will start eating. This is the condition. This is the rule here to first pick left fork,
+[02:13] then pick right fork, then start eating and when task is finished, eaten well then after that
+[02:21] right fork and left fork, means first put down the left fork then right fork. This is how it will proceed.
+[02:30] Means like say case1, a normal case we will discuss, let's say in case1 P0 comes,
+[02:38] means a philosopher comes P0.
+[02:43] So how the code will run? The philosopher P0 comes, thinking,
+[02:47] let's say thinking phase is done. Now it will take the fork, which fork? ith fork,
+[02:52] ith fork means, what is the fork index? 0, means philosopher index is 0, so which fork will it pick first?
+[03:01] 0th fork means F0. F0 fork it will take. Look P0 is there, to the left of P0 is which fork? F0.
+[03:13] This diagram is very important, you have to see the diagram plus you have to visualize it,
+[03:19] how they are sitting over there and how they are picking the fork. So this you have to see carefully.
+[03:25] P0 came, he picked the left fork first then right fork, so to pick up the left one means P0 comes,
+[03:33] so what is the index? 0. So first take 0th fork, 0th means F0 fork it will take then
+[03:42] F1, (0+1)mod N, what is the N over there? N is number of forks.
+[03:54] So the index is what? F(0+1)mod5.
+[04:05] So what is it? 1mod5, the answer is 1. So that's why it will take first of all F0 fork,
+[04:13] then it will take the F1 fork and then it will start eating.
+[04:18] After that it will place the left one that is F0 first, it will put down F0 first,
+[04:26] then it will put down F1, its work is done. After that let's say that P1 comes, Philosopher1 comes.
+[04:35] So what is the index value of philosopher? 1. So means first of all it will take fork1.
+[04:41] The first fork, means F1. First it will pick fork F1, and you can see from the diagram P1,
+[04:49] to the left of P1 is which fork? F1. So this is how we design it.
+[04:54] So first picked up F1 fork then take fork(1+1), because i value is 1 over there,
+[05:02] so 1 + 1 = 2, 2mod5. 2mod5 is what? 2. So means then it will pick F2.
+[05:16] Both lines done, then it will start eating, after that it will place the fork of left side that is F1,
+[05:23] then it will place the fork F2. This is a normal case. If we say that the philosophers come in serial mode,
+[05:31] like they come one after the other then there is no problem, this code will perfectly work.
+[05:41] The next case is case2.
+[05:47] Case2 is what? let's say that first P0 comes, philosopher0, 0th philosopher comes
+[05:55] and he picks up fork F0, means picked up the left fork, that is 0th fork.
+[06:02] P0 comes so what is the index value? 0. So picks up 0th fork then when it picks up the right fork,
+[06:10] before that P1 comes.
+[06:16] P1 comes, P1 will also execute this code because all philosophers will execute this code,
+[06:22] so P1 comes, take fork ith, what is the i value here? 1. So means it picks fork F1.
+[06:32] And P0 is waiting for F1 because P0 picks up the left one, but before it picks up the right one,
+[06:42] P1 picks its left one, means F1. So P0 is waiting for fork F1. And when will it get that?
+[06:51] When P1 gets both F1 and F2, after that it will put back both forks after eating,
+[07:03] after that when this fork gets free, then P0 will get the fork. So means if 2 or more philosophers
+[07:12] come at the same time, then there may be a problem of Race condition like we discussed in problems before.
+[07:18] So to remove that what do we use here? Concept of Semaphore. Means we will now use semaphore here, Binary Semaphore.
+[07:27] So in Binary Semaphore they are saying that,
+[07:32] we will be using an array of semaphores.
+[07:38] Means how many Semaphores it will use? Same number as forks. Forks are what? 5. So we will use 5 semaphores.
+[07:52] What is the number of those 5 semaphores? S0, S1, S2, S3, S4, same as the index of the forks or philosophers.
+[08:04] S[i] 0, 1, 2, 3, 4. These 5 semaphores we are using here and let's say that all are initialized with 1.
+[08:20] Now let's say P0 comes,
+[08:26] philosopher P0 comes. So first of all the code will work like this now, Wait(semaphore)
+[08:33] we will be using the wait, Wait(semaphore).
+[08:39] Semaphore is (Si). Let me rewrite it.
+[08:48] Because now we are using the binary semaphore so in that we will use wait here, wait or P, you can use what you want.
+[08:57] Wait(take fork (Si))
+[09:13] then Wait(take fork (S(i+1)modN),
+[09:27] modN or percentage N, that is same.
+[09:29] And then Signal, here we will do signal and here also we will do signal. Signal means make value up again.
+[09:40] Now let's say P0 comes, if P0 comes here.
+[09:49] If P0 wants to take both forks, the concept says that if it wants to take both forks
+[09:55] then it needs 2 semaphores. Which 2 semaphores value it needs? S0 and S1.
+[10:03] You have to only focus on this index. What is index of P? Means which philosopher? 0th philosopher.
+[10:09] So what is the value of i here? 0. So S0 and S(0+1=1) means S1.
+[10:16] So means to properly execute P0 needs 2 semaphores one is S0, one is S1.
+[10:28] Then if P1 comes, P1 will have to wait, means down 2 semaphore values to properly execute here.
+[10:42] Which ones? Which philosopher? 1. Means value of i here 1, so S1, and i+1, 1+1=2, so S2.
+[10:55] Now when P2 comes, P2 also needs 2 semaphores then it will reach to EAT().
+[11:07] Which 2 semaphores it will have to make down? What is the index? P2, so 2. S2 and S3.
+[11:17] S2 and 2+1=3, 3mod5 that is 3, S3. Then if P3 comes, it also needs 2 semaphore values,
+[11:30] only then it can properly perform down operation on this and can wait, then it can go to EAT() operation.
+[11:36] Which ones? 3, means index value is 3, so S3 and 3+1=4, 4mod5 is 4. So S4.
+[11:48] Then P4, let's say if P4 comes, then which semaphores does P4 need? First of all what is index? 4.
+[11:58] So S(i), S4. It needs S4. If it gets S4 as 1 then it will execute this line properly.
+[12:07] Then 4, here you have to be careful, (4+1)mod5. 4+1 is what? 5. 5mod5, what is 5mod5? 0.
+[12:22] Means which is the next semaphore it needs? S0. This is a very important table here.
+[12:34] If P0 comes first, it needs these 2 semaphores, first it will make this semaphore value from 1 to 0, make it down,
+[12:42] then it will make value of S1 down to 0. Then if P1 comes then S1, S2, if P2 then this.
+[12:49] Now P4, S4 and S0. Why S0? See the diagram.
+[12:55] Where is P4? Here. What is the left of P4? Left of P4 is F4.
+[13:08] So to take F4 it needs which semaphore? S4.
+[13:13] Whatever is the fork index, we take the same as semaphore index so that we can easily understand this problem.
+[13:21] So we have taken fork index, semaphore index and even philosopher index, numbering, as same.
+[13:29] But which fork in on right of P4? F0 is on the right of P4. So that's why it needs S0.
+[13:39] Because to take F0 fork it needs S0 semaphore. Now let's see how the code runs.
+[13:49] Let's say all the semaphores are initialized with 1.
+[13:54] All the semaphores are initialized with 1.
+[13:57] And yes, we will have to keep 1 as initialized, if in case we make it 0 then it will be already blocked.
+[14:03] Because we are performing wait operation here. Means if semaphore is already 0,
+[14:10] so when wait is done, the value will be blocked means that philosopher will be blocked,
+[14:16] but we cannot block any philosopher now initially. So to enter the critical section,
+[14:21] what is the entry code? These 2 lines. They will have to execute these 2 lines for entry.
+[14:27] And what does 2 lines mean? It needs 2 forks and to take those 2 forks they need 2 semaphores.
+[14:34] So that's why we have kept the fork index and semaphore number same. So that's why if let's say P0 comes,
+[14:43] so it needs semaphores S1 and S0. So P0 will first do Wait(S0) then Wait(S1). So what is S0? 1.
+[14:54] So it will easily make S0 from 1 to 0, will easily make S1 from 1 to 0
+[15:00] and in critical section means in eating state who will go? P0.
+[15:06] Then when it exits, it will again make value from 0 to 1, here also will make value from 0 to 1.
+[15:12] This is the meaning.
+[15:14] This is the only case.
+[15:17] Now let's say another case is,
+[15:29] let's say P0 comes first, P0 waits the value of S0 and S1, made it wait means made it down.
+[15:38] So what is S0 value? Becomes from 1 to 0, S1 value becomes from 1 to 0.
+[15:43] S1 value also becomes from 1 to 0 and who enters eating state? P0. Now at the same time if P1 comes,
+[15:53] P1 comes after P0, then it will also down the S1 value but what is the S1 value? 0.
+[16:00] This will down the S1 value? But it is already down, means in this case P1 will be blocked.
+[16:07] And at the same time let's say if P2 comes, means what case we are discussing?
+[16:12] First P0 comes, then P1 comes, now P2 comes. So P0 easily enters critical section, when P1 comes,
+[16:21] what happens to P1? It gets blocked. Why it gets blocked? Because which line will P1 run first?
+[16:26] Wait(S1) but S1 has already become from 1 to 0 because P0 made it 0. But at the same time let's say P2 comes.
+[16:36] Now when P2 runs this line Wait(S2) and Wait(S3). What is the S2 value? 1. So it will make it 0,
+[16:46] and what is 2+1? that is 3, 3modN? 3. So it will make value of 3rd semaphore 0 because
+[16:54] P2 needs these 2 semaphores, S2 and S3. So S2 and S3 it made 0 and P2 comes with P0 and it is also eating.
+[17:07] Now here a doubt can come that we had done mutual exclusion concept, what mutual exclusion says that
+[17:15] once if a process enters critical section then another process cannot enter.
+[17:20] Only one process can enter at a time. But in this Dining Philosophers this is a special case that
+[17:27] in this at a time 2 philosophers also can enter but both should be independent.
+[17:33] Now what is the concept of independent? Which 2 philosophers have entered? P0 an P2.
+[17:38] If you look carefully, P0 needs 2 forks F0 and F1 to eat rice bowl. But P2 needs which 2 forks?
+[17:50] F2 and F3. So means these 2 forks it can pick easily, and these forks this can pick.
+[17:56] So there is no dependency between them, both can eat from rice bowl at the same time.
+[18:02] If you see if P3 is eating at a time then P0 can also eat at that time.
+[18:10] Those who are independent from each other can easily eat.
+[18:13] So that's why here in critical section more than one can enter, but they should be independent.
+[18:19] Independent in the sense of forks because P0 needed which 2 forks here? F0 and F1. It is using it to eat.
+[18:28] P2 needs which ones? F2 and F3. So both are independent, it is also eating easily.
+[18:33] So at this time 2 people can eat at a time, yes, the 2 guys can eat at a time but which ones should they be?
+[18:40] They must be opposite. So this is a special case. Many times in exams it is asked that
+[18:46] we say, in the critical section, only one process, means 1 philosopher can reside.
+[18:50] But is it possible that more than one philosopher can come without any problem? Yes.
+[18:56] More than one philosopher can come, like either P0 and P2, or we can say P3 and P1 can come,
+[19:03] let's say P4 and P2 can come. Just their forks should be different. So yes,
+[19:09] more than one philosopher can come at a time.
+[19:14] Now the most important case is,
+[19:24] let's say again we are looking at values from the start. All the semaphores are again initialized with 1.
+[19:33] And no philosopher is eating at this time.
+[19:37] Many times question comes whether there is a deadlock in this state or not? Yes, in this code,
+[19:44] even if we are using semaphores but still deadlock situation occurs here. How deadlock situation occurs?
+[19:52] Let's say P0 comes first, the same question is already asked in the GATE exam, so focus on this.
+[20:04] If P0 comes, P0 first runs this line Wait(S0). Means it made value of S0 from 1 to 0.
+[20:14] What does it mean? It picks up left fork. But next line, means right fork as it was picking, it got pre-empt.
+[20:25] Because any process at anytime can be pre-empt. This is the constraint. Due to any reason,
+[20:33] maybe time quantum fails, maybe high priority process comes, any reason.
+[20:38] So here we are taking this condition that any process at anytime can be pre-empt.
+[20:42] So if P0 comes first, it picks up left fork means executes this line, but as it was picking right fork,
+[20:50] it got pre-empt and P1 comes. P1 also does what? S1. Means picks left fork, can it make value of S1 0?
+[21:00] It can because what is value of S1? 1. So it picks the fork to its left, means made this value from 1 to 0.
+[21:08] Its right means next line, the right fork as it was picking up, at the same time let's say P2 comes.
+[21:18] P2 also picks up the fork on its left, which is the left fork? S2.
+[21:24] So to pick it up it does wait, means makes value of S2 from 1 to 0 successfully and picks up the left fork.
+[21:32] As it was picking the right one it gets preempt and P3 comes. P3 needs which fork? Left one first.
+[21:41] Which is the left one for P3? F3. To pick up F3 which semaphore it needs? S3. So it does Wait(S3),
+[21:50] means makes value from 1 to 0 successfully, means picks up left fork, as it was picking right one,
+[21:58] again P3 also gets pre-empt and P4 comes. P4 has to pick left fork first,
+[22:05] because every philosopher picks up left fork first, so to pick up the left one, P4 needs semaphore4.
+[22:12] So value of S4 is 1, makes it 0 successfully, this next line as it was running again it gets pre-empt.
+[22:21] So let's say all these philosophers executed their first line
+[22:30] but before executing the second line they got pre-empt.
+[22:34] What is the value of all semaphores at present? 0. Now let's say P4 says that I need the right fork.
+[22:43] For the right fork it needs semaphore S0, but what is the value of S0? 0.
+[22:50] When it does Wait(S0), it will be blocked. P3 says I have left fork F3, just give me the right fork.
+[22:59] To take the right fork it needs value of S4 as 1, but value of semaphore S4 is already 0. So it is also blocked.
+[23:09] Similarly P2 says S3, but what is the value of S3 already? 0, so it is also blocked.
+[23:15] P1, S2, value of S2? 0. Blocked.
+[23:19] And P0, S1, what is the value of S1? 0. Blocked.
+[23:23] So what it means? All the philosophers pick up one fork, means the fork on their respective left hand side,
+[23:33] but before picking up the right one they got pre-empt.
+[23:36] Means P0 picks its left one, what is the left of P0? F0.
+[23:44] It picks up F0, as it was picking up F1, P1 comes.
+[23:49] P1 picks up F1 first. Because P1 can pick F1 first but P0 couldn't pick up the right one.
+[23:59] And as P1 was picking up the fork to its right means F2, P2 came and picked up its left one.
+[24:06] When P3 comes it picks up F3 and P4 picks up F4. So this whole becomes a Circular Wait situation.
+[24:17] Means all have one resource each but nobody can eat because to eat everyone has to execute this line.
+[24:26] What does this line say? Right fork is needed. But all picked up their left fork, there is no right fork.
+[24:34] So here we call this situation deadlock because all the philosophers here are blocked, no one can eat.
+[24:43] So how to unblock this? It cannot be unblocked. Because all the 5 semaphores value becomes 0.
+[24:52] And if even 1 semaphore value can be up then we can unblock it but all the semaphores become 0.
+[25:00] So we call this situation deadlock. So if this case comes then you can simply say it is a state of deadlock.
+[25:11] Means everyone picks up left fork but before picking right fork all become pre-empt.
+[25:18] So means all the 5 made all their 5 semaphore values 0 but
+[25:22] when they needed other semaphores they could not use them.
+[25:28] This is the state of deadlock. And this question has come in GATE also that,
+[25:33] is there a deadlock in this situation? Yes, there is a deadlock in this situation.
+[25:39] So how can this deadlock be removed? What is the solution or that?
+[25:43] What is one solution? Tell a philosopher to leave form there. Means here in Dining Philosophers,
+[25:51] if 5 philosophers can sit then we told one that you just wait, let the other 4 sit first.
+[25:57] But that is not an appropriate solution. Because instead of giving the solution
+[26:02] we are asking a philosopher to leave and sit somewhere else. But then we changed the base of the problem.
+[26:09] The problem is that 5 philosophers are sitting at the dining table. So we cannot give the solution like this.
+[26:15] So one more solution we can give, solution is
+[26:20] P4 picks its left and right. But if we change its sequence,
+[26:27] sequence means
+[26:31] S0 and S4.
+[26:36] S0 and S4.
+[26:41] What I mean to say? Whatever the number of philosophers, like 5 philosophers are there, so 4 philosophers
+[26:48] will pick left fork first, then right, left, right, left, right, left, right,
+[26:54] but the last one will pick up the right fork first then the left one. Means for 4 this code will run,
+[27:02] but for the fifth we reversed the code here. There we made it first right one, then left one.
+[27:10] This is the only change we have to do. So look, now if we again see this problem then let's say
+[27:17] initially all the semaphores are 1.
+[27:25] Let's say P0 comes, it needs semaphore S0, needs the left one, successfully makes from 1 to 0.
+[27:34] But as it was making S1 from 0 to 1, it gets pre-empt. P1 comes. P1 makes value of S1 from 1 to 0.
+[27:41] Means picks up the left fork, as it was picking up the right one, it gets pre-empt, P2 comes.
+[27:47] P2 makes value of S2 0, means picks up its left one, as it was picking up the right one, it gets pre-empt, P3 comes.
+[27:55] P3 picks up its left one that is F3, how it will pick up? It will make value of S3 0, run this line,
+[28:04] as it was picking up its right fork, before that it gets pre-empt, P4 comes. Now in P4 what we did?
+[28:13] We reversed this. P4 instead of picking left one, what is the left of P4? Look at the left of P4,
+[28:19] where is P4? Here. What is the left of P4? F4. But already P3 has picked F4, but if we reverse this,
+[28:30] means it will first pick its right fork, but when it tries to make value of S0 from 1 to 0,
+[28:37] S0 value is already 0.
+[28:41] S0 value here is already 0 and what is it performing? Down(S0). Down(S0) will not happen here,
+[28:50] so what will happen to this process? It will be blocked. Means we blocked that philosopher here.
+[28:56] So what advantage we got from that? S0 was 0 here. Our S4 stays from 1 to 1.
+[29:07] So in this situation P4 is blocked. P3 has picked up the left fork in his hand, what does it need?
+[29:15] If we give it the right fork, then it can easily eat and for the right fork it needs S4 value 1.
+[29:23] So value of S4 is 1 here. How it becomes 1? We reversed P4. That's why here S4 could not be made from 1 to 0.
+[29:35] So P3 will get a chance here. How? Because P3 already has left fork
+[29:41] because it has executed the upper condition. For the right fork it needs value of S4 as 1.
+[29:48] Because it will do Wait(S4), it will do Wait(3=1=4). So for that it needs value of S4 as 1.
+[29:56] And yes, value of S4 is already 1. It will successfully make it 0 and will come in eat state.
+[30:05] And how did we get value of S4 as 1? Because we reversed the sequence of P4.
+[30:11] So this is the reason value of S4 stayed 1. P3 makes value of S4 from 1 to 0,
+[30:17] properly executing these 2 lines comes in eat state. Now in eat state it will eat and then
+[30:26] it will put fork, means it will again signal the fork value. Which 2 values will it signal?
+[30:33] The forks that it is using, which are they, S3 and S4 it is using. So when it eats properly,
+[30:39] then it will again make S3 1, and it will make S4 1. Because this is the rule that
+[30:48] when it eats and exits critical section then it will run exit code. And what is there in exit?
+[30:53] Signal and signal. Signal of 3 and signal of 4. So signal of S3 and S4 it again made 1, 1.
+[31:02] Now P2 which was holding left fork of S2 needs S3 so that I can take right fork and I can eat.
+[31:12] So easily, because P3 has released it. So P2 needs S3 value as 1, so it will make this from 1 to 0 and
+[31:21] enter critical section. Now P2 also easily after eating will again make semaphore value 1.
+[31:33] Which 2 semaphores? S2 means value of S2 again becomes 1 and S3 value of S3 also again becomes 1.
+[31:42] Let me write it with red.
+[31:48] It made value of S2 and S3 1 again. Now P1 comes, it has left fork S1 but it needs S2, the right fork.
+[32:00] So it needs value of S2 as 1 because in wait it will make it form 1 to 0, and what is value of S2? 1.
+[32:06] So easily makes from 1 to 0 and enters critical section. Eats and then does signal, signal means
+[32:15] it will make S1 and S2 value 1 again. Makes S1 value 1, makes S2 value also 1 here, now P0 comes,
+[32:24] which already has S0 means left fork, but for right fork it needs S1. And what is the S1 value now? 1.
+[32:32] Then it will make it from 1 to 0, eat properly and after eating will again make the value 1.
+[32:39] Which value? Values of S0 and S1. So S1 and S0 both become 1, 1.
+[32:46] So P0 has eaten, P1 has eaten, P2 has eaten, P3 has eaten. P4 which was blocked because of reversing,
+[32:55] in Up, it will again come in unblock state. Now what does it need? S0 value as 1. What is S0 value? 1.
+[33:03] It will make it from 1 to 0, means will pick up right fork first and then the left one S4.
+[33:09] What is value of S4? 1. It will make it from 1 to 0, made the values of these 2 semaphores from 1 to 0,
+[33:15] now P4 will eat. So this is how we have to follow the rule and this is not mandatory that
+[33:23] we have to reverse only the last one. You can do it to anyone. If we have 100 philosophers,
+[33:29] then you can change the sequence of any of one of the philosophers.
+[33:33] Means 99 philosophers will pick up first left fork the right one, but just for one philosopher
+[33:40] make this situation up and make this one down, means
+[33:44] for N-1 this code will run and just for the 'N'th one
+[33:52] N-1 whatever number of philosophers, for all the N-1 philosophers this code will run,
+[34:00] but for the Nth philosopher Wait(take fork(Si+1 modN) will run first
+[34:11] and then Wait(take fork(Si)) will run later.
+[34:21] So means first it will pick up the right one then the left one.
+[34:25] So with this situation we can remove the deadlock. Now here you don't need to again remember the code.
+[34:31] Because its code is very big, you don't need to remember it. Whatever situation is given,
+[34:38] you just have to remember Wait and Signal and implement it one by one.
+[34:44] So if you are given this situation S0, S1, S2, S3, S4 the first one, then there is a deadlock.
+[34:51] If we reverse this in one then it is deadlock free. So now in this situation there is no deadlock here.
+[34:58] So this is all about the Dining Philosophers Problem.
+[35:01] And if you like this video, please like it and don't forget to subscribe my channel.
+[35:07] And in case if you have any doubt then you can ask me in the comments section. Thank you.

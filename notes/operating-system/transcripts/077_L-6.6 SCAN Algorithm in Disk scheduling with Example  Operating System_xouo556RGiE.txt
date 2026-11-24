@@ -1,0 +1,182 @@
+Title: L-6.6: SCAN Algorithm in Disk scheduling with Example | Operating System
+Video URL: https://www.youtube.com/watch?v=xouo556RGiE
+Video ID: xouo556RGiE
+======================================================================
+
+[00:00] Hello friends, welcome to Gate Smashers, the topic is
+[00:02] SCAN algorithm in disk scheduling
+[00:04] so here we start from the questions
+[00:06] and here 200 tracks are already given in the disk
+[00:09] 0 to 199
+[00:10] and I have the request queue
+[00:12] these are the request
+[00:13] which are already present in the queue
+[00:15] current position is from 50
+[00:17] and now I am using the algorithm SCAN
+[00:20] So how does the scan algorithm works?
+[00:22] Lets start with the
+[00:25] and here first of all I have 50
+[00:28] that is the current position of read write head
+[00:30] and the scan algorithm
+[00:32] is also called elevator algorithm
+[00:34] where we have to move in one direction and
+[00:37] and we have to move till last point in that direction
+[00:41] so what does this mean?
+[00:42] So here I have direction in  this question, that is
+[00:46] I think I forgot to write the direction
+[00:47] direction you can take as lets say direction is towards the larger value
+[00:51] You have been given like this, Lets say
+[00:53] direction is towards larger value
+[00:56] so from 50 we have to move  towards larger value
+[00:59] So if we move from 50 towards larger value
+[01:01] so which value comes first?
+[01:03] 82
+[01:04] So I covered 82
+[01:06] after 82
+[01:07] which is the next request coming?
+[01:10] 140
+[01:12] and after 140 next request is
+[01:15] 170
+[01:18] 170
+[01:22] after 170, the next request I have is
+[01:25] 190
+[01:27] So I want to say
+[01:28] that after 50 here
+[01:30] I have to move towards larger direction
+[01:33] and while moving towards that direction
+[01:36] what all the request that have come
+[01:38] and you handle all those request
+[01:41] means all the request
+[01:42] what was it? 82, 140
+[01:44] 170, 190
+[01:47] so I have handled all these requests
+[01:49] means I will service all these request
+[01:53] but this scan algorithm
+[01:56] is called elevator algorithm because
+[01:58] it will not go upto 190 only
+[02:00] but will go upto 199, this means
+[02:03] so the direction in which you are moving
+[02:05] you have to move till the last  point in that direction
+[02:08] If you have in the question
+[02:11] that you have to move from 50 towards the lower value
+[02:15] so where will you go from 50
+[02:17] from 50 to 43
+[02:19] after 43 you move to 24
+[02:21] after 24 to 16
+[02:24] and after 16 upto 0
+[02:27] you have to go in the track number  till the very last value.
+[02:31] so here what is the larger value, which is given in the question
+[02:33] so we first solve  the according to the larger value
+[02:36] so went to 199
+[02:37] now up to 199
+[02:39] we have covered all the values  from 50 to 199
+[02:43] but after 199
+[02:45] now we are changing direction.
+[02:47] now which value was less than 50 ? 43
+[02:51] so I’m covering 43 over here
+[02:53] what is the value after 43 ? 24
+[02:56] so am covering 24
+[02:58] what is the value after 24 ? 16
+[03:00] so I am covering 16
+[03:02] and another point to keep in mind here
+[03:05] stop here after coming to 16
+[03:08] now here you do not have to go to zero
+[03:11] means to say this
+[03:13] the work of the elevator means
+[03:15] to go to the last in one direction
+[03:17] but in the second direction ,  do not go to the very last
+[03:21] have to go till the last request
+[03:23] because after 16
+[03:25] there is no request in my queue ?
+[03:28] in these cases, if the request was zero ,
+[03:30] you would have gone towards it
+[03:32] whatever  was the last request otherwise
+[03:34] that is 16 ,  so I moved here and went to 16
+[03:38] so all you have to do is simply calculate here
+[03:40] I have already told in earlier videos  how to calculate
+[03:43] in the CFSO and SSTF
+[03:45] you don't need to calculate one by one
+[03:48] if you want to do you can also calculate one by one
+[03:50] otherwise 82-50
+[03:52] 140 - 82 , 170- this and this
+[03:55] but what is the best  make the calculation easy
+[03:58] 199-50
+[04:02] calculate at once
+[04:03] (199 - 50) + (199 - 16)
+[04:10] take out this value directly
+[04:13] if you will solve it, the answer will come for you 332
+[04:18] and if the same question is given as
+[04:20] that your direction is towards the lower value
+[04:23] so from 50 you have to go to 24 , 16, 0
+[04:27] after zero you went
+[04:29] whatever request is on your way now 82 ,140
+[04:33] what was next is 140
+[04:35] after 140 you have 170
+[04:38] the request after 170 is 190
+[04:42] but now take care,  that you don't have to go till 199
+[04:47] the last value which was the last request has to be reached till that point
+[04:50] but the direction in which  you start ?
+[04:53] you will have to move in that direction  till the very last
+[04:57] that is how the SCAN Algorithm works
+[05:00] here somewhere comes a doubt that
+[05:03] when the last request is 190
+[05:06] so why am I moving to 199
+[05:08] because it is working like an elevator
+[05:10] and let's say I have ten floors
+[05:13] in one building
+[05:14] so maybe the last sequence  which is till the 9th floor
+[05:17] but why is she going till the 10th floor ?
+[05:19] maybe a request comes dynamically  at run time
+[05:23] that me too
+[05:25] or any other guy who is on floor 10 has pressed the button at run time
+[05:29] if here I talk about the request
+[05:31] this request is static
+[05:33] it is good in static, if it does not goes to 199 then it is Ok
+[05:37] but if we run it dynamically
+[05:40] it is possible in real life  that when you are moving in this direction
+[05:43] then after 190
+[05:45] lets say in case a request came
+[05:47] for upto 199
+[05:49] so it is best for you to move up to 199 in advance
+[05:53] so that you get that advantage
+[05:56] but there is also a disadvantage in it
+[05:58] what is the disadvantage?
+[06:00] The direction in which you are moving
+[06:02] you went up to last
+[06:04] and then changed the direction
+[06:07] Once you changed the direction
+[06:09] and after that in case a request comes
+[06:12] dynamically if a request comes now
+[06:14] the request is 195
+[06:17] so now you can't go to 195
+[06:20] because once you have changed the direction
+[06:22] you have to come up to the last
+[06:26] after this again you have to go up to 195
+[06:29] this means that if I am taking the case as static
+[06:33] and most of the times in  exam you will get the static case
+[06:37] then in that case you don't need to take any tension
+[06:40] you can solve this simply with this method
+[06:43] but if we talk dynamically
+[06:45] so here there may be a problem in the transaction
+[06:49] but for the time being, its not necessary  for you to remember this transaction
+[06:53] Simply by using SCAN
+[06:55] how do we find out the number of tracks
+[06:59] how to find the number of read write movement, that is the most important part
+[07:02] and there is also one more small point
+[07:05] If read write head takes 1  Nanosecond to move
+[07:08] from one track to another track then what is the total time
+[07:11] means the time to go from one  track to another track
+[07:14] is 1 nanosecond
+[07:16] so how much time the  scan algorithm will take in total
+[07:19] So what you have to do, first of all we will find out
+[07:21] we are doing 332 movement
+[07:24] means how much total movement the read write  head is making
+[07:27] 332, to service all these
+[07:30] to cover all these
+[07:32] so obviously, 332 x 1 NS
+[07:35] that is 332 nanosecond
+[07:38] which you can calculate easily
+[07:40] This question is asked many times in extension
+[07:43] The same questions is in FFCF and FCFS
+[07:47] you can follow there too
+[07:49] So this is all about the scan algorithm, Thank you!

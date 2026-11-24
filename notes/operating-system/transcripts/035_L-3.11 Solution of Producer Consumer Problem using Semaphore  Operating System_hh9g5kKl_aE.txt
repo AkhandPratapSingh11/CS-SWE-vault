@@ -1,0 +1,164 @@
+Title: L-3.11: Solution of Producer Consumer Problem using Semaphore | Operating System
+Video URL: https://www.youtube.com/watch?v=hh9g5kKl_aE
+Video ID: hh9g5kKl_aE
+======================================================================
+
+[00:00] Let's see the solution of Producer Consumer Problem. What is Producer Consumer Problem?
+[00:05] What is the cause of Producer Consumer Problem? And what are the flaws in
+[00:09] Producer Consumer Problem? For this you can check my video where I have fully explained
+[00:14] Producer Consumer Problem and how Producer Consumer Problem occurs
+[00:20] and what problems are created means inconsistency or loss of data,
+[00:25] these are the problems that occur in the Producer Consumer. Here we are solving that
+[00:29] Producer Consumer Problem by using the binary semaphore, so let's see the solution.
+[00:35] Here I have not mentioned the full code, full code is discussed in Producer Consumer Problem.
+[00:40] Here we are talking about solutions how we can solve this through semaphore
+[00:46] so that we can achieve the synchronization. Yes, the problem of synchronization in
+[00:52] Producer Consumer Problem we are removing it here by using the binary semaphore
+[00:57] as well as the counting semaphore. Here I have taken 2 counting semaphore, full and empty.
+[01:04] Empty here tells me number of empty slots.
+[01:08] Number of empty slots in the buffer.
+[01:15] That buffer where we produce data and where consumer consumes data or consumes item.
+[01:22] So my number of empty slots is showing empty and number of filled slots,
+[01:28] how many slots are already filled that here full counting semaphore tells me,
+[01:34] and here one binary semaphore is taken that is S and we initialized it by 1.
+[01:40] This is the code of producer, there are other values also but we are just
+[01:44] concentrating on the solution, how we can solve it. Down(empty), Down(S), Buffer[IN]
+[01:53] we will put item in buffer, In=(In+1)modn, Up(S) and Up(full). So let's solve it one by one.
+[02:01] First let's see this case, let's say that here at a point of time because already
+[02:07] I have put 3 values here, means in 0, 1, 2 slots there are 3 items a, b, c already put.
+[02:13] So here if I talk about empty first so value of empty here is 5 because what is empty?
+[02:20] Number of empty slots. So how many total slots do I have in buffer? 8. So out of those 8,
+[02:27] 3 slots are filled, so how many are empty? 5. And full, full means number of filled slots.
+[02:35] Means how many slots are already filled, I have 3. So if we see at this point of time
+[02:42] that my empty are 5 and full are 3 values, so now here if producer comes,
+[02:48] let's say producer comes, producer wants to produce 1 item, so what will he do first,
+[02:54] to produce item Down(empty), Down(empty) means it wants to use 1 empty slot because
+[03:02] he will put 1 item in it. So to use 1 empty slot he will first do Down(empty) here.
+[03:12] He will do Down(empty), so value will become what? 4. Then 2nd instruction,
+[03:18] just give the numbering like this,
+[03:23] 2nd is what? Down(S). Down(S) means value of binary semaphore was made from 1 to 0.
+[03:29] so if I write value of S here, value of S is 1. So value of S was initialized to 1,
+[03:35] so made from 1 to 0, successfully made value 0, so means it enters
+[03:40] that is called a kind of critical section where we are actually executing code.
+[03:46] Item p to Buffer[IN], IN is pointing at third location because what does IN show here?
+[03:54] Address of that empty slot where we can put the data or item. So here
+[04:00] what is the value of slot? 3. So in 3 we put item P, let's say item name is some d.
+[04:08] So we put d in third value, third address and In=(In+1)mod n, means value of In was 3,
+[04:19] so (3+1)mod 8 because n is what? The number of total slots. My number of total slots is 8,
+[04:29] so what comes out? 4mod8 that is 4. Means here we will update In value from 3 to 4.
+[04:39] And after that when this code is executed then after that this is exit code.
+[04:44] Like this is entry section code and this is my exit section code, means
+[04:48] when it exits critical section it will execute this code, what did it execute? Up(S),
+[04:55] means semaphore value made again from 0 to 1, why? because we are giving chance or scope
+[05:03] to other processes to execute their code so that it should not happen that
+[05:08] I did my work and stopped others progress. No, here we want to achieve progress.
+[05:15] So how will we achieve it so that I executed my code then I will make semaphore value 1
+[05:21] so that others can also execute. Up(full), did Up(full) means value of full we made 4.
+[05:31] 4 means here I have how many number of filled slots? 4. So now here to check consistency
+[05:38] there is a simple example, how many empty number of slots? 4, and how many full? 4.
+[05:43] So 4 plus 4, 8 and how many total slots I have? 8. Now consumer comes.
+[05:50] Consumer comes, consumer wants consume 1 item from this, so where will consumer
+[05:55] consume item from? From this buffer. So first what will it execute? Entry section code.
+[06:02] We have written 2 lines in entry section code, down(full), down(semaphore).
+[06:07] Means first full, how many values are full? 4. We first made 4 down means
+[06:13] we made value of full from 4 to 3.
+[06:18] And down(S) means value of semaphore we again converted from 1 to 0.
+[06:26] Then enters critical section, Buffer[out], what is out value? Out value is 0 means
+[06:35] the pointer of out is pointing here, so the item here, which item is there? a,
+[06:40] we will consume a, we will put it in item c, the variable and Out=(out+1)mod n, that is
+[06:50] value of out which was initialized from 0, we incremented it with 1. Means how we did it?
+[06:57] Here value of out is 0 so (0+1)mod8, so 1mod8 is what? 1.
+[07:05] So we simply made value of out 1 because an item is already consumed.
+[07:12] 1 item is removed from here, so here next where will consumer consume from? From 1.
+[07:21] So to run it properly we incremented Out with 1. Now Up of semaphore, Up(S) means
+[07:28] we made semaphore value 1 again because after this if producer wants to come again
+[07:35] then we have created scope for him that yes, he can also come again.
+[07:40] Now, last point is, this is third value, this is fourth instruction, this is the exit code,
+[07:47] Up of semaphore we made from 0 to 1, Up(empty), empty means 1 empty slot is increased,
+[07:53] if 1 empty slot has increased then we incremented value from 4 to 5.
+[07:58] So consumer consumed its thing and left. So we saw a simple example here that
+[08:05] if pre-emption is not occurring here, means if producer comes first then consumer comes,
+[08:11] or you can run it in reverse, first consumer comes then producer comes without pre-emption,
+[08:16] without contact switching if we do it then it works properly, you can see
+[08:21] value of empty is how much? 5, value of full is how much? 3, so 5 plus 3 that is 8,
+[08:27] so total number of slots I have is 8 and if you look carefully then
+[08:31] how many full slots are there? 3 full slots, and how many empty? 1,2,3,4,5.
+[08:38] So means this producer consumer code is properly working here
+[08:43] if we have only worked sequentially till now means first producer comes, then consumer,
+[08:48] or you can also try first consumer or producer. But now we are checking one more example,
+[08:55] in which we will try to pre-empt this because where does the major problem come?
+[09:00] When processes are executed concurrently. Means when they are executed at the same time
+[09:06] then it is very important to synchronize them. That's the point we will see again here.
+[09:12] Let's just start with again, the value is again initialized, the value is again 3.
+[09:28] Now let's say empty value is 5 and full is 3.
+[09:39] Empty value is 5 and full value is 3. Producer came, he first executed Down(empty)
+[09:49] means executed first line, to enter critical section it is necessary to execute these two lines,
+[09:55] so it did down(empty) means value of empty made from 5 to 4. It made value of empty from 5 to 4,
+[10:05] after that it came to this line but if it executes this line means value of semaphore
+[10:12] which is again initialized with 1, if it makes this from 1 to 0 then it will enter,
+[10:18] then it will again be sequential. So let's try to make it contact switching kind of,
+[10:24] means we will pre-empt this, means producer comes first, he made this empty from 5 to 4,
+[10:32] but when it was about to do down(S) which here producer becomes pre-empt.
+[10:40] Means producer got switched here and who enters? Consumer. Consumer comes.
+[10:55] Producer becomes pre-empt here, consumer comes, now when consumer comes, what did he do?
+[11:01] down(full), down(full) means he made value of full from 3 to 2.
+[11:09] First line he executed down(full) so made value from 3 to 2, did down(S) means
+[11:17] made value of semaphore from 1 to 0, enters critical section because here
+[11:24] the main point is actually down(S) because out of the two whichever first,
+[11:32] out of producer and consumer the one who first does down(S), will down the
+[11:37] value of this binary semaphore, he will first enter critical section and
+[11:01] who enters critical section, the other one cannot come. How? Let's see.
+[11:47] If consumer comes here, consumer did down(full) means made value of full from 3 to 2,
+[11:53] and did down(S) means made value of S from 1 to 0, so consumer enters critical section.
+[12:02] Now what he has to do? Item C=buffer[out] means what is value of buffer initially? 0.
+[12:08] So picked item from 0 location and put it in item here, and out=(out+1), means
+[12:15] made value of out from 0 to 1, updated here. Let's see that if consumer is at this point
+[12:24] then can producer come here? This was the problem in producer consumer that
+[12:29] when one process, either producer or consumer has one process running then in between
+[12:35] if some other process, let's say consumer comes at the same time and he executes full
+[12:41] and in between if producer again comes then will it create inconsistency here?
+[12:46] So here we have to stop this thing. If let's say consumer is now running and in this time
+[12:53] system again gets preempt, if again gets preempt then you yourself check that here
+[12:59] producer has already executed first line, this line it has already executed,
+[13:05] he had made empty from 5 to 4, but can he do down(S)? No, because S value is already 0.
+[13:14] If S value means value of semaphore is already 0 then when this tries to do down(S)
+[13:21] producer will be blocked here. And that's what we are doing here that
+[13:27] if one process is running in between another comes, no problem. But from here
+[13:32] again if control goes to the first one then we will stop it here.
+[13:37] So that's what we are doing here, we stopped the producer here so that
+[13:40] he can't execute or run further, means if he also runs then there will be again the same
+[13:45] Producer Consumer inconsistency problem created. So here in case if producer comes
+[13:51] then he will simply be blocked so that's why if producer doesn't come then consumer
+[13:56] will execute again, consumer is executed upto here, after that Up(S), Up(S) means
+[14:04] again he made value of S from 0 to 1. Yes, now there is scope that now producer can execute here
+[14:16] Up(empty) value of empty from here again updated from 4 to 5. Now consumer is fully executed here.
+[14:27] now consumer is executed then control comes again to whom? Producer. And in producer's PCB
+[14:34] it is already saved that he had executed instruction 1, so my control will start from where?
+[14:41] Execution will start from where? From 2nd number instruction. This we have already
+[14:45] discussed many times before. Did down(S) means it made value of S from 1 to 0.
+[14:52] Yes, now it can successfully execute, how will it do? Buffer[IN] means the item
+[14:58] that it had to produce, let's say name of that item is d, so he in 3rd location,
+[15:04] where is In? what is the value of In? 3, so put d in buffer[3],
+[15:10] In=(In+1), what is the in value? 4. In value is made 4 here means producer comes upto here.
+[15:21] Now if you want to check, to check you can again check here, let's say that
+[15:25] producer gets pre-empt here, consumer comes. If now consumer comes here,
+[15:31] it can do down(full), but cannot do down(S) because when it does down(S),
+[15:38] S value is already 0, so consumer will be blocked here so
+[15:43] he cannot execute critical section code. So this is the little point and this is the logic
+[15:49] that when one is running then we try to stop the other one, means we are trying to
+[15:55] convert concurrency into serialization in a way by using the semaphores.
+[16:00] So here now producer has already run this much, did Up(S) means when it exits, during exiting
+[16:10] will again make value of S from 0 to 1 and Up(full), it made value of full up
+[16:16] means from 2 to 3. So if you look carefully here, what is the empty value?
+[16:22] This has been executed full, consumer is also executed, if you look here,
+[16:27] what is the empty value? 5. What is the value of full here? 3.
+[16:34] So means consumer consumed one item, which item? which was at 0th location.
+[16:42] At 0th location was a, we forgot to remove a from here, so we remove a and
+[16:47] value of out is updated here at 1. So if you look carefully, what is value of empty? 5,
+[16:53] and value of full is 3, so what is my total value? 8. Means there are 8 number of slots.
+[16:58] And if you see in the diagram also, how many slots are filled? 3 slots are filled,
+[17:03] 5 slots are empty here. So this is how actually the Producer Consumer Problem works
+[17:11] and this is the solution of the Producer Consumer Problem by using the binary semaphore
+[17:17] as well as the counting semaphore. You can try to solve this using mutex method also,
+[17:22] or you can try to solve this using locking method.
+[17:25] So this is all about the solution of the Producer Consumer Problem. Thank you.

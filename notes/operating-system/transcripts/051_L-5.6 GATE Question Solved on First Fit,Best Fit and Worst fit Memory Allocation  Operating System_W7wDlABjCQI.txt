@@ -1,0 +1,123 @@
+Title: L-5.6: GATE Question Solved on First Fit,Best Fit and Worst fit Memory Allocation | Operating System
+Video URL: https://www.youtube.com/watch?v=W7wDlABjCQI
+Video ID: W7wDlABjCQI
+======================================================================
+
+[00:01] The question is asked in GATE exam. The question is on allocation algorithm that is
+[00:06] First Fit, Best Fit. The question is, requests from various processes are given as
+[00:11] 300k, 25k, 125k and 50k respectively. The above request could be satisfied with,
+[00:19] 4 options are given. Now we will examine this that how the First Fit allocates the memory
+[00:26] to the various processes and how Best Fit allocates the memory to the various processes.
+[00:31] Means we are not going in options now we are normally examining this question that
+[00:36] how will it work according to First Fit, how will it work according to Best Fit.
+[00:40] So in this question we have given this is the status of the main memory,
+[00:45] at a point of time they have given a memory status. This is representing the occupied means
+[00:52] this space is already occupied by a process. Some process has already occupied or
+[01:00] allocated to some process, this is also allocated, this is also allocated. There is a hole of 150KB
+[01:08] and there is a second hole of 350KB. As we already know, in the Dynamic partitioning
+[01:16] when we allocate the memory to the processes, we allocate at the run time. Means
+[01:22] when process says that I want this much memory, then we allocate. And there a problem occurred
+[01:28] that there are lot of holes created. So here they have already given that there is 1 hole of size 150KB,
+[01:36] another hole is of size 350KB. Now we have requests of processes, there is 1 process of size 300 Kilobytes,
+[01:45] this can also be called Kilobyte, 25 Kilobyte, 125 Kilobyte and 50 Kilobyte and these are in order.
+[01:53] So let's solve it first of all with the First Fit.
+[01:58] How will it behave according to the First Fit, what is the first process?
+[02:03] The size of the first process is 300 Kilobyte, so according to the First Fit,
+[02:09] whenever we get the first location that is big enough, that can hold the process, we will simply allocate.
+[02:17] Means when I get the first position where I can put the process, I will put the process there.
+[02:25] So what is the size of my process? 300K. So let's check 300K, can I accommodate 300K in 150 Kilobyte?
+[02:34] No, a 300KB process we cannot put in this hole. But can we put a 300KB process in this hole? Yes,
+[02:44] because the hole size is 350 Kilobyte, so no problem, so 300 Kilobyte process if I put here
+[02:52] then you can say that this,
+[02:56] let's say this is process P1, just give a name so that we can easily remember.
+[03:04] So process P1 of size 300K, I allocated it in this hole here.
+[03:14] When this process is allocated here then it occupies this memory. But the point is
+[03:21] there is Dynamic allocation here. In Dynamic allocation when we fill a hole with some process
+[03:30] then the partition remaining down here is also a hole, this is also what? A hole.
+[03:36] Means in this hole also we can put a further process also. It is not fixed, means
+[03:42] we will give one entire partition block to one process, this we generally do in fixed partitioning.
+[03:50] So whatever space we have left, that space we cannot allocate to any further process.
+[03:57] But here this is not a partition, it is a hole, if in the 350KB hole I fill 300KB then
+[04:06] how much remaining space I have? 50KB. So 50KB hole here is remaining extra. Now 25K,
+[04:18] next process is 25K, just give the name as P2. So P2 according to the First Fit,
+[04:25] where will I again start again? I'll start from the beginning where I can put the process.
+[04:30] So first slot is what? 150KB. So can I put this process in 150KB? Yes, because size of process is only 25K.
+[04:39] So easily can accommodate here, so I accommodated P2 process here. So again process P2
+[04:49] whose size was 25K, I put it here so this remaining portion is also a hole and
+[04:57] what is the size of this hole? 125K. Because what is remaining portion I have? 125K,
+[05:07] which can be again used for the processes means this hole also I can use further for some process.
+[05:14] Next process is 125K, just give a name let's say P3.
+[05:20] This P3 process, according to First Fit again we start scanning from 0,
+[05:26] when I find first location where I can put the process, I will simply put it.
+[05:31] So what is the size of the process? 125K. And here my first hole size is 125K so I can easily
+[05:40] fit P3 entirely here because size of hole is 125K, size of process is also 125K, so it can be properly fit
+[05:50] into this hole. So this hole is fully filled and P3 process is filled in this. Last process is P4.
+[05:59] And here this should be run order wise because it is respectively means you cannot pick randomly.
+[06:05] It is already given that this process comes first, then this process came, then this came, then this.
+[06:11] So last process is P4, 50K. Already this is all occupied, I have only 50K space remaining and
+[06:19] size of process is 50K. So easily this will fit here, so I will fit P4 process here.
+[06:29] So means according to the First Fit, it is working properly. Means very appropriately it works
+[06:36] according to First Fit, because all 4 processes which were requesting here, I have allocated them
+[06:42] space in main memory here. Now the same question we are checking with the Best Fit.
+[06:49] Whether according to Best Fit it is properly working or not. For that I have made this same diagram here,
+[06:55] it is the same, one hole is of 150KB other hole is of 350KB. Let's start according to Best Fit.
+[07:02] What is the first process? 300K. So Best Fit, the funda of Best Fit here is, what does Best Fit check,
+[07:11] that when we put one process in some slot, first thing is size of slot should be such that
+[07:17] we can put a process in it. Yes, but the remaining space means after putting that process,
+[07:25] in that remaining hole, the space that will remain that should be minimum, it should be least.
+[07:32] Means if we put the 300K process here, I can't put it here because the size of this hole is 150K,
+[07:40] so where can I put it? In this. So let's say that I accommodate P1 here,
+[07:47] so my P1 is easily allocated here and it comes here. Which is the second process? P2, 25K.
+[07:58] I can accommodate 25K here, but if I fill 25K here in this hole then what will be remaining portion?
+[08:07] 125K. Just zoom in. 125K, here if I fill 25K portion then remaining portion, if I fill 25K here,
+[08:21] then how much is the remaining portion I have? 125K, which is very huge amount.
+[08:27] And if I put this 25K here in this hole, then my remaining portion becomes how much? 25K.
+[08:37] Because this takes 25K and remaining 25K is empty. So means the remaining space I have here is least.
+[08:47] And this is the technique of Best Fit that when we put the process we have space in hole
+[08:54] or in partition, that should be least. So if I put here 125K will remain but if I put in this hole
+[09:01] whose size was 50K, because we have already put a 300K process in this, so 50K space that was remaining
+[09:10] in that if I put 25K then remaining portion is how much? 25K. So here space remaining is least.
+[09:17] Next P3. What is the size of P3? 125K.
+[09:26] So obviously 125K I can only accommodate here, because here only 25K is remaining.
+[09:32] So if I accommodate 125K here then name of process is P3,
+[09:41] so yes, P3 is accommodated here and what is the remaining space? 25K.
+[09:47] Here 25K space is remaining,
+[09:52] and here also 25K space is remaining with me, at this point.
+[09:59] Now what is the fourth process? 50K. Now the point is that this 50K where should I put.
+[10:06] Process size is 50K but here I have 2 slots of 25K means how much total space I have? 50K.
+[10:16] And what is the size of process? 50K. But can I put it in here? No. Because First Fit,
+[10:23] Best Fit, Worst Fit all these algorithms work under what? Contiguous memory allocation.
+[10:30] And in contiguous memory allocation we cannot span a process at 2 separate places,
+[10:37] we cannot divide and put at 2 separate places. So means even if I have space available of 50K,
+[10:45] 25 and 25 is 50K space I have available. But despite that I cannot put this process here
+[10:53] because there is a method of Contiguous memory allocation. This is also known as External Fragmentation.
+[11:00] We call this as External Fragmentation also.
+[11:06] So means even if I use First Fit, Best Fit,
+[11:09] but external fragmentation can come even now. So means according to the options,
+[11:16] Best fit is working properly but not first fit, no, Best fit is not working properly,
+[11:22] here the First fit is working. First fit is working? Yes, but not the Best fit, true.
+[11:28] Both, no, First Fit is only working, Best fit is not working so this is also false,
+[11:34] this is also false. So this is all about how we can put the processes according to the
+[11:41] Best fit and the First fit.
+[11:45] So this is all about how you have to solve the GATE question and
+[11:50] this type of questions you will get not just in GATE, but further PSUs, even in UGC NET also
+[11:55] you can get this type of questions. Let's solve same question with the Worst fit also.
+[12:00] If I want to check this with Worst fit then
+[12:04] just try to solve according to the Worst fit also, it is easy.
+[12:12] We can check this is in one minute with Worst fit also. Let's say that I'm starting from here.
+[12:21] Here I have a hole of 150K and this hole is of 350K. Here what is the process1? 300K.
+[12:29] How does Worst fit work? Exact opposite of Best fit. means we will put a process in which slot?
+[12:35] In that hole or that slot such that after putting, the remaining portion should be maximum.
+[12:41] In Best Fit it should be minimum, here it should be maximum.
+[12:44] So where can I put 300K? According to Worst fit,
+[12:51] According to Worst fit I can put 300K only here because I don't have that much space available.
+[12:59] 25K, where will I put 25K? Here if I put 25K, this portion remaining is 50K, if I put 25K here
+[13:10] then how much will be the remaining portion? 25K. But what Worst fit says is
+[13:14] the remaining portion should be maximum. So where will I put the 25K? Here.
+[13:21] So that the remaining portion is maximum. How much is it? 125K. This much portion is remaining.
+[13:28] So P3 comes 125K, I will easily allocate 125K process here in 125K.
+[13:36] After that P4 of 50K comes, I have 50K space available so I will allocate P4 here.
+[13:44] So means although it is not asked in this but if it is asked according to Worst fit,
+[13:49] then yes, Worst fit is also working properly in this question.
+[13:52] So this is all about how the allocation algorithm works.
+[13:56] So if you like the video then please like it, share it and please subscribe my channel, thank you.

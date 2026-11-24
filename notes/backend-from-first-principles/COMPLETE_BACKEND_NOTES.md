@@ -4,6 +4,7 @@
 > **Source Material:** *Backend from first principles* (31 Video Lectures / Masterclass Series)  
 > **Source Playlist ID:** `PLui3EUkuMTPgZcV0QhQrOcwMPcBCcd_Q1`  
 > **Target File:** `notes/backend-from-first-principles/COMPLETE_BACKEND_NOTES.md`  
+> **Raw Video Transcripts:** [31 Video Transcripts](transcripts/) &bull; [Combined Master Transcript](transcripts/000_ALL_TRANSCRIPTS_COMBINED.txt)  
 > **Scope:** Full-spectrum backend systems engineering—from network packets, HTTP/TLS semantics, and application architecture, to database internals, distributed caching, queues, concurrency, real-time protocols, cloud storage, security vulnerabilities, 12-Factor design, and production DevOps.
 
 ---

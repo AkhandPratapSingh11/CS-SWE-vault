@@ -1,0 +1,104 @@
+Title: L-7.5: Linked List allocation in file allocation with example | Operating system
+Video URL: https://www.youtube.com/watch?v=irGdM3iIS54
+Video ID: irGdM3iIS54
+======================================================================
+
+[00:00] - Hello friends, welcome to Gate Smashers
+[00:02] - In this video I'm going to explain linked list allocation
+[00:06] - in last video we discussed about contiguous allocation method
+[00:09] - in which we discussed about it's advantages and disadvantages
+[00:13] - in this video we'll discuss all the important points related to linked list allocation
+[00:17] - that will be beneficial for your competitive exams and even your college and university exams.
+[00:22] - So guys, like the video quickly, subscribe to the channel if you haven't done yet and please press the bell button so that you get all the latest notifications
+[00:31] - So let's start from linked list allocation. The first important point is that is comes under the non-contiguous allocation
+[00:39] - means, the first method that we discussed about contiguous allocation, in which we do contiguous allocation of all the blocks of the file
+[00:48] - means we allocated them contiguously in memory so that is resides continuously in the memory
+[00:56] - so that it resides continuously in storage but here we are talking about linked list
+[01:01] - so the first important point of non-contiguous in linked list is, let say, we have a file, file A
+[01:10] - now what we have to do, before we put this file into the storage, means before putting this file in storage
+[01:17] - what we do, we break this file into blocks. We have already discussed this. Let say, I divided it into 5 parts, i.e. block 1, block 2, block 3, block 4, block 5
+[01:30] - divided it into 5 parts. Now, when we'll bring all these 5 parts in the memory, means when we'll bring it in storage that is a secondary storage/permanent storage
+[01:40] - when we'll bring all the blocks of that file then we will allocate them non-contiguously not contiguously.
+[01:47] - that means, let say, block no.1, this is our block no.1
+[01:52] - block no.1, let say, comes on 2, on this particular location. I'm drawing it by this
+[01:59] - let say, the first block B1, I placed it here. That means, the physical memory we have, the physical location is 2.
+[02:09] - Now the next block B2. Now if it was contiguous then I would've place B2 here.
+[02:16] - B3 here. B4 here. B5 here. But,
+[02:22] - Now we're saying it non-contiguous. In non-contiguous we can place it like this also if it is empty
+[02:29] - but obviously the meaning of non-contiguous is, let say, you placed block 1 in two then you will place block 2 in seven
+[02:40] - based on the availability. It is based on availability. So we placed B2 here. Next, the block 3
+[02:47] - let say we placed block 3 in ninth. Means in this one
+[02:51] - let say, where we placed block 4, we placed block 4 let say in 11
+[03:00] - and let say we have one more block in this I've, 1,2,3,4, the 4th block we've, let say the 5th block we've, we placed this 5th block, let say, in 14 no.
+[03:14] - Getting the point. What we did, we simply divided the file. So after dividing the file, what we're doing to the blocks
+[03:21] - we are giving it non-contiguous location instead of one location/contiguous location in memory/storage
+[03:29] - Now the problem here is, you entered the data at different places in non-contiguous way
+[03:35] - when we will fetch data. When the user will demand for file A then how we will provide file A to the user
+[03:41] - the file system obviously should have some mapping that where is the next block and the next block
+[03:47] - so here if we talk about, in directory, what we did in directory, the files we had in directory, let say, file name was A, we'll enter it's start block only
+[03:57] - means, where is the 1st block. Where the 1st block is, on 2. After that how will I know where is the 2nd block, we will use pointer here
+[04:07] - like linked list. What happens in linked list, data and let say pointer, pointer points out the next block 36 00:04:13,080 --> 00:04:19,040 - then data, pointer that points the next one. So data, pointer, it point outs the next.
+[04:19] - we have to do the same thing here. So the B1 block here, this block, it has the data
+[04:25] - means that here on this particular location you'll find data, along with data, first data will be there and along with data there will be a pointer
+[04:36] - What will be the address in that, 7 will be the address in that pointer. What is the reason behind it
+[04:41] - Because the next block B2, we have placed it in 7 number
+[04:45] - Similarly if we talk about B2, means if we talk about this, so here I'll get data also and a pointer will be there that will point out 9
+[04:54] - because B3 is on 9. Similarly, here will be a data and a pointer that will point B4
+[05:00] - that means, it will point out 11th location because we've B5 in 11.
+[05:05] - Similarly, the B4 location we've, the B4 block will have data and a pointer along with that will point 14
+[05:14] - In 14 we've our final block B5
+[05:18] - Similarly in 14 we'll have data and a pointer along with data
+[05:23] - but the value in that pointer will be, as our data is over, so it is not pointing further
+[05:28] - so you will enter -1 there.-1 means it is not pointing any further, this is the last block.
+[05:36] - so it becomes like linked list. That's why the name is linked list allocation.
+[05:42] - so this is a very important point that how we store the data, how we allocate the data in particular space in the storage
+[05:51] - so this is actually the whole story of linked list. So if we talk about advantage
+[05:55] - So the first advantage is no external fragmentation.
+[05:58] - This was the disadvantage in contiguous that we suffer from external fragmentation
+[06:04] - Reason behind that is we've empty block but we cannot enter the data because it is not contiguous
+[06:11] - but here you can utilise all the blocks efficiently. Reason behind that is
+[06:17] - you can enter data anywhere, you just have to make a pointer that will point out that particular data - if you make them sit roll no. wise then obviously the problem is external fragmentation. It maybe possible 2-3 benches are left in middle
+[06:23] - means to say that, there are students in class, it is not necessary make them sit roll no. wise
+[06:37] - means 2-3 benches are left here, 2-3 benches are left in last. And if, let say, a group of student comes, a group of 6-7 students, you won't make them sit
+[06:45] - reason for that is, 3 chairs are left in front one and 3 chairs in last are left
+[06:50] - that is not a problem here. Here you'll say that, ok, 3 will sit here and 3 will sit in the last and make a pointer that will let you know first 3 are here and other 3 are there
+[07:01] - so this is how we're working in the linked list. So external fragmentation is removed
+[07:05] - Second, file size can increase. This was also the problem in contiguous
+[07:10] - that you already told that you need 5 blocks to store this file.
+[07:15] - so we allocated 5 block contiguously, now if the block size increases, if the file size increases
+[07:22] - if extra block is required, we cannot grow that
+[07:27] - the only situation in which you can give space is that if the next contiguous location is empty. Otherwise obviously chances are less.
+[07:34] - There's no problem here. File size can increase as much as it want you can put it anywhere
+[07:39] - Let say, file size is increased, just for example, let say file size is increased, and the next location you did
+[07:45] - let say, I'm making it here. Next location is let say 21.
+[07:48] - So what you have to do is that the pointer which was -1 in last block, make that 21 by removing -1.
+[07:56] - And put your last block in 21. Now this pointer will point 21.
+[08:00] - That is simple. And the one in 21, put -1 in the pointer that is in 21. The story of linked list is simple.
+[08:09] - And similarly if we talk about disadvantage. So the biggest disadvantage is larger seek time
+[08:15] - what does larger seek time means?
+[08:17] - what is seek time? Seek time is the time to reach the desired track.
+[08:20] - Obviously, this can happen that your this track, your this block is lying of track no.1, this block is lying on track no.2
+[08:28] - this block is lying on track no.5, this block is lying of another track no. - obviously you have to make more movement of read write head which was not there in the contiguous
+[08:38] - because in contiguous, once you reach the desired track then you know all the data is placed continuously
+[08:43] - so we rotate the disk once and we'll get all the data but here you have to move read write head
+[08:48] - sometimes on track no.1, sometime on track no.4, on track no.5, based on where the data is placed.
+[08:54] - Then, random access, if we talk about random access, so look, we know the first block of every file
+[09:02] - first block obviously will be known from directory. Let say, there's a file B, it is starting from 5.
+[09:07] - so I know that the file is start, means, the B file is starting from 5. The first block will be known
+[09:14] - But let say I've to access 4th block of that file. Like, this is the file, I've to access 4th block of that file.
+[09:21] - I don't have to access other blocks. So in that case, obviously, you have to go through whole file
+[09:27] - reason for that is, first you'll go to 2, 2 will bring you here, this will bring you here, this will bring you here
+[09:34] - thereafter you'll finally get the data
+[09:37] - so that's why random access or you can say direct access of a particular block is complex/difficult as compared to the contiguous
+[09:45] - In that it is only way, that you reach on the first value, index 0. Now you know where the 2nd will be, after two.
+[09:52] - where will be 10, after 10 values. where will be 11, after 11 values, so you know that there
+[09:58] - but here's not such scenario, here pointer will take you forward
+[10:02] - and the last is, overhead of pointer. What does overhead of pointer means?
+[10:06] - In last one we had, let say, if there's a block, means in the physical memory, sorry, the actual physical block we've in storage
+[10:16] - in that if we've size let say 1 kilobyte, then we are using the whole to store the data
+[10:25] - but here we are placing pointers along with data. Means we've pointers along with data everywhere
+[10:32] - so pointers will obviously some memory, pointers obviously will take over some memory that pointers will occupy
+[10:40] - so that's why you can say that overhead is of pointers in this
+[10:44] - but obviously you have to do this because linked list won't work without pointers
+[10:49] - so these are all the important points related to the linked list allocation
+[10:52] - thank you

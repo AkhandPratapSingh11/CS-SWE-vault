@@ -1,0 +1,1838 @@
+Title: 26. Testing for Backend Engineers: mocks, TDD and coverage
+Video URL: https://www.youtube.com/watch?v=HgVrfHX92y4
+Video ID: HgVrfHX92y4
+======================================================================
+
+[00:00] Over the last 20 or 25 videos, we have
+[00:03] learned a lot of concepts. And in all of
+[00:07] that, we have never written a test. That
+[00:10] was intentional. And we'll see why in
+[00:12] this video. Because writing a bad test,
+[00:16] writing a test in hurry, writing an
+[00:18] incomplete test is more harmful than not
+[00:21] having tests at all. Because they give
+[00:23] you a false sense of confidence about
+[00:26] your code, about your application.
+[00:29] And that is why I did not want to keep a
+[00:32] small part in testing for each one of
+[00:35] those videos where the concepts
+[00:37] themselves were of importance and not
+[00:39] the test. So in this video we are going
+[00:42] to cover everything there is about
+[00:44] testing and we'll justify it as much as
+[00:48] we can. So let's define what exactly do
+[00:51] we mean by a test. A test is a second
+[00:55] program that runs your program and it
+[00:59] makes claims about what all things
+[01:02] happened. And there are a lot of reasons
+[01:05] to write tests. We have this whole area
+[01:10] this whole style of development called
+[01:12] test-driven development where you write
+[01:15] the tests first and then write the code
+[01:17] so that you have your goal in mind what
+[01:21] you want to achieve with your program.
+[01:23] So there are different different
+[01:24] motivations of writing test either as a
+[01:27] guidance or documentation but primarily
+[01:31] the most useful reason the most
+[01:34] important reason for writing tests is to
+[01:37] catch regressions. What do I mean by
+[01:39] regressions? Regression basically means
+[01:41] that you wrote some code, you wrote some
+[01:45] logic in your codebase a few months back
+[01:48] and as you keep adding more and more
+[01:50] features to your codebase, you want to
+[01:53] ensure that the previous features still
+[01:56] function exactly as they used to when
+[01:59] you first time tested them manually or
+[02:01] first time use them. And every single
+[02:04] thing that we are going to cover in this
+[02:05] video, every type of test, every metric,
+[02:08] every tool that is just a variation of
+[02:12] this definition that uh we just saw and
+[02:15] testing itself is a huge field. Uh there
+[02:18] are people whose whole job is about
+[02:20] testing. There are job titles dedicated
+[02:22] to testing and different kinds of
+[02:24] testing. So to scope it a little bit of
+[02:27] what we mean in this video about what
+[02:30] kind of testing we are going to cover
+[02:33] what a backend engineer writes and runs
+[02:37] themselves which is about 80% of the
+[02:39] testing that happens in a normal team.
+[02:42] We are not going to cover the corporate
+[02:45] style manual QA process and other tools
+[02:49] that are available like test management
+[02:51] tools, mobile testing or browser
+[02:53] automation for front ends and all these
+[02:57] areas of testing. The application that
+[03:00] we are going to test in this video is
+[03:03] the same task board that we saw in the
+[03:05] last video. So let's see the code before
+[03:09] we write any tests on top of it. So this
+[03:12] is our codebase. It has around 11 Go
+[03:16] files and that is pretty much the whole
+[03:19] server. The cmd/board is the binary, the
+[03:22] executable binary and main is the only
+[03:26] place that knows how to put everything
+[03:29] together. Internal/board is the domain
+[03:33] for different different features like
+[03:35] tasks, columns etc. Internal/hub
+[03:40] this holds uh the rooms since we are
+[03:42] talking about boards and task
+[03:44] management. And every subscriber in a
+[03:47] room has its own counter. Then we have
+[03:49] internal/bus.
+[03:52] This is an interface with two methods
+[03:55] and it has two different kinds of
+[03:56] implementations. First one keeps
+[03:59] everything in process. That is the one
+[04:00] that we are going to use for testing and
+[04:03] that is one of the uh core use cases of
+[04:06] interfaces so that you can have the same
+[04:09] same API same interface but two
+[04:11] different implementations behind it. The
+[04:13] second one the real one is going to use
+[04:16] radius for our actual application. Then
+[04:18] we have internal store. This also has
+[04:21] the similar structure. We have an
+[04:22] interface with three methods and there
+[04:25] is posgress behind them. And we also
+[04:27] have internal HTTP API. This holds the
+[04:31] whole route table so that you can look
+[04:34] at one file and know what all API
+[04:36] endpoints that we are exposing all the
+[04:38] URLs. And one thing uh to notice here is
+[04:41] there are no tests in this codebase yet.
+[04:43] That's what we are going to write. And
+[04:46] for those who do not have any
+[04:48] familiarity with the Go programming
+[04:50] language, that is fine. One of the
+[04:51] claims of this playlist is you do not
+[04:54] need to know any specific programming
+[04:56] language to watch these videos. As long
+[04:59] as you are a programmer and you code in
+[05:02] any other language, that is fine. We are
+[05:05] using a particular language in this so
+[05:08] that you have a concrete understanding
+[05:09] of what exactly the code does. We will
+[05:12] of course keep most part of this video
+[05:15] as theoretical as conceptual instead of
+[05:18] focusing too much on code. But there has
+[05:21] to be a few parts which needs to show
+[05:24] some code so that you can map the same
+[05:27] understanding to a different programming
+[05:28] language instead of just having a
+[05:30] theoretical understanding because tests
+[05:33] in theory is not a lot. It's it's not
+[05:36] very complex right the code the thinking
+[05:40] tests in code that is the core part of
+[05:43] it. So let's start by understanding
+[05:46] tests. First thing that I have already
+[05:48] mentioned a test is a program. It is a
+[05:51] different program than your existing
+[05:52] application or your back end. But it is
+[05:54] a program in itself. So a test is a
+[05:59] piece or a snippet of code that calls
+[06:02] your existing code and it looks at what
+[06:06] it gives some kind of inputs which we
+[06:09] decide beforehand and it looks at the
+[06:11] output and if it does not match what we
+[06:15] were expecting then it complains it
+[06:17] throws errors it it crashes it panics
+[06:20] whatever terminology that you are
+[06:22] familiar with in a very primary sense
+[06:26] even Even if you don't have any kind of
+[06:28] testing tools, any testing libraries or
+[06:31] frameworks or the whole technicalities
+[06:34] of the whole test ecosystem in a very
+[06:38] fundamental sense if you wrote a
+[06:41] normallooking program and does not
+[06:44] matter whatever programming language
+[06:46] let's say the same programming language
+[06:48] that you uh wrote your back end in and
+[06:51] you just checked two things you called
+[06:54] some part of your actual back end
+[06:56] through a different function. Let's call
+[06:58] this function your test and you just
+[07:01] wrote an if condition that if output is
+[07:05] not equals to 20 or something then you
+[07:09] throw error or you return error or you
+[07:12] throw exception whatever you're familiar
+[07:15] with right that is a test even without
+[07:19] going into all the complexities of
+[07:20] testing ecosystem but over the time
+[07:24] people have realized that that is not
+[07:26] enough considering how complex our back
+[07:30] end has become, how complex our
+[07:32] applications has become in real world.
+[07:34] Handwriting your conditions, handwriting
+[07:37] your test runners, handwriting your
+[07:40] mocking, all these different concepts
+[07:44] every time you want to test your program
+[07:47] that is not very scalable and that is
+[07:49] the logic behind any other library. Why
+[07:51] do people write libraries in the first
+[07:53] place? so that they solve the problem
+[07:55] once and they let everyone else solve
+[07:58] their problems using the same library
+[08:00] instead of reinventing the wheel every
+[08:02] time. Okay. So what a programming
+[08:04] language gives you if you're using a
+[08:06] programming language like Go then it
+[08:08] comes with its own testing um module its
+[08:12] own testing features and every
+[08:14] programming language has uh some kind of
+[08:17] inbuilt testing mechanism but we use
+[08:20] libraries and frameworks on top of that
+[08:22] to make our experience more developer
+[08:24] friendly and more uh intuitive. So what
+[08:28] a programming language or a framework
+[08:30] gives you for testing is a test runner.
+[08:33] What is a testr runner? It is a program
+[08:35] that finds all your test files. So I am
+[08:38] talking in in the context of go
+[08:40] programming language. So in a go testr
+[08:42] runner, it finds all your test files
+[08:45] across the whole codebase and it runs
+[08:48] them and in the end it gives you a very
+[08:51] uh beautiful looking report of how many
+[08:54] tests passed and how many of them
+[08:57] failed. So this is the first test in
+[08:59] this codebase. What it does, it creates
+[09:02] a board and it moves a task from one
+[09:05] column to another and it checks that the
+[09:08] task ended up where we expected it to
+[09:12] end up or where we asked it to end up.
+[09:15] And here I have made a mistake on
+[09:18] purpose so that we can watch it fail.
+[09:21] And this is what it gives us the test
+[09:24] binary. It prints the file the line
+[09:26] number and what it wanted versus what it
+[09:29] got. Uh the task it got was in doing and
+[09:34] the test wanted it done. Now we fix the
+[09:37] expectation and let's run it again and
+[09:40] it passes instantly. Now let's look at
+[09:43] what is happening behind it. I run it
+[09:46] with dash work which tells the tool to
+[09:51] keep the folder it builds in instead of
+[09:54] deleting it after it runs and it prints
+[09:57] me the path. And if you look inside it
+[10:00] there is a file in there called
+[10:01] underscore test main.go and we did not
+[10:05] write it. the tool wrote it. And if you
+[10:08] read it, it says package main and it has
+[10:11] a list called tests with every test
+[10:14] function it found in our package. And at
+[10:17] the bottom, it has a funk main which is
+[10:20] the main executable for this testing
+[10:22] program which calls testing.main start
+[10:27] and then the os.exit for exiting the
+[10:30] program. Now we run it once more with
+[10:33] dash x and what that does is it prints
+[10:37] every command that the tool runs and it
+[10:40] reads the last few lines. So it links a
+[10:42] binary called board.est and then it runs
+[10:46] board.est.
+[10:47] So go test writes a main function,
+[10:50] compiles it into a program and executes
+[10:53] the program. So far what we learned a
+[10:56] test is a program and what is a runner?
+[10:59] a runner, no matter what programming
+[11:01] language, it writes the main function,
+[11:03] the main executable where the uh
+[11:06] execution starts for any kind of binary
+[11:09] for you instead of you having to write
+[11:11] it and then it collects all the results.
+[11:14] That's pretty much the whole idea behind
+[11:16] using all these frameworks and test
+[11:18] runners. Okay, moving on to the next
+[11:20] concept which is the part inside your
+[11:23] test that actually does the complaining.
+[11:26] That is what we call as an assertion. An
+[11:30] assertion is a check that either stops
+[11:34] or fails the whole test when the
+[11:38] condition is not true. In most languages
+[11:41] to use all these assertions, we use a
+[11:43] library and the libraries they give you
+[11:47] uh these very useful functions and
+[11:50] sentences like assert equals, assert not
+[11:53] equals, assert number and all this
+[11:55] stuff. And but in a programming language
+[11:58] like Go there is no separate assert
+[12:00] function in the standard library you
+[12:01] just write an if statement and when the
+[12:04] condition is wrong you just call t dot
+[12:07] error f and you just write the message
+[12:09] yourself and uh the language works it
+[12:12] out. One thing to remember here when you
+[12:15] are writing tests is in all your
+[12:17] assertions in a language like Go you
+[12:20] directly write the message. So it works
+[12:23] out without you thinking a lot. But in
+[12:25] other programming languages always make
+[12:27] sure that you are writing a very
+[12:29] meaningful failure message so that
+[12:32] whoever is looking at the failing test
+[12:35] they know exactly what to check what
+[12:37] exactly failed and enough information so
+[12:39] that they can debug the whole thing. I
+[12:42] have already mentioned this but
+[12:43] regression [clears throat]
+[12:44] is something that you will hear a lot
+[12:46] when we are talking about tests and
+[12:49] regression is basically a bug that you
+[12:54] had already fixed in your past but it
+[12:57] comes again it comes back that's what we
+[13:01] mean by regression so uh it it can
+[13:04] happen because somebody in your team
+[13:06] they changed a function or they changed
+[13:08] an interface or they changed a
+[13:11] particular a logical behavior and
+[13:13] something happened, right? Which is very
+[13:15] normal when you are working in a team.
+[13:18] But the best part about writing tests is
+[13:21] you catch the regressions instantly
+[13:23] because typically what we have is in our
+[13:26] CI system in our continuous integration
+[13:28] system which is what we mean when we say
+[13:32] if you're using something like GitHub
+[13:33] actions or something there usually we
+[13:37] have a CI workflow for running our
+[13:40] tests. So every time we raise a new PR
+[13:43] before that PR is merged into your main
+[13:45] branch or develop branch that whole test
+[13:49] suite runs and if any of the tests fail
+[13:52] then we know instantly that this new
+[13:55] piece of code that we are trying to
+[13:56] merge it is causing regressions. It is
+[13:59] going to cause bugs that we have already
+[14:01] fixed and because of that you can
+[14:03] instantly fix it instead of finding out
+[14:06] from your users complaining about a
+[14:08] feature failing. And that behavior is
+[14:11] the most useful thing about a test suite
+[14:13] which is you can move rapidly. You can
+[14:17] add features very quickly without
+[14:19] worrying about your existing features
+[14:21] breaking because you already have a very
+[14:24] deterministic test suite which tests
+[14:26] every single condition, every single
+[14:28] bugs that had happened in the past. So
+[14:31] you are enforcing that with the new
+[14:33] piece of code those bugs are still
+[14:36] staying fixed instead of coming back. So
+[14:39] now that we know what a single test is,
+[14:41] let's explore what are the different
+[14:43] kinds of tests that are available to us.
+[14:46] Starting with unit test. What do we call
+[14:48] as unit test? A unit test is a test of
+[14:52] one unit of your code in isolation. It
+[14:56] does not care about the surrounding code
+[14:58] where it runs. Now the question is what
+[15:01] can we consider as a unit? Is it a
+[15:05] function or is it a strct or is it just
+[15:08] a package or it is a whole service? How
+[15:11] do you know what can we consider as a
+[15:13] unit? And the answer to that is there is
+[15:16] no universal definition for that. There
+[15:18] is no universal answer. It is just
+[15:21] something that you have to learn to
+[15:23] recognize over time when you write more
+[15:25] and more tests. So if you take a
+[15:27] function that does something some kind
+[15:30] of execution and that function calls two
+[15:33] or three other things to do its job. In
+[15:37] that case you have two choices. You can
+[15:40] either while testing this main function
+[15:43] which calls other functions, you can
+[15:44] either let the function call the actual
+[15:48] other functions or you can hand in mocks
+[15:51] while running or testing this function.
+[15:54] And in both the cases, both of them can
+[15:57] be considered as unit tests. So let's
+[16:00] see what that looks like in the task
+[16:03] board that we just saw. Here there is a
+[16:05] same behavior and we are testing it in
+[16:08] four different ways. In the first one,
+[16:10] the we give the board a mock bus instead
+[16:13] of the real bus logic which is just a
+[16:16] small object which records what it was
+[16:19] asked to publish and that's it. It does
+[16:22] nothing else. It does not actually
+[16:25] perform any kind of bus logic. We'll get
+[16:27] to what are the different kinds of mocks
+[16:30] or standins that are available to us.
+[16:32] The second one here it uses the real
+[16:35] bus, the actual bus and the actual hub.
+[16:38] So when we do a move in the board, this
+[16:41] actually goes to a subscriber. Now the
+[16:43] third one, it starts an actual HTTP
+[16:45] server on an actual port and it sends a
+[16:48] real post request and it also reads the
+[16:52] actual response. Now if you look at the
+[16:54] numbers, all are 0 0. And if you look at
+[16:58] the fourth one, we are running the same
+[17:00] check but this time against a real
+[17:02] posgress database which takes 10 and a
+[17:05] half seconds. And most of it is because
+[17:07] the container the posgress container is
+[17:10] booting up. So the the thing that I want
+[17:13] to point out here is the most expensive
+[17:16] time-taking part of a test is not how
+[17:19] much of logic that you are trying to
+[17:21] cover because we just saw that one of
+[17:23] the tests went through the actual entire
+[17:26] HTTP stack and for that also we got
+[17:29] zero. But the one that actually cost us
+[17:33] some latency was the Postgress one. Why?
+[17:37] Because it left our existing process.
+[17:41] Right? That is the point to remember.
+[17:43] It's not how much you are covering in a
+[17:45] unit test or a test. It is about whether
+[17:49] you are leaving your existing process
+[17:51] and going into an external territory or
+[17:53] not. Okay. Now let's cover two more.
+[17:55] Integration test. An integration test is
+[17:59] a test that checks two or more parts
+[18:03] that are working together. And most of
+[18:06] the cases when we write an integration
+[18:09] test, the first part is of course our
+[18:11] application, our back end, our logic.
+[18:14] But the other part or parts, they are
+[18:17] usually external, which means uh
+[18:19] something that we did not write
+[18:21] something like a database. And then an
+[18:24] end to- end test that is a test that
+[18:28] goes through the whole system in the
+[18:31] same way that an actual user will go an
+[18:34] actual user of our platform all the
+[18:37] activities an actual user will do. This
+[18:39] test will have all those properties.
+[18:42] What does that mean? uh the integration
+[18:44] test and the end to end test they both
+[18:46] sound similar but the difference is an
+[18:50] end toend test will have to cover every
+[18:53] single path which means that what is the
+[18:56] first thing that a user need to do to
+[18:59] start using our platform which is
+[19:00] authentication. So the first part of
+[19:03] your end to end test will have to
+[19:05] include authentication and then it will
+[19:08] take that token that session whatever it
+[19:11] recorded for an actual user login it
+[19:13] will use the same session then to test
+[19:16] other parts let's say the user navigates
+[19:18] to the dashboard page then it calls this
+[19:20] API then it creates a task all these
+[19:22] things so it will try to map it will try
+[19:25] to follow a user through their journey
+[19:27] into the platform that is the end to end
+[19:29] test but in integration testing
+[19:31] We will be using our internal logic so
+[19:34] that we don't actually have to do a
+[19:36] login. We can just create a task with
+[19:39] because the authentication middleware is
+[19:41] something that we have enforced for our
+[19:43] users. We can of course bypass it. So
+[19:46] integration testing does not have to
+[19:48] respect every single path a user will
+[19:51] take in our platform. Now if you have
+[19:54] read anything about testing or you have
+[19:56] read any articles then you must have
+[19:58] seen this famous test pyramid where the
+[20:02] wide base that is for the unit tests
+[20:05] then comes a few integration tests and
+[20:08] then on the top a cap for the end to end
+[20:11] tests and what that picture actually
+[20:13] means is it is saying that the bottom
+[20:16] ones the base ones which has a longer
+[20:19] width they are extremely cheap and they
+[20:22] extremely fast. The ones on top, they
+[20:26] keep getting more and more expensive and
+[20:28] more and more slow. And when we say
+[20:31] expensive, it does not always have to
+[20:33] mean money or paying a bill. It can be
+[20:36] expensive in the sense of uh spending
+[20:38] your CPU resources, spending your
+[20:40] memory, spending your time. So this
+[20:43] whole pyramid thing, it is about cost.
+[20:46] The higher you go on the pyramid, the
+[20:48] more expensive and slow your tests are.
+[20:51] And the pyramid has been a very good
+[20:54] resource for a lot of years when people
+[21:00] talk about tests and how much to test
+[21:02] and which parts of test and a lot of
+[21:04] arguments around testing itself. There
+[21:06] are a lot of resources you'll find on
+[21:07] the pyramid concept. But instead of
+[21:10] going the theoretical way of thinking
+[21:13] about test, I want to discuss a more
+[21:15] practical way something that I use. So
+[21:18] instead of asking how much of the system
+[21:20] a particular test covers, you should ask
+[21:23] how much a test is allowed to touch in
+[21:26] your system. Okay? And I'll I'll explain
+[21:29] what that means. A small test, it runs
+[21:33] in one process. It does not touch your
+[21:35] network. It does not touch your
+[21:36] database. And you do not have to do any
+[21:39] artificial sleeping. And it also does
+[21:41] not touch your file system. a medium
+[21:44] level test that may talk to a few things
+[21:48] that is on the same machine. A database
+[21:50] that is running in your local container
+[21:52] or a radius instance that is in another
+[21:55] container in your local only. Similarly,
+[21:58] everything is in the same machine but it
+[22:01] still cannot reach the internet. It does
+[22:03] not go outside the machine. But a large
+[22:06] test, the final upper level test that
+[22:09] can do anything. Okay, that's that's a
+[22:12] better mental model to think about tests
+[22:15] in my opinion. And the reason is nobody
+[22:19] can claim nobody can check whether a
+[22:22] test is actually a unit test or not.
+[22:24] Why? Because there is no universal
+[22:26] definition of a unit test and nobody
+[22:28] agrees with anyone when it comes to
+[22:31] discussions about testing. Everyone has
+[22:34] their own opinions of what exactly is a
+[22:36] unit test. But the machine the the
+[22:40] machine where you are doing the
+[22:41] development and testing itself that can
+[22:44] check whether your test actually opened
+[22:46] a socket or not. Because of that it
+[22:49] becomes a rule which you can enforce
+[22:51] instead of a vague argument or a vague
+[22:53] opinion. There is a famous highly
+[22:56] discussed term that we use whenever we
+[22:59] are talking about testing is a flaky
+[23:01] test. What a flaky test means is
+[23:04] sometimes the test passes, sometimes the
+[23:08] test fails. It is not deterministic and
+[23:11] it depends on the environment that it is
+[23:13] running. But if you think about tests in
+[23:16] this model, in the model where we are
+[23:18] thinking inside the machine, inside the
+[23:20] process or outside the machine, then the
+[23:23] whole flakiness of any test that can
+[23:26] completely eliminate it. Why? Because if
+[23:29] it is inside the machine then we can
+[23:31] push the determinism of the test to its
+[23:35] peak because it does not talk to the
+[23:39] internet itself. That's where most of
+[23:41] the flakiness lies because there are
+[23:44] external services that servers have
+[23:46] their own clocks and all these
+[23:48] complexities. So the first three unit
+[23:51] test, integration test and end to- end
+[23:53] test they answer the question that how
+[23:56] much of the system does this test
+[23:58] actually touch. So this whole thing is
+[24:01] about scope. Then we have different
+[24:03] varieties of them to answer different
+[24:05] different other questions. For example,
+[24:08] we have regression testing. Those are
+[24:10] the tests that we use to catch the bugs
+[24:14] to catch the errors that have already
+[24:17] happened and we don't want them to
+[24:19] happen again. Okay, they are
+[24:22] specifically for catching a particular
+[24:25] list of bugs. Then functional testing
+[24:28] that is what uh I mentioned in the first
+[24:30] of the video when I say test-driven
+[24:32] development where you write the
+[24:35] specification of the application
+[24:36] specification of your feature first and
+[24:39] based on that specification which is the
+[24:41] test itself then you write your
+[24:43] application or your pro your program and
+[24:46] because of that after you're done with
+[24:48] your application or your feature or your
+[24:50] logic you already have a readym made uh
+[24:53] test or readymade verification layer
+[24:56] which will tell you whether you are done
+[24:57] or not. Okay, that's what we mean by
+[24:59] functional testing. Then we have
+[25:01] performance testing which mostly tests
+[25:04] how fast your program is and not just
+[25:07] the speed, it also tests how much memory
+[25:09] that you are consuming, how much CPU
+[25:11] that you are consuming and all those uh
+[25:14] separate things which is concerned about
+[25:17] performance. Then there is security
+[25:20] testing which is to expose whether your
+[25:23] program tries to bypass any security
+[25:26] layer like any secure container layer or
+[25:29] your file systems or uh the cookies or
+[25:32] something which is related to privacy or
+[25:35] security. That's what you are trying to
+[25:37] find with security testing whether your
+[25:39] program is secure or not. Whether it
+[25:41] respects privacy or not. Okay. So those
+[25:45] are a variation of different tests for
+[25:48] different different scenarios but they
+[25:50] are not a different kind of test than a
+[25:55] unit or integration or end to end test.
+[25:56] They are just different variations. So
+[25:59] technically a regression test can be a
+[26:01] unit test and similarly uh a security
+[26:05] test which checks whether you are
+[26:07] breaching any kind of privacy or not
+[26:09] that can be an end toend test also.
+[26:12] Similarly uh functional testing and
+[26:14] integration testing they sound or seem
+[26:17] similar because functional testing is
+[26:20] just a variation of integration testing.
+[26:22] So all these different kinds of testing
+[26:24] that we uh have a list for they are just
+[26:27] all variations of these three different
+[26:30] kinds of test unit integration and end
+[26:32] to end which we have already scoped to
+[26:35] our mental model which is about the
+[26:37] scope either it is in process or in
+[26:40] machine or it touches internet or not
+[26:43] okay that's pretty much all the
+[26:45] terminologies that you need to know to
+[26:48] move ahead okay I just wanted to cover
+[26:51] these terminologies ies because this is
+[26:53] what most people still use in the
+[26:55] industry and you need to know what those
+[26:58] things mean but personally I don't
+[27:01] really think in terms of unit
+[27:03] integration or end to end in my mental
+[27:05] model it is only about the things that
+[27:08] the tests are touching the things that
+[27:11] they are uh interacting with okay the
+[27:13] mental model is the scope okay and that
+[27:16] is how we are going to uh approach
+[27:19] everything for the rest of the you. Now,
+[27:22] we'll see why most people don't write
+[27:25] tests in the first place. Look at the
+[27:27] task board. When somebody moves a task,
+[27:30] the handler asks the board to apply that
+[27:34] change and then it publishes an event on
+[27:37] the event bus. So, every other connected
+[27:40] browser finds out about that particular
+[27:43] task moving. We covered this in the uh
+[27:46] previous video in the realtime systems
+[27:47] how events propagate from the client to
+[27:50] the server through the event bus to all
+[27:52] the other clients. So in a real back end
+[27:56] that particular handler it also has to
+[27:59] write to the database posgress and then
+[28:02] it might also have to call a payment
+[28:06] provider um to check their credits or
+[28:09] something like that and then it might
+[28:11] also have to send an email which is
+[28:13] again an external service. So now the
+[28:16] question is how do you test a
+[28:18] functionality of a particular workflow
+[28:21] when you have to interact with your
+[28:24] database interact with your payment
+[28:25] provider and uh send a actual email to
+[28:29] your users and all these external things
+[28:32] that you need to do all these external
+[28:35] connections that you have to establish.
+[28:37] How do you test that? And the answer to
+[28:40] that is you give that particular
+[28:43] function something which looks and acts
+[28:48] like the external service would. And
+[28:51] that mock that standin that is what we
+[28:55] call as a test double. And the name test
+[28:58] double it comes from movies and films
+[29:02] because they use stunt doubles in
+[29:04] movies. So that the the stunt man the
+[29:07] stun double they can perform risky
+[29:10] action stunts in place of the actual
+[29:13] actor but when we watch the movie for us
+[29:16] it looks like the actor is performing
+[29:18] the stunts. Now the test double is a is
+[29:21] a name of the category. There are five
+[29:24] different types here for the test double
+[29:27] and they do different kinds of things.
+[29:30] Five different things and pretty much
+[29:32] all of us call all those five different
+[29:35] things a mock because that's the most
+[29:37] intuitive word for everything related to
+[29:41] testables. The first one is called a
+[29:44] dummy. What is a dummy? A dummy is a
+[29:47] value that you pass into a function
+[29:51] because the function's signature asks
+[29:53] for it but it is never actually used.
+[29:57] For example, let's say your your
+[30:00] constructor for your service in your
+[30:01] back end. It needs a logger which comes
+[30:05] from your main file from your main
+[30:07] function or somewhere. But in this case
+[30:10] while testing you do not really need
+[30:12] logging. We do not really care about
+[30:14] logging. So what you do you just hand a
+[30:18] dummy function or a function which does
+[30:20] nothing just returns or prints or
+[30:22] something that like that it does not
+[30:24] really have all the logging related
+[30:26] features and you just pass it in the
+[30:28] constructor and you say that okay this
+[30:30] is your logger now let's move on to the
+[30:32] next thing that is what we mean as a
+[30:34] dummy the second one is called a stub
+[30:37] what does a stub do basically gives you
+[30:40] the same response does not matter how
+[30:42] many times you ask and what you task.
+[30:44] For example, let's say you asked for
+[30:46] user ID 7 and it gives you back an
+[30:49] object which has the users details which
+[30:52] resembles whatever uh your database has
+[30:55] stored similar kinds of fields, right?
+[30:58] And we use stubs so that if we have a
+[31:01] dependency then it passes instead of
+[31:03] blocking on getting an actual user.
+[31:06] Okay, the stub basically means getting a
+[31:09] pre-written answer every time. does not
+[31:12] matter how many times you ask and what
+[31:13] we ask. The third is called a spy which
+[31:17] is the same as a stub. It also answers
+[31:20] the same thing every time. But on top of
+[31:23] that, it also records what all changes
+[31:25] that you made to it. So let's say you
+[31:28] ask for user ID 7, it gives you user ID
+[31:30] 7. But if you say change the user's name
+[31:34] from X to Y, then it will also record
+[31:37] that you tried to change the name from X
+[31:39] to Y. Fourth is called a mock. A mock
+[31:42] usually has some conditions pre-written
+[31:45] for it. It has a few expectations set
+[31:49] beforehand. For example, if you have
+[31:52] already configured beforehand for the
+[31:54] mock that a particular save it should be
+[31:57] called exactly once with this argument
+[32:01] and during the testing if that does not
+[32:04] happen then it complains or it fails or
+[32:07] it errors. That's what we mean by mock.
+[32:09] And the fifth one is a fake. A fake is
+[32:13] um basically an implementation which is
+[32:17] not suited for production. It only
+[32:19] exists for testing and it it matches the
+[32:24] behavior. It matches the inputs and
+[32:26] outputs of the actual thing the actual
+[32:29] implementation. For example, let's say
+[32:31] you are trying to test your service and
+[32:35] in particular a method in the service
+[32:39] which creates a user. So in that place
+[32:43] if you're testing something which
+[32:44] depends on this service method what you
+[32:46] do you pass a fake for that service
+[32:48] method which instead of saving the user
+[32:51] in your actual postgrid database what it
+[32:53] will do it will create a map or a set or
+[32:57] whatever data storage in memory in the
+[33:00] program and it will save the user there.
+[33:03] So from the perspective of the function
+[33:05] that is actually calling the fake the
+[33:07] user still got saved it can still ask
+[33:11] for the user back but that is not the
+[33:13] actual database it was something else a
+[33:15] test implementation a dummy
+[33:17] implementation. So let's take one test
+[33:20] of the move handler and there are two
+[33:23] ways to write the check at the end. The
+[33:25] first way is to ask the board what state
+[33:28] it is right now which is like asking is
+[33:31] the task already in the done column or
+[33:36] did the sequence number go up by one. So
+[33:39] that is called state verification. The
+[33:42] second way to do the check is ask the
+[33:44] double what exactly did it see? Was the
+[33:48] publish function called once with an
+[33:50] event whose type is task. That is called
+[33:54] interaction verification and also
+[33:57] sometimes called as behavior
+[33:58] verification. Now here now if the code
+[34:01] changes but the behavior does not. For
+[34:04] example, if somebody decides that the
+[34:06] handler should publish one combined
+[34:08] event instead of two from the outside
+[34:11] nothing really changed. Every browser
+[34:14] still sees the same board. If we look at
+[34:16] the state verification that does not
+[34:18] really notice this change because the
+[34:21] state the end state is still the same
+[34:23] but here the interaction test the
+[34:25] behavior verification that fails you.
+[34:28] Why? Because the number of calls changed
+[34:31] instead of two events instead of two
+[34:34] event publish now it is one and then and
+[34:38] that is why it starts failing. And this
+[34:41] kind of thing has and this also has a
+[34:43] name which is called as change detector
+[34:46] test. So instead of testing the final
+[34:49] state or the result it checks the actual
+[34:52] behavior of the program the step-by-step
+[34:55] behavior not the end state of what it
+[34:57] achieved and Google has a very
+[35:01] interesting write up on this which you
+[35:03] can take a look. So this is the thumb
+[35:06] rule for this section. only assert only
+[35:09] check what the system is right now not
+[35:13] how it went there or how it was achieved
+[35:17] only do interaction verification or
+[35:19] change detection when that is absolutely
+[35:21] necessary which most of the times it is
+[35:23] not some of the use cases that you can
+[35:27] um have for an actual use for
+[35:30] interaction testing is let's say you are
+[35:31] sending emails to your users and you
+[35:34] want to make sure that the email went
+[35:36] exactly once
+[35:37] So there interaction testing can be very
+[35:40] useful but in most cases you should
+[35:43] depend on the state instead of the
+[35:45] behavior or interaction. That is one
+[35:47] mistake. The second mistake is let's say
+[35:50] your service calls a payment provider
+[35:52] and for obvious reasons you do not want
+[35:55] to charge a real card when you're trying
+[35:58] to test multiple times in a day. So what
+[36:00] you do you write a mock for their client
+[36:04] and you write it in a way that when
+[36:07] charge method is called with these
+[36:09] arguments it returns a success object
+[36:12] with these fields something like data
+[36:14] success message new balance. After that
+[36:17] your test passes and you deploy but the
+[36:21] whole thing fails in your production.
+[36:23] Why? Because everything that came out of
+[36:26] the test was what you already wrote,
+[36:29] what you had already configured.
+[36:31] Everything the the structure of the
+[36:33] success object, the field names, what
+[36:36] happens on a duplicate charge, which
+[36:39] errors they return and in which format,
+[36:42] all of them were configured by you. So
+[36:45] the rule to prevent that kind of mistake
+[36:47] is do not mock what you do not own. So
+[36:51] what you should do instead two things.
+[36:54] First you wrap the whole third party in
+[36:57] a small interface in a small wrapper
+[37:00] function or wrapper structure whatever
+[37:02] it is in your programming language which
+[37:04] has your own applications structures
+[37:07] your own success objects failure object
+[37:10] error messages everything of your own.
+[37:12] And then you use that wrapper in your
+[37:15] main workflow in your production and
+[37:17] also during testing. And now that you
+[37:20] own the interface, you are allowed to
+[37:22] test it. That is the first thing you
+[37:24] should do. Second thing is since you
+[37:26] cannot really uh test the whole charging
+[37:30] workflow which you can test once
+[37:32] manually but after that testing it every
+[37:35] time is not feasible. So what you do
+[37:37] most of these payment providers they
+[37:39] have their sandbox APIs right. So you
+[37:43] write a few small tests and what are
+[37:46] those tests for? They are to test your
+[37:49] interface whether the request structure,
+[37:52] the response structure, the success
+[37:54] structure, the failure structure,
+[37:56] everything that you're taking that
+[37:58] you're wrapping with your own interface
+[38:00] that matches with the actual product or
+[38:03] not, the actual platform or not. And
+[38:05] those tests can be very fast. They do
+[38:08] not uh deal with any kind of payment
+[38:10] data or anything. So that is something
+[38:13] that is more practical and feasible.
+[38:15] Okay. Now let's look at the handler. The
+[38:18] reason it was hard to test in the first
+[38:19] place was that it reached out and it
+[38:23] made its own dependencies out of thin
+[38:25] air. It created the database client
+[38:28] itself. It created the redisk client
+[38:31] itself, established the connection
+[38:32] itself. So when a function creates its
+[38:36] own dependencies, it creates the thing
+[38:39] that it depends on. As a result, you
+[38:41] cannot really replace those external
+[38:44] dependencies from outside from your
+[38:45] calling function. So what you can do
+[38:48] instead of the function itself creating
+[38:52] the dependencies you pass those
+[38:54] dependencies and how do you pass it
+[38:55] through parameters through arguments and
+[38:58] that workflow that technique is what we
+[39:01] call as dependency injection.
+[39:04] And there are a lot of frameworks
+[39:07] surrounding dependency injection. But
+[39:09] pretty much all of them do the same
+[39:11] thing. But as your program grows, as
+[39:14] your back end grows, becomes more and
+[39:16] more complex, you might need all these
+[39:18] frameworks to to make the dependency
+[39:21] injection workflow more developer
+[39:23] friendly. So this is the mental model
+[39:26] that you should have. Always push all
+[39:29] your decisions and your calculations,
+[39:32] your business logic, all the core part
+[39:34] of it into different different
+[39:36] functions. All of them should be pure.
+[39:39] Pure in the sense they should take
+[39:41] values and they should return values.
+[39:44] Then keep all the talking to the outside
+[39:47] world to the external internet, external
+[39:50] APIs and providers, databases, all these
+[39:53] things into a very thin layer around
+[39:56] them. The middle part is what we call as
+[39:58] a functional core. And the layer around
+[40:01] it is called a shell, the imperative
+[40:04] shell. And once you structure it like
+[40:07] this, the core part, the functional code
+[40:09] in the middle, that is very easy to
+[40:12] test. Why? Because it has nothing to
+[40:14] mock. Everything is owned by us. So we
+[40:18] can test every part of it. And the thin
+[40:21] layer around it that is hard to test.
+[40:24] But now since it is a very thin logic
+[40:27] layer, there is very little to test in
+[40:31] the first place. So in this structure it
+[40:33] becomes very easy or you are more likely
+[40:36] to write tests if you structure your
+[40:39] program your applications this way.
+[40:41] Okay. Now that we have learned we can
+[40:43] replace actual external dependencies
+[40:46] with our own. We need to decide. We need
+[40:48] to uh learn when and what can we
+[40:53] actually replace with our own fakes with
+[40:56] our own implementations instead of using
+[40:58] the real one and when the replacing
+[41:01] decision is right and when it is wrong.
+[41:04] The first one, the most common one is
+[41:06] database. And the instinct most people
+[41:10] have here is since the database is slow,
+[41:13] what we will do, we will wrap the
+[41:16] Postgress layer, the database layer with
+[41:18] something that executes all the
+[41:21] operations inside memory using strrus,
+[41:23] using maps or whatever data structure.
+[41:26] And our tests will not have any external
+[41:29] dependencies nor have any external
+[41:32] latency because of the database layer
+[41:34] and all of them can be executed in a few
+[41:37] seconds. So in programming language like
+[41:40] NodeJS people often do in-memory
+[41:44] replacements for this. In Go people
+[41:46] write some fake repository layers for
+[41:49] this. If you do Java or something then
+[41:53] you have H2. But there is a problem in
+[41:56] that because when you replace that
+[41:59] database with something fake, something
+[42:02] in memory, what you gain in return is
+[42:04] speed, maintainability and utilization.
+[42:08] But what are the trade-offs? What you
+[42:10] give up in return is fidelity. Because
+[42:13] let's think about it, what kind of bugs,
+[42:16] what kind of issues that actually live
+[42:18] in our data layer? things like a wrong
+[42:22] column name or a missing index that
+[42:25] makes the query slow or a unique
+[42:28] constraint that we forgot to check for
+[42:32] or we forgot to add. A transaction that
+[42:35] does not really do what it is expected
+[42:37] to do. Something like a JSON operator
+[42:40] that exists in Postgress but it does not
+[42:43] exist in our fake implementation or the
+[42:46] vice versa situation. And in every
+[42:49] single one of those scenarios, the
+[42:51] issues, the bugs actually live in the
+[42:54] Postgress layer, in the database layer.
+[42:55] They do not live in your logic. And that
+[42:59] is the exact layer that you replaced
+[43:00] with your in-memory replacement. So what
+[43:03] is the solution to this? The answer is
+[43:06] to use a real database for your tests
+[43:09] and you make it cheap. you make it very
+[43:13] developer friendly so that you don't
+[43:15] have to reach out for in-memory
+[43:17] replacements and there are two
+[43:19] techniques to do that. First one is a
+[43:23] transaction per test. So what you do is
+[43:26] at the start of the test you open a
+[43:28] transaction you run everything inside it
+[43:31] and at the end you roll back instead of
+[43:34] doing the committing and now the
+[43:36] database is completely untouched and
+[43:39] when you start the next test it starts
+[43:42] as a clean slate. You never have to
+[43:44] worry about corrupting the data and this
+[43:46] is also very fast. But the only
+[43:49] requirement for this is the code that
+[43:51] you are running instead of taking a
+[43:54] database handle it should be able to
+[43:56] take a transaction handle otherwise this
+[43:58] is not going to work. But this is
+[44:00] something that we already discussed that
+[44:02] in the dependency injection layer that
+[44:04] your functions should be able to take
+[44:07] the dependencies instead of creating
+[44:09] them. Now the second one the second way
+[44:12] of testing with real database is using a
+[44:15] template database. If you are using
+[44:17] something like posgress it lets you
+[44:20] create a database as a copy of your
+[44:23] existing database. So you run all your
+[44:26] migrations on the template and every
+[44:29] test creates its own database from the
+[44:32] template in a few milliseconds which is
+[44:34] extremely fast. you will not really see
+[44:36] the latency and because of this the
+[44:39] tests can also run in parallel because
+[44:41] they each have their own database and to
+[44:45] actually use a real posgress instance
+[44:48] for your test there is a famous library
+[44:51] called test containers and it has the
+[44:54] language SDKs in pretty much all the
+[44:56] programming languages which makes it
+[44:58] extremely easy to do all these
+[45:00] operations using posgress database or
+[45:03] any other database they have different
+[45:04] different database port also. What it
+[45:06] does is it starts a real container from
+[45:09] uh your test code and it gives you back
+[45:12] the address the address of the container
+[45:14] where you can reach the actual database.
+[45:17] Let's see the demo of how what it
+[45:19] actually looks like. If you see the top
+[45:21] of that output test containers, it
+[45:24] starts a actual Postgress 18 version
+[45:27] instance and then it waits until it
+[45:31] accepts a connection. And if you look at
+[45:34] the two timestamps, the container starts
+[45:37] at 58 seconds past the minute and it is
+[45:40] ready at 5 seconds past the next one. So
+[45:43] in total that is 7 seconds and it
+[45:46] happens once for the whole package not
+[45:49] once per test. Now if you watch the nine
+[45:53] tests under it, each one makes its own
+[45:56] database by copying the template and
+[45:59] then it runs extremely fast almost a few
+[46:03] milliseconds.
+[46:05] So the whole package the total time to
+[46:08] test the whole package the container
+[46:10] latency and all of it is just 10 and a
+[46:12] half seconds out of which setting up the
+[46:15] real database that costs you around 7
+[46:17] seconds for the whole setup and then for
+[46:20] the next 3 seconds it runs all the tests
+[46:23] which executes the actual testing logic.
+[46:25] Okay, that is all about database. Now
+[46:28] let's talk about network which is when
+[46:31] your application or your code it calls
+[46:34] someone else's API it calls some
+[46:36] external API and as we learned uh in the
+[46:39] past section for this scenario always
+[46:42] wrap the external service or the
+[46:45] external layer with your own interface
+[46:48] your own API your own wrapper and then
+[46:52] in your test layer you try to mock that
+[46:54] or fake that but there is a second
+[46:56] technique here which is useful when you
+[46:59] actually want to test the HTTP call. You
+[47:03] want to test your own client code. You
+[47:06] also want to interact with your headers,
+[47:09] right? You want to set them. You want to
+[47:10] delete them. All those operations, you
+[47:12] want to be the one who calls the server
+[47:15] through the HTTP instead of just calling
+[47:17] the functions from inside. If you are
+[47:20] using Go, it gives you this library
+[47:22] called REST. But other languages in
+[47:24] NodeJS, Python, they also have their own
+[47:27] uh very famous maintained libraries for
+[47:29] doing the same thing. What it does, it
+[47:31] starts a actual HTTP server on an actual
+[47:34] port in your test and then you point
+[47:38] your client towards that. So when the
+[47:41] request happens, it actually goes
+[47:42] through TCP protocol like it does in
+[47:45] production. If you're using NodeJS,
+[47:48] there is a famous library called MSW. it
+[47:51] intercepts at the network layer instead
+[47:53] of you having to replace your client.
+[47:56] And with this setup, you can test your
+[47:58] own handlers from the other side. Now
+[48:01] the third thing which is time and this
+[48:05] one causes a lot of issues because let's
+[48:07] see a scenario. You call some function
+[48:10] and something happens in the background
+[48:13] and the test needs to wait for it
+[48:16] because it is async. So in that scenario
+[48:19] what we do we write some kind of sleep
+[48:20] function which is available in every
+[48:22] programming language and we sleep for
+[48:26] let's say 100 milliseconds and then we
+[48:28] try to check the result instead of
+[48:30] checking instantly. So sometimes it
+[48:32] passes on our laptops in our local
+[48:35] development environments and it also
+[48:38] passes during any kind of review then
+[48:41] when you push it to our CI continuous
+[48:43] integration environment through GitHub
+[48:46] action or something there it fails. Why?
+[48:50] because the thing that you're trying to
+[48:53] um fake which is waiting a few seconds
+[48:56] so that the background process can
+[48:59] finish in that machine since there is a
+[49:02] lot of load and the machine was busy
+[49:05] instead of taking 100 milliseconds it
+[49:07] took 110 milliseconds. So here the issue
+[49:10] was not because you were wrong in your
+[49:14] logic. The problem is about the clock is
+[49:17] about the time. And of course the
+[49:20] obvious fix and a naive fix is just
+[49:23] increasing the time. But that does not
+[49:26] really fix it permanently. If the server
+[49:29] is busier in some other day then you'll
+[49:32] again have to increase the time and then
+[49:34] your tests are again slower. So that is
+[49:36] not the right fix. There are two
+[49:39] different solutions for this. The first
+[49:41] one is to stop waiting for a duration
+[49:45] and instead wait for a condition which
+[49:48] means instead of waiting a abstract
+[49:51] amount of time you wait for some kind of
+[49:53] signal. So if you're using go you wait
+[49:57] for an event that comes from a channel.
+[50:00] If you are using NodeJS then you wait
+[50:02] for a particular call back. So now you
+[50:06] are not trying to guess the time but you
+[50:09] are waiting for the actual completion
+[50:10] event. And the second solution is you
+[50:13] pass the clock itself. A lot of
+[50:15] languages, a lot of libraries offer this
+[50:18] uh feature where you can pass an
+[50:20] instance of a clock which means instead
+[50:22] of checking actual time, it will depend
+[50:25] on the past implementation of the clock
+[50:28] of the time to check its logic and then
+[50:31] you have complete control over the times
+[50:33] and the timeouts. One last concept
+[50:36] before we move on to the next thing is
+[50:38] this whole idea that we discussed where
+[50:41] a test which brings its own surrounding
+[50:44] its own environment with it and that
+[50:48] does not depend on a database that
+[50:50] somebody set up by hand or a service
+[50:54] that has to be running. This environment
+[50:57] this kind of testing is called as
+[50:59] hermitic testing. Hermitic basically
+[51:02] means sealed, freeze, sealed or frozen.
+[51:06] Everything that a test needs, it starts
+[51:09] and once it is done, it stops everything
+[51:12] that it has started. And you need that
+[51:15] property if you want to run your tests
+[51:18] in any machine, whether it is your local
+[51:20] or an SSH server or your GitHub actions
+[51:24] environment anywhere. And this library
+[51:28] that we saw test containers it is a way
+[51:31] of being hermetic about a database and
+[51:34] the injected clock technique that we saw
+[51:37] that is being hermetic about time. So
+[51:40] that is another technical terminology
+[51:42] that you'll hear when talking about
+[51:44] testing. Okay. Now that we can write a
+[51:47] test that survives any kind of
+[51:50] refactoring that your team might do.
+[51:52] Let's talk about a practice which is I
+[51:56] have already mentioned called testdriven
+[51:58] development also known as TDD which is a
+[52:03] practice of writing the test writing the
+[52:06] specification before the code itself. It
+[52:10] is a way of working it is a workflow
+[52:12] instead of a kind of test because it
+[52:16] does not really do any special kind of
+[52:19] its own tests. It still has the typical
+[52:22] unit test, integration test and E2E
+[52:24] tests. It's just the workflow. It's just
+[52:26] the way of working. The only difference
+[52:28] is when you are writing them typically
+[52:31] instead of writing after our programming
+[52:34] logic, after our application or back end
+[52:36] logic, you write them beforehand. So the
+[52:39] whole loop of test event development has
+[52:43] three stages or three colors. Red is you
+[52:47] write a test for something that does not
+[52:50] exist yet and you run it and it should
+[52:54] fail. Okay, that is the first step. Then
+[52:56] is green. You write the smallest amount
+[53:00] of code that makes it pass. And here you
+[53:03] are expected or you are allowed to write
+[53:06] bad code or a code that does not adhere
+[53:10] to every single best practice. But the
+[53:12] only purpose is it should pass the test.
+[53:15] And then in the last stage is refactor.
+[53:19] Now that the test is passing, the test
+[53:21] is green. You do a little bit of clean
+[53:23] up, a little bit of restructuring. And
+[53:26] after that you run the test again. If it
+[53:28] is still passing, then you have your
+[53:31] clean code with the functionality
+[53:34] already tested. So here the first step
+[53:37] this phase is for the design because if
+[53:41] you are writing the test beforehand
+[53:43] before you write your application logic
+[53:45] it forces you to imagine your function
+[53:48] to use your function before it exists.
+[53:51] So the way you would imagine it as its
+[53:54] API how you are going to use it not how
+[53:57] it is going to work and doing that you
+[54:00] will find out what it should look like
+[54:03] from the outside from the calling
+[54:05] function instead of what it should look
+[54:07] like from implementation side and while
+[54:11] doing so you will realize it quickly if
+[54:15] the test is becoming hard to write or if
+[54:18] the test seems ugly or awkward awkward
+[54:21] then you will realize that the interface
+[54:24] the API that you're imagining your
+[54:25] function will have there is a problem
+[54:28] with it there is an issue with it so you
+[54:30] find out instantly in a few seconds or a
+[54:32] few minutes instead of realizing in the
+[54:35] end and then you have to restructure the
+[54:37] whole function expose new parameters and
+[54:39] all so that is one advantage of writing
+[54:42] the test beforehand which you do in the
+[54:44] first step in the first stage of
+[54:45] testdriven development then the second
+[54:48] step which is for the proof
+[54:50] Because if you imagine it the other way
+[54:52] around, let's say you write some code
+[54:55] and then as per the code's workings, you
+[54:57] write a test and since you wrote the
+[54:59] code yourself, you already know the
+[55:01] logic and the thing that you're testing,
+[55:04] the logic that you're testing is most
+[55:06] probably going to pass on your first
+[55:08] attempt. Why? You're the one who wrote
+[55:11] the application. You do not really learn
+[55:13] anything. There is no way to find out
+[55:15] whether the test actually passed because
+[55:19] the code is right or it passed because
+[55:21] it does not really check what it is
+[55:24] supposed to check. So first making it
+[55:27] red and then turning it green has a
+[55:30] learning experience which comes with
+[55:33] testdriven development which does not
+[55:35] come when you write the application code
+[55:37] first. Kent Beck, he has a whole list of
+[55:41] these properties that he expects from a
+[55:44] test and this is one of them. The third
+[55:46] step that is something that most people
+[55:50] skip in testdriven development which is
+[55:53] once your test is green you are expected
+[55:55] to and you must come back to the code
+[55:58] and you have to refactor it because the
+[56:01] reason you are allowed to write bad code
+[56:03] or not care about best practices in
+[56:05] second step so that you can come back to
+[56:08] it in step three you cannot skip this
+[56:11] part. Okay. Now let's see what actually
+[56:14] testdriven development looks like. We
+[56:16] have a requirement which is a task
+[56:19] cannot go straight from to-do to done.
+[56:23] It has to go through doing first or in
+[56:26] progress first. Otherwise there is no
+[56:28] point in keeping this whole status of
+[56:30] doing. And we have no code to enforce
+[56:34] this yet. Okay. So let's first start
+[56:36] with the test. Take a task that is
+[56:39] sitting or that is in to-do. We move it
+[56:42] to done and then we expect an error. We
+[56:45] run it and it fails. Why does it fail?
+[56:48] Because it was expecting an error but
+[56:50] instead it got nil. Why? Because the
+[56:53] move was successful. We have not really
+[56:55] added that condition yet. That is our
+[56:58] phase one which is red. Now let's do the
+[57:01] second phase which is the smallest
+[57:04] amount of change that makes the test
+[57:06] pass. For that we add one if statement
+[57:09] inside the move and then we run it
+[57:11] again. This time it is green. Okay, step
+[57:14] one and step two is done. Now comes step
+[57:16] three because the if statement that is a
+[57:19] business rule and it is sitting in the
+[57:22] middle of a method that also locks a
+[57:25] mutx. It increases a sequence number and
+[57:27] it also trims a history buffer. So what
+[57:30] we do? We take it out into a function
+[57:33] called can move. And that function takes
+[57:36] a column that it is currently in and the
+[57:39] column it is going to. Nothing else.
+[57:42] That's it. And then we run the whole
+[57:44] package again and it is still green. We
+[57:47] changed the code. We changed we improved
+[57:50] the code by refactoring it after step
+[57:52] two. And the test is still passing. That
+[57:55] is what completes the whole test-driven
+[57:56] development loop. There is a lot of
+[57:58] discourse. There's a lot of argument in
+[58:00] the ecosystem regarding test-driven
+[58:03] development. In 2023, the author of
+[58:06] testdriven development, Kent Beck, he
+[58:10] wrote this short article about what the
+[58:13] loop actually means because of all these
+[58:15] arguments. One more resource which
+[58:18] changes how you think about um
+[58:21] test-driven development is this talk by
+[58:23] Ian Cooper which is called TDD. Where
+[58:26] did it all go wrong? And his argument
+[58:29] here is that people took the word unit
+[58:33] which you already mentioned unit test to
+[58:36] mean a class and because of that they
+[58:40] wrote one test class per production
+[58:42] class and they mocked every other thing
+[58:45] every other external integration and
+[58:48] because of that every single refactor
+[58:50] used to break hundreds of tests and that
+[58:54] caused a lot of people to give up on
+[58:56] testdriven development. So his claim
+[58:59] here was that the unit that is not about
+[59:02] the class. The unit is the behavior
+[59:05] because the thing that you test against
+[59:08] is the public interface of a module. And
+[59:11] if you do that you can if you want
+[59:14] rearrange the whole class, rearrange the
+[59:16] whole module without changing the
+[59:19] interface and the tests will remain the
+[59:21] same. They will still pass. And if you
+[59:24] remember the first part of this video
+[59:25] where uh we mentioned that always try to
+[59:28] test the state of the system instead of
+[59:31] the behavior of the system. And this is
+[59:33] what he means because testing the class
+[59:35] it means you are trying to test the
+[59:37] behavior of the module the
+[59:38] implementation of the module instead of
+[59:40] the state that it produced. In 2014,
+[59:44] DHH, the author of the Ruby on Rails
+[59:48] framework, who is also very famous these
+[59:50] days for the Linux framework, he wrote
+[59:54] this very controversial or very famous
+[59:57] article called TDD is dead, long live
+[01:00:00] testing. And his argument here was that
+[01:00:04] he is against this test first culture
+[01:00:08] and against this whole idea of designing
+[01:00:10] your systems with mockability in mind
+[01:00:13] and you should directly go for actual
+[01:00:16] testing and all these things which led
+[01:00:18] to a lot of discussions between him Kent
+[01:00:21] Beck who wrote testdriven development
+[01:00:24] and Martin Fowler who's very famous for
+[01:00:26] system designs and all stuff. So if you
+[01:00:29] are curious about the whole ecosystem
+[01:00:31] surrounding test-driven development then
+[01:00:33] you can read up on those pieces. What do
+[01:00:36] we do here? What is our opinion on
+[01:00:39] testdriven development? Now, in my
+[01:00:41] opinion, from the way I work, testdriven
+[01:00:45] development is a very good tool when you
+[01:00:49] know what the answer is, what it should
+[01:00:52] look like, but you have not yet figured
+[01:00:56] out how it should work or how to build
+[01:00:59] it. For example, uh let's say you are
+[01:01:02] working on a parser where it is very
+[01:01:05] easy to figure out what view we want in
+[01:01:07] return. Let's say you are building a
+[01:01:10] JSON parser. You pass it a string and
+[01:01:12] you expect a JSON object, right? Very
+[01:01:15] easy to figure out the inputs and
+[01:01:17] outputs. So in that scenario, you can go
+[01:01:20] with test-driven development because the
+[01:01:23] figuring out your expectation is the
+[01:01:25] easiest part compared to the actual
+[01:01:27] implementation. Similarly,
+[01:01:30] um a pricing rule in your business logic
+[01:01:33] or a state machine, all these things
+[01:01:36] here, test-driven development really
+[01:01:38] works and it keeps you focused on what
+[01:01:40] you actually want out of your logic. But
+[01:01:44] in some scenarios, it is a wrong tool
+[01:01:47] when you do not know what the answer is
+[01:01:50] going to look like yet. You are still
+[01:01:52] figuring out, you are still exploring
+[01:01:54] the ecosystem, the whole space and you
+[01:01:58] are trying multiple approaches to reach
+[01:02:01] a best approach and you are going to
+[01:02:04] depend on what is it that feels right
+[01:02:09] before you decide what to stick with. In
+[01:02:12] those scenarios, which in my opinion is
+[01:02:15] the case in a lot of situations when you
+[01:02:17] are building features for your back end
+[01:02:19] because you have to think about a lot of
+[01:02:21] trade-offs, a lot of approaches, a lot
+[01:02:24] of system design. So testdriven
+[01:02:26] development does not really work in a
+[01:02:28] lot of situations. It has its own uses
+[01:02:31] but not a lot. Let's talk about one more
+[01:02:34] concept called as flaky tests. What is a
+[01:02:37] flaky test that I've already mentioned?
+[01:02:39] Flaky test is a test that passes and
+[01:02:43] fails on the same code which is very
+[01:02:46] unreliable or unexpected without you
+[01:02:50] changing anything any code but every
+[01:02:53] time you run it you get a very different
+[01:02:56] answer and a flaky test is more harmful
+[01:03:00] for you as compared to you not having
+[01:03:03] the test in the first place. Why?
+[01:03:05] Because if a test is missing, if you do
+[01:03:08] not have a test for it, you know that
+[01:03:10] there is a hole. There is something
+[01:03:12] missing here. But if you have a flaky
+[01:03:15] test, that changes how you and your team
+[01:03:19] works because let's say um you deploy
+[01:03:22] your code and it fails. The test fails
+[01:03:25] in your CI continuous integration. So
+[01:03:28] one of your teammates or you say that
+[01:03:30] okay that test is a little flaky just
+[01:03:32] run it again. It should pass. Then as
+[01:03:35] expected it passes and everyone moves on
+[01:03:39] which builds this behavior and because
+[01:03:42] of that when someday an actual test
+[01:03:46] fails which is not flaky but an actual
+[01:03:49] failure in your system and the first
+[01:03:51] thing someone does is they just run it
+[01:03:54] again instead of instantly going for the
+[01:03:56] fix. So where exactly does this
+[01:03:59] flakiness property come from? There is a
+[01:04:02] study from 2014 by this person called
+[01:04:06] Luo and his colleagues. What they did
+[01:04:09] was they took 201 real fixes for flaky
+[01:04:14] tests from different open-source
+[01:04:16] projects and they try to sort them by
+[01:04:19] cause and on the top there are three
+[01:04:21] causes. Async await. Async await is a
+[01:04:25] test that starts something and then it
+[01:04:27] waits for it the wrong way. Then
+[01:04:31] concurrency which means two things
+[01:04:33] inside the test who are trying to race
+[01:04:36] each other. And then there is test order
+[01:04:39] dependency where a test only passes
+[01:04:43] because another test somewhere it ran
+[01:04:46] first and that left a state behind.
+[01:04:50] Those three reasons are the causes for
+[01:04:53] majority of flaky [snorts] tests. And
+[01:04:56] interestingly we have already dealt with
+[01:04:59] the first two. The async aait is the
+[01:05:02] sleep problem that we saw. And what was
+[01:05:05] the fix for that which was instead of
+[01:05:07] trying to fake a sleep you wait for a
+[01:05:10] signal you wait for a condition not the
+[01:05:13] time itself. Then for concurrency we
+[01:05:16] have u things like sync test. if you are
+[01:05:20] using Go and other libraries and
+[01:05:22] frameworks have their own primitives for
+[01:05:25] synchronous testing. But the third one
+[01:05:27] is new. So let's discuss that. What is
+[01:05:30] test order dependency? It means that
+[01:05:33] test B only passes when it runs after
+[01:05:37] test A. But if it is tried to run alone,
+[01:05:41] stand alone, then it will fail. Why?
+[01:05:43] usually because uh test A created some
+[01:05:46] kind of database row or it set some kind
+[01:05:49] of global value or it created a file
+[01:05:52] that test B depends on all of these
+[01:05:54] scenarios it can be anything. Why is it
+[01:05:57] bad? Because if your test suite depends
+[01:06:00] on a particular order every time your
+[01:06:03] test suite runs in the same order it
+[01:06:06] always passes. But the moment someone
+[01:06:08] adds a new test in the middle or they
+[01:06:12] turn on parallelism to make the test
+[01:06:14] faster then it starts failing. What can
+[01:06:17] you do about it? You have three options.
+[01:06:20] First, you can delete it which is fine
+[01:06:22] because the test was not really helping
+[01:06:25] in a lot of ways and it was creating
+[01:06:28] more issues for the future. And deleting
+[01:06:32] tests is a practice that pays more often
+[01:06:35] than you might realize. Or second option
+[01:06:38] is you can quarantine it which means
+[01:06:40] that moving it out of the blocking suite
+[01:06:43] into a separate one which still runs in
+[01:06:46] the same way but this time you add um
+[01:06:50] the owner's name the developer's name on
+[01:06:52] it and a date with a reason of why this
+[01:06:56] is the way so that uh you can catch it.
+[01:06:58] You can document that this has to be a
+[01:07:01] flaky test for this reason. Okay? Or you
+[01:07:04] can add a retry which is not a good
+[01:07:08] practice in tests. So in my opinion the
+[01:07:11] best solution is to quarantine it with a
+[01:07:14] name and a date and a reason so that the
+[01:07:17] next time some issue happens the test
+[01:07:19] starts failing we know that who wrote
+[01:07:22] that why they wrote it and we can just
+[01:07:25] communicate with them to find the right
+[01:07:27] solution. Okay, now that we have a test
+[01:07:30] suite, how do we measure it? What are
+[01:07:32] the metrics that we look for to find
+[01:07:35] whether the test suite is good enough or
+[01:07:38] not? The first number pretty much all of
+[01:07:41] us reach out for is code coverage. What
+[01:07:43] does it mean? Code coverage is basically
+[01:07:47] the percentage of your code that was
+[01:07:49] executed while your tests were running.
+[01:07:52] So when you ask for the code coverage
+[01:07:56] from your testing tool, the compiler or
+[01:07:59] the tool it rewrites your code before
+[01:08:02] building. So what it does is it breaks
+[01:08:05] each function into basic blocks with no
+[01:08:08] branches in them and it inserts a
+[01:08:11] counter at the top of each block. Then
+[01:08:13] it runs your tests and in the end it
+[01:08:15] reads the counters. So if a block has
+[01:08:19] zero count it means that that function
+[01:08:22] never ran. The problem with coverage as
+[01:08:26] a only metric is it only records whether
+[01:08:30] the function ran or not. It does not
+[01:08:34] record anything about uh whether the
+[01:08:36] function actually did some work or it
+[01:08:39] actually checked something. So a test
+[01:08:42] that calls every single function in your
+[01:08:45] program in your application and it does
+[01:08:47] not really assert anything. It does not
+[01:08:49] really check anything that will anyway
+[01:08:52] give you 100% coverage. And the second
+[01:08:55] thing to know is coverage is not just
+[01:08:57] one number. The most common ones are
+[01:09:00] line coverage which checks whether a
+[01:09:03] particular line ran or not. There is
+[01:09:06] branch coverage which checks whether
+[01:09:09] each direction of each decision or each
+[01:09:13] condition was taken or not. And
+[01:09:15] depending on on what you are checking,
+[01:09:18] they give different answers for the same
+[01:09:20] code. If you take a function with one if
+[01:09:23] statement and no else. If a test goes
+[01:09:26] through with the condition true, it will
+[01:09:29] be able to execute every single line of
+[01:09:30] that function. So the line coverage will
+[01:09:33] say 100%. But if the condition is false
+[01:09:37] then that direction will never be taken.
+[01:09:40] So the branch coverage will tell you 50.
+[01:09:43] So what does the coverage percentage
+[01:09:46] actually mean about the quality of your
+[01:09:49] tests? And the number everyone agrees on
+[01:09:52] is 80%. In 2014,
+[01:09:56] two people called Laura and Reed Holmes,
+[01:09:59] they published a study at the
+[01:10:01] International Conference on Software
+[01:10:03] Engineering. What they did was they took
+[01:10:06] large real world Java programs and they
+[01:10:09] generated thousands of test suites of
+[01:10:11] different different sizes. Then they
+[01:10:13] measured each suit's coverage and they
+[01:10:17] checked how many actual faults each one
+[01:10:20] actually caught. And they use this
+[01:10:22] phrase called controlling for sweet
+[01:10:25] size. If you just try to correlate
+[01:10:28] coverage against the number of bugs
+[01:10:31] found then you will get a very strong
+[01:10:33] relationship. But that is mostly because
+[01:10:36] the bigger test suites they cover more
+[01:10:40] of the code and they will be able to
+[01:10:42] find more. So what they did was they
+[01:10:45] held the size as fixed and then they
+[01:10:49] checked whether the higher coverage
+[01:10:51] suite of two suites of the same size
+[01:10:54] found more bugs or not. And the
+[01:10:57] conclusion here was there is a low to
+[01:11:00] moderate correlation between coverage
+[01:11:03] and effectiveness once the size is
+[01:11:07] controlled and the strength of it. It
+[01:11:10] depends between various systems. So if
+[01:11:14] you are using a fixed coverage value as
+[01:11:17] a quality target for your test suite
+[01:11:19] then that is not going to give you an
+[01:11:22] effective test suite. So what should we
+[01:11:25] do? Should we not respect coverage at
+[01:11:28] all? Three things that we can take from
+[01:11:30] that article. First is the numbers that
+[01:11:33] they published. 60% acceptable, 75
+[01:11:38] commendable and 90 exemplary. And as per
+[01:11:42] the article, there is no ideal number
+[01:11:44] that applies to every single product.
+[01:11:47] Second thing is what is not covered by
+[01:11:50] your test is more meaningful than what
+[01:11:53] is covered. Which means that the report
+[01:11:56] that you will get from your coverage,
+[01:11:58] the true value of that report is in the
+[01:12:01] red lines, not the percentage there. And
+[01:12:05] the third one was the warning that the
+[01:12:07] article gave us which is if you make
+[01:12:11] coverage having 100% coverage as
+[01:12:13] mandatory what most engineers people
+[01:12:16] will do is they will write very low
+[01:12:19] value tests just to hit the coverage
+[01:12:21] number and they will stop improving
+[01:12:24] since they have already reached the
+[01:12:25] coverage number. The article also gives
+[01:12:28] us a direction to something more useful
+[01:12:31] which is mutation testing. What is
+[01:12:33] mutation testing? Mutation testing is a
+[01:12:36] way of testing your tests. So what it
+[01:12:40] does is the tool the mutation testing
+[01:12:42] tool it tries to damage your code on
+[01:12:45] purpose and it checks whether the tests
+[01:12:48] that you have written they notice the
+[01:12:50] damage or not and the share of your
+[01:12:54] damage your tests your test suite is
+[01:12:56] able to catch that is the score. So the
+[01:13:00] tool takes your source code, your
+[01:13:02] application code and it makes a couple
+[01:13:05] of small changes everywhere on purpose.
+[01:13:08] For example, uh if in a condition you
+[01:13:12] have written greater than
+[01:13:14] they will make that into greater than or
+[01:13:17] equal or they will change a plus sign to
+[01:13:20] a minus sign or they will replace a
+[01:13:23] return value with zero. Each of those
+[01:13:25] damaged versions is what we call as a
+[01:13:27] mutant. then it will run your test suite
+[01:13:31] against each one of those mutants. If a
+[01:13:34] test fails, then the mutant is killed
+[01:13:37] and which is good because your tests
+[01:13:41] were able to notice the damage. But if
+[01:13:44] the test still passes, then that mutant
+[01:13:48] is survived. that mutant is kept which
+[01:13:51] means that you have a testing code that
+[01:13:54] is not really doing the checking that it
+[01:13:56] is expected to do and in the end the
+[01:14:00] score that you will get is the
+[01:14:02] percentage of the mutants your tests
+[01:14:05] were able to kill. So this is a module
+[01:14:08] it takes a list and returns one page for
+[01:14:12] it and this is the test someone wrote
+[01:14:15] for it. If you read the assertions, they
+[01:14:18] are like it returns something. It
+[01:14:20] returns an array. It should not throw
+[01:14:23] the length should be greater than zero.
+[01:14:26] And now if you look at the coverage here
+[01:14:28] which is a 100% of the lines because
+[01:14:31] every line of that function runs during
+[01:14:34] the tests. So if we go by just coverage
+[01:14:38] then this job is finished. We are done
+[01:14:41] with our testing. Now if we run this
+[01:14:44] program which is called striker for
+[01:14:47] mutation testing on the same code what
+[01:14:50] it does it makes 19 small changes to the
+[01:14:52] source one at a time and it runs the
+[01:14:56] whole test suite against each one of
+[01:14:58] those mutants and what we get as a score
+[01:15:01] is 52
+[01:15:04] 63%.
+[01:15:05] which means that nine out of those 19
+[01:15:09] they were able to survive our tests did
+[01:15:12] not catch those damages. So if you look
+[01:15:16] at the second survivor the second mutant
+[01:15:18] that was able to survive the in the loop
+[01:15:21] it was I less than or equal to offset
+[01:15:24] plus limit. What striker did it changed
+[01:15:27] it to I less than offset plus limit. So
+[01:15:32] now it changes how many items the
+[01:15:34] function returns but even after that
+[01:15:37] every test still was able to pass. So
+[01:15:41] that is the whole value of mutation
+[01:15:43] testing to test our tests. Let's move on
+[01:15:46] from uh measuring our test to measuring
+[01:15:50] our code to code quality. The first
+[01:15:53] metric that we look at here is called
+[01:15:56] cyclometric complexity.
+[01:15:58] And that is a very complex sounding word
+[01:16:01] which just means that cyclometric
+[01:16:04] complexity which means that it is a
+[01:16:06] count of the number of independent parts
+[01:16:09] through a piece of code. And this
+[01:16:12] technique comes from a paper written by
+[01:16:15] someone called Thomas in 1976.
+[01:16:19] And interestingly this is a technique uh
+[01:16:21] to get the count you can actually do the
+[01:16:24] computing by hand. What you do is you
+[01:16:27] draw the function as a graph and every
+[01:16:30] straight run of statements is a node and
+[01:16:33] every jump between them is an edge. So
+[01:16:36] the formula is edges minus nodes plus
+[01:16:39] two. And there is a shortcut to that
+[01:16:41] which is the answer is always 1 plus the
+[01:16:44] number of decisions points. one for the
+[01:16:46] function itself plus one for every if
+[01:16:50] condition, every loop, every case and
+[01:16:53] every and or or in a condition. So if a
+[01:16:58] function has no branches in it, then the
+[01:17:01] count is one. If it has a if condition
+[01:17:05] then the count is two. Now the opinion
+[01:17:08] of most people here is the complexity
+[01:17:10] number for most functions should be 10
+[01:17:14] and this is what the author himself
+[01:17:16] wrote in the original paper about uh
+[01:17:18] that number. As per him this is
+[01:17:20] reasonable but not magical and he found
+[01:17:24] this one case where the limit seemed
+[01:17:27] unreasonable which is a function that is
+[01:17:31] a big switch statement over many
+[01:17:34] independent cases. So if you have a 20
+[01:17:38] case switch statement then the
+[01:17:40] complexity will become 21 right as per
+[01:17:43] the formula which is still very easy to
+[01:17:46] read but it fails the general advice
+[01:17:49] which is the count should be under 10.
+[01:17:52] Now our second metric because the first
+[01:17:56] metric and the general advice about that
+[01:17:58] metric which is it should be under 10
+[01:18:00] that clearly failed under our uh switch
+[01:18:04] statement which was very easy to read
+[01:18:06] which was very good code but it still
+[01:18:08] failed the formula. That's why we have a
+[01:18:10] second metric which is cognitive
+[01:18:12] complexity. Now this metric is not very
+[01:18:16] mechanical. It is not a counter. It is
+[01:18:19] there to measure how hard the code is to
+[01:18:23] understand as compared to how many paths
+[01:18:25] it is taking. And this technique was
+[01:18:28] invented by sonar source. So if we look
+[01:18:32] from the perspective of this technique
+[01:18:35] cognitive complexity, it does not really
+[01:18:37] add anything for the switch statement
+[01:18:39] itself because if you look at a flat
+[01:18:42] switch statement, it is very easy to
+[01:18:43] read. It does not have any cognitive
+[01:18:45] load. But every time you add any kind of
+[01:18:48] nesting in there then it grows because
+[01:18:52] if you see an if statement inside a loop
+[01:18:55] which is again inside an if statement
+[01:18:58] that becomes very hard to read and that
+[01:19:01] whole situation that whole path becomes
+[01:19:04] very hard to hold in your head as
+[01:19:07] compared to three different if
+[01:19:08] statements in a row. So if you look at
+[01:19:11] both the techniques, a long flat switch
+[01:19:15] statement, it scores very high on
+[01:19:18] cyclomatic complexity but it scores very
+[01:19:20] low on cognitive complexity. Similarly,
+[01:19:24] if we look at nesting, three levels of
+[01:19:26] nesting, it scores a moderate level on
+[01:19:30] cyclometric complexity, but it scores
+[01:19:32] very high on cognitive complexity. So
+[01:19:35] here we have a package and we have two
+[01:19:37] tools. If we go by cyclometric
+[01:19:40] complexity, the one that counts parts,
+[01:19:42] the hubs run method, it scores eight and
+[01:19:46] it comes in the third position behind
+[01:19:48] the two stream handlers. But if you go
+[01:19:51] by cognitive complexity, which increases
+[01:19:54] as you uh increase the amount of
+[01:19:56] nesting, the same method will score 19.
+[01:20:01] And now it moves to the top of the list.
+[01:20:04] same as the websocket handler. But
+[01:20:07] instead of only going by the numbers
+[01:20:11] that these tools are giving us, if you
+[01:20:13] look at the code itself, there are eight
+[01:20:16] ways you can enter that function. And
+[01:20:20] that itself is very hard to read because
+[01:20:22] how deeply it is nested. All in all,
+[01:20:25] what we get from this discussion about
+[01:20:28] the code complexity using these two
+[01:20:30] different tools is do not trust either
+[01:20:33] tool blindly. Do not take the number as
+[01:20:36] a hard rule. Instead, look at what
+[01:20:40] exactly those numbers are pointing you
+[01:20:43] towards and then as a team take a
+[01:20:46] decision on what is the right thing to
+[01:20:47] do. So take those tools as a flagging
+[01:20:51] tool instead of the base of your
+[01:20:54] decision. Okay. Now that we have talked
+[01:20:56] about tests, we have talked about code
+[01:20:58] complexity. Let's look at a few tools
+[01:21:02] that that allow us to find problems for
+[01:21:06] us without even running anything. And
+[01:21:08] these tools are probably uh the ones you
+[01:21:11] have already heard a lot of. First one
+[01:21:13] is a llinter. What is a llinter? A
+[01:21:16] llinter is a tool that goes through your
+[01:21:18] source code, your application code, and
+[01:21:22] every time it finds a particular pattern
+[01:21:24] that it thinks is a wrong pattern, then
+[01:21:27] it will complain you. It will show you
+[01:21:29] some kind of error. And to be clear
+[01:21:32] here, it does not really check syntax.
+[01:21:34] That is the job of the compiler, of your
+[01:21:37] language runtime. And it also does not
+[01:21:40] check the correctness of your logic, the
+[01:21:43] correctness of your program, which there
+[01:21:45] is no universal or reliable way to know
+[01:21:48] without an actual output, an actual
+[01:21:51] expectation. It only checks for
+[01:21:53] patterns. For example, if you have a
+[01:21:56] comparison, you are doing some kind of
+[01:21:58] if condition, but the condition that
+[01:22:00] you're checking, the variable that is
+[01:22:02] inside the condition that is always
+[01:22:04] true, which is assigned somewhere
+[01:22:06] upstream, then it will show you the
+[01:22:08] error. The l will show you an error that
+[01:22:10] this condition is always true. Or if uh
+[01:22:13] you got an error from some kind of
+[01:22:16] function call, but you did not check
+[01:22:18] that error, then it will warn you that
+[01:22:20] um you should check that error properly.
+[01:22:23] Right? That's what a llinter means. It
+[01:22:25] checks for patterns. Then we have a
+[01:22:28] formatter which is the most universally
+[01:22:31] known tool. It takes your source code
+[01:22:33] and it writes it in a uh standard layout
+[01:22:36] typically which is decided by your whole
+[01:22:38] team and that's it. It does not really
+[01:22:41] change your program in any way. The
+[01:22:43] whole job is just to make it more
+[01:22:46] readable, make it less complex looking.
+[01:22:49] Then we have type checkers. If you are
+[01:22:52] using languages like Go, TypeScript, uh
+[01:22:55] Rust, they all have their own type
+[01:22:58] checkers typically integrated into your
+[01:23:00] editor something like VS Code which warn
+[01:23:04] you when you are using the types wrong.
+[01:23:07] If you are using a variable and you are
+[01:23:09] doing some kind of arithmetic operations
+[01:23:11] on that but that variable somewhere
+[01:23:14] upstream is declared as string then it
+[01:23:18] will show you the error that you are
+[01:23:19] trying to do arithmetic operations on
+[01:23:21] top of a string but that is the job of a
+[01:23:23] type checker. There is one more thing
+[01:23:25] which is called static analysis which is
+[01:23:28] like a more advanced version of a
+[01:23:30] llinter. So static analysis means
+[01:23:33] checking code without running it. And
+[01:23:36] the way they work is they start at one
+[01:23:40] point and they try to follow the same
+[01:23:43] value through your program and check for
+[01:23:46] a few conditions. That is pretty much
+[01:23:49] everything uh you can cover on a basic
+[01:23:52] level about testing and code quality.
+[01:23:55] Code quality is a very subjective uh
+[01:23:58] matter. That is why I could not find any
+[01:24:01] objective metrics, objective tools for
+[01:24:04] that. So if you are in any ecosystem
+[01:24:08] like if you are in a typescript
+[01:24:09] ecosystem [clears throat] then eslint
+[01:24:12] rules which is a llinter they help you
+[01:24:15] to some extent to improve your code
+[01:24:17] quality. Similarly, if you are using Go,
+[01:24:20] then it also has its own lint. But other
+[01:24:24] than that there is no particular tool or
+[01:24:27] deterministic way to decide whether a
+[01:24:29] code is of high quality or

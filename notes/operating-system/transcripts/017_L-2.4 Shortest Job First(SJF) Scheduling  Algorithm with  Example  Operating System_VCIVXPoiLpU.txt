@@ -1,0 +1,125 @@
+Title: L-2.4: Shortest Job First(SJF) Scheduling  Algorithm with  Example | Operating System
+Video URL: https://www.youtube.com/watch?v=VCIVXPoiLpU
+Video ID: VCIVXPoiLpU
+======================================================================
+
+[00:00] Hello Friends, Welcome to Gate Smashers
+[00:01] Let's understand the concept of shortest job first scheduling algorithm with a numerical
+[00:07] So in the numerical first we have given here Four processes P1, P2, P3, P4
+[00:12] Their arrival time and burst time is given It'll be given to you in almost all numerical
+[00:17] What we need to find is completion time, turnaround time, waiting time and response time
+[00:24] So we have the algorithm here shortest job first In shortest job first we have the criteria of burst time
+[00:30] Means we checks the burst time
+[00:33] Shortest job means a process whose burst time will be lower, we'll select that process
+[00:41] Means we'll run that process first on the CPU
+[00:45] And the mode is non pre-emptive
+[00:47] Non pre-emptive means if we gave one process to CPU to execute
+[00:53] then that whole process will get executed without any interruption
+[00:57] Now let's start with the help of Gantt chart because it'll make the process very easy
+[01:03] Time will start from zero always So let's start with zero
+[01:08] So at zero, which process has arrived already
+[01:12] Now first you have to check if there's any process arrived at zero
+[01:17] There's no process that has arrived at zero You can get this type of numerical also in exams
+[01:23] So no problem, from zero to one you can simply make it idle
+[01:28] Idle means CPU is idle from 0 to 1 limit of time
+[01:34] Alright if there's no process then obviously CPU will be idle
+[01:38] Now at time 1, now we are at time 1 Now we are at time 1
+[01:44] Check at 1 first of all that which process has arrived
+[01:47] We'll check burst time criteria later,
+[01:50] first we have to find out which process arrived already
+[01:54] So I checked at 1, then P1 and P3 arrived at 1
+[02:00] Means P1 and P3 both arrived at 1 Now should we pick P1 or P3
+[02:06] so for that I have to use the criteria i.e. Burst time
+[02:13] So first we checked Burst time of P1 P3's burst time checked 2
+[02:19] So which one is shortest out of two That's 2,... Then we'll select P3 first
+[02:25] Because its burst time is lower
+[02:28] So now, Mode... Mode means non pre-emptive Means it has to execute it completely
+[02:33] Executing completely means... Its execution time is two,
+[02:38] So we executed it up to two times Two means, we are at one and it'll take two more
+[02:45] I'll take 2 unit of time more So 1+2... that'll become 3
+[02:49] So at 3, P3 got executed completely Now we are at Time 3
+[02:58] So at time 3 first we have to check that which process has arrived already
+[03:03] P1 has already arrived, P1 arrived at 1 but haven't executed yet, so we'll keep P1 here for now
+[03:10] Other than P1, which process has arrived at 3
+[03:14] If we'll check at 3, then yess P2 P2 has arrived at 2
+[03:18] So you can simply write here that yes, P3 and P1 are already present in the ready queue
+[03:24] Now if these two processes are in ready queue,
+[03:26] then which one to select, then we'll select it using burst time
+[03:31] Means first check the arrive that which process has arrived
+[03:36] If only one has arrived then there's no logic of burst time
+[03:39] We have to run that process only
+[03:41] But if too much process came and arrived at that time
+[03:45] Then we have to use burst time
+[03:47] So in this case we have got P1 and P3 so let's check burst time first
+[03:51] P1's burst time is 3 and P2's burst time is....
+[03:55] Sorry it'll be P2 here
+[04:00] P2 came on 2 that's why P2... P3 already got executed, so you can remove it now
+[04:05] Let's check P1 and P2's burst time P1's burst time is 3
+[04:08] And P2's burst time is 4 Then P1's burst time is less out of two
+[04:13] So we'll get P1 executed for 3 unit of time
+[04:17] So 3 means, until 3+3 = 6 unit of time P1 will get executed
+[04:23] Means now you can remove it also from here, Because both of these got passed already
+[04:27] Now P1 gone already so I've P2 left now
+[04:32] But, check time first... It's 6 Now check which process has arrived at 6
+[04:37] P4 came now, because it was supposed to come at 4
+[04:41] So it means P4 came to this point somewhere
+[04:44] So I can say there are two processes in the ready queue i.e. P2 and P4
+[04:50] Now which process to select out of these two Again we'll use criteria of burst time
+[04:56] So check burst time of P2... It's 4 And for P4... It's 4
+[05:02] Means Both of their burst time is same
+[05:04] Now I've created this type of question in intentionally
+[05:07] so that we can cover as much variations as possible
+[05:10] In this case, when P2 & P4's burst time is same then which one to select
+[05:16] Because both of their burst time is same
+[05:18] So no problem whenever you get conflict like this
+[05:21] then come a step back, means check their arrival time
+[05:25] Check which one has lower arrival time Means which one came first
+[05:32] Then you'll find out that P2 came first
+[05:35] Then which one to select out of these two?... P2
+[05:38] Although burst time is same, but why are we selecting P2, because of arrival time
+[05:45] In case, arrival time would be also same
+[05:47] Just as an example if we would assume that arrival time is also same
+[05:52] So in that case you can simply come to process ID,
+[05:55] the one with lower process ID, you can simply select it
+[05:59] So in this case we are selecting P2 first and we have to run P2 up to four Unit of time
+[06:05] 6+4 i.e. 10
+[06:09] So we ran P2 up to 10 times, now after that there's no problem because only P4 is left
+[06:14] So we selected P4 and it also needs 4 unit of time
+[06:19] So 4 unit of time means 10 +4 i.e. 14 so P4 will be completed on at 14
+[06:26] Now write the completion time first of all when P1 got completed?
+[06:30] Check on the right hand side of P1 in Gantt chart... It's 6, so It got completed on 6
+[06:36] P2 completed at 10
+[06:38] Now check P3... P3 completed at 3
+[06:41] Now we checked P4 and it got completed at 14
+[06:44] So this is how we can calculate the completion time
+[06:47] When completion time arrived, then for TAT and WT just use the simple formula
+[06:53] Completion time - arrival time i.e. turn around time
+[06:56] So its value will be 5... 10-2 = 8 3-1 = 2... 14-4 = 10
+[07:06] Now for waiting time... Turn around time - burst time
+[07:11] So turn around time is 5, burst time is 3 So it comes out to be 2
+[07:16] 8-4 = 4.... 2-2 = 0..... 10-4 = 6
+[07:22] So this is the waiting time
+[07:25] Response time....
+[07:26] You don't need to find response time in case of non pre-emptive because it'll be equal to waiting time
+[07:33] In case if they asked you, then simply how we select response time?
+[07:38] The time at which a process gets the CPU first time
+[07:43] For example... When P3 got the CPU first time At one... you can check the left side
+[07:49] And P3 came at one also So 1-1 = 0
+[07:56] Means you don't have to do it because it'll come equal to waiting time
+[08:00] But in case if they asks you then you can calculate like this
+[08:04] Why it is not coming in it?... Response time will come in case of pre-emptive only
+[08:08] because when a process gets CPU,
+[08:11] no matter at what time, then that process will get completely executed
+[08:15] Then there's no chance of getting the CPU 2nd or 3rd time
+[08:19] When it'll get it once then it'll get completely executed
+[08:23] But what happens in pre-emptive case is CPU switches... maybe it'll get its turn later again
+[08:28] So in this case it's no problem if you won't find response time in this case
+[08:32] Because it'll come equal to waiting time, so you can directly write it
+[08:37] So in this question after it they can ask average turn around time
+[08:42] So average turn around time is Just total it... It'll be 25
+[08:49] Divided by number of processes i.e. 4 So it comes out to be 6.25
+[08:55] Now we'll calculate average waiting time
+[08:58] Just total it first... 6+4+2 = 12, divided by no. of processes i.e. 4
+[09:04] So average waiting time comes out to be 3
+[09:07] So this is how we can solve the question of shortest job first
+[09:12] Thank You!!

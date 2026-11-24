@@ -1,0 +1,178 @@
+Title: L-4.8: GATE 2018 Question Explaination on deadlock | Operating system
+Video URL: https://www.youtube.com/watch?v=6uEf_F1S-Jo
+Video ID: 6uEf_F1S-Jo
+======================================================================
+
+[00:00] The question is asked in GATE 2018 for 1 mark. The question is on Deadlock.
+[00:06] Let me read the question, consider a system with 3 processes that shares 4 instances of same resource type.
+[00:14] Each process can request a maximum of K instances. The largest value of K that will always avoid the deadlock is.
+[00:24] Means we have given 3 processes, P1, P2, P3.
+[00:32] 3 processes are given. And they're saying if they share 4 instances of same resource type,
+[00:39] means there is some resource R and we are having 4 instances means we are having 4 units of R.
+[00:47] We are having the 4 units of R. Now they're saying these 3 processes can request a resource K units.
+[00:59] Means K instances, a process can request for K instances you have to find the value of K
+[01:06] and the value of K should be maximum. Means, if I say, let's start with normal like if I say,
+[01:17] P1 needs only 1 unit of R to get executed.
+[01:26] P1 needs only 1 unit of R to get execute, P2 also need only 1 R, P3 also need only 1.
+[01:34] So 3 resources I have provided. I am having 4 in my hand, but out of 4, I have given 1, 1, 1 resource
+[01:43] and all the processes will get successfully execute because they said they need 1,
+[01:49] I have provided 1 easily because I am having 4 and their total demand is 3 only, so I can easily provide.
+[01:57] So the answer can be 1. The K value can be 1. But this is one of the answers.
+[02:04] The value of K we have to find maximum. So whether it is maximum or not, let's check.
+[02:12] If K value is 1 means the demand of each process is 1, I can easily give 1, 1, 1 resource,
+[02:23] but still there will be what? It is not the maximum value. K value is not the maximum.
+[02:29] So let's increase the value of K. Let's make the value as 2.
+[02:37] Let's make the value as 2. Now what is the meaning of this? Every process says, their demand is 2.
+[02:44] They need 2 resources, we are having 4. So what we can do? One is we can give 1, 1, 1 resource to every process
+[02:53] and the fourth one we give to any of the like, P1, P2 or P3.
+[03:00] The thing is, whenever there is a question like this. Whenever the question is asked like this,
+[03:06] what you need to do is, first write down all the processes. Try to give the minimum need means
+[03:13] we are having 4 resources in our hand. What I did, I have given 1, 1, 1, to all the processes
+[03:21] and the fourth one, I can give any of the process let's say, the fourth one I have given to P1.
+[03:28] So how many processes P1 gets? 2. P1 gets 2 and what is the need of P1? 2.
+[03:35] So when the need is fulfilled, the P1 will get executed and when P1 will get execute, the 2 resources will be free.
+[03:44] Whatever the 2 resources it is having that will be free and that 2 resources I will provide to P2 and P3.
+[03:52] So P2 need is also 2, fulfilled, P3 need is 2, fulfilled.
+[03:58] So yes, K value can be 2 also. So K value can be 1 also, K value can be 2,
+[04:05] but as the question is asking for the largest value of K, so we cannot say that 1 is the appropriate answer
+[04:12] because we find 2 also appropriate. So now 2 is the answer. Let's check for 3. Let's say,
+[04:20] the demand is 3. Means every process needs at least 3 resources or you can say 3 resources to get executed
+[04:31] and how many processes given? 3.
+[04:36] 3 processes are given. So if it says that I need 3 resources, what we can do? Yes, we can provide like this.
+[04:44] 1, 2, 3, means out of 4 resources I provided 3 to P1 and the fourth one which is left, I provide to P2.
+[04:56] What I did? Number of resources I have 4, each process needs 3. So out of 4, I picked 3.
+[05:06] And I give these 3 to the P1 and the fourth one I give to the P2. Now you can easily say
+[05:13] P1 needs 3 so P1 get 3. So when P1 gets 3, it will be successfully executed and when it gets successfully executed,
+[05:23] the 3 resources will be free. So when the 3 resources will be free, I will give it to the other processes.
+[05:31] Like 3 resources I am having free, so let's say I give 2 to them, 2 to P2 and 1 to P3
+[05:39] and now P2 also gets all the 3 resources, it needs 3 I gave it 3.
+[05:47] So it will also get successfully executed and removed.
+[05:52] And whatever the resources were occupied by P2 they will be free. I will give it to P3.
+[05:59] Then P3 will also successfully execute.
+[06:05] So can we say the value of K can be 3? No, there must be you have to follow all the cases
+[06:15] because there is for 'always' means will 'always' avoid the deadlock situation.
+[06:20] So whenever the question is asked on the always, you have to analyse all the cases.
+[06:25] Now let's say the demand is still 3.
+[06:32] What we can do? Let's say there can be one of the case 1, 1, 1. Out of 4, 1 resource I gave to P1,
+[06:45] 1 resource I gave to P2, 1 resource I gave to P3. The fourth one. Let's say I gave it to the P1.
+[06:53] Now see P1 needs 1 more resource to get executed, P2 needs 2 more, P3 needs 2 more.
+[07:03] How P1 will get 1 more? No, there is no chance that P1 gets 1 more.
+[07:10] There is no chance that P2 gets 2 more, there is no chance that P3 gets 2 more.
+[07:16] So this location will be empty because P1 needs 1 more resource as we have the request is three so
+[07:26] P1 needs 1 more, P2 needs 2 more, P3 needs 2 more. Who will fulfil? No, nobody is going to fulfil the request.
+[07:35] So in this situation there will be a deadlock
+[07:40] because P1 is waiting for 1 resource, P2 is waiting for 2 resources, P3 waiting for 2 resources.
+[07:46] And who will be providing them the resources? Nobody, because P1 has taken 2, P2 has taken 1, P3 has taken 1.
+[07:55] So what is the meaning of this? Why I have written this?
+[07:58] We have to examine all the cases, don't directly say that K value 3 is the answer.
+[08:05] For one or two cases, K value 3 can be correct. But you have to examine for all the cases and
+[08:14] this is one of the case, if I take the number of resources as 4 and demand as 3 then there will be a deadlock.
+[08:23] So you can say 3 value cannot be the right answer. So what is the value next? 2,
+[08:30] because 3 is not the right answer. How we can take the demand as 4, 5, or 6?
+[08:36] We cannot increase the demand because when the demand is 3 only,
+[08:39] still there is the possibility of deadlock in one of the case. So we cannot increase the value of K from 3 to 4, 5, 6.
+[08:46] So what is appropriate answer? The value will be 2. The answer should be 2 only.
+[08:52] So if I take the demand of each process as 2, then there is no any case in which a deadlock can occur.
+[09:03] No, neither. If I take the value of 2, demand as 2, all the cases will be deadlock free.
+[09:11] We can say all the cases will be free from the deadlock. So the answer should be 2.
+[09:16] Let's find some other way. This is the manual, this is the manual method. You can follow this method also,
+[09:22] but there is another method, another method to find.
+[09:28] Let's derive the formula. Let's say I'm having R number of resources.
+[09:37] Total number of resources I have R. In my system, total resources R and let's say I'm having
+[09:50] 'n' number of processes. I'm having R number of resources, 'n' number of processes.
+[09:59] I have written like this P1, P2, P3 upto Pn and the demand, let's say the demand of P1 is D1,
+[10:07] Demand of P2 is D2, and upto Dn.
+[10:13] So what we have assumed, let's say R number of resources, n number of processes and D1, D2, D3 is the demand.
+[10:22] So let's derive some formula which is related to all these three.
+[10:26] Now, if I want that the system should be deadlock free, one thing is, I can provide the D1 resource,
+[10:35] P1 needs D1 resource, D1 number of resources. I will provide them. P2 needs D2, I will provide,
+[10:42] P3 needs D3, I will provide, means whatever their need, if I provide that the need will be fulfilled,
+[10:50] there will be no deadlock. But here we have to find the minimum means it should not be like
+[10:58] What is the maximum demand? I will fulfil directly. We have to find the minimum number of resources
+[11:05] means the resources should be less and the deadlock should be removed.
+[11:09] It should not be like if there are 3 number of resources or let's say 3 number of processes
+[11:17] and 2 number of, 2 is the demand.
+[11:22] So total will be 6 and I will give the 6 resources. If I give the 6 resources, that is the normal answer.
+[11:30] But I have to follow the concept in which the number of resources should be minimum and the deadlock should not be there.
+[11:38] So this is quite tricky. But if you follow it, you will definitely get clarity.
+[11:45] Let's say, we are deriving, we are finding the maximum resources
+[11:58] maximum resources I provide according to the demand, but still there is a deadlock. But still deadlock.
+[12:08] Still deadlock means I'm trying to provide the resources to the processes according to their demand.
+[12:18] But still there is a deadlock. So this is quite tricky. Let's say I'm having P1, P2, P3.
+[12:28] Every process says their demand is 2 means it says 2, it says 2, it says 2.
+[12:35] If I provide 2 to him, 2 to him, 2 to him, means total if I have 6 resource, then there is no problem,
+[12:43] deadlock is free because there is no deadlock. P1 needs 2, I provide 2, 2, I provide 2, 2, I provide 2.
+[12:49] So total how many resources I must have? 6. But no, this is not the appropriate answer.
+[12:55] You have to minimise the value. You should not purchase as maximum resources.
+[13:00] You should purchase minimum, but free from the deadlock. So how we derive? What we can do?
+[13:07] rather than directly giving the demand. Their demand is 2, I'm not giving 2, I'm giving 1, I'm giving 1, I'm giving 1.
+[13:17] Means how many resources I'm giving? 3. But now there is a deadlock because everybody needs 1 of the resource.
+[13:24] Everybody needs 1 resource. Every process needs 1 resource. What I will do? I will add 1 more
+[13:32] and it will be free from the deadlock means if I had 1 more, if I gave like this. Means
+[13:38] if I give 2 to P1, it will be executed. The resources will be free. It will be given to P2 and P3,
+[13:45] they will also execute. So what we are trying to find is,
+[13:49] we're trying to find the maximum number of resources we have, but still there is a deadlock.
+[13:55] How to find it? Same, the demand is D1, I'm not giving the demand D1, I'm giving D1 minus 1.
+[14:03] One less than the demand. Same for this, D2 minus 1, same for that D3 minus 1, same for the last.
+[14:14] Now, what is the total number of resources I have? Total number of resources is whatever the total number of resources,
+[14:21] like D summation, just add all the resources, summation of Di where i=1 to n.
+[14:30] Di minus 1, minus 1, minus 1, it will be up to end. So this is the formula we can derive.
+[14:37] So what is this? The demand, the total demand minus n, means this number of resources,
+[14:48] if I have the resources, what is the number of resources I have? If I have the resources R and
+[14:56] number of resources R is less than equal to this.
+[15:02] If the number of resources R is less than equal to this, there will be a deadlock.
+[15:09] There will be a deadlock because whatever the demand, I'm not fulfilling that demand directly.
+[15:17] I'm giving 1 less than, I'm giving 1 less than, I'm giving 1 less than. So there is still a deadlock existing.
+[15:24] If I provide these number of R, there will be a deadlock. So R should be greater than this.
+[15:33] If I want to free from the deadlock means in this case there is still a deadlock.
+[15:40] But if I do like R should be greater than summation of i=1 to n, di-n,
+[15:50] in this case, it will be deadlock free.
+[15:57] means the number of resources I have provided that is more than the summation of all the requirement minus n.
+[16:05] That is the number of processes. So we can like we can say R+n should be greater than summation of i=1 to n, di.
+[16:17] This is what, R+n is greater than this. What is the meaning of R+n?
+[16:27] R+n is,
+[16:29] R is what? The number of resources.
+[16:34] Total resources plus, total resources that is R, n is the total processes.
+[16:46] Total number of resources plus total number of processes should be greater than the total demand.
+[16:57] This is the meaning of this. So total number of resources plus total number of processes in the system.
+[17:03] It should be greater than the total demand, total demand means demand of all the processes.
+[17:09] If I provide this, then there will be no deadlock. In this situation there will be no deadlock.
+[17:16] So if the question is asked like this, you can solve manually also as given in the previous way.
+[17:21] But you can follow this method. What is the method? What is the formula?
+[17:26] Total number of resources plus total number of processes should always be greater than the total demand.
+[17:31] So let's say what is the total number of resources in this question? 4.
+[17:35] What is the total number of processes in this question? 3.
+[17:39] It should be greater than the total demand. What is the demand? The demand should be, let's say
+[17:48] if I say every process demand is, like 3 processes are there, and every process demands for 2. So what is this?
+[17:57] 7 should be greater than 3*2 that is 6. It is true.
+[18:04] So yes, this is valid answer. So every process can demand maximum of 2. If you increase the demand to 3,
+[18:12] let's say if you increase the demand to 3.
+[18:16] So what is a total number of resources? 4. Number of processes 3. It should be greater than the total demand.
+[18:23] Total demand means number of processes are 3 and demand of every process is 3. So what it is?
+[18:30] 7 should be greater than 3*3 that is 9. It is false.
+[18:36] So the demand of each process cannot be 3, even if cannot be 3, you can also say 4, 5, 6 is not possible,
+[18:45] but yes, if the demand of every process is 2, so you can simply say yes, this is valid.
+[18:52] So always remember this formula. Resources + processes,
+[19:02] Total number of resources plus total number of processes should always be greater than the total demand.
+[19:14] This is the important formula. So we have seen also how to derive this formula and you can,
+[19:23] you don't need to derive it again and again in the exam, you just remember this formula
+[19:29] and according to the question, you can apply it. So according to this question now we can apply and the answer is 2.
+[19:36] So this is how we have to solve the questions like in GATE and other competitive exams
+[19:42] if the question is asked like that. Let's examine the formula again, let's say, just binding it. Let's say
+[19:53] I'm having 4 processes.
+[20:00] I'm having 4 number of processes. And I'm having, let's say, 4 number of resources.
+[20:13] I'm having 4 number of processes and I'm having 4 number of resources. So what can be the maximum demand?
+[20:23] The maximum demand can be like now what is the number of processes? 4, number of resources, 4.
+[20:30] 8 should be greater than total demand. So each process if demand for 1, each process if demand for 1,
+[20:41] then 8 is greater than 4. This is valid. Try to increase the demand. 4 + 4 is greater than,
+[20:50] each process demand for 2. So what is 8 greater than 8? This is false.
+[21:00] So this is a very important formula. If I am having 4 processes, 4 resources and each process demand for 2 to get execute, this is false.
+[21:11] There will be a deadlock. But if every process demand for only 1, there will be no deadlock.
+[21:16] You can do it like that also. P1, P2, P3 P4, 4 processes, each process demand for let's say 2,
+[21:24] so 1, 1, 1, 1. 4 I have given. 2, How can I give 2? Everybody is waiting for 1 resource
+[21:33] and I have already allocated 4 number of resources, what I have, I have provided. So there will be a deadlock.
+[21:40] So demand of each process cannot be 2. They cannot demand for 2 process, 2 resource.
+[21:50] They can demand for 1, no problem. If they demand for 1, I can easily give 1, 1, 1 to every process
+[21:57] and they will get successfully executed. So this is how we can solve the questions like this
+[22:02] manually also, and by using this formula also.
+[22:06] So guys, if you like this video, please share with your friends and your colleagues and please subscribe my channel. Thank you.

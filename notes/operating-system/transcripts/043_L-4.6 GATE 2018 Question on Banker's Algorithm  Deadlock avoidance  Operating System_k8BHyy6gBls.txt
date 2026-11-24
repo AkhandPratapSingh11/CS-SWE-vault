@@ -1,0 +1,141 @@
+Title: L-4.6: GATE 2018 Question on Banker's Algorithm | Deadlock avoidance | Operating System
+Video URL: https://www.youtube.com/watch?v=k8BHyy6gBls
+Video ID: k8BHyy6gBls
+======================================================================
+
+[00:00] The question is given in GATE 2018 for 2 marks. The question is on Banker's algorithm
+[00:06] in which we have given four number of processes and three resources,
+[00:11] means there are three types of resources given. The types of resources are E, F and G.
+[00:17] Means you can say E is like a printer, F you can say CPU, G you can see register.
+[00:25] Means we are not focusing on the type of the resource. Means what is the name of the resource,
+[00:32] we have taken the general names, they have given the general names E, F and G.
+[00:36] So there are three types of resources E F G and four processes are given.
+[00:42] Other than this, they have given the allocation. What is the meaning of allocation?
+[00:46] Means what is the meaning of this 1? It means one resource of type E is already allocated to P0
+[00:55] like 1 resource of E is already allocated to P1. 1 resource of E is already allocated to P2
+[01:03] 2 resources of E already allocated to P3, means these resources, these number of resources are
+[01:10] already allocated to a process. This is the meaning of that allocation. We can call it allocation also,
+[01:18] we can call it assignment also and Maximum, what is the meaning of Maximum?
+[01:23] We can call it maximum need also.
+[01:27] Maximum need means the processes are already telling what is their maximum need.
+[01:33] Means how many number of processes they need to get execute,
+[01:38] means like this E like P0 is saying
+[01:44] it needs four number of Es, four units of E to get execute
+[01:50] and three units of F to get execute, and one unit of G to get execute
+[01:57] means if P0 get 4, 3 and 1 total number of resources if get 4 of E, 3 of F, 1 of G,
+[02:05] then it will successfully execute because we can fulfil the need of P0
+[02:10] if we provide these number of resources. Same for the P1, P2 and P3.
+[02:17] The third thing is given as available, available means as we have already seen
+[02:22] some of the resources are already allocated, means in my system I am having a lot of resources
+[02:28] E lot of units, F lot of units, G lot of units. But out of all the availability
+[02:34] I have already allocated some of the resources to the processes.
+[02:39] But what is the remaining I am having? What is the available, current available?
+[02:44] you can call it current availability also. At present how many number of E I'm having in my hand
+[02:53] like three of E I am having, three units of F I am having, but there is no unit of G I'm having at present.
+[03:00] System has 3, 3, 0 already availability is there,
+[03:05] now next is, they're asking for, they have given the four options related to the,
+[03:11] find whether there is a safe sequence or not, means ultimately you have to check
+[03:16] whether this will create a deadlock situation or not. So we will analyse the question.
+[03:21] To analyse it, we have to find first remaining need,
+[03:28] remaining need of every process according to the resource,
+[03:36] for each resource we have to find the remaining need, means what is the remaining need of P0?
+[03:43] What is the remaining need? Remaining need means already like maximum need minus allocation.
+[03:54] This is the meaning of remaining need. Maximum need like a process is saying my maximum need is 5
+[04:03] and I have already allocated 2. So what is the remaining? Five minus two, that is three very simple.
+[04:09] So you have to calculate for each process the remaining need. Let's see, for P0,
+[04:14] for P0 the maximum need of E is 4, maximum need of E is 4, but already 1 unit of E is allocated.
+[04:23] So what is the remaining need? 4 minus 1 that is 3.
+[04:29] So just write it, for F like we are calculating for P0 first, for F, 3 units it requires,
+[04:37] but already nothing, 0 is given. So yes, 3, still there.
+[04:45] 1 is the maximum need. It is saying I need one resource of G to get execute
+[04:51] and already 1 resource is given. So what is the remaining? 1 is the need, 1 is given already.
+[04:57] So what is the remaining? 0. Means it needs nothing for the G.
+[05:03] Then calculate for P1, P1 2 minus 1, that is 1. Calculate further P1 2 minus 1, that is 1,
+[05:15] 1 minus 1, you have to calculate it carefully because you have to calculate for each resource.
+[05:23] 4 minus 2. that is 2. So this is how you have to minus it. Simple 2 minus 1, 1 minus 1, 4 minus 2 that is 2.
+[05:33] Then for P2, 1 minus 1, that is 0. 3 minus 0, that is 3, 3 minus 3, 0.
+[05:46] 3 is the maximum need, already 3 allocated. So what is the remaining? 0.
+[05:50] Next P3, 5 minus 2, that is 3. 4 minus 0, that is 4 and 1 minus 0, that is 1.
+[06:02] So this is the remaining need of P3. Now we need to check. what we need to check?
+[06:10] This is the remaining need which we have to fulfil, which system has to fulfil.
+[06:15] But what is the current availability? Current availability is 3 units of E, 3 units of F, 0 units of G.
+[06:22] Now, by having this current availability, can we fulfil the need of any of the process? Check carefully.
+[06:31] By having this current availability in my hand can we fulfil the need of P0, P1, P2 or P3, any?
+[06:40] If yes, so we can proceed further, if no so means we can simply say there is a deadlock in the question.
+[06:48] So there is a deadlock situation, if we cannot fulfil any. So to check it,
+[06:53] we need to do what? Check the remaining need of P0. What is the remaining need of P0?
+[06:58] 3, 3, 0, so remaining need,
+[07:03] remaining need should be less than or equal to current availability.
+[07:14] This is we have to check, remaining need should be less than equal to current availability.
+[07:21] Check the remaining need of P0, 3, 3, 0. What is the current availability? 3, 3, 0. It is equal.
+[07:28] So, yes, we can fulfil the need of P0. Let's examine for P1 like we can proceed for P0 first.
+[07:35] But just for the sake of simplicity we just follow like P1. What is the P1 requirement? 1, 0, 2.
+[07:42] Can we fulfil? It needs one unit of E, we have three. No problem, we can provide.
+[07:48] It needs zero, but we have three. No problem. It needs two, yes, it needs two resources of G.
+[07:57] But we are having zero. So this is what you have to check. You don't need to cheque only for a single resource
+[08:04] you have to check for all the resource types. If this condition is fulfil for all resource types,
+[08:16] then only you have to proceed further. If it is fulfilling for only one or two types, no.
+[08:22] For all the resource types this condition must be fulfilled. So yes, for P0 it is fulfilling.
+[08:28] For P0 E, F, G is 3, 3, 0. And we have 3, 3, 0. So we can simply say that
+[08:34] first P0 will get execute. So we can say P0 will get the resources, whatever it needs,
+[08:43] and when we provide the resources to P0 it will get successfully execute and when it get execute,
+[08:51] execute means what is the last state of a process? That is the termination.
+[08:55] So the process will get terminate and when the process will get terminate,
+[09:02] This will be removed from the system and whatever the resources which are already there with the P0
+[09:09] which are already allocated in the past, they will be taken back.
+[09:13] So what are the resources already taken? 1, 0, 1. So this 1, 0, 1 will be added in the current availability.
+[09:23] Because current availability is 3, 3, 0, I have provided the 3, 3, 0 to P0, P0 will get executed.
+[09:30] But whatever the resources it is already given to P0 in the past, I have to take back that also.
+[09:39] So this step you have to do carefully because you have to take all the allocated resources
+[09:45] already allocated resources and add it into the current availability.
+[09:50] So what will be my new current availability? 3 plus 1, 4, 3 plus 0, 3, 0 plus 1, 1.
+[09:59] So this will be the new current availability and P0 is not there. You can simply discard P0
+[10:02] just for like otherwise you can take it multiple time, so just discard it. So it will be 4, 3, 1.
+[10:15] This is my new current availability 4, 3, 1. Now check for the P1. Can I fulfil the requirement of P1?
+[10:23] P1 needs 1 resource of E, I have 4, easily I can give. But check for all, 0 it means I have 3.
+[10:33] But here it needs 2 of G, but I have only one so I can not fulfil the need of P1 at this time.
+[10:42] So what the system will do? It will check for the another. Let's check for P2.
+[10:48] P2 needs 0 of E, no problem, I have 4. P2 needs 3 of F, I have 3 and it needs 0 of G.
+[10:59] I still have 1. So yes, I can fulfil the need of P2 now. So when I fulfil the need of P2,
+[11:07] P2 will get executed, we can say terminated. So when it get terminated,
+[11:13] just right in the sequence also, P2 just fulfil the sequence also. So P2 will get terminated.
+[11:21] So whatever the resources it is already having, I will take back and add it into the current availability
+[11:29] because it is already occupying some of the resources. So when the process get terminated,
+[11:34] take back all the resources which are located now or which are located in the past.
+[11:39] So we will take back 1, 0, 3. So now again calculate the new current availability.
+[11:45] So 4 plus 1, 5, 3 plus 0, 3, 3 plus 1, 4. So this is my new current availability.
+[11:56] And, P2 is removed from the system, you can say P2 is not existing.
+[12:03] Now by looking at this current availability check for the next one, that is P3,
+[12:09] P3 needs 3 resource, I have 5, no problem. P3 needs 4 of F, but how many I have, only 3.
+[12:19] So there is a problem. I have only 3. So I cannot fulfil the requirement of our remaining need of P3
+[12:27] at this time, but can I fulfil the other? Like P0 is not there, P2 is not there, yes, P1 is there.
+[12:34] Check for the P1 again. The system will come out from the loop and it will again come to the P2.
+[12:41] Sorry, P1, 1 comes on P1, P1 needs 1 of E, I have 5, 0 of F, I have 3, 2 of G, I have 4,
+[12:51] so I can easily fulfil the need of P1. So who comes next in sequence? P1. And P1 will get terminated.
+[13:01] It gets terminated? So you can simply say, it is removed. So when it is removed,
+[13:07] whatever is already allocated, take back. So what is the already allocation? 1, 1, 2.
+[13:13] See, this is already allocated in the past so take back and add it. So when I add it,
+[13:18] it will be 5 plus 1, 6, 3 plus 1, 4, 4 plus 2, 6. So this is my current availability now.
+[13:28] Now check for the P3 because already others are done, they are removed from the system.
+[13:34] Check for P3, P3 needs 3, I have 6, P3 needs 4, I have 4, P3 needs 1, I have 6, enough.
+[13:44] So, yes, now I can fulfil the need of P3. So the next sequence will be,
+[13:52] next process in the sequence will be P3 and P3 will get successfully terminated,
+[13:59] and when it gets terminated, whatever the resources, I will take back, so I will add it.
+[14:04] So my new current availability will be 8, 4, 6. So this is my latest current availability.
+[14:12] That is 8, 4, 6. And what is the sequence I'm having? This is the sequence.
+[14:19] So now in the option they are saying the first option is yes, there is a safe sequence in the system.
+[14:26] Yes, the option is true, because there is a safe sequence. Safe sequence means
+[14:31] if I get any of the sequence, means I can fulfil the need of the processes one by one.
+[14:37] If it is possible, then we can call it safe. We can call it a safe state.
+[14:45] Safe state means there is no deadlock. There is no deadlock.
+[14:51] So yes, it is a safe state because I got one sequence and sequence can be multiple also.
+[15:02] It is not mandatory that there is only one sequence or unique sequence you can get multiple.
+[15:07] But here our question is not to find all the sequences, our question is simply
+[15:11] whether there exists any sequence? Yes, there exist one sequence that is this.
+[15:16] So our system is in safe state. So option is correct in that. Other options are
+[15:23] the system is not in safe state, we need 1 resource more of E type, 1 more of F type, 1 more of G type.
+[15:30] Why we need 1 more of E, F or G? Because by having all, current availability with 3, 3, 0,
+[15:37] I can fulfil the need in this sequence. So I don't need more.
+[15:42] I don't need more resources to get the safe sequence, I get safe sequence with this current availability only.
+[15:49] So the option A is correct. So this is how you have to solve the question in the GATE exam.
+[15:55] So thank you guys. If you like my video, please share it and please subscribe my channel, thank you.

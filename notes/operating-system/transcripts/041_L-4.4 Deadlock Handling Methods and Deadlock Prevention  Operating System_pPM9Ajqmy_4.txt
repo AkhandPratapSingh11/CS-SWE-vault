@@ -1,0 +1,235 @@
+Title: L-4.4: Deadlock Handling Methods and Deadlock Prevention | Operating System
+Video URL: https://www.youtube.com/watch?v=pPM9Ajqmy_4
+Video ID: pPM9Ajqmy_4
+======================================================================
+
+[00:00] Various methods to handle the deadlock situation. Basically, there are four important methods
+[00:06] which are used to handle the deadlock. The methods are Deadlock Ignorance, Deadlock prevention,
+[00:12] Deadlock avoidance and Deadlock Detection and Recovery. The first method is Deadlock Ignorance
+[00:18] which is also known as Ostrich method. Now, when we have here the method Deadlock Ignorance,
+[00:26] the method says just ignore the deadlock. So isn't it funny? like
+[00:31] when the deadlock situation is occurring, we are simply ignoring the deadlock. But, yes,
+[00:37] our majority of the operating system, like your windows and linux, both use this strategy
+[00:43] that is deadlock ignorance and it is used widely.
+[00:49] So what is there in the deadlock ignorance? Means when the deadlock occurs in the system
+[00:54] simply ignore it, and this is faced by nearly all of the users they face in their laptops.
+[01:00] The problem is what? Your system will halt, means the system will get hanged and what we do?
+[01:06] We simply power off and we restart the system. So that is what the meaning of the deadlock ignorance.
+[01:13] The funda behind it is why we are not creating some algorithms to remove the deadlock and all.
+[01:21] The funda is that deadlock occurs very rare. The programmer thinks that deadlock occurs very rare
+[01:30] like once in 5 years or once in 10 years. So why we write a full-fledged code
+[01:37] to remove the deadlock situation which will affect the performance?
+[01:43] Means like whatever the operating system we use whatever the operating system like let's say
+[01:50] Windows Operating System. So Windows operating system already has a lot of code in this
+[01:56] like Windows operating system, just like the normal operating system, it does memory management,
+[02:01] resources, Resource Manager, a lot of things operating system does. Other than this,
+[02:09] if we increase one more code related to handling the deadlock, removing the deadlock,
+[02:15] the performance will be affected, means performance of the system will get affected over there.
+[02:21] So we just want the speed, we want the speed. So just to have more and more speed,
+[02:29] what we do? We are not writing the code to remove the deadlock in the situation.
+[02:34] So what we are doing? What the programmers are doing? They are not writing any patch,
+[02:39] they are not writing any code to remove the deadlock. Why? Because they think it occurs rare.
+[02:46] So just for the rare occurrence they are not writing any code for removing of the deadlock.
+[02:52] So what is the advantage we are getting in this? Means the operating system,
+[02:57] whatever the major task of the operating system, the operating system is doing that task only.
+[03:02] Means we are not increasing the functionality of the operating system.
+[03:06] that yes, our operating system is also capable to remove the deadlock. If we try to do this,
+[03:14] means try to increase the capability of the operating system,
+[03:18] definitely it will affect the performance, speed. Means if we are trying to provide
+[03:22] more and more functionalities, the speed will be getting less. But nowadays
+[03:27] we are totally into the speed. We are not talking about the correctness.
+[03:35] Means okay, no problem. One or two problems occur, but these problems occur very rare.
+[03:40] So just for the rare occurrence of this problem the simple method is ignore the deadlock.
+[03:46] So what we do? We just restart the systems. So this is the meaning of the deadlock ignorance.
+[03:51] And this is a widely used technique. And from where we actually use method that is the ostrich.
+[03:58] Ostrich is a bird. What it does? Whenever there is sand storm it just put his neck into the sand
+[04:07] means it just simply say that there is no sandstorm. So it means it is trying to ignore the sandstorm,
+[04:12] so same what we are doing in the deadlock ignorance. Whenever there is a deadlock situation occurs,
+[04:18] we are simply ignoring that. So that is a simple concept of the deadlock. And why we are ignoring?
+[04:26] Because we don't want to affect the performance.
+[04:33] Performance or we can say speed.
+[04:38] So there is a kind of trade-off, trade-off between one set of programmers which says that
+[04:45] no, I am not writing any code for the deadlock. If we write the code for the deadlock,
+[04:51] the system will get more and more functionalities. So just for getting more and more functionalities,
+[04:56] the speed, the performance will degrade. The performance will be getting a degraded,
+[05:01] but one set of persons say no, we should write the code for that.
+[05:06] but, if we talk about the users, normal users, we are all concerned more with the speed.
+[05:13] We want speed in our laptops, in our systems, but correctness? Yes, we want the correctness also.
+[05:19] But that kind of correctness or that kind of situation which occurs daily,
+[05:25] for that we need the correctness, but deadlock situation doesn't occur daily.
+[05:31] Our system is already capable of, like memory is enough, we are having the CPU is enough,
+[05:36] the capabilities are enough. But still, if the deadlock occurs, which is rare, which is very rare,
+[05:42] so no problem, we are simply ignoring that. So just because of the rare occurrence
+[05:48] we are simply ignoring the deadlock situation. This is the simple meaning of the deadlock ignorance
+[05:53] and Windows, Linux operating system, they use the deadlock ignorance method.
+[06:00] The second method is Deadlock Prevention. The concept of Deadlock Prevention is like a normal,
+[06:06] the very important phrase is "Prevention is better than cure." The Method is that
+[06:11] the time when the deadlock occurs, we are trying to find the solution. Better is that
+[06:17] before the deadlock occurs we try to find some solutions. So what are the solutions we can do?
+[06:22] Or what are the preventions we can do? The main preventions are, whatever the four conditions,
+[06:30] like four conditions, necessary conditions, the necessary conditions are I'm just writing
+[06:36] mutual exclusion,
+[06:41] no pre-emption
+[06:46] hold and wait,
+[06:50] and circular wait. As we know, these four conditions are mandatory conditions
+[06:59] or necessary conditions to have deadlock in the system.
+[07:04] So what Deadlock Prevention says, either try to remove all the four necessary conditions from the system,
+[07:15] or at least try to remove or discard one of the condition,
+[07:23] means we try to simply false one of the situation, means if all the situations are true,
+[07:30] then there is a deadlock, but if one of the situation means one of the conditions get false,
+[07:37] the deadlock will be prevented. So this is the meaning of the deadlock prevention.
+[07:41] Any of the four or all four, we try to make it false.
+[07:47] If any of the situation get false, the deadlock will be prevented.
+[07:52] This is the simple concept of the deadlock prevention, like mutual exclusive.
+[07:57] What is a mutual exclusion? Simple method is that whatever the resources we are using,
+[08:02] they should be non-shareable. Means they should not be used at a same time by multiple processes.
+[08:13] If it happens, deadlock will not occur. So what we do in the mutual exclusion, every process
+[08:19] or every resource will be used by one process at a time. So if we false this situation,
+[08:27] if we try to false this condition the deadlock will be removed. Means if I say,
+[08:34] let's say CPU, if I make my system like that, no problems, CPU can be shared by more than 2 to 3 processes,
+[08:42] then what is the need of the deadlock? Obviously the deadlock will be removed in this situation,
+[08:48] but there is a problem with the mutual exclusion also. Means not all the resources can be
+[08:55] made as a shareable means like say printer.
+[09:04] If I want to remove the mutual exclusion, what we have to do? We have to make all the resources shareable.
+[09:10] So in deadlock prevention the first condition is the mutual exclusion. We try to make it false
+[09:10] false means how we can make the mutual exclusion false? We can simply say all the resources
+[09:24] can be shareable means at a time multiple processes can share the resource. If it is possible,
+[09:30] deadlock will be prevented. But how it can be possible for printer? How it can be possible for
+[09:37] tape drive, because some of the resources are made like that,
+[09:43] which cannot be made as a shareable, which cannot be made as a shareable.
+[09:51] They are non-shareable. Means printer cannot be made as a shareable. It is always a non-shareable.
+[09:58] So in this situation, this condition will get, it is very hard to make it false.
+[10:06] Although we can make it false for some of the resources like CPU, memory and all.
+[10:10] But there are some of the resources which cannot be made as a shareable,
+[10:06] they cannot be made shareable, like printer, tape drives. So when it cannot be a shareable,
+[10:23] how we can remove the mutual exclusion? Mutual exclusion cannot be removed.
+[10:27] So if it cannot be removed, the deadlock cannot be prevented. Fine.
+[10:32] So this is the main point in the mutual exclusion. But yes, if all the resources can be shareable,
+[10:39] the deadlock will never occur. So there will be prevention in the deadlock
+[10:45] Second, no pre-emption. No pre-emption means if a process is going on, another process is going on,
+[10:52] I will try to pre-empt one of the process. So when the process will be pre-empted,
+[10:58] whatever the resource it is holding, it will be given to another process.
+[11:02] Let's say I'm just making the diagram. We have already seen this diagram many times.
+[11:02] Let's say there is one resource of R1 which is taken by P1 and R2 resource is taken by P2
+[11:19] and P2 is requesting for R1, this is a simple representation. R1 is taken by P1 requesting for R2,
+[11:29] R2 is taken by P2 requesting for R1. Now in this method if I try to make let's say P1 get pre-empted,
+[11:39] I simply say that P1 you just pre-empt. If the P1 got pre-empted means it will stop working.
+[11:47] It will be sent back to the ready. In ready state it will be given.
+[11:51] So from the running it will be sent to the ready state. So when it sent to the ready state
+[11:55] whatever it is holding, what is P1 holding? P1 is holding R1. This R1 will be taken back.
+[12:04] Means I will simply take back R1 from P1 because P1 is not existing. And we can simply say,
+[12:16] just remove the P1, if it is pre-empted because in the pre-emption we are trying to switch
+[12:22] means P1 will be switched, it will be given back to the ready state and P2 will start running.
+[12:27] So in this situation, P2 already has R2. P2 needs only R1 and R1 is free. So if the resource is free,
+[12:38] give it simply, so I will give this resource to P2. Now P2 can successfully execute.
+[12:46] So what we are trying to do? We are trying to make the pre-emption, means processes can be pre-empted.
+[12:54] So how we can do it by using the time quantum, by using that time quantum kind of
+[13:04] or time stamp kind of, we use the time stamp method or time quantum method.
+[13:09] Means a process can run for this particular time stamp. 5 seconds, 10 seconds, after that particular time,
+[13:17] it will be pre-empted. So when it got pre-empted, the resources will be taken back
+[13:22] and it will be given to some other process and that process will use them and it will be removed.
+[13:23] So when it is gone, means there is no deadlock. So we are trying to prevent by making the
+[13:24] no pre-emption to only pre-emption. And in the first we're trying to make the deadlock prevention
+[13:41] from mutual exclusion to no mutual exclusion, although it is not easy to make it. But yes, this is a method.
+[13:49] So in the second pre-emption, from no pre-emption we are trying to make it pre-emption.
+[13:54] Means pre-emption is allowed. If the pre-emption is allowed, deadlock will be prevented.
+[13:59] Third, hold and wait. Again, we are trying to negate it, we are trying to false it.
+[14:05] Means there should be no hold and wait. How to make it no hold and wait? What we are trying to do?
+[14:12] If the process comes, Process says I need three resource. What we will do before the process get start?
+[14:20] I will give all the resources to that particular process, means before a process get started,
+[14:27] whatever it is demanding, I will simply provide all the resources to that particular process.
+[14:33] Although it is practically very impossible to do it because I cannot give the resources simply to one process.
+[14:42] Other process will be totally waiting for any of the resource. But still this is a kind of method.
+[14:48] So we are just following this method. Means rather than a process holding some resource,
+[14:53] waiting some other resource, what we are saying? You just hold all the process, all the resources you need.
+[14:59] We will simply give all the resources what it needs before it get started.
+[15:04] So when it gets all the resources after some time it will get executed. When it get execute
+[15:10] means there is no deadlock because the resources will be free, it will be given to some other process.
+[15:16] So what we're trying to do? Instead of hold and wait, we are trying to wait,
+[15:21] trying to do no hold and wait. Now the 4th one is circular wait.
+[15:27] For deadlock there must be a circular wait, but to remove the circular wait means
+[15:33] if we want the deadlock should be prevented, there should not be the circular wait.
+[15:39] Means we are trying to remove the condition of circular wait from the system.
+[15:44] So how we're trying to remove it. The simple method is, let's say
+[15:52] I'm having lots of resources in my system. So this method says that
+[15:58] how we can remove the circular wait condition? Just give the numbering, just order all the resources
+[16:06] means if we want, there should be,
+[16:12] there should be no circular wait in my system, what we're trying to do?
+[16:18] We are giving the numbering like, let's say I'm having printer, scanner, CPU,
+[16:27] let's say register, various resources we have, what we are trying to give?
+[16:34] We're trying to give the numbering. Simple.
+[16:39] Just give the numbering to all the resources and the condition is that whenever a process is requesting
+[16:47] for a resource, it will request in the increasing order. Means if a process P1 comes, P1 says,
+[16:57] let me make the diagram.
+[17:00] Let's say if P1 comes, P1 says I need one means printer,
+[17:09] means I need one printer. So printer means one. Let's say resource one. So it has taken printer.
+[17:19] That is the resource number one, numbering one that is printer. Now it can request for 2, 3, 4,
+[17:29] means in the increasing order. Let's say now it wants CPU, so it can request for CPU? Yes,
+[17:36] it can request for resource number three, that is CPU. What is the resource number three? CPU.
+[17:42] What is the resource number one? Let's say Printer. It's coming? Let's say CPU and let's say printer.
+[17:51] Now if the other process comes, let's say now P2 comes. P2, a process the main line is what?
+[18:02] A process can request in increasing order.
+[18:12] This is the simple meaning. A process can request only in the increasing order,
+[18:19] means if the order is increasing, then only it can request, means if P2 comes,
+[18:24] P2 says I need CPU means I need the resource number three. No problem. I can give.
+[18:33] I can give the resource number three to P2. Now P2 says I need resource number two,
+[18:41] or I need resource number one, means the number which is less than it already have,
+[18:48] the number, which is less. No. A process cannot request for the number less than the previous requests.
+[18:56] Means now if this P2 says I need the number one resource, no, it cannot request.
+[19:05] This request cannot be made. If this request cannot be made, we can simply say
+[19:13] there is no circular wait because this line is there, this is there, this is there,
+[19:19] but this line cannot be made. This line cannot be made.
+[19:24] But can we say that P2 can request for resource number four? Yes,
+[19:31] P2 can request for the resource number which is greater than the previous request,
+[19:37] because P2 has already requested for the resource number three that is CPU.
+[19:43] So I just simply gave it. Now P2 says I need the resource number one.
+[19:49] So one is less than three, no, the previous request must be greater than the current request.
+[19:58] So, yes, previous request is three, now the P2 says I need resource number one. No,
+[20:04] the request number cannot be less. So the simple meaning is, a process can request
+[20:12] for a resource in the increasing order only. Means if a process says I need the resource number three.
+[20:17] No problem, it can have three. Next time it can request for 4, 5, 6, not the lower one.
+[20:25] By doing this, we will simply remove the circular wait condition.
+[20:30] So when the circular wait condition will be removed, we can simply say deadlock will be prevented.
+[20:35] This is the simple meaning. Next is the Deadlock Avoidance. What is the concept of deadlock avoidance?
+[20:42] means we are trying to give the resources to the process and whenever we give the resource to the process,
+[20:48] we will check whether it is a safe situation or not. Means when we give the resources
+[20:54] to a particular process, we check whether deadlock can occur or not? Or deadlock can be avoided or not?
+[21:01] For every resource allocation, we check the safe or unsafe situation.
+[21:10] This is done by the Banker's Algorithm. The Dijkstra's Algorithm is also known as this banker's algorithm
+[21:17] is given by the Dijkstra, that is the scientist. So banker's algorithm resolves this problem
+[21:23] That is the deadlock avoidance. So for getting more details of banker algorithm,
+[21:28] you can follow my video and banker's algorithm.
+[21:31] Next one is Deadlock Detection and Recovery. What is the concept of Deadlock Detection and Recovery
+[21:37] is deadlock detection means we're trying to detect, like by making the resource allocation graph
+[21:44] or other methods we're trying to detect first, whether there is a deadlock or not.
+[21:49] And when we detect it, then we are trying to recover our system.
+[21:53] So that is also a kind of little complex, because deadlock detection is also complex
+[22:00] and after detection we're trying to recover also, so it will make the system again very complex.
+[22:05] So what is the concept says? First of all, we're trying to detect,
+[22:10] after detection if say, there is no deadlock, so nothing, we don't need to do anything.
+[22:15] But if there is a deadlock, we were trying to do some recovery. Recovery simply says
+[22:20] Let's say one method is kill the process, kill the processes or a process, means
+[22:32] just simply kill, like whatever the processes which are in the deadlock situation,
+[22:37] let's say 2 to 3 processes are in the deadlock situation. Either we try to kill one of the process
+[22:43] and then we will check again that we will again detect, if there is still there or not.
+[22:47] If there is no deadlock, no problem. If there is still deadlock, we will kill one more.
+[22:53] We will kill two. Then we will again detect whether there is a deadlock or not.
+[22:57] If it is deadlock, we will kill the third also, means were trying to kill all the processes
+[23:02] which are in the deadlock situation. So definitely it will hamper the performance of the system also.
+[23:08] But that is just a method that from recovery simply killing the processes one by one.
+[23:14] One more thing can be done, Resource Pre-emption. Resource Pre-emption means what we are trying to do is
+[23:23] we will pre-empt the resource from a process, means a process has taken some of the resource,
+[23:29] waiting for some other resource, we will pre-empt whatever resource it is holding,
+[23:34] although it is again kind of fuzzy method that how we can pre-empt the resource from a process.
+[23:42] But still, that is just a method kind of theoretical method we are trying to simply
+[23:49] recover the system from the deadlock by detecting it and then if there is a deadlock
+[23:54] we are trying to kill some of the processes, let's say lower priority processes,
+[23:59] the processes which is having lowest priority, we try to kill them or we are trying to
+[24:04] take the resources back from one of the process or two of the process just to
+[24:10] remove the deadlock from the system. So this is how the various methods which are used,
+[24:17] one is the Ignorance, prevention, deadlock, avoidance and detection and recovery.
+[24:23] And you will be shocked to know that this method is real life implementation, deadlock ignorance.
+[24:30] Although other methods are also implemented, but this is the most and widely used method
+[24:35] that is just the Deadlock Ignorance. So this is all about the various method to handle the deadlock.
+[24:41] So if you like the video, please share it with your friends and colleagues
+[24:45] and please subscribe my channel. Thank you.

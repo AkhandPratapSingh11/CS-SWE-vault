@@ -1,0 +1,280 @@
+Title: L-5.20: Translation Lookaside Buffer(TLB) in Operating System in Hindi
+Video URL: https://www.youtube.com/watch?v=Z2T2vnyZl0o
+Video ID: Z2T2vnyZl0o
+======================================================================
+
+[00:00] Hello friends, Welcome to Gate Smashers
+[00:02] in this video I am going to  explain about T LB.
+[00:04] that is translation look aside buffer
+[00:06] in this video we are going discuss all the point related to TLB.
+[00:10] which will be beneficial for  your competitive exams
+[00:12] as well as in college and university level exams.
+[00:16] so guys quickly like this video
+[00:18] and subscribe this channel  you have not done till now
+[00:20] and please press the bell button, So that  you get all the latest notification.
+[00:24] so let's start TLB
+[00:25] that is translation look aside buffer
+[00:27] first of all I want to explain you  what is TLB?
+[00:30] why do we use it
+[00:31] the story starts from paging,
+[00:34] paging we have already discussed that
+[00:36] what is the concept of paging.
+[00:38] let me give you a small overview.
+[00:41] what we do?
+[00:42] we divide process into pages,
+[00:47] inside the main memory
+[00:49] which is already divided into frames
+[00:53] and what we do in that frame,
+[00:55] To different  pages of different processes.
+[01:00] we bring them into the main memory.
+[01:02] what is there in main memory?  Frames,
+[01:03] now the page table,
+[01:05] what is page table exactly?
+[01:07] It is like index,
+[01:08] as the there is index in front of a book.
+[01:10] Page table tells me  which page no. is lying at
+[01:15] which frame address
+[01:17] that is called a physical address,
+[01:18] I have in page table...
+[01:20] the page table entry no. that I have 1, 2, 3,4
+[01:24] in this way I have
+[01:25] and I know
+[01:27] the page table tells me that page no. 1
+[01:29] is lying at which frame, it is at frame 1 frame 2 or at frame 3.
+[01:34] this we have already discussed under paging.
+[01:37] Now we talk about,
+[01:39] the CPU we have, generates logical address
+[01:42] and What happens in logical address
+[01:44] page number, page offset.
+[01:46] As I already mentioned
+[01:47] what do we do? we divide process into pages
+[01:51] so see what happens.
+[01:52] So page number and page offset
+[01:55] which we are calling logical address.
+[01:57] Now with whom have we mapped it?
+[01:59] We have done its mapping with the main memory.
+[02:01] Meaning we have brought  multiple pages inside RAM.
+[02:06] we have brought  multiple pages inside RAM.
+[02:08] Now how do I know which page  is lying in which frame?
+[02:13] Who will tell this?  Physical address,
+[02:15] From the physical address, we will know
+[02:17] which page number is lying  in which particular frame
+[02:22] we do mapping this is all about paging
+[02:24] But what is the problem here that
+[02:27] where is my page lying?  In the main memory,
+[02:31] And the page table from where I am checking the index,
+[02:35] where is it lying, that is also  lying in the main memory
+[02:38] now let's say if time taken to  access the main memory is x.
+[02:44] if time taken to access the main memory is x.
+[02:47] so how many times am I accessing?
+[02:48] if no  page fault is occurring.
+[02:50] lets say the page which I am searching
+[02:53] is lying in the main memory,
+[02:55] so how I will search it?
+[02:56] first I will go to page table
+[02:59] from page table  I will know the frame number
+[03:02] corresponding to frame number  I will go to main memory
+[03:06] then I will pick that particular page No.
+[03:08] so this is the story,
+[03:10] so the CPU here generates logical address
+[03:14] corresponding to that how shall I go?
+[03:16] I would go into page table first.
+[03:18] from the page table,  I will know the frame no.
+[03:20] and going into that frame in main memory,  I'll pick up that page.
+[03:25] now to the whole story.
+[03:27] How often am I accessing main memory?
+[03:29] one thing happened
+[03:30] when you go to main memory,  you will take time to pick that page.
+[03:35] let's say time taken is x
+[03:37] and what are we doing for the second time?
+[03:39] first of all we are also looking for on page table.
+[03:42] Where is the page table located?
+[03:44] where would the page table lie? Obviously page table is also lying inside the memory.
+[03:48] so that means I am putting  an X amount of time.
+[03:51] to find in the first page table.
+[03:54] means the index next to the book
+[03:56] will find it in the first index
+[03:58] what is the seek time in the index?  X
+[04:00] because the index,  and the page table.
+[04:02] that too is lying in the main memory
+[04:04] And what is the time taken to access the main memory?  X
+[04:07] And if the time to access main memory is X
+[04:10] so first I am accessing the page table.
+[04:12] to access the page table x amount is used
+[04:15] what did I get from there,  I got frame number?
+[04:18] And then I went inside main memory again.
+[04:21] and from that frame I picked up that page.
+[04:23] that is, how much did my total time take?
+[04:25] X+X = 2X
+[04:28] Means I have to access the memory twice
+[04:32] then I will get the page.
+[04:35] this story is simple
+[04:36] Now what is the problem with this story?
+[04:40] when we are accessing the main memory twice
+[04:43] means if page table is my simple.
+[04:46] then we are accessing twice
+[04:47] if the page table is too big
+[04:50] and  we have also divided the  page table into multiple levels.
+[04:54] we divided a page table into multiple pages.
+[04:59] Divided into multiple levels.
+[05:00] so where would all those multilevel pages be lying?
+[05:04] That too must be lying inside  the main memory.
+[05:06] that is, in the ideal condition,  you can say that it will take 2X.
+[05:09] But if you are using  page table on multi-level?
+[05:12] if your page table is also in multiple levels.
+[05:15] so my time will increase as much.
+[05:18] Because where will all the levels lie,  they must be lying inside the main memory.
+[05:22] so what is the time to access  from main memory
+[05:26] although I am taking some time
+[05:28] We want to reduce this time.
+[05:30] Now to reduce this time, what do we want?
+[05:33] We want faster memory
+[05:35] And which is that faster memory?  cache memory
+[05:39] meaning now we are using the   concept of cache memory
+[05:42] or whatever you can call TLB.
+[05:44] That is translation look aside buffer.
+[05:47] sometimes we also call cache as buffer.
+[05:49] that means the buffer we are using . this is TLB.
+[05:53] Now what is the concept of TLB ?
+[05:55] the TLB is, faster than RAM.
+[05:58] This means it is faster than RAM.
+[06:01] So what shall we do now?
+[06:02] we will put the page table entries in the TLB.
+[06:06] what we did in TLB, put the  entries of the page table .
+[06:09] meaning the frame we are looking for.
+[06:11] where did we put the frame numbers?
+[06:13] We put the frame numbers in TLB.
+[06:17] means kept inside the cache.
+[06:18] Now what is the benefit of that?  see the advantage.
+[06:20] The CPU generated the logical address.
+[06:23] means CPU looking for a page.
+[06:25] where is that page now in main memory
+[06:27] I don't know I want his frame number.
+[06:29] I'll find it in TLB first .
+[06:31] Now what happens in TLB,  I have all these tags in TLB.
+[06:35] What are we doing now, we are searching?
+[06:38] in which particular tag of, in which particular location?
+[06:42] corresponding frame number is lying.
+[06:43] Time to access TLB now!
+[06:45] Comparatively less than RAM.
+[06:49] Because TLB is cache memory.
+[06:51] which is much faster then the RAM.
+[06:53] what did we do, first find the TLB.
+[06:56] In TLB if I got it
+[06:58] The frame we're looking for,  the page we're looking for.
+[07:01] Corresponding to that page  which is the frame number.
+[07:04] if I got here
+[07:05] meaning it is called TLB hit!
+[07:07] so if TLB gets hit.
+[07:09] so I'll go to the frame number  and pick up that page.
+[07:13] But if TLB didn't hit.
+[07:17] so what will happen in that case?
+[07:18] so in that case we have to apply normal procedure.
+[07:20] what is normal procedure?
+[07:22] that you look in the first page table?
+[07:24] from page table you will get frame number.
+[07:26] then you can access the main memory.
+[07:28] So what will be my effective memory access time?
+[07:33] what is effective memory access time.
+[07:36] First I will find in TLB.
+[07:38] First I searched inside TLB.
+[07:40] It took me some time to search inside TLB.
+[07:44] First I spent that time.
+[07:46] what did I get after spending that time?
+[07:48] I got the frame number.
+[07:50] then I found the particular page  in the main memory.
+[07:55] time for finding in main memory  is let's say x
+[07:59] This time will be taken, if TLB is hit
+[08:03] meaning the corresponding entry of the page  you are looking for
+[08:07] Its corresponding frame number  is lying in TLB.
+[08:11] Now what comes of the story is to keep all of them.
+[08:14] keep the complete page table of  all the frame numbers here.
+[08:18] Can't keep up. what's the reason?
+[08:20] that TLB has a limited size.
+[08:23] Meaning if you increase the TLB,  you increase the cache?
+[08:26] so your cost will increase
+[08:28] What do we do with our normal laptops?
+[08:30] What happens in the normal PC we have?
+[08:33] the cache memory that is there is limited.
+[08:35] Like if I talk 12 bits
+[08:38] Let's suppose my TLB is of 12 bits.
+[08:43] so that means how many entries can I keep?
+[08:45] 2 raised to 12th power entries  I can keep here.
+[08:48] Not that I would increase this too much.
+[08:50] If I increase too much, my cost will increase a lot.
+[08:54] so the cost cannot increase very much
+[08:57] so what are we doing we have limited amount of data
+[09:00] Put the limited amount of frame number here.
+[09:02] so if hit occurs. what does hit mean?
+[09:05] the frame number of the page  you are looking for is lying here.
+[09:09] so you go straight , pick up the frame number from here.
+[09:13] So if the total time taken in case of hit.
+[09:14] time to access TLB
+[09:16] Plus X amount you're putting in memory?
+[09:19] plus ....if it happens here, miss!
+[09:23] what's the point of missing,  if you searched here, searched inside TLB.
+[09:28] Look inside the cache.
+[09:29] but you didn't get the frame number.
+[09:32] so obviously what will you say to it,  TLB miss.
+[09:34] that is, the page you are looking for?
+[09:37] his corresponding frame number entry not found here
+[09:41] that is called a miss!
+[09:42] so you entered the access time of TLB
+[09:44] Then after applying you found out.
+[09:47] hey!  the page you're looking for  doesn't have an entry here.
+[09:50] then what will you do?
+[09:52] then you go to the page table
+[09:53] Because obviously in the page table.
+[09:55] Corresponding frame numbers  of all pages must be there.
+[09:58] that is, you accessed the page table.
+[10:02] and we already know what is the time  to access the page table?   X
+[10:06] Region, I have already told that.
+[10:07] where is the page table located  inside the main memory.
+[10:10] so the time to access main memory  we have kept X value.
+[10:13] so obviously how long will it take to  access the page table as well?  X.
+[10:17] What did I get  from X amount,  frame number.
+[10:20] Now I have got the physical address
+[10:23] by going to that  physical address.
+[10:25] means X amount of time which  I have invested more.
+[10:29] then I found the particular page.
+[10:32] so that is, if I get hit.
+[10:34] so it look time.
+[10:35] if I miss, it will take time.
+[10:39] so this is the formula for this active memory access time.
+[10:42] But remember,  if no  page fault occurs.
+[10:45] what does page fault mean?
+[10:47] I'm assuming that's the page you're looking for.
+[10:50] that page is inside main memory.
+[10:52] if that page is not inside main memory.
+[10:54] so what is concept of page fault service time?
+[10:58] the concept of  page fault service time is different.
+[11:01] meaning now we have to fetch that page  from secondary memory.
+[11:04] where, inside physical memory?
+[11:07] so here if I have written  effective memory access timely.
+[11:09] if there is a page fault, not occurring?
+[11:11] so simple find it in TLB first.
+[11:13] You will get the frame number  from TLB in main memory.
+[11:16] so it took this time. that is called a hit.
+[11:18] and what do mean miss,  you saw in TLB before
+[11:21] you could not find the frame number.
+[11:22] then you looked in the page table?
+[11:24] you got the frame number.
+[11:26] then you accessed that page by  going to that frame number.
+[11:30] so obviously we want to
+[11:32] that which is my hit time,
+[11:34] hit ratio should be high.
+[11:36] and the miss ratio should be less.
+[11:38] if your hit ratio will be high.
+[11:40] so effective memory access time  will be benefited only then.
+[11:43] whose, to set up TLB.
+[11:45] If your misses are too many,
+[11:47] if the miss is more, then there is no  benefit of applying  TLB
+[11:51] Because you're spending extra  TLB time here?
+[11:54] if your hits are too many,
+[11:57] means the page you are looking for,
+[11:59] particular the entry of that  frame number is here.
+[12:01] so can say that you have benefited  from installing  TLB
+[12:06] the numericals which are based on this,  come a lot in the competitive exam.
+[12:10] Even in college and university, they ask what is the concept of  TLB?
+[12:14] Or simple numericals can come related to that.
+[12:17] so numerical we will discuss in next video. Thank you!

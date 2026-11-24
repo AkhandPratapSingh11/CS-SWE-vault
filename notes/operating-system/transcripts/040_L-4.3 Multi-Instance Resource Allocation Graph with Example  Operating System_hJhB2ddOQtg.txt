@@ -1,0 +1,191 @@
+Title: L-4.3: Multi-Instance Resource Allocation Graph with Example | Operating System
+Video URL: https://www.youtube.com/watch?v=hJhB2ddOQtg
+Video ID: hJhB2ddOQtg
+======================================================================
+
+[00:00] Let's solve the example on Multi-Instance RAG. A Multi-Instance RAG means in which
+[00:09] the resources are having of multiple instances. As we discussed in the previous video
+[00:12] in which multiple instances means a resource is having more than one instances
+[00:18] like registers, in our system we are having more than one registers. So in the multi instance,
+[00:24] let's say, there is a R1 resource R2, here R2 is multi instance. So if the RAG is given like that
+[00:31] in which there is a multi-instance resources are present, again they can ask the same question
+[00:37] check whether this RAG this system contains the deadlock or not. So one thing is
+[00:42] you can do it manually, manually means like you can check that first of all,
+[00:48] there is a circular wait or not, like in this there is a circular wait. So this, this, this and this,
+[00:54] there is a cycle and there is another process that is P3. So
+[01:00] you can do it manually also, like P3 having no request, P3 is requesting nothing
+[01:07] so P3 will get successfully execute because P3 is requesting nothing.
+[01:12] P3 needs one resource of R2, it is having one resource. When it get execute,
+[01:17] one resource of R2 will be free. When the resource of R2 will be free, then this resource
+[01:23] will be given to the P1 because one resource will be free, it will be given to the P1.
+[01:30] then P1 will get execute. When P1 will get execute R1, R2 both will be free, then P2 will get execute, means this is a manual way of doing but rather than manual way,
+[01:40] again we are solving with the same method.
+[01:44] Let's say three processes P1, P2, P3 processes and
+[01:51] write down allocation and request, allocation and request
+[02:01] of R1, R2 because there is two, one is R1 and R2. Request of R1 and R2.
+[02:12] Now, first of all P1, P1 has allocated one resource of R1, P1 has taken R1.
+[02:20] So just right 1 because P1 has taken R1, P1 has taken any other? No.
+[02:28] Check for P2, P2 has taken one resource of R2, this is our allocation kind of
+[02:35] because P2 has taken R2 so P2 has taken R2, whether P2 has taken R1? No.
+[02:43] P2 has not taken it is requesting, check for P3, P3 has taken R2, P3 has taken the
+[02:51] one resource of R2 and not for the R1, so 0 for R1 and for R3 we write 1.
+[03:00] For R2 we write 1 because P3 has taken one resource of R2. So this is a simple way
+[03:06] of writing the allocation. Now writing the request that who is requesting for which resource,
+[03:11] which process is requesting. P1, P1 is requesting for R2 you can clearly check P2,
+[03:17] P1 is requesting for R2 so P1 is requesting for R2. So just write 0 on R1 because
+[03:24] it is not requesting of R1. P2, P2 is requesting for R1, P2 is requesting for R1,
+[03:34] so P2 is requesting for R1. So just write 0 for the R2. P3, P3 is requesting nothing.
+[03:44] P3 is requesting nothing. So first of all, just make the table like that
+[03:48] now check the current availability
+[03:53] check the current availability.
+[03:56] What is the current availability? Means how many resources I have available.
+[04:01] R1, no. Only one instance of R1 I have. But that is already taken by P1.
+[04:07] two instances of R2 but that is already taken by P3 and P2, so there is 0, 0 availability.
+[04:16] I am having no availability. R1 is not available, R2 is not available.
+[04:22] Now using this availability, can I fulfil the request of any of the resource? Any of the process? Yes.
+[04:30] I can fulfil the request of P3 because P3 is demanding nothing.
+[04:36] So when the P3 will get successfully execute, because P3 is demanding nothing,
+[04:41] so first of all, P3 will get terminated when the P3 will get terminated,
+[04:45] whatever the resources it is having, it is assigned, they will be free. Which resources are there?
+[04:52] 0 of R1, 1 of R2, so just add in the previous availability, just add it.
+[05:00] So it will be 0, 1. So this is the new current availability.
+[05:05] This is the new availability 0, 1, 0 of R1, 1 of R2. Now check
+[05:10] can I fulfil the request of P1 or P2? Yes, I can fulfil the request of P1 because P1 needs
+[05:17] 1 resource of R2 to get execute. P1 is having R1, but it needs 1 resource of R2 to get execute.
+[05:26] And yes, I'm having one, so I will give this one resource to P1 and P1 will get executed
+[05:36] and when P1 will get execute, it will terminate. So when the P1 will terminate
+[05:40] whatever the resources it is having, they will be freed. So 1, 0 will be free.
+[05:46] So just add into the previous availability. So it will be 0 plus 1, 1, 1 plus 0, 1.
+[05:53] So what is the current availability I'm having? 1, 1. Means one of R1, one of R2.
+[05:58] So can I fulfil the request of, I'm having only P2 because others are terminated.
+[06:03] So P2, what is the request? P2 needs one resource of R1 to get execute.
+[06:09] Do I have? Yes, I'm having one resource of R1. So I simply give it to the P2
+[06:17] and P2 will also get successfully terminated. And there will be no deadlock in the system.
+[06:26] So you can clearly say in this diagram, in this RAG there is no deadlock. So what is the learning?
+[06:33] What is the learning in this diagram?
+[06:36] Whether there is a circular wait? Yes. See there is a cycle, there is a cycle in the graph.
+[06:46] So if there is a cycle in the graph then there will be always deadlock? No.
+[06:52] It is only in the case of single instance means if the system is a single instance and
+[07:01] There is a circular wait. If the system is single instance and there is a circular wait,
+[07:10] there will be a deadlock. Yes it is true, it is true, in all the cases it will be true.
+[07:22] But here the system is multi instance. I'm having two instance of R2.
+[07:29] So if the system is multi instance,
+[07:36] multi instance and there is a circular wait, is there a circular wait? Yes,
+[07:42] in this diagram I'm having the circular wait. So can I say there will be a deadlock always?
+[07:49] There will be a deadlock always? No, there will be not always deadlock.
+[07:55] It can be possible. It cannot be, but we cannot say that if the multi instance system is there
+[08:02] and there is a circular wait there will always be deadlock, this is false. This condition is false for always.
+[08:11] For always this is false because it is example. There is circular wait, but whether there is a deadlock?
+[08:17] No there is no deadlock. But why? Because it is multi instance system. So just remember this,
+[08:24] in case of multi instance and in case of single instance this is very important.
+[08:35] Now let's solve the second question.
+[08:40] Let's solve the second question.
+[08:45] The question is already asked in the GATE exam, so it is little complex.
+[08:51] So if the question is like this,
+[08:56] it will be very difficult to analyse it manually that's why we are following this particular method
+[09:02] because the system the diagram is looking very complex, so you cannot do it manually. Either you can.
+[09:09] If you have practice of that solving, then you can do it manually. But I will suggest
+[09:15] to follow this method because we are having sufficient time to solve the question in the GATE exam.
+[09:20] It is not like a banking system in which we have to do the more and more question in less time.
+[09:25] We are having sufficient time because every single mark is very important. So here
+[09:31] You just follow this method. It will be very advantageous. So how many processes?
+[09:35] Just write down the process is first. Again it is a multiple instance first of all
+[09:40] because R3, 2 instance of R3, 2 instance of R1, 3 instance of R2
+[09:47] even if two, we can call it multi, here all the resources are of multi instance.
+[09:53] So let's say P0, P1, P2, P3.
+[10:01] Four processes are there P0, P1, P2 and P3. Allocation
+[10:09] and request, allocation and request.
+[10:15] What are the resources R1, R2, R3. Just write in the request also R1, R2, R3.
+[10:27] First of all fill the entries 0,1, P0. Check the P0, P0 is having R1
+[10:35] P0 is already holding the one resource of R1. So you can write 1.
+[10:43] in this case because P0 is having 1 resource of R1. Check whether P0 is having any other? Yes.
+[10:49] P0 is also having one resource of R3, so just write 1.
+[10:55] So you have to fill this table first. P0 is having one resource of R1. P0 is having one resource of R3.
+[11:02] Check P0 is having any other resource? No, P0 is not having any other resource.
+[11:10] Check for P1, so just write 0 for the R2. For R2 it is 0.
+[11:16] Check for the P1, P1 is holding one resource of R1. P1 is holding one resource of R1.
+[11:28] and P1 is holding one resource of R2, see P1 is holding one resource of R2 this big line.R2.
+[11:41] Cheque for R3 whether P? No, P1 is not holding R3, so just write 0. Check for P2.
+[11:50] P2 is holding how many resources? So P2 is holding one resource of R2.
+[12:00] Any other resource? No.
+[12:06] Check for P3 so just write 0.
+[12:11] P3, P3 is holding any resource? Yes, P3 is holding one resource of R2.
+[12:28] Yes. P3 is holding only one resource of R2. Any other resource? No.
+[12:34] So just write 0.
+[12:41] Yes. Now, check for the request. You have to do it very carefully because
+[12:45] if there is any problem in this, it will affect your answer. So do it with the proper, do it carefully.
+[12:54] So request, request. P0, P0 is requesting for R3 one resource of R3.
+[13:05] P0 is requesting for one resource of R3, and P0 is requesting for one resource of R2 also.
+[13:15] P0 is requesting for one resource of R3, one resource of R2. It is not requesting of R1,
+[13:22] so just write 0. P1, P1 is requesting. See, P1 is requesting.
+[13:29] P1 is requesting one resource of this line, R1. P1 is requesting any other resource? No.
+[13:39] So just write 0 for that. Check for the P2. P2 is requesting.
+[13:48] P2 is requesting one resource of R3.
+[13:55] Any other resource? No.
+[14:04] Check for the P3, P3 is requesting two resource of R2.
+[14:12] See two lines, it can happen. A process can request for more than one resources.
+[14:19] Yes, that is also possible. So two resources of R2, two resources of R2 and any other?
+[14:31] It is holding this one. Yes, it is also requesting for one resource of R1
+[14:38] and R3? No. So this is you have to design the table first. Now check the current availability.
+[14:47] What is the current availability?
+[14:56] Check for R1, R2, R3.
+[15:01] R1, do we have any available? No, all the two instances are already booked, so just write 0.
+[15:08] Do we have any availability of R2? No. See, all the dots are occupied?
+[15:15] Yes, I am having one availability of R3, one availability of R3.
+[15:21] Now this is my current availability. Now taking this current availability in your hand,
+[15:28] check can I fulfil the request of any of the process? See P0, 0, 1, 1? No,
+[15:36] because I am having 0, 0, 1. But it needs one resource of R2, but I am not having
+[15:41] so I cannot fulfil. 1, 0, 0 for P1, no. P1 needs one resource of R1, do I have one resource of R1? No.
+[15:51] P2 0, 0, 1. P2 needs one resource of R3, do I have? Yes, I have one resource of R3, so what I will do?
+[16:01] I will give this one resource to the P3, P3 first. So, P3 gets, sorry, P2. I gave P2 this one resource.
+[16:11] Just remove this.
+[16:14] This one resource will be given to the P2, P2 will get terminated. P2 will get terminated successfully.
+[16:22] When P2 will get terminated, whatever the resources it is occupying, it is holding, it will be released.
+[16:29] So when it will be released, I will add it. If it is released, my current availability will be updated.
+[16:37] So 0, 1, 0 will be added. 0 plus 0, 0. 0 plus 1, 1. 1 plus 0, 1. So this is the current availability.
+[16:46] New current availability. Now check, 0, 1, 1. Can I fulfil the request of P3? No,
+[16:52] because P3 needs two of R2, I'm having only one. So check again from the P0.
+[16:58] 0, 1, 1. Do I have 0, 1, 1? Yes. I can fulfil the request of P0 because
+[17:04] P0 needs one of R2, one of R3, and I have one of R2 and R3. So I will fulfil the request of P0.
+[17:12] When I give this resources to the P0, P0 will successfully terminate,
+[17:17] and it will be removed from the system. When it is removed, so whatever the resources it is occupying,
+[17:24] that is 1, 0, 1. 1, 0, 1 I will add, simply add, so it will be 1, 1, 2.
+[17:32] So this is my current availability. I'm just writing here. 1, 1, 2, R1, R2, R3.
+[17:41] So this will be the current availability, which is a new availability, updated availability 1, 1, 2.
+[17:47] And I am having now two processes left. Can I fulfil the request of P3 still? No,
+[17:54] but no problem, P3 can wait. But can I fulfil the P1? Yes, P1 needs only one of R1.
+[18:01] I'm having one of R1. I will simply give to the P1. So P1 will get terminated,
+[18:07] so it will be removed from the system and whatever the resources it is allocating,
+[18:12] it will be freed. So these are free, so I will simply add. So 2, 2, 2.
+[18:19] So this is my current availability that is 2, 2, 2. So what is the last? P3.
+[18:25] P3 needs one of R1, two of R2. I am having enough, I am having two of R1. I will give one.
+[18:33] I am having two of R2, I will give to both. So P3 will also get successfully terminated
+[18:40] and it will be removed from the system. So whatever the resources 0, 1, 0, it will be again added.
+[18:48] So this will be the current availability. This is just for a knowledge like
+[18:53] what is the current availability if they ask, at the last, you can say 2, 3, 2 and
+[19:00] the main question is, is it covered? 2, 3, 2. So this is if they asked, what is the last availability,
+[19:08] updated availability? So you can see 2, 3, 2. But mainly they will ask the question
+[19:12] whether this contains the deadlock or not? So you can clearly say no.
+[19:18] There is no deadlock in the system because first of all, P2 will get terminate.
+[19:23] You can also write the sequence explicitly. Sometimes they ask the sequence also.
+[19:28] So here first P2 gets execute. After P2, P0 got executed, after P0 P1 got executed then P3
+[19:40] So you can write the sequence also in a rough way so that if they ask for the sequence,
+[19:45] you can write the sequence also. But the main point is whether this system contains a deadlock?
+[19:51] No. So you just need to clear one thing that is by using this method, you can easily say
+[19:58] if there is a very complex RAG or they are asking for the deadlock occurence or not,
+[20:04] so you can use this method, this will make the question very easy. And the second one is the theory part
+[20:09] that is, if the RAG is having multiple instance and it contains a cycle,
+[20:16] whether there will be a deadlock always? No. If there is a single instance,
+[20:22] then there will be a deadlock always, if there is a circular wait.
+[20:28] But here in the multiple instance, if there is a circular wait then there will be always deadlock? No.
+[20:43] this is false.
+[20:48] MI means multiple instance, circular wait, there will be always deadlock? No.
+[20:52] This is false. This is true for the single instance. But it is false for the it can be, it cannot be.
+[20:59] Means it is not the, it is only the sufficient condition, it is not the necessary conditions.
+[21:05] But in single instance, it is a sufficient and necessary condition for the deadlock.
+[21:10] But for multiple instance, it is a sufficient condition, but not the necessary.
+[21:14] So if there is a circular wait in the system, but in the multiple instance, you can't simply write it.
+[21:20] There is a deadlock, because we have seen the previous example, where there was circular wait,
+[21:25] but there is no deadlock in the system. So this is how we have to solve the question on the RAG
+[21:31] whether the system contains a deadlock or not.
+[21:34] So if you like the video then please like it, share it and please subscribe my channel. Thank you.

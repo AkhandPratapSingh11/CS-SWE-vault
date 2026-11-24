@@ -1,0 +1,1094 @@
+Title: 25. Real-Time Backends
+Video URL: https://www.youtube.com/watch?v=wUQryt697cs
+Video ID: wUQryt697cs
+======================================================================
+
+[00:00] At this point, you have built a fairly
+[00:02] complete back end authentication,
+[00:04] database handler, services,
+[00:05] repositories, caching, background jobs,
+[00:08] and in the last two videos also object
+[00:11] storage. And through all of it, every
+[00:15] single thing our back end has ever done
+[00:17] has followed exactly one shape, which is
+[00:21] the browser asks a question and the
+[00:23] server answers it. Now, let's talk about
+[00:26] another requirement. Since we are
+[00:29] building from a product angle and it's a
+[00:32] fairly ordinary one. We have a task
+[00:35] management application. Let's say you
+[00:37] build that and two people are looking at
+[00:41] the same board and one of them drags a
+[00:44] task from to-do to in progress and the
+[00:49] other person sitting somewhere else in
+[00:51] the world should see the task move live.
+[00:55] not on the page refresh, not on
+[00:58] navigation but live. And the moment you
+[01:02] start thinking about how to implement
+[01:05] this feature, I mean without having the
+[01:08] knowledge of how to implement this the
+[01:10] right way, all the tools that are
+[01:12] available to us, all the technologies,
+[01:14] but if you just think about it without
+[01:18] any prior knowledge, then one limitation
+[01:20] that you'll quickly realize is this one.
+[01:24] So far whatever we have been doing it's
+[01:27] always have been the case that the
+[01:30] client initiates the conversation. The
+[01:32] client starts the communication. The
+[01:35] server cannot start the communication.
+[01:38] It has no mechanism to speak first. It
+[01:43] can only reply to something the browser
+[01:46] has already asked for or it can hold a
+[01:50] communication for a long time but the
+[01:53] starting itself it cannot do and I said
+[01:56] this in video five in the H video that
+[02:00] every time the client initiates and the
+[02:02] server responds that is the model. So at
+[02:05] any point if the server has some news
+[02:08] some information which the browser has
+[02:11] not explicitly asked for then there is
+[02:14] no way to let the information travel
+[02:17] from server to our browser or our
+[02:20] client. So as usual let's do the same
+[02:22] exercise. What is the most intuitive way
+[02:25] to go about the solution? So if the
+[02:27] server cannot tell us when something has
+[02:31] changed or some new information then the
+[02:35] only way to implement that is through
+[02:39] the client and how which is constantly
+[02:43] asking for some information in a loop.
+[02:46] So every 3 seconds or so the browser the
+[02:50] client asks the server has anything
+[02:52] changed on this particular module or
+[02:55] let's say in this case the example was
+[02:57] of this board this task management
+[02:59] board. So every 3 seconds the browser
+[03:01] will ask the server has something
+[03:03] changed in this board this particular
+[03:05] board that I'm looking at with the ID
+[03:08] 412 or something in the last 3 seconds
+[03:12] and depending on the data volume most of
+[03:15] the time the answer will be no
+[03:16] occasionally in this case when the user
+[03:19] has actually moved a task from one board
+[03:21] to another then the answer will be yes
+[03:24] something has changed then the server
+[03:26] will send either the particular change
+[03:30] that has happened or it will just say
+[03:32] that okay some change has happened
+[03:34] please refetch the whole board data and
+[03:37] rerender the whole screen. Here we have
+[03:39] a polling demo where we have two
+[03:43] browsers side by side and both of them
+[03:46] are doing the polling operation that I
+[03:48] mentioned. they are pulling every 3
+[03:50] seconds and as you can see from these
+[03:53] two counters the request counter and the
+[03:56] change counter which most of the time
+[03:59] stays same except when let's say AAS
+[04:03] browser it moved one task and the moment
+[04:06] it does in the next counter of Leo's
+[04:09] browser the unchanged counter does not
+[04:12] increase it stays the same because some
+[04:14] change happened so that request did not
+[04:17] go to waste But other times every 3
+[04:20] seconds the poll that is happening most
+[04:23] of the times the request counter and the
+[04:25] unchanged counter both go up which means
+[04:27] that you are wasting most of your
+[04:30] requests where no change has happened.
+[04:33] And this whole polling setup works
+[04:35] pinging your server every 3 seconds to
+[04:39] ask for information. the solution works
+[04:43] and if you have some kind of internal
+[04:45] tooling with a few users then pulling
+[04:47] every few seconds makes sense and is a
+[04:49] perfectly reasonable decision for that
+[04:52] architecture. But here since we are
+[04:54] talking about a userfacing product front
+[04:57] and we want to do the right solution
+[05:00] with scales that is why we are not going
+[05:02] to stop here. we will keep pushing the
+[05:05] boundary of what is going to break at
+[05:08] what level and what is the right thing
+[05:10] to do. So the first problem that you see
+[05:14] here that you can feel is the delay. If
+[05:18] you poll every 3 seconds, then on
+[05:21] average a change, whatever change
+[05:24] happened, whether a task moved from one
+[05:26] board to another or a task got updated
+[05:28] or deleted, something happened, then
+[05:30] that change waits at least 1 and a half
+[05:33] seconds on average before the other user
+[05:36] or any other user sees it live on their
+[05:39] screen. Pure arithmetic. So the average
+[05:42] delay is always going to be half of your
+[05:45] interval, whatever interval that you're
+[05:47] choosing. In this case it is 3 seconds.
+[05:49] So the average delay will be around 1.5
+[05:52] seconds. So what is the solution to
+[05:55] that? Pull faster. Do not keep a delay
+[05:58] which is visible to the user. Make it 1
+[06:02] second. So let's see what is going to
+[06:05] break when we make the polling interval
+[06:08] to 1 second. Let's say your product is
+[06:12] doing reasonably well in the market and
+[06:14] you have around 10,000 people with the
+[06:17] board open at one point. So 10,000
+[06:20] browsers open at once. Each one is
+[06:23] asking or each one is sending a request
+[06:26] to your server every 3 seconds. That is
+[06:29] 3,33
+[06:32] requests every second reaching your back
+[06:35] end forever. And each one of those
+[06:38] requests they are proper HTTP request
+[06:41] which means they go through your load
+[06:43] balancer then through your
+[06:45] authentication middleware. So in your
+[06:48] authentication middleware you are also
+[06:49] validating the token and then it goes
+[06:52] through your logging middleware. So
+[06:54] you're also writing a log line to
+[06:56] somewhere. Then it goes to into a
+[06:58] service layer which does queries to the
+[07:01] database and then in the end through
+[07:04] serialization comes back as a output as
+[07:07] a JSON which means 3,000 database
+[07:10] queries per second and pretty much all
+[07:13] of them return the same answer which is
+[07:15] nothing has changed every time at least
+[07:18] most of the time which means that if you
+[07:20] drop the interval to reduce the
+[07:22] userfacing delay to make the whole
+[07:25] interface is snappier. That in turn
+[07:29] makes that 10,000 requests per second.
+[07:33] Which means you made the whole user
+[07:34] experience three times better. But the
+[07:38] cost, the compute or whatever resource
+[07:40] that you are paying for it, it is now
+[07:43] your bill that you're going to pay to
+[07:46] your cloud infrastructure at the end of
+[07:48] the month. That is now three times more
+[07:50] or three times worse. Now the cost of
+[07:52] polling scales with the number of users.
+[07:56] It does not scale with the number of
+[07:57] events. What does that mean? Let's say
+[08:01] there is a board where nothing happens
+[08:03] all day. No event is happening on that
+[08:06] board. But still the the amount of
+[08:09] resource that board is costing you,
+[08:12] where nothing is happening, no event is
+[08:14] happening, no change is happening. It is
+[08:15] the same as a board where some event
+[08:19] some change is happening every second
+[08:22] which means that you're not actually
+[08:24] paying with your resources for the
+[08:26] actual change. You are paying for the
+[08:29] whole communication for the requests
+[08:32] itself which obviously feels wrong
+[08:35] because the the thing that is bringing
+[08:38] us value is the events itself the
+[08:41] changes itself not the requests itself.
+[08:43] They are just a medium and a very wrong
+[08:45] medium in this case. Also, if your users
+[08:49] are on a mobile phone, then every single
+[08:52] poll that happens through a phone, it
+[08:56] wakes something called as the radio,
+[08:58] which is one of the most expensive thing
+[09:00] a phone does. So because of this your
+[09:02] polling loop your users battery and
+[09:06] their data is both draining at a faster
+[09:08] pace than usual for no changes at all on
+[09:12] the board that they are looking at. So
+[09:14] far we have realized what is the right
+[09:16] solution for this shift which is the
+[09:18] server should speak first which will
+[09:20] eliminate all these problems that we are
+[09:23] seeing here. And the second one is we
+[09:26] should only pay with our resources for
+[09:29] the actual changes for the actual events
+[09:32] and not per the user the number of
+[09:35] browsers or the number of requests.
+[09:37] Those are just our mediums. They are not
+[09:40] what is bringing us value. So that is
+[09:43] why the rest of this video is going to
+[09:45] be about that. How to achieve that
+[09:48] result, what it looks like on the
+[09:51] network level itself, how much does it
+[09:54] cost on resources and any other topics
+[09:58] around. The first idea people had was
+[10:02] very simple which is if the server can
+[10:05] only answer a question which was what
+[10:08] our primary limitation with the HTTP
+[10:10] protocol was which is a client has to
+[10:12] initiate the communication and server
+[10:14] can only reply back. So since that is
+[10:17] our constraint then the solution people
+[10:21] came up to solve this whole real-time
+[10:23] thing is ask a question and let the
+[10:27] server take its time before answering.
+[10:30] That's the whole shape of the very
+[10:32] simple initial solution and in technical
+[10:35] term we call it as long polling where
+[10:37] what happens the browser sends a request
+[10:39] and the server does not reply
+[10:42] immediately. It holds that request open
+[10:45] the request open by not sending a
+[10:47] response back immediately sometimes for
+[10:50] a minute just waiting. The moment
+[10:53] something happens, some kind of change
+[10:55] happens, it writes the response for that
+[10:59] change with some information and sends
+[11:02] the response back and that request
+[11:03] closes. The browser gets that
+[11:06] immediately and then it starts another
+[11:09] request, another cycle of long polling.
+[11:12] And if you see it is actually written
+[11:14] down in RFC 6202
+[11:17] along with all the things that is wrong
+[11:20] with the solution. But to summarize the
+[11:23] the the reason this solution is wrong is
+[11:27] the gap that happens there after the
+[11:30] server answers the browser has to
+[11:33] process the whole response then open a
+[11:35] fresh request to the server and during
+[11:38] that whole window the server has no
+[11:41] connection to you and according to this
+[11:43] RFC the average latency is about one
+[11:46] network transit but if you look at the
+[11:49] worst case scenario it is more than
+[11:51] three because of that gap thing. So the
+[11:55] long polling solution it works and for a
+[11:59] lot of years people used it to solve the
+[12:02] real-time problem but eventually we had
+[12:05] to move on from it to the next idea and
+[12:08] what that next idea is this is a little
+[12:10] cleverer than the previous one which is
+[12:14] this whole thing happens we are doing
+[12:16] this long polling but what if the
+[12:18] response just never ends right clients
+[12:22] starts a request the browser starts a
+[12:24] request
+[12:25] and waits. That's it. Whenever something
+[12:28] happens, the server keeps sending it,
+[12:30] but it does not close that request. It
+[12:33] just holds that request open and keeps
+[12:36] sending data through that medium. That
+[12:39] is exactly what we call as server send
+[12:41] events. The browser makes a very normal
+[12:46] ordinary looking HTTP get request. The
+[12:49] server replies with the status 200 with
+[12:53] an extra header of content type which
+[12:55] has text /event dashream. Then it simply
+[13:00] just does not close that connection that
+[13:04] the client has opened. Every time it
+[13:06] wants to send some information, it just
+[13:09] writes a little bit of text in the same
+[13:11] connection, sends it back to the client,
+[13:13] and that connection is kept open
+[13:16] forever. And by forever we mean as long
+[13:19] as the browser is still there, the tab
+[13:21] is still there. The moment the tab
+[13:23] closes or the browser closes or some
+[13:25] network connection happens from the
+[13:27] client side, then of course the request
+[13:28] will be closed. And depending on the
+[13:30] retry mechanism or reload mechanism on
+[13:33] the client side, the request will be
+[13:35] opened again. But if the client is open,
+[13:39] if the client is working, if our
+[13:41] platform is open on the browser side,
+[13:44] then there will always be a connection
+[13:46] to the server for this whole
+[13:49] communication thing. That is the whole
+[13:51] idea. And the interesting part is it is
+[13:53] not a different protocol. It is still on
+[13:56] top of HTTP. It still uses the HTTP
+[14:00] header and the response body for all
+[14:02] kinds of communication. And here as you
+[14:05] can see we are starting a s request
+[14:08] since we are using call to act as a
+[14:11] client and communicating with this
+[14:13] server that is running on our local and
+[14:16] we are starting an http request and we
+[14:18] are predeclaring that uh we are
+[14:20] accepting the text event stream data
+[14:23] then the moment we start with the / ai/
+[14:26] event where whatever endpoint the server
+[14:28] is listening to start this connection
+[14:31] then we start getting all these events.
+[14:33] that you can see each event here has an
+[14:36] ID has the event name itself which is
+[14:39] like task move task deleted task created
+[14:42] etc and then the data itself so that the
+[14:45] client the front end can take that data
+[14:48] and directly render it on the screen by
+[14:51] inserting a new card or something and
+[14:53] the reason we are adding this ID here so
+[14:56] that if at some point the connection got
+[14:59] closed or something or the tab was
+[15:01] refreshed or closed something happened
+[15:04] then the client can save this last ID
+[15:06] and it can send it back to the server
+[15:08] that okay this is the ID of the last
+[15:10] event that I received so send me all the
+[15:13] events since then instantly so that it
+[15:16] can render all the changes on the screen
+[15:19] there won't be any delay while it tries
+[15:21] to catch up to the server there is also
+[15:24] one more field called retry and that is
+[15:27] used by the server so that it can tell
+[15:28] the browser how long to wait before
+[15:31] doing the whole reconnection thing and
+[15:34] this is the whole specification of the
+[15:36] format of server send events just four
+[15:39] fields that we are seeing here now
+[15:42] because the server send events this
+[15:44] whole protocol is in the edge standard
+[15:47] the browser itself implements the
+[15:50] reconnection for you if the connection
+[15:52] drops the browser waits and reconnects
+[15:55] on its own you don't really have to
+[15:57] write an extra code for that and when it
+[16:01] reconnects it sends a header called last
+[16:03] event ID that I just mentioned which
+[16:06] carries the ID of the last event it
+[16:08] received. The browser itself your code
+[16:11] does not have to do that. Now people who
+[16:13] are familiar with all the options that
+[16:15] are available for realtime systems which
+[16:18] is the most famous one that is
+[16:20] websockets because of that some people
+[16:22] think that server send events is like an
+[16:25] inferior version or some kind of toy
+[16:28] implementation in front of the actual
+[16:30] architecture which is websockets which
+[16:33] is not true. If you look at Uber's push
+[16:35] platform which tells a driver about a
+[16:38] trip that itself was built on server
+[16:42] sent events. Similarly, if you look at
+[16:45] LinkedIn's instant messaging feature
+[16:48] which also has these typing indicators
+[16:50] and read receipts, they also used server
+[16:53] sent events. And the reason is since it
+[16:56] is all they did not have to think about
+[16:58] compatibility between different
+[17:00] different devices and environments. It
+[17:03] just worked everywhere. And in this era
+[17:05] of agentic coding, all of us pretty much
+[17:08] use different different kinds of CLI
+[17:10] tools for interacting with our agents.
+[17:13] And every single large language model,
+[17:16] LLM model that we use, its API streams
+[17:19] all its tokens to your client either to
+[17:23] your CLI, to your browser, whatever
+[17:26] using server sent events. So when you're
+[17:28] watching that uh text being streamed one
+[17:32] token at a time, one word at a time,
+[17:35] that is exactly that data field that we
+[17:37] just saw in the demo that is being
+[17:39] rendered. So service and events is not a
+[17:45] inferior implementation. It has its
+[17:47] uses. just have to see where exactly
+[17:52] server send events fits in your
+[17:54] architecture and where do you need
+[17:57] something more powerful which we'll
+[17:58] cover soon. So server send events gives
+[18:03] us the whole server speaking first
+[18:05] capability over plain HTTP and on top of
+[18:08] that we also have browsers uh natively
+[18:11] supporting reconnection and resuming any
+[18:14] connection related errors. So what is
+[18:18] the limitation here? Why are we still
+[18:20] trying to look for a better solution?
+[18:23] Which is the name itself? If you look at
+[18:25] the name server send events, what that
+[18:28] means is it is one direction only. The
+[18:31] server can talk all day like constantly.
+[18:34] It can keep sending all the information
+[18:36] it wants to browser to our client. But
+[18:39] if the browser wants to communicate
+[18:42] something to the server using the same
+[18:45] connection or using the same real-time
+[18:47] connection, it cannot. For example, in a
+[18:51] task management app, if the user drags a
+[18:53] task and it wants to let the server know
+[18:56] about this information, that is going to
+[18:58] be a separate post request that cannot
+[19:01] share the same connection. And for a lot
+[19:04] of features, for a lot of products, that
+[19:06] is a completely fine architecture. But
+[19:10] in this case, since we are trying to
+[19:11] learn about all the options and what is
+[19:13] the best option for our this feature,
+[19:16] which is the live board feature, we want
+[19:19] both directions on one connection. And
+[19:22] that is why let's look at the technology
+[19:25] that offers us that exact feature, which
+[19:28] is two-way communication on the same
+[19:30] connection. So here we are using a tool
+[19:35] called websocket to experiment with our
+[19:39] whole websocket architecture using a
+[19:41] server which is running on the port 7821
+[19:45] and it is exposing the whole websocket
+[19:48] connection feature on the /echo endpoint
+[19:51] and using this tool we are trying to
+[19:53] initiate a connection to the same
+[19:55] endpoint. The moment we start, we see a
+[19:58] couple of info logs here which says a
+[20:00] few things and then it says connected to
+[20:03] this particular server at port 7821
+[20:07] through TCP. Right? Then if you focus on
+[20:10] the line which says connected to
+[20:13] websocket and the response headers that
+[20:16] we received is upgrade websocket
+[20:19] connection upgrade and there is a header
+[20:22] called sec websocket accept. We'll come
+[20:24] back to what that is. Once that is done,
+[20:27] this whole thing is called the websocket
+[20:30] handshake. Once this is established, now
+[20:33] we can start communicating with the
+[20:35] server. Here we are seeing that a okay a
+[20:37] task moved on board 412 and the server
+[20:40] instantly replies what we sent to the
+[20:42] server and then in the next line the
+[20:45] server also sends some information back
+[20:47] which we are rendering here. Then we
+[20:49] send some information back and so on and
+[20:52] so forth. the two-way connection works
+[20:54] in the whole websocket architecture. So
+[20:57] the thing to focus here some of the
+[20:59] interesting things is websocket
+[21:01] connection itself it does not start as a
+[21:04] websocket. It starts as a normal HTTP
+[21:07] get request and that is pretty powerful
+[21:11] because it travels through everything
+[21:14] that already understands HTTP which
+[21:17] means every single device that we can
+[21:18] imagine pretty much all of them speak
+[21:21] HTTP by default. So the browser sends a
+[21:24] get request with a header saying upgrade
+[21:28] websocket and a header called sec
+[21:31] websocket key with a 16 random bytes
+[21:35] with base 64 encoded. Then the server
+[21:39] takes that key. It adds a fixed string
+[21:42] to the end of that. Takes the S1 hash of
+[21:46] the whole result. Then it B 64 encodes
+[21:50] that and sends it back in a header
+[21:53] called SEC websocket accept along with
+[21:56] the whole status code 101 which means
+[22:00] switching protocols from HTTP to
+[22:03] websocket and the fixed string that I
+[22:06] mentioned that is a constant and it is
+[22:08] written in the specification and it
+[22:11] sounds like it is for security but it is
+[22:13] not because anyone can compute it. Whole
+[22:17] job of this key is to prove that the
+[22:21] thing that is answering it understood
+[22:24] that you asked for a websocket
+[22:26] and it is not just a cache that is
+[22:29] replaying an old 200 response. So once
+[22:33] that exchange is done the part is over
+[22:36] the connection still stays open but it
+[22:39] is not HTTP anymore. Everything changes.
+[22:42] No headers, no methods, no status codes.
+[22:44] It is now a completely new birectional
+[22:49] stream of data and both sides can write
+[22:52] whenever they want. And this birectional
+[22:57] stream of data it is also called
+[22:59] birectional stream of frames. What is a
+[23:02] frame? The RFC says it is a bit diagram
+[23:06] where the first bit is FIN or FIN which
+[23:11] says that it is the last piece of a
+[23:14] message. Then comes three reserved bits.
+[23:18] After that four bits of op code which
+[23:21] says what kind of frame it is. One means
+[23:24] text, two means binary, 8 means close
+[23:28] and nine means ping, 10 means pong and
+[23:31] zero means this is just a continuation
+[23:34] of the previous message. Then one bit
+[23:37] called mask. After that seven bits of
+[23:41] payload length, which is a very
+[23:44] efficient design. If your payload is
+[23:47] under 126 bytes, the length is just that
+[23:51] number and the whole header just cost
+[23:53] you two bytes. If it is bigger, you
+[23:56] write 126 there and the real length in
+[24:01] two more bytes. But if it is like huge,
+[24:05] you write 127 followed by 8 bytes. So a
+[24:10] small message just has a two byte
+[24:12] header. Compared to our earlier long
+[24:15] polling approach where every polling
+[24:18] request had hundreds of bytes of
+[24:20] headers, we can already see the kind of
+[24:23] resource saving that is happening here.
+[24:25] Now let's talk about that masked bit.
+[24:27] Every single frame the browser sends to
+[24:30] the server is what we call as masked.
+[24:33] And what that masked means is each bite
+[24:35] of the payload is x odd with one bite of
+[24:39] a four byte key. And it cycles through
+[24:42] the key as you go. And this key is sent
+[24:47] in every single frame four bytes in
+[24:49] front of the payload. And it is sent in
+[24:52] clear text. It is not an encryption.
+[24:54] Anyone reading the whole network can
+[24:58] read it with just one line of code. So
+[25:01] why does it exist in the first place?
+[25:03] The reason is while the protocol was
+[25:06] being written, someone ran an experiment
+[25:09] against real caching proxies that were
+[25:13] deployed over the internet and then
+[25:16] poisoned them. What that means is the
+[25:19] whole attack looks something like a a
+[25:22] malicious page would open a connection
+[25:25] to a server that the attacker controls
+[25:28] then does something that looks like an
+[25:31] HTTP upgrade and then sends bytes in
+[25:35] that connection which are carefully
+[25:39] written to look like a fresh get request
+[25:42] for some kind of popular file. let's say
+[25:45] some kind of tracking script like Google
+[25:47] Analytics or something like that which
+[25:49] thousands of sites load then a proxy is
+[25:53] in the middle which does not really
+[25:55] understand this whole protocol. It sees
+[25:58] that is just a request and a response
+[26:02] and it caches that response and the
+[26:04] moment it does that everyone behind that
+[26:07] proxy gets the attacker's file when they
+[26:11] ask for the real one. That's the whole
+[26:13] framing of this attack. And to counter
+[26:16] that, what they came up was this
+[26:19] masking. So if the browser exors
+[26:22] everything with a fresh random key which
+[26:25] the pages JavaScript cannot predict,
+[26:29] then the attacker cannot choose the
+[26:30] bytes that appear on the network. They
+[26:33] can choose what they send, but they
+[26:35] cannot choose what it looks like after
+[26:37] the masking. And because of that they
+[26:40] cannot do the fake HTTP request in the
+[26:43] stream. And this is why the key should
+[26:46] be and must be random. And as per the
+[26:50] specification it says the FG for each
+[26:53] frame. So masking in this case is not
+[26:56] there to protect your data but it is to
+[27:00] protect the whole arrangement between
+[27:02] you and your user the whole
+[27:04] communication. Now let's talk about two
+[27:07] more frame types because they are
+[27:09] important. Op code 9 which we said is
+[27:13] for ping and op code 10 which is for
+[27:16] pong. Any of the sides either client or
+[27:19] the server they can send a ping and the
+[27:22] other one must send a pong back which
+[27:25] means just a response back. That is what
+[27:28] we call as a heartbeat. And we need this
+[27:31] whole thing. Why? Because of TCP. If a
+[27:34] connection dies or gets interrupted
+[27:37] because either the user walked into a
+[27:39] lift or their phone switched from Wi-Fi
+[27:42] to mobile data. If something like that
+[27:45] happens, then you do not really get
+[27:47] anything. They do not send you anything.
+[27:50] There is no error. There is no close,
+[27:52] nothing like that. and your server is
+[27:54] just there holding a socket and it it
+[27:57] believes that the client is still there
+[28:00] and it will keep holding on to it for a
+[28:02] very long time because from the server's
+[28:04] point of view from the sockets's point
+[28:06] of view an idle connection and a dead
+[28:08] connection looks exactly the same
+[28:10] because nothing is happening there. So
+[28:12] the only way to tell them apart is to
+[28:15] send something and see if something
+[28:17] comes back to see if the other side is
+[28:20] still there or not. And that is exactly
+[28:23] why we have this ping and pong setup. In
+[28:26] actual websocket based setups, we have
+[28:29] these constraint where if some side
+[28:33] sends a ping and the other side does not
+[28:35] send a pong within 30 seconds, the
+[28:37] connection is considered as dead and the
+[28:40] other side can close it and it can free
+[28:42] whatever resource it was holding. Right?
+[28:45] So now we have persistent connections.
+[28:48] Both directions can talk. Now, now the
+[28:51] question is how many of these
+[28:53] connections a particular machine can
+[28:56] hold. So this is a plain uh Linux
+[28:59] machine. It has 16 cores of CPU and 61
+[29:05] GB of free memory. And this is a
+[29:08] websocket server written with a few
+[29:11] lines of go which does nothing apart
+[29:14] from accept connections and hold on to
+[29:17] them. There is no application logic
+[29:19] because what we want to measure is how
+[29:21] many connection we can hold. So let's
+[29:23] check what are our limits exactly. If
+[29:27] you know about file descriptors in Unix
+[29:31] machines like Linux, Mac etc. Everything
+[29:34] is a file which means a socket a network
+[29:38] socket itself is a file and to interact
+[29:41] with that you have a file descriptor. So
+[29:43] every connection is a file as far as the
+[29:46] kernel is concerned. There is some
+[29:48] abstractions on top of it. So the number
+[29:51] of connections you can hold is directly
+[29:54] related to the number of files you can
+[29:58] have open in your operating system. So
+[30:01] if we run this command called ulimit- n
+[30:05] it says that 1,024
+[30:08] that's how many files you can keep open.
+[30:11] I'm starting this server which has this
+[30:14] limit configured and then we'll open
+[30:18] 2,00 connections at it and we will see
+[30:21] where does it exactly stop and it stops
+[30:24] at 1,17
+[30:27] which is exactly right because we have
+[30:29] things like a bunch of standard input
+[30:31] standard output standard error the
+[30:34] listening socket itself and the eole
+[30:36] instance that the runtime is using to
+[30:40] watch all of
+[30:41] And there are like a seven file
+[30:44] descriptors of overhead. And after all
+[30:46] that we have 1,7 connections. Now let's
+[30:50] look at what the client saw. It did not
+[30:53] get connection refused. No kind of error
+[30:56] at all. It just got a timeout and it was
+[31:00] just waiting there for a handshake for a
+[31:03] reconnection. But if you look at the
+[31:06] server, it shows the exact reason which
+[31:08] is too many files open and it keeps
+[31:12] showing that reason with some kind of
+[31:15] exponential backoff. So the server is
+[31:18] not down, it is up and it is very much
+[31:20] healthy. It is still answering any kind
+[31:23] of health check APIs we have configured
+[31:25] but it is refusing to accept any new
+[31:29] connections. We said that the limit is
+[31:32] 1,024.
+[31:33] Now let's see something else. It is the
+[31:36] same shell and it is the same Linux
+[31:39] machine that we saw earlier. And if we
+[31:42] ask the go program what is the file
+[31:45] descriptor limit is then it says
+[31:48] 1,4,575.
+[31:52] And if we ask Python in the same shell,
+[31:54] it says,24.
+[31:57] Why? because the Go runtime itself
+[32:00] raises its own limit when it is starting
+[32:03] up. Here if you open the standard
+[32:05] library of Go here the comment explains
+[32:08] the same thing that some systems set an
+[32:11] artificially low soft limit for
+[32:15] compatibility with code that uses select
+[32:18] which has a hard-coded maximum file
+[32:21] descriptor because of the size of FD set
+[32:25] but Go does not use select. So the go
+[32:27] team decided that the runtime should
+[32:29] just raise the limit for itself and let
+[32:33] the old software as it is. And if you
+[32:36] look at this line, it sets the new limit
+[32:39] to the maximum minus one intentionally
+[32:42] so that it can detect somebody else
+[32:45] changing the limit later. That is why
+[32:47] the number we saw was 1,48,575
+[32:53] not 576.
+[32:55] So the famous quote that we hear which
+[32:58] is you will hit a thousand file
+[33:00] descriptors problem that exists but it
+[33:04] is language dependent. If you are
+[33:07] writing node or python or java then you
+[33:10] will face that issue but if you are
+[33:12] writing go then you have much more
+[33:15] flexibility here. Now that we have
+[33:18] removed that limitation, let's say we
+[33:21] are using go and we have no limitation
+[33:24] on the file description. So now we have
+[33:27] 1 million descriptors. Let's see from
+[33:30] this point how far we can go. If you try
+[33:32] again, it stops at 28,190.
+[33:37] Then it is dead. But this time with a
+[33:39] completely different error which is
+[33:41] cannot assign requested address. So to
+[33:44] investigate this, let's ask the kernel
+[33:47] itself which port numbers it is allowed
+[33:49] to use when it makes an outgoing
+[33:52] connection. And it says 32,768
+[33:56] up to 60,999.
+[34:00] If you subtract and add one that is
+[34:03] 28,232
+[34:06] available ports. So we got 28,190
+[34:12] and we have to subtract 42 because this
+[34:15] is a shared machine and 42 of those
+[34:19] ports are already in use by some other
+[34:22] services. But the point is that the
+[34:25] whole limitation here is something that
+[34:27] you can calculate beforehand before you
+[34:31] face this error. And this time we did
+[34:33] not run out of memory and we did not run
+[34:36] out of file descriptors but we ran out
+[34:40] of port numbers where on the server not
+[34:43] on the client. A lot of people believe
+[34:46] that a server can only hold 65,000
+[34:51] connections because there are only
+[34:53] 65,000 ports. That is not true because a
+[34:57] T connection is not identified by a
+[34:59] port. It is identified by four things.
+[35:02] The source address, the source port, the
+[35:05] destination address and the destination
+[35:07] port. And every connection just has to
+[35:09] be unique across all four. Our server
+[35:12] has one address and one port. And that
+[35:15] never changes. So every connection to it
+[35:18] must be different in the other two
+[35:20] places. Our client also had one address
+[35:24] which means that there is exactly one
+[35:26] thing which needs to be different across
+[35:29] every connection which is our own source
+[35:31] port which was we just checked 28,000 of
+[35:35] them and that is the limit which belongs
+[35:39] to the client which also means that the
+[35:43] fix for this is not getting a bigger
+[35:46] server. So what we can try here, let's
+[35:48] give the client three addresses to dial
+[35:51] out from instead of one. And we will ask
+[35:55] for 25,000 on each one. So 75,000 total
+[35:59] connections. And we have zero failures.
+[36:02] The server is holding 75,000
+[36:07] and 9 file descriptors, which is our
+[36:10] 75,000 sockets and the same as before.
+[36:15] And this is exactly why when you are
+[36:17] trying to do load testing in your
+[36:18] production, you'll need different
+[36:21] machines and several of them to get to
+[36:24] the number to get to the load that you
+[36:26] can handle. So now that we can actually
+[36:29] generate the load, we have seen how what
+[36:32] is the limitation now which is the
+[36:34] memory. Our server was at around 7 and
+[36:39] half MB of memory doing nothing with
+[36:43] 75,000 connections that are currently
+[36:46] open. It was at 722
+[36:49] MB. If you subtract and divide, each
+[36:52] connection costs about 9,750
+[36:58] bytes. And that is our servers processes
+[37:02] heap, its own heap per connection. It is
+[37:06] not the total cost to the machine
+[37:10] because the kernel has its own
+[37:11] structures for every socket and that
+[37:14] does not appear in the processes
+[37:17] resident memory. And I tried to measure
+[37:20] it three times because that's how you
+[37:23] can reach at a definite number. It came
+[37:27] out as first 9,51
+[37:31] 9752
+[37:34] 9,881
+[37:37] bytes. So if you multiply out 1 million
+[37:40] connections is going to be a bit under
+[37:44] 10 GB of heap before the kernel takes
+[37:47] its own share. So on a 61 GB of box that
+[37:53] is pretty much easily achievable. So all
+[37:56] in all what we learn from this whole
+[37:57] thing is a million idle connections is
+[38:02] pretty much boils down to your RAM your
+[38:04] memory and also most of that 9 kilobytes
+[38:08] that we saw is not the socket. It is
+[38:11] going to be the go routine that we
+[38:14] spawned to watch it monitor it and the
+[38:18] buffers we gave it. And that is why
+[38:21] people trying very large numbers. They
+[38:24] don't use go routines per connection.
+[38:26] Instead, they watch every socket from
+[38:28] one place using e- pole. Now we learned
+[38:31] that one machine can hold a lot of
+[38:33] connection depending on how much the RAM
+[38:36] is. But the issue is you will not have
+[38:40] one machine in your production. You will
+[38:42] have multiple of them because of the
+[38:44] whole autoscaling and all architecture.
+[38:47] And when there are multiple machines and
+[38:49] when you also consider deployments where
+[38:52] a container state dies and a new
+[38:55] container comes up in all these
+[38:57] scenarios you also have to think about
+[38:59] dropping every single one of your users
+[39:02] connection and picking them up again and
+[39:06] what happens when a machine dies and a
+[39:08] container dies suddenly all these
+[39:11] scenarios. So to understand that this is
+[39:14] the same board with two instances of our
+[39:17] server behind a load balancer. Now
+[39:20] browser A connects and the load balancer
+[39:23] sends it to instance one. Next browser B
+[39:26] connects and that gets sent to instance
+[39:29] two. Both are healthy. Both have a live
+[39:32] web soocket. Now I move a task in
+[39:35] browser A and nothing happens in browser
+[39:38] B. Why? Because if you think about it,
+[39:41] where does that connection live?
+[39:44] Instance one has a socket in its memory,
+[39:47] a go routine and a note somewhere that
+[39:50] this particular socket is involved with
+[39:52] board 412. Now instance 2 has never
+[39:56] heard about browser A and it cannot
+[39:59] because there are two separate process
+[40:03] and probably in two different countries.
+[40:06] We spent pretty much our whole playlist
+[40:09] making our backend stateless so that any
+[40:12] instance can serve any request. But now
+[40:16] in this video we're saying that a
+[40:18] persistent connection is a state and it
+[40:21] lives in one specific process memory and
+[40:25] it cannot be moved and it cannot be
+[40:27] shared. So the moment you accept a web
+[40:31] soocket that instance is the only
+[40:33] instance in the world that can talk to
+[40:34] the user. So what do we do now? This is
+[40:38] a very big contradiction to what we have
+[40:40] been building so far. Some people
+[40:42] suggest this solution called as sticky
+[40:44] session. What a sticky session is a
+[40:48] sticky session tells the load balancer
+[40:50] to keep sending the client the same
+[40:53] client back to the same instance and it
+[40:57] should do the same behavior for
+[40:58] reconnection. Also with sticky sessions,
+[41:02] browser A keeps connecting to instance
+[41:04] one, but that does not really solve the
+[41:07] problem which is browser B is still on
+[41:10] instance 2 and it still does not have
+[41:14] any idea about browser A. So sticky
+[41:17] sessions is not the right solution here.
+[41:19] It is a completely different problem
+[41:21] that trying to solve. Our problem here
+[41:24] is two clients at the same time. the
+[41:27] instances themselves have to talk to
+[41:29] each other. So the solution that most of
+[41:33] us arrive at is going to be pubsub or
+[41:37] publish and subscribe which is when
+[41:41] something happens on board 412 the
+[41:44] instance that receives it instead of
+[41:47] trying to deliver it what it does is it
+[41:49] publishes to a topic and something some
+[41:53] tool in the middle radius or nats or
+[41:57] kafka any of these popsup tools
+[42:00] They hand that event to every subscribed
+[42:04] instance for that topic and each one of
+[42:07] them then looks at their own connections
+[42:11] and they find the one watching for that
+[42:13] board and they write the frame. So the
+[42:16] instance that receives the change and
+[42:18] the instance that delivers now they can
+[42:22] be on different machines. That is the
+[42:24] whole architecture of making the
+[42:26] instances talk for realtime events. We
+[42:29] again have two browsers again have two
+[42:32] instances but there is one difference
+[42:34] where here this user moves a task. AA
+[42:38] moves a task but this time Leo sees it
+[42:42] instantly because of the whole event
+[42:45] publish and subscribe architecture.
+[42:47] There is a one note here which is if
+[42:50] you're using radius so its whole popsup
+[42:53] model the publish and subscribe model is
+[42:55] what we call as fire and forget. So
+[42:57] because of that if an instance is not
+[42:59] connected at the exact moment that you
+[43:02] publish that message is gone forever.
+[43:05] There is no way to cue it. There is no
+[43:07] way to delay it or retry anything just
+[43:10] gone. So think about this scenario where
+[43:13] uh a deployment happens and an instance
+[43:16] goes down the container goes down and
+[43:18] it's replacement container goes up and
+[43:21] in the seconds that in in the seconds
+[43:25] between them between all this happens
+[43:27] the one instance going down and another
+[43:29] coming up every message that is
+[43:31] published for the users that the
+[43:35] particular instance was serving those
+[43:37] messages are gone completely. So the
+[43:40] other boards that were depending on the
+[43:43] updates for those events the only time
+[43:45] they see those events is when they do a
+[43:47] refresh again. So this is a
+[43:50] architectural decision which is if you
+[43:53] are using radius pubsub for this you
+[43:56] have to be aware of the limitation that
+[43:58] radius offers you a model of delivering
+[44:02] at most once. So if you need the
+[44:05] alternative model which is at least once
+[44:07] then you need something else which
+[44:10] stores your messages and also sends
+[44:13] acknowledgements for them which means
+[44:15] something like ready streams or Kafka or
+[44:18] Q something like that instead of radius
+[44:21] popsup which brings us to the question
+[44:24] which is what happens to a message that
+[44:27] was published when a user was not
+[44:29] connected because that is a very common
+[44:32] scenario connections might drop, a phone
+[44:35] changes its network from Wi-Fi to mobile
+[44:37] data, or maybe the laptop's lid is
+[44:40] closed by someone, or the load balancer
+[44:44] hits its idle timeout. So in a real
+[44:48] production grade realtime system, you
+[44:50] have to take into account all of these
+[44:52] things and you have to think about what
+[44:55] is your catching up strategy. Not just
+[44:59] delivering strategy but catching up in
+[45:01] case some kind of connection error
+[45:03] happens, connection failure happens. And
+[45:05] the shape of the solution is something
+[45:07] that we have already seen in the server
+[45:10] send events which is name all your
+[45:13] messages or ID all your messages and
+[45:16] make the client who is communicating
+[45:17] with you tell you the last ID or the
+[45:20] last number it actually received and
+[45:23] send everything after that. In case of
+[45:25] any kind of connection error, a platform
+[45:27] like Uber, they do exactly this. A
+[45:31] client connects and it says I am at
+[45:34] sequence zero and then the service
+[45:36] starts sending the messages with
+[45:39] increasing sequence numbers. If at any
+[45:41] point the connection breaks, the client
+[45:43] reconnects and says I was able to get up
+[45:47] to sequence number two. So the server
+[45:50] takes that and then it starts from three
+[45:54] because that's where the client was
+[45:57] errored out. This is exactly what we saw
+[45:59] with the server send events using the
+[46:01] header last event ID. Now the last thing
+[46:03] that I want to cover is what we call as
+[46:06] fan out. We just saw above that to solve
+[46:10] the problem of multiple instances you do
+[46:13] the whole publish and subscribe model.
+[46:17] But if we consider that if 30,000 people
+[46:20] are watching the same board then one
+[46:23] person moving one task means that your
+[46:27] server has to perform 30,000 rightes.
+[46:31] The actual work that your server has to
+[46:34] perform is the number of events
+[46:36] multiplied by the number of subscribers.
+[46:39] Discord had wrote about this once
+[46:43] because they had scenarios where they
+[46:45] had communities with 30,000 people
+[46:47] online at once and they measured that
+[46:51] publishing a single event to one of
+[46:54] those took somewhere between 900
+[46:56] milliseconds to up to 2.1 seconds for
+[47:00] one message for a platform like Discord.
+[47:04] core architecture is about messaging.
+[47:06] And the solution they found for this
+[47:09] problem was instead of doing the fan out
+[47:13] in one place, spread out, spread the
+[47:16] whole work across different machines who
+[47:20] actually owns the recipients. Let's also
+[47:23] pay attention to the mechanism of
+[47:25] reconnect. So think about an instance
+[47:28] which is holding 50,000 connections and
+[47:31] if that instant dies all the connections
+[47:35] that it is holding all the clients they
+[47:37] all start reconnecting at the same
+[47:39] moment and the moment they connect all
+[47:42] of them want their initial state which
+[47:44] boards which tasks who is online which
+[47:47] means 50,000 expensive requests in 1
+[47:51] second and this is the scenario that was
+[47:53] written by Slack and the Fix for this
+[47:56] was to make the connecting part cheap by
+[48:01] keeping a cache at the edge of the
+[48:03] network which holds the information of
+[48:05] what a client needs to start so that
+[48:08] whenever a reconnection load happens, a
+[48:11] reconnection storm happens, it does not
+[48:13] reach the origin. It does not reach the
+[48:15] core. Okay. Now to summarize everything,
+[48:18] we started with a server that could only
+[48:22] reply to questions to a connection which
+[48:26] was started from the browser. And to
+[48:29] beat that, we started with polling which
+[48:32] worked. But the price it cost was the
+[48:37] number of people watching instead of the
+[48:39] number of things happening, number of
+[48:42] changes happening or events happening.
+[48:44] Then the alternative that we considered
+[48:46] was long polling which holds a request
+[48:49] open which again had some of these
+[48:51] problems because of the gap between the
+[48:54] client receiving the response processing
+[48:56] it and starting another request. It lost
+[48:59] some changes. So to counter that we came
+[49:02] up with a different variation of the
+[49:05] long polling which is server send
+[49:07] events. So instead of closing the
+[49:09] request after sending the response back,
+[49:11] the server keeps the connection open.
+[49:14] But the limitation then we faced was the
+[49:17] client the browser itself could not send
+[49:19] any messages back to the server and to
+[49:22] counter that we came up with websockets
+[49:25] which starts as a h request then it
+[49:28] upgrades to a websocket protocol with
+[49:31] things like uh bite headers and masking
+[49:33] which protects proxies. we try to
+[49:37] measure on a machine. The first
+[49:39] limitation that we faced was the file
+[49:41] descriptors which is because in Unix
+[49:44] everything is a file because of that the
+[49:46] socket is also a file and we saw that
+[49:48] different programming languages have
+[49:50] different limits and if you are using go
+[49:53] then you can go up to 1 million. Then
+[49:56] the next limitation that we faced was a
+[49:58] client's port range not servers
+[50:00] limitation the client's limitation and
+[50:03] to counter that we configured so that
+[50:05] the client dials out from different
+[50:07] different ports instead of a single port
+[50:10] and in the end the limitation or the the
+[50:14] ceiling that we faced was the memory
+[50:16] which was around 9.6 six kilobytes of
+[50:20] heap per connection. And then we saw the
+[50:23] problem of persistent connection
+[50:26] handling scenarios where our server is
+[50:28] divided into multiple instances for
+[50:30] different reasons like scaling and then
+[50:33] containers restarting and all these
+[50:35] things. And to counter that the
+[50:38] architecture that we came up with is
+[50:40] popsup publish and subscribe. That's
+[50:43] pretty much a brief about realtime
+[50:46] systems and how clients and servers
+[50:48] handle it using different different
+[50:50] strategies. Now there is also a lot of
+[50:52] things that we did not cover things like
+[50:55] presence system to see which users are
+[50:58] currently online in our platform and
+[51:01] also collaborative editing where two
+[51:04] people can change the same thing at the
+[51:07] same time and someone has to win. If you
+[51:11] have used platforms like notion or
+[51:13] Google docs, they show live cursors of
+[51:16] two people editing the same text at the
+[51:19] same time. All of those can push the
+[51:23] limits and the capabilities of realtime
+[51:26] systems to a 10 hours of lecture because
+[51:30] each one of them open a door into
+[51:34] multiple technologies. Like if you are
+[51:36] talking about the collaborative editing
+[51:38] space then you have to understand
+[51:40] algorithms like CRDT how they work over
+[51:42] the wire and all those stuff. But
+[51:45] everything that we talked about in this
+[51:47] video is the foundation on top of which
+[51:50] we can keep adding more and more
+[51:51] capabilities.

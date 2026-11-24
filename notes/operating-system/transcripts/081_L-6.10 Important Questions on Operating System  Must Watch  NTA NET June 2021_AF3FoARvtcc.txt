@@ -1,0 +1,221 @@
+Title: L-6.10: Important Questions on Operating System | Must Watch | NTA NET June 2021
+Video URL: https://www.youtube.com/watch?v=AF3FoARvtcc
+Video ID: AF3FoARvtcc
+======================================================================
+
+[00:00] Hello friends welcome to Gate Smashers ,
+[00:02] In today’s video we are going to  discuss question on operating system
+[00:05] and this questions are very important from  point of view of competitive exams.
+[00:10] So quickly like this video and subscribe this channel,
+[00:13] if you have not done till now .
+[00:14] and please press the bell button so that  you get all the latest notifications.
+[00:18] So let’s start with question no. 1.
+[00:20] Consider the following track request
+[00:22] and I have these track requests
+[00:24] C scan algorithm that is circular scan
+[00:26] current location of  read write head that is 50
+[00:29] track is from 0 to 199.
+[00:32] So in this way you
+[00:34] make track from 0 to 199 in this way.
+[00:39] Current location,  what is it? 50
+[00:42] read write head at present is at 50
+[00:44] moving towards the smaller track
+[00:46] so read write head is moving  towards the smaller track number
+[00:51] means either the direction  is given directly
+[00:54] or else given like this indirectly
+[00:56] that’s what is the meaning of smaller
+[00:59] that track is moving on this side from 50,
+[01:01] the read write head is moving
+[01:03] so what you have to do, total seek time needed
+[01:06] You have to find the total seek time
+[01:08] 2 millisecond time to move from  one track to another
+[01:10] means for one movement if 2 ms is needed
+[01:13] so we have to find total movement here
+[01:15] and then we will multiply it with 2
+[01:17] so somehow our answer will come.
+[01:19] So let’s start from 50
+[01:21] so all the values below 50,
+[01:23] in the scan, what is the meaning of scan?
+[01:25] while moving from 50  in this side
+[01:27] it will go up to 0
+[01:29] and all the request that are in between, scanning them
+[01:32] means what will it do? Will follow all
+[01:34] request to fulfil  these requests.
+[01:37] From 50 we started, from  50 we moved on 34
+[01:41] 34 will be fulfilled in this way,
+[01:44] after 34 we have 11
+[01:47] 11 will come here in this way
+[01:50] and after 11 where will it move?
+[01:53] This side? No
+[01:54] It will go completely up to 0
+[01:58] completely means if we are moving  in this direction
+[02:00] you complete up to 199
+[02:02] means if we went up to 0
+[02:05] and after going to 0 means circular
+[02:07] what do we mean by circular? Means from  0 to 199 it is connected like this
+[02:11] because these tracks are on a disc
+[02:14] and that track after 0 to 199
+[02:18] means you will start from here, from 199 you will start
+[02:21] so when we start from 199
+[02:24] so after 199 first you have 180,
+[02:28] you complete 180
+[02:30] in this way 180 will be fulfilled
+[02:33] we will read from 180
+[02:35] after 180 we have 123,
+[02:38] you complete 123 in this way
+[02:41] after 123 you have 119
+[02:44] so 119 is completed
+[02:46] after that we have 95
+[02:49] you will read 95 in this way
+[02:53] after 95, 64, 62
+[02:57] now you will have up to 62,
+[03:01] in this way you will have movement.
+[03:03] So now count all the movement
+[03:05] first you moved from 50 to 0,
+[03:07] what is the movement 50 – 0 plus
+[03:11] from 199 we moved to 62
+[03:13] so 199-62
+[03:19] so how much movement is there?
+[03:20] 50 plus, this is 137
+[03:25] 199-62 is 137
+[03:29] but you don’t have to add directly here.
+[03:31] It is given here that movement of
+[03:33] every track is taking 2 millisecond
+[03:35] so (50 x 2) +(137 x 2)
+[03:40] because every movement
+[03:42] means if you are moving from track 1 to 2, 2 to 3
+[03:45] so in every moment two  millisecond time is taken
+[03:48] so for 50 (50x 2) + (137 × 2)
+[03:52] plus one extra thing is given here
+[03:55] this one assume moving  one end to another end
+[03:59] will take 10 ms.
+[04:01] So what you did? from 0 where did you go
+[04:03] let's start from 199
+[04:05] when you move from 0 to 199
+[04:07] that time taken is given as 10 MS
+[04:11] so you will add to this directly
+[04:14] so when you add this
+[04:15] answer you will get 384.
+[04:18] When you solve this
+[04:20] the answer you will get 384,  means answer C.
+[04:23] Here one more thing I will tell you
+[04:25] that all the algorithms on disk scheduling
+[04:28] may be first come first Serve
+[04:30] or shorter Seek time,
+[04:32] look, C look, scan, C scan.
+[04:34] I have already made videos on this
+[04:37] and with examples I have explained all the questions.
+[04:40] So you definitely check those video
+[04:42] links that will be given in the description box.
+[04:44] I felt this was a new type of question so I explained it
+[04:48] but I already explained this type  of question in my videos
+[04:53] for the link you can have from the description box.
+[04:56] so what is the answer coming here  that is C 384
+[04:59] Then question no. 2
+[05:00] Consider three CPU intensive process
+[05:04] meaning of CPU intensive is that
+[05:06] generally we have processes CPU intensive
+[05:08] or CPU plus IO both
+[05:10] means some process are done  first by CPU, then IO then CPU
+[05:14] so only processes related to CPU are here
+[05:17] so we give them names p1, p2, p3
+[05:20] arrival time is given here 0, 2, 6 respectively
+[05:25] and burst time is given 10, 20, 30
+[05:29] and algorithm they have used here SRTF,
+[05:32] that is shortest remaining time first
+[05:35] and it is called shortest  job first with pre-emption
+[05:39] so we use here shortest remaining  time first with pre-emption.
+[05:42] How many context switches?
+[05:44] so here it is asked about context switches
+[05:47] but generally questions are asked related to
+[05:50] you have to find waiting time, turnaround time
+[05:53] or to find response time
+[05:55] and on these too I have already solved questions, everyone algorithm
+[05:58] may be priority based
+[06:00] or round robin
+[06:02] or SGF, SRGF, FCFS
+[06:05] longest remaining
+[06:06] or multi queue all the algorithm I have explained with example
+[06:11] and CPU scheduling
+[06:12] in operating system CPU scheduling  in operating system
+[06:15] is the most important topic
+[06:17] in which there are many chances  you will get questions to
+[06:20] guys practice these questions very well
+[06:23] the link I have given in the description box
+[06:26] there is no need of explaining same type of questions again and again
+[06:29] but this question is somewhat different here
+[06:31] is talking about context switches
+[06:34] and not talking about time
+[06:36] if we talk  about context switches
+[06:38] what is the context switch
+[06:40] when CPU switches from one  process to another process
+[06:43] then it is called kind of context switching
+[06:47] if we start from zero
+[06:49] which process is ready to 0
+[06:51] its p1
+[06:52] there is no  process
+[06:54] although  this is SRTF that is with pre-emption
+[06:57] but if you will pre-empt, let's say  run it from 0 to 2
+[07:01] if you run it from 0 to 2,  then one will be left
+[07:04] how much will it remain? One
+[07:05] because two units it has completed
+[07:08] after that also which will be the shortest
+[07:10] whose burst time will be shortest? It will be of P1
+[07:13] so rather than you run it from 0 to 2
+[07:15] you let it run from 0 to 10 fully
+[07:18] so if you run it fully from 0 to 10
+[07:20] So what will happen? it would be completed
+[07:22] after that comes P2
+[07:24] P2 come here
+[07:26] although  P2 and P3 both are here
+[07:30] at 10 both P2 and P3 had come
+[07:31] but you have to run the  shortest, that is 20
+[07:34] means whose burst time is shortest, that is 20
+[07:37] so when you run P2 complete it up to 30 ZERO
+[07:41] then come P3 after that
+[07:43] after that completely at 60
+[07:46] although there is no benefit of SRTF in it
+[07:49] it is working normally like SDF
+[07:52] but sometimes there are such questions
+[07:53] I have already  explained  the questions in my video.
+[07:56] so you must check that
+[07:58] here context switches
+[07:59] they had said do not count at  the zero and at the end
+[08:03] means you did not count  this and this
+[08:06] means you gave process to CPU before zero
+[08:10] then also some context, context means
+[08:12] means status of CPU, that is status changes here
+[08:15] earlier no process was running now  one process is running
+[08:19] but you don't have to count that context
+[08:22] if we talk about last one,  earlier P3 was running
+[08:25] and now CPU is idle it does not have any process
+[08:28] so now also context has changed
+[08:30] but you don't have to count that also
+[08:32] so how many came in between
+[08:34] 1,  2
+[08:35] first is this in which P1 completed
+[08:38] At P2 CPU started
+[08:41] P2 started running
+[08:43] here this context switch
+[08:45] P1 completed P2 started
+[08:47] and here there is one context switch, means P2 completed
+[08:51] and P3 started
+[08:52] So how many number of context switches are there? Two
+[08:54] In general those with pre-emption have
+[08:56] more questions on context switch
+[08:58] It is also possible in Round Robin
+[09:00] or whatever be a pre-emptive question
+[09:03] so guys let me tell you that in operating system
+[09:05] related to CPU scheduling
+[09:07] related to the disk scheduling
+[09:09] related to the page replacement
+[09:11] there link also I have given  in the description box
+[09:14] related to internal external fragmentation  and paging
+[09:17] its link also I have given in the description box
+[09:19] I have already made a complete series
+[09:22] of operating system
+[09:23] you complete that entire series
+[09:26] so that you don't have any such topic, any concept
+[09:29] not a single concept you should have left
+[09:32] so guys this is all about how to solve  questions related to the
+[09:36] disk scheduling and CPU scheduling. Thank You.

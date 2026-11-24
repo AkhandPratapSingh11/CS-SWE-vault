@@ -1,0 +1,133 @@
+Title: L-5.25: Least Recently Used  Page Replacement Algorithm | Operating System
+Video URL: https://www.youtube.com/watch?v=dYIoWkCvd6A
+Video ID: dYIoWkCvd6A
+======================================================================
+
+[00:00] In LRU we replace the page which is least recently used in the past
+[00:05] means we replace that page which was used firstly in the past means we replace that page which was used firstly in the past
+[00:11] let's solve it with the example let's solve it with the example
+[00:12] this is the reference stream given to us this is the reference stream given to us
+[00:14] and four number of frames are there and four number of frames are there
+[00:17] whenever there is a demand of first page that is page number 7 whenever there is a demand of first page that is page number 7
+[00:22] initially all the frames are empty initially all the frames are empty
+[00:24] so we service the page number 7 and we call it in the main memory so we service the page number 7 and we call it in the main memory
+[00:29] that is called a page fault that is called a page fault
+[00:32] after that we checked for page number 0, that is there page number? after that we checked for page number 0, that is there page number?
+[00:36] page number 0 is also not there, serviced the page number 0 page number 0 is also not there, serviced the page number 0
+[00:40] means called from the hard disk means called from the hard disk
+[00:42] and this also we call as page fault and this also we call as page fault
+[00:44] after that page number 1 comes after that page number 1 comes
+[00:47] so page number 1 was also absent so page number 1 was also absent
+[00:50] so that also we called to main memory from hard disk, that is also called a page fault so that also we called to main memory from hard disk, that is also called a page fault
+[00:55] then page number 2 then page number 2
+[00:57] so that is also a page fault because it was also initially absent so that is also a page fault because it was also initially absent
+[01:02] now next is page number 0 now next is page number 0
+[01:05] when page number 0 came, is my page number 0 present or absent? when page number 0 came, is my page number 0 present or absent?
+[01:09] so page number 0 is already present, so that is called a page hit so page number 0 is already present, so that is called a page hit
+[01:14] so we can write it a page hit so we can write it a page hit
+[01:19] next is page number 3 next is page number 3
+[01:22] page number 3 came so, is my page number 3 present? page number 3 came so, is my page number 3 present?
+[01:25] page number 3 is not present page number 3 is not present
+[01:27] so now here LRU will start, what LRU will do? so now here LRU will start, what LRU will do?
+[01:31] so on which frame are we standing on page number 3 we are standing so on which frame are we standing on page number 3 we are standing
+[01:35] this is the page that i have to put in the main memory this is the page that i have to put in the main memory
+[01:38] so to put this page i will have to replace any of the page so to put this page i will have to replace any of the page
+[01:43] so which page will we replace? so which page will we replace?
+[01:45] in LRU we check the past, means previously used pages in LRU we check the past, means previously used pages
+[01:50] so in previously used pages so in previously used pages
+[01:53] which page is there among these 4 which was used at first? which page is there among these 4 which was used at first?
+[01:58] which was called at first which was called at first
+[01:59] means whose demand was least means whose demand was earliest means whose demand was least means whose demand was earliest
+[02:03] so if we see here, 3 , 7, 0, 1, 2 so if we see here, 3 , 7, 0, 1, 2
+[02:07] so 0 has come here, 2 here, 1 here and 7 here so 0 has come here, 2 here, 1 here and 7 here
+[02:12] so if we see carefully, 7's demand was at first among these four so if we see carefully, 7's demand was at first among these four
+[02:16] you just have to compare these four you just have to compare these four
+[02:19] standing at this point we have to compare these four standing at this point we have to compare these four
+[02:23] that in past which one came at first that in past which one came at first
+[02:27] whose demand was at first whose demand was at first
+[02:29] so if you see carefully 7's demand was at first so if you see carefully 7's demand was at first
+[02:32] among these four among these four
+[02:33] so after sending 7 outside, we brought 3 inside so after sending 7 outside, we brought 3 inside
+[02:38] so we entered 3 in, and write rest of these as it is so we entered 3 in, and write rest of these as it is
+[02:42] that is called a page fault because 3 was absent that is called a page fault because 3 was absent
+[02:46] now next pagenumber is 0, is page number 0 present? now next page number is 0, is page number 0 present?
+[02:49] yes it is present? yes it is present?
+[02:50] so directly copy over here so directly copy over here
+[02:52] we copied and below that we wrote hit. we copied and below that we wrote hit.
+[02:56] then page number 4 then page number 4
+[02:59] so page number 4 came so page number 4 came
+[03:01] so when page number 4 will come, we will have to check, is page number 4 present? so when page number 4 will come, we will have to check, is page number 4 present?
+[03:06] no page number 4 is not present no page number 4 is not present
+[03:09] so now here, from 4 so now here, from 4
+[03:12] towards back means in past i will check, these 4 should be compared towards back means in past i will check, these 4 should be compared
+[03:16] among 2,1,0,3 which one was used at first among 2,1,0,3 which one was used at first
+[03:22] so 4, 0 came here itself, 3 came here so 4, 0 came here itself, 3 came here
+[03:27] 2 came here, 1 came here, so if you see carefully, 1 is used at first among these 4 2 came here, 1 came here, so if you see carefully, 1 is used at first among these 4
+[03:32] so we will replace 1 with 4 so we will replace 1 with 4
+[03:36] rest of these write as it is rest of these write as it is
+[03:38] and this also we will call as page fault because this page number 4 was absent and this also we will call as page fault because this page number 4 was absent
+[03:43] now we have put after service now we have put after service
+[03:45] next is page number 2, so is page number 2 present? next is page number 2, so is page number 2 present?
+[03:48] yes it is already present so we can call this as hit yes it is already present so we can call this as hit
+[03:55] next comes page number 3 next comes page number 3
+[03:56] just put a mark, so that you don't try any page again. just put a mark, so that you don't try any page again.
+[04:02] so 3, is my 3 present over here? yes 3 is already present. so 3, is my 3 present over here? yes 3 is already present.
+[04:06] so that is again called a hit so that is again called a hit
+[04:10] so next is page number 0, is page number 0 present?  .. yes it is already present so next is page number 0, is page number 0 present?  .. yes it is already present
+[04:15] that is called a hit that is called a hit
+[04:17] so next is page number 3, is page number 0 present?  .. yes it is already present so next is page number 3, is page number 0 present?  .. yes it is already present
+[04:21] that is called a hit that is called a hit
+[04:24] next is page number 2, is page number 2 present?  .. yes it is already present next is page number 2, is page number 2 present?  .. yes it is already present
+[04:29] this also i will write as it is, that is again called a hit this also i will write as it is, that is again called a hit
+[04:34] after that comes page number 1 after that comes page number 1
+[04:36] is page number 1 present?..no page number 1 is absent is page number 1 present?..no page number 1 is absent
+[04:39] so from here onward i have to check back in past so from here onward i have to check back in past
+[04:42] among 4,3,0 which one came first among 4,3,0 which one came first
+[04:46] 2 came here, 3 came here, 2 here  4, among these four 4 came first in past 2 came here, 3 came here, 2 here  4, among these four 4 came first in past
+[04:53] so we will replace 4 with 1 so we will replace 4 with 1
+[04:57] 4,3, rest all write as it is,  and what is it? ... a page fault 4,3, rest all write as it is,  and what is it? ... a page fault
+[05:01] because this was absent because this was absent
+[05:03] next comes page number 2, is page number 2  present? yes it is already present next comes page number 2, is page number 2  present? yes it is already present
+[05:06] that is called a hit that is called a hit
+[05:10] next comes page number 0, is page number 0  present? yes it is already present next comes page number 0, is page number 0  present? yes it is already present
+[05:14] that is again called a hit that is again called a hit
+[05:19] next comes page number 1, is page number 1  present? yes it is already present next comes page number 1, is page number 1  present? yes it is already present
+[05:23] that is again called a hit so we write it as it is that is again called a hit so we write it as it is
+[05:28] 2, 1, 0, 3 that is again called a hit 2, 1, 0, 3 that is again called a hit
+[05:35] next comes page number 7, is page number 7 present? no page number 7 is not present next comes page number 7, is page number 7 present? no page number 7 is not present
+[05:40] so again i will check in the past, among  1,2,0,3 which one came first so again i will check in the past, among  1,2,0,3 which one came first
+[05:46] 1 came here 1 came here
+[05:48] 0 came here, 2 came here  3, 3 came here first amon these in past 0 came here, 2 came here  3, 3 came here first among these in past
+[05:54] i replace 3 with 7, rest all as it is that is called a page fault i replace 3 with 7, rest all as it is that is called a page fault
+[05:59] next comes page number 0, is page number 0  present? yes it is already present next comes page number 0, is page number 0  present? yes it is already present
+[06:04] this also we will call as a page hit this also we will call as a page hit
+[06:07] after that page number 1 came after that page number 1 came
+[06:11] page number 1 is already present  that is again called a hit page number 1 is already present  that is again called a hit
+[06:16] so this way, we can replace pages through LRU so this way, we can replace pages through LRU
+[06:21] so there is only one simple formula for  LRU so there is only one simple formula for  LRU
+[06:23] that we replace the page who demand in past was at first that we replace the page who demand in past was at first
+[06:30] so what i mean to say so what i mean to say
+[06:31] means the page which was called in past a long time ago, means the page which was called in past a long time ago,
+[06:35] there is no need of that page over here there is no need of that page over here
+[06:37] so there that page we will replace by  sending in hard disk so there that page we will replace by  sending in hard disk
+[06:42] and will bring any fresh page in the main memory and will bring any fresh page in the main memory
+[06:46] so you can simply count number of page  fault.. one two three four five six so you can simply count number of page  fault.. one two three four five six
+[06:50] seven eight seven eight
+[06:52] so number of page faults are...eight so number of page faults are...eight
+[06:55] in maximum questions they will ask you what is total numbe of page faults in maximum questions they will ask you what is total number of page faults
+[07:00] and what is total numbe of page hits and what is total numbe of page hits
+[07:02] so you can also calculate page hits so you can also calculate page hits
+[07:05] so one two three four five six seven eight nine ten eleven twelve so one two three four five six seven eight nine ten eleven twelve
+[07:10] so 12 number of hits are there so 12 number of hits are there
+[07:14] so that is how LRU works so that is how LRU works
+[07:16] although it is given less number of page  faults.. as compared to Fifo although it is given less number of page  faults.. as compared to Fifo
+[07:21] but what is the problem with it?...  performance ..speed but what is the problem with it?...  performance ..speed
+[07:24] because, this always, if you have checked  carefully because, this always, if you have checked  carefully
+[07:27] so this always search in past which one  was farthest in past so this always search in past which one  was farthest in past
+[07:33] so over here searching algorithm  is being used so over here searching algorithm  is being used
+[07:36] so due to that if i compare it with Fifo so due to that if i compare it with Fifo
+[07:39] over here that, speed factor over here that, speed factor
+[07:42] LRU.. it's speed is less,  so at somepoint it is taking more time LRU.. it's speed is less,  so at some point it is taking more time
+[07:46] as compared to fee fo 1 00:00:00,603 --> 00:00:05,158 In LRU we replace the page which is least recently used in the past as compared to Fifo
+[07:48] but yes it is performing better  than that in terms of page performance but yes it is performing better  than that in terms of page performace
+[07:51] so this is all about the LN Thank you so this is all about the LN Thank you

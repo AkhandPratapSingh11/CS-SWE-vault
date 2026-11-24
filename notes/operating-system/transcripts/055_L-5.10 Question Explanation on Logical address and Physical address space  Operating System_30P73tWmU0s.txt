@@ -1,0 +1,217 @@
+Title: L-5.10: Question Explanation on Logical address and Physical address space | Operating System
+Video URL: https://www.youtube.com/watch?v=30P73tWmU0s
+Video ID: 30P73tWmU0s
+======================================================================
+
+[00:00] Let's see one question on Logical address space and physical address space.
+[00:05] It will help you to understand the concept in more depth.
+[00:08] So, logical Address space is given as 4GB
+[00:12] i.e, Logical address space is 4GB
+[00:18] Physical address space 64MB
+[00:21] Page size 4kb
+[00:22] We have to find the Number of pages number of frames
+[00:25] Number of entries in the Page table and what is the size of the Page table?
+[00:30] This means we are finding the maximum facts that we have through this question.
+[00:36] If all these things are given to you then how can you find values for these?
+[00:42] Here the first thing given is Logical address space
+[00:45] Actually what is a logical address space is representing here?
+[00:48] Logical address space always represents the size of the process.
+[00:53] This means the total size of my process is 4GB.
+[00:58] That is what it is representing.
+[01:00] Here whenever a logical address page is given
+[01:04] then you can first convert logical address space to the logical address
+[01:09] Means
+[01:11] I have a logical address space is of 4GB
+[01:13] How many bits do I need to represent 4 GB?
+[01:18] This is the question.
+[01:20] A very important point is that logical address space is 4 GB
+[01:25] Then how many bits are used to represent 4 GB?
+[01:29] How do we solve this?
+[01:31] What is 4? 4 is 2 raised to the power 2
+[01:36] Just write all the things in the power of 2.
+[01:41] We have discussed this earlier also that if I have 16 numbers
+[01:46] So the range I have is 0 to 15.
+[01:49] So the maximum number in the range is 15 how do we represent 15?
+[01:54] 1111 means 4 bits are used
+[01:58] That is what I have already mentioned here.
+[02:00] If you have 32 then you can represent it into 5 bits. This is what I was talking about.
+[02:07] Here it is given 4 GB so How can we represent 4 GB in bits?
+[02:13] First, write 4 as 2 raised to power 2
+[02:16] What is G? G is actually 2 raised to power 30.
+[02:22] G is 2 raised to the power 30
+[02:24] This means we can write like this and
+[02:28] Last is byte No need to convert the byte
+[02:33] We know that byte is 8 bit So don't write 2 raised to the power 3 there because
+[02:38] Memory is byte-addressable.
+[02:41] This is already given that memory is byte-addressable
+[02:45] It means we are representing memory in bytes.
+[02:50] In case even if this line is not written
+[02:54] So you assume here by default that the memory is represented either in bytes or in words.
+[03:01] Most of the time it will be written in words also and By default size of the byte and word is the same.
+[03:06] If it is different, then they will also mention it in the question.
+[03:10] Let's assume here that byte is the minimum unit to represent the memory.
+[03:15] Not bit it's the byte.
+[03:17] So here don't convert bytes into bits just convert the values.
+[03:22] Convert all the values written in front of this byte here.
+[03:26] So how many bits are there? The base is the same so add all the powers.
+[03:31] That is, my logical address is made of 32 bits.
+[03:36] The logical address is 32 bits
+[03:38] Sometimes it may happen that you will be given the logical address 2 raised to the power 32.
+[03:44] And you have asked what is logical address space?
+[03:46] If I know that my logical address space is 2 raised to the power 32
+[03:51] If I have to convert it in space means what is the size of it? then simply
+[03:57] You can write 2 raised to the power 32 as 4GB.
+[04:02] You can convert as you like, either from space to bits or from bits to space
+[04:08] From here I got to know the logical address
+[04:13] My logical bits are 32 bits.
+[04:16] 32 bits are used to represent the logical address. That is the meaning of the logical address.
+[04:23] Now we know that in logical address some MSP bits
+[04:28] are used to represent the page number
+[04:33] and LSB bits are used to represent the page offset.
+[04:38] or we can say page size.
+[04:40] Now
+[04:43] Here I have two values and I know that the total size of this box is 32 bits.
+[04:48] But from it how much bit is this and this you can't find directly
+[04:53] For that, you have to go to page size
+[04:56] the other thing I have here is the page size
+[05:00] The size of the page is 4 kb
+[05:02] Again, this is size
+[05:05] I also have to convert this to bits
+[05:08] Means how can I represent 4 kb in bits?
+[05:14] Already we have seen that 4 is 2 raised to the power 2
+[05:18] What is K? Always remember K is  2 raised to the power 10
+[05:23] So it becomes 2 raised to the power 12
+[05:27] 12 bits are used to represent the
+[05:33] page offset. 12 numbers of bits are used to represent
+[05:38] If you have been asked what is the size of  the page then you write 2 raised to the power 12
+[05:43] 2 raised to the power 12 is equal to 4 kb.
+[05:46] This is the simple funda.
+[05:48] Now you know that 32 is the total size
+[05:52] From that, it took 12 bits out of it, then the remaining 20 bits were left.
+[05:58] So the first question which is solved is the number of pages.
+[06:02] How many pages? 20 No!
+[06:05] These are the bits
+[06:08] In logical address, we always write bits
+[06:11] 20 bits are used to represent the pages.
+[06:17] But actually, the number of pages are 2 raised to the power 20
+[06:22] Here you can do a little mistake In case this is asked in the exam.
+[06:28] Here you may see 20 is also in the option. No!
+[06:31] This is representing 20 bits
+[06:34] The number of bits is 20 but actually
+[06:40] the size is actually 20
+[06:42] But actually what is the number of pages? That is always written as 2 raised to the power
+[06:47] So 2 raised to the power 20 pages are there
+[06:51] Next is the number of frames How do we calculate the number of frames?
+[06:55] Through physical address
+[06:58] i.e first I have to calculate the physical address
+[07:02] What is the physical address?
+[07:05] What is given here? Physical address space
+[07:08] What is the physical address space? 64 MB
+[07:11] Now again I have to represent 64 MB into bits.
+[07:15] How will you represent 64 Mb in bits?
+[07:19] First, take 64 64 is 2 raised to the power 6
+[07:24] Now M, what is M? M is mega and mega is 1 million
+[07:29] that is 2 raised to the power 20
+[07:32] and don't touch byte. Byte will be the minimum addressable unit.
+[07:36] So bases are the same then power will be added so it will be 26
+[07:43] 26
+[07:44] So total size will be 26
+[07:46] 26 bits are used to represent the physical address
+[07:50] And physical address is actually the size of the main memory.
+[07:54] Here the given main memory size is 64 MB
+[07:57] And if you are asked how many Mb do you represent 64 bits?
+[08:02] 26
+[08:03] In these 26 bits, some bits are the number of the frame
+[08:09] and rest of the bits are frame offset
+[08:14] Now I don't know the number of frames nor frame offset is given directly
+[08:19] So how will we find it?
+[08:21] We know that the frame offset or frame size is always equal to the size of the page
+[08:28] So that the page can fit properly inside a frame
+[08:33] If the size of the page is given i.e 4 Kb then the size of the frame will not be given separately.
+[08:39] Frame size and page size are always the same
+[08:42] So assume that frame size is also 4 kb.
+[08:48] And how do we represent 4 kb in bits? 12 We have seen that before.
+[08:53] So you see by yourself that if it took 12  bits from 26 than 14 bits are remaining.
+[09:01] 14 bits
+[09:02] That means my total number of frames is 14 No!
+[09:08] Total numbers of frames are 2 raised to the power 14
+[09:14] So this is the concept that how we actually  represent the number of frames and number of pages.
+[09:21] These values are only representing the bits.
+[09:27] So this is all about questions number 1 and 2
+[09:30] Now we are seeing the number of entries in the page table.
+[09:34] How many numbers of entries we will put in the page table.
+[09:37] We have already seen the page table before. Every process has its own page table.
+[09:42] And how many entries are there in the page table?
+[09:45] There will be as many entries inside the page table as you have pages.
+[09:49] Means, number of entries in the page table will be equal to the number of pages in a process.
+[10:05] So the number of entries in the page table will be equal to the number of pages in a process.
+[10:12] So how many pages? We have already seen 2 raised to the power 20.
+[10:17] So the number of pages is 2 raised to the power of 20 then entries  will be 2 raised to the power 20
+[10:23] Means 1 million, 2 raised to the power 20 is 1 million.
+[10:27] i.e. there are 1 million pages and 1 million entries
+[10:33] Because on each page table corresponding
+[10:37] If I try to represent a small page table here Although 1 million cannot be represented in this small place.
+[10:45] If I represent then it will look like this
+[10:48] If this is the page table then
+[10:50] This is page 0, page 1, page 2, page 3 and  up to page number 2 raised to the power 20 minus 1
+[10:59] Because we are starting the index with zero.
+[11:01] So your pages will be like this from 0 to 2 raised to the power 20 minus 1.
+[11:07] Now last question.
+[11:09] What is the size of the page table?
+[11:13] How will we calculate? Very simple
+[11:16] I know that in this page table how many boxes are there
+[11:21] The number of boxes is 2 raised to the power 20.
+[11:24] But what's inside those boxes? How will you calculate the size?
+[11:29] Number of boxes or values into size
+[11:34] This means, what is inside this box?
+[11:36] And what do we put inside each page table? What will be represented inside each page and table?
+[11:41] Here we represent frame number.
+[11:45] Let say the page table is in frame 3
+[11:49] Let say page number 1 is in frame number 10
+[11:56] Page number 2 is in frame number 20 because paging is non-contiguous.
+[12:01] A page can be anywhere within a particular frame.
+[12:05] But pay attention that I am representing frame number here.
+[12:11] This means in every box we are representing frame number.
+[12:17] And to represent the frame we need 14 bits.
+[12:24] My values will be 14 bits.
+[12:28] I.e. that page would be anywhere in the entire number of frames between 0 to 2 raised to the power 14 minus 1.
+[12:36] So here how would I represent F3 in 14 bits?
+[12:40] How would we represent frame 3
+[12:58] So in this way, the value will be written here.
+[13:01] If I ask where is page 1? It is in frame 10.
+[13:05] How would we represent? We need 14 bits.
+[13:08] Because the number of frames I have is 2 raised to power 14.
+[13:12] So if I have to address 2 raised to the power 14 How much address is made?
+[13:17] We need 14 bits. So how will we write 14 bits?
+[13:26] This is what we are representing.
+[13:29] That means in each box we are putting 14 bits.
+[13:35] 14 bits in each box.
+[13:39] I will put 14 bits as many times as there are pages in it.
+[13:43] How many pages are there? 2 raised to the power 20 pages.
+[13:47] and in each of the 2 raised to the power 20 pages there are 14 bits.
+[13:53] 14 bits.
+[13:55] So this is the size of the page table.
+[13:59] 2 raised to the power 20 number of pages are there.
+[14:03] what are you writing in every box?
+[14:07] The number of frames.
+[14:09] And how many bits is it taking to represent each frame? 14
+[14:13] So 14 bit here then 14 bit here also So how many times are 14 bits used
+[14:17] 2 raised to power 20
+[14:18] If you do 2 raised to power 20 multiply 14 then you get the size of the page table.
+[14:26] So here the important point is If we want  to get the size of the page and table directly
+[14:32] then we can take it out like this.
+[14:34] But sometimes there are not only frame numbers inside the page table
+[14:38] Apart from frame numbers, extra bits are also there.
+[14:43] Which are representing some other important information.
+[14:46] Like whether the page is protected or not
+[14:48] or the data available on the page is modified or not.
+[14:52] We will see all about this in the next video.
+[14:55] What actually happens in every single page table entry?
+[15:00] One thing we know is that the page number will be there definitely.
+[15:05] Then only we got to know that in which frame that page number is present.
+[15:09] Frame number will be there
+[15:11] But apart from frame number what else bits will be there.
+[15:15] That is we have to check. Clear?
+[15:17] So if nothing is mentioned
+[15:20] Then directly take out the numbers of bits of the frame.
+[15:22] Then multiply it directly.

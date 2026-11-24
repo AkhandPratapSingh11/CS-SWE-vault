@@ -1,0 +1,89 @@
+Title: L-5.18: Overlay | Memory Management | Operating system
+Video URL: https://www.youtube.com/watch?v=Quj-Goz4VMA
+Video ID: Quj-Goz4VMA
+======================================================================
+
+[00:00] - Overlay- Overlay is a method by which a large size process can be put into the main memory, means
+[00:07] - if the size of my process is more than the size of memory, then I can make that process accommodate in the main memory by using the concept of overlay
+[00:18] - How? Let say, I've 4 partitions in main memory, 2mb, 4mb, 8mb and 16mb
+[00:25] - Now, what is the size of maximum partition, 16mb, here what constraint comes in fixed partitioning
+[00:33] - that I cannot make process bigger than 16mb enter. But if we use overlay
+[00:40] - then I can accommodate the process even more than 16mb. So where do we use overlay?
+[00:49] - Where the size of our main memory is less than the size of process. So in that case we bring that process in main memory
+[00:58] - and how we allocate memory to it, this is a point. Now how does overlay use this
+[01:05] - when we, the process whose size is more than main memory, we cannot bring in all that directly because obviously main memory size is smaller and process size is bigger
+[01:16] - so in process, what we'll have to do, we'll have to divide the process, what it meant to say, that we will divide the process/program/object code
+[01:27] - and the code/functionality that is needed first we will load the functionality in main memory.
+[01:35] - when the work of that functionality will be done then we will bring it out and bring in another partition, and third after the second, we have to bring in the partitions like this
+[01:47] - so overlay is creating a problem here that there is no driver in the operating system which support the overlay
+[01:57] - means, here user have to decide on it's own how to divide that process/program so that whenever I bring in the partition
+[02:07] - I could execute it's functionality properly. Then bring it out and then bring in another program
+[02:13] - so like this, there can be a very big problem, it may happen that the work I have to do first, I didn't bring in that partition first - so actually this concept of overlay is used in embedded system because in embedded
+[02:23] - because user is dividing here. Now user divides manually on it's end, it can divide however it wants
+[02:35] - embedded system are those where my functionality is fixed, means those circuits that perform only fixed type of functionality
+[02:43] - like my washing machine, in that I know it only works on a fixed functionality.
+[02:50] - so what can I do there, I can divide that process and creat 2-3 different functions
+[02:58] - and main memory, obviously my main memory is limited in embedded system. So I'll bring in one functionality
+[03:05] - when it's work will be completed, I'll bring in second functionality, when it's work will be completed, I'll bring it out and I'll bring in third
+[03:13] - but the problem here is, that when the user will divide those functionality/process
+[03:21] - then that division should be independent. Independent means if I bring in this partition.
+[03:28] - So it should not be like some codes in this partition is depending upon that partition. Otherwise a problem can be created there that the data CPU is searching, it can't find that
+[03:42] - but this doesn't create a problem in embedded system because the function/process in embedded system is fixed
+[03:50] - but in computers, the PCs, desktops, there our processes are of different size, there are different no. of process
+[03:59] - so there I cannot leave the functionality here on user that it divides itself , how should we divide that, how we should create it
+[04:09] - so that's why this concept of overlay is used in embedded system. It is still used in many embedded systems.
+[04:16] - but we don't use this in our computers, here we use the concept of virtual memory.
+[04:22] - we will discuss the concept of virtual memory or demand paging in further videos. So let's discuss a question about how we actually use overlay
+[04:33] - like we have, consider a two pass assembler, pass 1 80 kb, pass 2 90 kb
+[04:39] - symbol table is of 30kb, common routine 20kb, at a time only one pass is in use. What is the min. partition size required if the overlay driver is of 10kb size
+[04:52] - means, here they are talking about, that I have a assembler here, why do we use assembler?
+[04:58] - Assembler is used to convert source code into object code
+[05:03] - and for that here I'm using 2 pass assembler, means it's working in 2 passes
+[05:09] - when we'll use pass 1 then there is no need of using pass 2 and when we'll use pass 2 then there is no need of using pass 1
+[05:19] - So if I look at the total size here, then size of pass 1 is 80kb, size of pass 2 is 90kb
+[05:29] - Symbol table, which is mandatory, 30kb. Common routine 20kb and how we have to bring in pass 1 in main memory
+[05:40] - and then bring it out and then again bring in pass 2 and bring it out from main memory, for that here is a overlay driver
+[05:48] - and the size of that driver is 10kb
+[05:51] - 10 kb
+[05:52] - So what's the total here
+[05:57] - it's, 200.., 220.., 230
+[06:00] - 230 kb
+[06:03] - means the all here, the size of the whole program became 230 kb. Means, if the size of my memory is 230 kb.
+[06:12] - Then, there's no problem, you can directly work with this full function/process because your memory size is 230 kb
+[06:21] - but, that's where we are using the concept of overlay. Let say, the size of my memory is not 230kb, it is less than 230kb.
+[06:31] - So when the size is less than 230kb, then I cannot keep the whole process/assembler in the main memory at a same time because we're assuming main memory size is less than 230kb
+[06:46] - So here it is asked in question that, the partition or how much should be the size of main memory so that I can use overlay there and use the passes properly
+[06:56] - so it's already mentioned in the question that at a time only 1 pass is in use. Means, if we use pass 1, it's size is 80kb
+[07:08] - if we load pass 1 first so that means we have a requirement of 80kb plus 30kb symbol table
+[07:17] - 20kb for common routine and 10kb for overlay driver
+[07:25] - that means, what the total is?
+[07:29] - 140
+[07:31] - 140 kb
+[07:34] - Means if I load pass 1 first, along with the symbol table, common routine. Then I need 140 kb of memory here.
+[07:43] - So can I take 140 kb of memory, will this 140 kb memory be enough for my work? Wait,
+[07:50] - We haven't calculated pass 2 yet. If we bring out
+[08:00] - pass 1 from main memory after loading it and then load pass 2,
+[08:06] - then the size of pass 2 is 90kb
+[08:09] - and when we'll load pass 2, symbol table is also needed, common routine is also needed and drive is also needed.
+[08:17] - so here my total is, 150 kb
+[08:22] - 150kb. If I load pass 1, 140kb and if I load pass 2, 150kb
+[08:28] - means if I keep size of one partition in the memory
+[08:35] - 150kb
+[08:37] - Then, when that size will be of 150kb, means, there's a empty space of 150kb
+[08:44] - when I'll load pass 2, then my full 150kb will be filled
+[08:50] - pass 1 isn't needed at that time because when we load pass 2, at a time only 1 pass is used, means, only 1 pass is in use.
+[08:58] - then I'll load pass 2 at that time. And when pass 2 will get out of here then I'll load pass 1
+[09:04] - when pass 1 will come in, it's occupying the memory 140kb. So 140kb can easily be accommodated in 150kb.
+[09:13] - so that's the point here that you have to choose the one which is max. out of these two. Means, if we're using pass 1, our total requirement is of 140kb
+[09:25] - and if we load pass 2, our total requirement is of 150kb
+[09:30] - so if I keep a partition of 140kb, then the problem still exists. The partition is of 140kb, when the pass 2 of 150kb will come
+[09:42] - then how will you fit that? 150kb won't fit in 140kb. So the best thing is that choose the partition of size which is larger or which has maximum no.
+[09:52] - So that means, the answer of this question can be 150kb
+[09:58] - So this was about partition. Even if you're asked normally that what should be size of main memory? If the size of my main memory is 230 kb
+[10:08] - then there is no need of using overlay. We use overlay where the main memory is limited and processes are quite larger.
+[10:18] - we use overlay in that case. So that's why, if you're asked this type of question, then simply calculate it first, and out of those values the one with maximum value is the size of partition
+[10:31] - or we can say that will be the size of main memory. It can be asked in any of these terms, it maybe possible they ask in terms of partition or they may ask in terms of main memory requirement, so you can calculate that
+[10:43] - so that's why we use the concept of overlay where my main memory is limited
+[10:49] - and most of time this happens in embedded system. In real time, we don't use this in our PCs. In real time, we use the concept of virtual memory, where is swap-in and swap-out the pages.
+[11:01] - how we do demand paging or how we use that, that we will see in the further videos.
+[11:07] - This is all about the concept of overlay. Thank you.

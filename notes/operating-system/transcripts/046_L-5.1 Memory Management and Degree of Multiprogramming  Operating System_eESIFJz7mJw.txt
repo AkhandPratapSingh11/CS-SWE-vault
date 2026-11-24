@@ -1,0 +1,236 @@
+Title: L-5.1: Memory Management and Degree of Multiprogramming | Operating System
+Video URL: https://www.youtube.com/watch?v=eESIFJz7mJw
+Video ID: eESIFJz7mJw
+======================================================================
+
+[00:00] Memory Management in Operating System. Memory Management in Operating System is what?
+[00:05] It is a kind of method or it is a kind of functionality to manage the various kind of memories.
+[00:11] Means in our laptop, in our system, there are lot of different types of memories available
+[00:17] like we are having RAM, like we are having Hard Disk, like we are having registers,
+[00:21] so how we can manage all the memory resources in a more and more efficient manner?
+[00:28] This is the functionality of the Operating System. So I have written a single line that
+[00:34] method of managing the primary memory. Why I have written the primary memory?
+[00:38] Because out of all the types of memories, the majority of the memory is what? The RAM.
+[00:44] Means we have to concentrate more on the RAM, means our system, how it actually works.
+[00:51] Let's see with a simple diagram.
+[00:57] CPU. The purpose of CPU is what? To execute the instruction, to execute the program.
+[01:02] So program is what? A collection of instruction. So one by one instructions are to be executed,
+[01:07] who does this? CPU. So CPU, it is generally directly connected with the registers,
+[01:15] registers as well as cache memory.
+[01:22] CPU is directly connected with the registers and cache.
+[01:27] And it is also connected with the RAM,
+[01:34] which also known as Primary Memory.
+[01:43] And RAM is generally connected with the secondary memory.
+[01:50] So we will see the hierarchy in the future videos on how the system is actually,
+[01:58] how the memories are connected with each other, this I will tell you later.
+[02:02] But the concept is what? The CPU executes instructions one by one and
+[02:07] CPU is generally connected with what? With Register, cache and RAM. There is a direct connection.
+[02:15] But secondary memory is not connected directly with the CPU. The reason is what? Speed.
+[02:20] Because secondary memory is very slow, CPU is very fast so that's why
+[02:24] we generally cannot directly connect them. So that's why in between we put faster memories
+[02:30] that is Register, cache and RAM. Now there is a funda of science that here we have
+[02:36] some size of register, some size of cache, some size of RAM. But
+[02:41] like we are having an important part that is the RAM. Here if I increase size of RAM,
+[02:50] then it will directly affect the cost of the system. Means RAM, cache and register
+[02:57] if the size of any of these three, means if I put more registers in the system,
+[03:01] put more cache or increase the RAM, then cost of the system will also get high.
+[03:08] So if cost is very high then it is possible that it goes out of budget of normal user.
+[03:13] So that's why generally the laptops or computers we purchase from the market,
+[03:17] they have limited, like 4GB RAM is there, now 8GB RAM upto 16GB RAM is now available,
+[03:23] but primarily the value was less. The funda is what? Why are we discussing about RAM here?
+[03:31] Because in secondary memory almost all programs, whatever number of processes
+[03:37] or generally we call programs, all the programs are available in the secondary memory.
+[03:43] All the programs are available in the secondary memory which are to be executed now.
+[03:49] CPU will execute them, but how will CPU execute these processes?
+[03:55] For that I will have to bring the processes here,
+[04:01] for CPU I will have to bring processes from secondary memory in the RAM so that
+[04:08] CPU can directly interact with the processes and it can execute.
+[04:13] This is a very important part. All the programs, like we make programs in C, in C++
+[04:18] all the normal programs we make, the programs are sitting idle in the secondary memory.
+[04:23] because size of secondary memory is very big so there accommodate as many programs as you can.
+[04:30] Now when you have to execute these programs then to execute CPU is required.
+[04:36] And how will CPU execute? CPU is not connected to secondary memory. So means
+[04:41] we have to pick the programs and bring them where? In the RAM, so that
+[04:48] CPU can directly interact with the RAM. And why does it have to come in RAM only?
+[04:53] Because you can also use cache and register, size of register and cache is very less than RAM.
+[04:59] The registers generally in our laptops, they are in the KBs, Kilobytes. So that is very small size.
+[05:05] Although they are very fast, but the size is very less. Just for the simplification
+[05:11] what I am trying to say, let's remove this hierarchy.
+[05:16] We are not talking about the register and cache at this point of time.
+[05:20] So means we are now talking directly about this. So means as many processes, as many programs or processes
+[05:29] are present in secondary memory, we need to swap in all these processes,
+[05:35] means those processes we will have to bring in the RAM, when the process enters the RAM
+[05:39] now CPU can directly interact with the process and it can execute them one by one.
+[05:46] And this is called the Degree of Multiprogramming. What Multiprogramming concept says,
+[05:56] Multiprogramming means
+[06:00] whenever we are keeping the programs in the secondary memory and
+[06:05] when we are bringing that program in the RAM then don't bring one program in the RAM
+[06:11] try to bring more than one processes in the RAM. That is called the Multiprogramming.
+[06:18] We can know from the name multiple programs, why multiple programs? why there is a need?
+[06:24] That maximum, what is the line here? That bring maximum number of programs or processes
+[06:30] from secondary memory in the RAM, in the main memory so that CPU can execute them.
+[06:37] Now what is the advantage of bringing maximum number of programs? The advantage is that
+[06:42] higher the Degree of Multiprogramming higher the utilization of CPU. If we take simple example,
+[06:50] let's say that if I bring P1 process in the RAM. I bring only one process in the RAM.
+[06:59] CPU starts executing that process, it is executing, as we already know each process
+[07:08] can have 2 types of things, one is the CPU, one is the I/O. Means a process will get executed
+[07:17] how will it execute? Either CPU will execute it and it is possible that
+[07:22] that process makes a request for Input/Output in between.
+[07:25] Means it wants to use printer or scanner or wants to read a particular file from secondary memory,
+[07:33] then it is possible that it makes an I/O request. So when a process makes an I/O request,
+[07:39] then CPU at that time makes it free, means okay, get blocked and go there and start using I/O.
+[07:48] So let's say that P1 was being executed, CPU is executing P1,
+[07:53] CPU is executing this P1, and in between P1 says that I want to do some I/O operation.
+[08:02] If I want to do some I/O operations, if P1 is saying that then what will CPU say?
+[08:09] Okay, you can do the I/O operation. Now that process exits CPU so at that time
+[08:16] what is the CPU executing? CPU is free at that time because P1 process exits from here,
+[08:23] exits from RAM, and it is doing I/O work, when it is doing I/O work then CPU at that time
+[08:30] is not executing P1. So means we can say CPU will sit idle.
+[08:37] And this is what we should not do. If CPU is idle means obviously
+[08:42] efficiency of the system will be down. Performance will be down.
+[08:46] And we don't have to let it be down. So what is the Degree of Multiprogramming?
+[08:53] Degree of Multiprogramming is keep more and more number of processes in the RAM.
+[09:00] Means bring as many number of processes as you can and try keep in the RAM so that
+[09:05] efficiency of the system is very high, means when utilization of CPU is very high
+[09:10] then performance of system will automatically increase.
+[09:13] For more detail let's solve one numerical. We'll solve this with a numerical
+[09:19] you will get more clarity from that.
+[09:22] Let's say
+[09:25] I'm having
+[09:28] RAM of size 4MB.
+[09:37] Let's say I'm having RAM of size 4MB and there is one process,
+[09:41] process size is also 4MB.
+[09:45] RAM size is 4MB, process size is 4MB. Now how many processes can be there in the RAM?
+[09:52] Simple, one. Because what is the RAM size? 4MB and what is the process size? 4MB.
+[09:57] So it will be 1. So how many number of processes can come in the RAM?
+[10:02] There is only 1 process that can come. So let's say that process P1 comes in the RAM.
+[10:10] Now there is a probability that process will go for the I/O operation.
+[10:16] Let's say there is a probability K,
+[10:32] K is a probability or we can say K is time, amount of time that a process will do I/O operation.
+[10:40] K is time for I/O operation.
+[10:47] A process will take K amount of time to do the I/O operation. So if out of total time,
+[10:55] it is doing I/O operation for K time then for how much time is it executed in CPU?
+[11:00] For CPU it will execute for (1-K) time. As we already know that one process does only 2 jobs,
+[11:09] either it will be executed by CPU or it will perform I/O operation. So one process is going on,
+[11:15] it is being executed by CPU, in between it says that I want to do some I/O operation.
+[11:21] Then okay, it will go for the I/O operation, so at that time CPU cannot execute it.
+[11:27] So that's what we have taken here. Let's say that for K amount of time any process,
+[11:33] take this P1 process, that P1 process for K amount of time is performing I/O operation.
+[11:39] So if it is performing I/O operation for K amount of time,
+[11:42] then how much will be CPU utilization here? CPU utilization is 1-K.
+[11:52] Because subtracted K from total so 1-K. Now let's say this K amount of time is let's say 70%.
+[12:01] Means out of total time 70% of the time it does I/O operation so remaining
+[12:08] 1-K that is 30% it does what? Performing in CPU. Means 70% it does I/O, so means
+[12:17] 1-70%, 1 is 100%, so 100%-70% it will be 30%. So 30% what it is performing? CPU utilization.
+[12:28] Means using the CPU. So check, what is the utilization here? How much is CPU utilization? Only 30%.
+[12:37] Why? The reason, because there was only one process. Now what we are doing,
+[12:44] let's increase the size of the RAM. Let's say that now RAM size let's take as 8MB.
+[12:53] Process size is same, process is still 4MB.
+[13:00] So size of one process is 4MB, size of RAM is 8MB, number of processes
+[13:06] number of processes
+[13:09] that can come in the RAM, that can accommodate in the RAM it will be 2.
+[13:15] 8MB divided by 4MB it will be 2. So now we can say 2 number of processes can come in the RAM.
+[13:25] Now that same thing that if one process for K amount of time,
+[13:30] single, one process for K amount of time what is it doing? Performing I/O operation.
+[13:37] If one process for K amount of time is performing I/O operation then here how many I have? 2 K.
+[13:44] So means total time becomes how much? K square. So what is the total time? Upto K square
+[13:50] time the processes are performing what? I/O operation. Then what will be the CPU utilization?
+[13:57] CPU utilization will be 1-K^2.
+[14:07] First here it was only single because there was only 1 process,
+[14:10] that's why what we did, what is I/O operation? For K amount of time. Here what is I/O? K^2
+[14:18] because here there are 2 processes both are using K amount of time so K*K will be K^2
+[14:25] will be the total time used for the I/O operation. So if K^2 is for I/O then
+[14:31] how much for CPU utilization? 1-K^2. And value of K we have taken let's say 70% what is it doing?
+[14:39] I/O operation. So CPU utilization here will be how much? 1-let's say (0.7)^2
+[14:47] which is equal to near about 76%. Approximately 76%. So see the difference,
+[14:54] when there was only 1 process, the utilization was only 30%.
+[14:59] Now I just increased the size of the RAM,
+[15:02] CPU utilization is increased by a huge amount of time that is 76%.
+[15:08] Let's say again increase, again we increase the size,
+[15:15] Now let's say the RAM is 16MB and the process is still 4MB.
+[15:25] Process still 4MB, RAM is 16MB, now how many number of processes?
+[15:30] Number of processes will be 4.
+[15:36] How many number of processes can I accommodate in the RAM? Will be 4.
+[15:40] So now 4 processes can be accommodated in the RAM. So same we are doing,
+[15:46] if K is the amount of time that one process is doing the I/O operation.
+[15:54] One process is performing I/O operation for K amount of time so here if we say that
+[16:01] let's say all 4 are doing the I/O operation at same time, what is the probability that
+[16:07] all 4 are doing the I/O operation at same time? The total will be K to the power 4.
+[16:21] Then what will be the CPU utilization? CPU utilization will be 1-K^4.
+[16:32] And K value we have already taken as 70% that out of total time, 70% of the time
+[16:39] it does I/O, so means if all 4 perform I/O operation at the same time
+[16:44] then the time will be K^4. So what is the CPU utilization? 1-K^4.
+[16:50] So if you simply substitute the value K that is 70% so here I will have an answer
+[16:56] Near about 93%. Approximately it will come 93 or maybe around 94% the result will come.
+[17:05] You can simply substitute the value and you can find out it will be 93 or approximately 94 we can say.
+[17:13] 93 point something so let's say approximately it is 94%, it is also approximate 76,
+[17:21] so let's say approximate it is 94.
+[17:23] See what is the point? Point is that whenever we increase the size of RAM,
+[17:30] the CPU utilization is increased. So means if I make number of processes very high
+[17:38] or you can say, how will number of prcocesses be high? Here what was the number of processes? 1.
+[17:45] Number of processes here? 2. Number of processes here? 4.
+[17:49] But how did they become 4? We can only accommodate 4 when the size of RAM is big.
+[17:57] So there are 2 points here, first we have to increase the number of processes.
+[18:00] To increase the number of processes means to increase the Degree of Multiprogramming,
+[18:05] I will have to increase size of RAM. And if we increase size of RAM then obviously
+[18:11] more and more processes will be accommodated, and when more and more processes are accommodated
+[18:16] then CPU utilization will be high. So this is the concept.
+[18:20] So here if I take number of processes upto 'n', means let's say if I take it upto 1-K^n,
+[18:31] then value will come near about 100%. Means my CPU utilization will be 100%.
+[18:37] Because already it is increasing upto 94%, now if you want you can do 32MB,
+[18:44] increase size of RAM to 32MB and then, size of process is fixed that is 4MB,
+[18:50] so automatically you can see the utilization is increasing. So what is my point here?
+[18:56] Generally we say, in all the theory, we generally say that Degree of Multiprogramming
+[19:02] means more and more number of processes in the RAM. This is the only definition.
+[19:07] But how we can bring more and more number of processes?
+[19:12] For that I will have to increase size of the RAM and when I increase size of the RAM
+[19:17] then definitely more and more number of processes will be accommodated there.
+[19:21] And then CPU utilization will automatically increase. A real life example of this,
+[19:27] a numerical we solved here so you can easily judge this from here also.
+[19:32] So here my memory management technique, memory management technique says what?
+[19:37] Although we have to manage all memories, Operating System manages all memories,
+[19:43] but here for which memory this management is most important? RAM. Reason is that
+[19:49] whatever number of processes which are present in the secondary memory,
+[19:58] and this is my RAM, and this is the CPU.
+[20:02] so whatever number of processes which are present where? In the secondary memory.
+[20:05] So from the secondary memory, to bring more and more number of processes in the RAM,
+[20:11] this is also responsibility of what? Operating System.
+[20:14] So this is a part of the memory management.
+[20:17] Second, we said that bring more and more processes in the RAM,
+[20:21] so due to this functionality of Operating System increased, what is the functionality?
+[20:27] Allocation, deallocation. It will have to concentrate more on allocation and deallocation.
+[20:32] When more and more number of processes come in the RAM
+[20:35] then more and more allocation will happen and when the processes will go back
+[20:40] then deallocation will be there. And here funda of security will also be used. Why?
+[20:44] Because the more processes we bring in the RAM, it is possible that
+[20:49] one or two processes may interfere with each other,
+[20:53] means their instructions may interfere with each other. So Operating System takes care of this also
+[20:59] that no, this type of problem should not happen. The size or memory allocated to some process,
+[21:09] it will use only that much space, more than that its instruction cannot come out.
+[21:13] So funda of security, allocation deallocation, that is done by the
+[21:17] Operating System in the memory management. So that's why this is the important part
+[21:22] that why we relate Degree of Multiprogramming to memory management and here
+[21:27] the entire memory management, the majority of memory management is that
+[21:33] bring more and more processes in the memory, in which memory? In RAM.
+[21:38] But that is a challenge in itself. Challenge is in one more sense that
+[21:43] it may happen that I bring a process entirely, one full process I bring in the RAM,
+[21:49] and second can also be that I divide the process into fractions, and some of its part,
+[21:56] the part that is required I bring only that, that will be seen in Paging and Segmentation further.
+[22:01] But yes, we can also bring the entire process in the RAM.
+[22:06] But let's say that a process of 4MB we bring in the RAM, then it is possible that
+[22:10] only 1 or 2 instructions we to be executed in it, so 1 or 2 instructions are in bytes,
+[22:16] means CPU only wanted data of 1 or 2 bytes, but I bring 4MB data in the RAM to execute,
+[22:24] then obviously here also efficiency of system can be affected because this much data
+[22:29] through buses, through the data bus you have to travel, so instead of travelling more data
+[22:35] what we do? We generally divide the process in fractions, in multiple blocks and
+[22:41] we bring blocks of some processes like we bring one block of P1, second block of P2,
+[22:47] some other block of P3, some other block of P4 process, some other block of P5, some other of P6,
+[22:53] means we try to bring their blocks in the RAM. But how we divide these blocks and all,
+[22:59] that will be seen in the further videos of Paging and Segmentation.
+[23:03] So this is all about how we relate Degree of Multiprogramming and Memory Management with each other
+[23:09] and why the Degree of Multiprogramming is very important, and how to achieve it?
+[23:15] Concept is simple, increase the size of RAM and when you increase the size of RAM,
+[23:20] more and more processes will be accommodated. And how will CPU utilization increase?
+[23:26] You can easily check through this example.
+[23:29] So this is all about Memory Management and Degree of Multiprogramming.
+[23:33] So if you like the video then please like it, share it and please subscribe my channel, thank you.

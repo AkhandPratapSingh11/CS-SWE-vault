@@ -1,0 +1,3962 @@
+Title: 20. Backend Security: Everything You Need to Know
+Video URL: https://www.youtube.com/watch?v=xB1C1xZZW4k
+Video ID: xB1C1xZZW4k
+======================================================================
+
+[00:00] Today I want to talk a little about
+[00:03] security. I don't have to mention this
+[00:05] but from the name you can derive that
+[00:08] security of an application and in our
+[00:11] context security of a backend
+[00:13] application is one of the most important
+[00:16] things that you as an engineer should be
+[00:18] aware of. I'm not saying that all the
+[00:20] other topics that I covered in this
+[00:23] playlist are not important, but security
+[00:26] is something which if you don't pay a
+[00:28] lot of attention to has a lot of
+[00:31] destructive effects on your application.
+[00:33] Destructive financially and when it
+[00:36] comes to your business, when it comes to
+[00:37] your resources and in turn everything
+[00:40] boils down to money and finance. But
+[00:42] security itself is a huge domain. You
+[00:46] can talk about different aspects of
+[00:48] security depending on which context
+[00:50] you're talking about. We can talk about
+[00:52] browser security which will talk a lot
+[00:54] about HTML and your cookies, local
+[00:56] storage, all these different components
+[00:58] where vulnerabilities can arise. We can
+[01:00] also talk about your network security
+[01:04] which means the transition layer with
+[01:06] the HTTP, HTTPS and your encryption,
+[01:10] compression all these components come.
+[01:12] We can also talk about server security.
+[01:15] I'm not talking about backend security
+[01:17] where we are only concerned about our
+[01:20] app our particular code base and our
+[01:23] particular process which will be running
+[01:25] inside an operating system. When I say
+[01:27] server security I mean the operating
+[01:29] system in itself when we deploy a
+[01:31] backend code in a server we deploy our
+[01:34] particular application which runs in a
+[01:37] process inside an operating system. So
+[01:40] that operating system itself has a
+[01:42] security context. You can talk about
+[01:44] that also. And obviously we can also
+[01:47] talk about our back end which means all
+[01:50] the vulnerabilities that can arise
+[01:53] because of our app because of the code
+[01:56] that we have written in our back end.
+[01:58] And if you start to tackle and if you
+[02:02] start to discuss security in all these
+[02:04] context, it quickly goes out of the
+[02:07] scope. You don't need to know all these
+[02:10] things about security. Of course, it is
+[02:12] always better if you are aware of these
+[02:15] things. If you are interested in these
+[02:17] things, there are a lot of reading
+[02:18] materials that you can find with just a
+[02:20] simple Google search. But for this video
+[02:23] where we mostly talk about practical
+[02:26] things where we mostly talk about things
+[02:29] that are in the context of backend
+[02:31] engineering. In this context we have to
+[02:35] limit ourselves to a particular set of
+[02:38] vulnerabilities a particular set of
+[02:40] rules that we should follow to ensure
+[02:42] security of our application. And the
+[02:44] last thing that I want to mention before
+[02:47] we start this video is the aim the
+[02:50] purpose of this video is not to teach
+[02:52] you all the different fancy security
+[02:55] techniques in one video so that you can
+[02:57] just go ahead and implement all of them
+[02:59] in your application starting from
+[03:01] tomorrow. That is obviously not going to
+[03:03] happen. As I have mentioned security is
+[03:05] a vast domain and you have to do a lot
+[03:08] of reading yourself. You have to do a
+[03:10] lot of research. We have to build the
+[03:12] mindset to build a truly secure
+[03:15] application. That sentence itself does
+[03:17] not make any sense because no
+[03:19] application can ever be truly secure. As
+[03:22] technology evolves, as our libraries
+[03:24] evolve, as our programming languages
+[03:25] evolve, there will always be security
+[03:28] vulnerabilities. But anyway, we have to
+[03:30] try our best. So the purpose of this
+[03:32] video is not to teach you fancy security
+[03:34] techniques. As I have already mentioned
+[03:36] in my authentication and authorization
+[03:39] video, the goal of this video is to make
+[03:42] you paranoid about your application,
+[03:44] about the code that you write and give
+[03:47] you a mindset to always keep security in
+[03:51] the back of your head whenever you are
+[03:53] creating any kind of application. So
+[03:55] that is the purpose that is the goal of
+[03:57] this video. Of course, we are going to
+[03:58] talk about a lot of security threats, a
+[04:01] lot of security based techniques to
+[04:03] prevent all these threats. We'll also
+[04:05] look at a few demos to understand how it
+[04:08] works on code level etc etc. But again
+[04:11] if I miss some major component when it
+[04:14] comes to security if I miss talking
+[04:16] about a major threat or some best
+[04:19] practice then as I've said security is
+[04:22] huge and as long as you are able to get
+[04:26] this mindset that always keep security
+[04:28] at the back of your head whenever you
+[04:30] are writing code then I will consider
+[04:32] this video as successful. So with that
+[04:35] we can start. One of the things that I
+[04:37] have thought a lot about structuring
+[04:39] this video is I don't want to list and I
+[04:43] don't want to talk about a fixed list of
+[04:47] very abstract vulnerabilities because
+[04:49] that never works. Instead what I want to
+[04:53] do is I want to give you a glimpse of
+[04:55] how to think like an attacker. I don't
+[04:59] want to use the word hacker because
+[05:01] there is a lot of cringe already
+[05:03] associated with the word. So we are
+[05:05] going to use the word attacker for this.
+[05:07] And the fact is these attackers, people
+[05:11] who wish harm upon your application in
+[05:14] any way possible, they don't really care
+[05:17] about the framework, the library, the
+[05:20] programming language that you have
+[05:22] written. They only care about this one
+[05:25] question. The question is where did the
+[05:28] developer make an assumption? That is
+[05:30] the most important question and we are
+[05:33] going to pay a lot of attention to this
+[05:35] question to find out why this question
+[05:37] is so important especially in the
+[05:39] context of security because every single
+[05:42] vulnerability that we are going to talk
+[05:45] about in this video it all comes down to
+[05:48] that single thing. A developer assumed
+[05:51] that the input coming from the user
+[05:53] coming from the front end would be
+[05:56] clean. Or they assumed that the user was
+[06:00] who they said they were. Or they assumed
+[06:03] that the request that they are receiving
+[06:05] on their server on their back end was
+[06:08] coming from their front end the front
+[06:11] end that they are supposed to serve. And
+[06:14] they assume that no one would open the
+[06:16] network tab like this. and no one will
+[06:19] just take a look at the network calls
+[06:22] and no one will try to modify the
+[06:25] parameters. Of course, these assumptions
+[06:27] they feel reasonable when you are
+[06:29] building under deadline, right?
+[06:31] Especially in startups, there is always
+[06:33] a deadline. You want to ship features as
+[06:36] fast as possible. You want to meet the
+[06:39] client's requirements as fast as
+[06:41] possible. In that environment, it is
+[06:43] perfectly reasonable to make all these
+[06:46] assumptions because you are always
+[06:48] thinking in the happy path. The user
+[06:51] will always fill the form correctly, the
+[06:53] way that you are expecting them to. They
+[06:56] will always click the right buttons and
+[06:58] they will always navigate your app the
+[07:02] way they are meant to. But unfortunately
+[07:05] attackers again people who wish harm
+[07:08] upon your application they don't use
+[07:10] your app the way you want them to. They
+[07:13] try to poke at every single boundary.
+[07:16] They try to modify. They try to break
+[07:18] every single input and they try to guess
+[07:21] every one of your assumptions. So by the
+[07:24] end of this video, you'll have a mental
+[07:26] model for thinking about security that
+[07:29] will stick with you regardless of what
+[07:32] language or framework that you're using.
+[07:35] It can be Go, it can be Python, it can
+[07:37] be NodeJS, it can be Rust, does not
+[07:39] matter. You'll always start questioning
+[07:42] this question which is what could go
+[07:45] wrong here in terms of security every
+[07:48] time you write code. With that, let's
+[07:50] jump into our first kind of attacks that
+[07:53] I want to talk about, which are say
+[07:56] injection attacks. Now, injection
+[07:58] attacks, I'll come back to why we are
+[08:00] calling them injection attacks, but they
+[08:03] have been around for decades now. And
+[08:06] and they're still very common and they
+[08:08] all share the same root cause. And once
+[08:12] you start looking at the root cause,
+[08:14] once you start understanding the root
+[08:16] cause, you'll start understanding an
+[08:18] entire category of vulnerabilities. So
+[08:22] let's start with a very fundamental
+[08:25] truth, a very fundamental fact which is
+[08:28] your application speaks multiple
+[08:31] languages. So if let's say this is our
+[08:35] app and let's say here we have database
+[08:40] and this side we have browser and in
+[08:44] this side let's say we have operating
+[08:46] system. We have our app let's say this
+[08:49] is our backend application and at all
+[08:52] times we have to imagine that our
+[08:55] application speaks multiple languages
+[08:58] for multiple contexts. When our app, our
+[09:02] back end tries to query some data, tries
+[09:05] to insert some data, tries to delete
+[09:07] some data, any kind of interaction with
+[09:10] data, it tries to speak to a database,
+[09:13] right? It is a kind of interaction and
+[09:15] for that it uses the language SQL. Same
+[09:18] way assuming that our back end also
+[09:21] deals with sending static assets like
+[09:24] JavaScript or HTML or CSS, then it also
+[09:27] speaks these languages, right? HTML and
+[09:30] CSS and whenever our back end needs to
+[09:35] perform some task in the context of
+[09:37] operating system let's say it wants to
+[09:39] open some kind of file which deals with
+[09:42] the system calls which are governed by
+[09:44] the operating system then it speaks the
+[09:48] language of shell shell script if you're
+[09:50] aware of so of course there will be
+[09:53] other categories here depending on how
+[09:55] big your back end is but the point is at
+[09:58] all times Your back end speaks multiple
+[10:00] languages in multiple contexts and each
+[10:03] one of these languages. They have their
+[10:06] own grammar and their own set of special
+[10:10] characters, their own way of separating
+[10:12] commands from data. And this is where
+[10:15] most of the vulnerabilities come from.
+[10:18] Let's say we are as a user, we are here
+[10:21] because we interact with our back end
+[10:24] through browsers, right? Here is a user.
+[10:27] Most of the time the vulnerabilities
+[10:29] arise because a user speaks one
+[10:32] language. Let's say this is HTML,
+[10:34] JavaScript and CSS because we mostly
+[10:37] talk to browsers, right? Whenever a user
+[10:40] speaking one language tries to cross the
+[10:43] boundary of another language from
+[10:45] starting from here, we interacted
+[10:48] through browsers and the browser
+[10:49] interacted with our back end. And when
+[10:52] this language tries to cross the
+[10:54] boundary and starts entering this
+[10:57] boundary or this boundary in those cases
+[11:00] mostly vulnerabilities appear and we'll
+[11:02] talk about what we call them but skill
+[11:04] injection excss attacks these are one of
+[11:07] the examples of when vulnerabilities
+[11:10] arise because of one user crossing the
+[11:13] boundary from one language to another
+[11:15] because the input from the user in one
+[11:17] particular language they can mean some
+[11:20] kind of special command some kind of
+[11:22] special character in the other language
+[11:25] and that is the root cause of most of
+[11:27] these injection based attacks. So let's
+[11:29] talk about one of the most dangerous and
+[11:32] also common injection attacks which is
+[11:35] SQL injection. Okay, for this let's
+[11:38] imagine a simple login page. We have a
+[11:41] login page here. We have the email
+[11:43] field. We have the password field and
+[11:45] this is running in our browser. This is
+[11:48] governed by our browser. This is our
+[11:50] front end and this is going to talk to
+[11:53] our server which in turn is going to
+[11:56] talk to our database DB. This is our
+[11:59] setup. The user enters the email and the
+[12:03] password. Your server receives these two
+[12:06] fields email and password. It makes a
+[12:09] request to your database to find if the
+[12:12] user exists for this and it checks
+[12:15] whether the password is matching or not.
+[12:17] If it does then it returns a response
+[12:20] right very straightforward. Now what we
+[12:22] want to do we want to zoom in on what
+[12:25] exactly is the database query here. So
+[12:28] let's say this is the database query
+[12:30] that got executed. This is the database
+[12:34] query. If you are familiar with SQL that
+[12:37] is great. It is a very straightforward
+[12:39] SQL query. We want to fetch all the
+[12:41] users whose email is matching this
+[12:44] particular user input. whatever we are
+[12:46] receiving from the user. But if you are
+[12:48] not familiar with SQL, this basically
+[12:51] means that our server is asking our
+[12:53] database that give me the user with this
+[12:56] particular email address, whatever email
+[12:58] address that the user has sent us
+[13:00] through our front end. If the developer
+[13:02] who is building this query by
+[13:04] concatenating strings here the way that
+[13:08] is done here by concatenating strings
+[13:11] taking the query template and just
+[13:14] dropping the user input here inside the
+[13:17] query then we have a huge problem. Now
+[13:20] to understand that problem let's first
+[13:23] discuss the happy path. As I have
+[13:26] already mentioned, most of the times we
+[13:28] assume the happy path. The users are
+[13:30] going to act like the way we are
+[13:33] expecting them to. So let's first do
+[13:35] that. The user comes, let's say the
+[13:38] user's email address is Alice
+[13:40] atgmail.com.
+[13:44] They type their email and they type
+[13:46] their password or whatever the password
+[13:48] is and they send it to our server. Now
+[13:51] given this particular SQL query, we
+[13:55] paste it here. When our server receives
+[13:58] this particular email address, what we
+[14:01] do? We take this email and we inject it
+[14:04] here. Now this will become Alice
+[14:07] whatever@gmail.com.
+[14:09] The server constructs this particular
+[14:11] SQL query. It sends to our database and
+[14:13] the database is able to find a user with
+[14:16] this particular email. It returns it and
+[14:18] the server finds the user and allows the
+[14:20] user to login. Right? That is our happy
+[14:23] path. Everything works perfect. We don't
+[14:25] have to worry about anything. Now let's
+[14:27] talk about not so happy path which is
+[14:30] the attempt of our attacker. So instead
+[14:33] of typing a very valid email, what the
+[14:37] attacker does? They do something like
+[14:39] this. They type a single quote. Then
+[14:42] they type the word or. Then a space.
+[14:46] Then another single quote. Inside there
+[14:48] is one. Another single quote. Equals to
+[14:50] another single quote. There is one.
+[14:53] Another single quote. Then hyphen
+[14:55] hyphen. This is the input that the
+[14:58] attacker types in the email field and
+[15:00] they send it to our server. Now what
+[15:03] happens? As usual, the server takes this
+[15:05] input and inserts it into this whatever
+[15:09] template that it is constructing for the
+[15:12] database query. In order to understand
+[15:14] this, let's go to a DB explorer which
+[15:18] will be much clearer. This is our
+[15:20] template for the first case when we are
+[15:23] talking about our happy path. This is
+[15:25] what it becomes. Let's add a colon here
+[15:29] and here select star from users where
+[15:32] email this becomes let's comment this
+[15:35] out just for our reference and this
+[15:39] becomes after constructing the query
+[15:42] becomes alisgmail.com
+[15:45] this was our happy path same way let's
+[15:48] copy template and paste it here now
+[15:51] let's talk about what the attacker did
+[15:54] after constructing the query this is
+[15:56] what the query will become. We already
+[15:59] had a pair of single quotes here which
+[16:01] was added by the server. Now what
+[16:03] happens inside that we concatenate
+[16:06] whatever the input that we're receiving
+[16:08] for the email. Now what the attacker did
+[16:10] first they typed a single quote single
+[16:12] quote then space let's type space it was
+[16:17] or then single quote 1 equals to single
+[16:22] code 1 then space hyphen hyphen. Right?
+[16:26] This becomes our final query. When we
+[16:29] take this this whole thing and we insert
+[16:32] inside our template where we fetch the
+[16:36] user information. In order to test this
+[16:38] out, let's go ahead and create a table
+[16:41] called users. Users, it will have two
+[16:44] columns. Let's call the first one name
+[16:47] with the data type text and the second
+[16:49] one will be email. Again, text. Let's
+[16:51] end the statement here and let's go
+[16:54] ahead and run it. This table is created.
+[16:56] Now let's insert some data into this
+[16:59] table. Insert to users name email. The
+[17:04] values will be first set is going to be
+[17:08] Alice with the email alice atgmail.com.
+[17:12] The second set will be the name Bob with
+[17:16] the email Bobgmail.com.
+[17:19] Okay. End this with a semicolon. And
+[17:22] let's run this. We have inserted two
+[17:24] rows and if we do a refresh here and
+[17:27] check in our users table. Let me try to
+[17:31] increase the font for this data table.
+[17:34] Let's make this yeah should be fine.
+[17:37] Padding also
+[17:40] sidebar also. Let's increase it. And a
+[17:43] little bit of padding. This is too much.
+[17:46] Anyway, this should do it. Let's make
+[17:48] this a little bigger. Great. Now we have
+[17:51] a users table with two users named Alice
+[17:54] and Bob with the email alice@gmail.com
+[17:57] and bobgmail.com. Now going back to our
+[18:00] SQL query. If we run this query, this
+[18:03] particular query, let's go ahead and run
+[18:05] this. We are getting this particular row
+[18:08] as a result. Since we are saying give us
+[18:11] all the users from the users table where
+[18:14] email matches this exact string which is
+[18:17] alice@gmail.com. That's why we are
+[18:19] getting this row with all the columns as
+[18:21] a result. Now this one is our malicious
+[18:23] query which if you go back to our board.
+[18:26] This was our template and what it does
+[18:29] it takes the user input and inserts it
+[18:32] in between a pair of single quotes. And
+[18:35] since the user passed this particular
+[18:38] statement which is single quote or 1
+[18:40] equals to 1 and hyphen hyphen we take
+[18:43] that and insert it into our template.
+[18:46] This is what the query becomes. And what
+[18:49] happens if we run this? Let's go ahead
+[18:51] and run this. We got all the rows in our
+[18:54] users table. Both Alice and Bob, even
+[18:56] though the user did not pass any email,
+[18:59] but they were able to get a list of all
+[19:02] the users in our database including
+[19:04] their email address. Now let's
+[19:06] understand what exactly happened here.
+[19:08] Starting from our template, our query
+[19:11] template. This is what it is in the
+[19:13] first part which is select star from
+[19:16] users where email equals to single
+[19:18] quote. Okay. And opening single quote.
+[19:20] After this point, this is the user's
+[19:23] input. This is what gets dropped in. And
+[19:26] if we take a look at this input, the
+[19:29] first character is a single quote. And
+[19:32] since the first character is a single
+[19:34] quote, what it does? It closes this
+[19:36] particular pair. Since we already had a
+[19:40] single set of single quote and combined
+[19:43] with the single quote coming from the
+[19:46] malicious input. Now this pair is
+[19:48] complete. Now what this statement
+[19:50] becomes? This statement becomes select
+[19:52] star from users where email equals to an
+[19:55] empty string. This is the first part of
+[19:57] the statement which is a complete logic.
+[19:59] We want to fetch all the emails from our
+[20:03] database where email equals to an empty
+[20:05] string. Of course, email will not be an
+[20:07] empty string in our database, but that's
+[20:09] what leads us to our second part of the
+[20:12] statement. Then we have an or statement.
+[20:14] And as the name suggests, or simply
+[20:17] means either this or this, right? This
+[20:20] first part is the left side of or and
+[20:23] this one is the right side of or. So
+[20:25] let's take a look at the right side of
+[20:27] or. We have one equals to one. not one
+[20:30] as a number one as a character since
+[20:32] they are inside single quotes which
+[20:35] basically says that is the string one
+[20:37] equals to the string one and the answer
+[20:40] is obviously yes so this part of the
+[20:42] statement becomes true and then there is
+[20:45] another clever part which is two hyphens
+[20:48] and we use two hyphens in SQL to comment
+[20:50] out whatever comes after that in that
+[20:53] line and since we have a pair of hyphens
+[20:56] here whatever comes after this which is
+[20:58] a single quote that gets commented out.
+[21:01] If they did not provide this pair of
+[21:04] hyphens, then this will throw an error
+[21:06] because there's an extra single quote
+[21:08] here which obviously creates a syntax
+[21:11] error in SQL. Now what happens to our
+[21:13] final query? This part was the left part
+[21:16] of the or and this is the right part of
+[21:18] the or. Now if you translate it into
+[21:21] English what it means what it is trying
+[21:24] to say is return me all the users from
+[21:27] our database whose email is empty string
+[21:29] which is obviously false or when 1
+[21:32] equals to 1 which is always true since
+[21:35] one part of the or statement is true.
+[21:38] This whole statement becomes true. That
+[21:40] is the clever part of this injection.
+[21:42] And since this whole statement becomes
+[21:44] true this part executes. Now essentially
+[21:47] what it becomes if we come here let's
+[21:50] say we copy this and we paste it here.
+[21:53] Let's say comment it out. If we take
+[21:56] this statement this whole statement and
+[21:58] make this true and we close it and we
+[22:01] run this then we get all the rows in our
+[22:04] database from the users table. And if
+[22:07] you want to shorten it even a little
+[22:10] more since this is only a true condition
+[22:13] here which is a constant rule, we can
+[22:15] take this also and paste it here. Let's
+[22:18] comment this out. And we can just go
+[22:20] ahead and remove this part. And if you
+[22:23] run this select star from users which
+[22:25] returns all the users from our database.
+[22:27] So the idea behind writing this
+[22:30] malicious input is tricking our string
+[22:33] concatenation logic into taking a set of
+[22:36] characters which when combined with our
+[22:39] string combined with our SQL template
+[22:42] which is selecting a set of users from
+[22:43] our database that creates a constant
+[22:46] true condition which in turn makes the
+[22:49] whole statement exclude the where part
+[22:52] and it essentially becomes select star
+[22:54] from users. That's why the attacker is
+[22:57] able to get all the users from our
+[23:00] system with this input with just a
+[23:03] single set of malicious characters. The
+[23:06] characters themselves are not malicious.
+[23:08] When combined with our SQL template,
+[23:11] they become malicious with just this set
+[23:14] of characters. They were able to fetch
+[23:16] all the users from our databases. And
+[23:19] since in our case, the users table only
+[23:22] has name and email. But in a production
+[23:25] database, users table usually has a lot
+[23:28] of fields. Fields like hashed,
+[23:30] passwords, addresses, phone numbers, and
+[23:33] lot of sensitive user informations. But
+[23:35] that is still not as harmful as the next
+[23:39] one. So imagining the same statement,
+[23:42] the same SQL template. Let's get rid of
+[23:45] this and let's remove the comment here.
+[23:48] Instead of passing this, what if they
+[23:52] changed their command and made it more
+[23:54] harmful? What they can do? So let's
+[23:57] remove this part. This is our
+[23:59] essentially the template. Whatever the
+[24:01] user passes, we are embedding it inside
+[24:04] this. So starting from here, let's say
+[24:06] they again did the same trick which is
+[24:09] passing a single quote. Now this part is
+[24:12] complete. So whatever they pass in the
+[24:15] next part that becomes their primary
+[24:18] attack command and after this let's say
+[24:21] they passed a semicolon then they passed
+[24:25] this drop table users and then another
+[24:29] semicolon then again hyphen hyphen so
+[24:32] that this part gets commented out and it
+[24:35] does not throw a syntax error or there
+[24:38] are no other conditions after this
+[24:40] statement which is messing with their
+[24:42] attack command. Now tracing this part
+[24:45] what it essentially becomes if you can
+[24:48] guess which is very straightforward.
+[24:49] This part of the query is obviously
+[24:52] select star from users where email uh is
+[24:54] an empty string. That part is not going
+[24:56] to become true because email is not
+[24:59] going to be an empty string because
+[25:00] usually we have a not null constraint on
+[25:03] our email fields. But this part, this
+[25:06] statement when it's executed, this
+[25:09] completely deletes the users table from
+[25:11] our database. We'll talk about how to
+[25:14] mitigate this. Of course, the first
+[25:15] obvious thing is parameterized queries
+[25:18] which we'll talk about just after this.
+[25:20] But the second obvious prevention for
+[25:22] this is usually in our application code
+[25:24] in our backend code when we establish a
+[25:27] connection to our database to interact
+[25:29] with our database to perform operations
+[25:31] like create update delete and insert
+[25:35] etc. The credential that we use the user
+[25:38] and password with which we connect to
+[25:40] our database that user should only be
+[25:43] given permissions for DML queries which
+[25:47] means data manipulation queries. data
+[25:49] manipulation queries as in insert
+[25:51] queries, update queries, delete queries.
+[25:54] These statements which are called DDL
+[25:56] queries which is data definition
+[25:58] language which can alter or delete
+[26:00] actual tables from our database. Of
+[26:03] course, when we run this, this will
+[26:05] return a successful response which is an
+[26:08] empty set of rows. But this part will
+[26:11] never run which means our users table is
+[26:13] not going to get deleted. And the reason
+[26:16] as you can see the query one returns
+[26:18] okay but our users table even if you do
+[26:21] a refresh it's still there and the data
+[26:23] is still present and the reason it did
+[26:25] not run was because we pasted this
+[26:27] inside our DB explorer which is table
+[26:30] plus and it was not from an actual
+[26:33] program table plus whatever driver since
+[26:35] it's proprietary we do not know exactly
+[26:38] what database driver they use for
+[26:40] postris but most of the modern drivers
+[26:43] they have all these safety mechanisms so
+[26:45] that they by default block these
+[26:48] backtoback SQL statements. So only the
+[26:51] first one runs. This one gets disabled
+[26:53] because SQL injection has been a classic
+[26:56] vulnerability since decades. A lot of
+[26:59] tools, a lot of drivers and database
+[27:02] ecosystem tools. They have a lot of
+[27:04] safety mechanisms to disable behaviors
+[27:07] like that. But if you're using some
+[27:09] older version of a database driver or a
+[27:12] database driver which does not have all
+[27:14] these security mechanisms then this
+[27:16] statement will actually work and your
+[27:18] users table will get deleted. And
+[27:21] judging by this pattern you can already
+[27:24] imagine an attacker with the correct set
+[27:27] of skills and intentions. They can do a
+[27:30] lot more creative attacks lot more
+[27:33] damage to your wagon and your database.
+[27:36] uh they can do things like use union
+[27:39] statements to extract data from other
+[27:41] tables, other sensitive tables like
+[27:43] payment information. They can also use
+[27:46] database specific functions to read
+[27:48] files from your server's file system.
+[27:51] And in some configurations, they can
+[27:53] also execute operating system commands
+[27:56] to the database. So there is a lot of
+[27:59] attack surface here. That's the reason
+[28:01] SQL injection has been one of the most
+[28:04] destructive vulnerability since decades.
+[28:07] Now going back to our initial
+[28:09] explanation of what exactly is an
+[28:12] injection attack mentioned that
+[28:14] injection happens when languages cross
+[28:18] other languages boundaries inside a
+[28:20] ecosystem ecosystem of browsers,
+[28:23] servers, databases and other tools. Now
+[28:26] looking at our SQL query, if we apply
+[28:29] that theory here, SQL or SQL, it is a
+[28:33] language where certain characters have
+[28:36] special meaning. The single quote here
+[28:39] we use to represent a string. Whatever
+[28:42] comes inside a single quote, a pair of
+[28:44] single quote, that is treated as a
+[28:46] string. The semicolon here that is used
+[28:49] to separate two different statements. If
+[28:52] a semicolon comes inside an SQL
+[28:54] statement, that means that statement is
+[28:56] over and the next statement starts
+[28:59] executing. The double dash here, this
+[29:01] means whatever comes after that will be
+[29:04] treated as a comment and SQL will not be
+[29:06] executing whatever command is there
+[29:09] after the double dash. Same way keywords
+[29:12] like or, drop, where, all these things
+[29:15] they have a specific meaning. And when
+[29:17] we concatenate our SQL string or SQL
+[29:21] template with whatever coming directly
+[29:24] from user input there what we're saying
+[29:26] that we are trusting that the input does
+[29:29] not contain any of these special
+[29:30] characters which is of course asking for
+[29:32] a lot and it is an impossible situation.
+[29:36] Even if the user input is not malicious,
+[29:39] we cannot guarantee that a benign user,
+[29:42] a user who is clueless, they will not
+[29:44] type all these special characters inside
+[29:46] the input box. We are just assuming that
+[29:49] it's all data. And that is the essence
+[29:51] of all injection attacks. This part that
+[29:55] we treated as data and this part which
+[29:58] was supposed to be code but due to the
+[30:02] overlapping meanings of special
+[30:04] characters this thing also became a part
+[30:07] of our code which was supposed to be our
+[30:10] data. So in a way if you want to explain
+[30:14] the meaning of injection attacks it all
+[30:17] boils down to this confusion between
+[30:19] code or data treating data is code or
+[30:23] code as data that's where a lot of
+[30:26] injection based attacks are born from.
+[30:29] So how do we actually fix this? The
+[30:32] answer to that is parameterized queries
+[30:35] and they're also called prepared
+[30:36] statements. And this is how they look.
+[30:39] If we take this statement and copy it
+[30:42] here, instead of doing this string
+[30:44] concatenation where we are taking two
+[30:46] single quotes and we are just pushing
+[30:48] whatever comes from the user inside this
+[30:51] pair of single quotes, instead of doing
+[30:53] this, what if we remove this whole thing
+[30:56] and we wrote something like dollar one
+[31:00] and while we are executing this whole
+[31:02] thing, what we do usually, so let's say
+[31:05] we store this whole thing inside a
+[31:08] variable on statement equals to this
+[31:11] whole thing and we also add a pair of
+[31:14] quotes here whether single quote or
+[31:16] double quote that's on you and your
+[31:19] language and while executing what we do
+[31:22] we have a DB instance or a pool instance
+[31:25] whatever do we have let's call it
+[31:28] something like DB and we call an execute
+[31:31] method whatever your uh database driver
+[31:34] offers or a query method a debuted query
+[31:36] a pass the statement in the first
+[31:39] parameter. In the second parameter, we
+[31:41] pass the slots. Whatever slots that are
+[31:44] supposed to go inside this query. I'll
+[31:46] explain that in a bit. Let's say here we
+[31:49] pass the user input. Okay. Now, let's
+[31:52] make this a little bit bigger. Let me
+[31:55] change the color of this and also the
+[31:57] color of this so that we can
+[31:59] differentiate what is the actual query
+[32:00] and what is the code. Let me write.
+[32:02] Okay. Now the whole idea of
+[32:05] parameterized query is to separate the
+[32:08] query from the user data. The user data
+[32:11] in the sense whatever data that we are
+[32:13] receiving dynamically during runtime
+[32:15] during the execution of our program the
+[32:18] data that we do not have the knowledge
+[32:21] of while we are writing the code or
+[32:23] while our code is compiling. So instead
+[32:25] of building one string with everything
+[32:28] mashed together, we send two things to
+[32:30] our database. Here if you take a look
+[32:33] this is our DB instance pool instance
+[32:35] whatever you want to call it. This part
+[32:37] will differ from language to language
+[32:39] from FMA to framework. So this part we
+[32:42] will ignore the syntax we'll ignore.
+[32:44] Let's focus on this part. This practice
+[32:47] is usually common between all kinds of
+[32:49] drivers and all kinds of ORMS. So you'll
+[32:52] be able to relate this statement. Okay.
+[32:54] Now focusing on our actual query
+[32:57] template or our actual query statement.
+[33:00] the first part from starting from here
+[33:02] to here. Previously where we were
+[33:04] concatenating this part with the user
+[33:07] input what we did we wrote our first
+[33:09] part as it is as it was before select
+[33:12] star from users where email equals to
+[33:14] dash. Okay this part contains no user
+[33:16] data. This usually contains the tables
+[33:19] that we are selecting from whatever
+[33:21] conditions that we are checking and
+[33:23] whatever operations that we are
+[33:24] performing things like update etc. And
+[33:27] in this case this is a select statement.
+[33:29] no user data whatsoever. The second part
+[33:31] comes where we have a slot or the actual
+[33:34] values or the place the slot or the
+[33:38] empty box where the user data will go
+[33:40] eventually and we call these parameters
+[33:43] because parameters in the programming
+[33:45] language jargon means a slot where
+[33:48] eventually data will be pushed in.
+[33:50] Eventually data will be filled in. Now
+[33:52] that we have our statement ready, we
+[33:54] have a slot reserved here. When we
+[33:57] actually execute this statement, we pass
+[34:00] these two things to our database. The
+[34:02] first part, we pass this whole
+[34:04] statement. The statement that our
+[34:06] database is supposed to execute. In the
+[34:09] second parameter, we pass the actual
+[34:11] value. So this user input, this might be
+[34:14] coming from a query parameter from our
+[34:16] HTTP endpoint. Now we take that and we
+[34:20] directly inject it here. And this in
+[34:23] turn will be injected in this parameter.
+[34:25] this query parameter or this empty slot
+[34:28] and if we take this statement let's
+[34:31] paste somewhere here with the color this
+[34:34] so eventually this statement becomes
+[34:38] this thing whatever data whatever user
+[34:40] data whatever data that we pass into a
+[34:42] parameter now this in turn becomes this
+[34:46] which is let's say the user typed alice
+[34:49] atgmail.com
+[34:52] right this is what the query becomes in
+[34:55] At the end, the database takes this
+[34:57] part, this statement, and it knows that
+[35:00] since it encountered a phrase where
+[35:02] there is a dollar sign in front of the
+[35:05] phrase, it is treating this part as a
+[35:07] slot. And what it did, it took the
+[35:10] second argument that we passed into the
+[35:13] query function. It took that and it
+[35:15] injected that into this into this slot.
+[35:17] Now if you ask what is the difference
+[35:19] between this method and the previous
+[35:21] method where we were concatenating
+[35:23] string which was more intuitive and
+[35:25] which was more easy in fact the
+[35:28] difference is when the database
+[35:30] construct this query by taking our
+[35:33] statement and all the arguments this
+[35:35] part whatever it inserts into this slot
+[35:38] this is purely treated as data. There is
+[35:41] no confusion between data and code which
+[35:43] is usually the source of all kinds of
+[35:45] injection attacks. Now that possibility
+[35:48] is gone because if we take the initial
+[35:51] malicious statement this whole thing
+[35:53] let's say we take this whole thing. So
+[36:06] now let's take our malicious example for
+[36:10] our user input. Let's say the attacker
+[36:12] came and passed this whole thing which
+[36:14] is supposed to be a malicious input and
+[36:17] we took that particular user input and
+[36:20] this time we are using parameterized
+[36:22] queries instead of doing string
+[36:24] concatenation. We took that input and we
+[36:27] passed our database the query template
+[36:30] which is this part and the user input
+[36:32] which is this part and our database in
+[36:35] turn constructs this whole statement.
+[36:37] Now what is the difference? Unlike
+[36:39] before when the database encounters this
+[36:42] single code it does not try to confuse
+[36:46] between code and data it does not treat
+[36:48] it as a actual single quote which is
+[36:51] going to merge with the existing single
+[36:53] code and it will complete one part of
+[36:55] the statement. That will not happen.
+[36:57] This will not be a complete statement
+[36:59] because whatever comes inside the slot
+[37:02] it is treated purely as data or in
+[37:05] simple language it is treated purely as
+[37:07] a string. No part of this data will be
+[37:11] confused as a command. And that is why
+[37:14] this whole thing is now just a garbage
+[37:17] string. Since this is clearly not an
+[37:19] email, this will not return any kind of
+[37:22] row from our database. And also since we
+[37:25] are using parent queries, it will not be
+[37:28] able to harm our database in any way
+[37:30] possible. Of course, you can argue that
+[37:33] this particular string this should not
+[37:35] have reached up to this point where we
+[37:38] are executing a statement for an email
+[37:41] with this particular structure. Usually
+[37:43] in our validation layer, we should catch
+[37:45] these kind of strings which means if a
+[37:47] string does not have a structure of an
+[37:50] email then the validation layer should
+[37:52] throw an error saying that this does not
+[37:54] look like an email. This just a random
+[37:56] garbage string. So it will not reach up
+[37:59] to this point. But even if for some
+[38:01] reason your validation layer is weak or
+[38:04] is not as strict, if it did reach up to
+[38:07] this point, then the our database driver
+[38:09] will take care of that. Nowadays, every
+[38:11] single database driver in every language
+[38:14] supports these parameterized queries. In
+[38:16] fact, every OM also uses them by
+[38:19] default. The only way to be vulnerable
+[38:22] is to deliberately if you intentionally
+[38:24] bypass all this safety by building raw
+[38:27] strings by yourself which does not even
+[38:29] make sense or is convenient in any way
+[38:31] possible. That is only when you'll be
+[38:33] subjected to all these different kinds
+[38:35] of attacks and vulnerabilities. So that
+[38:38] is your advice for the first kind of
+[38:40] injection attacks which is SQL
+[38:42] injection. Always use parameterized
+[38:43] queries. Even though this has become
+[38:45] such a common practice that I did not
+[38:47] have to cover this anyway most people
+[38:50] use OMS and OMS by default use
+[38:53] parameterized queries and even if you
+[38:55] use SQL raw strings the database drivers
+[38:59] also encourage you and make it as easy
+[39:01] as possible to use parameterized
+[39:03] queries. This has become such a common
+[39:05] vulnerability that this did not need
+[39:07] covering. But still if you wanted to
+[39:09] understand why this particular type of
+[39:12] injection attack has been so destructive
+[39:14] for so many decades then this part would
+[39:16] be helpful to you to understand what
+[39:18] exactly your database driver does by
+[39:20] using these parameterized queries. Now
+[39:23] some of you might be thinking I use
+[39:25] MongoDB or any other kind of NoSQL or
+[39:29] document database and since I don't
+[39:31] write SQL I am safe and I don't have to
+[39:34] worry about user inputs which is
+[39:36] obviously again not true in MongoDB also
+[39:40] queries are represented as JSON like
+[39:43] objects and when you want to find a user
+[39:46] by email in a similar situation like
+[39:49] this you create an object with an email
+[39:51] field and the value that you're
+[39:53] searching for. And the problem is that
+[39:56] MongoDB query objects can also contain
+[39:59] operators. Things like not equal
+[40:01] operator, the greater than operator, the
+[40:03] exist operator, and many other kinds of
+[40:06] operators. And these operators are
+[40:08] specified as nested objects with special
+[40:11] keys starting with the dollar. So a
+[40:13] normal query might say find where email
+[40:16] equals to this string value. But if the
+[40:19] attacker can control not just the value
+[40:22] but the structure also they can pass an
+[40:24] object with the not equal operator. So
+[40:27] if your application takes a JSON input
+[40:30] from the user and passes it directly to
+[40:32] the database query even though that is
+[40:34] an obviously stupid thing to do and no
+[40:36] one in their same mind will do it but
+[40:39] still if you were to do it an attacker
+[40:41] can inject these operators. So that's
+[40:44] also something you have to be wary of.
+[40:46] Even if you use NoSQL as your database.
+[40:48] Of course, if you use MongoDB or NoSQL
+[40:51] database in the first place, then you
+[40:53] have bigger concerns than worrying about
+[40:55] security. On the same note, there is a
+[40:58] different type of attack, a different
+[41:01] type of injection attack which is called
+[41:04] command injection attack which works
+[41:06] pretty much the same as an SQL
+[41:09] injection. But the attack target is
+[41:12] instead of your database systems or your
+[41:14] backend system, it is your operating
+[41:17] system. In an SQL injection attack, what
+[41:19] happens? You have an SQL query template
+[41:22] and you take user input without proper
+[41:26] caution and without proper techniques.
+[41:29] You just add or concatenate the user
+[41:31] input with your SQL query and pass that
+[41:34] as code instead of treating it as data.
+[41:37] The same kind of thing happens in
+[41:39] command injection where instead of an
+[41:41] SQL string you have a operating system
+[41:45] command can be a system command or it
+[41:48] can be some CLI program that you call
+[41:50] for an example let's say you have a web
+[41:54] service have a web app where you ask
+[41:57] users to upload images and that image in
+[42:01] turn goes to your web server where you
+[42:04] have to process that image process ing
+[42:07] can be of any type. Let's say you can
+[42:10] let's say the request may be to compress
+[42:12] that image or maybe the request is to
+[42:16] resize the image. It can be of any type
+[42:18] depending on what you're providing. So
+[42:20] your web server takes that image but in
+[42:23] order to resize that image or compress
+[42:26] that image etc. What do you do? You use
+[42:28] a CLI application or a CLI tool.
+[42:31] Something like FFmp is a very popular
+[42:34] tool for any kind of image or video
+[42:37] processing. So what you do in your
+[42:40] backend code after you get the user's
+[42:43] file in your handler you execute a OS
+[42:47] function which in turn calls this CLI
+[42:50] tool which is fmmppg and there are some
+[42:52] arguments here something like what is
+[42:54] the height what is the etc etc whatever
+[42:57] arguments usually fmmppg takes and in
+[43:00] the end there is a slot or there is an
+[43:02] option to specify the output image file
+[43:05] name something like output dot jpg. Now
+[43:09] for this what you're doing you are
+[43:12] taking users input for the name of the
+[43:14] output file. So the user has the
+[43:16] capability to define what is going to be
+[43:19] the name of the output file or the input
+[43:21] image. So what you do you just take the
+[43:24] user's input and pass it into your whole
+[43:27] command. So which in turn becomes the
+[43:29] above command which is fine as long as
+[43:32] it is a genuine input. But let's say you
+[43:36] are invoking the same command mpg height
+[43:39] 120 width
+[43:42] 220 something like this and in the end
+[43:45] you're let's say hyphen o and you
+[43:47] specify the file name here what you're
+[43:49] doing you're passing the user's input as
+[43:52] it is and in this case if the user
+[43:54] inputs something like this semicolon rm
+[43:58] - rf/ this whole thing becomes the
+[44:02] command now so this thing executes But
+[44:04] when it encounters a semicolon, this is
+[44:07] a complete command. And starting from
+[44:09] this, this is going to be executed. And
+[44:12] of course, we all know the destructive
+[44:14] effects of RMRF/
+[44:16] which is deleting your whole root
+[44:19] folder. The attackers can also get
+[44:21] creative. They might use pipes to
+[44:23] redirect the output to a different or
+[44:26] more destructive command. They might
+[44:28] also use amperands to run commands in
+[44:31] the background which might work as a
+[44:34] spyware in your system in your server
+[44:37] system because each shell whether you
+[44:39] are using ZSH or fish or bash whatever
+[44:43] shell that you use each shell has its
+[44:45] own set of special characters and escape
+[44:47] sequences and someone who has the skill
+[44:50] they can do proper research and come up
+[44:54] with more creative exploits for your
+[44:56] system. And the fix for this is similar
+[44:58] to the SQL injection fix which is just
+[45:01] separate the command from its arguments.
+[45:04] Most of these languages the system
+[45:06] languages or languages that enable you
+[45:08] to interact with your operating system
+[45:10] whether it is NodeJS or Go or Python
+[45:13] whatever language that you're using.
+[45:15] They all have these functions that take
+[45:17] the command this part as one parameter
+[45:20] and the arguments in this case the
+[45:24] output file name that in a different
+[45:26] parameter and these functions these
+[45:28] functions that are provided by your
+[45:30] programming languages or your framework
+[45:32] they pass these arguments the arguments
+[45:35] that are coming from the user directly
+[45:38] to the process without them going
+[45:40] through your shell interpreter when the
+[45:43] user's input is passed directly to the
+[45:46] shell interpreter that is treated as
+[45:49] code. As we have already mentioned, all
+[45:51] these injection attacks happen when our
+[45:54] workflow, our system confuses data with
+[45:56] code or code with data. So in order to
+[45:59] prevent that situation, when we use
+[46:01] proper functions provided by our
+[46:04] programming languages, these command
+[46:05] injections can be avoided because these
+[46:08] functions they inject whatever users
+[46:11] data directly into the process when the
+[46:12] program is already running. Instead of
+[46:14] interpreting the programmatic meaning of
+[46:18] the user's input, they treat it directly
+[46:20] as string. So that was a different type
+[46:23] of injection attack which is called
+[46:24] command injection. Now let's try to
+[46:26] summarize the injection attacks. This is
+[46:28] the mental model that applies to pretty
+[46:31] much all the injection attacks. Whenever
+[46:33] you are passing user input, whatever
+[46:36] coming from your user that they type in
+[46:39] their keyboard or paste it, whatever
+[46:41] user input that you are getting in your
+[46:44] server, which is another system, the
+[46:46] system where the user types is the
+[46:48] browser and that travels to your system,
+[46:51] which is the operating system of the
+[46:53] server or your backend system, whatever
+[46:56] programming language or framework that
+[46:57] you're using. When that happens, whether
+[46:59] that is SQL or NoSQL or shell commands,
+[47:03] HTML, LDAP, XML or anything else,
+[47:06] whatever you can imagine, you have to
+[47:08] ensure that the user input is purely as
+[47:12] data. It should never be treated as
+[47:15] something that can be executed,
+[47:17] something that can be interpreted. And
+[47:19] the safest way to do that is to use
+[47:22] APIs, use functions, use methodologies
+[47:26] that enable you to separate structure
+[47:30] from the data, separate code from the
+[47:32] data, which in our case when we talked
+[47:33] about SQL injection, they are
+[47:35] parameterized queries. And in case of
+[47:38] command injection, they are argument
+[47:40] arrays which are provided by your
+[47:42] programming languages or your
+[47:44] frameworks. Something that you should
+[47:45] never do is doing all these kinds of
+[47:48] dangerous or sensitive operations using
+[47:51] string concatenations or using template
+[47:53] strings by mixing user input with the
+[47:56] control syntax. So the thing to be
+[47:59] paranoid of that I mentioned in the
+[48:02] first part of this video is whenever
+[48:04] you're building a string that will be
+[48:06] interpreted by another system and that
+[48:09] string also includes any kind of user
+[48:12] input you have to stop and think more
+[48:15] about it and always try to find a
+[48:17] parameterized alternative to that and
+[48:19] most of the time it almost always
+[48:22] exists. Next let's talk about
+[48:24] authentication. We have already covered
+[48:26] authentication and authorization and a
+[48:28] lot of aspects of that in the
+[48:31] authentication authorization video. But
+[48:33] in this part in this section of this
+[48:35] video we are going to look at
+[48:38] authentication and authorization by
+[48:40] keeping vulnerabilities in our mind by
+[48:43] thinking about where the weaknesses
+[48:45] might be where people usually mess up.
+[48:47] So to give a brief authentication is
+[48:50] basically the process of verifying the
+[48:53] identity of your user to finding out
+[48:56] which row exactly in your database in
+[48:58] the users table associates with this
+[49:01] user who is trying to currently access
+[49:03] your system. That is basically the
+[49:05] question that we are trying to answer.
+[49:07] Every time we are talking about
+[49:09] authentication, if you get
+[49:11] authentication wrong, the malicious user
+[49:14] or the attacker, they can impersonate
+[49:16] your users. They can access their
+[49:18] private data. They can take actions on
+[49:20] their behalf and they can also steal
+[49:23] their money. If you are dealing with any
+[49:25] kind of payment related operations and
+[49:28] these kinds of vulnerabilities, the
+[49:30] account takeover kind of vulnerabilities
+[49:32] we see every day in real world. So there
+[49:35] are a couple of obvious thumb rules that
+[49:38] we can follow where typical
+[49:40] vulnerabilities arise so that we can
+[49:43] avoid as back end engineers these kinds
+[49:45] of issues in our systems. But before we
+[49:48] dive into the technical details, I have
+[49:51] an advice. uh since we are talking about
+[49:54] authentication and authorization if you
+[49:56] can avoid implementing authentication
+[49:59] yourself and here I'm not talking about
+[50:02] avoiding implementing your own
+[50:04] cryptography algorithms etc. I mean in
+[50:07] the general sense if you can avoid
+[50:10] implementing the whole authentication
+[50:11] flow at least in your production systems
+[50:14] then you should definitely go for it. If
+[50:16] you have the budget, if you have the
+[50:19] approval of your company for the budget
+[50:22] of taking an authentication and
+[50:24] authorization provider, then that is
+[50:26] always a good move because the obvious
+[50:29] benefits even if you think beyond
+[50:32] security. The first thing it saves you a
+[50:35] lot of time. Of course, when your
+[50:37] service finally scales to thousands of
+[50:40] users or millions of users, you are
+[50:42] going to see your authentication
+[50:45] provider sending you invoice bills of
+[50:47] thousands of dollars. But by the time
+[50:50] you reach millions of users, you most
+[50:52] probably have a revenue source. So you
+[50:55] can anyway handle the ollated bills. But
+[50:58] as I was saying, the first benefit of
+[51:01] taking an O provider is the amount of
+[51:04] time saved and in the amount of money
+[51:07] that you can save on your developer
+[51:09] salary. Because to get the whole
+[51:12] authentication and authorization flow,
+[51:14] right? And when I say the whole
+[51:16] authentication and authorization flow, I
+[51:18] don't mean a very simple JWT verify and
+[51:23] storing the token in your cookie and
+[51:25] verifying it. That simple flow is
+[51:27] obviously something that you can
+[51:30] implement. There are LLMs that can
+[51:32] definitely implement them for you and
+[51:34] there is not a lot of difficulties or
+[51:38] weaknesses when it comes to security in
+[51:40] that flow. But when we are talking about
+[51:43] production systems, it is much more
+[51:45] complicated than that and the scope is
+[51:47] not as clear as that. Most of the time
+[51:50] when we are talking about the whole
+[51:52] authentication and authorization flow in
+[51:55] production systems we generally prefer
+[51:58] stateful authentications by stateful
+[52:00] authentication I mean we can keep track
+[52:03] of all the devices where the user has
+[52:05] currently logged in and if the user
+[52:08] wants they can immediately revoke the
+[52:11] sessions of all these devices at once or
+[52:14] if we want we as the provider of the
+[52:17] service as the provider of the system he
+[52:19] can revoke all the sessions of the user
+[52:21] from all the devices and log them out.
+[52:23] We have the capability for that. So that
+[52:26] kind of capability, that kind of setup
+[52:28] is called a stateful authentication. If
+[52:30] you want to learn more about stateful
+[52:32] authentications, stateless
+[52:34] authentication, you can revisit the
+[52:36] authentication and authorization video.
+[52:38] But if we want to provide a stateful
+[52:40] authentication workflow to our users,
+[52:43] the things start getting more
+[52:45] complicated because the setup is not as
+[52:47] straightforward as signing a JWT,
+[52:50] sending the JWT and the front end
+[52:52] storing it in cookie and your server
+[52:53] verifying it with each request. When we
+[52:56] talk about stateful authentication,
+[52:57] there is databases involved. There are
+[52:59] caches involved like radius. Then you
+[53:02] have to think about what is the best
+[53:04] place to store users permission. Then
+[53:06] you have to think about timeouts. Then
+[53:09] as I talked about you also have to think
+[53:11] about all these revoking mechanisms.
+[53:13] Revoking from your cache, revoking from
+[53:15] your database, right? That is just one
+[53:17] part of the equation which is stateful
+[53:19] authentication. Then comes the social
+[53:22] authentication like sign in with Google
+[53:24] that we see in pretty much all the
+[53:26] professional SAS services or your
+[53:29] service consers. Then sign in with
+[53:31] GitHub. Mostly all these services, SAS
+[53:34] services, a production SAS service. It
+[53:36] generally provides two three social
+[53:38] providers something like Google or sign
+[53:40] in with GitHub, sign in with Twitter
+[53:43] whatever. So for that you have to
+[53:45] implement oath flows yourself oathflow
+[53:48] not just in your back end also in your
+[53:50] front end with the redirect mechanism
+[53:53] for a very good and very smooth user
+[53:56] experience. Once that is out of
+[53:58] question, now you have to also implement
+[54:01] the system so that your email and
+[54:04] password based authentication which when
+[54:06] we are talking about stateful
+[54:08] authentication which is directly
+[54:10] concerned with this this is directly
+[54:13] connected to your social provider
+[54:15] authentication which is your oathflow
+[54:17] which means let's say I sign in to your
+[54:20] service with my email which is 1mail.com
+[54:25] some sample email and my password
+[54:28] something like password. It's ironic
+[54:31] since we are talking about security in
+[54:33] this video but anyway for the sake of
+[54:34] this example let's say your password is
+[54:36] password. Now you as a user sign up to
+[54:39] my service using this credential and you
+[54:43] frequently sign into the service using
+[54:45] these credentials. So one day what you
+[54:47] do you sign in instead of your
+[54:50] credentials which is email and password
+[54:52] you try to sign in with Google with the
+[54:54] sign in with Google button. When that
+[54:56] happens, your oath system should be
+[54:58] capable enough that it can connect your
+[55:02] email credential flow with your oath
+[55:05] flow which is sign in with Google flow
+[55:06] so that it does not treat this user even
+[55:09] though they have the same email as a
+[55:11] different user just because they used a
+[55:13] different method of sign in. Right? That
+[55:14] is another problem. And I can go on and
+[55:17] on about a lot of not problems but
+[55:20] inconveniences. Inconveniences which
+[55:24] your developers are going to spend weeks
+[55:27] on or you are going to spend weeks on if
+[55:30] you are a solo developer or you are
+[55:32] building your own project. Of course you
+[55:34] can go ahead and cut corners in a lot of
+[55:36] these things that is anyway going to
+[55:38] compromise with your security or b with
+[55:41] your user experience. You have to make a
+[55:43] trade-off on either of these. every time
+[55:45] you cut corners. So with all these
+[55:47] things, the argument always comes down
+[55:49] to this. Use a O provider. They take
+[55:52] care of all these things. The modern
+[55:55] providers like clerk, they also provide
+[55:57] arbback permissions, a lot of other
+[55:59] stuff like advanced security stuff they
+[56:01] take care of. Of course, these services
+[56:04] they might also have user experience
+[56:06] issues. They might also have
+[56:08] vulnerabilities in future. But they are
+[56:11] a security company. Their whole service
+[56:13] is surrounded around authentication and
+[56:16] security. So they have a dedicated
+[56:19] security team which thinks about
+[56:21] security 24/7. They handle edge cases
+[56:24] that you will not think of and they will
+[56:27] respond to new kinds of attacks that
+[56:29] come in the market very quickly since
+[56:32] they are spending 24/7 on finding out
+[56:35] and fixing different different bugs or
+[56:37] vulnerabilities and all these things
+[56:39] that I talked about the different
+[56:41] inconveniences that you have to face as
+[56:43] a developer they have already fixed this
+[56:45] and with just a few buttons and with an
+[56:48] API key you can provide worldclass user
+[56:51] experience to your users for
+[56:52] authentication. and also worldcl class
+[56:54] security. So in my opinion, it's always
+[56:57] worth it to make that tradeoff of paying
+[57:00] a few bucks for an o provider instead of
+[57:03] going ahead and implementing your own o
+[57:05] flow and dealing with all these things.
+[57:07] Of course, let's say when you have
+[57:09] thousands or millions of users and your
+[57:11] authentication provider bill is
+[57:13] crossing, let's say $10,000 or $20,000
+[57:16] bill, then you can definitely consider
+[57:19] migrating to your own authentication
+[57:22] setup. By then, you'll have the revenue,
+[57:25] you'll have your developer bandwidth and
+[57:28] priority state. So, then you can
+[57:30] definitely go ahead and implement your
+[57:32] own o workflow, which definitely makes
+[57:34] sense. But when you are starting out, it
+[57:38] is always recommended to go with an O
+[57:40] provider. But even if you do listen to
+[57:42] this advice and you get an O provider,
+[57:46] you still need to understand how
+[57:47] authentication works. You need to know
+[57:50] about configure, what can go wrong and
+[57:52] how to integrate it securely. That is
+[57:55] the reason we'll talk about
+[57:57] authentication, different different
+[57:58] issues in authentication right now.
+[58:00] Starting with the first kind under
+[58:02] authentication is the password storage.
+[58:04] So since we are talking about
+[58:06] authentication, let's start with
+[58:08] passwords. Since most of you will deal
+[58:11] with passwords even if you are using an
+[58:13] oservice. So during the time of sign up,
+[58:16] a user comes and they enter an email and
+[58:19] a password. They hit enter and that goes
+[58:22] to your server. Now the question is what
+[58:25] do you do with it on the back end? Of
+[58:28] course when we talking about server we
+[58:29] mean the back end and you as a back end
+[58:31] engineer. What exactly do you do with
+[58:33] it? How do you store it so that you can
+[58:35] verify it later when they log? And for
+[58:38] some of the advanced users, this might
+[58:40] sound very silly and a very beginner
+[58:44] developer targeted, but we have to talk
+[58:47] about this so that we can understand the
+[58:50] reasoning behind the advanced password
+[58:53] storage practices that we have today
+[58:55] which are very common in the developer
+[58:57] ecosystem. But as a beginner, you might
+[58:59] not be aware of those. So the knive
+[59:01] approach of storing password is of
+[59:03] course having a database column with
+[59:06] text type and you just store whatever
+[59:08] the user has sent you in the plain text
+[59:12] format right so let's say the user has
+[59:14] something like 1 2 3 4 5 you take that
+[59:18] this is your server and you store it in
+[59:20] your database right so that the next
+[59:22] time user wants to sign in he passes the
+[59:25] email and 1 2 3 4 5 you which gets to
+[59:28] your server the server fetch matches the
+[59:31] user's password using the email from the
+[59:33] database which is 1 2 3 4 5 m matches
+[59:36] and the server lets the user login right
+[59:38] as simple as it can get. But the problem
+[59:41] with that is databases get breached
+[59:44] every single day. If you follow the tech
+[59:46] news or cyber security news, every other
+[59:49] day you'll see a headline saying that
+[59:52] this company's this database got
+[59:53] breached and a lot of users credentials
+[59:56] uh got leaked. And it happens to
+[59:58] companies of all sizes, not just big
+[01:00:01] companies and not just small companies.
+[01:00:03] Every kind of company has the same kind
+[01:00:06] of probability to go through a breach.
+[01:00:08] And breaches happen for a lot of
+[01:00:10] reasons. It it can be because of some
+[01:00:13] insider employee trying to take revenge
+[01:00:15] on you or it may be because you are
+[01:00:17] using a third party service and they got
+[01:00:19] breached and in turn your database got
+[01:00:21] breached. There can be a lot of reasons
+[01:00:23] but the truth is they do happen and when
+[01:00:26] your database gets breached and you are
+[01:00:28] storing your password in plain text
+[01:00:30] format all those passwords are leaked.
+[01:00:32] At that point you can argue that okay
+[01:00:34] the moment you know you have a breach
+[01:00:36] you go ahead and uh reset all the
+[01:00:39] credentials of all the users log them
+[01:00:40] out and ask them to create a new
+[01:00:42] password. But the problem is the moment
+[01:00:44] a user's password is breached their
+[01:00:47] presence in any kind of internet website
+[01:00:50] is also the reason being more than 70%
+[01:00:54] of the users they use their same
+[01:00:56] passwords in multiple sites right they
+[01:00:58] use the same kind of email and password
+[01:01:00] combination in pretty much all the
+[01:01:02] sites. A very less number of users use
+[01:01:05] password managers which randomizes the
+[01:01:07] password for each site. But still a lot
+[01:01:10] of internet traffic, a lot of internet
+[01:01:12] users where you use the password. So the
+[01:01:14] moment your database gets breached and
+[01:01:16] you expose a certain user's email and
+[01:01:19] password combination, the attacker can
+[01:01:21] pick that up and they can run that on a
+[01:01:24] lot of sites. can be payment related
+[01:01:26] sites, it can be e-commerce sites, it
+[01:01:28] can be social media sites, a lot of
+[01:01:30] sites and there is a huge probability
+[01:01:33] they will be able to match one of those
+[01:01:35] sites and they will be able to take over
+[01:01:37] that user's account. Usually users are
+[01:01:40] not aware when database breaches happen
+[01:01:43] unless they follow tech news very
+[01:01:44] closely. So that is a huge security risk
+[01:01:47] storing passwords in plain text in your
+[01:01:50] databases. Even if there is no breach
+[01:01:53] happening when you're storing passwords
+[01:01:56] in plain text format that means that
+[01:01:58] your developers the developers who are
+[01:02:01] working on your system the developers
+[01:02:03] who are building the back end they can
+[01:02:04] see those passwords and your database
+[01:02:07] administrators they can see those
+[01:02:08] passwords anyone with the database
+[01:02:11] access in your system they can see any
+[01:02:14] user's password in your system so you're
+[01:02:16] basically trusting every employee every
+[01:02:19] contractor freelancer everyone who might
+[01:02:21] access your systems with all your users
+[01:02:24] credentials and their online presence.
+[01:02:26] So by now we know that storing passwords
+[01:02:29] plain text in our database is a wrong
+[01:02:32] way to do it. So what is the solution?
+[01:02:34] That's why people have come up with
+[01:02:37] hashing. Now of course hashing was not
+[01:02:39] necessarily invented for storing
+[01:02:41] passwords in databases but hashing is a
+[01:02:44] very good use case for password storage.
+[01:02:47] Uh if you are from a computer science
+[01:02:49] background, you will already be aware of
+[01:02:52] this. Hash is typically a function which
+[01:02:55] is called the hashing function which is
+[01:02:58] one way that is the most important tool
+[01:03:01] of any kind of hashing function. And the
+[01:03:04] goal of this hashing function is it can
+[01:03:07] take any kind of string 1 2 3 A B C at
+[01:03:12] the rate any kind of strings as an input
+[01:03:15] of any length also. The strings can be
+[01:03:17] of any length starting from length of
+[01:03:19] one to length of hundreds of characters.
+[01:03:21] They can take any kind of input of any
+[01:03:24] kind of length but in the output the
+[01:03:27] condition is they always have to return
+[01:03:30] a string or any kind of output of fixed
+[01:03:34] length. Depending on what kind of hash
+[01:03:36] that you use the length will differ but
+[01:03:39] the condition is it always has to be
+[01:03:41] fixed length. If the hashing function
+[01:03:44] says that it will return the output of
+[01:03:47] 27 characters, then the goal is it does
+[01:03:50] not matter what is the length of our
+[01:03:52] input. The output will always be of 27
+[01:03:56] characters. And the second condition is
+[01:03:58] for the same input does not matter how
+[01:04:01] many times we call the hashing function.
+[01:04:03] It always has to return the same output
+[01:04:06] of the same length. Right? It cannot be
+[01:04:08] a random function which gives us
+[01:04:10] different output for the same input
+[01:04:12] every time we call it. The output will
+[01:04:15] always have to be same and the output
+[01:04:17] will always have to be of fixed number
+[01:04:19] of characters which summarizes what is a
+[01:04:22] hashing function. And the last condition
+[01:04:24] was it is always one way which means we
+[01:04:27] can get the same output for the same
+[01:04:29] input of the fixed number of characters.
+[01:04:32] It does not matter how many times we run
+[01:04:34] the hashing function but we should not
+[01:04:36] be able to get the input from the output
+[01:04:40] right it should be mathematically
+[01:04:42] impossible to get the input from the
+[01:04:44] output using the computing capability
+[01:04:47] that we have at the moment given all
+[01:04:49] these features of a hashing function
+[01:04:52] this is a very good candidate for us to
+[01:04:54] store our password in a database so what
+[01:04:57] we do let's say the password is 1 2 3 4
+[01:04:59] 5 instead of storing this particular a
+[01:05:02] string in our database. We take the hash
+[01:05:05] of it. Let's write now let's say h
+[01:05:08] password hasher the input is 1 2 3 4 5
+[01:05:12] there is a cost factor which we'll
+[01:05:14] ignore and we say generate hash gives us
+[01:05:17] a set of characters let's say paste it
+[01:05:20] here. Okay. So instead of storing 1 2 3
+[01:05:23] 5 we pass it to a hashing function. In
+[01:05:26] this case we pass it through bcrypt
+[01:05:28] which is a very popular hashing library.
+[01:05:30] and we store this hash in our database.
+[01:05:33] So the next time the user logs into our
+[01:05:36] database, what happens? We fetch the
+[01:05:39] hash of the password for that user which
+[01:05:42] we have stored in the users table or the
+[01:05:44] accounts table or wherever. We fetch the
+[01:05:46] stored password, the hashed password of
+[01:05:48] the user. Then what we do, we take the
+[01:05:52] user's input for the sign-in attempt. We
+[01:05:55] take that password and we hash it and we
+[01:05:58] try to match whether the current hashed
+[01:06:01] password matches our store hashed. If it
+[01:06:03] does then the user has typed the right
+[01:06:06] password and we let them we let the sign
+[01:06:09] in successfully. Now in this case think
+[01:06:11] about the situation of our database
+[01:06:14] getting breached. What happens? The
+[01:06:15] attacker gets access to all the password
+[01:06:19] hashes of all our users. the hashes of
+[01:06:21] the passwords, not the actual password.
+[01:06:23] And since one of the properties of the
+[01:06:26] hashing function is you cannot under no
+[01:06:29] circumstance with the computing power of
+[01:06:32] our current systems get the input from
+[01:06:36] the output of a hash. The user's
+[01:06:38] identity is safe in the internet. The
+[01:06:41] password is never exposed. The attacker
+[01:06:44] under no circumstance can get the access
+[01:06:46] to the actual password. Now that we have
+[01:06:48] discovered hashing, the use of hashing
+[01:06:50] to store our password securely in our
+[01:06:53] database, we should be secure safe,
+[01:06:55] right? Unfortunately, that is not the
+[01:06:58] case. Since hashing has become the
+[01:07:00] industry standard for storing passwords
+[01:07:03] in databases, of course, attackers also
+[01:07:07] know this fact. And what they have done
+[01:07:09] is they have built a huge storage of
+[01:07:13] preomputed hashes. Let's say there is a
+[01:07:16] big table which can be used in scripts
+[01:07:20] like Python or any other exploiting
+[01:07:22] scripts. And this table is basically a
+[01:07:26] one to1 map. For example, for the string
+[01:07:29] something like 1 2 3 4 5 which is a
+[01:07:31] common password that people use in a lot
+[01:07:33] of sites. For that they will have a hash
+[01:07:37] something like dollar like mapped to
+[01:07:39] this. Same way for the string password
+[01:07:42] they'll have some other hash. If you do
+[01:07:45] a simple Google search, you can find an
+[01:07:47] image like this. So where you can see
+[01:07:50] there are common passwords on the left
+[01:07:52] side and hashes of those on the right.
+[01:07:54] So train table is basically a table with
+[01:07:57] common passwords and their hashes. And
+[01:07:59] of course not every hash returns the
+[01:08:02] same string the same output string for a
+[01:08:05] particular input. But since usually
+[01:08:08] there are industry standards of which
+[01:08:11] hash is currently the most popular. So
+[01:08:14] attackers can use that particular hash
+[01:08:17] to build this particular rainbow table
+[01:08:19] of common passwords and their hashes.
+[01:08:21] Now using this what they can do is let's
+[01:08:24] say your database gets breached but this
+[01:08:27] time instead of storing your passwords
+[01:08:30] in plain text you have stored them using
+[01:08:32] hashes and you are all confident that
+[01:08:35] you are super safe the attackers can
+[01:08:37] never get access to your users
+[01:08:39] credentials but again what happens once
+[01:08:43] the database is breached and attackers
+[01:08:45] get access to all those hashed passwords
+[01:08:49] one of the techniques that they can
+[01:08:51] apply is taking a rainbow table like
+[01:08:53] this which has the mapping of all the
+[01:08:55] common passwords and their hashes. they
+[01:08:58] can run a lookup and when they do that
+[01:09:01] there is a huge probability that some
+[01:09:03] percentage of your users are using
+[01:09:07] commonly used passwords like password or
+[01:09:09] 1 2 3 4 5 or password at 1 2 3 all these
+[01:09:12] common passwords and those attackers
+[01:09:15] they can get a couple of matches where
+[01:09:18] the hash is exactly the same as one of
+[01:09:21] the hashes in the rainbow table and
+[01:09:23] since a hash function will always return
+[01:09:26] the same output put string with the same
+[01:09:28] number of characters for a particular
+[01:09:30] input. They can exactly reverse map what
+[01:09:34] is the password of the user for that
+[01:09:36] particular hash and using that they can
+[01:09:38] find out the passwords of at least some
+[01:09:41] percentage of your users and that is why
+[01:09:44] you're still not safe even if you just
+[01:09:46] use hashing to store your passwords in
+[01:09:49] your database. So what we can do for
+[01:09:51] this situation is something called
+[01:09:54] salting. Now what is salting? So far we
+[01:09:57] have discussed that for each input of a
+[01:10:00] commonly used password something like 1
+[01:10:02] 2 3 4 5 will always produce the same
+[01:10:06] hash like z 7 something of some number
+[01:10:10] of characters as long as you are using
+[01:10:12] the same hashing function and since they
+[01:10:15] always produce the same hash for the
+[01:10:18] same input they are prone to rainbow
+[01:10:20] table attacks in order to prevent that
+[01:10:22] sameness what we have come up with is
+[01:10:25] salting. Now what does salting mean? It
+[01:10:27] is a very simple trick/ technique to
+[01:10:31] avoid this sameness problem of same
+[01:10:34] input generating the same output which
+[01:10:37] is universally. Now what we do a user
+[01:10:40] signs up say with the name a at the
+[01:10:43] ratemail.com
+[01:10:46] and the password 1 2 3 4 5. In the first
+[01:10:50] method what we used to do we used to
+[01:10:51] store in plain text. Second, we started
+[01:10:55] using a hashing algorithm. By the way,
+[01:10:57] for a long time, BCrypt has been the
+[01:11:00] default hashing algorithm for pretty
+[01:11:03] much all the web apps on the internet.
+[01:11:05] But recently, Argon 2 ID has been the
+[01:11:09] industry standard for the most secure
+[01:11:11] and most performant hashing algorithm.
+[01:11:14] That is something that you should know
+[01:11:15] of and you can do more reading on that
+[01:11:18] on your own. One of the good resources
+[01:11:21] for reading about authentication is is
+[01:11:24] Lucia O. Lucia has been one of the good
+[01:11:28] authentication libraries with good
+[01:11:30] primitives and a very well-ritten
+[01:11:32] documentation but Lucia is no longer a
+[01:11:36] authentication library. Instead it is
+[01:11:39] more of a guidance towards implementing
+[01:11:42] your own authentication using the best
+[01:11:45] industry practices etc. So it is a very
+[01:11:48] good resource to understand the
+[01:11:50] mechanics of secure authentication and
+[01:11:52] industry standards is something that you
+[01:11:55] can explore on your own to implement
+[01:11:57] secure authentication. Now coming back
+[01:12:00] that is the second method where we
+[01:12:02] implemented hashing. Now in the third
+[01:12:03] method what we are saying is just
+[01:12:06] hashing is not enough. We also have to
+[01:12:09] integrate salulting here. Now what does
+[01:12:11] salulting mean? Let's say the user then
+[01:12:13] signs up with these credentials which is
+[01:12:16] a zmail.com and 1 2 3 4 5 as password.
+[01:12:19] Previously, previously what we used to
+[01:12:21] do, we used to take the password 1 2 3 4
+[01:12:23] 5 and run it through a hashing function
+[01:12:26] in case of argon 2 ID and that or brypt
+[01:12:29] and that returned us some kind of hash
+[01:12:32] of some number of characters. Now in
+[01:12:34] order to prevent the sameness problem
+[01:12:36] what we'll do we will add a new element
+[01:12:38] to this which is a random number. So
+[01:12:41] instead of just passing the password
+[01:12:44] string, we'll also add a salt and salt
+[01:12:47] in this case is just a string which is
+[01:12:50] randomly generated for that particular
+[01:12:53] user. Let's say this is the user 14 in
+[01:12:56] our platform. So for user 14, we have a
+[01:13:00] database row in our database where we
+[01:13:03] store the user's name, we store the
+[01:13:05] user's email, we store the hashed
+[01:13:06] password. Now we will also store the
+[01:13:08] user's salt. We'll generate a salt. Now
+[01:13:11] this salt has to be generated from a
+[01:13:14] cryptographically sudo random generated
+[01:13:16] function. You'll easily find all these
+[01:13:18] different kinds of functions from very
+[01:13:20] popular libraries. OpenSSL is one of
+[01:13:22] those. And we have to generate this salt
+[01:13:25] which will be something like SP3
+[01:13:28] some string and we'll also store that in
+[01:13:30] our database. And while hashing what we
+[01:13:33] do we take the password we concatenate
+[01:13:35] with the salt is a randomly generated
+[01:13:38] string that is unique to this particular
+[01:13:40] user in our platform and then we hash
+[01:13:42] the whole thing and after that whatever
+[01:13:45] we get we store that in our hashed
+[01:13:47] password column. Now in this new
+[01:13:50] scenario what happens? Let's say our
+[01:13:52] database gets breached. The attacker
+[01:13:54] gets access to all the hashed passwords
+[01:13:58] and the salt and users email everything.
+[01:14:02] But in order to get access to the user's
+[01:14:04] actual password, not the hashed
+[01:14:06] password. Previously they used rainbow
+[01:14:08] tables which had a mapping of users
+[01:14:11] common passwords and the hashed version
+[01:14:13] of it. Now when they run the rainbow
+[01:14:16] table against this leaked database, they
+[01:14:20] will find zero results because each of
+[01:14:22] these hashed passwords have been hashed
+[01:14:25] with a randomly generated salt. So this
+[01:14:28] hashed string will never match any other
+[01:14:31] string in the world. It does not matter
+[01:14:34] even though the common password is 1 2 3
+[01:14:36] 4 5 and the user's password is 1 2 3 4 5
+[01:14:40] but the attacker will never get to know
+[01:14:42] this because this 1 2 3 4 5 which is the
+[01:14:45] common password and the hashed version
+[01:14:47] of that which is in the rainbow table of
+[01:14:50] the attacker and this version which is
+[01:14:52] the 1 2 3 4 5 is the actual password of
+[01:14:55] the user in our platform but the hashed
+[01:14:58] version of that has been hashed using a
+[01:15:00] salt which we have generated randomly.
+[01:15:02] So there is no way these two are ever
+[01:15:04] going to match and that is how we
+[01:15:07] prevent rainbow table attacks by using
+[01:15:10] salts and not just a hashing function
+[01:15:13] for storing our password. Now with the
+[01:15:15] introduction of hashing with the
+[01:15:17] introduction of salting we should be
+[01:15:19] completely safe from any kind of
+[01:15:21] password based attacks. Unfortunately
+[01:15:23] that is still not true. Now comes
+[01:15:26] another threat which is the brute force
+[01:15:29] attacks. These days especially with the
+[01:15:32] advent of all these LLMs and all GPUs
+[01:15:35] have become very popular and there are
+[01:15:39] companies there are manufacturers there
+[01:15:40] are providers also cloud providers which
+[01:15:43] provide GPU instances for some fixed
+[01:15:47] amount of price. Now modern graphic
+[01:15:50] cards or GPUs they are very good at
+[01:15:53] computing hashes. A single GPU can
+[01:15:56] compute billions of SSHA 256 hashes per
+[01:16:00] second. Billions. So even with salting
+[01:16:03] an attacker with your database can do
+[01:16:06] what's called an offline brute forcing
+[01:16:08] for each user. They can take the salt
+[01:16:10] and they can try common passwords one by
+[01:16:13] one. They can hash that common password
+[01:16:16] combined with the salt and they can
+[01:16:18] check the hashed password with the
+[01:16:21] breach hash password. And with their
+[01:16:23] capability of billions of attempts per
+[01:16:27] second, they can even try every password
+[01:16:30] up to eight characters, every common
+[01:16:32] password pattern, every word with common
+[01:16:35] substitutions within a matter of days.
+[01:16:38] And in order [clears throat] to prevent
+[01:16:39] this problem, we do not use common hash
+[01:16:42] functions like SHA 256 or MD5. These are
+[01:16:47] also hash functions commonly used for
+[01:16:50] file-based hashing to match the
+[01:16:52] integrity of files when we are
+[01:16:54] transferring files over the internet.
+[01:16:56] But we do not use them for password
+[01:16:59] hashing exactly for this reason because
+[01:17:02] our graphics card computing is so fast
+[01:17:05] at these hashes that they can do
+[01:17:08] billions of hashing functions attempts
+[01:17:11] per second. This is the exact reason we
+[01:17:13] use slow hashing functions which I have
+[01:17:16] already mentioned. It's called decrypt
+[01:17:18] or script or the current industry
+[01:17:22] standard which is argu ID. These are
+[01:17:25] called slow hashing functions and they
+[01:17:28] have been specifically made for password
+[01:17:30] hashing. The other hashing functions the
+[01:17:33] MD5 SHA 256 these are general purpose
+[01:17:35] hashing functions which have a lot of
+[01:17:37] use cases but these ones the slow
+[01:17:39] hashing functions which are deliberately
+[01:17:41] made slower because of the use case of
+[01:17:44] password hashing they have what we call
+[01:17:46] as a cost factor cost factor or also
+[01:17:49] called as work factor which controls how
+[01:17:53] slow we want them to be depending on our
+[01:17:56] systems bandwidth depending on our
+[01:17:58] systems computing capability we can
+[01:18:01] decide how slow we want these algorithms
+[01:18:04] to be. So we can decide while we are
+[01:18:07] hashing our passwords for a new user, we
+[01:18:10] can decide whether we want this
+[01:18:12] particular hashing to take 100 millconds
+[01:18:15] or we want it to take 5 millconds that
+[01:18:17] is on us depending on how much latency
+[01:18:20] how much computing power we can afford
+[01:18:23] in our system. Now if you think about it
+[01:18:25] for a genuine user who is trying to log
+[01:18:28] into our platform with their email which
+[01:18:30] was a at the ratemail.com and 1 2 3 4 5
+[01:18:35] and we are using argon do id or bcrypt
+[01:18:39] for hashing this and we have decided
+[01:18:41] that we want this particular hashing
+[01:18:44] function to take let's say 400 millconds
+[01:18:46] right so for a genuine user logging in
+[01:18:49] through browser the login taking
+[01:18:52] somewhere around 400 to 600 milliseconds
+[01:18:54] is not a big deal. In fact, this is
+[01:18:57] almost imperceptible to the user. But
+[01:19:00] for the same scenario for an attacker
+[01:19:02] for a malicious user who is trying to
+[01:19:05] brute force his way into our system by
+[01:19:08] taking a breached database and trying
+[01:19:10] out billions of guesses offline. For
+[01:19:13] them, this changes the whole equation
+[01:19:16] because previously when they could try a
+[01:19:19] billion attempts per second, now it
+[01:19:22] comes down to just four or five attempts
+[01:19:25] per second. Which means instead of
+[01:19:27] cracking being able to crack users
+[01:19:30] passwords in the matter of days, now it
+[01:19:33] will take them decades or even
+[01:19:35] centuries. The next topic to discuss
+[01:19:38] under authentication is sessions. Your
+[01:19:40] user has logged in and they have
+[01:19:44] provided their email address. They have
+[01:19:46] sent it to your server. You have checked
+[01:19:49] with hashing and whatever authentication
+[01:19:51] mechanism that you have and you have
+[01:19:53] made sure that your user has proven
+[01:19:56] their identity. Now what is the next
+[01:19:58] step? We cannot possibly make our users
+[01:20:03] enter their password every time they
+[01:20:05] want to access our platform or every
+[01:20:07] time they want to make a new request.
+[01:20:09] that would be a very bad user
+[01:20:12] experience. So for that we need to
+[01:20:15] remember that they have already
+[01:20:17] authenticated with our system with our
+[01:20:19] platform and this is exactly where we
+[01:20:22] talk about what we call as sessions.
+[01:20:25] When a user successfully signs in or
+[01:20:28] successfully logs in the server does
+[01:20:31] three things. First, it generates a
+[01:20:34] random session identifier. I 1 2 3 A Z
+[01:20:39] whatever. This is a very long random
+[01:20:42] string. Ideally somewhere between 128 to
+[01:20:46] 256 characters and again it must be
+[01:20:50] generated by a cryptographically secure
+[01:20:53] pseudo random number generator function
+[01:20:55] which are provided by popular libraries.
+[01:20:57] Why do we need to make this random?
+[01:20:59] Because if an attacker can guess your
+[01:21:02] session ID, if they can guess this
+[01:21:04] particular session identifier, they can
+[01:21:07] potentially hijack any session of any of
+[01:21:10] your users. And by making sure that our
+[01:21:13] session identifier, this whole session
+[01:21:15] ID is somewhere between 128 characters
+[01:21:17] to 256. Even if it is just 128
+[01:21:21] characters or 128 bits, we are making
+[01:21:24] sure that there are more possible
+[01:21:27] session ids than the number of atoms in
+[01:21:30] our universe. Which means that guessing
+[01:21:32] this number is almost practically
+[01:21:34] impossible. The second thing that our
+[01:21:36] server does is storing this session
+[01:21:40] identifier in our database. Now this
+[01:21:43] could be radius which provides a very
+[01:21:46] fast setting and accessing time which
+[01:21:49] can provide a better user experience or
+[01:21:52] it can be your primary database also
+[01:21:54] something like posgress or MySQL. With
+[01:21:57] this session identifier we also store
+[01:22:00] some kind of metadata in our database
+[01:22:03] again in radius or our own database.
+[01:22:06] things like who does this session
+[01:22:08] belongs to the users information when it
+[01:22:11] was created so that we can do operations
+[01:22:14] like timing it out revoking etc when it
+[01:22:17] will expire or default expiry time 7
+[01:22:20] days or whatever the IP address of the
+[01:22:22] user so that in the user's dashboard we
+[01:22:25] can show from which location this
+[01:22:27] sign-in attempt was made or which are
+[01:22:30] all the locations where the user has
+[01:22:33] signed in and also the user agent the
+[01:22:36] user agent which is basically a request
+[01:22:39] header in our API calls. This tells our
+[01:22:42] server from what kind of device or what
+[01:22:44] kind of browser we are trying to access
+[01:22:47] the platform. So using the user agent
+[01:22:49] our back end our platform can atom can
+[01:22:53] know that the user is trying to access
+[01:22:55] from a Chrome browser or a Firefox
+[01:22:57] browser from an Android phone from an
+[01:22:59] iPhone whatever the device type or the
+[01:23:01] browser type is. And the third thing,
+[01:23:04] the last thing, the server sends this
+[01:23:07] session identifier, this
+[01:23:08] cryptographically safe session
+[01:23:10] identifier to the browser and asks the
+[01:23:14] browser to store it inside a cookie. Now
+[01:23:17] since this is stored inside a cookie,
+[01:23:20] all the subsequent request that is made
+[01:23:23] to our platform or our back end, this
+[01:23:26] particular session identifier is always
+[01:23:28] sent back to us to our platform. And for
+[01:23:32] each of those requests, the server
+[01:23:34] extracts the session ID, the 128
+[01:23:37] character random number or random string
+[01:23:40] from the cookie. It looks up in the
+[01:23:42] persistent store whether it is radius or
+[01:23:45] posgress depending on your
+[01:23:46] implementation. Finds the associated
+[01:23:49] user who has initiated this session who
+[01:23:52] is the user of this session and finally
+[01:23:54] it knows that this is the particular
+[01:23:56] user who is currently making the
+[01:23:58] request. Now even if you are using JWDs
+[01:24:02] which have a slightly different format a
+[01:24:05] slightly different workflow because they
+[01:24:07] are stateless and we don't maintain the
+[01:24:10] session in our persistent store but the
+[01:24:13] philosophy of identifying an
+[01:24:15] authenticated user works pretty much the
+[01:24:18] same way as a stateful workflow which we
+[01:24:21] just discussed. Now when you are using
+[01:24:24] cookies there are some flags there are
+[01:24:27] some configuration of a cookie that we
+[01:24:29] should be aware of and that is always
+[01:24:32] recommended to be used in a production
+[01:24:34] system. The first one being HTTP
+[01:24:38] only. This means that when we set HTTP
+[01:24:41] only flag to true for this cookie which
+[01:24:43] has our session identifier. This means
+[01:24:46] that if your site has an XSS
+[01:24:49] vulnerability, we'll talk about XSS in a
+[01:24:52] bit, but it basically means that if an
+[01:24:55] attacker is able to run JavaScript in
+[01:24:59] your user's browser through your
+[01:25:00] platform through some vulnerability in
+[01:25:03] your site, then your site or your
+[01:25:06] platform is said to have an XSS
+[01:25:08] vulnerability. If [clears throat] you do
+[01:25:09] have that, then some potential
+[01:25:11] JavaScript can read your local storage.
+[01:25:15] So storing your session identifier or
+[01:25:17] storing your JWT tokens in your local
+[01:25:20] storage is always discouraged. That is
+[01:25:22] why setting HTTP only to a cookie. Make
+[01:25:25] sure that this malicious JavaScript
+[01:25:28] snippet it does not have access to this
+[01:25:31] particular cookie. Of course, JavaScript
+[01:25:33] can also read cookies only if HTTP only
+[01:25:37] is not set to true. And that is why it
+[01:25:39] is important if you're storing any kind
+[01:25:41] of sensitive information related to
+[01:25:43] authentication. This is usually a
+[01:25:45] session identifier in case of stateful
+[01:25:48] authentication or AJ token in case of
+[01:25:50] stateless authentication. It is
+[01:25:52] important that you make this flag only
+[01:25:55] to true so that JavaScript cannot access
+[01:25:58] your session ID or your JWT token. The
+[01:26:01] second flag is secure. Then this flag is
+[01:26:04] set to true. Your browser makes sure
+[01:26:06] that this cookie is only transferred
+[01:26:09] back to your [clears throat] platform,
+[01:26:10] back to your back end only if the
+[01:26:12] connection is HTTPS.
+[01:26:15] It will not try to send the cookie over
+[01:26:17] HTTP or HTTP protocol. if TLS or SSL is
+[01:26:22] not enabled for that connection. Now it
+[01:26:24] is important because HTTP traffic can be
+[01:26:28] intercepted on public networks on public
+[01:26:30] Wi-Fi or cafes by malicious ISPs or if
+[01:26:35] the Wi-Fi router itself has some kind of
+[01:26:38] spyware configured which can read all
+[01:26:40] the traffic flowing through that
+[01:26:43] endpoint flowing through that hop. So if
+[01:26:46] your sensitive cookie which has the
+[01:26:48] session identifier or the JWT token, it
+[01:26:51] gets sent over an HTTP connection can be
+[01:26:54] stolen by anyone who has access to that
+[01:26:57] endpoint who has set up that spyware or
+[01:27:00] someone who is observing the traffic
+[01:27:02] with a tool like Wireshark. So the
+[01:27:05] secure flag make sure that your cookie
+[01:27:08] is only transferred over HTTPS
+[01:27:11] connections which are by default
+[01:27:12] encrypted. Even if someone is watching
+[01:27:15] your traffic, they cannot make sense of
+[01:27:17] it because everything is encrypted.
+[01:27:19] Third important flag is same site. This
+[01:27:22] flag controls whether this particular
+[01:27:25] key can be sent during cross origin
+[01:27:28] requests. Now we'll talk about what is
+[01:27:30] cross origin. But this can have three
+[01:27:33] kind of values. One is strict, second is
+[01:27:37] lax and third is none. Okay. What does
+[01:27:40] strict mean? It is exactly what it
+[01:27:42] sounds like. The cookie where we have
+[01:27:45] stored our session identifier or our JWT
+[01:27:48] token. It will only get sent to the
+[01:27:50] domain or the platform or the site where
+[01:27:53] the request is originating from which is
+[01:27:56] essentially our own back end. So for
+[01:27:58] example, if someone clicks on a link
+[01:28:01] which is a link to your site but it is
+[01:28:05] hosted on some other site. In that case
+[01:28:07] the cookie will not be sent because this
+[01:28:10] is essentially not your originating
+[01:28:12] request. It will only get sent if it is
+[01:28:15] a request is starting from your own
+[01:28:17] front end from your own site. with the
+[01:28:20] same site flag set to lax. What happens?
+[01:28:23] The cookie will be sent for top level
+[01:28:26] requests which means a direct link for
+[01:28:29] your site but it will not get triggered
+[01:28:31] for other types of elements like images
+[01:28:34] or iframes. We'll cover why we are
+[01:28:38] talking about images or iframes when we
+[01:28:40] are talking about links and duplicates
+[01:28:42] in a attack class which is called CSR
+[01:28:45] which is called cross-sight request
+[01:28:47] forgery which involves making use of
+[01:28:50] images and iframes to trick our server
+[01:28:53] into believing that the request is a
+[01:28:56] genuine request originating from our
+[01:28:58] platform or our site or our front end.
+[01:29:01] So with the same site configured to
+[01:29:03] lags, we are only allowing top level
+[01:29:06] links and not any kind of triggers
+[01:29:08] started from images or iframes. When it
+[01:29:11] is set to none, it is the most relaxed.
+[01:29:13] It is sent for all kinds of request. But
+[01:29:16] it requires that the secure flag has to
+[01:29:20] be at least set to for some kind of
+[01:29:22] security. So in our case for storing a
+[01:29:25] session ID cookie you either want strict
+[01:29:29] that is the best case scenario or you
+[01:29:31] never want to make it as none. This
+[01:29:33] prevents this whole class of attack
+[01:29:35] which is called CSRF or site request
+[01:29:38] forgery which we'll cover in a later
+[01:29:40] part of this video. Now with that
+[01:29:43] talking about cookies we have covered
+[01:29:45] talking about stateful authentication
+[01:29:48] and the kind of vulnerabilities and the
+[01:29:51] security mechanisms that you have to
+[01:29:53] keep in mind when you are dealing with
+[01:29:54] stateful authentications.
+[01:29:55] [clears throat] Now coming to stateless
+[01:29:58] authentication where we are primarily
+[01:30:00] dealing with JWT. There is an
+[01:30:02] alternative to stateful authentication
+[01:30:05] or stateful sessions or serverside
+[01:30:07] sessions which are called JWTs. Now the
+[01:30:10] difference is with sessions what happens
+[01:30:13] your server your database it stores the
+[01:30:17] session data the users information the
+[01:30:20] IP address the user agent whatever
+[01:30:23] information that particular session has
+[01:30:25] it stores it in the database and it
+[01:30:28] gives the client just the ID of the
+[01:30:31] session. This is just one column of that
+[01:30:34] session row and the client stores that
+[01:30:37] ID and in every subsequent request our
+[01:30:40] server our database is able to take out
+[01:30:44] that particular session row by using
+[01:30:46] this ID is the session ID. The
+[01:30:48] difference in JWT is the whole session
+[01:30:51] data. This as you can see the decoded
+[01:30:54] payload that is shown here in the
+[01:30:56] official JWT site. This is called
+[01:30:57] JWT.io. Here the actual session data is
+[01:31:01] sent to the user or sent to the front
+[01:31:04] end sent to the browser. So that for
+[01:31:06] every subsequent request the user the
+[01:31:09] client is going to tell us who the user
+[01:31:12] is. One natural question that comes to
+[01:31:15] mind in this case is if the user is
+[01:31:18] going to tell us if the front end or
+[01:31:20] browser is going to tell us who the user
+[01:31:22] is, isn't it prone to all kinds of
+[01:31:25] attacks like the access is within the
+[01:31:28] user's hand? Now if they want they can
+[01:31:31] imperson it as any other user in the
+[01:31:33] platform and tell us that I am not user
+[01:31:36] A and I am user B. So I should have
+[01:31:39] access to user V's account and a lot of
+[01:31:42] different kinds of attacks like that.
+[01:31:43] Fortunately that does not happen because
+[01:31:46] of how JWTs itself are constructed and
+[01:31:50] all the different pieces that come
+[01:31:52] together to make a JWT based
+[01:31:55] authentication workflow possible. Now if
+[01:31:57] we take a look at this particular JWT
+[01:32:00] example which is shown here, it has
+[01:32:02] three parts. The header which is the
+[01:32:05] first part which is shown in green. The
+[01:32:08] payload the middle part or the second
+[01:32:10] part which is shown in white and the
+[01:32:13] last part which is also called the
+[01:32:14] signature is shown in purple here. Now
+[01:32:17] the header it describes the token. It
+[01:32:21] describes what kind of algorithm was
+[01:32:24] used for this particular JWT. The
+[01:32:27] payload contains what we call as claims
+[01:32:31] in the JWT jargon. It is basically some
+[01:32:34] pieces of information that we manually
+[01:32:36] store inside the JWT for all the back
+[01:32:39] and forth transferring that happens
+[01:32:40] between the client and the server. Now
+[01:32:42] if you take a look inside the claims
+[01:32:45] table, we have a couple of common
+[01:32:47] fields. One is the sub field as per the
+[01:32:51] JWT standard. This is the subject of the
+[01:32:54] JWT and in other words the actual user
+[01:32:57] which can be the ID of the user as per
+[01:33:00] the platform as per our platform. It can
+[01:33:03] be UU ID or any kind of ID that you
+[01:33:05] generate for your platform for your
+[01:33:08] database. It also includes another field
+[01:33:11] called IAT which is the actual timestamp
+[01:33:14] when the JWT was created. And using this
+[01:33:18] particular field, our server logic, our
+[01:33:21] server code can decide whether it is
+[01:33:23] timed this JWT is expired or not
+[01:33:26] depending on when it was issued and for
+[01:33:28] how long we are letting JWTs to work.
+[01:33:31] Apart from these ones, the default ones,
+[01:33:35] you can also add your own claims. Claims
+[01:33:38] are just a fancy way of saying key value
+[01:33:41] pairs, pieces of information that you
+[01:33:43] can store inside AJW. So apart from the
+[01:33:46] default ones, you can also store your
+[01:33:48] own custom claims. In this case, the
+[01:33:51] name of the user is stored and also the
+[01:33:54] information that whether this particular
+[01:33:56] user is an admin or not that is also
+[01:33:58] stored as a custom claim. Now the last
+[01:34:01] part which is in the purple here inside
+[01:34:04] the JWT token. The last part we call as
+[01:34:08] JWT signature which involves three
+[01:34:10] parts. One is the header. Second, the
+[01:34:13] payload and taking these two and signing
+[01:34:16] them with a secret token. Again,
+[01:34:18] [clears throat] a randomly generated
+[01:34:20] cryptographically secure string and we
+[01:34:23] sign these two header and payload
+[01:34:26] together. And whatever we get that is
+[01:34:28] the signature of this the last part.
+[01:34:30] This is how it typically works in case
+[01:34:32] of JWT based workflow which is the
+[01:34:35] stateless workflow. user comes and
+[01:34:38] provides their email and their password,
+[01:34:41] sends it to our server. Our server
+[01:34:43] verifies it and if the password is
+[01:34:46] successful and everything. Now in this
+[01:34:48] flow also we use the same kind of
+[01:34:50] password storage and password
+[01:34:52] interaction mechanism which is hashing
+[01:34:54] the password salting the password and
+[01:34:55] everything that does not change. What
+[01:34:57] changes is the actual session storing
+[01:34:59] and session not storing part. So here
+[01:35:02] after the password matching and
+[01:35:03] everything is successful the server
+[01:35:05] creates a JWT which looks something like
+[01:35:08] this with the user's ID and other
+[01:35:10] relevant information like if if they
+[01:35:13] want to store the user's name the admin
+[01:35:15] and the issued at field is automatically
+[01:35:17] created by whatever library that we are
+[01:35:19] using for interacting with JWTs then the
+[01:35:22] server signs the payload using a string
+[01:35:26] a random string which is stored inside
+[01:35:28] the environment variable of the server
+[01:35:31] using that string it signs the payload
+[01:35:33] and whatever JWT is generated after the
+[01:35:37] signing this JWT is sent to the client
+[01:35:40] for storing and for sending this back to
+[01:35:43] the server for every subsequent request.
+[01:35:46] Now client take this stores it ideally
+[01:35:49] in memory or in local storage in some
+[01:35:52] cases or in cookies and for every other
+[01:35:56] subsequent request the client sends this
+[01:35:59] back in an authorization header. Now
+[01:36:01] server gets the request. It tries to
+[01:36:04] extract this particular JWT from the
+[01:36:07] authorization header. It verifies the
+[01:36:09] signature. Usually libraries provide a
+[01:36:12] function called verify which takes
+[01:36:15] secret key which is stored again inside
+[01:36:17] our environment variable and it tells us
+[01:36:20] whether this JWT is successfully
+[01:36:23] verified or not. If the signature is
+[01:36:25] valid then the verify function will
+[01:36:27] return true and the server will know
+[01:36:29] that this payload has not been modified
+[01:36:32] or has not been subjected to any kind of
+[01:36:35] tampering. So the whatever information
+[01:36:38] inside this is completely true. Now
+[01:36:41] looking at this whole flow, one big
+[01:36:43] advantage is the server does not need to
+[01:36:46] store anything inside the database as
+[01:36:48] compared to the previous stateful
+[01:36:50] workflow where we had to store the
+[01:36:52] session information either in radius or
+[01:36:54] our database. In this case, everything
+[01:36:57] happens on the fly during runtime by
+[01:36:59] checking just the JWT claims. And
+[01:37:02] because of this region using JWTs
+[01:37:05] scaling is a lot easier because there is
+[01:37:07] no overhead of interacting with our
+[01:37:09] database or caching layer using radius.
+[01:37:12] But even with JWTs there are of course
+[01:37:14] some of the less favorable properties of
+[01:37:17] JWTs that we have to talk about since we
+[01:37:19] are talking about security. The first
+[01:37:21] one which is the very obvious and very
+[01:37:23] important one is revocation is hard.
+[01:37:26] Now, if you think back, if you look back
+[01:37:29] at our sessions example, with sessions,
+[01:37:32] if you wanted to log a user out, what
+[01:37:35] you had to do was simply go into your
+[01:37:38] database and delete that particular
+[01:37:41] session from the database immediate and
+[01:37:43] the next time the user refreshes or
+[01:37:46] sends any kind of request, the front-end
+[01:37:48] platform should ideally log the user
+[01:37:50] out. But if we talk about JWTs, this
+[01:37:54] functionality, this revoking
+[01:37:55] functionality, at least the immediate
+[01:37:58] revoking functionality does not work as
+[01:38:01] smoothly. You cannot just delete a token
+[01:38:04] from the client. Since JWTs are created
+[01:38:07] and sent to the client for storing it
+[01:38:10] and sending it back to us for every
+[01:38:12] subsequent request, we cannot just ask
+[01:38:15] the client to delete the token from the
+[01:38:17] browser. And in turn as a result of this
+[01:38:20] one primary security vulnerability that
+[01:38:22] arises here is if the user's account is
+[01:38:26] compromised if somehow some other
+[01:38:28] malicious user got access to the user's
+[01:38:31] account and the user sends us as a
+[01:38:34] platform a support query that their
+[01:38:37] account has been compromised and they
+[01:38:39] want us to revoke all their logged in
+[01:38:42] sessions [snorts] from all devices. Now
+[01:38:44] we are in a difficult spot since we have
+[01:38:47] implemented stateless authentication. We
+[01:38:49] cannot help the user in any way because
+[01:38:52] we don't have the capability to revoke
+[01:38:54] any kind of sessions from any devices.
+[01:38:57] We had implemented stateful
+[01:38:58] authentication then we could help the
+[01:39:00] user by logging out of all the devices
+[01:39:03] in a moment's notice. Of course over the
+[01:39:06] time after realizing the limitations of
+[01:39:09] JWTs the community has come up with some
+[01:39:12] workarounds. One of the popular ones is
+[01:39:15] blacklisted tokens which means that for
+[01:39:17] that particular user we take that
+[01:39:19] particular user the next time the
+[01:39:21] request comes and we add it as a
+[01:39:23] blacklist to our uh database or to our
+[01:39:27] caching layer with radius and we call
+[01:39:29] that a blacklisted token which means we
+[01:39:32] will not serve successful responses for
+[01:39:36] any requests that has this particular
+[01:39:39] token attached to it. The second one,
+[01:39:41] the second workaround is using short
+[01:39:44] expiration expiration time with refresh
+[01:39:48] tokens. Now this is a very popular
+[01:39:50] workflow. What happens with this is
+[01:39:52] instead of issuing just one token to the
+[01:39:55] user after a successful login what we do
+[01:39:58] after a successful login we issue two
+[01:40:01] kinds of token. One is access token and
+[01:40:04] the second one is a refresh token. Now
+[01:40:07] the general practice is keeping the
+[01:40:09] expiry of access token to something very
+[01:40:13] short 5 minutes or 10 minutes and the
+[01:40:16] expiry of refresh token to something
+[01:40:19] longer let's say 1 day or 7 days
+[01:40:21] depending on how paranoid you are how
+[01:40:24] secure you want your systems to be and
+[01:40:26] for every subsequent request the user
+[01:40:29] will attach the access token but once
+[01:40:32] the 5 minute window is gone once the
+[01:40:35] access token is expired hired.
+[01:40:37] Technically what happens the server will
+[01:40:39] obviously throw 401 unauthorized
+[01:40:42] response code back to the client and in
+[01:40:44] the client when it sees that our server
+[01:40:47] has responded with 401. What it will do?
+[01:40:50] It will use the refresh token and the
+[01:40:53] refresh token is supposed to be saved by
+[01:40:56] the client upon successful login
+[01:40:59] completion which it will receive from
+[01:41:00] the server. The client will save this
+[01:41:02] refresh token somewhere safe in local
+[01:41:04] storage. And when the access token is
+[01:41:06] expired, the client will send the
+[01:41:08] refresh token back to the server saying
+[01:41:11] that uh the access token is expired. I
+[01:41:14] need a new access token. The server will
+[01:41:16] check the validity of this refresh token
+[01:41:18] and it will check whether the refresh
+[01:41:20] token is expired or not. If it is not,
+[01:41:22] then it will again issue two sets of
+[01:41:24] token again a new access token and a new
+[01:41:27] refresh token and the cycle continues.
+[01:41:29] After that what happens with this flow
+[01:41:32] is even if the account gets compromised
+[01:41:35] in some way and the attacker is able to
+[01:41:38] get a hold of the access token then the
+[01:41:41] session will only last for 5 minutes
+[01:41:43] after that they cannot refresh the token
+[01:41:45] since they do not have access to the
+[01:41:47] refresh token. Even if they do have
+[01:41:49] access to the refresh token again that
+[01:41:51] will also expire in one day. So these
+[01:41:54] are not perfect workarounds but these
+[01:41:56] are the workarounds that the community
+[01:41:58] and the engineering standards have come
+[01:42:01] up with to mitigate the revocation
+[01:42:04] challenge of JWTs. And another confusion
+[01:42:08] that usually happens is this particular
+[01:42:11] string which is the payload part of the
+[01:42:14] JWT. This is just a B 64 encoded string.
+[01:42:18] So if we take this and let's paste 64 we
+[01:42:22] paste here and we say decode then we can
+[01:42:25] see the full JSON here ID of the user
+[01:42:28] the name whether the user is admin or
+[01:42:30] not when was this issued etc. Of course
+[01:42:33] we cannot really go ahead and make any
+[01:42:36] change here. Let's try to do that. Let's
+[01:42:38] say instead of John do we remove the E
+[01:42:40] part. So now it's just John do and we
+[01:42:43] take this and we let's say we want to
+[01:42:46] encode this. We paste this new JSON and
+[01:42:49] we encode it in the new B 64 and let's
+[01:42:52] paste let's copy this new B 64 string.
+[01:42:56] Go back to RGWT and let's try to change
+[01:42:59] it here. Now the moment you try to
+[01:43:01] change the payload in the signature part
+[01:43:04] which is in turn the verification part
+[01:43:06] it says that the signature verification
+[01:43:08] has failed which means that the server
+[01:43:10] will immediately know someone has
+[01:43:13] tampered with the payload and this JWT
+[01:43:16] should not be trusted and the server
+[01:43:18] will not allow the request to go
+[01:43:20] through. But the fact that this string
+[01:43:23] is just a base 64 encoded string means
+[01:43:26] means that we should not store any kind
+[01:43:29] of sensitive information inside this
+[01:43:31] only store those kinds of information
+[01:43:34] which when exposed to external users or
+[01:43:37] malicious users. There is nothing much
+[01:43:39] they can do with that information. It is
+[01:43:42] only helpful to our server. And the last
+[01:43:45] problem and the most discussed problem
+[01:43:48] with are the storage. Where should you
+[01:43:52] keep the JWT token when you send it back
+[01:43:55] to the client? Where is the ideal spot
+[01:43:58] for the client to keep the JWT token?
+[01:44:01] Now, local storage is still the most
+[01:44:05] used solution even though local storage
+[01:44:07] is vulnerable to a lot of different
+[01:44:10] kinds of attacks since it is accessible
+[01:44:12] by any JavaScript snippet if your site
+[01:44:15] is vulnerable to XSS based attacks. So,
+[01:44:18] local storage is obviously not a good
+[01:44:22] choice since XSS can steal it. The
+[01:44:24] second option is cookies and for cookies
+[01:44:27] again in order to prevent JavaScript
+[01:44:30] from accessing that cookie you have to
+[01:44:32] make it a HTTP only cookie which we just
+[01:44:35] discussed. Now with all this you are
+[01:44:37] anyway back to our cookie based solution
+[01:44:40] the HTTP only cookie based session
+[01:44:42] solution. So my general advice when it
+[01:44:46] comes to authentication, when you're
+[01:44:47] choosing between stateless and stateful
+[01:44:49] authentication is unless you have
+[01:44:52] specific scaling requirements like
+[01:44:54] horizontal scaling, multiple servers
+[01:44:56] being able to authenticate a particular
+[01:44:58] user request, unless you are in a
+[01:45:01] situation like that, always prefer
+[01:45:03] stateful authentication, always prefer
+[01:45:05] sessions. And even if you have scaling
+[01:45:08] requirements, even if you have a
+[01:45:10] requirement where multiple servers need
+[01:45:12] to authenticate a particular user
+[01:45:15] request, you can make use of distributed
+[01:45:17] key value pair based databases like
+[01:45:19] radius to store the user sessions. That
+[01:45:22] is not a problem. So session based
+[01:45:25] authentication, stateful authentication
+[01:45:26] is always preferred and always advised
+[01:45:29] as per my opinion over stateless
+[01:45:31] authentication. The tradeoffs of
+[01:45:34] stateless authentication are just not
+[01:45:37] worth it. Stateful authentication or
+[01:45:39] session based authentications are even
+[01:45:41] simpler. The revocation strategies very
+[01:45:45] straightforward and the whole workflow
+[01:45:48] and the architecture is compatible with
+[01:45:51] most kind of SAS projects. But if you do
+[01:45:56] use JWTs, always use short expiration
+[01:46:00] times. something from minutes to hours,
+[01:46:03] not days. And implement refresh token
+[01:46:06] flows with serverside storage and always
+[01:46:09] use HTTP only cookies rather than local
+[01:46:12] storage. With all these different
+[01:46:14] workarounds, you can make the pain
+[01:46:17] points of stateless authentication go
+[01:46:20] away, but they still feel like hacks as
+[01:46:23] compared to a stateful authentication.
+[01:46:25] One more important piece of topic when
+[01:46:28] we are talking about authentication is
+[01:46:29] rate limiting. A very important
+[01:46:32] mechanism for securing your
+[01:46:34] authentication. Without rate limiting,
+[01:46:36] if you have set up your server, what
+[01:46:38] happens? An attacker, a malicious user,
+[01:46:41] they can try thousands of requests per
+[01:46:45] second, per minute, millions of billions
+[01:46:47] of requests for trying different
+[01:46:49] different kinds of password, different
+[01:46:50] different combinations of username and
+[01:46:53] passwords on your server on your
+[01:46:55] authentication endpoint. And since you
+[01:46:57] are not limiting the rate at which a
+[01:47:00] particular user can make API calls or
+[01:47:03] send you requests, all of these go
+[01:47:05] through. Now from this two things can
+[01:47:08] happen. One, they are [snorts] able to
+[01:47:10] find a match and get access to a user's
+[01:47:13] account which is very bad or second they
+[01:47:17] send such a volume of requests to your
+[01:47:19] server that your server cannot handle
+[01:47:22] the load of all these requests per
+[01:47:24] second and your server crashes. This is
+[01:47:26] also bad. So rate limiting is obviously
+[01:47:29] a very important and a mandatory
+[01:47:33] security mechanism for your
+[01:47:35] authentication workflow and also your
+[01:47:37] other endpoints some kind of global
+[01:47:40] endpoint and the general practice is you
+[01:47:42] should be more restrictive when it comes
+[01:47:44] to your rate limiting configurations for
+[01:47:47] your authentication workflows for your
+[01:47:50] authentication endpoints and you should
+[01:47:52] be a little more generous when it comes
+[01:47:55] to your other endpoints. So the
+[01:47:57] configurations for rate limiting uh
+[01:48:00] differs whether it is your
+[01:48:01] authentication endpoint or your general
+[01:48:04] service endpoints. Since we are talking
+[01:48:06] about authentication, it is also
+[01:48:08] recommended to have multiple layers of
+[01:48:11] rate limiting not just a very simple
+[01:48:14] straightforward rate limiting strategy
+[01:48:17] for your authentication endpoints. uh
+[01:48:19] first layer usually is per IP rate
+[01:48:22] limiting which means that you limit how
+[01:48:26] many login attempts can come from a
+[01:48:29] single IP in a given time frame maybe
+[01:48:32] something like 10 attempts per minute.
+[01:48:34] This will help you stop automated
+[01:48:36] attacks. But there are some problems
+[01:48:38] with per IP based rate limiting because
+[01:48:42] in a lot of organizations, universities,
+[01:48:45] the outgoing IP address might match of
+[01:48:48] different different users who are trying
+[01:48:50] from different different devices because
+[01:48:52] all of them go through the same hop. So
+[01:48:55] that will not give you the correct rate
+[01:48:58] limiting metric all the time. And even
+[01:49:00] if you don't consider that with the
+[01:49:02] modern network infrastructure at current
+[01:49:05] times, attackers have techniques to use
+[01:49:09] multiple IP addresses using things like
+[01:49:11] botn nets or proxy networks, VPNs or
+[01:49:15] rotating IPs. There are a lot of
+[01:49:17] exploiting techniques. So IP based
+[01:49:20] limiting does not really work to
+[01:49:22] mitigate advanced attacks. So another
+[01:49:26] strategy that you can implement is per
+[01:49:28] account locking or per account limiting
+[01:49:32] which means you limit how many failed
+[01:49:35] attempts can happen for a single
+[01:49:37] account. So maybe like five failures per
+[01:49:41] 15 minutes should log the account for 24
+[01:49:44] hours unless they contact the support.
+[01:49:47] So this will help you stop attacks that
+[01:49:50] rotate IP addresses or target a
+[01:49:53] particular account. But for this if the
+[01:49:56] attackers use another clever trick which
+[01:49:58] is trying one password let's say
+[01:50:01] something like 1 2 3 4 5 and they try
+[01:50:04] this one password across different
+[01:50:06] accounts. So one attempt at account A
+[01:50:09] one attempt at account B and so on. In
+[01:50:12] that case your per account limiting or
+[01:50:14] per account locking will not work. And
+[01:50:17] since they're anyway using multiple IP
+[01:50:19] address, multiple IP addresses, your
+[01:50:21] first layer of rate limiting which is
+[01:50:23] per IP rate limiting that will also not
+[01:50:26] work and this attack will go through. So
+[01:50:28] for this the last resort that you can
+[01:50:32] implement is global rate limiting which
+[01:50:35] means that how many login attempts your
+[01:50:38] system can take in a given time frame or
+[01:50:42] how many failed login attempts your
+[01:50:44] system can take in a given time frame.
+[01:50:46] So even if the attacker uses multiple IP
+[01:50:48] addresses and tries a single password
+[01:50:50] across a lot of accounts and for your
+[01:50:54] global rate limiting you have configured
+[01:50:55] that in your whole system in 1 minute
+[01:50:58] you will only allow let's say 100
+[01:51:00] attempts per minute your whole
+[01:51:02] systemwide in that case the moment the
+[01:51:05] attacker process the number 100 for
+[01:51:08] their attacking attempt for your
+[01:51:10] password brute forcing your system will
+[01:51:13] raise an alert and you will be able to
+[01:51:16] flag that incident and you can actively
+[01:51:19] try block all those IP addresses. You
+[01:51:21] can try showing capture to all your
+[01:51:24] users to filter out all the genuine
+[01:51:27] users from the malicious users etc etc.
+[01:51:30] Using this layered approach of rate
+[01:51:32] limiting you can prevent two things. the
+[01:51:35] attackers getting access to the account
+[01:51:38] of a genuine user through brute forcing
+[01:51:41] and your servers crashing because the
+[01:51:44] thousands of requests per second the
+[01:51:47] attacker is sending to your server. So
+[01:51:49] rate limiting is obviously a very
+[01:51:51] important strategy whenever we are
+[01:51:53] talking about security. We talked about
+[01:51:55] authentication. Now it's turn for
+[01:51:58] authorization. Again, if you want to go
+[01:52:00] deep into authorization and the
+[01:52:02] mechanics of it, please watch the
+[01:52:05] authentication and authorization video
+[01:52:06] separately. This is solely focused on
+[01:52:09] the issues, the security issues related
+[01:52:12] to authorization. And we already
+[01:52:14] discussed the security issues related to
+[01:52:16] authentication. To briefly explain,
+[01:52:18] authorization basically means while
+[01:52:20] authentication means the identity of the
+[01:52:23] user to identify which row in our
+[01:52:25] database, which row in the users table
+[01:52:27] in our database is associated with the
+[01:52:30] user who is trying to access our system
+[01:52:32] currently. The same way when we say
+[01:52:34] authorization it basically means after
+[01:52:37] we have identified the user after we
+[01:52:40] know exactly which user we are talking
+[01:52:42] about. The next step is what are the
+[01:52:45] permissions of the user? What are the
+[01:52:48] activities that the user is allowed to
+[01:52:51] perform in our system in our web app and
+[01:52:54] in turn in our back end that's basically
+[01:52:56] the difference between authentication
+[01:52:58] and authorization. Now the confusion and
+[01:53:01] when I say confusion I don't mean the
+[01:53:03] obvious confusion which is confusing the
+[01:53:05] definition between authentication and
+[01:53:07] authorization. I'm pretty sure any
+[01:53:09] engineer can easily understand what is
+[01:53:11] the difference between these two. But
+[01:53:14] the confusion that happens in a
+[01:53:16] technical implementation between
+[01:53:18] authentication and authorization that's
+[01:53:20] where most of these vulnerabilities
+[01:53:22] arise that is related to authorization.
+[01:53:24] For example, I'll take a very realistic
+[01:53:26] scenario that I often see in code bases.
+[01:53:29] Most probably we have already discussed
+[01:53:32] all these things. But we have a routing
+[01:53:34] layer. This is the first entry point of
+[01:53:36] our backend system. From routing layer,
+[01:53:39] we go to handlers which deals with
+[01:53:42] things like request body parsing and
+[01:53:45] validation and passing all the validated
+[01:53:48] data to our service layer. And our
+[01:53:50] service layer interacts with our
+[01:53:52] repository layer. Okay. So usually what
+[01:53:54] happens we place our authentication
+[01:53:57] middleware which is like require o
+[01:54:00] something like this. We place this at
+[01:54:02] the routing layer after finding out
+[01:54:05] which route the user is trying to access
+[01:54:07] because for login routes and for some of
+[01:54:09] the public routes we do not need the
+[01:54:12] user to be authenticated. So depending
+[01:54:14] on what routes the user is trying to
+[01:54:17] access, we place this middleware which
+[01:54:19] checks if it is stateful authentication,
+[01:54:21] the presence of the cookie with the
+[01:54:22] session ID and the validity of that. And
+[01:54:25] in case of stateless authentication, it
+[01:54:27] checks for the JWT token in the
+[01:54:29] authorization header and the validity of
+[01:54:31] that. If there is something wrong in
+[01:54:33] there, it throws either 401 403 back to
+[01:54:35] the user asking the user to properly
+[01:54:38] authenticate. Now this happens at the
+[01:54:40] routing layer. After this point, what
+[01:54:42] happens? The confusion arises here. The
+[01:54:45] confusion is once the user is
+[01:54:47] authenticated, we have this false sense
+[01:54:50] of security that now that we know the
+[01:54:54] user is our own platform's user and we
+[01:54:58] already have the data about the user, we
+[01:55:00] have already authenticated the user. Now
+[01:55:03] the user is allowed to access any parts
+[01:55:06] of any of the systems, right? The
+[01:55:08] handler, any kind of handler, any kind
+[01:55:09] of service, any kind of repository. Of
+[01:55:11] course, we place some very obvious
+[01:55:14] authorization related checks also at the
+[01:55:17] routing layer, which is things like if
+[01:55:19] the user is a member or the user is an
+[01:55:22] admin or the user is a super admin etc
+[01:55:25] etc. Or if we go a little bit more
+[01:55:28] granular, if the user has access to the
+[01:55:31] read permission on the entity books, if
+[01:55:34] the user has access to write permission
+[01:55:37] the entity books, things like that. If
+[01:55:40] we are going more granular on the
+[01:55:42] authorization layer. Okay, again that is
+[01:55:45] still at the routing layer but the
+[01:55:47] confusion the security vulnerabilities
+[01:55:49] that arise at the service and deposit
+[01:55:52] layer because because let's say at our
+[01:55:55] routing layer we have a require o
+[01:55:57] middleware which properly authenticated
+[01:55:59] the user. We checked that the user has a
+[01:56:02] proper session ID in the cookie and the
+[01:56:05] user is authenticated. In the next
+[01:56:07] layer, we also check the authorization
+[01:56:09] of the user which is the user has the
+[01:56:11] permission of read books is a granular
+[01:56:15] permission which states that this
+[01:56:17] particular user has the permission to
+[01:56:19] have read access on the entity books in
+[01:56:22] our database. Okay. Now finally we let
+[01:56:24] the user pass to our handler layer
+[01:56:26] service layer repository. Now the API
+[01:56:28] the particular endpoint that the user is
+[01:56:31] trying to access is this one / books
+[01:56:34] with a search parameter which says id
+[01:56:37] equals to something like five. Now what
+[01:56:40] is happening here in our web app in our
+[01:56:43] front end we have an interface here
+[01:56:45] where we are showing a list of books to
+[01:56:48] the user and there is a search bar here
+[01:56:50] and there are some filters here and in
+[01:56:52] the filters there is one particular
+[01:56:55] filter where they can pass multiple book
+[01:56:57] ids here and we will only show the
+[01:57:00] details of those books here. We will
+[01:57:02] only show the books in the table which
+[01:57:05] matches one of these ids. Since the user
+[01:57:08] selected or passed the ID five here our
+[01:57:11] front end made an API call and this is
+[01:57:14] the API for that which is /books in a
+[01:57:16] search parameter we are saying ID equals
+[01:57:18] to 5. And this again at the first entry
+[01:57:22] level it hit our routing layer. We check
+[01:57:25] the authentication check the
+[01:57:26] authorization with the granular
+[01:57:27] permission. And finally in the service
+[01:57:29] method we call the repository layer and
+[01:57:32] this is the final query that we ran
+[01:57:34] which is select star from books where id
+[01:57:38] equals to this is the final query we run
+[01:57:40] and whatever the result that we got we
+[01:57:42] returned back to our front end and the
+[01:57:45] user was able to see here. Okay that was
+[01:57:47] the whole experience. Now the problem
+[01:57:49] here is yes this part the problem was
+[01:57:53] this particular book id the book number
+[01:57:55] five this is not a resource and not an
+[01:57:59] entity which was created by the user for
+[01:58:02] which the user has access to which means
+[01:58:05] the book five is not of this user but
+[01:58:07] since they pass this particular ID in
+[01:58:10] the filter and we call the API and since
+[01:58:12] in the API layer we are not doing an
+[01:58:14] authorization check. So what we should
+[01:58:16] have done is after this query we should
+[01:58:18] have wrote and user id equals to what is
+[01:58:23] context dot user ID. Whatever user ID
+[01:58:25] that we were able to fetch at our
+[01:58:28] authentication reader we store it in our
+[01:58:30] request context and we have to match
+[01:58:32] that in our database query to make sure
+[01:58:35] that we only return the books for which
+[01:58:39] the user has access to. Now this is the
+[01:58:42] kind of confusion that I'm talking
+[01:58:44] about. Just because the user was able to
+[01:58:47] pass the authentication check, just
+[01:58:49] because the user was able to pass
+[01:58:51] authorization check of having read
+[01:58:53] access to books does not mean they have
+[01:58:55] access to all books in our system. So in
+[01:58:58] our database layer for every single
+[01:59:00] query we have to deliberately think what
+[01:59:03] are the entities exactly that the user
+[01:59:05] has access to. on a high level uh
+[01:59:07] because of this kind of confusion a lot
+[01:59:10] of authorization related vulnerabilities
+[01:59:12] arise. So let's talk about a a few
+[01:59:15] famous ones for which we have already
+[01:59:17] named those vulnerabilities. The first
+[01:59:19] kind of vulnerability is broken object
+[01:59:22] level authorization or in short BA. Now
+[01:59:26] this vulnerability which is called
+[01:59:28] broken object level authorization. This
+[01:59:30] is exactly the scenario that I mentioned
+[01:59:32] above. Just a fancy way of describing
+[01:59:34] it. Which means that our system does not
+[01:59:37] check the authorization of a user on
+[01:59:39] entities on database level. It just
+[01:59:41] checks the authentication and
+[01:59:43] authorization during our routing layer
+[01:59:45] but does not check it at our repository
+[01:59:47] level. So that kind of scenario can
+[01:59:50] cause this vulnerability which is called
+[01:59:51] broken object level authorization. Now
+[01:59:53] this scenario I explained sounds a
+[01:59:56] little harmless but someone with more
+[01:59:58] technical knowledge what they can do
+[02:00:00] they can write a script they can iterate
+[02:00:02] through all possible ids of books in our
+[02:00:05] system but instead of books it can also
+[02:00:07] be invoices or payment related
+[02:00:09] information in our database and they can
+[02:00:11] download every single invoice from our
+[02:00:13] system they can get a hold of all users
+[02:00:16] financial data and they can also modify
+[02:00:20] they can also tamper with the invoice
+[02:00:22] URLs uh account numbers etc. A lot of
+[02:00:25] damage can be done if we are not careful
+[02:00:28] about broken object level authorization.
+[02:00:30] So how do we actually fix this? How do
+[02:00:33] we fix BA? As I have already mentioned,
+[02:00:36] the fix is pretty simple, pretty
+[02:00:39] intuitive, which means that even though
+[02:00:41] we check authentication at the routing
+[02:00:44] layer, even though we check
+[02:00:45] authorization at the routing layer for
+[02:00:47] entity level, which is read invoices,
+[02:00:49] for example, in our repository layer, in
+[02:00:51] our service layer, we also have to make
+[02:00:54] another check, which means that don't
+[02:00:56] just fetch invoice number five, don't
+[02:00:59] just fetch book ID with ID 5. fetch
+[02:01:02] books or fetch invoices with ID5 and
+[02:01:06] where the created user ID or the user ID
+[02:01:09] also matches the user ID that we were
+[02:01:11] able to extract the authentication layer
+[02:01:14] which means we stored the user ID in the
+[02:01:16] context and we have to match that in our
+[02:01:18] database query. So what we are saying
+[02:01:20] instead of just fetching the book with
+[02:01:23] ID 5 we are fetching the book with ID 5
+[02:01:26] which also belongs to this user or which
+[02:01:29] also can be accessible to this user. We
+[02:01:32] are mindful about authoration till the
+[02:01:35] last point of access which is the
+[02:01:37] repository layer. We don't end up with
+[02:01:39] our false sense of security from the
+[02:01:41] routing layer. We have to take it all
+[02:01:43] the way towards our repository. That's
+[02:01:45] the way to prevent this broken
+[02:01:47] authorization issue. Now the second
+[02:01:49] important thing which is a very subtle
+[02:01:51] thing here is and I have seen this in a
+[02:01:53] lot of real world systems is backend
+[02:01:55] engineers they try to provide a very
+[02:01:57] good user experience because they are
+[02:01:59] only thinking about the happy path about
+[02:02:02] their own front end they don't entertain
+[02:02:04] the scenario of an attacker trying all
+[02:02:07] these combinations so some engineers
+[02:02:09] what they do when they get an API
+[02:02:12] request let's say with invoice ID 5 an
+[02:02:15] API which is supposed to fetch the
+[02:02:18] invoice invoice details with the id
+[02:02:19] five. So what they do they try to fetch
+[02:02:22] the invoice details with some kind of
+[02:02:24] dbquery db.query something something and
+[02:02:27] they find this particular invoice
+[02:02:29] entity. Then at the next step what they
+[02:02:31] do they check if the context dot user is
+[02:02:35] equals to invoice dot user ID they have
+[02:02:38] this condition. If this condition does
+[02:02:40] not match they throw an 403 error which
+[02:02:44] means forbidden. Now technically this is
+[02:02:47] right. We are supposed to throw 43
+[02:02:50] errors, forbidden errors whenever we
+[02:02:52] have an issue related to authorization,
+[02:02:54] whenever we have an issue related to a
+[02:02:56] user not having access to a particular
+[02:02:59] entity. But the problem with this is if
+[02:03:02] we return 403, if we return this
+[02:03:05] particular response which is forbidden,
+[02:03:07] we are confirming the fact that this
+[02:03:10] particular invoice, the invoice number
+[02:03:12] five, which the attacker, if they have
+[02:03:14] malicious intention, they most likely
+[02:03:16] have guessed. They don't know for sure
+[02:03:19] that this particular ID exists or not.
+[02:03:22] they have guessed this ID and they're
+[02:03:23] trying to verify if they can get access
+[02:03:26] to this invoice or at least they can
+[02:03:28] make sure this particular invoice exists
+[02:03:31] in our system so that they have other
+[02:03:33] ways to get an access to it. The moment
+[02:03:35] we throw a forbidden error, we are
+[02:03:38] saying that this particular invoice
+[02:03:39] exists in our system but we will not
+[02:03:42] give you access to that. Even though you
+[02:03:44] did prevent an attack there but you also
+[02:03:47] did some amount of information leakage
+[02:03:51] which can also be destructive over the
+[02:03:53] long run because if you are following
+[02:03:56] this pattern then an attacker can come
+[02:03:58] up with a list of ids 5 17 18 whatever a
+[02:04:03] list of ids and they can enumerate they
+[02:04:05] can call your API in a loop and they can
+[02:04:07] find out these are all the invoices that
+[02:04:10] exist in the system so that they can go
+[02:04:13] ahead and plan another layer of attack
+[02:04:16] something like social engineering attack
+[02:04:17] which involves interacting with humans
+[02:04:20] fooling humans and tricking humans into
+[02:04:22] extracting sensitive details from our
+[02:04:25] system and that is the reason another
+[02:04:27] important point that we have to keep in
+[02:04:29] mind is when it comes to authorization
+[02:04:32] related checks we have to be a little
+[02:04:35] more reserved about it. So ideally in
+[02:04:38] this scenario when we get a API call for
+[02:04:41] an invoice with ID 7 ideally what we
+[02:04:45] should check instead of checking the
+[02:04:48] existence of this invoice in one
+[02:04:50] database query and then checking if the
+[02:04:52] user has access or not then throwing a
+[02:04:54] 403 forbidden error. Instead of doing
+[02:04:56] all this simply what we can do is we
+[02:04:59] just write a very simple SQL query which
+[02:05:02] just say select star from invoices where
+[02:05:06] id equals to 7 and user id equals to
+[02:05:10] whatever context dot user ID and when we
+[02:05:13] run this since this particular invoice
+[02:05:15] this does not belong to this user what
+[02:05:17] we'll get no rows and when we get no
+[02:05:20] rows error by default what we do we
+[02:05:22] return a 404 which is not found not
+[02:05:25] found response code back to our client.
+[02:05:28] And since we return not found as a
+[02:05:31] response for this particular query, the
+[02:05:33] attacker, they cannot tell the
+[02:05:35] difference between an invoice that does
+[02:05:37] not exist in our system versus an
+[02:05:39] invoice that exists in our system but
+[02:05:42] that belongs to someone else. If they
+[02:05:44] can make sure if they can verify point
+[02:05:46] number two, they can resort to other
+[02:05:49] layers of attack. Other layers of attack
+[02:05:51] which is mostly social engineering. Now
+[02:05:53] that they cannot differentiate between
+[02:05:56] these two, they cannot tell if the
+[02:05:57] invoice exists in our database in the
+[02:05:59] first place which in turn helps
+[02:06:01] preventing the other layers of attack
+[02:06:04] since we stopped them at the root level
+[02:06:06] without giving them any kind of
+[02:06:08] information. Now this whole thing this
+[02:06:10] authorization check database query level
+[02:06:13] this needs to happen not just for select
+[02:06:16] queries not just for view queries where
+[02:06:18] we are returning information.
+[02:06:19] [clears throat]
+[02:06:20] This needs to happen for any kind of
+[02:06:22] database query which is either edit
+[02:06:24] which means update or delete or insert
+[02:06:28] any kind of database query that we run.
+[02:06:30] We need to check this authorization of
+[02:06:33] the user at the database level without
+[02:06:36] leaking any information. That is also an
+[02:06:38] important. Now another similar
+[02:06:40] vulnerability another similar
+[02:06:42] vulnerability here is broken function
+[02:06:44] level authorization. Now this is pretty
+[02:06:47] much similar to the above vulnerability
+[02:06:49] which is BA and object level
+[02:06:52] authorization but this has a different
+[02:06:54] angle. So this is more about restricting
+[02:06:57] the access to functions as compared to
+[02:07:00] restricting the access to data which is
+[02:07:02] about this DFL is about functions and
+[02:07:06] what kind of functions do we mean are
+[02:07:08] sensitive functions especially the
+[02:07:10] functions which are only supposed to be
+[02:07:13] accessed by our admins. Let's say we
+[02:07:16] have an endpoint which is something like
+[02:07:19] / admin/invoices
+[02:07:22] again. Now this particular endpoint is
+[02:07:24] only supposed to be accessed by the site
+[02:07:27] admin so that they can review different
+[02:07:29] different invoices. They can provide
+[02:07:31] support to the clients whenever there is
+[02:07:33] some kind of issue related to an
+[02:07:36] invoice. Now for this particular
+[02:07:38] endpoint we cannot do this which is this
+[02:07:40] pattern select star from invoices. We
+[02:07:44] cannot put a condition here which is
+[02:07:46] where id equals to five user id equals
+[02:07:50] to context dot. We cannot do that here
+[02:07:52] because the admin needs to see all the
+[02:07:54] invoices of our system. There should be
+[02:07:56] no wear condition. Even if there is a
+[02:07:58] wear condition it should be only for
+[02:08:00] filtering like active invoices or
+[02:08:02] pending invoices etc etc. There should
+[02:08:04] be no authorization related checks here.
+[02:08:06] For that reason this is not a object
+[02:08:09] authorization related vulnerability.
+[02:08:11] This is a function authorization
+[02:08:12] vulnerability which means that let's say
+[02:08:14] we have an admin panel here and in this
+[02:08:17] admin panel we are listing all the
+[02:08:19] invoices by using this type of API which
+[02:08:22] fetches all the invoices of our system
+[02:08:23] and shows it to our admin. Now one
+[02:08:25] clever trick that we did was we did not
+[02:08:28] share this URL which is safe do web.app
+[02:08:32] app whatever is your URL is you did not
+[02:08:35] share this particular URL with anyone
+[02:08:37] only the admin knows this URL but apart
+[02:08:40] from that you don't have any other kind
+[02:08:42] of security mechanism here if the admin
+[02:08:45] knows this URL and as long as the admin
+[02:08:48] is a user of our platform they can go
+[02:08:50] into the admin panel they can login as
+[02:08:52] usual the login flow is same for a
+[02:08:54] regular member and the admin the only
+[02:08:56] difference is the URL the access to the
+[02:08:58] URL once any user is able to login into
+[02:09:01] the admin panel they can call this
+[02:09:03] particular API and they will be able to
+[02:09:05] see all the invoices of our system. Now
+[02:09:08] again this sounds a little stupid but
+[02:09:10] these kinds of vulnerabilities still
+[02:09:13] happen in legacy systems where people
+[02:09:15] try to provide security through
+[02:09:18] obscurity. This is a very famous phrase
+[02:09:22] in the world of web security which means
+[02:09:24] that instead of providing actual
+[02:09:26] security instead of providing robust
+[02:09:28] security what you do you just hide
+[02:09:30] information you just do clever tricks
+[02:09:32] and you just do a lot of assumptions and
+[02:09:36] you just feel this false sense of
+[02:09:38] security that your system cannot be
+[02:09:40] accessed by malicious users or
+[02:09:42] attackers. This is exactly the same
+[02:09:44] case. Just by assuming that no other
+[02:09:46] user has access or knowledge about this
+[02:09:49] URL, our API is safe or our admin panel
+[02:09:52] is safe. That is not the case. This
+[02:09:53] whole setup can backfire. As long as
+[02:09:55] someone monitors your internet traffic
+[02:09:57] and the moment they see this particular
+[02:09:59] URL and they find out that there are no
+[02:10:02] admin level checks in your system, they
+[02:10:04] can call this API independently and they
+[02:10:06] can get a hold of all of your invoices
+[02:10:09] in your system. The mitigation to this
+[02:10:11] is something that we have already
+[02:10:13] discussed. The routing layer we perform
+[02:10:15] authentication and after authentication
+[02:10:17] we also need to perform authorization
+[02:10:19] and in the authorization we not just
+[02:10:22] check the granular permissions in this
+[02:10:24] case which is read invoices which is in
+[02:10:26] our case true. A user who is trying to
+[02:10:30] access their invoices, they also have
+[02:10:32] read invoices permission. And a user who
+[02:10:35] is trying to access all information,
+[02:10:37] which is the admin level function, they
+[02:10:39] will also have this same permission is
+[02:10:41] read invoices. The only difference is
+[02:10:43] the user role. So this user is a normal
+[02:10:47] user which is something like member and
+[02:10:49] the admin will have a role something
+[02:10:51] like admin. So another middleware should
+[02:10:54] be present here. Not just our permission
+[02:10:56] middleware, also the role middleware
+[02:10:59] which makes sure that the user that is
+[02:11:01] requesting access to this function which
+[02:11:03] is requesting access to this particular
+[02:11:05] API has the role of admin. They are
+[02:11:08] authorized to access this particular API
+[02:11:11] as admin. Then only we let them call
+[02:11:13] this function and then only we return
+[02:11:15] all the invoices of our system. That is
+[02:11:17] how we prevent broken function level
+[02:11:20] authorization. Another interesting
+[02:11:22] vulnerability here is indirect object
+[02:11:24] references and broken access control
+[02:11:27] patterns which talks about using
+[02:11:30] sequential ids of your database which is
+[02:11:32] something like 101 102 103 and using
+[02:11:37] these in your APIs something like
+[02:11:39] /invoices
+[02:11:41] slash 1 02 to fetch the invoice
+[02:11:45] information of this particular invoice.
+[02:11:47] Using this pattern enables
+[02:11:49] [clears throat] attackers to guess all
+[02:11:51] the other invoices in our system, the
+[02:11:53] existence of all the other 101 and 103
+[02:11:57] 109 and so on. Since our ids are
+[02:12:00] sequential, since they are predictable,
+[02:12:02] they are prone to all kinds of attacks,
+[02:12:04] all kinds of enumeration based attacks.
+[02:12:07] As long as the attacker can predict the
+[02:12:09] existence of all these invoices in a
+[02:12:12] system, they can plan more number of
+[02:12:14] attacks targeting these. One prevention
+[02:12:17] to this is using uu id as our primary
+[02:12:21] key which is looks something like this
+[02:12:23] here. These are randomly generated and
+[02:12:26] often used as database primary keys.
+[02:12:28] They're also URL friendly etc etc. But
+[02:12:32] using UID also comes with a a couple of
+[02:12:35] performance related issue that you have
+[02:12:37] to read about. But generally UIDs are
+[02:12:40] recommended for this. Okay. Now that we
+[02:12:42] have discussed all this stuff about
+[02:12:44] authorization, try to cover two
+[02:12:47] summarizing points which will cover all
+[02:12:50] these vulnerabilities in a very simple
+[02:12:52] manner. After discussing all these
+[02:12:54] vulnerabilities related to
+[02:12:56] authorization, we can categorize the
+[02:12:58] authorization related attacks into two
+[02:13:00] types. One is horizontal authorization
+[02:13:03] attacks. The other one is vertical
+[02:13:05] attacks. Now this is a very simple
+[02:13:08] mental model a very simple mental
+[02:13:10] framework that you can use instead of
+[02:13:11] memorizing all these different
+[02:13:13] vulnerabilities related to
+[02:13:14] authorization. You can just think it in
+[02:13:16] a very intuitive way. First
+[02:13:17] [clears throat] is horizontal. Now
+[02:13:19] horizontal authorization attacks involve
+[02:13:22] user A getting access to the resources
+[02:13:25] of user B due to some incapability some
+[02:13:29] kind of linkage in our system. is
+[02:13:31] usually happens because we ignore
+[02:13:33] authorization at the database level and
+[02:13:35] we call it horizontal authorization
+[02:13:38] attack because the scope widens here. We
+[02:13:41] talking about different different users.
+[02:13:43] The scope widens here at a system level.
+[02:13:46] That is one kind of attack and under
+[02:13:48] this we have a broken object level
+[02:13:51] authorization that we have discussed and
+[02:13:52] this is also called ID or something like
+[02:13:56] indirect object reference. Both of them
+[02:13:59] mean the same thing. Now what is
+[02:14:01] vertical authorization attack? This is
+[02:14:03] the other case that we discussed which
+[02:14:05] is BFLA which means a user after
+[02:14:08] entering into our system instead of
+[02:14:10] widening their scope horizontally what
+[02:14:13] they do at our system level they widen
+[02:14:15] their scope vertically which means
+[02:14:17] getting access to more of our systems
+[02:14:20] resource instead of other users which
+[02:14:22] was the case when we talked about admin
+[02:14:24] level scenario. So after entering into
+[02:14:27] our system, a user is able to get access
+[02:14:30] to the functions sensitive functions
+[02:14:32] which are only accessible to an to an
+[02:14:34] admin user. So these are the two
+[02:14:37] categories of authorization related
+[02:14:39] attacks that we just discussed. Now to
+[02:14:42] discuss the framework, how do we
+[02:14:45] actually mitigate how do we actually
+[02:14:47] prevent all these authorization related
+[02:14:49] attacks? First thing is you need to
+[02:14:51] centralize your authorization logic. You
+[02:14:53] should not scatter your authorization
+[02:14:56] related checks throughout your codebase
+[02:14:58] where they'll be applied inconsistently
+[02:15:01] or or they are prone to getting
+[02:15:03] forgotten. So you should have a clear
+[02:15:06] authorization layer from where every
+[02:15:09] single request passes through right all
+[02:15:11] your logic related to authorization live
+[02:15:14] in the same place so that it is easy to
+[02:15:16] understand by all engineers in your team
+[02:15:18] and it is easy to maintain and it is
+[02:15:20] easy to scale. Second thing is a very
+[02:15:23] simple framework which is called default
+[02:15:26] deny which basically means that once you
+[02:15:28] have your authorization layer the
+[02:15:31] framework that you should follow is if
+[02:15:33] your authorization logic does not
+[02:15:35] explicitly allow something does not
+[02:15:38] explicitly allow certain permission
+[02:15:39] certain user role or whatever then you
+[02:15:42] should by default deny it. Instead of
+[02:15:44] checking the other way around, you
+[02:15:45] should deny any other kind of conditions
+[02:15:49] which is not explicitly allowed in your
+[02:15:51] logic. This way what happens when you
+[02:15:53] add new resources in your database or
+[02:15:55] new endpoints in your routing layer,
+[02:15:57] they are protected by default. Even
+[02:16:00] though you forget to grant access to
+[02:16:03] them in your authorization layer, but
+[02:16:04] until you do that, they are protected by
+[02:16:06] default. Now that is a very important
+[02:16:09] safety mechanism. Third thing, test
+[02:16:11] authorization specifically which means
+[02:16:13] that don't just test your happy parts. A
+[02:16:16] normal user, a benign user, a genuine
+[02:16:19] user is able to go through the whole
+[02:16:21] workflow correctly and you move on from
+[02:16:23] there. That is not how you should be
+[02:16:25] building systems. You should also test
+[02:16:27] for the edge cases which means that user
+[02:16:30] A should not be able to access the
+[02:16:33] resources of user B. Same way a regular
+[02:16:37] member role user should not be able to
+[02:16:40] access the functions of a user with the
+[02:16:44] role of admin or an unauthenticated user
+[02:16:47] should not be able to access any kind of
+[02:16:51] authenticated resources in your system
+[02:16:53] and should not test these things
+[02:16:56] manually. You should have automated
+[02:16:58] tests in your system. a dedicated test
+[02:17:00] just for authentication authorization
+[02:17:02] which checks for all these use cases
+[02:17:04] because if you test all these scenarios
+[02:17:06] manually most likely there will be some
+[02:17:09] change in your system someday which will
+[02:17:11] break one of these functionalities and
+[02:17:13] since you are manually testing all these
+[02:17:15] things. It cannot be as comprehensive as
+[02:17:18] automated test and you'll miss one of
+[02:17:19] these scenarios and that will leave a
+[02:17:22] huge security hole in your system. If
+[02:17:24] you have an automated test suite, every
+[02:17:26] time a new change is added to your
+[02:17:28] system in your CI/CD pipeline, all these
+[02:17:31] authentication and authorization related
+[02:17:33] test suites are run. And you can be rest
+[02:17:36] assured that your system is still secure
+[02:17:38] as the day you build your authentication
+[02:17:40] authorization system, no matter how many
+[02:17:43] additional changes are added to your
+[02:17:45] system over the time. And the last thing
+[02:17:46] is audit logs. Every time a sensitive
+[02:17:50] resource something like an admin
+[02:17:52] endpoint is accessed you should log that
+[02:17:55] in your audit table that this particular
+[02:17:58] endpoint was accessed at this time stamp
+[02:18:00] by this particular user etc etc. Same
+[02:18:03] way every time an authorization check
+[02:18:05] fails when a user tries to access the
+[02:18:08] resources of user B you should flag that
+[02:18:11] incident and you should log that as a
+[02:18:14] breach event dedicated because if there
+[02:18:17] is someone who's trying to probe your
+[02:18:19] system if there is someone who is trying
+[02:18:20] to break your system you should have the
+[02:18:23] knowledge of that so that you can take
+[02:18:25] advanced preventive measures for those.
+[02:18:27] Okay. Now that pretty much covers all
+[02:18:30] the things that you should know when it
+[02:18:32] comes to authentication and
+[02:18:34] authorization. Moving on to our next
+[02:18:37] major vulnerability which is XSS. It
+[02:18:40] stands for crossside scripting. Now we
+[02:18:43] are going to see a small demo of this
+[02:18:46] towards the end of this video. So before
+[02:18:49] that we'll just briefly explain what
+[02:18:52] this vulnerability means and how does it
+[02:18:54] work as how to prevent it and we'll
+[02:18:56] actually see it live in the demo. to
+[02:18:58] explain crossite scripting. It means
+[02:19:01] that when a malicious user or an
+[02:19:04] attacker [clears throat]
+[02:19:05] they manage to get their JavaScript any
+[02:19:08] JavaScript code or any JavaScript
+[02:19:11] snippet to execute in a user's browser
+[02:19:15] in a genuine users browser in the
+[02:19:17] context of your platform in the context
+[02:19:20] of your front end then this whole attack
+[02:19:22] is called cross-sight scripting. It's
+[02:19:24] still not clear how does it work and why
+[02:19:27] it is so dangerous. So let's cover that
+[02:19:29] part first. Why is it actually
+[02:19:31] dangerous? So we all know that
+[02:19:33] everything that happens in our browser,
+[02:19:35] all the processing that happens to
+[02:19:38] JavaScript. Any kind of computation that
+[02:19:40] runs and JavaScript in the context of a
+[02:19:42] browser can do a lot of things. It can
+[02:19:44] read everything that is happening on a
+[02:19:47] page as long as it has the context of
+[02:19:49] that page including the sensitive data.
+[02:19:52] It can also make API requests to a
+[02:19:55] remote server by impersonating as the
+[02:19:58] logged in user because they have access
+[02:20:01] to the cookie. They have access to the
+[02:20:02] local storage. As long as it is not HTTP
+[02:20:06] only, they have access to the cookie.
+[02:20:08] They can also redirect the user to other
+[02:20:11] pages, pages like fishing pages to fish
+[02:20:14] the credentials of the user. And lastly,
+[02:20:17] they can also alter or they can also
+[02:20:19] change the content of the page to trick
+[02:20:23] a genuine user into thinking the website
+[02:20:26] that they are looking at is a completely
+[02:20:28] different website. To summarize, if an
+[02:20:30] attacker manages to run their code,
+[02:20:34] their JavaScript code in another user's
+[02:20:37] browser exactly as it sounds like, it
+[02:20:39] can be very destructive. Let's look at
+[02:20:41] how this is possible in the first place.
+[02:20:43] The first kind of excss attack that we
+[02:20:46] can talk about is stored excss and this
+[02:20:49] is how it works. Let's say you have a
+[02:20:51] blogging platform and in that platform
+[02:20:54] you have a discussion board a comment
+[02:20:57] system discussion board where users can
+[02:20:59] come and they can post their comments
+[02:21:01] and other users can reply to that
+[02:21:03] comment etc etc. So if you are aware of
+[02:21:07] how markdown rendering works in SPS or
+[02:21:11] in client side JavaScript based
+[02:21:14] applications usually if we want to
+[02:21:16] support markdown in some kind of input
+[02:21:19] then what happens the user writes their
+[02:21:23] comment in markdown let's say they use a
+[02:21:25] hashtag to start an heading so that this
+[02:21:28] is a comment then they use hyphens to uh
+[02:21:32] write bullet points etc etc And when we
+[02:21:35] preview this or when we try to render
+[02:21:38] this as markdown, what we do? We use
+[02:21:41] these libraries, if we are talking about
+[02:21:44] the React ecosystem, the most popular
+[02:21:47] client side libraries for interactive
+[02:21:50] web apps, then what happens? This gets
+[02:21:52] converted into HTML using different
+[02:21:55] different libraries like Remark, Rehype,
+[02:21:58] and they have a plug-in based
+[02:21:59] architecture. So you can customize how
+[02:22:01] this looks and how to style it etc etc.
+[02:22:04] But this is the whole idea. The user
+[02:22:07] writes their markdown in the input and
+[02:22:09] to show that markdown. You convert it to
+[02:22:12] HTML and you provide some kind of
+[02:22:15] styling and you render that HTML by
+[02:22:18] injecting the HTML directly into your
+[02:22:21] DOM node. So we just take that and
+[02:22:24] inject whatever in a div or something
+[02:22:26] like that and whatever the user has
+[02:22:28] typed bullet points they will be
+[02:22:30] converted to something like lists. So an
+[02:22:34] unordered list starting the tag here li
+[02:22:37] first point li second point etc. Then
+[02:22:40] closing the unorder list tag here. So
+[02:22:43] the markdown gets converted to this
+[02:22:46] particular HTML and we actually have to
+[02:22:50] go ahead and inject this into the DOM so
+[02:22:52] that it can be rendered and we can see
+[02:22:55] what the user intended us to see. Even
+[02:22:59] though if you are using these popular
+[02:23:01] libraries like Remar, Hype and React,
+[02:23:03] all the safety mechanisms are already
+[02:23:06] taken care of. But assuming that you are
+[02:23:08] in a scenario where you are doing all of
+[02:23:11] this yourself or maybe we are talking
+[02:23:13] about a legacy system where the user
+[02:23:15] types some kind of markdown or some kind
+[02:23:17] of HTML and you render it by injecting
+[02:23:19] that into the web page and to store it
+[02:23:23] you send the whole converted HTML to
+[02:23:26] your server and the server in our
+[02:23:27] database and the next time the server
+[02:23:29] fetches the server sends it back and the
+[02:23:32] client injects that and shows us in the
+[02:23:35] comment list. Now a malicious user what
+[02:23:38] they can do if they want somehow by
+[02:23:41] tampering with the behavior of this
+[02:23:44] markdown to HTML conversion and finding
+[02:23:46] a hole somewhere they are able to inject
+[02:23:49] a script tag somewhere inside the HTML
+[02:23:52] and since we are taking the whole thing
+[02:23:54] and injecting into the DOM what happens
+[02:23:57] this script tag it starts getting
+[02:23:59] executed as genuine JavaScript code in
+[02:24:02] the context of our platform since that's
+[02:24:04] where this script is injected and that
+[02:24:07] is the reason if [clears throat] you
+[02:24:08] take a look at React and search for
+[02:24:12] dangerously set inner HTML come here in
+[02:24:14] the docs as you can see in order to
+[02:24:17] render this particular HTML what you
+[02:24:19] have to do in react is you have to pass
+[02:24:22] the HTML string inside a attribute which
+[02:24:25] is called dangerously set inner HTML.
+[02:24:27] The reactive has intentionally set the
+[02:24:29] name in a way that you are always warned
+[02:24:32] that when you are setting HTML like
+[02:24:35] this, you are on your own and you have
+[02:24:37] to be careful about XSS attacks since
+[02:24:40] there is a possibility that you are
+[02:24:42] injecting scripts into your web app. So
+[02:24:45] this particular vulnerability happens
+[02:24:48] not because of this practice for
+[02:24:49] injecting HTML into the DOM. that has to
+[02:24:52] be done. If you want to render
+[02:24:54] userdefined markup in our web app, then
+[02:24:57] we have to do some kind of injection.
+[02:24:59] But to prevent that what we should have
+[02:25:03] done, what the server should do is when
+[02:25:05] the server receives this particular
+[02:25:07] markdown, this particular markup
+[02:25:09] structure that the user has typed in the
+[02:25:11] form of a comment, it has to do a step
+[02:25:14] of sanitization, which means it has to
+[02:25:17] look for signs detecting if this can be
+[02:25:20] a potential exploit something like the
+[02:25:23] presence of script tag etc etc. So the
+[02:25:26] server can detect if a script tag is
+[02:25:28] present and it can strip that off and
+[02:25:30] only save the HTML. If the server does
+[02:25:32] not do that then your web app your
+[02:25:35] platform is prone to an XSS attack
+[02:25:38] especially a stored XSS attack because
+[02:25:42] every user who ends up viewing that
+[02:25:45] particular comment the script tag will
+[02:25:48] start running in their browser. Now the
+[02:25:50] moment the script starts running in
+[02:25:52] their browser, the attacker who has
+[02:25:54] written the script, they can send all
+[02:25:56] their session cookies, all their local
+[02:25:58] storage information to a server which is
+[02:26:00] controlled by the attacker and they can
+[02:26:03] view all those sessions and they can if
+[02:26:05] they want hijack those sessions also or
+[02:26:08] they can also retype the user to a
+[02:26:10] fishing page and steal their
+[02:26:11] credentials. So there is a lot of damage
+[02:26:14] that can be done here. So you have to be
+[02:26:15] very careful about whenever you are
+[02:26:18] injecting HTML structure into your web
+[02:26:21] app and you have to make sure that when
+[02:26:22] you're storing that user provided markup
+[02:26:25] you are doing proper sendation. There
+[02:26:27] are also different types of excss called
+[02:26:30] reflected XSS which deals with rendering
+[02:26:33] the script tag in your URL. There is
+[02:26:35] also DOM based XSS which is pretty much
+[02:26:39] the same as the scenario that we just
+[02:26:41] discussed setting the inner HTML
+[02:26:44] property of your web app. But to
+[02:26:46] summarize all these different kinds of
+[02:26:49] XSS attacks the cross site scripting
+[02:26:52] attacks all of them happen for a single
+[02:26:55] reason. The root cause for all of these
+[02:26:58] vulnerabilities is userdefined
+[02:27:01] content being treated as code rather
+[02:27:05] than data. Again, this is similar to SQL
+[02:27:08] injection attack where the
+[02:27:11] vulnerabilities happened because of the
+[02:27:14] confusion between code and data. And
+[02:27:17] accesss is pretty much the same but
+[02:27:19] instead of happening at the server layer
+[02:27:22] instead of happening at the SQL or
+[02:27:24] database layer it happens in the user's
+[02:27:26] browser. When a user provided data when
+[02:27:30] put into a particular languages context
+[02:27:33] in this case our HTML and JavaScript
+[02:27:36] combined gets treated as code instead of
+[02:27:40] what it was meant for which is data.
+[02:27:42] That is exactly when XSS attacks arise.
+[02:27:45] The easy prevention for this is
+[02:27:47] obviously sanitization in your
+[02:27:49] validation layer. Make sure whatever
+[02:27:51] user provided content that you are
+[02:27:53] dealing with that you're storing you are
+[02:27:55] properly sanitizing it before storing it
+[02:27:57] in your database. The point appears here
+[02:28:00] again that every time you are dealing
+[02:28:02] with user provided content. It does not
+[02:28:05] matter whether it is a user provided
+[02:28:07] search query. It does not matter whether
+[02:28:10] it is user provided HTML or an image
+[02:28:13] which can be of a very big size. Every
+[02:28:16] time you are getting something from the
+[02:28:18] user either you're storing it in case of
+[02:28:20] this or you are processing it using your
+[02:28:22] database or you are doing some kind of
+[02:28:24] file handling every time you're dealing
+[02:28:26] with users data you have to be very
+[02:28:28] mindful very careful about how you are
+[02:28:31] handling it. What kind of access you are
+[02:28:32] giving what kind of resources you are
+[02:28:35] spending on this particular operation.
+[02:28:37] If you do that then you can get out of
+[02:28:39] 99% of vulnerabilities very easily.
+[02:28:42] Another prevention here and the
+[02:28:43] technical prevention is CSP is also
+[02:28:46] called as content security policy. Now
+[02:28:50] content security policy is provided by
+[02:28:53] your browsers. This is an HTTP header
+[02:28:56] which is sent by your server back to
+[02:28:59] your browser. And the purpose of this
+[02:29:02] particular SP header is your server
+[02:29:04] tells your browser exactly what kind of
+[02:29:07] resources it is supposed to execute and
+[02:29:10] what kind of resources it is supposed to
+[02:29:12] block. Okay, very clear instructions
+[02:29:14] about the what kind of resources it can
+[02:29:16] actually start executing, what kind of
+[02:29:18] resources it should trust. So you can
+[02:29:21] specify using your server things like
+[02:29:23] only run scripts from these specific
+[02:29:26] sources from these specific domains
+[02:29:29] which are coming from our domains or you
+[02:29:31] can specify that don't run inline
+[02:29:35] scripts at all. No inline script which
+[02:29:37] means our earlier attack which was
+[02:29:39] caused by injecting a script into our
+[02:29:43] DOM. this will completely get blocked
+[02:29:45] since you saying that don't run any kind
+[02:29:48] of inline scripts in the context of our
+[02:29:50] web app. So using CSP is also a very
+[02:29:53] robust fix for these kinds of situations
+[02:29:56] for dealing with XSS attacks. You can
+[02:29:58] also specify from what domains you are
+[02:30:01] supposed to load images from. If the
+[02:30:04] images are from a different domain then
+[02:30:06] you'll also get an error from CSP. so
+[02:30:09] that even if a malicious user is able to
+[02:30:12] inject some kind of script tag into your
+[02:30:15] browser, the browser will block it
+[02:30:18] immediately. It will not let it run in
+[02:30:21] that context at all. Now, one thing to
+[02:30:23] focus here is the CSP, the content
+[02:30:25] security policy that is provided. This
+[02:30:27] is not actually a prevention. This is
+[02:30:30] just one way to fight if you have any
+[02:30:34] kind of XSS vulnerability. The core
+[02:30:36] reason for which your site is vulnerable
+[02:30:39] to accesses that you have to fix
+[02:30:40] yourself first by properly sanitizing
+[02:30:43] your user provided inputs and
+[02:30:45] everything. But CSP is configured just
+[02:30:48] in case you forgot just in case there
+[02:30:51] was a very remote edge case which let an
+[02:30:54] excss attack to pass through. In that
+[02:30:56] case CSP can your last line of defense
+[02:30:59] but it is definitely not a prevention.
+[02:31:02] So you should be doing all kinds of
+[02:31:04] prevention and in the end you should
+[02:31:06] trust CSP to block any kind of attacks
+[02:31:08] that that passes through all your
+[02:31:10] defenses. There is another category of
+[02:31:12] attack which is called CSRF
+[02:31:15] also known as cross-sight request
+[02:31:18] forgery and I just want to mention this
+[02:31:21] very briefly because in my opinion CSRF
+[02:31:24] is not a major threat to modern web
+[02:31:28] applications. We cannot say that this is
+[02:31:30] non-existence because we still have
+[02:31:32] legacy systems. We still have outdated
+[02:31:34] practices in a lot of systems. But as
+[02:31:36] long as you are working with latest
+[02:31:38] technologies and using decent libraries
+[02:31:41] and frameworks, most likely you are not
+[02:31:43] going to face CSRF attacks. But just to
+[02:31:46] cover it in theory, CSRF works because
+[02:31:50] of the cross site nature of cookies.
+[02:31:54] Basically when you visit a particular
+[02:31:57] website what happens? Your browser
+[02:32:00] stores cookies for that site. This
+[02:32:02] particular website and when you make a
+[02:32:04] request to that site your browser
+[02:32:07] automatically includes those cookies in
+[02:32:10] the next request. And this whole thing
+[02:32:12] happens even if the request originates
+[02:32:15] from a different site. For example, if
+[02:32:17] we take a realistic destructive
+[02:32:19] scenario, you are logged into your
+[02:32:22] bank's site and your browser, it has a
+[02:32:26] cookie for let's say bank.com and now
+[02:32:30] when you visit another site which is a
+[02:32:33] malicious site created by an attacker
+[02:32:35] and the domain is evil.com either
+[02:32:38] through a fishing link or any kind of
+[02:32:41] genuine web browsing and when you land
+[02:32:44] in this particular website there will be
+[02:32:46] a form which will get autosubmitted or
+[02:32:50] there might be some kind of image tag
+[02:32:52] with an URL that triggers some kind of
+[02:32:54] javascript which submits the form for
+[02:32:56] you. Now this evil.com it will trigger a
+[02:33:00] code snippet where evil.com is making a
+[02:33:03] request to bang.com and since it is your
+[02:33:07] browser which is making the request to
+[02:33:09] bang.com even though the context is
+[02:33:11] evil.com from where you are originating
+[02:33:14] this request from but it is still your
+[02:33:16] browser and that is the reason your
+[02:33:18] browser will include the cookie or
+[02:33:21] bank.com in this particular request and
+[02:33:23] since the cookie was included the server
+[02:33:25] of bank.com it will see the request as a
+[02:33:28] genuine request and it will let it get
+[02:33:29] through and by using this whole workflow
+[02:33:32] the malicious user the one who created
+[02:33:34] evil.com they can perform some kind of
+[02:33:37] destructive actions but again as I have
+[02:33:39] already mentioned CSRF is not one of the
+[02:33:42] major threats that you should be
+[02:33:43] worrying about as long as you are using
+[02:33:45] modern technologies and modern libraries
+[02:33:47] another reason I say this is not a major
+[02:33:49] threat is because the same site cookie
+[02:33:52] config that we discussed in the
+[02:33:54] authentication section where It is
+[02:33:56] recommended that you always set this
+[02:33:59] either as strict or if your front end or
+[02:34:01] back end are in the different domains,
+[02:34:03] you can set it as lax. By default, our
+[02:34:06] modern browsers set the same site config
+[02:34:08] as lax. And unless your same site config
+[02:34:11] is none, you're by default protected
+[02:34:14] against the CSRF attacks. And the next
+[02:34:17] point of defense is our coarse config.
+[02:34:20] Now course is definitely not a security
+[02:34:23] mechanism but using course what happens
+[02:34:26] typically our backend they have course
+[02:34:30] configs and it checks if the request
+[02:34:33] that we are receiving it is coming from
+[02:34:35] a request that is own front end. If it
+[02:34:38] is not then we do not set the course
+[02:34:40] header and the browser of the client
+[02:34:43] blocks that particular request. Now that
+[02:34:45] is another not a very robust prevention
+[02:34:47] but it is still a line of defense
+[02:34:49] against CSRF attacks. So that's one of
+[02:34:51] the reasons worrying about CSRF attacks
+[02:34:54] does not make a lot of sense at least
+[02:34:56] with our current technologies, libraries
+[02:34:59] and frameworks. So we are just going to
+[02:35:01] mention it briefly and move on from here
+[02:35:03] to the next section. So far we have
+[02:35:06] mentioned and discussed different kinds
+[02:35:08] of vulnerabilities, how they work and
+[02:35:10] how to prevent them etc etc. Lastly, we
+[02:35:13] will discuss a few practices which can
+[02:35:17] turn destructive which can create
+[02:35:19] security holes in your system and how to
+[02:35:21] prevent those and how to think about
+[02:35:23] those. The first thing is
+[02:35:25] misconfiguration. Misconfiguration in
+[02:35:27] your system can also open a lot of
+[02:35:30] security holes. For example, let's talk
+[02:35:32] about secrets management. The most
+[02:35:34] abused concept in back end secrets
+[02:35:37] management. And when we say secrets, we
+[02:35:40] mean things like API keys or database
+[02:35:43] passwords or encryption keys or JWT or
+[02:35:48] whatever technology that we are using or
+[02:35:50] authentication secrets or secret. So one
+[02:35:54] obvious security vulnerability is which
+[02:35:56] I don't think anyone does these days is
+[02:35:59] storing any kind of secret in our source
+[02:36:01] code, right? which gets committed into
+[02:36:04] git and that in turn lands in GitHub or
+[02:36:07] Bitbucket or GitLab whatever version
+[02:36:10] control system that you're using. And
+[02:36:12] the moment that happens, everyone who
+[02:36:14] has access to your GitHub repository,
+[02:36:16] your Bitbucket repository or your GitLab
+[02:36:19] repository, they can now see all your
+[02:36:21] secrets. They can access your database.
+[02:36:23] They can access all your external
+[02:36:24] services using the API keys. They can
+[02:36:26] also mess with users data using the
+[02:36:29] authentication secrets and the
+[02:36:30] encryption keys. So making sure all your
+[02:36:33] secrets always live in environment
+[02:36:35] variables either using things like or
+[02:36:39] using some kind of external secret
+[02:36:40] management like AWS parameter store or
+[02:36:44] vault is from hashior etc. There are a
+[02:36:46] lot of services these days. So always
+[02:36:48] make sure any kind of secret does not go
+[02:36:51] into your version control system. Even
+[02:36:53] if a secret gets leaked into your VCS or
+[02:36:57] your GitHub and you go ahead and delete
+[02:37:00] that, that is still in your commit
+[02:37:02] history. Someone who goes back in the
+[02:37:05] commit history, they can still access
+[02:37:07] that particular secret. So the moment
+[02:37:09] you accidentally commit your secret into
+[02:37:12] your VCS into GitHub, you should go
+[02:37:13] ahead and rotate that secret or delete
+[02:37:16] that secret and create a new one. Okay,
+[02:37:18] one of those things that you have to
+[02:37:19] keep in mind when you're talking about
+[02:37:21] security. The second kind of
+[02:37:22] misisconfiguration that we should talk
+[02:37:24] about is debug mode in production in our
+[02:37:28] live environment. Typically when we are
+[02:37:30] developing in our local writing code in
+[02:37:33] our local our logging mode our logging
+[02:37:35] mode is set at debug level. What that
+[02:37:38] means is we log all kinds of data in our
+[02:37:42] in our standard output things like very
+[02:37:44] detailed error messages with stack
+[02:37:47] traces. Now stack traces itself contain
+[02:37:50] a lot of information about how our
+[02:37:52] functions are named, how our files are
+[02:37:55] named, how our code is structured etc.
+[02:37:57] Same way we also print a lot of
+[02:37:59] information about our databases. Things
+[02:38:02] like the explicit SQL query, the
+[02:38:05] database P configs, the database
+[02:38:07] transaction related information, all
+[02:38:09] these things that get printed in our
+[02:38:13] local standard output or in our local
+[02:38:16] terminal. Ideally when we go to
+[02:38:18] production the log level is set to info
+[02:38:21] which means we only log the information
+[02:38:24] related stuff for our production server
+[02:38:27] which means all these things the error
+[02:38:29] stacks the database query logs and the
+[02:38:32] whatever debug logs that we are printing
+[02:38:35] for example users sensitive information
+[02:38:37] etc etc all these things they never show
+[02:38:39] up in production logs they are only
+[02:38:42] meant for our local as long as our log
+[02:38:44] level is set to debug That's only when
+[02:38:47] they'll show up otherwise they'll never
+[02:38:49] get printed. But if we don't configure
+[02:38:51] the log level specifically at info level
+[02:38:54] and anything which is not debug level in
+[02:38:57] our production in our live environment
+[02:38:59] all these informations are all these
+[02:39:01] information are going to show up in our
+[02:39:03] logs and if and when log production logs
+[02:39:07] get breached the attacker can get a lot
+[02:39:09] of information about how our code is
+[02:39:11] structured what are the sensitive data
+[02:39:13] about the user what is the sensitive
+[02:39:14] data about database etc. So it is
+[02:39:17] important that you are mindful about
+[02:39:19] your log levels. What is the log level
+[02:39:22] of your production environment? What is
+[02:39:23] the log level of your local environment?
+[02:39:25] And what is the log level of your
+[02:39:26] staging environment? That is another
+[02:39:28] misconfiguration that can cause a
+[02:39:30] security hole in your system. The third
+[02:39:32] one is security headers. Security
+[02:39:35] headers. Now when it comes to security
+[02:39:37] headers, we have already talked about
+[02:39:39] CSPs which tell your clients what kind
+[02:39:42] of JavaScript it can execute in your
+[02:39:44] platform's context. There are some other
+[02:39:47] HTTP headers which help us prevent a lot
+[02:39:50] of security related issues. Things like
+[02:39:52] frame options which when properly
+[02:39:55] configured it prevents other sites,
+[02:39:58] other websites to embed our website
+[02:40:00] inside an iframe and which in turn helps
+[02:40:04] our users from being the victim of
+[02:40:06] fishing attacks. Because if we do not
+[02:40:08] properly configure Xframe options, an
+[02:40:10] attacker can configure our website and
+[02:40:13] they can show our website inside an
+[02:40:15] iframe. But using a technique called
+[02:40:17] clickjacking or any kind of other
+[02:40:19] JavaScript code that is running behind
+[02:40:22] the scenes, they can capture the user's
+[02:40:24] credentials and they can do a lot of
+[02:40:26] stuff depending on the users interaction
+[02:40:28] on that site. Since the site itself is
+[02:40:31] in control of the attacker, but in an
+[02:40:33] separate iframe they are hosting our
+[02:40:35] website. There are a lot of different
+[02:40:37] kinds of attacks that can be planned
+[02:40:39] there. Similarly, there are other
+[02:40:40] security headers and these days pretty
+[02:40:43] much all the web frameworks does not
+[02:40:46] matter whether you are using NodeJS,
+[02:40:47] Express or Golang, Echo, Jin, Python,
+[02:40:50] Django, whatever web server framework
+[02:40:53] that you're using. All of them provide
+[02:40:55] radius security middleares which when
+[02:40:58] configured is just a oneline change. All
+[02:41:00] these industry standard security headers
+[02:41:03] are configured for you. you don't have
+[02:41:05] to manually configure each of them as
+[02:41:07] long as you use these modern middleares.
+[02:41:10] So that's pretty much all that I wanted
+[02:41:12] to discuss about security in the context
+[02:41:15] of back end. Now finally putting all of
+[02:41:18] this into perspective, what I want to
+[02:41:21] say is every vulnerability that we
+[02:41:24] talked about and there are others there
+[02:41:26] are hundreds and thousands other
+[02:41:28] vulnerabilities. They are all about the
+[02:41:31] same fundamental thing which is
+[02:41:32] boundaries. So data crossing boundaries
+[02:41:36] between systems or between privilege
+[02:41:38] levels, between programming languages,
+[02:41:40] between different markup structures, any
+[02:41:43] kind of boundary. Whenever data crosses
+[02:41:45] any of these boundaries or any of these
+[02:41:48] trust zones, you have to be very
+[02:41:50] careful. We have to be very mindful
+[02:41:52] about what exactly is happening in your
+[02:41:54] system because every time we have
+[02:41:56] crossed a boundary, that's when we have
+[02:41:59] encountered a vulnerability. For
+[02:42:00] example, things like SQL injection where
+[02:42:03] untrusted input coming from the user
+[02:42:05] that crossed into the boundary of
+[02:42:08] database query language. Same way when
+[02:42:10] we were talking about XSS cross-ite
+[02:42:12] scripting that crossed the boundary of
+[02:42:15] users markdown into the boundary of
+[02:42:18] HTML. Same way for broken authorization
+[02:42:21] the requests cross the boundary of what
+[02:42:24] different users should access. So the
+[02:42:27] tip here is every time you're writing
+[02:42:29] code ask yourself where is data crossing
+[02:42:32] a boundary. What assumptions am I making
+[02:42:35] about the data? And what if those
+[02:42:38] assumptions are wrong? If you ask
+[02:42:41] yourself these three questions
+[02:42:42] repeatedly every time you encounter data
+[02:42:45] crossing boundaries then I can promise
+[02:42:47] you that you can avoid 99% of the
+[02:42:51] vulnerabilities that modern backend
+[02:42:54] applications suffer from. And another
+[02:42:56] thing is no single kind of defense is
+[02:42:59] perfect. So you always have to think in
+[02:43:02] layers. For example, your first layer of
+[02:43:05] defense and this I have stressed in so
+[02:43:08] many videos. It should be input
+[02:43:10] validation. Always validate every single
+[02:43:13] thing that is coming into your system
+[02:43:16] which is the first entry point for your
+[02:43:18] back end which happens after the route
+[02:43:20] is matched. At that point you have to
+[02:43:23] strictly validate every single thing
+[02:43:25] with as many conditions as possible. The
+[02:43:28] final data that leaves your validation
+[02:43:30] layer and reaches your handler layer
+[02:43:32] should be in exactly the structure that
+[02:43:35] you expect it to be. There should be no
+[02:43:37] surprises from that point on. That is
+[02:43:40] your first line of defense. The second
+[02:43:42] is parameterized operations. Always use
+[02:43:45] APIs that provide explicit parameters.
+[02:43:48] Whether we are talking about databases
+[02:43:51] or we are talking about OS level
+[02:43:53] functions like file operations etc etc.
+[02:43:56] Always use predefined framework defined
+[02:43:59] or your programming language defined
+[02:44:01] functions instead of just constructing
+[02:44:03] the commands by string concatenation.
+[02:44:06] Then authorization checks verify every
+[02:44:08] access at the point of access. Since for
+[02:44:11] the broken object level authorization
+[02:44:14] vulnerability what we did we verified
+[02:44:17] the authorization of the user at the
+[02:44:19] routing layer but the actual access was
+[02:44:21] at the repository layer and that's why
+[02:44:24] the vulnerabilities happened there. So
+[02:44:26] always verify the access at the point of
+[02:44:28] access. You have to be mindful about
+[02:44:31] where exactly the authorization point of
+[02:44:33] access is and you have to check the
+[02:44:35] access there instead of a couple of
+[02:44:37] layers upstream. Then security headers
+[02:44:40] and policies you have to configure your
+[02:44:43] browsers and your servers so that they
+[02:44:45] can limit the damage in case something
+[02:44:48] fails. For example, things like course
+[02:44:50] CSP and security headers all these
+[02:44:53] things they are not very robust defense
+[02:44:56] mechanisms. But in case some kind of
+[02:44:59] attack passes through your first line of
+[02:45:02] defenses, then these secondary
+[02:45:04] mechanisms can help you tone down the
+[02:45:08] scope of the attack. Then monitoring and
+[02:45:10] logging. Always monitor any kind of
+[02:45:12] suspicious activity and log them
+[02:45:14] properly. Send them to your login
+[02:45:16] service, raise alerts, etc. That should
+[02:45:18] be very obvious. And the whole point of
+[02:45:20] this is maybe there can be some kind of
+[02:45:23] weakness in one of these layers. But if
+[02:45:25] you have multiple layers of the security
+[02:45:28] then an attacker has to bypass all these
+[02:45:31] layers at once before they can cause any
+[02:45:35] harm to your system which has very less
+[02:45:37] amount of chances. So the last thing
+[02:45:39] that I want to mention is security is
+[02:45:42] not about learning a couple of
+[02:45:44] techniques or or a feature that you just
+[02:45:47] learn and go and implement. Security is
+[02:45:50] more about being paranoid about your
+[02:45:53] systems and the mindset that you bring
+[02:45:56] before writing every single line of
+[02:45:58] code. So always think about boundaries,
+[02:46:01] always think about assumptions. And one
+[02:46:03] last thing that I want to mention here
+[02:46:05] is if you want to learn more about
+[02:46:08] security explore in depth, there are two
+[02:46:11] resources that you can take a look at.
+[02:46:13] First thing is port sugar academy. Now
+[02:46:17] this is the company that has created the
+[02:46:20] tool which is called BSU which is a very
+[02:46:23] famous ethical hacking tool, penetration
+[02:46:26] testing tool and and this port sugar
+[02:46:28] academy has a very comprehensive catalog
+[02:46:31] about a lot of vulnerabilities how they
+[02:46:35] work with practical labs and the theory
+[02:46:38] behind it the computer science behind it
+[02:46:40] and everything. You can also recognize a
+[02:46:42] lot of vulnerabilities that we talked
+[02:46:44] about things like SQL injection
+[02:46:46] cross-ite scripting CSRF and clickjing
+[02:46:50] SSRF and OS command injection that we
+[02:46:54] talked about also authentication related
+[02:46:56] vulnerabilities oath related
+[02:46:57] vulnerabilities JT attacks and a lot
+[02:47:01] more that is beyond a video like this
+[02:47:04] that you can explore here and the best
+[02:47:06] part is all of this is completely free.
+[02:47:08] There are no charges, no hidden charges
+[02:47:11] here. I have personally learned a lot
+[02:47:13] about web security and security in
+[02:47:15] general from this particular resource.
+[02:47:17] So I hope you can spend some time and
+[02:47:20] learn more way more than what I was able
+[02:47:22] to cover in this particular video. Then
+[02:47:25] we have OASP a security focused
+[02:47:28] foundation and OASP top 10
+[02:47:31] vulnerabilities. It is a very famous
+[02:47:33] list of current setup vulnerabilities
+[02:47:36] that modern systems suffer from. They
+[02:47:39] keep publishing this list every few
+[02:47:41] years. So the current list is something
+[02:47:44] like this. On the top we have broken
+[02:47:46] access control which covers things like
+[02:47:48] BA, BFA, all these things that we talked
+[02:47:50] about. There is security
+[02:47:51] misconfiguration that we discussed and
+[02:47:54] an injection which covers OS command
+[02:47:56] level injection, SQL injections and a
+[02:47:59] lot of vulnerabilities and how severe
+[02:48:01] they are the real world instances of
+[02:48:03] those all of them are listed here. Now
+[02:48:06] there is a resource called OASP cheat
+[02:48:08] sheet which is again a very good
+[02:48:11] resource that you can take a look at to
+[02:48:14] learn about a specific concept. For
+[02:48:16] example, if we go to let's say
+[02:48:20] authentication here, then you'll find a
+[02:48:22] lot of information about what are the
+[02:48:24] good practices that you should follow
+[02:48:26] during authentication, what are the bad
+[02:48:28] practices, what are the security threats
+[02:48:30] that you should be aware of and they
+[02:48:32] cover a wide variety of domains when it
+[02:48:35] comes to security. Let's say if you go
+[02:48:37] to session management then here you'll
+[02:48:39] find a lot of important information a
+[02:48:42] lot of useful information about what are
+[02:48:44] the best practices what are the industry
+[02:48:46] standards that you should follow while
+[02:48:49] working with sessions how to manage
+[02:48:51] sessions the importance of session ID
+[02:48:54] why it has to be a cryptographically
+[02:48:56] secure pseudo random number generator
+[02:48:59] what are the conflicts of that and a lot
+[02:49:01] more information you can find a lot of
+[02:49:03] information for a lot of security
+[02:49:05] related I have personally gone through
+[02:49:07] all of these multiple times over the
+[02:49:09] years and this has been excellent in
+[02:49:12] building the security mindset by
+[02:49:14] covering different domains by keeping a
+[02:49:17] single goal in mind which is security
+[02:49:19] but coming at security from different
+[02:49:21] different domains that opens up a
+[02:49:24] completely new perspective in your mind.
+[02:49:27] So just wanted to share these two
+[02:49:29] resources with you because of course
+[02:49:30] this video by no means is comprehensive.
+[02:49:34] Security as I have already mentioned is
+[02:49:36] a very huge concept very huge domain.
+[02:49:38] The goal of this video was just to make
+[02:49:40] you aware of some of the things that you
+[02:49:43] should think about while building your
+[02:49:45] back end. And I have shared these
+[02:49:47] resources so that you can independently
+[02:49:49] do a lot more reading on security and
+[02:49:52] understand these concepts a lot more
+[02:49:54] deeply better than I was able to
+[02:49:56] explain. Okay, that's pretty much all I
+[02:49:59] had to say about security.

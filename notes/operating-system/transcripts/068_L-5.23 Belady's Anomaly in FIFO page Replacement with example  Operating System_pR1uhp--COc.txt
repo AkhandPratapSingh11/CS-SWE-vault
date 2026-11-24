@@ -1,0 +1,290 @@
+Title: L-5.23: Belady's Anomaly in FIFO page Replacement with example | Operating System
+Video URL: https://www.youtube.com/watch?v=pR1uhp--COc
+Video ID: pR1uhp--COc
+======================================================================
+
+[00:00] Let's solve one question on first in first out
+[00:03] which we have a number of frames
+[00:05] 3 and there is reference string,
+[00:08] 1,2,3,4, 1,2,5, 1,2,3,4,5
+[00:12] this is the how the processes are
+[00:15] how the pages are actually demanded by the CPU
+[00:18] so first of all CPU is demanding the page number 1
+[00:21] of a particular process
+[00:23] any process, let's say process is P1
+[00:26] so need a request for all their pages?
+[00:28] this is the request of the pages.
+[00:30] and we have given the three frames
+[00:32] means frame no.1 ,2,and 3 are given
+[00:34] means there are three frames in main memory
+[00:37] where these pages can come.
+[00:40] so let's see according to  first in first out.
+[00:42] how to enter,  first?
+[00:44] page number one came, then page number one is already present.
+[00:48] not there
+[00:49] if page number one is not already present,  then we will service the page.
+[00:53] and bring page number one to main memory.
+[00:56] if we bring it to the main memory,  we call it page fault.
+[01:01] because the page was not already present.
+[01:04] after that we brought page number 2
+[01:06] when we bring page number 2,  because page number 2 is not there
+[01:10] we don't  need to replace to get page number 2
+[01:13] because already we have vacant slot.
+[01:15] so we put page number 2 in frame number 2
+[01:19] and what is this? A page fault
+[01:22] Initially you assume it, because  all the frames are empty.
+[01:26] so you must have initial page fault.
+[01:29] then page number 3,  page number 3 is also not present.
+[01:32] so I serviced page number 3
+[01:34] and page number 3 was taken  inside my main memory.
+[01:38] so this is also a page fault
+[01:40] Now, page number 4
+[01:42] when page number 4 came, we have to check, is page number 4 already  present?
+[01:47] not there
+[01:48] so we have to replace, because  we don't have empty slot left.
+[01:52] so where will we replace?
+[01:54] will start with frame number one.
+[01:56] means first in first out,
+[01:58] the frame in which we have put first
+[02:00] first empty that frame
+[02:02] as we have put value in frame 1 first
+[02:04] so empty frame 1
+[02:06] we will replace 1 with 4
+[02:09] and rest as it is
+[02:11] and what is this? Page fault,  because 4 is absent here
+[02:15] after that came page No. 1
+[02:18] Is page No. 1 present here?
+[02:20] No, we have replaced that
+[02:23] there is again request for page No.1
+[02:25] page No. 1 is not here so we  have to replace
+[02:29] after frame 1 which frame we have  filled, that is 2
+[02:32] so here we will replace 2 with 1
+[02:36] so now I have my page No.1
+[02:39] and what is this also? Page fault.
+[02:41] Because 1 was not present it was absent.
+[02:44] after that here came page No.2
+[02:48] Is page No. 2 present here? No it is not
+[02:51] Page No. 2 is absent
+[02:53] So in order to bring page No. 2 we have to
+[02:55] empty frame No. 3
+[02:58] because 3rd frame we had filled was F3
+[03:00] so we emptied frame No.3 and brought 2 there
+[03:05] and others as it is.
+[03:07] So this is also page fault.
+[03:10] Now 5
+[03:13] Page No. 5, So check
+[03:15] whether it is present?
+[03:17] No it is not there, so with what we have to replace?
+[03:20] having done till frame 3, now we are back at frame 1
+[03:23] because frame 1, 2, 3 then again go to frame 1
+[03:27] so replaced 4 with 5
+[03:30] and rest copy as it is.
+[03:32] and what is this here?
+[03:34] Page fault, because page No. 5 was not present
+[03:37] in the main memory.
+[03:38] Next Page No.1
+[03:40] Is page No. 1 present?
+[03:42] Yes it is already present.
+[03:44] So when page No is present
+[03:46] copy it as it is
+[03:48] and this we call a hit
+[03:51] Copy as it is and write hit.
+[03:54] Now....  Now, the
+[03:57] page No. 2 comes
+[03:58] there is demand for page No. 2 after page No. 1
+[04:01] Is page No. 2 present?
+[04:03] We have to see this one, we have to check the latest one.
+[04:05] Yes page No. 2 is available here.
+[04:08] so again there is one more hit
+[04:11] so in hit I copy it as it is
+[04:15] and also write here hit
+[04:18] Now the demand is  page No. 3
+[04:21] Is page No. 3 present?
+[04:23] No, page No. 3 is not present.
+[04:25] So what we will replace?
+[04:26] We will replace 1, why?
+[04:28] first we have replaced frame 1,  now it's turn of 2.
+[04:32] So we will replace frame 2
+[04:35] we brought page No. 3 others  we write as it is
+[04:38] and this is also a fault
+[04:41] So what is this? fault, because page No. 3 was not there
+[04:44] after that came page No. 4
+[04:48] Is page No. 4 present?
+[04:50] Not present, so
+[04:52] I will have to replace, with what?
+[04:54] with frame 3 because you have to go sequence wise
+[04:57] so we replaced 2 with 4
+[05:00] and rest we write as it is
+[05:02] and this is also, page fault.
+[05:05] Last is 5,
+[05:07] that is page No. 5
+[05:09] Is page No. 5 present?
+[05:11] Yes, page No. 5 is already present
+[05:13] When page is present just copy earlier values as it is
+[05:18] and write below hit
+[05:21] So if we check this how many hit I am having in total?
+[05:24] Number of hits are 3
+[05:28] and number of page faults
+[05:31] and page faults are
+[05:33] one, two, three, four, five , six, seven, eight, nine
+[05:36] so nine number of
+[05:39] page faults.
+[05:40] now repeating the same question again
+[05:44] the same question
+[05:46] we are solving again
+[05:48] but now we have increased the frames
+[05:51] increased number of frames
+[05:52] What is the meaning of increasing the number of frames?
+[05:55] that we have given that process four number of frames
+[05:58] So that more and more pages can come.
+[06:01] Means, first I was having three locations
+[06:04] Means all the pages there, could come in only three locations
+[06:07] now we have given four space
+[06:09] that it doesn't matter, take one more frame
+[06:12] So that you can have more and more pages.
+[06:14] So firsts we will solve this again and then we will analyze it
+[06:18] So first page No. 1,  initially
+[06:21] initially, already
+[06:24] Initially everything is empty.
+[06:26] so first page No.
+[06:29] checked page No. 1, page No. 1 is absent
+[06:31] so we placed page No. 1 here
+[06:34] and called it miss
+[06:36] so here is one page fault
+[06:38] after this 2 came
+[06:40] so we placed 2 here
+[06:42] that is again called a miss,
+[06:44] Page fault
+[06:45] now 3 came so we placed it in frame No. 3
+[06:48] that is also a miss
+[06:51] then came page No. 4
+[06:52] so we put 1, 2, 3, 4
+[06:55] that is also called a miss
+[06:58] Now, page No. 1 came
+[07:00] demand again came for page No. 1
+[07:03] so there is demand for page No. 1, is page No. 1 present?
+[07:06] Yes page No. 1 is already present.
+[07:08] so when it is present
+[07:10] copy as it is
+[07:12] the previous frame
+[07:14] and write below hit.
+[07:17] Next come on 2,
+[07:19] Is page No. 2 present?
+[07:21] page no. 2 see here
+[07:23] page No. 2 is present? Yes
+[07:25] Page No. 2 is already present.
+[07:27] so copy it as it is and write below
+[07:29] and write below hit.
+[07:32] because the page you are having demand
+[07:35] the page you are searching
+[07:36] that page is already lying in the frame of the main memory
+[07:40] Next came,
+[07:42] Page No. 5, Is page No. 5 present?
+[07:44] No, page No. 5 is not present here.
+[07:48] So what we will replace?
+[07:49] that frame which we have filled first
+[07:51] Which frame we have filled first?
+[07:52] F1 then F2, 3, 4
+[07:55] So first we emptied F1
+[07:57] and placed 5 there
+[08:00] and below that give sign for page fault.
+[08:03] then came page No. 1
+[08:05] Is page No. 1 present?
+[08:07] No, we just replaced it
+[08:10] So, again we have to replace
+[08:12] first we have replaced frame 1, now we will replace frame 2
+[08:16] so here we placed 1.
+[08:19] and what do we say this, Page fault
+[08:22] Next came 2
+[08:24] Page No. 2
+[08:26] Is page No. 2 present?
+[08:27] No
+[08:28] So again we have to replace,
+[08:30] With what we will replace?
+[08:31] With frame 3, because we have  already replaced with frame 1 & 2
+[08:34] Now it's turn of frame 3
+[08:36] So replaced it with frame 3 and  what did we put here?
+[08:40] 2
+[08:45] and this is what? Page fault.
+[08:47] because you were looking for page No. 2  and it is not there.
+[08:51] Now we placed it after servicing.
+[08:54] Next, page No. 3
+[08:56] Is page No. 3 present?
+[08:58] No, page No. 3 is also not present.
+[09:00] then clear frame 4
+[09:02] and there place page No. 3
+[09:04] and rest as it is.
+[09:06] and what is this? Page fault.
+[09:09] After that came.
+[09:11] Page No. 4
+[09:12] Is page No. 4 present?
+[09:13] No, page No. 4 is not present.
+[09:16] So we have replaced frame 1, 2, 3, 4  one by one
+[09:19] Now again the turn of frame 1 has come.
+[09:21] So we emptied frame 1 again and  replaced it with 4.
+[09:26] and this is also what? Page fault
+[09:29] because we were searching page No. 4  and it was not present
+[09:33] Now last that is here
+[09:36] Page No. 5
+[09:37] Is the page number 5 present here?
+[09:39] No, what frame numbers do I have?
+[09:41] 4, 1, 2 and 3
+[09:44] Means page No. 4, 1, 2, 3 are lying.
+[09:46] page no. 5 is not there.
+[09:48] So we have to do replacement.
+[09:50] So first we have replaced with frame No. 1
+[09:53] now replace with 2.
+[09:54] What did we put there? Page No. 5
+[09:58] and what is it? Miss.
+[10:01] So now we are calculating again.
+[10:04] Hits and page faults.
+[10:09] So how many hits?
+[10:11] 1, 2
+[10:13] and how many page faults?
+[10:15] 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+[10:19] So 10 number of page faults.
+[10:23] occurs.
+[10:25] Now if you analyze it carefully.
+[10:27] What we actually did?
+[10:29] same string, same reference string
+[10:32] we solved with two different frames numbers
+[10:35] first no. of frames were three then  we increased it by one.
+[10:38] Now if you think carefully here
+[10:40] If we increase the number of frames here
+[10:43] means we have allocated more space
+[10:46] So that pages of more processes  can come at once
+[10:50] the page fault should have decreased
+[10:53] because we have increased the space
+[10:55] So that as many pages as possible are  lying already in my main memory
+[10:59] So when many pages are lying in main memory
+[11:03] then the number of hits should  have increased.
+[11:05] but my number of hits have decreased
+[11:07] as compared to the previous
+[11:09] and number of page faults has increased
+[11:12] As I have increased number of range
+[11:14] my number of page faults should  have decreased
+[11:17] but here the page faults have increased.
+[11:20] by increasing number of frames  page faults increased
+[11:22] This is called the Belady's anomaly.
+[11:27] Belady's
+[11:31] anomaly
+[11:35] This is the name of the scientist Belady
+[11:38] So he generated one problem
+[11:40] if this string comes
+[11:42] and if number of
+[11:44] not only this string but it is  possible for others also
+[11:48] this problem comes in FIFO,  in first in first out
+[11:51] that if I increase number of frames
+[11:54] then according to the point  according to the logic
+[11:56] number of page faults should decrease by  increasing the number of frames
+[11:59] because we are allocating more space
+[12:01] but here opposite is happening
+[12:03] in-spite of giving more number of frames
+[12:05] by increasing number of frames
+[12:08] my page faults also increased
+[12:10] So this is called the belady's anomaly.
+[12:12] And FIFO is suffering from the  belady's anomaly
+[12:16] So this is all about the concept  of belady's anomaly
+[12:19] and this is how you can solve the  questions in the Gate also
+[12:22] and other competitive exams.
+[12:24] Thank You.

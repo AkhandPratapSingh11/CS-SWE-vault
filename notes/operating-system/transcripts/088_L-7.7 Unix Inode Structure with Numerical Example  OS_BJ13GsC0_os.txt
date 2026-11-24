@@ -1,0 +1,326 @@
+Title: L-7.7: Unix Inode Structure with Numerical Example | OS
+Video URL: https://www.youtube.com/watch?v=BJ13GsC0_os
+Video ID: BJ13GsC0_os
+======================================================================
+
+[00:00] Dear Students, welcome to Gate Smashers
+[00:02] In this video I am going to explain
+[00:03] "Unix Inode Structure"
+[00:05] In this video, I will explain all the important
+[00:08] points related to Unix Inode Structure.
+[00:10] And apart from this, I will
+[00:11] also explain to you a question.
+[00:13] So that you get the idea what
+[00:15] type of question can be asked?
+[00:16] So even theory and numerical also
+[00:19] in every aspect which will be covered.
+[00:20] So guys like this video immediately.
+[00:22] Subscribe to the channel. If you haven't yet.
+[00:25] And even if you did.
+[00:26] so you can subscribe from other devices.
+[00:28] you can share.
+[00:29] subscriber required!
+[00:31] So let's get stared.
+[00:32] Unix Inode that if we talk.
+[00:34] So what is your Unix? Operating system
+[00:36] which uses Inode file system
+[00:39] that means files.
+[00:41] to keep the proper maintenance
+[00:42] of the data inside the files
+[00:44] to store
+[00:45] which do we use Inode!
+[00:47] Now what's the I in it?
+[00:49] "Index"
+[00:50] and node means your block.
+[00:52] So look here we have
+[00:53] I got you in the last video
+[00:55] your 7.6
+[00:57] I will also tell you the Lecture number
+[00:59] In the operating system's
+[01:01] playlist you will go to lecture 7.6
+[01:03] So all the points related to index
+[01:05] allocation were discussed in front.
+[01:06] so in that I said that man!
+[01:08] what happens when the file size is too big?
+[01:12] so when we store that file in blocks?
+[01:15] when we store that file in the blocks of disc
+[01:18] and we create an index ahead of it,
+[01:21] so obviously the index becomes very big.
+[01:23] when the index becomes big enough
+[01:25] so storing it in a block of
+[01:29] disc, in a block in not possible
+[01:32] then what do we do?
+[01:33] apply multiple disc blocks
+[01:36] so because of which the index
+[01:38] allocation scheme becomes complex
+[01:40] it becomes just like multi-level induction.
+[01:43] so what are we doing here?
+[01:45] Unix Inode says that it is the Inode
+[01:48] what is this? Inode!
+[01:50] there is a block what are
+[01:52] we storing in that block?
+[01:53] what are we storing in that
+[01:55] block, in the index block?
+[01:56] we are using hybrid approach.
+[01:58] what is meant by hybrid approach?
+[02:00] we are storing attribute in this
+[02:02] attribute so we store anyway.
+[02:04] what is meant by attribute? Metadata
+[02:06] the information related to data that is called a attribute
+[02:09] means, when was the last modified?
+[02:10] what permissions
+[02:11] name of file
+[02:12] size of file
+[02:13] path of file
+[02:14] each and every information related to the file
+[02:16] we have stored it here
+[02:18] there is a very small amount of information
+[02:19] but it is very important!
+[02:21] -then direct block
+[02:23] what is meant by direct block?
+[02:24] what have we stored on this pointers?
+[02:27] pointers has been inserted
+[02:29] to whom is that pointers pointing directly?
+[02:31] to the data blocks
+[02:32] means like you have a file
+[02:34] we put that file in the blocks of disc
+[02:37] which block did you put in?
+[02:39] we have stored their
+[02:41] address in the direct block.
+[02:43] that's why its name is direct.
+[02:45] what does direct mean?
+[02:46] the pointers you are getting here are
+[02:48] talking you directly to the data block.
+[02:51] then -single indirect
+[02:53] what does single indirect mean?
+[02:55] indirect giving you points here
+[02:57] what does mean by single or indirect?
+[02:59] that from here you will go to a block
+[03:01] you will go to a data block
+[03:03] that data block will not give you the data.
+[03:06] that data block will give you the pointers, addresses
+[03:09] you can say addresses, pointers, it is the same thing.
+[03:12] what you will find there pointers or addresses
+[03:15] what will that pointer take you next?
+[03:18] take you to the data block
+[03:20] what does it mean to say?
+[03:21] first I got a direct block which is
+[03:22] taking me directly to data block
+[03:24] then we got the indirect single!
+[03:27] First you went to the pointer, you
+[03:30] went to the data block beyond the pointer
+[03:32] then we got the double indirect!
+[03:34] what does mean by double indirect?
+[03:35] Double!
+[03:36] two times!
+[03:37] means!
+[03:37] from here you went one block
+[03:40] means went to data block
+[03:41] That data block will not give you
+[03:43] the data. From there you will get pointers
+[03:45] Again you will go from that pointer to a data block
+[03:48] Even there you will not get the data.
+[03:50] there you will also get pointer
+[03:52] then you will get the data
+[03:53] so that's why double
+[03:54] double means!
+[03:55] pointer gone from here
+[03:56] pointer to pointer
+[03:58] what did I get from the pointer? "Data"
+[04:00] and then finally comes our triple indirect!
+[04:02] If it is needed then we have to make triple indirect as well
+[04:06] By the way, the work goes on till double indirect
+[04:08] but anything can be given in the question
+[04:10] fundamental of triple indirect are the same
+[04:12] there will be 3 steps here.
+[04:14] so we got a pointer
+[04:16] got a address
+[04:17] we went to that data block.
+[04:18] from there I will get the pointer
+[04:20] you will got another address
+[04:21] we went to that address.
+[04:22] From there we will get another
+[04:23] address, we went to that address.
+[04:24] and that address will take me to the data block
+[04:27] that's why there is 3 steps
+[04:29] 1(One)
+[04:30] 2(Two)
+[04:31] 3(Three)
+[04:31] why did I get from there? "Data"
+[04:33] Here! direct data
+[04:34] went here to step one then data
+[04:37] went here to step 2 then data
+[04:39] that's why this is hybrid approach
+[04:41] so what do we call this?
+[04:43] "Inode"
+[04:45] getting the point
+[04:46] so in this way you can be
+[04:47] asked whatever question is there
+[04:48] so in theory you can note all these points
+[04:51] you can note this diagram and each and every point.
+[04:53] Now let's quickly see a numerical.
+[04:55] A file system uses Unix inode data structure
+[04:58] It's just a data structure, isn't it?
+[04:59] because it actually
+[05:01] How you storing the data?
+[05:03] that structure is defined to you in this way.
+[05:06] there is a direct block
+[05:08] one indirect
+[05:09] one double
+[05:10] and one triple indirect is given to you
+[05:12] the size of each disk block address is 128 B
+[05:17] and size of each block address is 8 B
+[05:20] Find the max. possible file size?
+[05:22] Means I have to find the size of the file
+[05:24] What is the size of the original file?
+[05:26] He gave me the complete structure
+[05:28] of the Unix Inode in this manner
+[05:29] watch now!
+[05:30] First of all you have 8 direct block
+[05:32] Meaning how many direct blocks do I have here?
+[05:35] Eight!
+[05:35] That is, where is this block taking me?
+[05:38] Directly taking it to the data blocks
+[05:40] Means taking it on the block of the disk
+[05:42] So from here you simply
+[05:44] got to know how many I have?
+[05:46] Pointing how many?
+[05:47] Pointing how many data blocks?
+[05:49] Pointing 8 data blocks.
+[05:52] Now, How big is each one?
+[05:54] 128 is the size.
+[05:56] So there is no need to multiply now.
+[05:57] First you get all the addresses
+[05:59] First you find out how many total pointers here?
+[06:02] So here you have 8 direct pointers
+[06:05] after that we have single indirect
+[06:07] What does single indirect mean?
+[06:09] Single indirect taking you to a disk block first
+[06:12] There is a pointer inside it, that pointer
+[06:14] is going to take you further on the data.
+[06:15] So what do you have to take out here
+[06:17] here you have to take out that
+[06:18] This is the block isn't it?
+[06:19] How many points is this in the block?
+[06:22] Then I’ll know won't it?
+[06:23] Only then will he tell me how
+[06:25] many data blocks he is taking ahead?
+[06:27] So how do you get it out here?
+[06:28] What is the way out of here?
+[06:30] same!
+[06:31] from here to me
+[06:32] First look!
+[06:33] Each block size
+[06:35] what is the block size of the disk given to it?
+[06:38] 128 B
+[06:39] Means a disk block is 128 bytes.
+[06:43] It is 128 bytes.
+[06:45] And every single byte mean!
+[06:48] What is the size of an address in each disk block?
+[06:51] 8 byte
+[06:52] So what are you getting out of?
+[06:54] How many?
+[06:55] Total no of a pointers
+[06:57] Total no of a pointers in 1 disk block
+[07:01] Total no of a pointers in 1 disk block
+[07:05] you are getting out of one disk block
+[07:07] How do you take it out?
+[07:08] What is the size of the block of one disk?
+[07:11] It is 128 bytes.
+[07:12] And the size of an address,
+[07:14] 1 pointer is 8 bytes!
+[07:15] So what will come to you?
+[07:17] Total number of pointer will come.
+[07:18] So you solve it!
+[07:19] What will it become?
+[07:20] 16
+[07:21] 2 to the power of 7 divided by 2 to the power of 3
+[07:24] means 2 to the power of 4
+[07:25] Which is equal to what a?
+[07:27] 16
+[07:28] That is, this single indirect,
+[07:30] where it is taking you.
+[07:32] It is showing 16 pointers.
+[07:35] 16 pointers ahead is showing data blocks.
+[07:38] So yes, we have added 16.
+[07:41] Now you have to getting out double indirect
+[07:42] One is double indirect
+[07:44] Note that one is double, one
+[07:45] is triple and one is indirect.
+[07:47] If it were double on then we would
+[07:48] have taken that much accordingly
+[07:49] So here I have a double indirect
+[07:51] see!
+[07:52] This 16!
+[07:53] The story is the same, isn't it?
+[07:54] How many of me came here?
+[07:55] 16
+[07:56] How?
+[07:57] A complete disk block is 128 bytes.
+[08:00] and inside a pointer is 8 bytes.
+[08:03] So that means how many such pointers will come?
+[08:05] 16
+[08:06] Now this 16
+[08:07] look forward!
+[08:08] This is the first of 16 that is on 16
+[08:10] The second of 16 is next to 16
+[08:13] So that means that this is the total
+[08:15] 16, it is showing on the next 16.
+[08:17] So how many are my 16 * 16
+[08:20] getting the point
+[08:21] In double's case 16 * 16
+[08:24] then-triple
+[08:25] Look there are 16 pointer here
+[08:26] It will be the first of the
+[08:28] 16, that will be on the next 16
+[08:29] The first of those 16 will be the next 16
+[08:32] So that means how many have
+[08:35] become here, the power of 16 is 3.
+[08:36] Means 16 * 16 * 16
+[08:39] So what has come to you?
+[08:41] This total has come to you addresses!
+[08:44] total you have got the pointers!
+[08:45] What is each pointer showing now?
+[08:48] To the data block
+[08:49] The actual data of the file is lying here actually
+[08:52] So it is already given to you.
+[08:54] of 128 bytes
+[08:56] So just you solve this whole.
+[08:58] That is the size of the file
+[09:00] So what do you have to do to solve this?
+[09:03] Here-
+[09:03] 8+16+16*16+16*16*16
+[09:10] It has become yours
+[09:11] And what's in multiplicity?
+[09:12] is 128 bytes
+[09:14] keep in mind is the byte.
+[09:15] So here you take common 8
+[09:18] Become (1+2+2*16+2*16*16)*128
+[09:26] Write 128 bytes!
+[09:28] So it's 8*128 byte
+[09:30] What is this 2 to the power of 7?
+[09:32] This is 2 to the power of 3
+[09:33] So if you do 128*8 then 1024
+[09:36] that is a kilobyte
+[09:38] what became? Kilobyte
+[09:40] Solve the inside
+[09:41] If you solve the inner one, then it is
+[09:42] 32
+[09:43] 34+1=35
+[09:46] Plus+
+[09:47] 35+
+[09:49] 16*16=256*2=512
+[09:54] So solve this whole
+[09:56] So this becomes your 547 kilobytes!
+[10:00] Kilobyte has also come with this
+[10:03] Did you know it?
+[10:03] If you multiply 8*128, then
+[10:05] it will become a kilobyte
+[10:07] When 1024 is made, we have written it as kilobyte.
+[10:09] The inside was simply solved.
+[10:11] So this is your file size.
+[10:14] this is how we actually define the Unix Inode
+[10:17] Will not ask you more than this anywhere.
+[10:19] Whether Competitive Exams, College, University.
+[10:21] this is more than sufficient
+[10:23] Thank you!

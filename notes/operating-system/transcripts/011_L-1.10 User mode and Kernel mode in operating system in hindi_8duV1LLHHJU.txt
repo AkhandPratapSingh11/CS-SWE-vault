@@ -1,0 +1,86 @@
+Title: L-1.10: User mode and Kernel mode in operating system in hindi
+Video URL: https://www.youtube.com/watch?v=8duV1LLHHJU
+Video ID: 8duV1LLHHJU
+======================================================================
+
+[00:00] Hello friends, Welcome to Gate Smashers
+[00:02] In this video we are going to discuss user mode vs kernel mode in operating system
+[00:08] So what does user mode means? As the name says, user mode
+[00:12] Here we are talking about user, like we are users,
+[00:16] we turns on over laptop and PCs and we use some application there,
+[00:23] so whenever we are using some application, then by default we are in the user mode
+[00:29] But all core functionalities of operating system, all major drivers,
+[00:36] all works and executes in the kernal mode
+[00:41] And the processor keeps switching between user mode and kernel mode
+[00:46] Now let me tell you with a very simple example Let's say if I'm using a Linux operating system
+[00:52] And in lunix operating system I opened text editor
+[00:55] means text editor is an application where you can write programs and codes
+[00:59] So I opened text editor, means I'm using API and I'm writing a C program through it
+[01:07] Now when I wrote that program, Let's say it is written in that program that you have to read a file
+[01:14] and write some data into a file, means I have to read some file and update some value in it
+[01:22] So here you have to focus that this file is in the hard disk
+[01:33] and hard disk is a hard ware component of our system
+[01:37] And all the hardware are in control of kernel, operating system
+[01:42] So user can't access the hardware directly, it needs kernel
+[01:47] So when I started executing the program, so here I wrote user process executing
+[01:52] User process means that C program is executing and now I have to read some file in that program
+[01:59] So reading that file means now I have to use system call here
+[02:05] System call is a way to access kernel,
+[02:09] means we have to access hardware through kernel, System call is a way to access it
+[02:14] so which system call will get used here by default?... Read system call
+[02:19] Read system call means that I have to read data from some particular file
+[02:26] So when it'll be get system call Which system call??... Read()
+[02:30] there my system will go in which mode? It'll go in kernel mode
+[02:35] And kernel mode's bit is zero
+[02:39] Means first we were in Mode 1,
+[02:41] The moment we came in read system call from Mode1 there generates an interrupt or a trap
+[02:48] A trap will generate... trap means you got shifted from other mode to kernal mode
+[02:54] The moment you got shifted in this mode, you mode bit changed from 1 to 0
+[03:02] Now what you should do is... execute the system call
+[03:05] Means you are reading the data, means whatever file you wanted to read in the hard disk
+[03:10] You'll read the data from the hard disk and after reading the data, you'll use write system call there
+[03:17] You read the data and wrote it also now you'll again go back to your user mode
+[03:27] Because we as user, we are just working in the user mode,
+[03:32] so I have to come back from system call to our user mode
+[03:37] So here, again mode bit will change from 0 to 1
+[03:43] So If I would relate it with real life example, so let's say if I goes to some bank,
+[03:49] Let's take a bank, bank is acting as a computer
+[03:53] Now if I want to withdraw money from the bank, then I'm user mode so I went to the bank
+[03:58] And working in user node, but those clerk and PO sitting behind the window they can work in kernel mode
+[04:08] Can you do this like you went to the bank and directly near their window
+[04:15] and took the money from the back side... NO, this will never going to happen
+[04:18] Because you are user mode and it's kernel mode, you can't access directly
+[04:22] If you'll go to the bank and will just take out the money from the drawer,
+[04:26] then there'll be no function of kernel mode, you are accessing the hardware directly
+[04:31] So this can create a very big problem,
+[04:34] you are overwriting directly and taking all hardware in your control
+[04:38] And this is the major responsibility of operating system, to manage the resources
+[04:43] And to govern the resources.... so you would fill the form
+[04:47] and give it to them through the little window and they'll give you the money,
+[04:53] so that mode where you are going from 1 to 0
+[04:55] and when you got the money then you are going from 0 to 1
+[04:59] So you got the money back means your work is done and process is executed
+[05:03] then you can leave from there, So we are using the same logic here in the system also
+[05:09] Whatever application we are using by default, whether we are listening songs or watching a video
+[05:14] Whether you are working in Microsoft office No matter what application you are using
+[05:18] That application works in user mode by default
+[05:22] and your processor keeps switching between both of these modes
+[05:28] But when in some process,
+[05:30] If you want to write a C program where you have to do 2+2 = 4
+[05:34] So you don't need kernel to do 2+2 = 4
+[05:37] But if you want that output 4 to get printed on the monitor
+[05:42] Then you writes print + F Then what is print + F??...
+[05:45] Then print + f means you want to print some output on the monitor
+[05:49] So monitor is in whose  hands?... In operating system's hands
+[05:52] Then system call will get generated there
+[05:55] and that system call will print the value on the monitor
+[06:00] This way our system keeps changing between user mode and kernal mode
+[06:04] It's called dual mode so it's very important otherwise there'll be so much problem
+[06:11] You are accessing the hardware and system, so we are working on user mode
+[06:15] Operating system works on kernel mode and switching keeps happening here
+[06:20] Although this is a theoretical topic but many times theory questions comes from it in competitive exams
+[06:27] And after this we'll discuss about threads so in threads also the concept that we use
+[06:33] So this is all about the difference between user mode and kernel mode
+[06:37] and guys, if you liked this video then please hit the like button
+[06:40] Share it as much as possible and please subscribe my channel
+[06:43] Thank You!

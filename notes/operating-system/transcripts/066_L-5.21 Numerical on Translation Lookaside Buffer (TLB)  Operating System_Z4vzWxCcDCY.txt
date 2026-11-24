@@ -1,0 +1,110 @@
+Title: L-5.21: Numerical on Translation Lookaside Buffer (TLB) | Operating System
+Video URL: https://www.youtube.com/watch?v=Z4vzWxCcDCY
+Video ID: Z4vzWxCcDCY
+======================================================================
+
+[00:00] Hello friends, Welcome to Gate Smashers
+[00:02] let's start with the numerical on TLB
+[00:04] I have already discussed the concept of TLB
+[00:07] and you will find its link in the description box.
+[00:10] so you must check that video once.
+[00:11] so that you know that what is the  concept of TLB in actual?
+[00:16] so let's start with numerical.
+[00:18] and in this numerical, I am going to  explain the numerical of Gate itself
+[00:21] so let's start numerical here.
+[00:23] a paging scheme using TLB.
+[00:25] and the TLB access time is 10 ns
+[00:28] and main memory access is provided ,
+[00:30] that is 50ns
+[00:32] what is the effective memory access time  (in ns)
+[00:36] if TLB hit ratio is 90% and  there is no page fault.
+[00:40] so we already discussed
+[00:43] what is the concept of TLB?
+[00:45] CPU generates
+[00:47] logical address
+[00:48] that is called a page no. page offset
+[00:51] so we go to TLB first.
+[00:53] inside TLB we search
+[00:55] and find the frame number
+[00:57] if I got the frame number
+[00:59] so I go to the physical address...
+[01:01] go inside that particular frame
+[01:03] I will access the page from main memory.
+[01:07] this is a hit case
+[01:08] how long did it take for me to get hit?
+[01:10] what is effective memory access time?
+[01:13] that if I am getting hit
+[01:15] so how long did it took in the hit case
+[01:17] time to access the TLB , plus
+[01:20] time to access main memory
+[01:24] in case miss occurs here
+[01:26] means if miss is happening here  then what do we do in case of miss?
+[01:30] first we find in TLB
+[01:32] searched for the frame no.,  but I could not find it there.
+[01:34] then we go to the page table
+[01:37] find it on the page table
+[01:39] and on the page table I will find the frame number
+[01:41] so I'll go to that page and  find main memory
+[01:44] so what is the search time  on the page table?
+[01:47] where is the page table?
+[01:49] inside main memory
+[01:50] So the time to access  inside main memory
+[01:52] the same time will it take  to access the page table.
+[01:55] so that is, if I have a miss
+[01:57] so in case of miss, you are looking inside TLB first
+[02:00] not found, then you go to the  page table and found it.
+[02:03] then you got the frame no.
+[02:05] then you went inside main memory.
+[02:07] then you got the particular page.
+[02:10] So what is the time to access  the page table here?
+[02:13] which is the time to access main memory
+[02:15] it is equivalent to that
+[02:16] so this is my formula
+[02:17] for effective memory access time
+[02:19] if there is no page fault
+[02:22] means page fault is not occurring any time.
+[02:25] the page you are looking  for is in main memory
+[02:27] so here we are not using the  concept of any page fault.
+[02:31] so we put simple values
+[02:33] how much is the hit ratio ? 90%
+[02:35] meaning 90% chance for a hit .
+[02:38] so in that case you first search inside TLB.
+[02:40] What is the search time inside TLB? 10ns
+[02:44] then you searched in main memory
+[02:45] How long did it take you to get the page  in main memory? 50 ns
+[02:49] In case you have miss, what will be the miss ratio?
+[02:53] 1- hit ratio
+[02:55] means if you have miss ratio
+[02:58] if your hit ratio is 90%.
+[02:59] So if you do 100-90 then 10% is your miss ratio
+[03:03] So in that case you first searched in TLB.
+[03:06] Not found .Then you went to the page table.
+[03:08] I have already told you the time  to search the page table
+[03:11] equivalent to the main memory access time, which is 50
+[03:14] then you accessed that page by  going to the main memory.
+[03:17] so this is your total time
+[03:19] so you convert 90% into ratio.
+[03:22] means 90%
+[03:24] 90/100 only
+[03:26] so what can you write about this
+[03:27] 0.9 (60) + 0.1
+[03:31] this 10% means 10/100
+[03:34] which is 0.1 (110)
+[03:38] So when you solve it
+[03:40] 54+11= 65ns
+[03:47] So this is. what was your question? 65ns your answer has arrived.
+[03:51] But, remember here.
+[03:53] the page fault is not happening any time.
+[03:56] because if page fault occurs.
+[03:57] so what page are you looking for?
+[04:00] that page is not even inside it in main memory.
+[04:03] meaning you have to go to  secondary memory first.
+[04:06] from the secondary memory that page will have to be brought into the main memory.
+[04:10] which we call page fault service time .
+[04:13] the  page fault service time, which is  there, will have to be added extra.
+[04:16] in this concept.
+[04:17] If we speak about page fault?
+[04:20] that this much percent page fault occurs?
+[04:22] if no page fault is occurring
+[04:23] so this a simple formula
+[04:25] put value and the answer will come. Thank you.
