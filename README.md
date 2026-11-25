@@ -216,8 +216,8 @@ The included CLI utility [`get_playlist_transcripts.py`](get_playlist_transcript
 
 ```bash
 # Clone the repository
-git clone https://github.com/AkhandPratapSingh11/backend-from-first-principles.git notes-knowledge-base
-cd notes-knowledge-base
+git clone https://github.com/AkhandPratapSingh11/CS-SWE-vault.git cs-swe-vault
+cd cs-swe-vault
 
 # Create and activate Python virtual environment
 python3 -m venv .venv
