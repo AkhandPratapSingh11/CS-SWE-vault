@@ -14,6 +14,7 @@ This repository serves as a centralized, high-density knowledge base for core co
 | :--- | :--- | :---: | :---: | :---: |
 | **Backend Engineering from First Principles** | *Backend from first principles* | [`COMPLETE_BACKEND_NOTES.md`](topics/backend-from-first-principles/COMPLETE_BACKEND_NOTES.md) &bull; [PDF Guide](topics/backend-from-first-principles/Backend_from_First_Principles_Notes.pdf) | [`transcripts/`](topics/backend-from-first-principles/transcripts/) | 31 Chapters (Networking, Databases, Caching, Queues, Distributed Storage, DevOps) |
 | **Operating Systems (Complete Course)** | *Knowledge Gate* (Sanchit Jain) &bull; [YouTube Playlist](https://www.youtube.com/playlist?list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p) | [`COMPLETE_OPERATING_SYSTEM_NOTES.md`](topics/operating-system/COMPLETE_OPERATING_SYSTEM_NOTES.md) | [`transcripts/`](topics/operating-system/transcripts/) | 92 Lectures (Kernel Architecture, CPU Scheduling, Concurrency, Deadlocks, Paging, Inodes) |
+| **LLM Evaluation & RAG Testing** | *CampusX* (Nitish Singh) &bull; [YouTube Playlist](https://www.youtube.com/playlist?list=PLEneLIDJFpcA) | [`COMPLETE_LLM_EVALUATION_NOTES.md`](topics/llm-evaluation/COMPLETE_LLM_EVALUATION_NOTES.md) | [`transcripts/`](topics/llm-evaluation/transcripts/) | 19 Lectures (Model Evals, RAG Triad, G-Eval, Retrieval Metrics, Safety, LangSmith) |
 
 ---
 
@@ -26,9 +27,12 @@ This repository serves as a centralized, high-density knowledge base for core co
 │   │   ├── COMPLETE_BACKEND_NOTES.md         # Master 31-Chapter backend guide (2,500+ lines, 57 diagrams)
 │   │   ├── Backend_from_First_Principles_Notes.pdf # Compiled master notes PDF
 │   │   └── transcripts/                      # 31 individual video transcripts + combined master file
-│   └── operating-system/
-│       ├── COMPLETE_OPERATING_SYSTEM_NOTES.md # Master 8-Module OS reference guide (Worked problems & formulas)
-│       └── transcripts/                      # 92 individual lecture transcripts + combined master file
+│   ├── operating-system/
+│   │   ├── COMPLETE_OPERATING_SYSTEM_NOTES.md # Master 8-Module OS reference guide (Worked problems & formulas)
+│   │   └── transcripts/                      # 92 individual lecture transcripts + combined master file
+│   └── llm-evaluation/
+│       ├── COMPLETE_LLM_EVALUATION_NOTES.md   # Master 6-Module LLM evaluation guide (RAG Triad, G-Eval)
+│       └── transcripts/                      # 19 lecture transcripts & download scripts
 │
 ├── get_playlist_transcripts.py               # Universal YouTube playlist transcript downloader & merger
 ├── requirements.txt                          # Dependencies (yt-dlp, youtube-transcript-api)
@@ -162,6 +166,48 @@ Source: [Knowledge Gate - Sanchit Jain OS Playlist](https://www.youtube.com/play
 
 ---
 
+## 🤖 Subject 3: LLM Evaluation & RAG Testing (Masterclass Series)
+
+Master Guide: [`topics/llm-evaluation/COMPLETE_LLM_EVALUATION_NOTES.md`](topics/llm-evaluation/COMPLETE_LLM_EVALUATION_NOTES.md)  
+Source: [CampusX - Nitish Singh LLM Evaluation Playlist](https://www.youtube.com/playlist?list=PLEneLIDJFpcA) (19 Lectures)
+
+### Curriculum Outline (6 Modules &bull; 19 Lectures)
+
+#### Module 1: Foundations of LLM Evaluation & System Workflow (Lec 01 – 04)
+- Moving beyond subjective "Vibe Checks" to quantitative software engineering.
+- Foundation Model Evals vs Compound Application Evals (Task-specific performance).
+- The 5-Step Evaluation Lifecycle: Criteria, Golden Datasets, Metrics, Test Runners, and Continuous Feedback.
+- Multi-Pipeline Architecture: Pre-retrieval guardrails, Retrieval audits, Generation evaluation, and Operational latency/cost pipelines.
+
+#### Module 2: Evaluation Paradigms & Metrics Taxonomy (Lec 05 – 06)
+- Reference-Based metrics (Exact Match, BLEU, ROUGE, BERTScore) vs Reference-Free metrics (Faithfulness, Groundedness, Toxicity).
+- LLM-as-a-Judge: Architecture, Position bias, Verbosity bias, Self-enhancement bias, and Cross-family judge calibration.
+- Offline Evals (CI/CD release gates, synthetic test datasets) vs Online Evals (Production telemetry, implicit feedback, error sampling).
+
+#### Module 3: Frontier Model Benchmarks, Leaderboards & Selection (Lec 07 – 11)
+- Model intelligence dimensions: Factual reasoning, Coding, Mathematics, Instruction following, and Needle In A Haystack (NIAH).
+- The Benchmark Crisis: Benchmark saturation vs Training data contamination (Goodhart's Law in AI).
+- Evolutionary timeline: MMLU, GSM8K, HumanEval $\to$ GPQA, MATH, SWE-bench, and LMSYS Chatbot Arena (Bradley-Terry Elo).
+- Reading & auditing public leaderboards (Hugging Face Open LLM Leaderboard 2.0 vs LMSYS).
+- Custom In-Domain Evals & Pareto Frontier optimization (Accuracy vs Cost vs Latency tradeoffs).
+
+#### Module 4: RAG Evaluation Deep-Dive & The RAG Triad (Lec 12 – 15)
+- GenAI Technical Interview Masterclass: Answering *"How do you evaluate your RAG application?"*.
+- Retriever Evaluation: Hit Rate @ K, Mean Reciprocal Rank (MRR), NDCG, and Context Relevance.
+- Generator Evaluation via the RAG Triad (TruLens / Ragas): Context Relevance, Groundedness (Faithfulness), and Answer Relevance.
+- The G-Eval Framework: Deterministic LLM-as-a-Judge using Chain-of-Thought (CoT) rubrics and continuous token probability expectation.
+
+#### Module 5: Security, Guardrails & Operational Metrics (Lec 16 – 17)
+- Security testing: Prompt Injections, Jailbreak vulnerability rates, PII redaction audits, and Topical Scope Drift.
+- Guardrails evaluation (LlamaGuard, NeMo Guardrails, DeepEval Safety suites).
+- Operational profiling: Time to First Token (TTFT), Tokens per Second (TPS), Prompt Caching economics, and Context Window pruning.
+
+#### Module 6: Production Engineering: Regression Testing & Online Monitoring (Lec 18 – 19)
+- RAG Regression Testing: Automated pytest gates in GitHub Actions, Golden Datasets, and Preventing silent embedding/prompt drift.
+- Online RAG Monitoring: Production observability with LangSmith, Tracing user queries, Feedback capture, and Active data mining.
+
+---
+
 ## 🛠️ Tooling: Automated YouTube Playlist Transcript Downloader
 
 The included CLI utility [`get_playlist_transcripts.py`](get_playlist_transcripts.py) automatically extracts, formats, and combines video-by-video transcripts for any YouTube playlist.
@@ -184,6 +230,11 @@ pip install -r requirements.txt
 ### 2. Usage Examples
 
 ```bash
+# Download transcripts for the LLM Evaluation playlist into its folder
+python get_playlist_transcripts.py "https://www.youtube.com/playlist?list=PLEneLIDJFpcA" \
+  -o "./topics/llm-evaluation/transcripts" \
+  -l en hi en-US en-GB \
+  --combine
 # Download transcripts for the Operating System playlist into its folder
 python get_playlist_transcripts.py "https://www.youtube.com/playlist?list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p" \
   -o "./topics/operating-system/transcripts" \
