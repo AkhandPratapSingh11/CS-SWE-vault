@@ -15,6 +15,7 @@ This repository serves as a centralized, high-density knowledge base for core co
 | **Backend Engineering from First Principles** | *Backend from first principles* | [`COMPLETE_BACKEND_NOTES.md`](topics/backend-from-first-principles/COMPLETE_BACKEND_NOTES.md) &bull; [PDF Guide](topics/backend-from-first-principles/Backend_from_First_Principles_Notes.pdf) | [`transcripts/`](topics/backend-from-first-principles/transcripts/) | 31 Chapters (Networking, Databases, Caching, Queues, Distributed Storage, DevOps) |
 | **Operating Systems (Complete Course)** | *Knowledge Gate* (Sanchit Jain) &bull; [YouTube Playlist](https://www.youtube.com/playlist?list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p) | [`COMPLETE_OPERATING_SYSTEM_NOTES.md`](topics/operating-system/COMPLETE_OPERATING_SYSTEM_NOTES.md) | [`transcripts/`](topics/operating-system/transcripts/) | 92 Lectures (Kernel Architecture, CPU Scheduling, Concurrency, Deadlocks, Paging, Inodes) |
 | **LLM Evaluation & RAG Testing** | *CampusX* (Nitish Singh) &bull; [YouTube Playlist](https://www.youtube.com/playlist?list=PLEneLIDJFpcA) | [`COMPLETE_LLM_EVALUATION_NOTES.md`](topics/llm-evaluation/COMPLETE_LLM_EVALUATION_NOTES.md) | [`transcripts/`](topics/llm-evaluation/transcripts/) | 19 Lectures (Model Evals, RAG Triad, G-Eval, Retrieval Metrics, Safety, LangSmith) |
+| **LLM Fine-Tuning from Scratch** | *Sunny Savita* &bull; [YouTube Playlist](https://www.youtube.com/playlist?list=PLQxDHpeGU14BX9L83JMSoKHsdIjv98BGn) | [`COMPLETE_LLM_FINE_TUNING_NOTES.md`](topics/llm-fine-tuning/COMPLETE_LLM_FINE_TUNING_NOTES.md) | [`transcripts/`](topics/llm-fine-tuning/transcripts/) | 33 Lectures (Pretraining, PEFT/LoRA/QLoRA, Distillation, Quantization, RLHF, DPO, GRPO, ORPO, Unsloth, VLMs, Embeddings) |
 
 ---
 
@@ -30,9 +31,12 @@ This repository serves as a centralized, high-density knowledge base for core co
 │   ├── operating-system/
 │   │   ├── COMPLETE_OPERATING_SYSTEM_NOTES.md # Master 8-Module OS reference guide (Worked problems & formulas)
 │   │   └── transcripts/                      # 92 individual lecture transcripts + combined master file
-│   └── llm-evaluation/
-│       ├── COMPLETE_LLM_EVALUATION_NOTES.md   # Master 6-Module LLM evaluation guide (RAG Triad, G-Eval)
-│       └── transcripts/                      # 19 lecture transcripts & download scripts
+│   ├── llm-evaluation/
+│   │   ├── COMPLETE_LLM_EVALUATION_NOTES.md   # Master 6-Module LLM evaluation guide (RAG Triad, G-Eval)
+│   │   └── transcripts/                      # 19 lecture transcripts & download scripts
+│   └── llm-fine-tuning/
+│       ├── COMPLETE_LLM_FINE_TUNING_NOTES.md # Master 10-Module LLM fine-tuning guide (PEFT, Alignment, Systems)
+│       └── transcripts/                      # 33 lecture transcripts + combined master file
 │
 ├── get_playlist_transcripts.py               # Universal YouTube playlist transcript downloader & merger
 ├── requirements.txt                          # Dependencies (yt-dlp, youtube-transcript-api)

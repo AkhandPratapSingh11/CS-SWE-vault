@@ -1,0 +1,1510 @@
+Title: LLM Fine-Tuning 09: Fine-Tuning BERT for NLP (NER, Sentiment, QA) | Hugging Face #huggingface #llm
+Video URL: https://www.youtube.com/watch?v=3gj8wyZOkV8
+Video ID: 3gj8wyZOkV8
+======================================================================
+
+[00:00] Hey. Hi everyone. Welcome back to my
+[00:02] YouTube channel. My name is Sunonny
+[00:04] Savvita and I'm back with another
+[00:06] exciting and important video. So in this
+[00:09] video guys, we'll see how we can
+[00:11] fine-tune the bird model. Word is one of
+[00:13] the classical NLP model which is being
+[00:16] used for a different different NLP task
+[00:19] like question answering, summarization,
+[00:21] text classification and many more. So
+[00:24] guys, as you know, I started with this
+[00:26] LLM fine-tuning playlist where I
+[00:28] uploaded almost eight video regarding
+[00:31] the finetuning concept. In the very
+[00:33] first video, I discuss the complete
+[00:35] syllabus and in the remaining video I
+[00:38] discuss the different different concept
+[00:40] of the LLM fine-tuning. Uh each and
+[00:43] everything I cover up from very very
+[00:46] scratch. So if you want to start your
+[00:48] finetuning journey then uh for sure you
+[00:51] can visit uh these particular videos. Uh
+[00:55] in the previous video guys I discussed
+[00:56] the hugging phase the complete hugging
+[00:59] face in a single video. Uh hugging face
+[01:02] is a very important framework if you
+[01:05] want to learn NLP LLM generative AI and
+[01:08] all. So in this particular video I told
+[01:10] I explained how you can uh basically uh
+[01:15] load the different different models how
+[01:17] you can load the different different
+[01:18] embedding model what is a hugging face
+[01:20] API hugging face len and all. So if you
+[01:23] haven't check uh so far please go and
+[01:25] check with this particular video in the
+[01:26] playlist section guys I created a
+[01:28] playlist as well. So there you will find
+[01:30] out all the video in a single shot. The
+[01:33] playlist name is complete LLM
+[01:35] fine-tuning playlist. So uh guys uh
+[01:37] before coming to the concept let me
+[01:39] explain you the uh let me give you the
+[01:41] walk through of the syllabus and uh let
+[01:44] me uh tell you that why we are going to
+[01:45] be cover this about fine-tuning. So uh
+[01:48] guys uh this is the complete syllabus
+[01:50] which I'm going to be discuss throughout
+[01:52] this particular playlist. So in the very
+[01:55] first video I already discuss about the
+[01:57] syllabus in detail. If you haven't
+[01:59] checked please go and check. So let me
+[02:01] give you the quick glimpse of it. So uh
+[02:03] we already discussed about the
+[02:04] introduction of the finetuning in a very
+[02:06] detailed then we understood about the
+[02:08] finetuning versus rag versus AI engine.
+[02:10] Then we understood about the finetuning
+[02:12] in deep learning finetuning in CNN
+[02:14] architecture finetuning in NLP. Right?
+[02:17] Then we understood why fine-tuning is
+[02:19] not possible in a classical RNN what was
+[02:22] the challenges and all everything I
+[02:23] discussed over there. Then hugging face
+[02:26] versus length chain. So in the last
+[02:27] video we discussed about the complete
+[02:29] hugging phase along with that we
+[02:31] discussed about the hugging face versus
+[02:32] lenchin and basically how we can utilize
+[02:36] this hugging face with the lang chin as
+[02:38] well. So if you haven't checked guys
+[02:40] please go and check with that hugging
+[02:41] face tutorial. Then we uh now we are
+[02:44] going to be discuss the fine tuning of
+[02:45] the classical language model that is
+[02:47] board. This is important because with
+[02:49] that your ground concept is going to be
+[02:52] clear and in interview they might ask
+[02:54] you some question from here itself.
+[02:56] After this one guys, we'll come to the
+[02:58] concept of the knowledge distillation
+[02:59] LLM quantization. So this is also very
+[03:01] important concept if you are dealing
+[03:03] with the finetuning. Uh if you are going
+[03:05] to perform the finetuning so for sure
+[03:08] you should be aware about subside side
+[03:10] concept like knowledge distillation and
+[03:11] all so that you can utilize it for
+[03:14] better model
+[03:17] for better like for better training of
+[03:19] the model. Okay. Then guys here after
+[03:22] this one only we'll come to the LLM fine
+[03:24] tuning. So in the LLM fine tuning we'll
+[03:26] understand about the finetuning of the
+[03:28] llama mista
+[03:30] 53 and all. So different different model
+[03:32] I'll show you apart from that the
+[03:34] different different concept of the LM
+[03:35] fine tuning gyora cula dora raft and
+[03:38] all. So these are all the topics we are
+[03:40] going to be discuss we're going to
+[03:42] discuss about the different different
+[03:43] framework also like llama factory
+[03:45] unsloth axelottal uh and basically uh
+[03:50] different other framework which is
+[03:51] required to perform the finetuning.
+[03:53] Okay. Then guys, we'll come to the
+[03:55] finetuning of the API based model. So,
+[03:57] GPT, Jimny, uh, cloud A like how we can
+[04:00] fine-tune those specific model.
+[04:01] Finetuning of the business based model,
+[04:03] right? So, BIT, Florence, Quan. So,
+[04:06] these model how we can fine-tune using
+[04:08] the different framework. I'll show you
+[04:10] that. Then, RLHF concept preference
+[04:13] optimization, direct preference
+[04:15] optimization. Uh, then we'll discuss
+[04:17] about these. And here I even included
+[04:20] the embedding fine-tuning as well. So
+[04:22] this is the complete syllabus guys and
+[04:24] uh inside the syllabus intentionally I
+[04:26] kept this finetuning of the classical
+[04:28] model so that your concept from scratch
+[04:32] could be clear and then we can uh start
+[04:34] with the advanced concept of the
+[04:36] finetuning. So I hope it is clear now
+[04:39] without wasting a time let's start with
+[04:41] the bird finetuning concept guys. So
+[04:44] this is the research paper of the bird
+[04:47] guys. uh as you can see the uh bird
+[04:50] model was published in 2019 at 24th May
+[04:54] 2019. uh so the full form of the bird is
+[04:57] pre-training of deep birectional
+[05:00] transformer for language understanding.
+[05:03] So uh Google has published this
+[05:05] particular research paper. If you want
+[05:07] to understand and if you want to uh deep
+[05:10] dive into the bird that please uh go and
+[05:12] check out with this research paper there
+[05:15] they have explained you each and every
+[05:17] concept related to that and apart from
+[05:20] that you will find out each and every
+[05:22] benchmarking result also over here. So
+[05:26] what I will do guys I will not go in a
+[05:28] mathematical
+[05:30] intuition of this board as of now for
+[05:32] that I will launch a separate series. Uh
+[05:35] in that particular series I will show
+[05:37] you the LLM the different different LLM
+[05:41] transformer and how this board also have
+[05:44] been trained. Uh so that will be a
+[05:46] separate series but uh in this
+[05:48] particular video I will give you the
+[05:50] complete overview of this board the
+[05:52] functional overview. For that I already
+[05:55] kept some architecture and all on my
+[05:57] blackboard. So uh let me uh give you the
+[06:00] functional overview of this board so
+[06:02] that whenever uh anything any question
+[06:05] is coming in an interview so you can
+[06:07] answer that particular question in a
+[06:09] better way and for the remaining
+[06:11] intuition the mathematical intuition
+[06:13] first we'll have to go through with the
+[06:14] transformer architecture then only we
+[06:17] can understand this board. So that is
+[06:19] going to be a separate series separate
+[06:20] video which I will launch soon. Uh so
+[06:23] this is the complete code guys uh which
+[06:25] I'm going to teach you in this uh
+[06:27] particular video. So here I kept the
+[06:30] finetuning of the B. After that we are
+[06:32] going to perform the prediction using
+[06:34] the bird model. Then we are going to
+[06:37] push it to the hugging face hub and not
+[06:39] only for the one task one single task I
+[06:43] fine tuned uh I'm going to be fine-
+[06:45] tuned this bird model for the several
+[06:47] different different task. So I kept the
+[06:49] code for the text classification. Then I
+[06:52] kept the code for the ne here you can
+[06:55] see this is my ne data. Then after that
+[06:58] I kept it for the QA also. So here I
+[07:01] shown you how you can fine-tune the
+[07:03] board on a different different type of
+[07:05] data on a different different task. So
+[07:07] that your each and every concept is
+[07:10] going to be clarified and you can
+[07:12] utilize it for any sort of a task. So
+[07:14] this is a general code generic code
+[07:17] which I kept over here. See here
+[07:20] basically if if you're going to be
+[07:21] choose 1 2 3 4 based on that according
+[07:24] to that only it's going to be perform
+[07:26] the fine tuning on your specific data
+[07:30] set. Okay. So uh before coming to this
+[07:33] code uh let me give you the quick uh
+[07:35] overview of the B model so that you can
+[07:37] understand it in a better way. So I hope
+[07:40] my blackboard is visible now. So over
+[07:42] the blackboard guys I kept a couple of
+[07:45] images as you can see. So bird base
+[07:48] right so if we're talking about the bird
+[07:50] guys so bird is having two variants uh
+[07:53] so the first variant of the bird is
+[07:55] called bird base okay and the second
+[07:58] variant of the bird is called bird large
+[08:01] so in see first of all if talking about
+[08:03] this bird model so this bird model
+[08:06] actually it's a encoder based model if
+[08:09] you don't know about the encoder so it
+[08:12] is a part of the transformer
+[08:14] architecture
+[08:16] Okay. So bird base which is where you
+[08:19] have 12 encoder and talking about the
+[08:22] bird large. So there you will find out
+[08:23] in total 20 encoders. Okay. So guys uh
+[08:27] here in one more architecture you can
+[08:29] see the uh transformer. Okay. And uh not
+[08:34] only the transformer. So here I shown
+[08:36] you the transformer. The first part of
+[08:39] the transformer is a B right that is
+[08:41] encoder and the second part of the
+[08:43] transformer is a GPT that is decoder. So
+[08:46] GPT is a generative model. So GPT what
+[08:50] is a GPT guys? So GPT we're talking
+[08:52] about the GPT. So it's a generative
+[08:54] model. So whatever model you can see
+[08:56] nowadays whatever LLM model. So those
+[08:59] LLM model actually it is a generative
+[09:01] model. Right? Now if talking about the
+[09:04] bird so is not a generative model. So
+[09:06] this has been trained on a different
+[09:08] sort of a task. So the task basically
+[09:10] was the MLM or the task was the NSP next
+[09:14] sentence prediction. Okay. So using this
+[09:18] one we were trying to like solve some
+[09:21] sort of a problem statement like text
+[09:23] classification.
+[09:24] Okay. We are trying to solve like
+[09:26] question answering. We are trying to
+[09:28] solve summarization.
+[09:30] Okay. uh or we are trying to solve like
+[09:33] ne or poss tagging kind of problem
+[09:36] statement right so uh guys uh the
+[09:39] today's LLM right the today's LLM like
+[09:42] the GPT cloud a deepseek and all so
+[09:44] those LLM basically again they it is
+[09:48] using this GPD concept like auto
+[09:50] reggressive training concept auto
+[09:52] reggressive training concept there we
+[09:54] are trying to predict the next word next
+[09:57] word in the given data okay next word in
+[10:00] a given data A and with that actually we
+[10:02] are trying to perform the auto
+[10:04] reggressive training and those specific
+[10:06] model is called the generative model.
+[10:08] Nowadays this bird is not being used too
+[10:11] much but at couple of places still it is
+[10:13] being used. Uh I'll show you those
+[10:16] places. Okay those task for those
+[10:20] particular task for which task this bird
+[10:22] is being used. Okay I'll talk about it
+[10:25] so that you can clearly understanding
+[10:27] the requirement of this bird model.
+[10:29] Okay. Now I hope this is clear. This uh
+[10:32] thing is pretty much clear to all of
+[10:34] you. Now coming to the couple of more
+[10:36] concept. So uh as I told you this bird
+[10:40] is nothing this bird is a uh encoder
+[10:43] based model. So here is a one more
+[10:44] architecture. Let me keep it over here
+[10:46] this one. So as I told you in a bird
+[10:49] base model we have 12 encoder. Okay 12
+[10:53] encoder you will find out and we're
+[10:55] talking about the bird large model. So
+[10:57] in that you will find out 24 encoder.
+[11:00] All right. So this encoder is nothing
+[11:02] this encoder basically it's coming from
+[11:05] the transformer architecture. So
+[11:08] transformer is having two part. So first
+[11:10] part of the transformer first side of
+[11:12] the transformer is called the encoder
+[11:15] and the second side of the transformer
+[11:17] is called the decoder. Okay decoder. So
+[11:21] guys uh this all the thing this all the
+[11:24] topic uh this entire uh detail I even
+[11:27] explained in my previous to previous
+[11:29] videos uh if you don't know about it you
+[11:31] can get go and check out with this
+[11:33] particular video let me highlight that
+[11:35] as well so that you can learn this thing
+[11:37] in a better way in a very detailed so
+[11:40] just go and check with this video LLM
+[11:43] fine tuning why finetuning was not
+[11:45] possible in RNN LSTM apart from that you
+[11:47] can check out with this transfer
+[11:49] learning and finetuning theory and
+[11:50] practical
+[11:51] video number three there also I discuss
+[11:54] couple of point related to that even
+[11:55] this LSTM and transformer I just given
+[11:58] you the like the glimpse of this board
+[12:01] base model okay so uh here guys you
+[12:04] understood about the board right what is
+[12:06] a board is a encoder based architecture
+[12:09] of the transformer in the base model
+[12:11] there is a 12 encoder and the uh large
+[12:14] model there's a 24 encoder if you will
+[12:16] go and check the previous video I shown
+[12:18] you all this encoder and all everything
+[12:21] uh your idea will be more clear. Okay.
+[12:23] So this thing we already understood. Now
+[12:25] let me explain you one more thing with
+[12:27] respect to this board guys. So I kept
+[12:29] one more architecture for all of you. So
+[12:31] here inside this particular architecture
+[12:33] you can see. So whenever we talking
+[12:35] about the bird kind of model. So you
+[12:38] understood this bird is nothing. It was
+[12:40] built on top of the transformer. Okay.
+[12:44] Now uh this bird is a encoder
+[12:47] right? This bird is a encoder of the
+[12:49] transformer. Now there's a two training
+[12:52] stage of this bird. So first stage of
+[12:54] this uh bird is called the unsupervised
+[12:58] pre-training. Unsupervised
+[13:01] pre-training.
+[13:02] Pre-training.
+[13:04] Okay. And the second stage of the
+[13:07] training is called supervised training.
+[13:10] Super wise supervised
+[13:14] training. Okay. First stage is called
+[13:17] unsupervised pre-training. This is also
+[13:20] called self-supervised training. Okay,
+[13:23] self
+[13:25] supervised
+[13:27] training. If you don't know about it,
+[13:29] you can go and check out with our
+[13:30] previous video. I even I explain you
+[13:32] over there. So here it has mentioned
+[13:35] semi-supervised but this is not a
+[13:36] correct word. You can say it is a
+[13:39] selfsupervised retraining or
+[13:41] unsupervised retraining. Now in that
+[13:44] what we are doing we are going to be
+[13:45] collect a data from the various
+[13:46] resources from the entire internet
+[13:49] right. So what is the objective of this
+[13:50] particular series to collect a data from
+[13:52] the various resources and to perform a
+[13:55] training of this bird model. Now how
+[13:57] this training is being performed? So
+[13:59] using this MLM technique MLM means mask
+[14:02] language modeling and NSP technique. NSP
+[14:04] means next sentence prediction. So if
+[14:06] someone is going to ask you that how
+[14:08] this B model have been trained. So you
+[14:10] can simply say it has been trained on
+[14:12] top of this mask uh using this mask
+[14:14] language modeling technique. Okay. And
+[14:18] it has been trained using this next
+[14:20] sentence
+[14:22] prediction technique. Okay. Next
+[14:24] sentence prediction technique. Now after
+[14:26] that guys so after training this bird
+[14:29] model on a very huge amount of data.
+[14:31] Okay. So why it is called unsupervised
+[14:34] pre-training? It is called unsupervised
+[14:36] pre-training because we are going to be
+[14:38] collect our data from the various
+[14:39] resources from the internet and all and
+[14:42] this data basically it was not a label
+[14:44] data okay not a label data it was not a
+[14:47] label data because of that it is called
+[14:49] the unsupervised pre-training now down
+[14:52] the line guys so this bird model have
+[14:55] been trained for some specific task so
+[14:57] in the research paper they have
+[14:59] mentioned so let me tell you uh uh let
+[15:02] me tell you this as well so at the first
+[15:04] place They have took the huge amount of
+[15:06] data. Huge amount of data. Okay. From
+[15:11] internet from internet okay and after
+[15:15] that guys they have performed so this
+[15:17] stage is called the unsupervised
+[15:19] pre-training as you know about it right
+[15:22] as I told you unsupervised pre-training
+[15:25] or self-supervised
+[15:27] learning. Okay. The second stage is
+[15:30] called the supervised training.
+[15:32] supervised training. So guys, if you're
+[15:35] talking about the supervised training,
+[15:37] right? So down the line, this model down
+[15:39] the line, this particular model have
+[15:41] been trained have been trained on
+[15:45] on supervised data and the task
+[15:48] basically was a text classification.
+[15:51] text classification
+[15:53] if we are going to be train any model
+[15:55] normally on directly on this particular
+[15:57] task for the text classification in 2019
+[16:00] in 2018 right so we the LSTM model also
+[16:04] being was being used so what we were
+[16:07] doing guys so this LSTM model directly
+[16:09] we were training okay in the LSTM using
+[16:12] this LSTM we have created one very
+[16:14] famous architecture the architecture was
+[16:16] a encoder decoder architecture okay and
+[16:19] encoder decoder with attention
+[16:20] architecture And we were like training
+[16:23] this particular model for the text
+[16:25] classification. But guys, when this
+[16:28] transformer have been invented, okay,
+[16:30] when the transformer have been invented,
+[16:32] this transformer what it has done, you
+[16:35] know, it has replaced all the LSTMbased
+[16:38] model because here we were having some
+[16:40] constraint. This constraint I have
+[16:42] explained you in my previous video. You
+[16:44] can go and check over there. So this
+[16:45] transfer based model have replaced all
+[16:47] the LSTM based model. And uh first what
+[16:50] we have done we have took the data huge
+[16:52] amount of data from the internet we have
+[16:54] trained the transform based model okay
+[16:56] like encoder or decoder based model and
+[16:58] then down the line uh down the like for
+[17:01] the downstream task we have performed
+[17:02] the supervised training again. So the
+[17:05] accuracy we were getting at that time
+[17:07] that was much better compared to the
+[17:10] compared to this LSTM or encoder encoder
+[17:13] decoder LSTM based model. I hope this
+[17:17] thing is clear to all of you. So this
+[17:18] image is defining or this image is
+[17:21] explaining a same thing. Now uh see guys
+[17:24] there could be a mathematical intuition
+[17:26] also regarding this transformer GPT and
+[17:28] B. So that we'll understand in some
+[17:30] upcoming video some upcoming sessions.
+[17:33] Okay. So as of now we are just going to
+[17:35] be understand this entire thing as a on
+[17:38] a functional level. Now for what are
+[17:40] task we are going to be fine- tune this
+[17:42] bird model. So let me highlight the task
+[17:45] over here. The very first task uh what
+[17:47] we are going to be do we are going to be
+[17:48] perform the text classification okay
+[17:51] I'll show you like how we can down like
+[17:54] fine-tune this bird model using for the
+[17:56] text classification task then I'll show
+[17:58] you for the ne also okay then I will
+[18:02] show you for the QA question answer now
+[18:05] one more thing you have to be remember
+[18:06] see this bird model is not this bird
+[18:09] model is not a uh this bird model is not
+[18:12] a generative model okay generative ative
+[18:15] model
+[18:17] right generative model GPT model is a
+[18:20] generative model this B model is not a
+[18:22] generative model someone is going to ask
+[18:24] in an interview you can highlight this
+[18:26] particular thing so guys how the thing
+[18:28] is working how the thing is happening uh
+[18:30] let me tell you that as well so inside
+[18:34] this architecture you can see there's
+[18:35] one more architecture I kept for all of
+[18:37] you let's say here we are giving a
+[18:40] sentence okay this is the my sentence
+[18:42] and the sentence is going through the
+[18:44] word model. This is what this is my B
+[18:46] model. So B is what? B is nothing. It's
+[18:49] a ST of the encoder. Okay, as you know
+[18:52] like it's a ST of the encoder
+[18:54] transformer encoder. So guys, what we'll
+[18:57] do? See, we'll pass the sentence to this
+[18:59] bird model. It is a stack of the
+[19:01] encoder. Okay, if we are taking a bird
+[19:03] base model, so there we will be having
+[19:05] 12 encoder set. Now after that guys, see
+[19:08] what will be there. So there will be a
+[19:09] head. Okay. So, uh if we're talking
+[19:12] about if we're talking about
+[19:13] classification, so for the
+[19:15] classification there will be a different
+[19:16] head. Now, if we're talking about the QA
+[19:19] question answering, so for that there
+[19:21] will be a different head. Okay. On top
+[19:23] of this encoder, if we're talking about
+[19:25] the summarization summarization, so for
+[19:28] that there will be a different head.
+[19:30] Now, if we're talking about this head
+[19:32] guys, so this head is nothing. If we're
+[19:34] talking about this head, so this head is
+[19:36] nothing. It is what? It is a uh feed
+[19:40] forward. It is a feed forward neural
+[19:42] network. Okay. It's a feed forward feed
+[19:47] forward neural neural network. Okay.
+[19:52] Feed forward neural network. This is
+[19:53] also called dense network. Okay. Dense
+[19:56] layer dense network. So anything you can
+[19:58] say dense network. Okay. And along with
+[20:02] that you will find out the soft max.
+[20:05] Soft max also will be there. So head if
+[20:09] you're talking about the head guys. So
+[20:10] on top of the encoder if you will look
+[20:12] into the transformer architecture. So
+[20:14] this is the transformer architecture
+[20:16] guys. As you can see inside this
+[20:18] particular architecture. Okay if I'm
+[20:20] going to take if I'm going to copy this
+[20:22] particular like image and if I'm going
+[20:24] to be paste it over here you will be
+[20:25] able to see clearly that inside the
+[20:28] encoder. Okay. Uh over the encoder we
+[20:31] don't have anything right. So here is
+[20:34] the encoder. So this is just a this is
+[20:36] the encoder stack. Now likewise you can
+[20:38] keep a 12 stack right but but here you
+[20:42] can see we don't have anything at the at
+[20:44] the end to to predict right at the end
+[20:47] to predict we don't have anything simply
+[20:49] we will be getting a vector the pro
+[20:51] process vector the contextual vector
+[20:54] after going through from this particular
+[20:56] stack the encoder st. So in the encoder
+[20:58] ST what we would be having. So we are
+[21:00] having like input then positional
+[21:02] encoding. Okay. After the embedding
+[21:04] there is the positional encoding then
+[21:05] multi tension and then feed forward
+[21:07] network and then residual connection and
+[21:09] all for sustaining uh the context. Okay.
+[21:12] And then whatever output we are getting
+[21:14] from here it will go to the another
+[21:16] encoder block. Okay. Then whatever
+[21:18] output we are getting from here it will
+[21:20] go another encoder block. Okay. Likewise
+[21:22] this thing is going on as like the num
+[21:25] as the number of block right as many as
+[21:28] the number of block have been defined.
+[21:30] So in word base we have a 12 block only.
+[21:32] Now guys uh see over here we are going
+[21:35] to talk about right. So what we are
+[21:36] getting? We are getting a simple
+[21:38] contextual vector after the encoder. Now
+[21:41] on top of it we are going to place the
+[21:43] head. Head for what? Head for generating
+[21:46] a final output. So in the head what
+[21:48] would be having? In the head we would be
+[21:50] having neural network plus
+[21:53] softmax function. softmax function and
+[21:57] this head is going to be changed
+[21:58] according to the task. If it is a
+[22:00] classification task so this head is
+[22:02] going to be different. Okay. If there is
+[22:05] a question answer task this head is
+[22:06] going to be different. If there is a
+[22:08] summarization then head will be
+[22:09] different. If there is a ne token class
+[22:13] ne or poss taking this comes under the
+[22:15] token classification right. So the head
+[22:18] is going to be different. Okay. So while
+[22:20] we are going to be understand the
+[22:21] mathematical intuition of it, we can
+[22:23] more talk about this head and all. I
+[22:26] hope this particular thing is pretty
+[22:28] much clear. Now let's do one thing.
+[22:30] Let's try to start with the practical of
+[22:32] the B fine-tuning and let's see how uh
+[22:36] basically we can perform the finetuning
+[22:39] of the B model.
+[22:45] So guys before starting with the
+[22:47] practical let me clarify one more
+[22:49] theoretical concept and the concept is
+[22:52] where but is still being used. So the
+[22:56] answer is but is is still being used at
+[22:59] multiple playlist in a different
+[23:01] different form. So here I listed couple
+[23:04] of point and let's try to discuss this
+[23:07] point step by step because it might be
+[23:10] useful when you are going in a interview
+[23:13] people might directly ask you this kind
+[23:16] of thing. So the first thing is a search
+[23:18] and retrieval. So guys uh you know we
+[23:21] are going to build a rag. Rag is very
+[23:24] important concept in the generative AI.
+[23:28] So using the capability of the LLM right
+[23:32] we can build the rag on top of it means
+[23:35] we can connect this uh we can connect
+[23:37] the external data source external
+[23:41] data source okay with our LLM and then
+[23:44] we can generate the final output that is
+[23:46] a rag if you don't know about this rag
+[23:48] you can go and check out with my YouTube
+[23:49] channel there I already uploaded so many
+[23:52] video regarding this rag okay so
+[23:55] whenever we talking about the rag guys
+[23:57] so inside that we are going to be
+[23:58] perform this data injection. Okay, data
+[24:01] injection. In the data injection, what
+[24:03] we do? Whatever data we have, we are
+[24:06] going to be like put this particular
+[24:07] data in the vector database. Okay, in
+[24:10] the vector database. Now, this
+[24:12] particular data will be available in the
+[24:14] form of embeddings, right? Embeddings.
+[24:17] So, as I told you guys, uh this
+[24:19] transformer-based model, this
+[24:21] transformerbased
+[24:23] transformer-based
+[24:24] B model, right? This particular model is
+[24:27] being used for creating for creating a
+[24:31] embeddings.
+[24:33] Okay, using this bird model we are going
+[24:36] to be create a embedding. So as you know
+[24:38] right so the bird is based on top of the
+[24:41] encoder encoder of the transformer. In
+[24:43] the encoder we have two things. The
+[24:45] first is called the self attention which
+[24:47] is very good to understand the
+[24:49] contextual meaning of the uh sentence
+[24:52] plus feed forward neural network. Okay.
+[24:56] So using this particular uh using this
+[24:58] particular concept like whatever vectors
+[25:01] we are getting. So this vector instead
+[25:03] of doing a classification directly on
+[25:06] top of it instead of doing the question
+[25:07] answering we are not we are not doing
+[25:09] this thing on top of this particular
+[25:10] vector using any head directly we are
+[25:13] using this particular vector as a
+[25:15] embedding. Okay. If you don't know about
+[25:17] this thing I already explained you this
+[25:19] particular concept in my previous video.
+[25:22] I even shown you the practical. So here
+[25:25] I mentioned this bird model it is being
+[25:27] used uh for the for the vector for the
+[25:30] gen for generating a dense vector. Okay
+[25:32] the sentence vector we are going to be
+[25:33] stored in a files and we are going to be
+[25:35] use it in a rack pipeline. I hope you
+[25:38] understood it. Now LLM uh this board it
+[25:41] is still being used for some enterprise
+[25:44] NLP level of task for fast and the cost
+[25:46] effectiveness. If you're talking about
+[25:48] the LLM guys, so with LLM some cost is
+[25:50] associated. But if we're talking about
+[25:52] some classical model like bird, robot,
+[25:55] digital bird, XLM and all. So in that
+[25:58] this model first of all this model is
+[25:59] open source. This is like this is taking
+[26:01] out less space compared to the use LLM
+[26:04] model. Okay. And it is easy to
+[26:06] configure, right? We can configure it on
+[26:09] any basic configuration or any basic
+[26:12] infrastructure. That's why this
+[26:14] particular model is still being used for
+[26:16] any small NE task and inter analysis
+[26:19] which comes under the classification uh
+[26:22] summarization and all. Okay. So still
+[26:25] you can use it but again if you want
+[26:27] like a good accuracy if you want to be
+[26:29] rely more on this LLM on this LLM
+[26:33] generated answer in that case you should
+[26:35] think about this B model and all because
+[26:37] it is not very much trustworthy compared
+[26:39] to the today's LLM model. It might work
+[26:42] but the you will have to compromise it.
+[26:44] It might work faster. It might be the
+[26:47] cost effective but for sure this model
+[26:50] is not a very state-of-art so you will
+[26:52] have to compromise with some accuracy
+[26:54] and all. Okay. Now hybrid pipelines with
+[26:57] LLM as I told you in a rag architecture
+[27:00] we're going to use it uh so that is a
+[27:03] hybrid uh that is that comes basically
+[27:06] in a hybrid pipeline means we can use
+[27:08] the LLM. Okay. uh we can use the llm and
+[27:11] al along with that we can use this board
+[27:14] also for generating some embedding and
+[27:16] all in a rag if you don't know about it
+[27:17] you can go and check out with the rag
+[27:19] playlist or else you can check out with
+[27:20] my previous video at least so there I
+[27:22] explain you the sentence embedding
+[27:24] concept okay sentence embedding concept
+[27:27] using the sentence transformer sentence
+[27:29] transformer is one of the library in a
+[27:31] hugging face itself there you will find
+[27:34] out many transformerbased model sentence
+[27:37] transformer okay many transformer former
+[27:40] based model which is being used for
+[27:42] creating a embedding right now the next
+[27:44] is a multilingual NLP so XLM model is a
+[27:47] multilingual board model okay which was
+[27:49] created by the Microsoft itself is still
+[27:52] is a top choice for the uh like for the
+[27:54] developer right if someone wants to be
+[27:56] used the open-source model okay so it is
+[27:59] being used for the translation and the
+[28:00] cross-lingual search and all so you can
+[28:03] explore this model as well on device low
+[28:05] latency if you're going to be use any
+[28:07] edge device or mobile device with a
+[28:08] lower config ification in that case also
+[28:11] for some task classification ne and all
+[28:14] you can utilize this bird model. So the
+[28:16] moral of the story is uh today in
+[28:18] today's era in today's world we have so
+[28:20] many used model so many different
+[28:22] different model but still this bird
+[28:24] being is being used at some sort of a
+[28:26] places. So these are some places which I
+[28:28] highlighted over here and for sure you
+[28:31] can look into it you can read it and you
+[28:33] can basically make your understanding
+[28:36] okay regarding this board and all that
+[28:38] where it is being used is still in the
+[28:40] world of the LLM. Now uh here I kept the
+[28:43] name of couple of more model like board,
+[28:45] distill board, robberta, diverta, mpnet,
+[28:47] mini lm5, flan, b, pexus, xllet, xlmr,
+[28:52] electra. Right? So these particular
+[28:54] model guys you can use in place of b
+[28:56] right. So here I shown you the fine
+[28:58] tuning of the b model but you can try
+[29:00] out with a different other model as
+[29:02] well. Okay. So these are some classical
+[29:04] NLP model which was being used like two
+[29:06] to three year back extensively. Now uh
+[29:09] so here guys uh this is the complete uh
+[29:12] finetuning uh code. Now let's try to
+[29:14] discuss this one.
+[29:16] So for the practical guys uh at the
+[29:18] first place we'll have to install couple
+[29:20] of library. I'm going to be install this
+[29:22] data set uh this fssp transformer. This
+[29:26] fssp it help us to download any file
+[29:29] from server to the local. Uh so guys uh
+[29:32] here I already installed this particular
+[29:34] package. Please install with the same
+[29:36] command so that you won't face any sort
+[29:38] of a error. Now after this one what
+[29:40] we'll do? So we are going to be import
+[29:42] this load data set from the data set and
+[29:44] we are going to be import this bird
+[29:46] tokenizer bird sequence classification
+[29:48] trainer and training argument from the
+[29:51] transformer. So yes uh I'm going to be
+[29:54] imported. Now let me tell you one more
+[29:56] thing guys. See whenever you are going
+[29:57] to be start with your training and all
+[29:59] that please make sure you selected the
+[30:01] appropriate GPU. I don't have access of
+[30:03] the paid GPU. I can purchase a Google
+[30:05] collapo and then I can get it. But as of
+[30:08] now I have access of the free GPU and
+[30:09] I'm going to be use the same over here.
+[30:11] Now what I will do see here guys my data
+[30:14] set and the tokenizer bird model
+[30:18] everything is being loaded now until I
+[30:20] can show you the data. So here guys uh
+[30:22] we I kept the different different kind
+[30:24] of data set for all of you. You can
+[30:26] utilize this AG news data. Okay you can
+[30:28] use this DBI data. So this is also very
+[30:31] huge data set and for sure you can
+[30:34] utilize it for performing the uh for
+[30:37] performing the training okay the
+[30:39] finetuning on top on top of the bird
+[30:41] model. Now if you're talking about the
+[30:43] realtime use cases so in the realtime
+[30:45] use cases from where you might get this
+[30:47] classification data sentiment data I
+[30:50] written couple of name over here the
+[30:51] first is a customer's feedback. So let's
+[30:54] say you have published one form or if
+[30:56] you are working on a CRM plat if you are
+[30:58] like uh working on a CRM platform right
+[31:01] if you are going to be raised some
+[31:03] support ticket and all okay or like if
+[31:06] you're going to be check with your email
+[31:07] topic so uh customer feedback
+[31:09] cateorization whether it is a positive
+[31:11] negative or neutral support ticket
+[31:13] classification whether it is for billing
+[31:16] technical for any general ticket email
+[31:18] topic classification means whether it's
+[31:21] a ham or a spam right so what kind of
+[31:23] email is being generated. So this kind
+[31:25] could be a realtime use cases for the
+[31:27] classification problem statement and
+[31:29] many of you you are going to be you you
+[31:31] are going to be like solve it in your
+[31:33] real time uh like use cases as well.
+[31:37] Okay. Now here I'm going to be load the
+[31:39] data guys. So which data I'm loading
+[31:41] over here? I'm going to be load the IMDb
+[31:42] data. If you don't know about this
+[31:44] particular data, I already shown you
+[31:46] this data the detail of this data in my
+[31:48] previous video. If you don't know, you
+[31:50] can go and check over there. Okay? Or
+[31:52] else you can utilize this data if you
+[31:54] want to work on some new data set. So uh
+[31:56] now what I'm doing guys so after loading
+[31:58] this data set here you can see I'm going
+[32:00] to take a sample because if you will
+[32:02] look into this data set so there you
+[32:04] will find out more than 25,000 sample
+[32:06] okay which is a very huge uh as of now
+[32:09] to train our model it will take much
+[32:12] time at least 5 to 6 hour to train on
+[32:14] this much of data but model is a huge
+[32:16] model then what I will do I will take
+[32:18] this training data and the test data I'm
+[32:20] taking 1,000 sample for the training and
+[32:22] I'm taking 500 sample for the testing
+[32:25] Okay. Now here guys, I'm going to be
+[32:27] load the tokenizer.
+[32:29] So tokenizer is for what? Tokenizer to
+[32:32] perform the tokens of the given sentence
+[32:34] and to assign a appropriate ID to the
+[32:37] specific token. If you don't know about
+[32:39] this thing guys, you can go and check
+[32:40] out with my previous video there in the
+[32:42] hugging face tutorial. I have explained
+[32:44] you each and everything. Okay, you just
+[32:46] need to be check out that video. That's
+[32:48] it. Now guys after this one uh what I'm
+[32:50] doing guys so here I'm going to be like
+[32:52] uh lo create I created this particular
+[32:55] function tokenizer function inside that
+[32:57] we have a tokenizer okay it is taking
+[32:59] example means it is taking a text it's
+[33:01] performing a padding okay up to the like
+[33:04] the max length sentence and the max
+[33:06] length how much I'm providing 256 so
+[33:08] there should be only 25 56 token in one
+[33:11] sentence okay if it is going to be more
+[33:13] than that it is going to be and then it
+[33:15] that those particular sentence a
+[33:17] specific sentence will be rejected
+[33:19] Truncation true right? Yes. If the
+[33:21] sentence is max then this 256 token then
+[33:25] the truncation will be true. We are
+[33:27] going to be truncate those particular
+[33:28] sentence and here we are going to
+[33:30] perform the padding according to the max
+[33:32] length. So what is the max length? 256.
+[33:34] Okay. So you can think in such a way
+[33:36] that in one sentence we have 300 tokens.
+[33:38] In that case there could be only 50
+[33:40] 2256. Now let's assume in one sentence
+[33:43] we have 100 tokens. So how should be
+[33:44] max? There should be 256 max token. So
+[33:47] rest of the token 156 token rest of the
+[33:49] token will be showcased as a zero value.
+[33:51] Okay, padding value. Now here I created
+[33:54] one function. The function name is what?
+[33:56] Process. So it will take the data. It is
+[33:58] going to be map the data. Okay, with the
+[34:00] tokenizer and after that guys what it
+[34:02] will do? It is going to be written the
+[34:04] process data. So in the process data we
+[34:06] are going to be change the column name
+[34:08] the label column name. Okay. And then
+[34:10] here I'm going to be set the format. So
+[34:12] what is the format? The format will be a
+[34:14] pytor tensor and here the column name
+[34:15] will be inputs attention mask and label.
+[34:18] By default the uh the uh output feature
+[34:22] name was a label but the hugging face
+[34:25] required this specific name that is
+[34:26] labels. That's why we just have rename
+[34:28] it. So after doing certain
+[34:30] pre-processing guys what we'll do so we
+[34:32] are going to be utilize this data for
+[34:33] the training. So here you can see we
+[34:35] have this pre-process. We are passing
+[34:37] this train data set. Okay. Now here you
+[34:39] can see I got the train data set. it's
+[34:41] going to be mapped and after performing
+[34:43] the entire pre-processing I'll be
+[34:45] getting my data. See my data was small.
+[34:47] So it has completed within a minute
+[34:49] itself. Okay. Then here I have a test
+[34:52] data. So if I'm going to be pre-process
+[34:53] that uh in instantly I will be getting
+[34:56] my pre-processed data because the data
+[34:57] is very less. If we have 25,000 rows,
+[35:00] 30,000 rows, one lakh rows, it might
+[35:02] take some time in that case. Okay. Now
+[35:04] what I'm doing guys, I'm going to be
+[35:05] load my model. So here uh uh like my
+[35:08] model is getting loaded. Okay. Okay. So
+[35:10] what I have passed I have passed my
+[35:12] model name and here is my number of
+[35:14] labels. So in output class how should
+[35:16] how many labels should be there. So
+[35:17] there are only two label. Now guys uh if
+[35:20] you want to check out the detail of this
+[35:22] particular models number of label and
+[35:24] all everything. So I already discussed
+[35:26] in my previous video as I told you
+[35:28] please visit this video finetuning
+[35:30] introduction transfer learning and
+[35:31] finetuning. Okay fine-tuning analm plus
+[35:36] transformer. This video is a very
+[35:39] important and the most video the the
+[35:42] most important video. So I would highly
+[35:44] recommend you all this video if you want
+[35:46] to be pro in the field of finetuning.
+[35:49] Okay. Now what I'm doing guys see here I
+[35:51] written couple of more code. So wherever
+[35:54] we are talking about B. Okay. So as you
+[35:57] know guys so guys B is a
+[35:59] transformerbased model. Uh so uh we have
+[36:03] seen the base variant of the board where
+[36:05] we are having 12 encoder
+[36:12] 12 encoder
+[36:15] and we are having the large variant of
+[36:17] the board. So there we were having
+[36:21] 24 encoder.
+[36:24] Okay. Now guys see whenever we are going
+[36:27] to fine-tune it. Now what is the meaning
+[36:29] of the finetuning? So finetuning means
+[36:32] we are going to be retrain the model.
+[36:35] Retrain
+[36:38] the model. Now guys this retraining if
+[36:41] we're talking about the retraining
+[36:43] retraining the model on our own data
+[36:46] own data. Okay. Now whenever we talking
+[36:49] about this retraining guys so there
+[36:52] could be two part of it. There could be
+[36:54] a full retraining.
+[36:57] Okay. There could be a a couple of
+[37:00] layer. Okay, selected
+[37:03] layer
+[37:06] or there could be a last layer, last
+[37:10] output layer.
+[37:13] This all the thing I clarify in my
+[37:14] previous video you can go and check out.
+[37:17] So if you're talking about the bird
+[37:18] model, if we're talking about the bird
+[37:20] model.
+[37:22] So in bird model this full fine-tuning
+[37:24] is also possible with a small learning
+[37:26] rate.
+[37:28] Okay, we can fine-tune some selected
+[37:31] layer. So this I already to taught you
+[37:34] in my previous video.
+[37:38] You can go and check how to fine-tune
+[37:40] the bird on some selected layer. Last
+[37:43] output this also I have taught you in my
+[37:46] previous video.
+[37:49] Okay, previous video. Now what we going
+[37:52] to see guys? We're going to see like how
+[37:54] we can fine-tune the bird model with the
+[37:56] small learning rate. okay on our own
+[38:00] custom
+[38:02] data. But guys, let's say if I don't
+[38:04] want to be fine- tune the all the layer,
+[38:07] right? All the base layer, all the 12
+[38:09] encoder layer, all the 24 layer, right?
+[38:12] In that case, we can select some custom
+[38:14] number also like last two layer, right?
+[38:17] Last two layer, we can select some last
+[38:20] five layer. It's up to me how many
+[38:22] layers I want to be fine- tuned. I hope
+[38:25] this is clear. Now whenever we're
+[38:27] talking about guys the other model so if
+[38:29] talking about the large language model
+[38:31] the huge LLM model huge LLM model means
+[38:35] what let's say GPD model or llama model
+[38:39] or let's say mistral model or cloud
+[38:42] based model so guys this model like you
+[38:45] cannot fine-tune the last couple of
+[38:49] layer of this model or you cannot
+[38:50] fine-tune the full encoder or decoder
+[38:53] stake of this model. It's not at all
+[38:55] possible. So for this one we have some
+[38:58] other technique. So we'll understand
+[39:00] about the lora Q lura. In Qura the
+[39:03] quantization comes. Okay quantization. Q
+[39:08] is representing the quantization. We'll
+[39:10] have to understand the lora. Then
+[39:12] quantization then we'll understand about
+[39:14] the Q laura. So this technique comes
+[39:17] under theft PFT.
+[39:20] Okay. So with bird model we can
+[39:23] fine-tune the uh all the layers okay on
+[39:27] our own custom data with a small
+[39:28] learning rate but in use lm some state
+[39:31] soda model right a state of art soda
+[39:35] model it's not possible so this thing
+[39:38] we'll see in a upcoming sessions I hope
+[39:40] this is clear now what we are doing see
+[39:42] I kept that code as well if you just
+[39:45] want to be fine-tune the last two layer
+[39:46] you can utilize this code and you can do
+[39:49] that now here what I'm doing Guys, here
+[39:51] you can see we are going to be define
+[39:53] some training argument. So the training
+[39:55] argument I'm going to be keep the output
+[39:57] directory where I'm going to be keep my
+[39:58] finetuned model. Number of epoch, how
+[40:01] many number of epoch you want to be run
+[40:03] per device train best size. So it is
+[40:05] like we are going to be define the best
+[40:07] size over here. per device means if we
+[40:09] have a multiple GPU devices according to
+[40:11] that also we can uh so according to that
+[40:15] means on top of the different different
+[40:17] devices uh this particular batch size is
+[40:20] going to be executed okay so per device
+[40:22] train size means like as of now we just
+[40:25] have single device on uh while we are
+[40:28] going to be trained right so 88 batches
+[40:31] data will be passed in 8 batches okay in
+[40:34] one single batch the eight data point
+[40:36] would be there then logging directory.
+[40:38] So all the log will be captured over
+[40:39] here. Learning rate, this is my learning
+[40:41] rate. It is a small learning rate. Decay
+[40:43] rate. Okay. So it's a decay rate means
+[40:46] it is related to that optimizer. The
+[40:48] optimizer we are going to be use. So
+[40:50] with this particular decay rate my uh
+[40:53] like the weight is not going to be
+[40:54] fluctuate too much. Then report none. We
+[40:57] are not going to be like capture
+[40:58] anything anywhere. Okay. By default uh
+[41:01] all the details is going to be captured
+[41:03] over the uh weight and bices dashboard
+[41:06] over the tension board dashboard we are
+[41:08] not going to be capture it anywhere okay
+[41:10] the details and all so here my training
+[41:12] argument now what I will do guys I will
+[41:14] create my trainer so here I will pass my
+[41:17] model the model which I loaded over here
+[41:19] this is the bird base model okay here
+[41:21] you can see this is the base model now
+[41:24] in the base model we just have 12
+[41:25] encoder you can check out the complete
+[41:27] detail over here if you are going to be
+[41:30] like uncomment this entire code. Okay.
+[41:33] So you will get that. Let me comment
+[41:35] this line and let me comment this line.
+[41:37] You will get all the layers basically.
+[41:39] So how you can get all the layers?
+[41:41] Simply you can run this one this for
+[41:44] loop. So if you are going to be execute
+[41:46] this for loop you'll find out the
+[41:48] parameter. So let me print the parameter
+[41:52] how the parameter looks like. Let me
+[41:54] check regarding how many uh layers it is
+[41:57] showing the parameter. So here it is
+[42:00] saying model is not defined. I haven't
+[42:02] loaded the model. Uh okay the first
+[42:04] place we'll have to load the model. Uh I
+[42:08] have loaded the model now. Model is
+[42:09] there. Okay. I think it got
+[42:12] disconnected. Let me execute it one more
+[42:14] time. So this is done. This is done.
+[42:17] Data set is there. Uh just wait guys.
+[42:20] Let me load it one more time. Maybe the
+[42:22] runtime is disconnected and because of
+[42:23] that it is showing none. Okay. Let it uh
+[42:26] let it load. Okay. So guys uh after
+[42:29] loading the model you can see the
+[42:30] complete layer all the layers of this
+[42:32] bird model. So in total uh in the base
+[42:35] model we have 12 layers. You can check
+[42:37] out the length of it. See or else you
+[42:39] can count it like this. So this is all
+[42:41] the layers. Okay. All the encoders
+[42:43] layers. So this all the thing I have
+[42:44] explained in my previous video as well.
+[42:46] If you will go and check uh over there
+[42:48] also you will find out the complete
+[42:50] detail overview of it. Uh let me comment
+[42:53] as of now uh this particular thing that
+[42:56] is not required. So training argument is
+[42:58] completely clear. Now our trainer in the
+[43:01] model trainer we are passing a model we
+[43:03] are passing a arguments. Okay here we
+[43:06] are passing a data training data and the
+[43:08] data. So this was a data as I shown you
+[43:10] just now. So in a data basically we have
+[43:13] training data as well as the evaluation
+[43:15] data. So see guys this is my training
+[43:18] data. Okay. And is my testing data. We
+[43:21] have created a tokenizer. Tokenizer.
+[43:23] What is the use of it? To convert the
+[43:25] data into the tokens and assign
+[43:26] appropriate numbers. Okay. Then here we
+[43:28] are going to be process the data. We are
+[43:30] going to be process. So we are going to
+[43:32] be mapped with the tokenizer. Then we
+[43:34] are going to be uh converted to this
+[43:36] formatting uh this format. We have a
+[43:38] pytor tensor. We have a input ID
+[43:40] attention mask and this labels. Right?
+[43:42] And then we are going to be return. So
+[43:44] likewise we got the train data. Okay.
+[43:46] And here is what here is my test data.
+[43:48] Now I hope this is clear to all of you.
+[43:51] So this particular data I'm going to be
+[43:52] keep it over here. So here is my train
+[43:55] data and this is my test data. Okay. Now
+[43:58] once I will run it. So my trainer will
+[44:00] be created and top of it I'm going to be
+[44:02] call this train. So guys here now my
+[44:05] model training will be started. I just
+[44:07] have a very small data set. That's why
+[44:09] it is it is not taking much time and it
+[44:11] is like training it very very fast. Uh
+[44:14] after that guys what we can do? We can
+[44:15] visualize this tensor board. uh we can
+[44:17] check out with the log directory the log
+[44:19] directory have been created. So yes uh
+[44:22] see bird fine-tune IMDb this model have
+[44:24] been this particular directory have been
+[44:26] created under this I will be getting my
+[44:28] checkpoints. If I want to save the model
+[44:31] manually I can do that also. I I'll show
+[44:33] you right after the training how you can
+[44:34] save the model basically manually. So
+[44:37] see this is the code for saving the
+[44:39] model manually inside the directory.
+[44:40] Inside the same directory you can save
+[44:42] or else in the inside a different
+[44:44] directory also you can save. It's up to
+[44:46] you wherever uh you can save it. Right.
+[44:48] So trainer train and see over here uh
+[44:51] the training has completed. Now after
+[44:53] that with this tensorboard I can check
+[44:55] out uh I can visualize the log. I can uh
+[44:57] see the visual of it. So I just see
+[45:00] first of all let me show you the log
+[45:01] directory also. See this is the
+[45:03] checkpoint. The checkpoint have been
+[45:04] created. Now if I will refresh it. Uh
+[45:08] so log directory also will be created.
+[45:11] As of now it is not created. It will be
+[45:13] reflecting in some time. Let me execute
+[45:15] this one. Let's see whether it is coming
+[45:17] or not. So syntax is not correct. Let me
+[45:21] check out with this exclamation mark.
+[45:24] And uh yes, so it's working. It is not
+[45:27] reflecting over here. Maybe it might
+[45:29] take some time to reflect over here. But
+[45:32] yeah, it would be there. And then you
+[45:34] can visualize every sort of a log. Okay.
+[45:37] Using this tensorboard, right? So see
+[45:39] tensorboard is running on top of it. You
+[45:41] can check out on uh this link and uh
+[45:44] over here guys. See as of now nothing is
+[45:47] visible.
+[45:50] It will be visible at some time.
+[46:00] Okay. I think we are running it over the
+[46:02] collab and uh it won't be available over
+[46:04] the local host. Fine. I'll be checking
+[46:07] how we can visualize this one. Now
+[46:10] coming to the next part. So using this
+[46:12] particular one trainer.save model we can
+[46:15] save the model. Okay. Manually we can
+[46:17] save the model. Here you can see we just
+[46:19] have the checkpoints. Okay. If you will
+[46:22] look over here we just have checkpoint.
+[46:23] Checkpoint means at a specific uh step
+[46:26] till the specific step we are going to
+[46:28] be save the state of the model not the
+[46:30] complete model. So using this one this
+[46:32] command we are going to be save the
+[46:34] complete model. Okay. Trainer. model.
+[46:37] Now here trainer tokenizer also we going
+[46:40] to save. So let me save the tokenizer
+[46:42] also and uh let me stop this as of now I
+[46:46] I'll come to this one later this one
+[46:49] basically tensorboard how we can
+[46:50] visualize all the stuff all the thing
+[46:53] all the detail. Okay now see my model is
+[46:56] getting saved. Okay so apart from the
+[46:58] checkpoint you can see the complete the
+[47:00] other detail my model and my uh
+[47:02] tokenizer have been saved over here this
+[47:04] one right. So model is there, tokenizer
+[47:07] is there. Now what we'll do? So we we
+[47:09] are going to evaluate the model. So once
+[47:11] I will call this trainer.evaluate on top
+[47:13] of the test data, my model is going to
+[47:15] be evaluate. Okay. So we will find out
+[47:17] the complete uh accuracy details and
+[47:19] all. Right? Inside this matrix see
+[47:21] inside this matrix we have a evaluation
+[47:23] loss, evaluation runtime. Okay.
+[47:25] Evaluation sample per second, evaluation
+[47:27] step per second. So this is the loss.
+[47:29] Okay. How much loss we are getting? This
+[47:31] much of loss we are getting with respect
+[47:32] to our evaluate data set. the data set
+[47:34] test data set which we have provided.
+[47:36] Now if you want to make a prediction so
+[47:38] what we can do simply we can load the
+[47:40] model okay from wherever we have saved.
+[47:42] So we have saved this model over here.
+[47:44] So this is my checkpoint guys as I told
+[47:46] you and here is my complete model means
+[47:49] after the training whatever model
+[47:50] basically uh we have saved you can see
+[47:53] over here it is it is reflecting over
+[47:54] here. Okay. Now we are going to be load
+[47:57] it. So content bird finetune IMDb. Okay.
+[48:00] Content word finetune IMDb. So tokenizer
+[48:03] and model both we are loading from here.
+[48:05] Now here we have a pipeline. So in the
+[48:07] pipeline we are passing this text
+[48:08] classification model and tokenizer. So
+[48:10] this pipeline uh I already explained in
+[48:13] my previous video in the hugging face
+[48:15] itself. If you haven't checked that
+[48:16] please go and check. Now I'm passing my
+[48:19] text. Okay this movie was amazing and I
+[48:21] love the acting. So here I'm going to be
+[48:23] classified using this classifier. Okay.
+[48:25] Where I kept my own custom model own
+[48:27] fine tune model. So once I will execute
+[48:29] it guys it is saying classifier not
+[48:31] defined. So first I will have to execute
+[48:32] this one and see the classifier is
+[48:34] there. Now see we are able to get the
+[48:37] result also. I can simply put the
+[48:38] visualize the result. So label label is
+[48:40] zero score is this much means it is a
+[48:42] positive review. Okay. I hope it is
+[48:46] clear to all of you. Now if you want to
+[48:48] push this particular model the train
+[48:50] model over the hugging face. So this is
+[48:51] the command for this one pushing it to
+[48:53] the hugging face hub. So once I will log
+[48:55] into the notebook we'll have to log into
+[48:57] the notebook with a right token. Okay.
+[48:59] In the previous uh hugging face video I
+[49:01] already explained you if I want to write
+[49:03] anything over the hugging face I will
+[49:05] have to use the right token. So now I
+[49:07] can check what kind of permission I
+[49:09] have. So if I will execute this who I
+[49:11] am. So I will get my entire detail my
+[49:13] account detail. Okay. And here you will
+[49:15] find out the detail of the token right.
+[49:18] So you have the right permission now
+[49:20] because we have a login with the right
+[49:22] token. Okay. Now I can simply push it.
+[49:25] So my bot IMDb. So I can push it to my
+[49:28] repository. my bot imdb two. Okay. And
+[49:31] here is also two because I already
+[49:32] pushed I already checked that. So I'm
+[49:35] pushing it with a different name now. So
+[49:37] if I will execute it, see tokenizer is
+[49:39] getting pushed and here I can push my
+[49:40] model as well. Okay. So simply you can
+[49:43] check out with the hugging phase once
+[49:44] you will run this uh write this hugging
+[49:46] phase. Okay. And if you will check out
+[49:48] with your specific account. See my
+[49:50] account is this sunny 199
+[49:53] you can see the detail of my account.
+[49:54] Let me open that. Okay. So here my
+[49:58] account name is Sunny19. Once I will
+[50:00] check with the account. Okay, just click
+[50:03] on it and here you will you will get all
+[50:06] my models whatever models I have posted
+[50:08] just now. See here uh is my my bot imdb2
+[50:12] model. Okay, this is the model and here
+[50:14] you will find out a tokenizer also. So
+[50:17] tokenizer and model both have been
+[50:19] pushed over here. So but my but I imb
+[50:22] this was the earlier one 2 days ago when
+[50:24] I was practicing I was able to push it
+[50:26] and this is the latest one okay
+[50:29] tokenizer wise I think I will be getting
+[50:31] in a same repository so any model okay
+[50:35] I'm getting I will be getting into the
+[50:36] same repository by but IMDb2 so using
+[50:39] this one this particular ID we can load
+[50:41] the tokenizer as well as we can load the
+[50:43] model as well so if you will look into
+[50:45] the file and version so see every sort
+[50:47] of a detail see tokenizer is also here
+[50:49] along with the model. So model is there
+[50:51] and the tokenizer is also there guys. So
+[50:55] both you can push and you can load at
+[50:57] whenever it is required to you. I hope
+[51:00] this is clear to all of you. Now coming
+[51:02] to the next part. So here guys, not only
+[51:05] for this task, not only for text
+[51:06] classification, we can utilize this but
+[51:09] for any sort of a task for we can
+[51:11] basically fine-tune it for any sort of a
+[51:13] task. Okay. So here guys you can see uh
+[51:16] let me execute it one by one step by
+[51:18] step and then I'll come to the
+[51:20] explanation of it this as well. So here
+[51:23] is my device device is my cuda. Okay
+[51:25] this is the different different
+[51:26] basically classes which I created. So
+[51:29] the different different kind of task
+[51:30] right now let's say if I want to be
+[51:32] fine- tune my model on the
+[51:34] classification uh which I already shown
+[51:36] you. I will simply press one and my
+[51:39] model loading and all everything will be
+[51:40] started and uh it is going to be fine-
+[51:43] tuned the model. Okay, see my finetuning
+[51:45] has started for what? For the text
+[51:47] classification. Okay, now uh if let's
+[51:50] say if I want to be fine- tuned, I'm
+[51:51] just going to be stop the process. Let's
+[51:53] say I want to be fine tuned for the any
+[51:54] task. So simply I will put two and I
+[51:56] will hit enter and see my finetuning
+[51:59] have been started for the any task.
+[52:01] Okay, so this is one custom generic code
+[52:03] which I created. So that see my fine
+[52:05] tuning have been started for the any
+[52:07] task as well. Okay. Now let's say if I
+[52:09] want to be fine- tuned for what? Let's
+[52:11] say if I want to be fine tuned for the
+[52:13] question answering.
+[52:17] So simply I will put three over here and
+[52:19] I will uh run it and see guys what is
+[52:21] happening. My finetuning started for the
+[52:24] uh question answering task. So for any
+[52:26] sort of a task for whatever task I want
+[52:28] to be fine- tuned my llm this word model
+[52:31] I can fine-tune with this uh simple
+[52:33] generic code okay and if I want to be
+[52:36] fine- tuned for all the task in a single
+[52:38] shot let's say like uh so for that you
+[52:41] just have to press four and it will be
+[52:43] fine-tuning my model for all the task
+[52:45] okay so see it has started for the
+[52:48] classification then it will be started
+[52:49] for the basically the next task uh which
+[52:53] is uh basically
+[52:55] any then question answer and all. So
+[52:58] whatever for whatever task you want to
+[52:59] be keep that code you can keep that
+[53:01] particular code. So let me give you the
+[53:03] walkthrough of this modular code the
+[53:04] entire modular code. So if you will
+[53:06] check okay I will give you the walk
+[53:08] through of the one single class rest of
+[53:10] the class you can explore from your end.
+[53:13] So here I have the but okay so I have
+[53:16] the any data. So this see we have two
+[53:19] ways of creating a data set. The first
+[53:22] way which I created over here if you
+[53:24] will look into this particular code. So
+[53:27] in into this particular code what I'm
+[53:29] doing I'm going to be pre-process the
+[53:31] data like this. Okay. So this is a way
+[53:35] of pre-processing the data. This one
+[53:38] pre-process and we are going to be map
+[53:40] it. We are going to be rename the column
+[53:42] set format and all. But guys apart from
+[53:44] this one we have one more pythonic way.
+[53:47] The pyarch way. Let me show you that
+[53:48] particular way. Pych way. Okay. So here
+[53:52] if you will check uh with this
+[53:54] particular class what I what I have done
+[53:56] I have created a class the text
+[53:58] classification data set I'm going to be
+[54:00] import this data set this is from the
+[54:01] hugging phase I have created a init so
+[54:03] this init will be initialize this text
+[54:05] label tokenizer and max length okay then
+[54:08] we have a length so this length will
+[54:09] return the length okay length of the
+[54:12] length of what length of the data set
+[54:13] get item it's going to be written it is
+[54:16] going to take text label it is going to
+[54:17] perform the encoding and it's going to
+[54:19] be written this input ID attention and
+[54:20] label the same thing which was written
+[54:22] in my previous code right so if you want
+[54:25] to understand this dunder method so here
+[54:27] I kept one dummy code so that you can
+[54:30] understand the meaning of this dunder
+[54:31] method so we are going to be initialize
+[54:33] the class okay as we have as we have
+[54:36] created a object so this class will be
+[54:38] initialized with this list okay length
+[54:40] basically I'll check the length if I
+[54:42] will put the len on top of this object
+[54:44] name I will get a length directly if I
+[54:46] will put the 01 I will be getting the
+[54:49] specific item okay using this get item.
+[54:52] So this is one generic uh class I have
+[54:54] created to all of you. You can
+[54:56] understand uh first you can understand
+[54:58] this basic class and then you can go
+[54:59] through with this particular class. Now
+[55:01] where I'm being used this uh specific
+[55:04] class let me show you that as well. So
+[55:06] here guys you can see this is my main
+[55:08] class bird classifier. So this class is
+[55:10] having four to five thing. First we are
+[55:12] going to be initialize the classifier
+[55:13] loading the data training the model
+[55:15] evaluating the model and predicting a
+[55:16] new text. Okay. So here you can see this
+[55:19] is the initiate initiating the class
+[55:21] where I have a model number of classes
+[55:23] max line tokenizer and model and all and
+[55:25] we are going to be set it to the CUDA or
+[55:27] CPU whatever here we are going to be
+[55:29] load the data set after loading the data
+[55:31] set we have load the data set then we
+[55:33] have we are taking a sample then what we
+[55:36] are doing we are going to be taking the
+[55:37] train text and train label okay over
+[55:39] here using this code right train and
+[55:41] test both for board data then from here
+[55:44] we are going to be return now we have
+[55:46] the we have a train function this train
+[55:47] function what it is doing it is going to
+[55:49] be initialize the data see this is the
+[55:50] run data set this is my class the custom
+[55:52] class where I'm passing my data text
+[55:54] train okay train text train labels and
+[55:57] it's going to be return the appropriate
+[55:59] object whatever basically I'm going to
+[56:01] be written from the get item then here I
+[56:03] have a train loader I'm going to be load
+[56:04] the data now here is my optimizer guys
+[56:07] so this is my optimizer this get linear
+[56:10] schedule with warm-up it is for the uh
+[56:12] basically learning rate is going to be
+[56:14] set automatically using this particular
+[56:16] function this is one inbuilt method over
+[56:18] here inside the uh hugging phase then
+[56:20] I'm going to be set model as a train and
+[56:22] here my model training is going to be
+[56:23] start in model training guys first we
+[56:25] are going to be pass the data then we
+[56:27] are going to be calculate a loss and
+[56:28] then here is my optimizer which is
+[56:30] working so once the model will be
+[56:32] trained I'll get my model okay and I
+[56:35] will get my model then we can evaluate
+[56:37] it evaluate my model see here is my
+[56:39] prediction here is my true label we are
+[56:41] not going to perform any sort of a
+[56:42] training we are just going to be
+[56:43] evaluated over the test data okay so
+[56:46] everything I'm going to be written
+[56:47] accuracy of one score in the complete
+[56:49] report from here then predict prediction
+[56:51] with a single data point so prediction
+[56:53] will be there prediction probability so
+[56:55] here I'll be getting my text we're going
+[56:57] to convert into the encoding we are
+[56:59] going to be perform the prediction and
+[57:00] here I'm going to be return that as
+[57:03] simple as that guys so this entire thing
+[57:05] is going to be drive using this
+[57:08] particular method let me show you the
+[57:09] driver method also driver function of it
+[57:12] so run text classification demo so here
+[57:14] I'm going to be print certain
+[57:16] information then I'm going to We create
+[57:17] a object of it. Object of the word
+[57:19] classifier. Here I'll be loading the
+[57:21] data. I'll be getting this train data.
+[57:23] Train text train label text text label.
+[57:27] Okay. Then I'm passing it to the trainer
+[57:28] train. So everything is being trained.
+[57:30] Then evaluate would be there. And then
+[57:33] so here guys we are going to be predict
+[57:35] the custom review means after training
+[57:37] the model what we'll do we'll make a
+[57:40] prediction on top of these particular
+[57:42] review. So this is there inside the run
+[57:44] text classification and my code is going
+[57:47] to means uh we are going to be iterate
+[57:49] on top of this review and we are going
+[57:51] to be make a prediction whether it is a
+[57:52] positive or negative right. Uh so guys
+[57:54] similar to that we have created for the
+[57:56] ne we are doing for the QA also. So I
+[58:00] hope this entire code is clear once you
+[58:02] will go through with it you will able to
+[58:04] you will be able to understand I'll give
+[58:05] you this entire code. So yeah this is it
+[58:08] for this particular video guys. In the
+[58:09] next video, I'll show you the concept of
+[58:11] the distillation and then we'll learn
+[58:14] about the quantization. Until thank you.
+[58:16] Bye-bye guys. Take care. Have a great
+[58:18] day ahead. Thank you.

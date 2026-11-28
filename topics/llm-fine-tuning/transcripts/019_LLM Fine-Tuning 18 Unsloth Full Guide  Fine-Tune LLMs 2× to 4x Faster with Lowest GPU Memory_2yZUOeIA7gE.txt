@@ -1,0 +1,1579 @@
+Title: LLM Fine-Tuning 18: Unsloth Full Guide | Fine-Tune LLMs 2× to 4x Faster with Lowest GPU Memory
+Video URL: https://www.youtube.com/watch?v=2yZUOeIA7gE
+Video ID: 2yZUOeIA7gE
+======================================================================
+
+[00:01] Hey hello everyone. Welcome back to my
+[00:03] YouTube channel. My name is Sunny and
+[00:06] I'm back with another exciting and
+[00:09] important video. So guys, in this video
+[00:12] we're going to discuss about the
+[00:13] onslaught which is very important and
+[00:16] the useful framework for the LLM
+[00:19] fine-tuning. So in the previous video I
+[00:22] discussed about the llama factory and
+[00:25] there I given you the complete guide and
+[00:27] the walk-through of the llama factory.
+[00:30] If you haven't seen this video, please
+[00:32] go and check and believe me guys you
+[00:35] will learn so many things regarding the
+[00:37] llama factory as well as the LLM
+[00:39] fine-tuning.
+[00:40] Now guys, you know I started this
+[00:43] end-to-end LLM fine-tuning playlist so
+[00:46] you can check out inside the playlist
+[00:47] section or else go and check with the
+[00:50] course section. Now apart from this
+[00:52] LLM fine-tuning playlist, you will get
+[00:54] other playlist also like LLM ops,
+[00:57] LangChain, Agent TKI, advanced rag,
+[01:00] multimodal rag, rag from scratch. So if
+[01:03] you are preparing for the generative AI,
+[01:05] this material could be very useful for
+[01:08] you. So if you are new to this channel,
+[01:10] if you are liking the content guys, then
+[01:12] please make sure you are subscribing the
+[01:14] channel and you are liking the video.
+[01:17] Now guys, I created a course as well so
+[01:21] either you can check inside the playlist
+[01:22] or you can check under this course. Now
+[01:25] let me give you the quick walk-through
+[01:26] of this entire playlist. So in total we
+[01:28] have 16 video inside this course. Uh
+[01:31] basically I kept the 16 video. So please
+[01:33] complete all this video. Okay, LLM
+[01:36] fine-tuning 01 inside that I have
+[01:38] discussed the syllabus. So if you want
+[01:40] to check that video is also available
+[01:42] under the playlist section. Otherwise,
+[01:44] complete this course. Here you will get
+[01:46] everything related to the fine-tuning.
+[01:49] Okay?
+[01:50] Now let me give you the quick
+[01:51] walk-through that what all things we are
+[01:53] going to discuss inside this video and
+[01:55] then we'll come to the
+[01:57] theory and then implementation. So, in
+[02:00] this video, we'll discuss what is an
+[02:02] Unsloth, what all model is being
+[02:04] supported by the Unsloth, then we'll see
+[02:06] training types supported by the Unsloth,
+[02:09] okay? And we'll see why Unsloth is so
+[02:11] fast and a memory-efficient.
+[02:14] Then we'll see top key features of the
+[02:16] Unsloth and we'll make a
+[02:19] we'll we'll try to check, right? What
+[02:21] are the differences between the Unsloth
+[02:22] Llama Factory and the Hugging Face. And
+[02:25] finally, we'll come to the practical of
+[02:27] the Unsloth, okay? So guys, when I
+[02:29] looked into this Unsloth, so I really
+[02:32] got amazed. So, there are so many
+[02:34] things, so many features,
+[02:35] right? And this library is very useful.
+[02:39] And basically, it is supporting to so
+[02:41] many model. And if you are fine-tuning
+[02:44] your model, right? So, you can fine-tune
+[02:47] 2x faster with the less RAM, with the
+[02:49] less VRAM, guys. And really, guys, see,
+[02:52] this library is very, very amazing. When
+[02:55] I will show you, like, you will also,
+[02:57] like, surprise just by seeing the
+[02:59] performance and all everything. So,
+[03:01] guys, this library is not a small one.
+[03:03] There are so many things to learn. And
+[03:06] to cover up entire thing in a single
+[03:08] video, it's a bit challenging. So,
+[03:11] I So, in this video, we'll discuss the
+[03:14] theoretical point and I will show you
+[03:15] one practical. And the rest of the
+[03:17] concept related to the other model,
+[03:19] multi-model, and then basically, related
+[03:22] to the
+[03:23] RL, right? Reinforcement learning,
+[03:25] whether it's a GRPO ORPO, all the
+[03:28] different other concept of the
+[03:29] fine-tuning, right? So, we're going to
+[03:30] learn in the upcoming video. Now, apart
+[03:33] from this one, I'll discuss about
+[03:35] different different other framework,
+[03:37] like, Axolotl is one of them.
+[03:39] Definitely, I'll show you that practical
+[03:41] is also ready. Maybe that would be the
+[03:42] next video, okay? So, now without
+[03:45] wasting a time, guys, let's start. Let's
+[03:47] start with the Unsloth. And then, I will
+[03:50] come to the practical.
+[03:52] So guys, now let's understand what is
+[03:55] the Unsloth. So Unsloth is an
+[03:57] open-source project for the LLM
+[03:59] fine-tuning. It help you to run the
+[04:02] end-to-end pipeline. So what does it
+[04:05] mean? Let's understand. So Unsloth allow
+[04:08] you to load the model, to apply the
+[04:11] quantization, means you can perform the
+[04:14] different different kind of
+[04:15] quantization. Then you can train the
+[04:17] model, you can perform the inferencing,
+[04:20] you can evaluate the performance, then
+[04:22] you can save the trained model, and you
+[04:24] can export. So all of these guys 2x
+[04:28] faster with up to 70%
+[04:30] less
+[04:31] GPU memory. That is called VRAM. Okay?
+[04:35] So this is the main advantage or this is
+[04:37] the main and the important feature of
+[04:39] the Unsloth. So let me give you the
+[04:42] quick walk-through of the Unsloth
+[04:44] GitHub. So guys, once you will write
+[04:46] Unsloth GitHub on the Google, right? You
+[04:48] will get it. So here is the entire
+[04:50] source code of the Unsloth. You can take
+[04:53] a walk-through of it. So the entire
+[04:55] source code is a open-source. Once you
+[04:57] will go and check inside this Unsloth,
+[04:59] right? You will find out the different
+[05:00] different folder like utils, registry,
+[05:02] model, kernels, okay, data preparation
+[05:05] and all. So you can look into that, you
+[05:07] can understand the entire code and all
+[05:08] so that your understanding will be more
+[05:11] concrete.
+[05:12] So guys, just check out the README file.
+[05:15] So inside the README file they have
+[05:17] mentioned so many things regarding their
+[05:18] model. Okay?
+[05:20] Then they mention on what all platform
+[05:22] actually you can install this Unsloth.
+[05:25] Now Unsloth news means if anything they
+[05:27] are updating inside the
+[05:30] inside the source code or any new
+[05:31] features, so they are keeping it over
+[05:33] here. So you can look into this Unsloth
+[05:35] latest news.
+[05:37] Then guys, link in the resources, so you
+[05:39] can join their community, you can go
+[05:40] through with the documentation, their
+[05:42] Twitter page. Okay? So different
+[05:44] different hyperlink they have provided
+[05:45] over here. Now what is the key feature?
+[05:47] You can read from here as well. Okay? I
+[05:49] kept all these things in my notes, so I
+[05:52] will provide you. Definitely, I'll
+[05:54] provide you. Now, installation of the
+[05:56] Unsloth. So, they have given you the
+[05:57] complete detail how you can install it.
+[05:59] And then they have given you the like
+[06:01] complete preview of this documentation.
+[06:03] If you want to explore the documentation
+[06:05] in detail, you can click on it.
+[06:07] Otherwise,
+[06:08] like they have given you the complete
+[06:10] like the short
+[06:12] code only, the quick start code. So, you
+[06:14] can take this code and you can run
+[06:15] inside your
+[06:17] system, right? On your server, wherever
+[06:19] you want to be run. Then
+[06:21] see the basically some information
+[06:24] regarding your reinforcement learning
+[06:25] that what technique is being supported,
+[06:27] some hyperlink. Definitely, you can
+[06:28] check it out. Okay, and then performance
+[06:30] benchmarking. So, these many things they
+[06:32] have provided over the GitHub itself
+[06:35] inside the readme.
+[06:37] I would say this GitHub and this
+[06:39] documentation is a very useful if you
+[06:42] are willing to start with this Unsloth.
+[06:44] It will give you like so many thing and
+[06:46] every kind of detail. So guys, just go
+[06:48] through with their GitHub.
+[06:49] If you want to be like go and check
+[06:51] their source code, go and check.
+[06:53] Otherwise, check with their
+[06:55] documentation, okay? Over the
+[06:56] documentation,
+[06:58] they have given you each and every
+[06:59] information in a very structured way.
+[07:02] So guys, I hope you understood what is a
+[07:04] Unsloth. So, Unsloth is nothing just a
+[07:06] project which is coded by someone else
+[07:08] and we are using it. Now, they have done
+[07:11] some sort of a optimization in their
+[07:13] code. Means everything they are building
+[07:16] on top of the Hugging Face, right? On
+[07:18] the Hugging Face native library like
+[07:19] Transformer, PEFT and all. On top of it,
+[07:22] they have done some sort of a
+[07:24] customization, right? And that
+[07:25] customization is very useful for
+[07:28] achieving the speed as well as the less
+[07:31] GPU memory, okay? I hope you got it.
+[07:34] Now, what kind of inferencing is
+[07:36] supported by the Unsloth? Means let's
+[07:38] say if you're training a model
+[07:40] and after the after the training, you
+[07:42] want to do save somewhere means you you
+[07:44] are exporting that model. Now, where you
+[07:46] can use that and what all places you can
+[07:49] use that? So, these are the name, guys.
+[07:51] You can use it
+[07:52] in the llama.cpp.
+[07:54] Uh, you know llama.cpp, right? So, we
+[07:56] can run the GG GUF or GGUF model over
+[07:59] there. I already explained in my
+[08:01] previous video. If you don't know, go
+[08:02] and check over there. Then we can run
+[08:04] the same model over the Ollama. We can
+[08:06] run the same model uh through the vllm.
+[08:09] We can run the same model through the SG
+[08:11] Lang Hugging Face off means we can
+[08:12] upload the model of the Hugging Face and
+[08:14] we can export it through the Hugging
+[08:16] Face native libraries. And we can
+[08:18] utilize that model uh or we can use the
+[08:21] model through the Open Web UI. So, these
+[08:23] are the different different platform.
+[08:25] Okay, these platform are supporting
+[08:27] their Unsloth model. So, if you're
+[08:29] training a model through the Unsloth and
+[08:31] if you're exporting that, then you can
+[08:32] utilize it anywhere. Okay, at any
+[08:35] platform. I hope you understood it. Now,
+[08:38] I mentioned couple of more points. So,
+[08:40] what all model is being supported by the
+[08:42] Unsloth? So, Unsloth, guys, is uh not
+[08:44] only supporting the text-to-text model.
+[08:47] It is supporting the text-to-uh
+[08:49] image, image-to-text, audio-to-text,
+[08:52] text-to-audio means all the multi-model.
+[08:55] Whether it's supporting the text,
+[08:56] images, or video audio. Okay. So,
+[08:59] whatever model is available over the
+[09:02] Hugging Face, all the model is being
+[09:03] supported by the Unsloth. Means I will
+[09:06] show you their repository. Uh, actually
+[09:08] Unsloth has created one repository over
+[09:10] the Hugging Face itself. So, you can
+[09:12] directly fetch all their model from
+[09:13] there. And see here I mentioned the
+[09:15] example also. So, this is the normal uh
+[09:18] repository, okay? Uh, of the Tiny Llama.
+[09:21] And
+[09:22] uh the same model actually the Tiny
+[09:24] Llama model you can fetch from the
+[09:25] Unsloth. So, this entire thing I will
+[09:27] show you uh in some time, okay?
+[09:29] Everything I'm going to be showing you
+[09:30] in terms of practical as well as I will
+[09:32] give you the I will give you the quick
+[09:34] walk through from the Hugging Face also.
+[09:36] Now, guys, training, what kind what all
+[09:38] kind of training is being supported by
+[09:40] the Unsloth? So, training wise you can
+[09:42] do the full fine-tuning. Full
+[09:44] fine-tuning means you can train all the
+[09:46] parameter of the model
+[09:47] or you can perform the LoRA. Means you
+[09:49] can perform the you can basically train
+[09:52] the subset of the parameter and then you
+[09:54] can use that as a adapter, okay? Then
+[09:57] QLoRA means a quantized LoRA.
+[10:00] You can
+[10:01] uh load the quantized model on top of
+[10:02] that you can perform the LoRA. Then
+[10:04] 6-bit LoRA, FP8 training, okay? Or
+[10:08] basically you can see over here the
+[10:10] different type of reinforcement
+[10:12] learning. So, guys, if we're talking
+[10:14] about the reinforcement learning, so
+[10:16] different different kind of
+[10:17] industry-leading reinforcement technique
+[10:19] is being supported by this Unsloth. And
+[10:22] that's the main power of the Unsloth.
+[10:23] So, here I mentioned couple of name. So,
+[10:26] you can perform the reward modeling
+[10:28] using the KTU and PPO. Now, apart from
+[10:31] that, you can perform the latest like
+[10:34] technique like GRPO, which is
+[10:36] which is being performed in the
+[10:38] DeepSeek itself, okay?
+[10:40] And GSPO, DPO, ORPO, right? So, every
+[10:44] kind of reward every kind of basically
+[10:46] preference training, preference
+[10:48] alignment training, you can do using
+[10:50] this Unsloth, right? And like guys,
+[10:54] believe me, it will give you the very
+[10:55] good
+[10:56] speed as well as it will utilize very
+[10:59] less memory while you are training,
+[11:01] okay, your model. I will show you with
+[11:03] all the coding and all. Everything,
+[11:05] guys, I will discuss in some time. So, I
+[11:07] hope you got the quick over
+[11:09] overview of the Unsloth. Now, let's look
+[11:12] into their features.
+[11:14] And let's see why this Unsloth is faster
+[11:17] because that two thing is very very
+[11:20] important, guys.
+[11:22] Now, guys, before exploring the key
+[11:25] features of the Unsloth, let's take a
+[11:28] overview of the Unsloth hugging face
+[11:30] repository. Let's see how many models
+[11:33] are available over here. So, guys, once
+[11:35] uh you will write Unsloth over the
+[11:37] hugging face, you will get this uh
+[11:39] particular repository. Now, under this
+[11:41] repository, total 1,150 models are
+[11:45] available. Every sort of a model you
+[11:47] will get over here, whether it's a text
+[11:48] base or video based uh or for the
+[11:51] images, for the audios, and all. Okay?
+[11:54] Now, guys, uh
+[11:56] uh here you can see. So, we have a model
+[11:58] that is Tiny Llama. And there is uh like
+[12:01] one more model, Tiny Llama, right? So,
+[12:04] both are different model or both is a
+[12:06] like same one. So, guys, over here you
+[12:08] will see. So, this Tiny Llama actually,
+[12:11] it is belonging to this Unsloth
+[12:12] repository. And this Tiny Llama model,
+[12:15] it is belonging to this official
+[12:17] repository of the Tiny Llama. Okay? So,
+[12:20] guys, uh let's see the differences. Uh
+[12:22] actually, these both models are
+[12:24] different. Uh Unsloth have done some
+[12:26] sort of a optimization. So, let's look
+[12:28] into the optimization, okay? What all
+[12:29] kind of optimization optimization have
+[12:31] been performed. So, uh here I mentioned
+[12:34] the optimization, guys. Uh let me show
+[12:36] you.
+[12:38] This is all the like optimization, which
+[12:40] is uh which have been performed by the
+[12:41] Unsloth. So, we're talking about the
+[12:44] normal hugging face based model.
+[12:46] So, the model name is what? The model
+[12:47] name is a Tiny Llama, okay? This one, 1B
+[12:50] chat uh v1.0, okay?
+[12:52] Now, here we can load this particular
+[12:54] model with the HF transformer. We can
+[12:56] apply some bits and bytes. Uh we can uh
+[12:58] perform the LoRA, okay? And then
+[13:01] it is being trained using the PyTorch
+[13:03] kernel, right? It's standard PyTorch
+[13:04] kernel. But if we're talking about the
+[13:06] Unsloth one, so Unsloth basically, the
+[13:09] same Tiny Llama model on top of it, uh
+[13:11] they have done some sort of a
+[13:12] quantization. Means uh if you're going
+[13:14] to be load the model from the Unsloth
+[13:15] repository, so that is a pre-quantized
+[13:17] model.
+[13:18] Uh then uh they're using the Triton
+[13:21] kernel. So, it is like more than this uh
+[13:23] standard PyTorch kernel. It is a
+[13:25] specific kernel uh
+[13:27] uh this kernel basically have been used
+[13:29] by the chat GPT also okay for the GPT
+[13:32] model for the training. So try it on
+[13:35] kernel and then manual auto grade and
+[13:37] this auto packing. So these are some
+[13:39] feature which have been implemented on
+[13:42] top of the base model to make the model
+[13:44] little faster and the lighter. Okay, so
+[13:46] that we can load it inside the minimum
+[13:49] VRAM. Now what are these features? So
+[13:51] definitely I will give you the quick
+[13:53] walk through under the key feature of
+[13:54] the Unsloth. And if you want to
+[13:56] understand the mathematics behind it,
+[13:58] for that basically I will record a
+[14:00] separate video because before
+[14:02] understanding the mathematics of this
+[14:05] auto grade and the other concept and
+[14:06] all, our fundamental should be clear,
+[14:08] right? How the LLM have been trained
+[14:10] from a scratch. So once I will record
+[14:12] that particular playlist, under that I
+[14:14] will keep this
+[14:15] features, I will keep this points also.
+[14:17] But yeah, don't worry, I will give you
+[14:19] the quick walk through of these
+[14:21] particular feature. We have so many
+[14:23] actually, five to six more. So yeah, I
+[14:25] will give you the quick walk through.
+[14:26] Now I hope you understood
+[14:29] uh you understood about this Unsloth
+[14:31] repository. Just go through and try to
+[14:34] explore each and every model. How to use
+[14:36] it, I will show you in some time. Now
+[14:38] one more thing guys, let me show you
+[14:41] that as well because that is very much
+[14:43] important. So here I mentioned one
+[14:45] point. Try to read this point. So
+[14:47] Unsloth is built on top of the hugging
+[14:49] face transformer path and the TRL. Okay.
+[14:52] So hugging face, sorry, Unsloth is built
+[14:54] on top of the hugging face transformer
+[14:57] path and TRL, but it enhance them with a
+[14:59] low-level GPU optimization to deliver 2x
+[15:02] 3x faster and 50 to 80% better memory
+[15:06] efficiency. So what is the conclusion?
+[15:09] What what I wanted to say you guys? So
+[15:11] what I wanted to say you, so if talking
+[15:13] about the Unsloth, so this is also built
+[15:16] on top of the hugging face. Okay,
+[15:18] hugging face transformer. So under the
+[15:21] hugging face basically you will find out
+[15:23] one very important library that is a
+[15:25] transformer. And this transformer,
+[15:28] actually, it's a open source project. It
+[15:30] is a open source code which completely
+[15:33] written in the Python. And some sort of
+[15:35] a part of the transformer, right,
+[15:37] specifically the tokenizer have been
+[15:39] coded in the rust, right? So, guys, this
+[15:42] transformer, this is a very important
+[15:44] project of the hugging face, right? And
+[15:47] this transformer completely written in
+[15:49] the Python. And there they have used the
+[15:51] PyTorch and the TensorFlow and even JAX.
+[15:54] Okay? Now, guys, if you're talking about
+[15:56] the PyTorch and TensorFlow, so what is
+[15:58] like the back end the low-level language
+[16:00] for these framework? We all know, right?
+[16:02] So, this
+[16:03] this framework have been written in the
+[16:04] C++, right? So, PyTorch again the back
+[16:08] end of the Python completely written in
+[16:09] the C++, even for the TensorFlow.
+[16:12] Even basically some kernels also have
+[16:15] been written in the C++, okay? So, this
+[16:17] transformer and this PEFT TRL actually,
+[16:20] it's a native library of the hugging
+[16:21] face. So, let me show you the
+[16:23] raw code of this transformer and the TRL
+[16:27] and the PEFT also. So, guys, over here
+[16:29] you can see. So, this is the code of the
+[16:31] transformer. This is a very important,
+[16:32] guys. And this is a backbone of every
+[16:35] framework. So, whatever framework you
+[16:37] are seeing, whether it's the Axolotl,
+[16:39] whether it's a Llama Factory on Unsloth,
+[16:41] right? So, it is a backbone of all the
+[16:44] framework. Actually, they are using the
+[16:45] same source code. And on top of it they
+[16:48] are making some changes, some
+[16:49] enhancements. Okay? And then it is
+[16:50] making some like faster or little memory
+[16:54] efficient and all. So, this is the
+[16:55] source code of the transformer, guys.
+[16:57] And this is very amazing. And see here
+[16:59] the number of a star and the number of
+[17:01] fork, right? Just go through with it.
+[17:03] You will learn so many things regarding
+[17:05] the transformer. Your fundamental will
+[17:07] be very very strong. Okay? Now, apart
+[17:09] from that, you can see so one more
+[17:11] library that is TRL, okay? One more
+[17:13] repository. So, yeah, this source code
+[17:15] is also this source code is also public.
+[17:18] You can definitely navigate to this
+[17:19] entire source code. And one more very
+[17:21] important library that is packed, right?
+[17:23] So, I think we all know about about this
+[17:25] TRL packed and the transformer. And even
+[17:28] I showed you the practical of with all
+[17:30] this library in my previous to previous
+[17:31] video, right? If you don't know, you can
+[17:33] go and check over there. So, what I
+[17:35] wanted to say here, I want to say guys,
+[17:37] so the base of every library is this
+[17:40] transformer only. Transformer, packed,
+[17:43] and the TRL only. This is very much
+[17:45] important. Okay, most of the
+[17:47] low-level code have been written inside
+[17:49] this transformer itself. And the code
+[17:51] have been written in the inside the
+[17:52] PyTorch and the TensorFlow. Now guys,
+[17:55] you know, right? So, this is under the
+[17:57] hugging face.
+[17:58] Okay, this all the library, this all the
+[17:59] packages comes under the hugging face,
+[18:01] right? Hugging face actually they they
+[18:03] created it and then they make it
+[18:05] like they make it open source, okay? For
+[18:07] the public so that other developers also
+[18:09] can contribute over there. Then on top
+[18:11] of it the Anarchy have been built. Okay,
+[18:13] this is a optimized engine. So, if you
+[18:16] are looking to the
+[18:17] Anarchy, right? If you are looking into
+[18:19] the source code, so just think just just
+[18:22] think one thing that this is the
+[18:24] optimized engine on top of the
+[18:26] transformer, on top of the hugging face
+[18:28] base library, like transformer, TRL, and
+[18:30] the packed, okay?
+[18:32] So, yeah, so there this again Anarchy
+[18:34] basically is using the
+[18:36] Triton kernel. This is a very specific
+[18:38] and a very powerful kernel, okay?
+[18:40] Regardless this
+[18:41] the PyTorch the standard PyTorch kernel.
+[18:44] Okay, if I'm saying kernel guys, it's
+[18:45] nothing.
+[18:46] It is just a set of programs, okay?
+[18:48] Which have been written in the C++,
+[18:51] which is
+[18:52] which is for the GPUs. That's it guys,
+[18:54] nothing. Kernel is nothing, okay? And so
+[18:57] that my application is running over the
+[18:58] GPU itself. So, I hope you understood
+[19:01] what is the Anarchy and where it is
+[19:03] standing.
+[19:04] And I think your all the doubts related
+[19:07] to the Anarchy is clear now. Let's look
+[19:09] into the documentation and the key
+[19:11] features. After that, I will show you
+[19:13] the practical, guys.
+[19:15] So, guys, uh the goal of the Unsloth or
+[19:18] the main claim of the Unsloth is uh 2 to
+[19:21] 3x faster training, uh 50 to 80% less
+[19:25] GPU memory usage. So, it gives ability
+[19:29] to train large language model even on
+[19:32] the free GPUs like Colab and the Kaggle.
+[19:35] Even I will show you the practical with
+[19:36] the free GPU only, and easily we can
+[19:39] train our model with the Unsloth.
+[19:41] Now, uh what does it mean? And uh how
+[19:44] they are achieving this uh fast uh of
+[19:47] this fast training and the efficient
+[19:48] memory? Now, let's uh like take a look.
+[19:52] So, uh here uh what uh what they are
+[19:53] saying? They are saying,
+[19:55] "If normal task, right? If the task
+[19:57] normally takes 10 hour and uh uh 40 GB
+[20:00] of VRAM using a standard Hugging Face
+[20:03] training, then it will only take 5 hour
+[20:05] and uh 12 to 16 GB of VRAM with the
+[20:08] Unsloth."
+[20:09] Right? So, this is the claim of the This
+[20:12] is the claim, actually, of the Unsloth.
+[20:14] So, uh let's understand with this
+[20:15] particular example. Let's say we have a
+[20:17] model. The model name is Llama 3.1,
+[20:19] okay? The parameter is around 8 billion.
+[20:22] Now, if Hugging Face takes 20 GB of
+[20:24] VRAM, so Unsloth will only take 70 to 80
+[20:27] GB 70 to 8 7 to 8 GB VRAM, okay? If
+[20:31] Hugging Face takes 2 hour of training,
+[20:32] then Unsloth will finish within an hour
+[20:35] itself. So, this is the claim of the
+[20:37] Unsloth, guys. Now, just see the
+[20:38] differences. But, guys, you must be
+[20:40] thinking, "So, how all this thing is how
+[20:44] all these things are possible?
+[20:46] What kind of changes they have done
+[20:48] because of that this uh thing could be
+[20:50] possible?" So, guys, here I listed
+[20:52] couple of reason. So, because of this a
+[20:54] particular reason, the things is
+[20:56] possible, okay? So, let's uh understand
+[20:58] each and every reason why by one by one.
+[21:00] I'm not going to teach you the
+[21:01] mathematics the complete detail uh
+[21:03] in-depth mathematics, but yeah, I will
+[21:05] give you the overview and some idea,
+[21:07] okay, how these things are working.
+[21:09] So, we're talking about this we're
+[21:10] talking about the first one, first
+[21:12] reason. So, custom CUDA and Triton
+[21:15] kernel. So, first of all, we'll have to
+[21:17] understand about this term CUDA, right?
+[21:19] What is a CUDA?
+[21:21] So, we're talking about the CUDA, guys.
+[21:23] So, CUDA is nothing. It's a
+[21:26] framework.
+[21:27] Okay?
+[21:28] It's a framework.
+[21:31] It's written by the Nvidia.
+[21:34] Okay?
+[21:35] It's written by the Nvidia.
+[21:38] Specifically, it's written by the Nvidia
+[21:39] for what? For the GPUs, right? So, CUDA
+[21:43] is a framework which is written
+[21:45] specifically
+[21:46] for the
+[21:48] GPU training.
+[21:49] Okay? For the GPUs, actually. And it's
+[21:52] written by the Nvidia. And this
+[21:54] framework
+[21:56] this CUDA framework, actually,
+[21:58] it was written using this C++. Mostly,
+[22:01] the C++ have been used over there. So,
+[22:03] you can say CUDA is nothing. It's just a
+[22:05] library or framework which have been
+[22:06] written in the C++. Okay? Which is
+[22:09] written by the Nvidia specifically for
+[22:11] the GPU. Now, what is this Triton, guys?
+[22:14] Triton, again, it is a kernel like the
+[22:17] like the CUDA. Okay? This Triton, it is
+[22:20] written by the OpenAI.
+[22:25] So, it is a OpenAI It's a OpenAI's
+[22:27] kernel.
+[22:29] Got it, guys? So, it's a OpenAI's
+[22:31] kernel. So, they have written some they
+[22:33] made some changes inside the CUDA kernel
+[22:35] the existing itself. They have used a
+[22:38] Triton kernel. And because of that
+[22:41] because of that only, they are able to
+[22:43] do the faster operation on top of the
+[22:45] GPUs. That is a one reason. The other
+[22:48] reason which I listed over here, fused
+[22:50] attention and MLP operation. So, what
+[22:53] does it mean, guys? So, if you know the
+[22:55] transformer architecture is having two
+[22:58] main thing. Now, the first uh thing is
+[23:00] called the attention. Okay?
+[23:04] Attention.
+[23:06] So, first uh block basically it's a
+[23:07] attention block. Let me write over here
+[23:09] attention.
+[23:11] The second block it's a MLP, multi-layer
+[23:13] perceptron.
+[23:16] Okay? Now, guys, this two operation are
+[23:18] the separate operation. So, they have
+[23:21] fused this operation, okay? Means they
+[23:22] have merged this operation. They have
+[23:24] used some sort of a technique in back
+[23:26] end. So, this both operation is
+[23:28] happening altogether. So, that's the
+[23:29] simple meaning, okay? Optimize forward
+[23:32] and the backward propagation. So, yeah,
+[23:33] this is also possible.
+[23:35] Means uh the epoch basically, right? We
+[23:37] are running. So, they have optimized
+[23:38] that also in terms of loss function and
+[23:40] the optimizer. Then, a smart uh gradient
+[23:43] checkpointing. So, what does it mean,
+[23:44] guys? Whenever we are going to create a
+[23:46] checkpoint, okay? So, uh in that also
+[23:48] they have make some sort of a changes.
+[23:50] Means uh
+[23:51] uh they are not going to be do the uh
+[23:53] checkpointing in uh every at basically
+[23:56] every point. Uh they are going to be
+[23:57] stored in a memory and then uh they are
+[24:00] uh going to be highlight that, okay?
+[24:02] Something some kind of changes that kind
+[24:03] of changes basically they have made.
+[24:05] So, the next is, guys, flash attention
+[24:08] compatibility. So, what is a What is a
+[24:10] flash attention? So, if you will search
+[24:12] over the Google, you will get this uh
+[24:14] GitHub repository. So, flash attention
+[24:17] basically it's a optimization on top of
+[24:19] the attention, right? So, just look into
+[24:21] this particular repository. It's a like
+[24:23] open-source repository. Just read out
+[24:24] their read me at least. So, let's read
+[24:27] at least the first point. So, they are
+[24:29] saying this repository provide the
+[24:30] official implementation of the flash
+[24:31] attention and flash attention two.
+[24:34] So, flash attention is a fast and memory
+[24:36] efficient exact attention with the IO
+[24:38] awareness. So, how we can uh efficiently
+[24:40] load the attention operation in the
+[24:42] memory in the RAM actually? So, it is
+[24:44] all about that. So, just read out this
+[24:46] particular read me. You will get each
+[24:48] and everything regarding the flash
+[24:49] attention. On in some other uh dedicated
+[24:52] session, I will discuss about this flash
+[24:54] attention. It's a very important thing,
+[24:55] guys. Or it makes the you know, uh like
+[24:59] uh I I showed you one point. Okay, I
+[25:00] I'll show you I I kept that particular
+[25:02] point. So, long context training. So,
+[25:04] this is possible. This long context
+[25:06] training basically it is like it is
+[25:07] possible because of this flash attention
+[25:09] only. So, this is also one of the point
+[25:12] which is being implemented by this
+[25:13] Unsloth developer. Then manual back
+[25:16] back propagation engine, not the PyTorch
+[25:18] autograd. Means for the back propagation
+[25:20] they are not using a PyTorch autograd
+[25:21] graph. So, whenever the back propagation
+[25:23] happening, PyTorch autograd is creating
+[25:25] one graph, okay, one DAG one DAG
+[25:27] actually direct acyclic graph. So, it is
+[25:30] not using that particular one. It
+[25:31] instead of that they have they are using
+[25:33] some other logic, okay, inside the back
+[25:34] propagation also.
+[25:36] Automatic sequence packing. So, what
+[25:38] does it mean, guys? So, you know, guys,
+[25:40] whenever we are passing any text, okay,
+[25:42] let's say we are passing any text. So,
+[25:44] the text basically
+[25:46] let's say whatever text we have. So,
+[25:47] let's say we have sentence one. Right?
+[25:49] And we have sentence two. So, first we
+[25:52] are passing vector regarding the
+[25:53] sentence one. Then we are passing vector
+[25:55] regarding the sentence two, right? So,
+[25:57] this this particular sentence this
+[25:59] particular sequence this particular
+[26:00] sequence this vector is getting merged.
+[26:02] Okay, this vector is getting merged. So,
+[26:04] that is called the automatic sequence
+[26:06] packing. Means sentence one and sentence
+[26:08] two we can combine all together and we
+[26:10] can pass, right?
+[26:12] Something like that. So, these kind of
+[26:13] optimization they have done. Again, I
+[26:15] can repeat that. So, custom kernels,
+[26:17] custom CUDA and the Triton kernel, okay.
+[26:19] Then fuse attention and the MLP
+[26:22] operation. They have combined the MLP
+[26:23] and the attention operation. Attention
+[26:25] wise they have used the like flash
+[26:27] attention, okay. Now, some gradient
+[26:29] checkpointing and the optimization
+[26:31] forward sorry, optimization the forward
+[26:33] and the back propagation. Means on a
+[26:35] optimizer level and even on the loss
+[26:37] function. Means they have haven't like
+[26:39] touched to the mathematics part, right?
+[26:41] They have just tweaked the programs,
+[26:42] right? Program they they just made the
+[26:45] changes on the programming level. That's
+[26:47] it, guys. Then programming level and how
+[26:49] basically this entire system is
+[26:51] interacting with the the with our
+[26:54] server, basically, with our IO
+[26:55] operations, right? That's the main one,
+[26:57] main part. Now, automatic sequence
+[27:00] packing, I think I already told you,
+[27:01] right? A manual back propagation engine,
+[27:03] so they are not going to be used the
+[27:04] PyTorch autograd, right? For the back
+[27:06] propagation operation and all, they are
+[27:07] using the manual and the customized back
+[27:09] propagation. So, because of that only,
+[27:11] guys, they are not going to be lose
+[27:14] anything. Okay, the accuracy accuracy
+[27:16] loss is like negligible or like very
+[27:19] minimum. And they're able to achieve two
+[27:21] to three x faster training and with the
+[27:25] minimum RAM, right? With a 50 to 80%
+[27:28] less VRAM, right?
+[27:30] Now, over here I written some sort of a
+[27:31] more point, so if we're talking about
+[27:33] the con CUDA and video low-level CC++
+[27:36] library, so what is the If someone is
+[27:37] going to be ask you, what is a CUDA? So,
+[27:39] it's a NVIDIA's low-level CC++ library
+[27:42] specifically built up for the GPU,
+[27:44] right? And because of that only the
+[27:46] parallel operation is possible and it is
+[27:48] like
+[27:49] fast, right? So, uh it's like very fast.
+[27:53] Now, what is a Triton, guys? So, again,
+[27:55] it is a like kernel, okay? It's a
+[27:58] CUDA-like kernel specifically have been
+[27:59] designed for the GPU itself by the
+[28:02] OpenAI.
+[28:03] So, yeah, because of this thing, guys,
+[28:04] the onslaught is becoming like faster in
+[28:07] the memory efficient. Now, let's look
+[28:09] into some more key feature and then I'll
+[28:11] basically come to the practical, guys.
+[28:14] Now, guys, let's revise the top key
+[28:17] features of the onslaught. So, the first
+[28:19] is long context training. This is a very
+[28:23] important and the amazing feature of the
+[28:26] onslaught. So, the meaning is onslaught
+[28:28] can handle up to 300k token training.
+[28:32] So, guys, 300k, just imagine two to
+[28:36] three lakh of words. It is equal to one
+[28:38] single book. So, it can handle up to
+[28:41] 300k token training. It's like really
+[28:44] amazing. So, the same thing in the
+[28:46] normal HF training will give you the out
+[28:49] of memory error. So, uh if you're taking
+[28:51] this much of data and you're simply
+[28:54] using the hugging face, okay? In that
+[28:57] case, you cannot do it, guys. You cannot
+[28:59] do it. It will give you the error. The
+[29:01] maximum limit is 28K token, okay? 28,000
+[29:06] token. So, guys, uh here I kept one
+[29:08] example. Maybe with this uh particular
+[29:10] example, your understanding will be a
+[29:12] bit more clear. So, here I written uh
+[29:14] the model name. Model name is Llama
+[29:16] 3.18B,
+[29:18] okay?
+[29:19] So, approximate uh maximum context
+[29:21] length using the Unsloth, means in how
+[29:24] much memory, how much context uh we can
+[29:27] bear, right? How much tokens we can
+[29:29] bear. So, if you have 8GB of memory, in
+[29:31] that case, we can uh like uh take up to
+[29:34] 3,000 token. If you have 12GB memory, in
+[29:36] that case, we can take up to 21,000
+[29:38] token. If you have 16GB of memory, we
+[29:41] can take up 40,000 token. 24GB memory,
+[29:44] 78,000 token. Guys, remember, 24GB
+[29:47] memory means the same amount of memory
+[29:50] we get in the Colab, okay? I think no,
+[29:52] 12 to 16GB of memory. I I'm not sure. I
+[29:54] will have to check. But, guys,
+[29:56] with the free GPU itself, we can bear at
+[29:59] least 40K thousand token, right? And the
+[30:03] same thing uh same thing basically in
+[30:05] the hugging face uh will definitely give
+[30:07] you the error. So, how this thing is
+[30:09] possible? Let's understand that part.
+[30:12] Now, if you if you have 80GB of memory,
+[30:14] in that case, you can handle up to 3
+[30:16] lakh 40K 40,000 token, okay?
+[30:20] Now, these number are possible due to
+[30:21] Unsloth memory efficient kernel, smart
+[30:23] checkpointing, and the rope is scaling.
+[30:26] Now, let's compare with the hugging
+[30:28] face.
+[30:30] So, guys, uh with the same standard
+[30:32] hugging face training, okay? Uh 12GB of
+[30:35] GPU will give you out of memory error,
+[30:37] means you will not be able to load the
+[30:39] model. That's the first thing. The
+[30:41] second thing, uh on 80 GB of GPU, only
+[30:45] 28 K tokens. Getting my point, guys? So,
+[30:48] here what I wanted to say,
+[30:50] I wanted to say, if you have Unsloth and
+[30:53] you have 80 GB of RAM, then you can
+[30:55] train up to 340,000 tokens. But, if you
+[31:00] have Hugging Face, the normal Hugging
+[31:01] Face, not the Unsloth model, okay?
+[31:03] You're not optimizing using the Unsloth
+[31:05] and all, nothing. Simple Hugging Face.
+[31:07] In that case, only you can bear 28,000
+[31:11] tokens. That's it, guys. So, that's the
+[31:12] power of the Unsloth. And the same
+[31:14] feature have been highlighted over the
+[31:16] documentation and even over the readme
+[31:19] page of the GitHub, okay? Unsloth
+[31:21] GitHub. Now, let's look into the other
+[31:24] feature of the Unsloth. I think you all
+[31:25] already I already discussed about it,
+[31:28] but yeah, let's take a revision of it.
+[31:29] So, massive VRAM reduction. Yeah, this
+[31:31] is possible, like up to 50 to 80%
+[31:33] reduction. I think you know why. So, I
+[31:36] already highlighted points because of
+[31:38] that. It's going to be reduced the
+[31:39] memory.
+[31:40] Then, reinforcement learning. So, GRPO,
+[31:43] right? And GSPO. This is a latest
+[31:46] technique of the
+[31:48] This is the latest optimization
+[31:50] technique, policy optimization
+[31:51] technique, okay?
+[31:53] For the reinforcement learning. And yes,
+[31:55] this is possible inside the
+[31:58] Unsloth. Then, a custom CUDA and the
+[32:00] Triton kernel. This is one of the
+[32:01] feature, right? End-to-end pipeline
+[32:04] export. I already told you we can do
+[32:06] everything using the Unsloth and
+[32:07] definitely I'll show you that. Exact
+[32:09] math approximation means they haven't do
+[32:11] any sort of a changes in the
+[32:12] mathematics. They just did the They just
+[32:15] have done the like code level changes in
+[32:17] the framework level optimization. The
+[32:19] mathematics that implemented the The
+[32:20] implementation of the mathematics is
+[32:22] like same to same. Then, work on the
+[32:24] free GPU and Colab. So, if like
+[32:28] you're not going to be used too much
+[32:29] RAM, right? If you can process it on a
+[32:33] like even on the commercial GPU, right?
+[32:35] The consumer GPU, not on a commercial
+[32:37] GPU. This is This collab in the Kaggle
+[32:39] GPU actually comes under the consumer
+[32:41] GPU only. Then GPU support, it is
+[32:43] supporting to the different different
+[32:44] GPUs, right? So, it is supporting uh to
+[32:47] the Intel's GPU, AMD GPU, and Nvidia
+[32:50] GPU. It can run it It can be run on any
+[32:53] operating system, whether it's a Linux,
+[32:55] Mac, or it's a Windows, right? So, these
+[32:57] are the features some feature of the
+[33:01] like uh
+[33:02] of the like uh Unsloth, right? And
+[33:04] definitely, we are going to be discuss
+[33:05] it in a upcoming session. All the
+[33:07] feature we'll see in a detail.
+[33:09] Okay, guys. So, let's start with a
+[33:11] practical. So, this entire practical I
+[33:13] will perform in the Google Colab. Okay?
+[33:17] Now, uh here first what I will do, guys,
+[33:19] I will go in the runtime. I will change
+[33:21] my runtime. Uh then I will select the
+[33:23] GPU. Okay? This is a free GPU. If you
+[33:25] have Google Colab Pro access, then this
+[33:27] paid GPU will be available for you.
+[33:29] Now, after uh saving it, uh here you
+[33:31] will get the connect uh option. Just
+[33:33] connect it. Uh after connect- ing it, uh
+[33:35] you will get this uh green icon. Means
+[33:37] the resource is resources have been
+[33:39] allocated to you.
+[33:41] Now, install this required packages like
+[33:43] torch, torch vision, torch audio,
+[33:45] xformers, right? These packages are
+[33:47] basically from the pi- for the pytorch.
+[33:49] So, this is the main package of the
+[33:50] pytorch, then this torch vision for the
+[33:52] vision, then torch audio for the audio
+[33:54] specifically, xformers for the
+[33:56] attention. Okay? Flash attention. Then
+[33:58] Unsloth, okay? Then uh transformer, then
+[34:01] TRL. So, you need to install all these
+[34:03] module. It will take some time, maybe 5
+[34:05] to 10 minutes based on your internet
+[34:08] connection. So, here I written the
+[34:09] complete uh detail, okay? Of each and
+[34:12] every packages. I will write uh going
+[34:15] forward as well. So, that it won't give
+[34:17] you the difficulty while you are running
+[34:18] it from your end.
+[34:20] Then uh here, guys, I define some
+[34:21] configuration. So, I'm going to be
+[34:22] import this random, then numpy, then
+[34:24] torch, right? Then I define some seed
+[34:27] value. So, random.seed, np.random.seed,
+[34:30] torch.manual_seed,
+[34:32] then torch.cuda.manual_seed.
+[34:34] Now, why is there guys? So, just remove
+[34:36] the randomness. So, at every run
+[34:39] actually some random thing will be
+[34:42] there. Means I can give you one example.
+[34:44] Let's say we are going to be initialize
+[34:46] a model, right? If we are going to be
+[34:49] initialize the weight of the model.
+[34:50] Let's say we are executing five times.
+[34:52] So, every time new weights would be
+[34:54] there. Right? So, just to reduce that
+[34:56] randomness we define the seed value. So,
+[34:59] for this particular execution, right?
+[35:01] For this particular execution the same
+[35:02] weights would be there. This is not for
+[35:05] only for the weight. This is for the
+[35:06] GPU. Okay, if the dropouts value are
+[35:09] there in between, right? For that, for
+[35:11] the attention kernel, means for the
+[35:12] attention value, the Q K V weights,
+[35:15] right? For the cuda operation. So, just
+[35:18] to remove this randomness
+[35:19] for every execution we are defining the
+[35:21] seed value. Then I'm defining some other
+[35:24] configuration also. So, this is for the
+[35:26] faster and stable matrix multiplication
+[35:28] on top of the Nvidia GPU. So, torch
+[35:31] backend cuda matmul. Matmul means matrix
+[35:33] multiplication allow at at TF 32, right?
+[35:37] So, I'm keeping it true. Then torch set
+[35:40] float matmul precision high. So, I'm
+[35:41] keeping precision high. Then some other
+[35:44] values like max length, okay, max
+[35:46] sequence length, data type, right? Load
+[35:48] in 4-bit, which is two. So, this
+[35:51] particular variable will be used going
+[35:53] forward.
+[35:54] I hope till here everything is fine.
+[35:55] Now, coming to the next part. Now guys,
+[35:58] what I will do I will check the GPU
+[36:00] availability whether the GPU is
+[36:01] available or not. So, for that guys,
+[36:03] what I will do I will write this line of
+[36:05] code. Now guys, see I already written a
+[36:07] code in my notepad. So, I'm I'm just
+[36:10] going to be keep it because
+[36:11] to write a code from a sketch it takes a
+[36:13] time. So, assert torch cuda cuda is
+[36:17] available. So, if the GPU is available,
+[36:19] it will say yes, it is available. If
+[36:21] not, then it will it will print this
+[36:23] particular message, okay? So, yes, I'm
+[36:25] going to be executed sensei. It is not
+[36:27] going to be print this message. Means
+[36:29] the GPU is available. Or else directly
+[36:31] you can check. Uh, it will uh, basically
+[36:34] give you true. If you're going to be
+[36:36] execute this uh, method directly. Uh,
+[36:39] let me show you. So, let me print this
+[36:42] torch CUDA is available. So, it is
+[36:43] saying true, right? Now, what I will do
+[36:45] guys, I will import the necessary
+[36:47] library. So, the next is going to be
+[36:50] unsloth. From unsloth I'm going to
+[36:51] import this fast language model.
+[36:53] Uh, then I'm going to be load this load
+[36:55] dataset. Okay, I'm going to be import
+[36:57] this load dataset from dataset. Then
+[36:59] from TRL I'm importing this SFTTrainer
+[37:01] and SFTConfig. Now, let me execute it
+[37:03] guys. So, after execution I will be able
+[37:06] to import this unsloth, right? And the
+[37:08] other required packages.
+[37:10] Now, what I will do guys, so I will load
+[37:12] the dataset. Uh, and before load
+[37:14] dataset, let me do one thing. Let me
+[37:16] load the model itself. So, I'm going to
+[37:18] load the model. Now, over here guys, so
+[37:20] what I'm doing, I'm going to be load the
+[37:21] base model. So, unsloth tiny llama BNB
+[37:25] 4-bit. This is the model name. So, uh,
+[37:27] this fast language model is having one
+[37:29] method from pre-trained. Now, using this
+[37:31] particular model I'm going to be load
+[37:33] this model. Then maximum sequence length
+[37:35] I'm going to keep this uh, 4096. Means
+[37:38] whatever output will be generated, the
+[37:40] output will be under that length. Then
+[37:42] data type, so I mentioned the data type
+[37:44] also. Then load in 4-bit. Yes, the
+[37:46] quantization will be applied. So, uh,
+[37:49] here I mentioned this particular uh,
+[37:51] variable value. Load in 4-bit true,
+[37:53] right? Now guys, uh, over here you can
+[37:55] see it is importing. It might take some
+[37:57] time first time. So, yeah, it is done.
+[37:59] Now, I'm going to load the model and the
+[38:01] tokenizer. Both thing I can load using
+[38:03] the same method, fast language uh,
+[38:06] model. Uh, fast language model from
+[38:08] pre-trained. And here I'm passing the
+[38:10] required parameter. Okay? So, once I
+[38:12] will execute it guys, I will be able to
+[38:14] get a model. So, this model loading
+[38:16] might take some time. And it will ask
+[38:18] you the hugging face token also. So,
+[38:19] please keep the hugging face token in
+[38:21] your secrets. See, I kept it at least
+[38:24] with a read
+[38:25] read permission. So, you have to give
+[38:27] the read permission to your hugging face
+[38:28] token. Now, what you can do, guys? You
+[38:30] can check you can print this model and
+[38:32] you can check the model is there or not.
+[38:34] You can print the tokenizer. You can
+[38:36] check the tokenizer is there or not. You
+[38:39] just need to print it after loading a
+[38:40] model. First time it will take some
+[38:42] time. See, the model is getting loaded.
+[38:44] And then basically you can
+[38:47] check, okay? You can check the different
+[38:49] different thing different different
+[38:51] basically values of the model. So, let
+[38:52] me show you some of the thing.
+[38:55] So, first what I will do, guys? I will
+[38:56] check the model printable para trainable
+[38:59] parameter. Then how many parameter this
+[39:01] model is having? Now, see guys, model is
+[39:03] loaded. Even though this is the like
+[39:05] little huge model, but it got loaded I
+[39:07] think within a minute itself because of
+[39:09] the optimization of the unsloth. Now,
+[39:11] here what I'm doing, guys? I'm running
+[39:13] it. I'm so so see this are my tokenizer.
+[39:15] Now, if I will check with the model, so
+[39:17] see this is my model, guys. Now, what I
+[39:19] will do, guys? So, over here I will
+[39:21] check with the trainable parameter how
+[39:23] many trainable parameter this model is
+[39:25] having. So, if I'm going to be executed,
+[39:27] guys, see here it is saying
+[39:28] Okay, llama for causal LM object no
+[39:30] printable parameter. Okay, fine, guys.
+[39:34] So, first what I will have to do? See
+[39:35] here, actually,
+[39:37] this is the simple model, okay? The
+[39:39] normal model. So, what I will do? I will
+[39:40] convert this particular model into the
+[39:42] PEFT model. So, this is the code, guys,
+[39:44] to convert this particular model into
+[39:46] the PEFT model. Now, over here what I'm
+[39:48] doing, guys? I'm going to be using this
+[39:50] fast language model the same object. And
+[39:52] then I'm calling this get PEFT model.
+[39:54] Now, here I'm passing my model. I'm
+[39:56] passing my LoRa rank, okay? Then I'm
+[39:58] passing my target module QKVO
+[40:02] then gate
+[40:03] projection up projection and the down
+[40:05] projection. Then this is some other
+[40:07] parameter, okay? For loading the PEFT
+[40:09] model. So, if I'm going to be executed,
+[40:11] guys, what I will get? I will be getting
+[40:13] the PEFT model, okay? So, now after
+[40:15] that, guys, I can check the tunable
+[40:17] parameter. So over here you can see
+[40:19] tunable parameter is around
+[40:21] 2 crore 52 lakh 31,360.
+[40:24] All Sorry, this is a tunable parameter 2
+[40:27] crore 52 lakh 31,360 and all parameter
+[40:30] is around 11 crore guys. 11 CR
+[40:33] parameter. It's like very very huge. So
+[40:36] how many tunable parameter is around
+[40:37] 2.242%?
+[40:39] That's it guys.
+[40:40] Now what you can do, you can check each
+[40:42] and every layer also. So if I'm going to
+[40:44] be printed guys, you will be getting
+[40:46] each and every layer. Okay, inside this
+[40:47] particular model. See this is a layer.
+[40:50] Now here you can see
+[40:52] like this is the each this is a each and
+[40:53] every layer of the transformer. Okay, of
+[40:55] the of the transformer model.
+[40:58] Because this a llama model is built on
+[40:59] top of the transformer itself. You will
+[41:01] get the attention module over there. So
+[41:03] see you can see the attention basically.
+[41:05] So it is giving you each and every layer
+[41:07] and regarding the each and every layer,
+[41:09] the parameter would be there. I hope
+[41:12] this thing is pretty much clear to all
+[41:13] of you. Now let me show you a couple of
+[41:15] more thing. Now what I'm doing guys, I'm
+[41:17] going to be show you how many tunable
+[41:18] parameter is there, how many total
+[41:20] parameter is there. And then what will
+[41:22] be the percentage. So this is a simple
+[41:24] like code I have written. With that you
+[41:26] can check the tunable parameter. This is
+[41:28] the total parameter and here you can see
+[41:30] the percentage. So tunable parameter is
+[41:32] around 3.9 3.94% of all the parameter. I
+[41:37] hope you understood it. Now you can
+[41:39] check the device also. So on which
+[41:40] device it have been loaded. Now over
+[41:42] here you can see it it have been loaded
+[41:44] in the GPU device. Okay, it is the type
+[41:47] is a CUDA. Right, you can check the data
+[41:49] type of the parameter. So
+[41:51] it is having so many
+[41:53] like functions and the parameters. So
+[41:55] you can check the data type of the
+[41:57] model. Now you just need to call
+[41:58] model.parameter.dtype. It you will be
+[42:00] getting that. Okay. Now here you can
+[42:03] check the model is a PEFT model or not.
+[42:05] So what I'm writing, so I'm going to be
+[42:07] import the PEFT. I'm writing model is a
+[42:09] PEFT model or not. So So, I'm going to
+[42:10] be executed, you will see the model is a
+[42:12] PEFT model. Now, if you want to check
+[42:14] the
+[42:15] basically configuration of the PEFT, you
+[42:18] can simply execute this model PEFT
+[42:19] config. You will be getting the
+[42:21] configuration of the PEFT, p e f t. Now,
+[42:24] apart from this one, guys, if you want
+[42:25] to check the memory, how much memory
+[42:26] have been allocated, so you simply need
+[42:28] to call torch.cuda.memory_summary. So,
+[42:31] once you will run it, guys, you will get
+[42:32] the complete memory detail. Now, you can
+[42:35] keep it in some other cell because it is
+[42:37] in a markdown format. See, this is a
+[42:38] complete detail of the memory. How many
+[42:41] active memories there? How many active
+[42:43] memories there? What is the requested
+[42:44] memory? GPU reverse memory reserved
+[42:46] memory? Non-release memory allocation?
+[42:49] See, there's so many things you can see
+[42:50] over here.
+[42:51] Now, I hope you understood so many
+[42:53] things, what all things you can call on
+[42:54] top of the model. Now, let's do one
+[42:56] thing. Let's move for- forward and let's
+[42:59] try to prepare the data.
+[43:00] So, what I'm doing, guys? So, here I'm
+[43:02] going to prepare a data. So, for
+[43:03] formatting the data or for preparing the
+[43:05] data, I already written a code. So, let
+[43:08] me give you that entire code. Okay, so
+[43:10] this code is also very, very easy and
+[43:11] easily you can understand. So, what I'm
+[43:13] doing, guys? So, over here you can see.
+[43:15] So, first I'm going to be at this end of
+[43:17] the sentence token token to the
+[43:19] tokenizer. This is fine. Now, this is my
+[43:21] prompt. So, here my data is available
+[43:23] into this instruction input and response
+[43:25] format. You can create your own data as
+[43:28] well. Even the previous video I have
+[43:29] shown you how to do that. Now, here is
+[43:31] the prompt. Below is an instruction that
+[43:33] describe a task paired with an input
+[43:35] that provide a further context. Write a
+[43:38] response that appropriately complete the
+[43:40] request. So, this is the instruction,
+[43:41] this is the input, and here is a
+[43:43] response. Now, what I will do, guys? So,
+[43:45] this is my format data.
+[43:47] So, I'm going to be load my data. Now,
+[43:48] I'm just going to be take 15,000 1,500
+[43:51] rows, 1 5 0 0. Now, on I will map this
+[43:54] particular data set. So, data set.map,
+[43:57] okay? So, what I'll be So, here I'm
+[43:59] going to be apply the formatting on top
+[44:01] of this particular data set or data
+[44:02] set.map. Okay, and here my function is
+[44:05] format data. This is my function, format
+[44:07] data. It will take example and it will
+[44:09] format the data. It can take the data in
+[44:10] batches, okay, and remove column. So,
+[44:13] yes, we are going to be removed. So, we
+[44:15] are going to be remove the
+[44:17] like this data set column name, okay,
+[44:19] this particular feature. And then we are
+[44:22] just going to be keep the text only. So,
+[44:24] this is my data set, guys. Here is my
+[44:26] data set. If I can show you this
+[44:27] particular data and what all feature are
+[44:29] there, so that you will get a clear
+[44:30] understanding that what is happening
+[44:32] over here. Now, I'm going to be I'm
+[44:34] going to be executed in the different
+[44:36] cells. So, load our data set. It might
+[44:38] take some time again, maybe 1 or 2
+[44:40] minute up to your like based on your
+[44:42] internet only. So, see it is loading the
+[44:44] entire data. And if I will show you the
+[44:45] data set variable, so inside this data
+[44:48] set variable actually you will get some
+[44:49] sort of a feature. See, here we have
+[44:51] output feature, input feature, and the
+[44:53] instruction feature. And the number of
+[44:55] rows is around 51,000. So, we are not
+[44:57] going to take the entire data. What
+[44:58] we'll do, we'll take a like 1,500 row
+[45:01] only. Now, what I'm doing, guys? So,
+[45:03] here you can see load data. We have
+[45:05] trained with our split. Now, we'll be
+[45:07] we'll be taking the data set only 1,500
+[45:09] row. Now, data set dot map, we are going
+[45:11] to be map this method. Batch is equal to
+[45:13] true. Data set dot column name. So, this
+[45:15] particular column name we are going to
+[45:17] be removed, okay? Now, this format what
+[45:20] it is doing is going to be take a
+[45:21] instruction, input, and output and it's
+[45:23] going to be combine everything in the
+[45:25] inside the single sentence, okay?
+[45:26] Complete single prompt. So, this is the
+[45:29] format of the prompt. Here the value
+[45:30] will be placed, instruction, input, and
+[45:32] response. And this entire prompt will be
+[45:34] going to the LLM for the training, okay?
+[45:36] For the fine-tuning. So, likewise, guys,
+[45:38] we have prepared the data set. Now, let
+[45:40] me show you the data set how it will
+[45:41] look like. So, we have this data set,
+[45:44] okay? Now, inside the data set we have
+[45:45] this text column and then we have the
+[45:47] number of rows is 1,500. Now, if you
+[45:50] want to check the first row of the text,
+[45:51] so here you will write the data set text
+[45:54] zero. Now, once you are going to be
+[45:55] executed, so what you will get, you will
+[45:57] get the first text. Likewise, we have
+[45:59] 1,500 text, okay?
+[46:01] Now, guys, what I'm doing, I'm going to
+[46:03] be install some other packages and
+[46:05] library. This is important. So, I'm
+[46:06] going to be like
+[46:09] I'm going to be install this P S util,
+[46:12] okay? Process and system utility. Then
+[46:15] I'm going to be import this PS util
+[46:17] along with the time. Then what I'm
+[46:19] doing, guys, I'm checking. So, here I'm
+[46:21] checking peak GPU memory usage.
+[46:24] Okay? This line reset peak counter, so
+[46:27] you measure only this training run,
+[46:29] okay? Not previous run notebook. So,
+[46:31] guys, when I'm going to be execute this
+[46:33] torch CUDA empty cache, means it is
+[46:35] going to be empty the cache the entire
+[46:37] cache. If I'm going to be write torch
+[46:38] CUDA reset peak memory state, so from
+[46:41] here onwards my memory will be detected,
+[46:44] okay? How much memory is being consumed.
+[46:46] So, let me run it and let me run the
+[46:48] further code then. Now, over here what
+[46:50] I'm doing, guys, so here I'm going to be
+[46:53] start the time. So, for starting a time,
+[46:56] guys, what I'm doing I'm writing PS util
+[46:58] process, so process will be here. Then
+[47:00] I'm going to be calculate the time, so
+[47:02] it's a start timing, okay? And then I'm
+[47:04] checking the RAM, so how much RAM is
+[47:06] there before the training, okay?
+[47:08] Now, what I'm doing, guys, so after that
+[47:10] my process will be here, so you can see
+[47:12] the process. It is nothing, it's a P
+[47:14] utils, sorry, PS utils object. Now, here
+[47:17] what I will do, guys, so I will check
+[47:20] with the train time. Now, over here see
+[47:22] just check with the train time. So,
+[47:23] train time is being shown over here.
+[47:26] Now, we'll calculate, we'll compare it
+[47:28] with the end time, okay? After
+[47:29] completing the training. What would be
+[47:31] the end time? So, see this is a train
+[47:32] time, right? Now, CPU RAM, so here you
+[47:35] can see the CPU RAM. What is the CPU
+[47:37] RAM?
+[47:38] So, it will give you the CPU RAM, right?
+[47:40] So, this is the CPU RAM. Now, what I
+[47:41] will do, guys, I will define my trainer.
+[47:43] So, the trainer defining is very easy
+[47:45] using the answer law. So, here what we
+[47:47] have to do, we have just have to define
+[47:48] the answer to trainer. We have to pass
+[47:50] the model tokenizer data set, okay? Then
+[47:53] the data set text field, so text column
+[47:55] is there, then packing true, right? I
+[47:57] told you the
+[47:58] packing right? So when I was talking
+[48:00] about this particular when I was talking
+[48:02] about this particular theory right? So
+[48:03] over here I return one automatic
+[48:06] sequence packing okay? One of the
+[48:08] important feature of the
+[48:10] one of the important feature of what?
+[48:11] One of the important feature of the
+[48:12] answer. Then here is my configuration
+[48:14] SFT configuration. So how many epochs is
+[48:16] going to be done? How many batches will
+[48:18] will be there? Okay? What optimizer I'm
+[48:20] going to be decide? What is the like
+[48:22] rate of that? Right? So everything we
+[48:24] are going to be
+[48:25] learning rate of is there. So everything
+[48:27] we are going to be defined over here.
+[48:28] Okay? We are going to be initialize a
+[48:29] class and then we'll be getting a
+[48:31] object. Now I'm going to be call the
+[48:32] strain method. So once I'll do that guys
+[48:34] to the training will be started. Okay?
+[48:37] So the training will be started and
+[48:38] training will take some time. Now after
+[48:40] completing a training what we can do? We
+[48:42] can calculate how much memory have been
+[48:44] consumed? What is the time? Right? And
+[48:46] see we are going to be
+[48:48] we are going to be calculate the
+[48:49] training time second peak GPU V RAM GB
+[48:52] and CPU RAM
+[48:54] used GB. So after the training after the
+[48:57] completion of the training you can check
+[48:58] out with all this thing. It will
+[49:00] like really give you that detail
+[49:01] understanding. So let me print this
+[49:03] entire thing. So for printing I already
+[49:05] written a print method. So this is a
+[49:07] print method guys. Now what I will do
+[49:09] guys? I will print. Okay? The training
+[49:12] time how much training time it is
+[49:13] taking? Peak GPU V RAM and the CPU
+[49:16] RAM used. Now once it will be done guys
+[49:19] see the training might take some time.
+[49:21] Maybe 5 to 10 minute or even more like
+[49:24] more than that. Once I
+[49:26] when I train with the 50,000 of like
+[49:28] rows then it
+[49:30] it was taking too much time. Maybe it's
+[49:32] going to be complete within 2 to 3 hours
+[49:34] as well. Right? Because that data is
+[49:36] very huge. But if you're doing it with
+[49:37] the limited data then it will be little
+[49:39] faster. So here guys you can see we are
+[49:43] going to be calculate everything. Now
+[49:44] what I'll do I'll do the inferencing. So
+[49:47] for the inferencing guys see this is a
+[49:48] code. Let me keep the code guys see the
+[49:50] training has started over here. Now what
+[49:52] I will do, I will keep the inferencing
+[49:54] code. So, in the inferencing, I'm going
+[49:56] to be load the model. Okay, for the
+[49:57] inferencing. This is the following This
+[50:00] is my prompt. Okay, which I will
+[50:01] provide.
+[50:02] Continue the Fibonacci series
+[50:05] Fibonacci sequence. Then here I'm going
+[50:07] to be load the Here I'm going to be
+[50:09] tokenize the input. And then I'm going
+[50:11] to be called torch.no_grad. And then we
+[50:13] are passing the input over here. And
+[50:15] finally, we are generating a output,
+[50:17] right? So, my output would be there. So,
+[50:18] let's see whether it will be able to
+[50:20] generate the correct output or not. So,
+[50:22] let's wait for a minute at least. Or see
+[50:25] the training how much time it might
+[50:26] take. So, in
+[50:29] Okay, it is 14 15 right now. So, till
+[50:31] 188 maybe it will take 15 20 minutes,
+[50:33] guys. Okay. So, what I'm doing? So, here
+[50:36] I'm going to be check all the memory RAM
+[50:38] and all everything. Here basically, I'm
+[50:40] going to be check, right? So, what will
+[50:42] be the output after training and the
+[50:44] loading of the model. Now, I hope you
+[50:47] understood everything. Now, if you want
+[50:49] to save the model, guys, so for saving
+[50:50] the model is very very easy. So, if you
+[50:53] wanted to save on your current
+[50:54] directory, you just have to write
+[50:57] the name. Okay, which which name you
+[50:58] wanted to save. So,
+[51:00] model.save_pretrained. Once you will run
+[51:01] it and tokenizer.save_pretrained.
+[51:04] Once you will write it, guys, you will
+[51:06] be able to save your model inside your
+[51:08] respective or the current directory.
+[51:09] Okay, so whatever directory you are
+[51:11] providing, in that particular directory.
+[51:13] Now, I hope guys, you understood this
+[51:15] entire thing. You got a clear-cut
+[51:17] understanding. Now, one more point is
+[51:19] remaining over here. The point is
+[51:21] Answering versus Llama factory versus
+[51:23] Hugging Face. So, maybe in the next
+[51:25] video, once I will discuss the Hugging
+[51:26] Face versus Answering, I will let you
+[51:28] know. I will discuss about this
+[51:29] Answering Llama factory Hugging Face.
+[51:31] Until guys, you can practice with this
+[51:34] much of thing. So, let me highlight you
+[51:37] again. You can test with a You can What
+[51:40] you can do, guys? You can load the
+[51:42] model. You can check with the different
+[51:43] different parameter. You can see how
+[51:45] many layers is being
+[51:47] executed. It's a trainable, right? Then
+[51:50] you can check the timing, how much
+[51:51] timing it is taking. You can simply
+[51:53] calculate. In this external solution, it
+[51:55] is not important, but yeah. If you're
+[51:57] doing it, if you're going to be compared
+[51:58] with other framework, in that case, it
+[52:00] will be important, right? Then what you
+[52:03] can do, guys? After doing it, so data
+[52:05] set loading, model loading, okay, model
+[52:07] training. Now after training the model,
+[52:10] right? See, model is still being trained
+[52:12] and we are in between. So 61 is step is
+[52:15] done now. So at every step, basically,
+[52:17] it is giving me a log, right? Then what
+[52:20] we are doing, guys? So yeah, this is the
+[52:21] output, means
+[52:23] what will be the training time, peak GPU
+[52:24] RAM, and the CPU RAM. Then here is a
+[52:26] inferencing, very very easy. And then we
+[52:29] are saving a model. And this particular
+[52:30] model we can use anywhere. So yeah,
+[52:33] guys, this is it for this particular
+[52:35] video and it train This training will
+[52:37] take time, so that's why I'm going to be
+[52:39] stop the video, okay? Or else let's do
+[52:42] one thing, let it complete. And after
+[52:44] completing this one only, I will uh show
+[52:46] you the prediction inferencing and then
+[52:48] only will close the video, guys.
+[52:51] Okay, guys, so the training is
+[52:53] completed. Uh here you can see I
+[52:55] completed one single epoch. And let's
+[52:58] see how much time it took for me. So I'm
+[53:01] going to be print everything. Uh okay,
+[53:03] so this is a syntax error. Let me run it
+[53:05] now. So training time is around 535
+[53:08] seconds. So if I'm going to be divide
+[53:10] it, uh so how much it would be? Let me
+[53:13] check. 535
+[53:15] 535 / 60.
+[53:19] So if I'm going to be check, it is it
+[53:21] took around 8 minute, okay? Approximate
+[53:23] 9 minute. So peak GPU VRAM, it was
+[53:27] around 1.9, means 2 GB only. Within 2
+[53:29] GB, it was able to do it. And CPU G RAM
+[53:32] was around this much. So guys, uh here
+[53:34] you can see uh every sort of a detail,
+[53:36] like how much time it took and all
+[53:37] everything. Now what I'm doing, I'm
+[53:39] going to be we it. So here I am Let me
+[53:42] execute it.
+[53:43] Uh it will take some time. And then what
+[53:45] I will do, guys, I'm going to be save
+[53:47] this particular model. And then I can
+[53:49] utilize it anywhere. So, see, this is
+[53:51] our response, guys. This is our
+[53:53] response. And now the You can see the
+[53:54] response. This is our input. And it's
+[53:56] completing the Fibonacci series. Okay.
+[53:59] So, 1 2 3 5 5 2 6 11. Okay, I think the
+[54:03] response is not quite good. Maybe we'll
+[54:05] have to train more. That we can do. That
+[54:07] is not an issue, right? So, yeah. This
+[54:10] is one thing. Now, what I'm doing, I'm
+[54:11] going to be save the model. So, here's
+[54:13] my path, Laura model, into the current
+[54:16] directory. Here it will be saved.
+[54:18] And uh yeah, let me save the tokenizer
+[54:20] and the model both. And then I can use
+[54:22] it anywhere. So, if I will refresh it,
+[54:24] guys, I will be getting my model. I can
+[54:27] keep it to the Hugging Face Hub, also,
+[54:29] because Hub is nothing. It is just a
+[54:31] repository for the model. So, see, guys,
+[54:34] my model is available over here. So,
+[54:36] configuration and the model, the saved
+[54:38] tensors.
+[54:39] Saved tensor file. It's a binary file.
+[54:41] Okay.
+[54:42] So, yeah, uh guys, this is it for this
+[54:44] particular video. I hope you understood
+[54:45] the Unsloth and the complete uses of the
+[54:48] Unsloth. Now, what I'll do, I will show
+[54:50] you so many things using the Unsloth in
+[54:52] the upcoming uh video. Now, guys, over
+[54:55] here, uh this is a critical thing uh to
+[54:57] setting up this SFT trainer and all
+[54:59] everything, right? To choose the best
+[55:02] possible parameter over here. Whatever I
+[55:04] have shown you over here, as of now, it
+[55:05] is just a uh
+[55:07] beginner-friendly. At least you should
+[55:09] be aware about this much of parameter.
+[55:11] We'll see couple of more and we'll deep
+[55:13] dive into each and everything, whether
+[55:14] it's a Hugging Face Unsloth and all
+[55:16] everything. So, stay tuned with me for
+[55:19] the future. If you haven't subscribed
+[55:20] the YouTube channel, please do it,
+[55:22] because you will uh see uh like lots of
+[55:25] amazing content in the near future. So,
+[55:27] thank you, guys. Thank you very much.
+[55:29] Bye-bye. Take care.

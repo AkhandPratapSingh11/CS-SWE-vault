@@ -1,0 +1,1917 @@
+Title: LLM Fine-Tuning 03: Transfer Learning and Model Fine-Tuning #aiagents #finetuning  #ai
+Video URL: https://www.youtube.com/watch?v=oFMixPMJ6Ko
+Video ID: oFMixPMJ6Ko
+======================================================================
+
+[00:00] Hey, hi everyone. Welcome back to my
+[00:03] YouTube channel. My name is Sani Savvita
+[00:05] and I'm back with another exciting and
+[00:08] important video. So guys, in this
+[00:10] particular video, we're going to see the
+[00:12] concept of the transfer learning and the
+[00:15] finetuning. We'll see how this transfer
+[00:17] learning and finetuning are associated
+[00:20] to each other. And I'll give you the
+[00:22] complete theoretical understanding of
+[00:24] the transfer learning and the
+[00:26] finetuning. and then we'll see the
+[00:28] practical implementation. Today guys, we
+[00:31] are not going to start our fine-tuning
+[00:33] implementation in a full-fledged manner.
+[00:36] Uh but here I'll give you the glimpse of
+[00:38] it. Just to explain you the concept of
+[00:40] this transfer learning because many
+[00:42] people are u many people are very much
+[00:46] confused with the concept of the
+[00:48] pre-training transfer learning fine
+[00:50] tuning. So in this particular video,
+[00:52] I'll try to uh I'll try to remove your
+[00:56] all the confusion regarding this
+[00:58] particular term. So uh as you know guys,
+[01:01] I started with a brand new NLM fine
+[01:04] tuning playlist and inside that playlist
+[01:06] I already uploaded two videos. So if you
+[01:09] will go and check with my YouTube
+[01:10] channel inside the playlist section
+[01:12] itself, you will find out the particular
+[01:14] playlist. Now this is the third video
+[01:17] where we are going to discuss about the
+[01:20] transfer learning and the fine turing.
+[01:22] Now apart from this one you will find
+[01:24] out the other playlists also regarding
+[01:26] the agents regarding the rag and each
+[01:29] and every kind of concept I try to cover
+[01:31] up along with the influent project. So
+[01:33] guys uh if you're new to this particular
+[01:35] channel you can visit to this playlist
+[01:37] section or else you can check out inside
+[01:39] the video. If you are finding this
+[01:42] content useful for you the guys please
+[01:45] subscribe the channel and you can like
+[01:48] the videos and you can appreciate in the
+[01:51] comment section. Now without wasting a
+[01:54] time let's start with the let's start
+[01:56] with the video. So first of all let me
+[01:58] give you the context. So here guys I
+[02:00] kept the entire syllabus. In the first
+[02:02] uh video itself I discussed this
+[02:05] complete syllabus. If you don't know
+[02:06] about it you can go and check out the
+[02:08] first video. uh then in the second video
+[02:11] I given you the complete introduction of
+[02:13] the model training and the pre-training
+[02:15] how this pre-training is possible in the
+[02:18] NLP how this pre-training is possible in
+[02:20] the current generative AI each and
+[02:23] everything I try to discuss inside this
+[02:25] particular video now it's time to
+[02:27] discuss about the transfer learning okay
+[02:29] uh now this transfer learning actually
+[02:31] it is directly associated to this
+[02:33] pre-trained model only and then on top
+[02:35] of that pre-trained model we can do the
+[02:37] finetuning as well So transfer learning
+[02:40] means we are going to transfer the
+[02:42] knowledge from one task to the another
+[02:45] task. Okay. So we'll look into it in a
+[02:47] very detailed way. Then we'll in the
+[02:49] upcoming video you will find out some
+[02:52] nitty-gritty detail of the finetuning
+[02:54] like the disadvantage advantage or the
+[02:57] different different framework for the
+[02:58] finetuning and the like couple of
+[03:00] important research paper. I hope that
+[03:03] agenda and the idea everything is clear.
+[03:05] If you're not following this content and
+[03:07] this stuff guys you can look into my
+[03:09] first and second video there each and
+[03:10] every idea will be clarified. Now coming
+[03:13] to the next one. So guys uh let's start
+[03:16] a transfer learning and finetuning in
+[03:19] the deep learning. So here guys I
+[03:22] written a complete definition and along
+[03:25] with the definition there is a complete
+[03:27] theory regarding this point. I try to
+[03:29] cap each and every architecture so that
+[03:31] you can understand this concept in a
+[03:34] better way. So first of all let me
+[03:36] switch off my camera so that you can
+[03:38] access the entire screen and while I was
+[03:41] uh I will explain the practical uh again
+[03:43] I will switch on my camera. Okay. Uh so
+[03:46] here guys uh you can see uh I read the
+[03:48] definition of the transfer learning. So
+[03:51] uh what does it mean right? If you're
+[03:53] talking about transfer learning, so uh
+[03:55] transfer learning means taking
+[03:58] experience from one problem and using it
+[04:01] to the using it to solve another related
+[04:04] problem. Okay. So uh first of all let me
+[04:06] clarify the context before coming to
+[04:08] this transfer learning and the
+[04:10] finetuning. So guys uh in the previous
+[04:13] class itself I explained you let's say
+[04:15] if you have a huge amount of
+[04:17] data huge amount of
+[04:22] data and if we have any base model
+[04:26] foundation model okay so we can take any
+[04:29] sort of a model if we're talking about a
+[04:31] computer v in that in that generally we
+[04:34] take the CNN based architecture we are
+[04:36] talking about the NLP and the genative
+[04:38] AI related problem so we generally we
+[04:41] generally Consider this transformer
+[04:43] architecture. So we are giving a huge
+[04:46] amount of data to any of these
+[04:48] architecture. Okay. And what we are
+[04:50] doing we are training right? We are
+[04:52] performing a training. So here let me
+[04:55] mention the training. Now after the
+[04:57] training guys what we get? So after
+[04:59] performing a training we get we get some
+[05:03] model right? We get a model. The
+[05:05] particular model is called the
+[05:07] pre-trained model. I think you already
+[05:09] understood the concept of the
+[05:10] pre-training. If you don't know about
+[05:12] the pre-trained
+[05:13] model how it has been trained okay what
+[05:17] kind of data actually we can consider
+[05:19] for that you can go and check out with
+[05:21] my previous video. So we understood the
+[05:23] concept till the pre-trend model. Now we
+[05:25] have to understand about the transfer
+[05:27] learning and on top of this splitted
+[05:30] model how we can perform the finetuning
+[05:32] in CNN based model in how many ways we
+[05:35] can do the finetuning in transform based
+[05:37] model in how many ways we can do the
+[05:39] finetuning and then I will take one
+[05:41] practical example also. So for the
+[05:43] practical example you will have to stay
+[05:45] on this video till the end. Okay then
+[05:47] only your concept is going to be clear
+[05:50] 100%. Uh so guys uh now read the
+[05:52] definition. uh so the definition I
+[05:54] mentioned transfer learning means taking
+[05:56] experience from one problem statement
+[05:58] and using it to solve another related
+[06:00] problem uh I can give you the very good
+[06:02] example see here I written one real life
+[06:06] analogy so let's say there is a guy who
+[06:09] who is learning how to ride a bicycle
+[06:12] right now he's using a same skill to
+[06:16] learn how to ride a motorcycle so here I
+[06:19] can explain you this analogy as well so
+[06:21] guys whenever we are talking about a
+[06:23] bicycle, right? So, uh let's say there
+[06:25] is a kid. The kid wants to learn how to
+[06:29] ride a bicycle. Now, what do think what
+[06:31] are the skills he going to learn? Okay,
+[06:33] regarding the bicycle. So, for sure the
+[06:36] person this kid will understand how to
+[06:39] make a balance, balancing would be
+[06:42] there. Then how to apply brake, right?
+[06:44] How to apply brake? How to uh basically
+[06:49] blow the horn, right? How to
+[06:54] accelerate? Accelerate. R L A T E. Okay.
+[06:59] So, how to accelerate? Now, these many
+[07:01] thing the this kid is going to learn,
+[07:03] right? Now, the kid, right? The same kid
+[07:05] if he want to learn how to ride. Okay.
+[07:08] Now, he he become a teenager or maybe he
+[07:11] become an adult, right? In that case, he
+[07:13] wants to learn about the motorcycle.
+[07:15] Now, motorcycle is not very much
+[07:18] different from this bicycle. We know in
+[07:20] the motorcycle also we will be having
+[07:23] balancing could be having braking system
+[07:26] okay we'll be having how to blow the
+[07:29] horn over there right we'll be we will
+[07:33] be going we we are going to learn about
+[07:34] the acceleration also right all this
+[07:36] thing will be there but apart from this
+[07:38] one guys you will get something else so
+[07:42] you will get how to manage the gear box
+[07:45] okay how to manage the gear box so this
+[07:48] gear box Right? This is the additional
+[07:50] thing. So we can say so this particular
+[07:52] knowledge this particular knowledge is
+[07:54] being transferred. Okay. This is the uh
+[07:56] this is the previous task which we have
+[07:58] learned previous task and this is the
+[08:01] current task. Right? This is the current
+[08:03] task. Now from the previous task itself
+[08:06] we are going to transfer the knowledge
+[08:07] in the current task. What are knowledge
+[08:09] we are going to be transfer over here?
+[08:11] We are going to transfer the balancing.
+[08:13] We are going to transfer the braking.
+[08:15] How to blow the horn. Okay. How to
+[08:17] accelerate the cycle using the paddle
+[08:19] and all. Now the same knowledge we going
+[08:22] to transfer from this earlier task or
+[08:25] from this previous task or the current
+[08:26] task. Right? So how to make a balancing
+[08:29] in a motorcycle, how to
+[08:32] break, how to blow the horn, how to
+[08:34] accelerate the bike. But guys here we
+[08:38] will be having one new thing that is a
+[08:39] gearbox. Right? So this particular thing
+[08:42] is called finetuning of the knowledge or
+[08:46] we can say tuning of the knowledge. I
+[08:48] think you understood the differences
+[08:51] between these two term transfer learning
+[08:53] and the finetuning. Transfer learning
+[08:55] means transfer learning means we are
+[08:57] going to transfer the knowledge from the
+[08:59] previous task to the current task.
+[09:00] Right? So what are the meaning of the
+[09:02] transfer learning guys? Transferable
+[09:04] learning means we are going to be
+[09:06] transfer the knowledge from the previous
+[09:09] uh task to the current task. Okay,
+[09:11] current doing task but on top of the
+[09:14] current doing task we are doing some
+[09:15] sort of a enhancement. So that
+[09:17] enhancement is called the tuning. That
+[09:20] enhancement is called the finetuning. I
+[09:22] hope this definition is clear. Now let's
+[09:25] try to understand how this was possible.
+[09:28] Okay, in the field of deep learning. So
+[09:31] guys uh here I mentioned a computer
+[09:33] scientist took a this took the same
+[09:35] example okay took the same idea and
+[09:37] integrated into the deep learning. So
+[09:40] this is just one uh real life analogy I
+[09:43] given to you but there could be a
+[09:45] multiple realtime analogy like this.
+[09:47] Let's say someone want to speak uh Hindi
+[09:51] right and the person already knows about
+[09:54] udu. So in that case if if the person
+[09:57] wants to learn how to speak Hindi it's
+[09:59] not going to be very difficult because
+[10:01] he already knows some sort of a thing
+[10:03] related to the Hindi he knows that
+[10:05] ascent pronunciation and all only few
+[10:08] words few vocabulary it's going to that
+[10:10] person is going to be add right so again
+[10:13] this is one of the example of the
+[10:15] transfer learning now how this idea have
+[10:18] been integrated inside the deep learning
+[10:20] now we have to understand that part so
+[10:22] first guys what I will do I'll explain
+[10:24] continue this two thing with receipt if
+[10:26] I'm saying deep learning
+[10:28] guys so I cannot leave the CV computer
+[10:33] vision or I cannot leave the CNN that's
+[10:36] why I'm trying to include both of the
+[10:37] example over here and then I'll come to
+[10:39] this NLP okay we'll come to this
+[10:42] transform based architecture which is
+[10:43] directly connected to the latest LLMs
+[10:46] okay we will come to this one so first
+[10:48] let me clarify uh this transfer learning
+[10:51] the finetuning regarding the CN
+[10:54] Okay. And then I will come to this
+[10:56] transformer architecture both thing I
+[10:58] kept over here. I kept inside my notes.
+[11:02] Guys, if you want to understand this
+[11:05] transfer learning and the concept of the
+[11:08] finetuning, so you will have to start
+[11:10] from this image data set. So first let's
+[11:13] try to understand uh some ground of this
+[11:16] image data set and then I will explain
+[11:18] you the further part. So uh if talking
+[11:21] about the image data set guys so in the
+[11:23] original image data set here you can see
+[11:25] they have mentioned in the original
+[11:27] image data set okay who has created this
+[11:29] particular data set Stanford is
+[11:32] maintaining this data set but the
+[11:34] initiative was taken by the FG you can
+[11:37] search more about this particular person
+[11:39] you will get a complete detail so guys
+[11:41] uh inside the image data set we have 14
+[11:43] million images okay inside that
+[11:45] particular database so 14 million means
+[11:47] around 1.4 4 kg. Now category wise how
+[11:51] many categories are there?
+[11:53] 21,841 category right different category
+[11:56] was there. Now the competition was held
+[11:59] the competition name was the ILSB RC and
+[12:02] the full form of this competition was a
+[12:03] imageet large scale visualization
+[12:06] visualize recognization. Now inside uh
+[12:09] this particular competition they took
+[12:11] the subset of the imageet data set.
+[12:13] There was around 1.2 2 million images
+[12:15] mean there was around 12 lakh images.
+[12:18] Okay. And how how many validation image
+[12:20] was there? So there was around 50,000
+[12:22] validation validation image and the test
+[12:24] image was the one lag. So in total I can
+[12:27] say there was around 13.5 lakh to 14
+[12:29] lakh images was taken for this
+[12:31] particular competition. And how many
+[12:33] category was considered? So around 1,000
+[12:35] categories was considered. Okay. So this
+[12:38] is the complete uh this is the complete
+[12:40] ground of the image data set. Now why I
+[12:42] have explained you I'll come back. So
+[12:44] guys uh just assume see uh we have this
+[12:47] image in a data set here I can write we
+[12:51] have the image in a data set. Now using
+[12:55] this image in a data set we are going to
+[12:57] train any CNN
+[12:59] architecture. Let's assume the CNN
+[13:02] architecture is nothing. It's a VG
+[13:05] architecture. Okay we have trained this
+[13:08] particular architecture CNN architecture
+[13:10] and what we got? We got one pre-trained
+[13:12] model after performing the training. So
+[13:16] we got one pre-trained model. Now guys,
+[13:19] we have this pre-trained model. Okay.
+[13:22] Now this pre-trained model understood
+[13:25] most sort of thing means if if I'm
+[13:27] giving a CAD image to this particular
+[13:28] pre-trained model, this pre-trained
+[13:31] model. Okay. So that that printed model
+[13:35] can understand about this cat. Okay. It
+[13:38] can identify if I'm giving a dog I'm I'm
+[13:40] saying okay classify whether it's a cat
+[13:41] or dog it can easily do that vehicle it
+[13:44] can easily do that aircraft bird vele
+[13:47] sports a musical instrument human
+[13:49] whether there's a human or not right it
+[13:52] can easily identify who can identify
+[13:54] this pre-trained model it is a super
+[13:58] intelligence species but guys just
+[14:01] assume now if I'm asking to this model
+[14:04] can you identify this image where we
+[14:06] have a golden retriever
+[14:07] Maybe in that case, maybe in that case
+[14:10] this pre-trained model is going to be
+[14:11] failed because there is a chances inside
+[14:15] the image data set inside the imageet
+[14:18] data set this golden retriever images
+[14:21] was not
+[14:23] included. Getting my point? Now let's
+[14:25] assume guys okay golden retriever images
+[14:27] was there but just think about me. So in
+[14:30] image in a data set someone someone took
+[14:33] my image okay there was a sunny there
+[14:36] was one one person sunny okay let's
+[14:37] let's take our image of the sunny and
+[14:39] yeah let's keep it inside that
+[14:40] particular database no simply we have a
+[14:43] human right human means it could be a
+[14:45] man it could be a woman that's it but
+[14:47] not a specific person so this pre-trade
+[14:50] model again it's going to be well now
+[14:53] just assume if you want to classify the
+[14:56] data so this pre-trade model is having a
+[14:59] knowledge on this Tata Neno car? I don't
+[15:01] think so. It knows about the car. It
+[15:03] knows maybe about some famous car, but
+[15:06] we are talking about a Tata Neno. See,
+[15:07] it is also a very famous car, but it
+[15:10] won't be able to specify that okay, this
+[15:12] car is a Tata. It can identify. Okay,
+[15:15] this is the car. That's it. But it's a
+[15:16] Tata Nano car. It's not going to be
+[15:18] identified then. Okay. So here guys,
+[15:22] here guys we are using this pre-trade
+[15:25] model means we are using a transfer
+[15:29] learning okay we are using a transfer
+[15:32] learning we are directly using the
+[15:34] pre-trained model forget about the
+[15:36] transfer learning I'll come to that
+[15:37] particular term also now just think over
+[15:40] here we are using this pre-trained model
+[15:42] and using this pre-train model we are
+[15:44] able to if we are trying to find out the
+[15:47] uh if we are trying to like classify
+[15:49] this particular image mind images, data
+[15:51] nano images or maybe some specific
+[15:54] image, right? So, it won't be able to
+[15:56] identify that. So, what we'll have to do
+[15:59] here so we'll have to perform the fine
+[16:02] tuning of this pre-trained model. Yes,
+[16:05] you heard it right. We'll have to
+[16:06] perform the finetuning of this
+[16:09] particular model, the pre-trained model.
+[16:11] Okay. Now, let me remove this one and I
+[16:13] can explain the further. So, guys, we
+[16:15] talking about the finetuning, right? So
+[16:17] in CNN motor in how many ways we can
+[16:20] perform the finetuning. So here I
+[16:22] written the three ways for that. Okay.
+[16:25] So this is the first this is the second
+[16:27] and here is the third. Now before coming
+[16:29] to the finetuning or before
+[16:31] understanding down the transfer learning
+[16:33] with respect to this specific model
+[16:35] let's look into the architecture. So
+[16:38] guys this is the architecture of one of
+[16:39] the convolution uh neural network. So
+[16:42] inside convolution neural
+[16:44] network. Okay. So is a perolution neural
+[16:48] network guys. Uh you can see we have
+[16:50] three major section. The first major
+[16:52] section is called the convolution layer.
+[16:55] The second section is called the fully
+[16:56] connected layer. It it is nothing. It is
+[16:58] just an ANN model. Okay. Uh artificial
+[17:02] neural network model. This is the main
+[17:04] CNN the convolution network. And here is
+[17:07] my output layer where we just have a
+[17:09] activation function. Now if you're
+[17:11] talking about the activation function
+[17:12] guys. So if we have a binary class
+[17:15] binary means two class in that case the
+[17:17] activation function would be sigmoid if
+[17:19] we have soft mix class sorry if we have
+[17:22] a multiple classes right so let's say we
+[17:25] have a multiclass multiclass in that
+[17:27] case the activation function is going to
+[17:29] be activation function is going to be
+[17:31] soft I think we already know about this
+[17:34] right so we have a computition layer we
+[17:36] have a fully connected layer and we have
+[17:38] a output layer so this output layer
+[17:39] basically it will be able to classify
+[17:42] based on the given one category. Okay.
+[17:44] If it is a binary binary category, there
+[17:46] will be a one single neuron. If it is a
+[17:48] multiple category, there will be a like
+[17:50] the n number of neuron. Okay. And if you
+[17:52] have n number category, n number of
+[17:55] category, then there will be a n number
+[17:56] of neurons. I think you already know
+[17:58] this basically. Now what is the use of
+[18:00] this convolution layer? The CNN layer.
+[18:02] This use of the CNN layer just to
+[18:03] extract the features. Okay. From the
+[18:06] given images. So we have a images guys.
+[18:08] So it is going to be perform one
+[18:09] technique. The technique is called the
+[18:11] convolution. convolution and using this
+[18:13] convolution technique is trying to
+[18:15] perfect the feature okay and then it is
+[18:17] passing it to the ANN and then like
+[18:19] finally we are going to be classify that
+[18:21] I hope this is clear now if we're going
+[18:23] to perform the fine tuning right so how
+[18:28] we can do that so here I written a three
+[18:30] ways if you want to perform fine tuning
+[18:32] in a CN based model the first way is
+[18:34] called replacing the output layer means
+[18:36] we can only replace this output layer
+[18:39] let's say uh we don't have thousand
+[18:41] category in data we don't have that we
+[18:43] just have two classes cat and dog or
+[18:46] something let's say sunny or rau in that
+[18:48] case I'll just take this two classes
+[18:51] okay means I will take the single p
+[18:54] which is going to be uh which is going
+[18:56] to be like classify these two classes
+[18:59] okay now the second way basically what
+[19:01] we can do we can freeze all this
+[19:04] convolution phase the entire convolution
+[19:06] phase and we can only train this neural
+[19:09] network this dense layer This is the
+[19:12] second way. So this is the first way. We
+[19:14] can only change the last layer. This is
+[19:15] the second way neural network. Or else
+[19:17] what we can do? We can unfreeze some
+[19:19] convolution layer. Okay. And we can
+[19:22] fine-tune that for our downstream task.
+[19:25] Okay. For the basically some specific
+[19:28] task. Now let's say guys here if this uh
+[19:30] if if this particular architecture is
+[19:32] not able to identify this particular
+[19:34] architecture okay the complete
+[19:36] architecture till here till this dance
+[19:38] it is not able to identify the
+[19:40] particular image right so in that case
+[19:42] what I will do I will try to fine-tune
+[19:44] this particular layer now if after
+[19:49] fine-tuning this particular layer the
+[19:50] dense layer is still it is not able to
+[19:52] identify that particular image in that
+[19:54] case what I will do I will try to
+[19:55] unfreeze this block okay again I will
+[19:58] try to real time. So guys see we
+[20:00] generally unfreeze some couple of last
+[20:02] layer. Why? Why we do that? Because
+[20:04] because guys as I told you in my
+[20:06] previous session also. So this
+[20:07] particular layer guys what it is doing
+[20:09] you know it is trying to fetch some
+[20:12] generic feature. Okay the the the the
+[20:15] early layer right the starting layer
+[20:17] actually uh they are trying to this
+[20:19] particular layer actually it's trying to
+[20:21] fetch some primitive features. Primitive
+[20:23] feature means what like how the what is
+[20:26] the edge edge of that particular is what
+[20:28] is the edge inside that image what is
+[20:30] the what is the texture of that image
+[20:32] okay shapes and all but see guys if you
+[20:35] we talking about Rahul and sunny right
+[20:38] and sunny so some common features going
+[20:40] to be there means there will be a nose
+[20:43] there will be a ears okay there will be
+[20:45] a eyes okay there will be a lips right
+[20:50] but guys see this is a primitive feature
+[20:52] primitive feature
+[20:53] But guys if we are going if we are going
+[20:55] down the line right to the to the la
+[20:58] towards the last layer right so those
+[21:00] last layer actually it's trying to f the
+[21:02] specific feature specific feature means
+[21:04] how the sun look like so sunny nose is
+[21:07] different than this
+[21:09] rai sun's ear is different than this rai
+[21:12] sun's eyes is different than this rai
+[21:14] right so this lower layers this this
+[21:17] particular layer guys it is trying to
+[21:19] identify this particular layer is trying
+[21:21] to identify some specific feature rather
+[21:25] this this particular layer the early
+[21:26] layer right so the the the uh the
+[21:29] initial layer basically it's trying to
+[21:31] identify some primitive a primitive
+[21:32] feature so what we do guys whenever we
+[21:35] fine-tune any sort of a model whether
+[21:37] it's a transform based model or CNL
+[21:38] based model right what we do we usually
+[21:41] finetune guys we usually finetune what
+[21:44] we usually fine tune the last layers
+[21:46] okay we we never train the entire model
+[21:48] we just unfreeze some last layer let's
+[21:51] say if this was not also going to work,
+[21:52] we'll unfreeze this one. Let's say if
+[21:54] this is also not going to work, we will
+[21:56] unfreeze this one. Okay, but generally
+[21:58] we we don't come to this particular
+[22:00] point. Okay, if something is not going
+[22:02] to work that and we are going to train
+[22:05] some couple of last layer then for sure
+[22:07] it's going to work. Okay, there is a 99%
+[22:09] chance. If it is not going to work in
+[22:11] that case like you will have to train
+[22:13] the entire architecture or maybe you
+[22:15] will have to re you will have to like
+[22:16] retrain or recreate the entire
+[22:18] architecture from your end only. I hope
+[22:20] this thing is getting clear. So I hope I
+[22:23] I hope guys you understood what I'm
+[22:25] trying to explain. So guys the crux is
+[22:27] very simple. If you want to fine-tune
+[22:29] our model, okay, if if you want to
+[22:31] fine-tune our CNN model, so we have
+[22:34] three ways. The first way is what? First
+[22:36] way basically we can only fine tune the
+[22:38] last layer. The second if my model is
+[22:41] not able to predict what is there inside
+[22:42] the image, we can find this dense layer.
+[22:44] Let's say if something is a complex
+[22:46] which my model is not able to identify
+[22:47] then I will un unfreeze some couple of
+[22:50] last layer okay from this particular
+[22:52] block and we'll try to retrain it. So
+[22:55] this is what I have mentioned over here
+[22:56] inside this three point and here you can
+[22:59] see uh why this transfer learning is
+[23:01] working. So here guys this transfer
+[23:03] learning is working. See one more thing
+[23:05] guys if you're talking about the
+[23:06] transfer learning how this term is
+[23:08] associated to this fine tuning just try
+[23:10] to focus over here. Okay, I'll just take
+[23:13] five minute. I'll try to wrap up and
+[23:15] we'll come to the theory and within 10
+[23:16] month 10 minute we'll try to wrap up
+[23:18] each and everything. But I hope this is
+[23:20] a very knowledgeable for you. So uh here
+[23:22] what I'm saying guys see
+[23:24] uh just see if we are going to fine-tune
+[23:28] the last layer the output layer in that
+[23:30] case we are going to transfer this
+[23:32] knowledge as it is right. So you
+[23:35] understood now this finetuning this
+[23:37] transfer learning and this finetuning
+[23:39] are the two aspect of a single task.
+[23:44] Okay. Now let's say here if I'm going to
+[23:46] be fine- tune this dense layer dense
+[23:48] layer and this output layer right. So in
+[23:50] that case we are going to be freeze this
+[23:53] particular layer as it is means we are
+[23:55] going to transfer we are going to
+[23:56] transfer what we are going to transfer
+[23:58] guys we are going to transfer this
+[23:59] particular knowledge. So let's say if we
+[24:01] are going to pre sorry we are going to
+[24:04] retrain this layer right in that case we
+[24:06] are going to be transferred this
+[24:08] knowledge as it is and we we are just
+[24:10] going to be retrained this last layer
+[24:13] okay last couple of so I hope you
+[24:16] understood whenever we are going to
+[24:18] finetune the model in that case we are
+[24:22] getting some transferred knowledge okay
+[24:26] we are getting some transferred
+[24:27] knowledge and from where we are getting
+[24:29] this transferred knowledge we are
+[24:31] getting through this pre-trained model
+[24:33] because as I told you guys this VG model
+[24:35] actually it's a pre-trained model okay
+[24:37] and if you want to fine-tune last layer
+[24:40] couple of last layer or whatever layer
+[24:42] right so in that case we are going to
+[24:44] transfer some knowledge and on top of
+[24:46] that we are going to perform some
+[24:48] finetuning so if someone is going to ask
+[24:49] you what's the difference between the
+[24:51] transfer learning and finetuning so you
+[24:53] would say this transfer learning and
+[24:55] finetuning are not a different thing so
+[24:57] whenever we are going to be use any
+[24:59] pre-trained model and the pre-trade
+[25:01] model is not working as expected. So we
+[25:03] are going to use the uh the previous
+[25:05] knowledge as it is of the pre-trained
+[25:07] model and we are doing some sort of a
+[25:09] changes on top of that like the
+[25:11] pre-training of the okay and that's some
+[25:14] sort of a changes some sort of a
+[25:15] learning little uh training right on top
+[25:17] of the pre-training model it is called a
+[25:19] fine tuning. So if we are going to do a
+[25:22] fine tuning so we are going to be
+[25:23] transfer the knowledge of the previous
+[25:25] pre-trained model to the new model.
+[25:27] Okay. So this transfer learning and the
+[25:29] finetuning is nothing. It's a uh two
+[25:32] side of a single point. I hope you
+[25:34] understood this thing. Now guys, I hope
+[25:37] uh this finetuning concept, the transfer
+[25:39] learning concept is pretty much clear
+[25:40] over here. So let's try to understand
+[25:43] the concept of the transfer learning and
+[25:45] the finetuning inside the transformer
+[25:48] model.
+[25:50] Now guys, whenever we're talking about
+[25:52] the transfer of based model uh for the
+[25:55] generative AI task or for any sort of an
+[25:57] NLP task, right? So we have two ways of
+[26:00] performing a fine tuning over here means
+[26:03] we can transfer the knowledge from the
+[26:05] pre-trained model to the new model. Uh
+[26:07] okay and over the new model uh yeah port
+[26:11] the new model which we are creating we
+[26:12] are creating through the finetuning
+[26:14] itself. So uh we have a two ways means
+[26:17] we can just change the output layer over
+[26:19] here. the last layer or we can unfreeze
+[26:22] some couple of layers. Okay, the last
+[26:24] couple of layer. So before coming to the
+[26:27] uh the conclusion we have to understand
+[26:29] about the transform architecture like
+[26:31] how it looks like. So this is the
+[26:34] transformer architecture. So inside this
+[26:36] architecture you can see guys we have
+[26:38] two part. The first part is called
+[26:40] encoder and the second is called the
+[26:42] decoder over here. Right. Now inside the
+[26:44] encoder uh you will see this particular
+[26:47] box. So inside this box we have two
+[26:48] major thing. First is a multi attention
+[26:51] and the second is a feed forward neural
+[26:53] network. Okay. And in the decoder side
+[26:55] you will see we have mult multiattension
+[26:58] then we have mask multi attention. Then
+[27:00] we have multi attention and then we have
+[27:01] a feed forward network. So guys this is
+[27:04] a one stack. Okay this is a one box or
+[27:06] you can say it's a one stack. Anything
+[27:08] you can say I'm saying one stack. Okay.
+[27:11] Now inside this one we have two main
+[27:13] component. one is a multi attention or
+[27:15] the next is the feed forward network. So
+[27:17] guys we are going to be uh we are going
+[27:20] to be separate this encoder and decoder
+[27:22] right. So the decoder itself is called
+[27:24] the GPD this one and this encoder is
+[27:27] called the port I think you know about
+[27:31] encoder is called the board. Okay. Uh
+[27:34] now over here guys inside the board you
+[27:36] can see uh what we have if it is a
+[27:39] encoder architecture then we would be
+[27:41] having this multiattension and a feed
+[27:43] forward network inside of one single
+[27:45] cell. Now we are talking about the board
+[27:47] guys. So we have two variant of the
+[27:49] board if if you will go and check in the
+[27:50] original research paper they have at
+[27:52] least two variant of it. First was the
+[27:54] small variant where we were having 12
+[27:56] okay of the same box. So this nx value
+[27:58] was a 12 and uh if you're talking about
+[28:01] the large word inside that we are making
+[28:03] 24 is set. Okay. So the nx value was the
+[28:07] 24. So 24 times this uh multi retention
+[28:10] feed for network then again one more box
+[28:13] on top of it. Then again one more box on
+[28:14] top of it. Likewise 24 times it was
+[28:17] coming okay instead of b itself. So guys
+[28:19] whenever we're talking about the b model
+[28:22] or the GPT model right if you want to
+[28:24] find that particular model so we have
+[28:26] two ways. See I'm I'm talking about the
+[28:28] banana word architecture. Now we are
+[28:31] talking about the GPD architecture guys
+[28:32] and still it is not the outcomes right
+[28:35] the the advanced model of the
+[28:42] GPDs the advanced model of the GP still
+[28:45] is not open source it is a closed source
+[28:47] from the open like
+[28:49] 3.54 okay EPD4P so through the API
+[28:53] itself we can finetune this model and
+[28:55] this model basically it's a very huge
+[28:57] model so to fine-tune this particular
+[29:00] model will have to take a different
+[29:01] technique. The technique is called the
+[29:02] Pep technique. Okay. In the upcoming
+[29:05] session, we'll try to understand about
+[29:06] the Pep technique. But as of now, how to
+[29:09] find the transfer of base model. Uh so I
+[29:11] can give you the example using the B
+[29:14] only. Okay. I try I kept the example
+[29:16] using the B only. So you will get some
+[29:18] sort of a idea that if you want if you
+[29:20] have to fine-tune this classical model,
+[29:22] classical large base model like the B T5
+[29:25] part then how we can do it. But if we
+[29:27] are talking about the latest transfer
+[29:29] based model like the GBD, MSR, llama and
+[29:32] all. So for that this technique is not
+[29:34] going to work mean we cannot increase
+[29:36] last couple of layer and then we can
+[29:37] retrain it. We'll have to take a
+[29:39] different approach because in that case
+[29:41] we required a huge resources. Okay. And
+[29:43] this thing is not possible in the
+[29:44] current state ofart architecture. So
+[29:46] this pora kilora okay and the dora all
+[29:50] the techniques basically we're going to
+[29:52] learn in the upcoming sessions. Uh so
+[29:54] guys that's why if you haven't
+[29:55] subscribed the channel please do it guys
+[29:56] because uh the more interesting content
+[29:58] content is on the way now here guys if
+[30:01] you want to fine-tune this transformer
+[30:03] base architecture the initial transform
+[30:05] base architecture like the T5 part and
+[30:07] all so either we can like change the
+[30:10] output layer okay or change change the
+[30:13] output layer the pre-trained model or we
+[30:15] can unfreeze some last layer okay we are
+[30:17] saying unfreezing of some last layer
+[30:19] means let's say we're talking board okay
+[30:22] so we here taken care of the B. So is
+[30:25] the B how many layers was there? Tell me
+[30:27] we have let's say 12 layers inside the
+[30:30] 12 layers inside the small architecture.
+[30:34] So likewise I can keep the 12 layers
+[30:36] like this one. Now inside one layer we
+[30:37] have one feed forward negle network and
+[30:39] we have one attention layer. Again feed
+[30:41] forward network and we have attention
+[30:43] layer. Feed forward network and we have
+[30:45] attention layer. Feed forward network
+[30:47] and one attention layer. Feed forward
+[30:49] network and one attention layer. So how
+[30:51] many time it is coming? So it is coming
+[30:53] till 12 times right now. If we we have
+[30:55] to finetune guys so we can finetune the
+[30:58] last layer okay the last layer which was
+[31:00] added right or else what we can do we
+[31:02] can finetune some last couple of box
+[31:05] okay so let's say last two boxes this
+[31:07] the box number 12 and box number 11 we
+[31:09] are going to be fine tuned. So guys we
+[31:11] never fine tune this particular layer
+[31:13] because here we are going to be extract
+[31:14] some general knowledge and uh in the
+[31:17] last layer only we are going to be
+[31:18] extract some specific knowledge. Okay.
+[31:21] So we are we we always fine the last
+[31:24] layer. So just to make my task very
+[31:26] specific and we never find this the
+[31:30] initial layer. I hope you got it. Now we
+[31:32] are talking about the latest model like
+[31:34] the llama okay and we're talking about
+[31:36] the mist or maybe the latest deep sea
+[31:39] okay or gemini model. So all this model
+[31:42] actually it is based on the transformer
+[31:43] architecture only. So here you can see
+[31:45] this is the llama architecture. It's a
+[31:47] modified version of the transformer
+[31:49] architecture but the base concept is the
+[31:51] same. So here we are using a embedding
+[31:53] then one more layer RMS prom then self
+[31:55] attention was added right and field
+[31:57] forward network and the rest of the
+[31:58] thing is same couple of modification
+[32:00] have been done. So later on we'll
+[32:02] understand what it is. But the
+[32:03] transformer the base ID actually was
+[32:05] taken from this transformer architecture
+[32:07] only. But guys this model is a pretty
+[32:09] huge it is having billions and trillions
+[32:12] of parameter. In that case we cannot
+[32:14] increase couple of last layer of this
+[32:16] particular model. Instead of that
+[32:18] basically what we do we use some P
+[32:20] technique. Okay. Inside inside the P
+[32:23] technique actually we consider some
+[32:24] subset of the weight. Okay. To finetune
+[32:27] the model and we fine tune the model in
+[32:30] a better way. Right. And we generally
+[32:31] consider quantized version of your model
+[32:34] because we are going to be unused in the
+[32:35] last year. It is possible but again it
+[32:37] will be a very resource incentive. So
+[32:39] that's why we generally don't use that
+[32:42] options. It is possible we can do it
+[32:44] even I can show you but again uh this
+[32:48] model actually are very that's why we
+[32:50] generally talk about I hope this
+[32:53] complete theory is clear. Now if you
+[32:56] want to align this particular theory to
+[32:58] the practical then it will make sense.
+[33:01] So now within 10 to 15 minute I'm going
+[33:03] to discuss the practical of it. Now one
+[33:05] more thing here I'm added uh if someone
+[33:08] is going to ask you interview guys so
+[33:10] you can explain about what you can
+[33:12] explain that why uh this we use this
+[33:14] transfer learning. Okay and uh guys why
+[33:17] we do the fine tuning using this
+[33:19] transfer learning. So here you can see I
+[33:21] I did a couple of points. in the cost
+[33:23] point it save the training time and the
+[33:25] resources if you're going to retrain any
+[33:27] model from very very scratch in that
+[33:29] case guys it's going to be a very
+[33:31] resource in incentive intensive right so
+[33:34] we generally don't consider that
+[33:35] approach so we take one pre-trained
+[33:37] model okay and we use the knowledge of
+[33:39] this this this particular pre-trained
+[33:41] model as it is and on top of that we we
+[33:44] we do some tuning right and this
+[33:46] particular tuning itself is called the
+[33:48] fine tuning this particular tuning
+[33:50] itself is called a finetuning and This
+[33:52] pre-trained model basically we are using
+[33:55] this pre-train knowledge as a transfer
+[33:57] learning. So this pre-trained model the
+[33:59] previous model itself is called my
+[34:01] transfer learning. Here uh this will
+[34:04] become a new model. So you can see this
+[34:06] is my pre-ra model. This model one okay
+[34:09] model one. Now we took this model we
+[34:11] tune some knowledge of it. Okay we
+[34:14] perform fine tuning with either of the
+[34:15] way. Okay. So the speed training itself
+[34:18] is called the transfer learning. And now
+[34:20] this will become my model after the fine
+[34:22] giving you know after performing the
+[34:23] comparison. Now the second thing is work
+[34:26] well when label data is limited. So you
+[34:28] know guys label data is very limited in
+[34:30] that case basically we have to perform
+[34:32] some unsupervised pre-training type of
+[34:34] thing. Okay inside the mainly inside the
+[34:36] NLP at that time we can train one like
+[34:40] model with a huge amount of data okay
+[34:42] some general knowledge and then later on
+[34:43] we can specifically fine. The third one
+[34:46] basically give better performance than
+[34:48] the training from scratch. Yeah, this is
+[34:50] true guys. We are going to be fine tuned
+[34:51] our model on some general knowledge and
+[34:54] rather and then we are going to be
+[34:56] retrain it again means we are going to
+[34:57] be fine tuned again for some specific
+[35:00] task. Okay. So in that case it gives a
+[35:02] very good result and that is proven
+[35:04] inside the GPD model and the chat GP
+[35:07] actually it's a product of that only. I
+[35:09] hope guys you understood the complete
+[35:11] theory behind the task for learning and
+[35:13] the finetuning. Now let's come to the
+[35:16] practical
+[35:18] guys. All right guys, so let's start
+[35:21] with the practical. Uh here the
+[35:23] practical guys. Uh I kept a different
+[35:26] different type of tuning uh different
+[35:28] different layers actually the are going
+[35:29] to be tuned. Uh so first of all let me
+[35:32] do one thing. Let me show you with
+[35:33] respect to the CNN and the convolution
+[35:35] neural network and then I will come to
+[35:37] the transform based architecture that is
+[35:39] what uh now let me import the data. Uh
+[35:42] I'm going to import the data about the
+[35:45] CNN architecture itself. I already came
+[35:47] to my G in my local. I'm just uh
+[35:50] uploading it over here. I already
+[35:52] connected to my GPU. If you want to know
+[35:54] how to connect, so simply you can go
+[35:56] with this runtime and you can change the
+[35:57] runtime type. All the finetuning uh
+[36:00] thing I will explain you in my collab
+[36:03] itself regarding the training because
+[36:04] here we have a GPU support in the local
+[36:07] generally we don't have a GPUs. I have a
+[36:09] GPU but it is not that much powerful. uh
+[36:12] where we can uh take a load of this deep
+[36:14] learning training and all. So that's why
+[36:16] I will keep all the training stuff
+[36:18] related to the GPU over the uh collab
+[36:20] itself or I will use the table. We have
+[36:23] some other option also like we can use
+[36:25] the paper space uh we can even use some
+[36:28] other cloud as well the free dial of
+[36:31] those cloud but yeah as as when it will
+[36:34] be required then I will take it uh take
+[36:37] it up okay those cloud at home. So first
+[36:40] of all I'm going to unjip this data. So
+[36:42] for unjipping it guys here is the code
+[36:44] and using this particular code I'm going
+[36:46] to unzip. Uh now once you will refresh
+[36:48] guys you will get the data over here. So
+[36:50] simply you can click on the data folder
+[36:52] and see here here is the data. Okay. So
+[36:56] in the data we have three folder. One is
+[36:58] a test second and the third is a
+[36:59] validation. Uh now I'm going to import
+[37:02] couple of library. So let me import the
+[37:04] library like the sequential we have a
+[37:06] kas we have a test writer. We are going
+[37:09] to use the PGD model and here is a like
+[37:12] image. Okay, the image function. Uh now
+[37:16] what I'm doing here I'm going to be load
+[37:18] the model. So which weight I'm loading
+[37:20] over here. I'm going to load the image
+[37:22] weight. Uh now guys uh here I have
+[37:25] written include top is equal to group.
+[37:27] Include top means what as I shown you
+[37:29] inside this particular architecture
+[37:31] inside the VG architecture right? So we
+[37:33] are having three part of it. So first is
+[37:35] a convolution phase, second is a tense
+[37:37] and the third is output layer. Output
+[37:40] layer is a part of this dense network
+[37:41] itself. So in short we can say we have
+[37:44] two we have two basically part of it.
+[37:47] Okay. Now guys we are going to be
+[37:49] include this dense layer also. So for
+[37:50] including this we have written a true
+[37:52] over here and this is the image size
+[37:54] which we are providing. So let me import
+[37:56] it guys. After importing here let me
+[37:58] show you all the layer. So once I will
+[38:00] execute it guys here you will get all
+[38:01] the layers. So uh input layer one, input
+[38:04] layer two sorry input layer one this is
+[38:07] the input layer then we have a block
+[38:08] convolution one then convolution two
+[38:11] okay then three then uh here you can say
+[38:13] four five so in total we have five
+[38:16] convolution block and then we are going
+[38:17] to flatten all the data flattening means
+[38:20] we are going to convert 2D data into the
+[38:22] 1D signal array. So flattening operation
+[38:25] is there then we have a fully connection
+[38:26] network and then here is a prediction
+[38:28] layer. So guys all the layer is a
+[38:31] trainable layer as you can see over
+[38:32] here. We generally we are going to be
+[38:34] train this convolution layer only. We
+[38:36] just don't train the pooling layer. It
+[38:38] again it is not a trainable one but yeah
+[38:40] I have myation over here. So we train
+[38:43] the convolution layer itself. Then we
+[38:45] have this fully connected network which
+[38:47] is artificial neural network. Yeah it is
+[38:49] a trainable one and here is my
+[38:51] prediction. So prediction is the
+[38:53] final final basically layer. So there we
+[38:56] can change our neurons. So guys this
+[38:59] entire architecture right so this is a
+[39:02] BG architecture. Now let's look into the
+[39:04] number of parameter and the exact shape
+[39:06] of that particular layer. So here for
+[39:08] that you just need to execute this VG.
+[39:10] Supreme once you will execute that you
+[39:12] will get the output shape. Okay. So what
+[39:15] output you will get once you will pass
+[39:17] the image over there. So input in the
+[39:19] input actually you are passing this
+[39:20] layer then it is going to the
+[39:21] convolution layer. Okay. Then conolution
+[39:24] block one block two and after cooling
+[39:26] and all. So here you can see this is the
+[39:28] size of the image after extracting the
+[39:30] feature and all and likewise you can see
+[39:32] the size is going to be decreased as the
+[39:34] feature is going to be extract from
+[39:35] there and here you can see the number of
+[39:37] parameter. So what if I'm saying number
+[39:39] of parameter that doesn't the directly
+[39:41] meaning is I'm talking about the weights
+[39:43] and prices over here inside the model.
+[39:45] So guys this is the complete summary of
+[39:47] the model. Now here you can see the
+[39:48] number of total parameter here is a
+[39:50] trainable parameter okay and the
+[39:52] non-trainable parameter everything is
+[39:54] visible over here and as I told you this
+[39:56] cooling layer is not a trainable layer
+[39:58] so here you can see the number of
+[40:00] parameter is the zero right now there we
+[40:02] don't have any weights and biases
+[40:04] because this is just a fixed size which
+[40:07] we are going to be extract just to we
+[40:09] are going to be filter the data from the
+[40:11] convolution 2D array okay 2D or 3D array
+[40:15] uh uh if you want to understand about
+[40:16] the tooling and also for sure I will
+[40:18] create one se segregate separate video
+[40:21] on top of the CNN architecture itself
+[40:23] there I can explain you that part as
+[40:25] well now coming to the next one so here
+[40:27] we are going to be create the sequential
+[40:29] model and then we are adding the PG okay
+[40:32] and here we are just going to be change
+[40:33] the last layer if you will look at the
+[40:35] last layer so there we have 100 category
+[40:38] okay now we are changing that 100 one
+[40:40] and we are keeping only one over here so
+[40:43] let me run it and see over here we are
+[40:45] able to execute Now we can load the
+[40:49] data. So here we are going to load the
+[40:51] data and the data guys see here we have
+[40:53] a directory we have a label. Now label
+[40:55] infer means what? So label infer means
+[40:57] if you will look into the train
+[40:59] directory or maybe validation directory.
+[41:01] Right? So there you will find out the
+[41:03] two folder. The first folder is for the
+[41:05] cat images. The second folder is for the
+[41:07] dog images. So automatically this cat
+[41:09] will be unoted as a zero and this dog
+[41:11] will be annotated as a one. If I'm going
+[41:13] to mention this info, so automatically
+[41:15] it will pick up the label based on the
+[41:16] total uh sequence. Okay. Now all let me
+[41:20] execute it and see here you can see it
+[41:21] is able to load the plot data. Now here
+[41:23] I'm going to pre-process the data mean
+[41:25] I'm going to normalize the pixel value
+[41:27] so that it will be within within zero
+[41:29] and one. So here I'm going to map my
+[41:31] entire data. Okay. Now there is a
+[41:33] compilation process. In the compilation
+[41:35] I mentioned over here the optimizer then
+[41:37] here is a loss function and based on
+[41:39] which matrix we are going to be evaluate
+[41:41] our solution based on the accuracy
+[41:43] itself we are going to evaluate the
+[41:45] solution. So let me compile the model.
+[41:47] Now after that guys what I will do I
+[41:49] will train my model. So for training
+[41:50] here is a model grid then I'm passing my
+[41:53] training data here. How many inbox you
+[41:55] want to run? Let's say two inform
+[41:56] validation data is here and verbose
+[41:58] means we'll get the entire detail of the
+[42:00] execution. Okay. Now I'm keeping this
+[42:02] particular detail inside the history. So
+[42:04] later on we can use it for the plotting.
+[42:06] So guys see my training has got started.
+[42:08] It will take some time. It might take
+[42:10] maybe 2 to 3 minute or more than that.
+[42:13] So let it
+[42:14] execute. Guys you can see my training is
+[42:17] completed. Now after completing a
+[42:18] training I can plot that. So I can
+[42:21] execute this code as so that I can plot
+[42:24] my uh result. So here you can see okay
+[42:28] it has executed only for the two plot
+[42:30] that's why the graph is coming like this
+[42:32] we are going to be execute for the uh
+[42:35] basically multiple inbox right you will
+[42:38] see the clearcut graph right so you can
+[42:40] execute it at least for the file in book
+[42:42] and you will see the clearcut graph with
+[42:44] respect to the training and the
+[42:45] validation table okay but my aim just to
+[42:48] show you this fine tuning part so again
+[42:49] I'm not going into this particular
+[42:50] detail so here what I'm doing guys I'm
+[42:53] just going to be take my data okay so
+[42:55] Here you can see there's a test folder I
+[42:57] cap one I cap the image. Okay, this
+[42:59] particular image. Now let me load it and
+[43:01] check whether my model is able to fit in
+[43:04] correct or not. So first I'm going to
+[43:06] load the data. Okay, I'm going to pre
+[43:08] pre-process that means I'm going to
+[43:09] perform my scaling on top of it. Then
+[43:11] here is my model.predict. Okay, I'm
+[43:13] passing the image array and see guys I'm
+[43:16] able to predict something. So here guys,
+[43:19] you can see we have the model model.
+[43:22] Okay. So we can take the model model to
+[43:25] the prediction. Now you can visualize
+[43:27] the you can visualize the basically
+[43:29] result. So if I will run it. So here see
+[43:32] my model is able to predict fine that
+[43:35] there is a CAD. Okay. Uh yeah. Uh so I
+[43:38] hope this is perfect. This is fine. Now
+[43:40] coming to the second type of finetuning
+[43:42] where we are going to change the the
+[43:45] last neural network. Okay. Of the model
+[43:47] itself. So uh here we are going to load
+[43:49] the image and weight again and this time
+[43:52] I this include top is equal to false
+[43:54] means I don't want this particular
+[43:56] layers okay I I will add from my end so
+[43:59] that's why I kept it false now let me
+[44:01] execute it sorry it is fine and if you
+[44:03] will look give me the detail of the
+[44:04] layer friends at the detail of the layer
+[44:06] you will see we are not getting the
+[44:08] final test layer which we are getting
+[44:10] earlier so earlier guys this earlier was
+[44:13] included the FC1 FC2 and friction but
+[44:16] this time this is not included Why?
+[44:18] Because we have written included for
+[44:20] included top is equal to false. Now let
+[44:23] me show you the parameter. So the number
+[44:25] parameter will be as it is. But here you
+[44:26] won't be able to get the last tense
+[44:29] layer. Okay. The last neural network
+[44:30] layer. Now here I'm going to be add the
+[44:34] convolution. I initiated the model model
+[44:36] sequential. Here I added a convolution
+[44:39] base. Okay. Then I added a pattern. Then
+[44:41] I added a dense layer. Okay. With a 256
+[44:43] neuron. And then this is my final
+[44:45] neuron. Okay. So here we have two
+[44:48] classes that's why I'm taking one neuron
+[44:50] in my last layer. If we have let's say
+[44:51] three classes I'll be taking three
+[44:53] because one neuron either it I will get
+[44:56] like cat or dog. Okay I will get either
+[44:59] I will get a probability regarding the
+[45:01] cat or I will get regarding the dog. So
+[45:02] if you have two classes in that case you
+[45:04] can only take one neuron but if you have
+[45:06] more than two classes you have to take
+[45:08] as as much as neuron inside the last
+[45:10] output class. So let me execute it and
+[45:13] uh this is fine. Now again we are going
+[45:14] to load the data. Here we are going to
+[45:16] pre-process the data. Here is a model
+[45:17] compilation. And now you can again
+[45:20] retrain your model. Okay. So guys here
+[45:23] if I will execute it. So see my model is
+[45:25] getting trained. It will again take some
+[45:28] time maybe 2 to 3 minute. See over here.
+[45:31] So let it
+[45:33] train. Okay guys. So this training is
+[45:35] also completed. Now here I can plot the
+[45:38] history. So inside the history you can
+[45:40] see it is able to showcase the two.
+[45:42] Okay. uh and because of that I'm getting
+[45:44] this kind of line. Uh you can see
+[45:47] earlier I think there was some issue.
+[45:49] You can check it out from your end. You
+[45:50] can again uh uh retrain it and I think
+[45:53] so you will get some line. Okay, the red
+[45:56] and as well as the blue. I don't know
+[45:57] what is the issue. I will have to check
+[45:58] it again. But I hope so you understood
+[46:00] the concept. Now coming to the next
+[46:02] part. So yes you understood the second
+[46:05] type of fine tuning where we are going
+[46:06] to replace the last or layer. Now if you
+[46:09] want to predict guys you can execute
+[46:11] this code and you will get a prediction.
+[46:13] So here I'm passing a dog image and see
+[46:15] it is able to predict directly. Now with
+[46:17] the type three of finetuning where we
+[46:20] are going to be on reach some layer the
+[46:22] last layer. Okay. So if I will if you
+[46:25] want to check all the layers of the VG
+[46:27] convolution phase. So this is all the
+[46:29] layers. Okay. Now guys uh here if I will
+[46:32] keep it trueable is equal to true.
+[46:34] Right. So what I will get? I will get
+[46:36] the true. Okay. If I will keep it false
+[46:38] this one right. So what I will get I'll
+[46:41] get false over here. So here basically
+[46:43] we'll have to write some logic so that
+[46:45] we can freeze couple of last layer. So
+[46:47] I'm going to freeze the last block the
+[46:49] block five only and I will keep un sorry
+[46:52] I I'm going to unfreeze the last block
+[46:54] the block five and I will unfree I will
+[46:57] keep freeze all the all the layers till
+[47:00] block four. Okay. So how I can do it? So
+[47:03] here I'm going to iterate it over the
+[47:04] layer. I I created one parameter set
+[47:06] trainable parameter. It's a custom
+[47:08] parameter only. Uh now here I'm trading
+[47:11] on top of each and every layer. The
+[47:12] layer will if the layer is equal to this
+[47:14] one then only we are going to set the
+[47:16] value of it true. Okay. Let me delete it
+[47:18] from here. I just kept it to explain
+[47:20] you. Uh so okay here is a pass
+[47:23] basically. So here what I will do I will
+[47:24] set as a true. Okay. So here I'm
+[47:27] checking if setable is true. In that
+[47:28] case I will keep this in layer. True and
+[47:32] rest of the layer I will keep false. uh
+[47:34] once I will execute it maybe at that
+[47:36] time you will get in a more clearcut
+[47:38] way. So here I have executed guys and
+[47:40] now see the layers. So you will see over
+[47:43] here this all the all the trainable are
+[47:46] false means we are not going to be train
+[47:48] this particular layer except this block
+[47:50] five. Okay true means we are going to
+[47:53] train and false means we are not going
+[47:55] to train. So this is a unfreeze layer
+[47:57] that's last block and this is all the
+[47:59] freeze layer. I hope this is clear. Now
+[48:01] what I will do I'll take the model
+[48:04] sequencer I'll keep this convolution
+[48:06] base this particular base okay this
+[48:08] convolution base now after that I will
+[48:10] add my dense layer okay as it is I will
+[48:14] add my tense layer okay and then uh here
+[48:16] is the the output layer will inside the
+[48:18] output layer there will be only one
+[48:20] neuron because we have only two classes
+[48:21] here now let me execute it my model is
+[48:24] ready here is my data data is also ready
+[48:26] now again I process the data okay I will
+[48:29] compile the model and Here what I'm
+[48:31] doing I'm going to be retrain my model
+[48:33] again. Okay. So after retraining guys
+[48:36] what I will get I will get my the model
+[48:39] and then even I can perform the
+[48:40] prediction or obtain. I hope this thing
+[48:43] is clear how to perform a fine tuning.
+[48:45] Okay using the pre-trained model and I
+[48:48] hope so you got the concept of the
+[48:50] transfer learning also. So in the fine
+[48:52] tune model so the model basically which
+[48:53] we are getting this particular model we
+[48:56] we have transferred the knowledge from
+[48:58] the previous pre-trained model. Okay.
+[48:59] and tune couple of thing only we have
+[49:01] fine tuned now your each and every
+[49:03] understanding is pretty much clear which
+[49:05] I believe now coming to the next part
+[49:07] over here so the next part guys I'm
+[49:09] going to explain you about the board
+[49:11] okay the transfer learning and the
+[49:13] finetuning term with bird now so how
+[49:16] basically we can train the board model
+[49:18] and how we can keep the layer freeze
+[49:21] okay the couple of last free threes and
+[49:23] rest of the layer how we can train okay
+[49:26] everything we're going to see over here
+[49:29] Now guys, this model is also trained. So
+[49:31] let me show you the plot of it. Plot
+[49:33] regarding the toolbox. I just executed
+[49:35] the tool box. Okay. And over here over
+[49:37] the graph, you can see the loss. So in
+[49:39] first step, the loss was 0.3 and the
+[49:41] next step the loss is going to be
+[49:43] decreased. Okay? Because we are going to
+[49:45] be validating the model based on the log
+[49:47] only. So accuracy log loss on both
+[49:50] parameter you can validate your model.
+[49:53] Now here are the code to the prediction.
+[49:54] So I'm giving a cat. Okay. And I'm
+[49:57] checking whether the image is getting
+[49:58] generated correct means that whether the
+[50:00] image is classifying correct or not. So
+[50:02] I'll get the confidence means I'll get
+[50:04] my result over here. And then here I'm
+[50:06] going to be uh basically show the
+[50:08] result. Okay. So here you see it is able
+[50:11] to predict perfectly that this is a cat.
+[50:13] Okay. Now coming to the finetuning of
+[50:15] the board like trans fine tuning inside
+[50:18] the board. So for that guys we'll have
+[50:20] to uh download this uh data set module.
+[50:23] It is from the learning page. uh we are
+[50:26] going to use the hugging phase now uh
+[50:28] okay for this particular solution uh so
+[50:30] from the hugging phase guys after
+[50:32] installing this data set module I'm
+[50:34] going to use I'm going to load the board
+[50:36] tokenizer data set for loading a data on
+[50:38] which we are able to find find we on
+[50:41] which the data set we are going to be
+[50:43] fine tune okay we will directly load
+[50:45] from the data set only we are not going
+[50:47] to be load any data from my local one
+[50:50] I'll load from the honey press directly
+[50:52] then here is a train test split if any
+[50:54] train test split we need to perform then
+[50:56] data loader okay from the touch and here
+[50:58] training arguments standard board
+[51:00] sequence classifier and all okay and
+[51:02] here is my board model so guys uh this
+[51:05] is all the module which is required to
+[51:07] training a board model uh then here what
+[51:09] I'm doing guys here I'm going to load my
+[51:11] data so my data set name is notion on
+[51:14] top of this particular data I'm going to
+[51:15] fine-tune my model if you know about the
+[51:18] board guys so what actually it was
+[51:19] trained on the mass language modeling so
+[51:22] guys that mass language modeling is
+[51:24] giving giving giving the generic
+[51:25] understanding to the bot. Okay. So B is
+[51:28] specifically have not been trained for
+[51:30] any text classification for any
+[51:32] summarization or for any translation or
+[51:34] for any question answering for any any
+[51:36] recognization and all. No it was a it
+[51:39] was a generic model okay which was
+[51:41] trained on a some general data from the
+[51:44] internet okay by Google and uh guys what
+[51:47] is this hugging face have done? So again
+[51:49] face have created some separate classes.
+[51:51] Okay. So if I if I'm using this board
+[51:54] for sequence classification class. So
+[51:56] here we are using B board basic model as
+[51:59] a sequence classifier. So in the last in
+[52:02] some last layer basically it's going to
+[52:03] be append some soft max classifier and
+[52:06] all if I'm going to use B as a question
+[52:08] answer. So in that case there will be a
+[52:10] different class B word for question
+[52:12] answering. Okay. So using that question
+[52:14] answering class B for question answering
+[52:16] class I'll be able to generate a
+[52:17] question answer through through the B if
+[52:20] I want to generate a summary okay using
+[52:22] the B then here is a separate class for
+[52:25] that in the phrase so B actually it is a
+[52:28] base model so here you can see if I'm
+[52:30] going to show you the B guys so uh not
+[52:33] this one this one so guys uh here if you
+[52:36] will look into the board guys so B is
+[52:38] nothing it is just a basic model okay so
+[52:41] the top ad which you are seeing over
+[52:43] here with respect to the board right so
+[52:45] this was added by the uh different
+[52:47] different like inside different
+[52:49] different implementation so uh guys as I
+[52:52] told you we again bases created a
+[52:54] several classes okay uh like word for
+[52:57] text classification words for
+[52:58] summarization word for question
+[53:00] answering right so this hack is going to
+[53:02] be changed but we are talking about the
+[53:04] word the original word inside the
+[53:06] original word you will only find out
+[53:08] this multi-layer attention and the beat
+[53:10] forward table at work you will not able
+[53:12] to find out this top layer. Okay. So
+[53:15] guys, hugging face has introduced the
+[53:17] different different classes as I told
+[53:18] you. So let's try to see how basically
+[53:21] we can perform the transfer learning and
+[53:22] the fine tuning sorry how we can perform
+[53:25] the finetuning on top of this particular
+[53:27] class using this particular class. Okay.
+[53:29] And let's see in the what had okay the
+[53:31] top had what have been added how much
+[53:33] categories are there by default over
+[53:35] there and then we'll try to replace
+[53:36] that. So here I loaded my data. The data
+[53:39] set name is a emotion data. Now here I'm
+[53:41] going to filter my data. So in this
+[53:43] particular data we have multiple classes
+[53:45] but I'm just going to be consider three
+[53:47] classes out of this data. So first class
+[53:49] is a sadness class. Second is a joy and
+[53:51] third is a anger. Okay I'm just going to
+[53:53] be taking this three classes. So if I'm
+[53:55] going to be execute this particular code
+[53:57] I'll be able to
+[54:01] pre-process I will be able to
+[54:03] pre-process my data. Now here I I'm
+[54:06] going to split my data. Okay. So I'm
+[54:09] going to separate into the train and
+[54:10] test. So here I split the ratio and see
+[54:13] my data has gotten. Now if you will look
+[54:16] into the text data. So see this is the
+[54:18] text data right and see the length of
+[54:20] the train sorry if you will see the
+[54:22] train data. Okay. Inside the train data
+[54:24] we have a column. Column name is text
+[54:26] and the next column is a label. So text
+[54:28] data guys see here is a complete text
+[54:32] with respect to the first row. Okay. And
+[54:34] uh here you can see the complete length
+[54:36] of the data. So in this data we sorry in
+[54:39] train data we have 9,749
+[54:42] rows. Okay and same you can check out
+[54:44] the label also. So here this is the
+[54:46] label 0 1 2 3 zero means this one you
+[54:50] can you have seen the sequence of
+[54:52] sequence right. So zero means what? 0
+[54:55] means sadness one means joy and second
+[54:57] means an right now here you can check
+[55:00] the trainable layers sorry label. So
+[55:03] again it is the same like the text
+[55:04] column. Then here I'm checking the
+[55:06] validation data. So here you can see the
+[55:08] validation data how much it is. So it is
+[55:10] 2,438 rows. Okay. Now here see guys we
+[55:14] can find the word for the text
+[55:15] classification for the name and
+[55:17] recognization even for the question
+[55:18] answering and all because of that
+[55:20] because of that mass language modeling.
+[55:22] It is able to generate some sort of
+[55:24] answer as well. But guys if we talking
+[55:26] about the word guys we cannot use it for
+[55:28] translation and the text summarization
+[55:31] because in that case is it is not going
+[55:32] to work well. Okay. If you will look at
+[55:35] the board architecture guys. So the
+[55:36] board architecture is just a encoder
+[55:38] based architecture right and if you will
+[55:41] look at the transformer architecture you
+[55:43] see over here the transformer
+[55:44] architecture basically it is a encoder
+[55:46] and decoder based architecture. Okay. So
+[55:49] whatever architecture name I told you T5
+[55:51] and the part guys right so both are
+[55:53] encoder and decoder based architecture
+[55:56] mean earlier the thing was not like this
+[55:58] that one GPT model is able to do
+[56:00] everything. Doubt is chat GMT can do
+[56:02] everything summarization question
+[56:04] answering or translation everything will
+[56:07] be done by this GMD itself because here
+[56:09] we have done the regressive training
+[56:11] okay but guys earlier the thing was not
+[56:14] same so only bird was not able to do the
+[56:16] task all right that's some translation
+[56:19] task where we required both this encoder
+[56:21] and decoder right so for that some
+[56:23] specific model have been created the
+[56:25] encoder and decoder based model so one
+[56:27] of the famous network from the Google
+[56:29] end itself that is called the E5 one of
+[56:31] the model from the Facebook site that is
+[56:33] called B. Okay. So you can use that if
+[56:36] you want to use currently for your
+[56:37] summar for your translation and for the
+[56:41] basically uh this uh like summarize
+[56:44] summarization kind of task. Okay. Now I
+[56:47] hope this is also clear. Now let's do
+[56:49] one thing. Let's see the finetuning
+[56:51] finetuning of it. So first guys what I'm
+[56:54] doing I'm going to be load the model the
+[56:56] tokenizer model. Okay. And here you can
+[56:59] see uh this is my tokenizer function.
+[57:00] Tokenizer means to each and every token
+[57:03] we are going to be assigned some sort of
+[57:05] a ID and that ID first going to the
+[57:07] embedding layer. Okay. And then it's
+[57:08] going to be converted to the embedding
+[57:10] means token wise going to be converted
+[57:12] to the embedding. Then it is going
+[57:13] through the position encoding and
+[57:15] finally it is going to the attention
+[57:16] layer as well as the feed forward
+[57:18] network layer. So here I define the
+[57:21] detail of the tokenizer. See this
+[57:23] tokenizer will be written with respect
+[57:25] to the text data. So I'm just going to
+[57:27] map my data. So once I'll map it guys uh
+[57:29] I will be able to convert my data into
+[57:32] the tokens. Okay. Now here what I'm
+[57:34] doing I written data set of set format.
+[57:36] So I'm going to set the format. I just
+[57:38] required this three column input
+[57:40] attention label and the type of this
+[57:42] particular data will be torch. So we
+[57:44] either we can use the either we can use
+[57:47] the tensor flow or else we can use the
+[57:49] torch. Okay. So data set is ready. Now
+[57:52] here guys you can see this is the
+[57:53] architecture of the board. As I told you
+[57:55] this the upper head basically you won't
+[57:58] be able to find out inside the classical
+[58:00] board even the research paper also. So
+[58:02] this was added by the different
+[58:03] different framework okay the different
+[58:05] different organization and the same
+[58:07] thing again face have done. So again
+[58:09] face has created this board sequence
+[58:10] classification class where this upper
+[58:13] have been added over there for the text
+[58:14] classification mainly and even the board
+[58:17] the board model like specifically have
+[58:20] been created for the text classification
+[58:22] only. Now here B for the text
+[58:23] classification. So let me execute it. I
+[58:26] got the model over here. Now guys let's
+[58:29] look into the detail of the model. So uh
+[58:31] here if you will check with this B model
+[58:33] guys as I told you it is a small B
+[58:35] model. There we just have 12 blocks
+[58:37] right in the every block you will find
+[58:39] on the self attention module you will
+[58:40] find out the intermediate dense layer
+[58:42] means the bit forward network layer and
+[58:44] then we'll be having output dense layer
+[58:46] in the layer normalization. Output dense
+[58:48] layer is nothing. It is just the
+[58:49] addition of the self potential output as
+[58:51] well as this dense layer. Okay, we are
+[58:53] going to be combined both with the
+[58:54] residual connection and then layer norm
+[58:56] I think you already know it is a process
+[58:58] of the normalization. So in some other
+[59:01] video we'll see that mathematical
+[59:04] mathematical agenda behind this
+[59:06] transformer architecture and for sure I
+[59:08] will show you. So if you want to
+[59:09] visualize all the layer guys so for that
+[59:11] you will have to execute this model name
+[59:13] parameters. Once you will execute guys
+[59:16] you will get this all the layers. So
+[59:17] here you can see we have how many blocks
+[59:19] we have in total 12 blocks. So just see
+[59:21] over here this word architecture is
+[59:23] going to be start from this zero. Okay
+[59:26] from this zero and it will go till where
+[59:28] it will go till 11. So here the 11th
+[59:32] block actually it's the last block. So 0
+[59:34] to 11 means in total we have 12 block.
+[59:36] Now guys here you will find out in when
+[59:38] in one of the blocks see just just focus
+[59:40] over here. In one of the block we have a
+[59:42] attention attention attention attention
+[59:44] right attention weight attention b
+[59:47] attention sorry key weight key bias key
+[59:50] weight value weight value bias and
+[59:53] basically query weight and query bias.
+[59:55] Now this dense layer actually it is
+[59:56] representing the feed neural network and
+[59:59] whereization. Okay. In every layer
+[01:00:01] basically you will find out this in
+[01:00:03] every block you will be able to find out
+[01:00:04] this thing. It is a identical block
+[01:00:06] right now at the end guys what they are
+[01:00:09] going to do they going to be add some
+[01:00:10] dense layer again the main layer if you
+[01:00:12] look into the architecture you will find
+[01:00:15] out that layer that is a linear layer so
+[01:00:17] why we are using it guys so this layer
+[01:00:19] basically it is being used just to map
+[01:00:21] my vector according to the the according
+[01:00:25] to the size of the vocabulary okay for
+[01:00:27] that basically we are going to be using
+[01:00:29] this linear and this was represented
+[01:00:31] inside this architecture as a polar
+[01:00:34] liquid And then we have a classifier
+[01:00:36] weight means how many neurons will be
+[01:00:38] there at the end of the layer. So here
+[01:00:39] you can see by default there will be
+[01:00:41] two. But if we talking about our data so
+[01:00:44] there is three classes right uh as I
+[01:00:46] told you inside this emotion data we
+[01:00:48] have how many how many classes we have
+[01:00:49] three classes. Now here is a complete
+[01:00:52] detail of each and every layer guys. So
+[01:00:54] self attention block intermediate dense
+[01:00:56] layer then output final norm and all. So
+[01:00:59] you can see the you can read out the
+[01:01:00] detail of each and every layer. Even I
+[01:01:02] added the pooling layer. Okay, the ruler
+[01:01:05] layer which was added at the end. You
+[01:01:06] can read it out from your end so that
+[01:01:08] you will get a clearcut and the indepth
+[01:01:10] understanding of this particular
+[01:01:11] architecture and this architecture only
+[01:01:14] it will be clarify your rest of the
+[01:01:15] doubt with respect to the advanced R&D
+[01:01:17] model. So please guys please it's a
+[01:01:20] request to all of you please go through
+[01:01:21] with this particular material. Now here
+[01:01:23] what I'm doing here I'm going to be load
+[01:01:25] my model. Okay and I'm mentioning the
+[01:01:27] number of class the number of classes
+[01:01:29] would be three over here. Now guys if I
+[01:01:31] will show you the model now. So here you
+[01:01:33] will get the model and inside the model
+[01:01:35] see now I have three output classes. So
+[01:01:37] for loading a model with the three
+[01:01:39] classes you just need to mention the
+[01:01:41] number of labels how many number of
+[01:01:43] labels you want and then you are done.
+[01:01:45] Okay. Now here you can see this is a
+[01:01:47] word based on case is nothing. It is my
+[01:01:49] base model like you are having a
+[01:01:51] convolution base inside the CNN. Okay.
+[01:01:54] Now let me do one thing guys. Let me
+[01:01:56] execute the further code. So here we got
+[01:01:58] the layout. Now if you want to check all
+[01:02:00] the parameters simply you can check over
+[01:02:02] here. So we have in total 1 2 3 4 5 6 7
+[01:02:07] 8 9. So I think in CR right the total
+[01:02:10] parameter in CR
+[01:02:14] okay it is around 10 CR 10 CR 9= 10,000.
+[01:02:19] Now here guys you can see so all the
+[01:02:21] parameter it's the redundant mode. If
+[01:02:23] you want to go through with respect to
+[01:02:25] each and every layer so simply you can
+[01:02:27] run this model for CLS. Okay, you can
+[01:02:30] take this particular model model for
+[01:02:31] CSS. This is just a custom name which I
+[01:02:33] given. You can check with the port and
+[01:02:35] then embedding you can get the layer
+[01:02:37] right the embedding layer that if you
+[01:02:39] want to check the encoder layer guys the
+[01:02:40] last layer. So here you can mention the
+[01:02:42] 11 11 means the number of layer because
+[01:02:45] the number is going to be start from
+[01:02:46] zero. So this is my last word layer.
+[01:02:48] Okay. Now here you can see model cls dot
+[01:02:53] classifier. So you will get the last
+[01:02:55] layer. Okay. How many classes are there?
+[01:02:57] Now simply you can check the complete
+[01:02:59] configuration of the layer and all
+[01:03:00] everything. So it will give you the
+[01:03:02] complete configuration. This model for C
+[01:03:04] cls do configuration. So are the
+[01:03:06] configuration itself you find out mass
+[01:03:08] language modeling. Okay. Then there's
+[01:03:10] the layer what is happening inside the
+[01:03:12] layer. Each and everything guys each and
+[01:03:14] every detail actually they have provided
+[01:03:15] you. You will find out the number of
+[01:03:18] basically actual value embedding type.
+[01:03:20] Okay. You will find out the vocabulary
+[01:03:22] size. Many more thing you will get over
+[01:03:24] here. Right. So why you are going to be
+[01:03:25] check the configuration value? Now here
+[01:03:27] what I'm doing guys I'm going to be set
+[01:03:29] my training argument. So here is my
+[01:03:31] output directory where my model is going
+[01:03:32] to be saved. Epoch is there. Then here
+[01:03:34] is a best size. Then here is eval best
+[01:03:37] size. Here is evolution size. Okay I'm
+[01:03:40] just executing it for the single epoch
+[01:03:41] but because it will take like much time.
+[01:03:44] Then here is my logging and report to
+[01:03:46] none. I'm not going to report to anyone
+[01:03:48] this entire thing. So let me execute it.
+[01:03:50] So my trading argument is there. Now
+[01:03:52] here I will get W and NP disabled. I
+[01:03:56] don't want to track my experiment
+[01:03:57] through the bits and biases. I just keep
+[01:03:59] it in my local. So let me uh run it and
+[01:04:02] then here I will start my training. I'll
+[01:04:04] pass my model. I'll pass my all the
+[01:04:06] configuration. I will pass my data.
+[01:04:07] That's it. Now once I will execute guys
+[01:04:09] everything is perfect then my model
+[01:04:11] training will be started. So trainer
+[01:04:13] train what it will do? It will start the
+[01:04:16] training. Now as of now it is saying two
+[01:04:18] outlook memory try try to allocate it
+[01:04:20] this much of memory but the capacity is
+[01:04:23] higher. So in that case guys what you
+[01:04:25] can do you can maybe restart the kernel
+[01:04:27] or else you can reconnect with the GPU
+[01:04:31] with the fresh you can reconnect with
+[01:04:33] the GPU with the fresh basically
+[01:04:35] notebook because what happened over here
+[01:04:37] now I just check uh during the uh
+[01:04:40] basically break. Okay. So, uh change
+[01:04:42] runtime is TPU guys. But my TPU limit is
+[01:04:45] going GPU sorry my GPU limit is going to
+[01:04:47] be exceed over here. Okay. And it is not
+[01:04:49] able to get the proper allocated memory.
+[01:04:52] So and uh I run like too much code
+[01:04:54] earlier as well because of that it is
+[01:04:56] showing me out of memory error but it
+[01:04:58] will not show you in your case if you
+[01:04:59] are going to be run this particular
+[01:05:01] method trainer.rain you will be able to
+[01:05:03] train your model. Now coming to the next
+[01:05:06] one I'll freeze couple of last year and
+[01:05:08] then training. Okay. Now the same
+[01:05:10] technique actually we are not going to
+[01:05:11] be used in a llama or anywhere because
+[01:05:13] this will take much time. So generally
+[01:05:15] we use the PEP technique. I'll talk
+[01:05:17] about the PEP technique also but this is
+[01:05:18] a very common process across all the
+[01:05:21] transformer model. Okay before coming to
+[01:05:23] the GPT and the llama and the mist
+[01:05:26] model. So here let me show you how you
+[01:05:28] can increase the couple of last layers
+[01:05:30] for that you will have to import this
+[01:05:32] tokenizer trainer training argument
+[01:05:36] configuration and here is a sequence
+[01:05:37] classifier output. So now guys what I
+[01:05:40] will do? So here I will load the model.
+[01:05:42] Okay. And here you can see we are going
+[01:05:44] to be pass okay to every layer. So
+[01:05:47] parameter dot required gradient false
+[01:05:49] means we are we are freezing this
+[01:05:51] particular layer. Okay. Now if I will
+[01:05:53] check with the board encoder. So this is
+[01:05:55] all the layer from the board encoder.
+[01:05:57] And now here guys if I will check
+[01:05:58] encoder do layer I'll be getting all the
+[01:06:00] layers. Okay. From this encoder list.
+[01:06:02] This was the list actually. This bird
+[01:06:04] encoder basically it was the it was
+[01:06:07] inside the this particular data sorry
+[01:06:10] inside this particular what is this it's
+[01:06:12] a word encoder now type of unceter means
+[01:06:16] it would be a class right so it would be
+[01:06:18] a data class maybe or maybe the pity
+[01:06:20] class or I think it would be the nm
+[01:06:21] class okay it could be anything in back
+[01:06:23] end but yeah inside this one you can see
+[01:06:25] here we have a uh like the layers now if
+[01:06:28] you want to check all the layers so
+[01:06:30] simply on top of it you can call the
+[01:06:31] layers you will be able to get all the
+[01:06:33] layers Okay. Now let me if I want to
+[01:06:35] check the last two layer, right? So
+[01:06:37] simply you can write this minus2 dot
+[01:06:40] colon. So it will only going to be take
+[01:06:43] the last two layer. Okay. So first of
+[01:06:45] all let me iterate on top of the layer.
+[01:06:46] So here see this is all the layer. I'm
+[01:06:48] just iterating it. Now if you want to
+[01:06:50] check the last two layers so simply you
+[01:06:52] can put this minus2 colon you will be
+[01:06:54] able to get the last two layer. Okay.
+[01:06:57] Now coming to the next part. So bird.od
+[01:07:00] layer. Okay. So last two layer I'm going
+[01:07:03] to be uh trainable and rest of the layer
+[01:07:06] I'm going to be freeze. Okay. So here I
+[01:07:08] I'm creating out of each and layer. It
+[01:07:10] will come inside the layer layer. It
+[01:07:13] will take the parameter. Okay. And here
+[01:07:14] I'm writing parameter required gradient
+[01:07:17] true. Okay. Means what is the meaning of
+[01:07:19] it? So last two block actually we are
+[01:07:21] going to be train and rest of the block
+[01:07:23] we are going to freeze. Okay. Now here I
+[01:07:25] written a complete class guys. So here I
+[01:07:27] have written class name is B but class
+[01:07:30] classifier here I'm going to load the
+[01:07:32] model pre-trained model then we have a
+[01:07:34] super method we have a word on from
+[01:07:36] pre-trained model and here we have a
+[01:07:39] neural network uh sorry this neural
+[01:07:41] network linear one okay for the binary
+[01:07:44] classification logics because we have
+[01:07:46] three output values in the final layer
+[01:07:49] then guys what we are doing we are going
+[01:07:51] to be iterate on top of each and every
+[01:07:52] layer we are keeping it false whatever
+[01:07:54] logic I told you just I wrapped up
+[01:07:55] inside single class. Okay. Then
+[01:07:57] basically we are just going to be free
+[01:08:00] unfreeze last two layer. So here we are
+[01:08:02] going to be iterate on top of this layer
+[01:08:04] of the parameter and we are writing
+[01:08:06] parameter dot required gradient true.
+[01:08:08] Okay. In this case we are going to be
+[01:08:10] unfreeze last two layer or we are going
+[01:08:12] to be retrain this last two layer. Now
+[01:08:15] here unre the popular layer also. Yes
+[01:08:18] this is also required. Now classifier
+[01:08:19] should be trainable. Yes. So classifier
+[01:08:21] the last one actually this is also
+[01:08:23] trainable. Okay. Now here is the port
+[01:08:25] pass guys. So the port pass we will make
+[01:08:27] a calculations right and then we are
+[01:08:30] going to be return what loss and the
+[01:08:32] logits right now loss basically the
+[01:08:35] overall loss and logit means regarding
+[01:08:37] which neuron how much probability we are
+[01:08:40] getting okay to predict the next to
+[01:08:42] predict the specific word. So let me run
+[01:08:44] it and yes this is fine now here I'm
+[01:08:47] going to be check with the bird
+[01:08:48] configuration. So but configuration is
+[01:08:50] also I'm going to look at. Okay. Now
+[01:08:52] here I'm writing board multiclass
+[01:08:54] classifier and I'll pass the
+[01:08:55] configuration over here. And this thing
+[01:08:57] basically I'm going to be assigned to
+[01:08:59] the model. So this is done guys. I'm
+[01:09:00] going to be assigned the configuration
+[01:09:02] to the board. And after this one guys
+[01:09:04] I'm going to train prepare the training
+[01:09:06] argument. I'm going to prepare the uh uh
+[01:09:09] this one training training argument.
+[01:09:11] Basically what are argument would be
+[01:09:12] required over here for training this
+[01:09:14] model. So output directly will be
+[01:09:16] required for a perform devices train
+[01:09:18] bench in what device how many like data
+[01:09:22] record is going to be executed. Okay. Uh
+[01:09:24] per device train best size in batches
+[01:09:27] actually it's going to be executed. Then
+[01:09:28] per device best size. Then save strategy
+[01:09:31] it is no as of now but we can keep it
+[01:09:33] yes. Okay. We can save the strategy. We
+[01:09:35] can mention few more parameter. Then
+[01:09:37] report to none. We are not going to
+[01:09:39] report to anyone. If we are going to be
+[01:09:41] keep it true then that is by default it
+[01:09:43] is taking our open system. Okay to
+[01:09:45] reporting the data. Now on here let me
+[01:09:48] execute it. So this is fine. Now here's
+[01:09:50] my trainer. This is also fine. So the
+[01:09:52] trainer see again uh I'm uh so again it
+[01:09:55] is showing me out of memory error. So
+[01:09:57] the reason behind it the reason behind
+[01:09:59] the out of the memory error GPU is not
+[01:10:01] allocated to us. Okay I just executed
+[01:10:04] the free access of the GPU and because
+[01:10:07] of that I'm getting this error because
+[01:10:08] several time I have executed this
+[01:10:10] particular code. So guys, I would
+[01:10:12] suggest you please try to run it from
+[01:10:14] your end and this is the code for the
+[01:10:16] prediction. Okay. And what you can do,
+[01:10:18] you can simply connect with the GPU and
+[01:10:20] you can execute this will be working
+[01:10:22] fine for you. And guys, if it is not
+[01:10:24] going to work in that case, you can let
+[01:10:27] me know inside the comment section.
+[01:10:29] Definitely I'll answer to your queries
+[01:10:31] whatever doubts and the queries you
+[01:10:33] would be having. But guys again there is
+[01:10:35] no such technical problem. I can even
+[01:10:37] run it. I will have to change my ID. I
+[01:10:39] will have to move and switch to the
+[01:10:41] different ID but I don't want to keep
+[01:10:42] it. I'm just keeping it for you. Okay.
+[01:10:44] So I hope you are able to understand
+[01:10:46] everything over here. How to replace the
+[01:10:48] last layer and how to unfreeze couple of
+[01:10:51] last layer and then find you the model.
+[01:10:53] We never fine tune the earlier layers
+[01:10:55] because that is only for except
+[01:10:58] extracting of basic feature. We always
+[01:11:00] find you the last layers only. So I hope
+[01:11:04] this tutorial is pretty much informative
+[01:11:06] for you guys. If you're liking this
+[01:11:08] content, hit the like button, support
+[01:11:10] the channel and I'll be coming up with
+[01:11:12] this type of content in the upcoming
+[01:11:14] future days. So fine guys, thank you for
+[01:11:16] joining this session. Thank you. Take
+[01:11:18] care and guys, please execute this code
+[01:11:21] and please do let me know what accuracy
+[01:11:23] you are getting whether you are able to
+[01:11:25] predict whatever you are asking to your
+[01:11:27] model or not. So with that guys, thank
+[01:11:30] you so much. I'll see you in the next
+[01:11:32] video. Thank you very much.

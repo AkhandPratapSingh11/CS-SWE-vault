@@ -1,0 +1,1712 @@
+Title: LLM Fine-Tuning 24: Embedding & Embedding Fine-Tuning Full Guide | Train Your Own Embedding Model
+Video URL: https://www.youtube.com/watch?v=idIck_TmPTE
+Video ID: idIck_TmPTE
+======================================================================
+
+[00:00] Hello everyone, welcome back to my
+[00:03] YouTube channel. My name is Sunny and I
+[00:06] am back with another exciting and
+[00:09] important video. So guys, in this video
+[00:12] we're going to discuss about the
+[00:14] embedding fine-tuning. Uh as you know I
+[00:17] started one end to end LLM finetuning
+[00:20] playlist where I uploaded 23 videos so
+[00:23] far. So guys uh this video actually it's
+[00:26] going to be a part of that LLM
+[00:28] fine-tuning playlist. So where I am
+[00:31] going to discuss uh the complete guide
+[00:34] of the embedding and after that I will
+[00:37] discuss about the embedding fine tuning.
+[00:40] Uh now guys uh I have to discuss couple
+[00:43] of more point with all of you. Uh as you
+[00:46] know I already uploaded uh 24 video
+[00:49] inside this playlist. Uh now a couple of
+[00:53] more topics are remaining inside the
+[00:55] same playlist like LORA, RLHF, DPO,
+[01:00] ORPO, GRPO, how to train model on the
+[01:04] multiple GPUs, how to prepare a data for
+[01:07] the LLM fine-tuning all these concept
+[01:10] are remaining. So uh video wise around
+[01:14] six to seven more videos I can upload on
+[01:18] top of this LLM fine-tuning itself. So
+[01:20] what I'm thinking uh I'm thinking to uh
+[01:23] cover all this concept in a new playlist
+[01:26] uh the playlist name uh is going to be
+[01:28] advanced LLM fine-tuning like like I
+[01:32] created for my rag uh if you will see
+[01:34] with my rag playlist so there I created
+[01:37] three separate playlist one for the
+[01:39] basic rag uh second for the advanced rag
+[01:42] and third for the multimodel rag. Okay.
+[01:45] So likewise I'll do with this finetuning
+[01:48] as well because 35 video in a same
+[01:51] playlist it seems a very overwhelming.
+[01:54] So what I'm thinking to cover all this
+[01:56] concept in a uh separate playlist
+[01:59] itself. Okay. Uh now apart from uh this
+[02:02] one one more thing guys as you know
+[02:04] agenti is going to be a very important
+[02:07] part of the every project right. So I'm
+[02:11] thinking to start one agentic AI
+[02:14] playlist. Uh already I uploaded a video
+[02:17] on top of the langraph and that uh
+[02:19] playlist is also quite famous on my
+[02:21] YouTube. If you haven't watched so far,
+[02:24] please go and check. So guys, what I'm
+[02:26] thinking I'm thinking to start one more
+[02:28] playlist on top of the agentic AI where
+[02:31] I will discuss about the AI agents
+[02:35] uh deep agents and the multi- aents. All
+[02:38] this concept I will cover from a basic
+[02:40] to advanced guys. So uh just let me know
+[02:43] in the comment section whether should I
+[02:45] upload a recorded video or should I uh
+[02:48] take in a live class. Okay, I will be
+[02:51] waiting. Now apart from this one guys, I
+[02:53] have one complaint with all of you. So
+[02:56] uh let me share my screen and uh let me
+[02:58] show you that. So this is the LLM fine
+[03:01] tuning playlist. If you haven't seen
+[03:02] that, please go and check. Uh 23 videos
+[03:06] are already loaded here. This is going
+[03:09] to be 24th video. Now this is my YouTube
+[03:12] channel guys. Once you will search Sunny
+[03:13] Savvita, you will get my YouTube
+[03:15] channel. Inside the playlist section
+[03:16] itself, you can get a different a
+[03:18] different playlist. Now guys, what is
+[03:21] the complaint? So uh let me show you
+[03:24] that. So guys, the complaint is uh when
+[03:27] I seen uh my analytics, right? when I
+[03:30] seen the analytics of my channel uh
+[03:32] there I have observed uh only 36% people
+[03:39] uh whoever is watching my channel right
+[03:41] those are only 36% people means whoever
+[03:44] watching my channel right uh the rest
+[03:47] views I'm getting from 64%
+[03:51] people who haven't subscribe my YouTube
+[03:53] channel guys why you are doing that if
+[03:57] you're regular consumer of my content if
+[04:00] you are regularly watching my video then
+[04:02] please subscribe the channel because see
+[04:05] guys I know uh it is free for you and
+[04:08] you won't lose anything but it is very
+[04:11] much important for me because this type
+[04:14] of content right or whatever video you
+[04:16] will see on my YouTube channel whatever
+[04:18] video I have uploaded I did a like
+[04:21] in-depth research and those research
+[04:23] right uh those material preparation uh
+[04:26] and the practical preparation it take a
+[04:29] lot of effort guys. So if you are
+[04:31] getting some benefit, if you are a
+[04:33] regular watcher or regular consumer of
+[04:35] my YouTube channel, uh then please
+[04:37] subscribe the channel. It is a a request
+[04:39] to all of you. I'm not saying uh to like
+[04:42] a channel or uh to like a video or to
+[04:46] comment to give the comment over the
+[04:48] video. It's up to you. If you're liking
+[04:49] a video uh if you're liking a content
+[04:51] then it is up to you. But guys if you
+[04:53] are coming to the video if you if you
+[04:55] have started that if you have completed
+[04:57] some playlist and still you haven't
+[04:59] subscribed then it is a very bad thing
+[05:02] guys. So please please please subscribe
+[05:04] the channel. I know it is free uh for
+[05:07] all of you but guys it is uh uh like
+[05:10] very important for me. Uh okay so this
+[05:13] is like a one and only complaint. Uh
+[05:15] really guys I I got really shocked when
+[05:17] I when I seen this analytics. uh
+[05:19] generally I don't see that but yeah when
+[05:21] I went through that and when I when I
+[05:23] seen this static uh statistic then uh I
+[05:27] felt very bad guys means 64% people who
+[05:30] are regular watcher on on my YouTube
+[05:32] channel they haven't subscribe my
+[05:35] channel okay so yeah uh now let me close
+[05:38] it and let me come to the video uh that
+[05:41] all thing we are going to discuss over
+[05:43] here guys so this is all the chapter
+[05:46] which I mentioned over here The topic
+[05:49] name is embedding and the embedding
+[05:51] fine-tuning. So uh this video uh I
+[05:53] divide into the three six chapter. Uh
+[05:56] now guys what I'm thinking actually this
+[05:58] sixth chapter see if I'm going to take
+[05:59] all this chapter right inside the single
+[06:01] video uh it will be around 2 hour of
+[06:03] video. So first three chapter I will
+[06:05] cover in this video and rest three
+[06:08] chapter I'll be cover in the next video.
+[06:10] Okay. Subsequently I will upload one
+[06:13] more video uh right after this one. uh
+[06:15] there I'll discuss uh chapter 4, 5 and
+[06:17] six. So let me give you the quick
+[06:19] highlight uh that what all what all the
+[06:21] thing we have over here. Uh in the first
+[06:23] chapter we're going to discuss about the
+[06:25] embedding. What is the embedding? Then
+[06:28] we'll uh understand the very important
+[06:31] uh concept about the embedding that is
+[06:33] called the semantic search. We'll
+[06:35] understand the differences between the
+[06:37] keyword search and the semantic search.
+[06:39] uh then we'll see the differences
+[06:41] between the encoding and the embedding
+[06:43] and then we'll see the application of
+[06:45] the embedding. So here we are going to
+[06:47] cover all the fundamental
+[06:51] fundamental
+[06:53] about the embedding. Okay. Now after
+[06:56] that guys we'll come to the chapter two.
+[06:58] So here we'll do some model level
+[07:00] analysis. So what is the model level
+[07:03] analysis? So we'll see we'll see guys
+[07:06] what all models are there. model models
+[07:08] are there for the embedding. Uh we'll
+[07:10] see the type of the embedding model.
+[07:12] We'll see how to select a best embedding
+[07:14] model and we'll see embedding models
+[07:17] leaderboard. Okay. So we will understand
+[07:19] that model models we have and which
+[07:22] model needs to be used. Uh then guys in
+[07:24] the chapter three we'll come uh onto the
+[07:26] model architecture. Okay. And we'll see
+[07:29] we'll we'll we'll see on which data set
+[07:31] this embedding model have been trained.
+[07:33] So here guys we'll discuss on a
+[07:36] architecture
+[07:38] level. So we'll see this uh embedding
+[07:42] model it is similar to the GPD5 GPT or
+[07:45] the Jimny or the llama or the Mistl the
+[07:48] architecture is similar to this model or
+[07:50] it is a different one. Okay then we'll
+[07:52] see on which data set or this embedding
+[07:54] model have been trained. Now uh after
+[07:57] completing all these three chapter all
+[07:59] our fundamentals regarding the embedding
+[08:01] is going to be clarified. Now after that
+[08:03] guys uh in the chapter four we'll
+[08:05] discuss what is the embedding fine
+[08:06] tuning why and when we should do the
+[08:09] embedding finetuning. So all these thing
+[08:11] we are going to discuss inside the
+[08:13] chapter four. Then inside the chapter
+[08:15] five we'll see data set format for the
+[08:17] embedding finetuning and we'll finetune
+[08:21] uh one embedding model on our own custom
+[08:24] data. So the scenario is going to be
+[08:26] like this means you have to create one
+[08:29] rag system. inside the rag system you
+[08:33] use the embedding model. Now let's
+[08:36] suppose this embedding model this uh
+[08:39] embedding model actually it is not
+[08:40] performing well on your own data set on
+[08:44] your own custom data set. Okay. So what
+[08:47] I'll do guys? So we'll fine-tune this
+[08:49] embedding model on over the custom data
+[08:52] set over your own data set and then
+[08:54] we'll try to utilize it inside the rag
+[08:57] pipeline. Okay. uh so this is going to
+[09:00] be a complete uh scenario guys and uh
+[09:02] definitely we'll try to implement that.
+[09:05] Now we'll see embedding fine-tuning
+[09:07] versus LLM fine-tuning. So I will close
+[09:10] this uh video. I will close uh this
+[09:12] chapter okay with these differences so
+[09:15] that you will get to know each and
+[09:17] everything about the embedding and the
+[09:19] LLM fine tuning. Now let me show you the
+[09:21] practical also. So this is the complete
+[09:23] practical guys where we're going to
+[09:26] discuss about the embedding. See, I'll
+[09:28] show you the embedding. We'll discuss
+[09:30] about the semantic search. After that,
+[09:33] we'll discuss about the keyword search
+[09:35] versus vector search. Uh then we we'll
+[09:38] search we'll see how basically we can
+[09:40] evaluate the embedding model. Uh after
+[09:42] that, guys, uh after seeing the
+[09:44] embedding model, the evaluation all
+[09:46] everything not only the one guys I have
+[09:48] kept the different models guys. Uh I'll
+[09:50] show you the MTEB, okay? MTB leaderboard
+[09:54] and even I will show you the sentence
+[09:55] transformer repository. Uh then guys
+[09:58] after that I'll come to the training
+[09:59] part. So we'll train our own model. Okay
+[10:02] we'll run we'll train a model over our
+[10:05] own custom data and yes uh that
+[10:08] particular model we are going to be
+[10:10] utilized in our rack pipeline or
+[10:12] anywhere else where we can use this
+[10:14] embedding model. So I hope guys you like
+[10:17] this uh entire thing. Now uh one by one
+[10:21] uh step by step let's start. So guys uh
+[10:25] let's understand what is an embedding.
+[10:28] So uh here I kept a multiple definition
+[10:30] to understand about the embedding. Uh
+[10:33] let's uh read it one by one and let's
+[10:36] understand about the embedding. So uh
+[10:38] the first definition is embedding is a
+[10:41] mathematical representation of the data.
+[10:44] Okay. uh or we can say embedding is a
+[10:47] way to convert text, images, audio,
+[10:49] video into the meaningful number. This
+[10:52] is very much important guys. If I'm
+[10:55] saying meaningful guys, so meaningful is
+[10:57] also called the contextual number. Okay,
+[11:01] contextual number. So either you can say
+[11:03] meaningful or you can say contextual,
+[11:05] right? If I'm saying data guys, so this
+[11:08] data could be anything. data uh it could
+[11:10] be text, it could be images, it could be
+[11:14] audio or the video data, right? So any
+[11:17] kind of data actually uh we can uh
+[11:20] convert into the embedding. Now guys uh
+[11:22] this definition actually it is more
+[11:24] technical. So let's understand about it.
+[11:26] So embedding is a dense highdimensional
+[11:30] uh numerical vector that represents
+[11:32] semantic meaning of the data. Okay. Uh
+[11:35] dense means what? What's the meaning of
+[11:36] dense? Dense is called dense is also
+[11:39] called non-sparse. Non-sparse means non
+[11:42] zero.
+[11:44] Got it? So whatever vectors is being
+[11:47] created using the embedding model. So
+[11:50] there you will not be able to find out
+[11:52] much zero.
+[11:53] Okay? So there will not be having much
+[11:56] zeros inside the generated vector. So
+[11:58] those are called the non-sparse. Uh
+[12:01] second is called the height dimension.
+[12:03] So 384 768 1024 1536 2 4 uh 2048 and uh
+[12:10] nowadays even we have uh even we have
+[12:13] bigger dimension. So what is the meaning
+[12:15] of the dimension guys? So let's
+[12:17] understand with this example.
+[12:20] So uh let's suppose we have the sentence
+[12:22] the capital of the France is a Paris. So
+[12:25] uh how many numbers we have? We have 1 2
+[12:29] 3 4 5 6 7. So what's the size of this
+[12:34] vector? The size of the vector is 1 + 7.
+[12:38] So one is representing a row. This is a
+[12:41] row. Okay? And this seven actually is
+[12:44] representing to a column. Right? Now
+[12:46] this uh seven actually it is a
+[12:48] dimension. So this columns actually this
+[12:53] columns c o l u m n s right this columns
+[12:58] is nothing it is a dimension
+[13:02] and this is also called feature feature
+[13:04] of the data. Yes this is true. So
+[13:08] whatever number you are seeing over here
+[13:09] it is representing to a individual
+[13:12] feature of the data. So in this uh
+[13:15] vector how many features we have? So in
+[13:17] this vector we have seven features. We
+[13:19] have seven columns. Okay. So we have
+[13:22] seven features. We have seven column or
+[13:25] we can say we have seven dimension. So
+[13:28] in reality guys you will not be able to
+[13:30] see this uh this much of a small vector.
+[13:33] So in the vector at least we would be
+[13:35] having 384 dimension and it can goes up
+[13:39] to 2 to 3,000 as well. Uh now I hope you
+[13:43] understood the definition of the
+[13:45] embedding what it is. Uh now let's
+[13:47] understand what is a semantic search. So
+[13:50] guys uh semantic search actually it is a
+[13:52] very important application of the
+[13:54] embedding right. So let's uh discuss
+[13:57] about this topic. Uh let's say we have a
+[13:59] sentence and my sentence is my
+[14:04] name
+[14:09] is Sunny. So this is my sentence and now
+[14:13] I converted this particular sentence
+[14:15] into the embedding. Okay. Now one more
+[14:18] line guys I think I missed that line.
+[14:20] Let's try to read that line. So here I
+[14:23] written vectors. So what is a vector? So
+[14:25] vector is nothing it is a mathematical
+[14:27] object in a linear algebra. In
+[14:30] programming we represent this vector or
+[14:32] we store this vector as an array. Okay.
+[14:35] So if I'm saying embedding, if I'm
+[14:37] saying vector, if I'm saying array,
+[14:39] right? So everything is same guys. So it
+[14:42] is just representing a numbers. What it
+[14:46] is representing? It is just representing
+[14:48] a numbers. In linear algebra as a
+[14:51] mathematics guys in mathematics actually
+[14:54] uh this vector is having some like
+[14:57] extended terms and the terminology
+[15:00] like direction, magnitude and all. So as
+[15:03] of now I'm not going to be discuss that
+[15:04] part. I will discuss in some other
+[15:06] video. Okay. But guys if I'm saying
+[15:08] vector, if I'm saying embedding, if I'm
+[15:10] saying arrays, right? So all are
+[15:12] representing to our numbers. Okay? In
+[15:15] those numbers, we are representing to
+[15:18] our data. Got it? So uh here you can see
+[15:22] let's say we have a sentence. The
+[15:24] sentence is my name is Sunny and here
+[15:26] I'm going to be represent this sentence
+[15:28] with this embedding. Now uh guys what I
+[15:31] will do with this embedding? Now what
+[15:33] could be the application of it? So the
+[15:35] application of this embedding what I'll
+[15:37] do guys I'll perform the semantic okay I
+[15:41] will perform the semantic search now
+[15:45] this semantic search is also called what
+[15:47] it is called guys it is also called
+[15:50] similarity
+[15:53] similarity search okay so either you can
+[15:57] say semantic search or you can say
+[15:59] similarity search both is same now what
+[16:01] is the meaning of it I'll come to the
+[16:03] definition I written everything but
+[16:04] let's understand the meaning of it. So
+[16:07] semantic search means uh whatever
+[16:09] embedding actually we are going to be uh
+[16:12] create right so it is having some
+[16:14] contextual meaning
+[16:17] right so it is having some semantic
+[16:21] meaning either you can say contextual
+[16:23] meaning or you can say semantic meaning
+[16:25] right now guys behalf of behalf on this
+[16:28] embedding actually we can search a
+[16:30] similar embedding right we can search a
+[16:33] similar embedding so that's a
+[16:35] application that's the application of
+[16:37] the embedding and there's a meaning of
+[16:39] the semantic search. What is a semantic
+[16:41] search guys? Semantic search means this
+[16:43] embedding actually this embedding is it
+[16:46] is having some contextual meaning. It is
+[16:48] having some semantic meaning. Now behalf
+[16:51] on this embedding actually I can search
+[16:53] the similar embedding right. So that is
+[16:57] only called the semantic search or else
+[16:59] it is it is called the similarity
+[17:02] search. I hope this thing is clear. Now
+[17:05] guys uh uh if I can say behalf on this
+[17:08] embedding right. So not only the text we
+[17:11] can even uh search the image okay uh
+[17:15] image to image or we can search text to
+[17:18] image right we can search any sort of a
+[17:21] document. There are lots of thing which
+[17:23] we can do using this semantic search and
+[17:25] it is a very powerful concept in the
+[17:28] natural language processing guys. Okay.
+[17:31] So I written each and every definition
+[17:33] each and everything over here even along
+[17:34] with example. Let's understand. So what
+[17:37] is an uh semantic search guys? Semantic
+[17:39] search meaning based intelligence search
+[17:41] using embedding. So the same thing I was
+[17:44] trying to explain you and I written the
+[17:46] same thing over here. Now guys uh here
+[17:48] you can see uh semantic search means
+[17:50] searching based on the meaning not based
+[17:53] on the exact exact word. So whenever we
+[17:55] talk about the sentence
+[17:58] okay now this sentence is also called
+[18:00] the document. So in NLP guys the
+[18:02] sentence is also called the document.
+[18:04] Now uh we have sentence one and let's
+[18:07] say we have sentence two right now if we
+[18:11] are we are checking the meaning right we
+[18:13] are finding out a similarity between
+[18:16] these two sentence. We are not just
+[18:19] following a words. No. Okay. We are
+[18:23] checking the exact meaning and how we
+[18:25] are able to capture this particular
+[18:26] meaning. We are able to capture this
+[18:28] particular meaning using the embedding
+[18:31] model because the dimension which we
+[18:34] have inside the embedding model. The
+[18:37] dimension which we have inside the
+[18:40] embedding model those are not nothing
+[18:43] those are some features. Okay. It is
+[18:47] representing to the features. I hope you
+[18:50] understood everything now. Now how we
+[18:51] are doing that semantic search on
+[18:53] similarity search. So we are doing it
+[18:55] using the cosine similarity using the
+[18:57] dot product uclean distance. So these
+[18:59] are some important metrices guys right.
+[19:02] So if you are into the NLP or into the
+[19:04] jai right so uh you have to start your
+[19:08] encoding and embedded journey and there
+[19:10] you need to understand about all these
+[19:12] matrixes. This is very much important.
+[19:14] Now let's see some example. I kept some
+[19:16] example for all of you. So just uh look
+[19:20] into this first example guys. Okay. So
+[19:24] this is important this first example.
+[19:26] Let me highlight this one. Okay. Then
+[19:28] guys I kept one more example over here.
+[19:31] This is one more example. And here I
+[19:34] have some points related to this
+[19:36] example. Okay. So you have to focus on
+[19:39] these points as well. Now these point uh
+[19:42] the next point actually it is related to
+[19:44] the next example the different example.
+[19:46] So read it out. uh let's read it out
+[19:48] this point one by one. So what I'm
+[19:51] saying I'm saying eating fiber reduce
+[19:53] heart risk. Okay this is the first thing
+[19:56] uh or I'm saying eating fruits and
+[19:58] vegetable lower cardiovascular disease.
+[20:01] Okay. Now here I have written both
+[20:03] sentence have a same meaning. Uh this is
+[20:05] true. Uh even though the words are
+[20:07] different uh but embedding will place
+[20:10] them in a closer vector space. That's
+[20:13] why semantic search return a relevant
+[20:15] result even though we don't have a same
+[20:17] wording even though the words are
+[20:19] different inside the sentence.
+[20:22] Okay. So I hope you understood what I'm
+[20:25] trying to say. I'm trying to say see uh
+[20:27] this sentence actually is something else
+[20:31] means the words are something else and
+[20:34] this sentence are some this sentence is
+[20:37] something else means the words is not
+[20:40] matching completely. But still guys if
+[20:42] we are going to be find out a similarity
+[20:44] between these two sentences it would be
+[20:47] very high because the contextual meaning
+[20:49] of this sentence is same. Okay I will
+[20:52] show you in some time. So uh this is the
+[20:54] first example. Now just look into the
+[20:56] second example. The second example is
+[20:59] eating fiber reduce the hard risk. Okay
+[21:01] this is the first sentence and the
+[21:03] second sentence is buying a new car
+[21:05] improve driving comfort. Now guys just
+[21:07] think the sentence one. Okay, this is my
+[21:11] sentence one and here is what guys, this
+[21:14] is my sentence two. Now these are the
+[21:17] complete different topic health versus
+[21:19] uh auto automo and here embedding will
+[21:23] be apart to each other and we will be
+[21:25] having very low cosign similarity. So
+[21:27] what I want you to say over here I want
+[21:29] you to say this two sentence actually it
+[21:32] is not having any semantic meaning. Okay
+[21:36] we don't having we don't have any
+[21:38] similarity between these two sentences.
+[21:41] So our similarity score our cosine uh
+[21:43] score our dot product score is going to
+[21:46] be very very low. I hope you understood
+[21:48] right. So this is the meaning of the
+[21:50] semantic search. I hope you understood
+[21:52] with this example and don't worry guys
+[21:54] I'll give you this notes. You can go
+[21:56] through with these notes and even you
+[21:57] can uh do some self study using this
+[22:00] notes. Now uh coming to the next part.
+[22:03] So here guys I written keyword versus
+[22:05] semantic search. Right? So let's
+[22:07] understand uh what is the differences
+[22:09] between. So uh just read out this
+[22:11] particular definition. Uh this is uh
+[22:13] like very much important. So keyword
+[22:15] search means it matches the words. So
+[22:17] whatever sentences we have. So uh inside
+[22:21] those sentences whatever words we have
+[22:23] it is just going to be match those
+[22:25] words. On the other hand this semantic
+[22:27] search is going to be match the meaning
+[22:29] actually using this score sign uklant or
+[22:32] the dot product. We have some other
+[22:33] matrixes also like zakad similarity and
+[22:36] the different other matrixes. Okay we
+[22:38] can use those as well. But uh these
+[22:40] three cosine uk uclean uh distance and
+[22:43] the dot product are very important and
+[22:45] the useful. Uh now guys uh here I given
+[22:48] you one example. So let's understand
+[22:50] with this example. Okay. Uh what is a
+[22:53] keyword search? This this example
+[22:55] actually is uh going to be very
+[22:57] important. Okay guys just focus over
+[22:59] here onto this part right now. So what I
+[23:01] written I written uh how keyword search
+[23:04] works. If you search okay if you search
+[23:07] how to reduce heart risk the system will
+[23:09] mainly look for the sentence which is
+[23:11] containing these word reduce heart and
+[23:13] risk. The sentence is going to be
+[23:15] contained ways of lower cardiovascular
+[23:18] disease chances. Right? So even though
+[23:21] this sentence okay this these two
+[23:23] sentence this first one and the second
+[23:24] one is having a same meaning but again
+[23:27] with the traditional keyword search it's
+[23:29] not going to be matched because uh
+[23:31] reduce is not equal to lower and heart
+[23:33] risk is not uh equal to cardiovascular
+[23:36] disease. Okay. Even though it is having
+[23:38] a same meaning but again uh this
+[23:41] sentence will fall apart to each other.
+[23:44] I hope you understood what I'm trying to
+[23:46] say. So if you want to understand this
+[23:48] example just uh read it out this
+[23:50] sentence first. See this is the first
+[23:52] sentence. Okay. Uh how to reduce a heart
+[23:55] risk
+[23:57] [snorts]
+[23:59] and then this is the second sentence.
+[24:02] The second sentence is way to lower a
+[24:05] cardiovascular chances. Right. So in
+[24:09] both sentences I'm trying to ask a same
+[24:11] thing. I'm trying to ask the same thing.
+[24:14] But again guys uh the keyword search the
+[24:17] keyword search is saying reduce is not
+[24:20] equal to lower and heart risk is not
+[24:22] similar to this cardiovascular disease.
+[24:24] So this keyword is not going to be
+[24:25] match. So this uh both sentences
+[24:30] uh will not show any sort of a
+[24:32] similarity and that's a disadvantage of
+[24:34] the keyword search where we are not
+[24:36] going to be uh where we are not going to
+[24:38] be basically uh focus on the context
+[24:42] okay the meaningful context the semantic
+[24:45] meaning of the sentence we are just
+[24:47] looking into the words now here I kept
+[24:49] one more example guys just see over here
+[24:52] how to lose weight fast and sentence two
+[24:55] is saying quick fat loss strategy. Now
+[24:58] using the keyword search it is a it is a
+[25:00] weak match but using the semantic search
+[25:03] the embedding uh after genetic embedding
+[25:06] the semantic search the similarity
+[25:07] search we are going to be perform right.
+[25:09] So there it will show the strong match.
+[25:12] I hope uh this thing is also clear. Now
+[25:15] guys uh let's come to the third topic.
+[25:17] So encoding versus embedding. Now again
+[25:20] I'm not going into the deep uh but yeah
+[25:22] I will give you the quick uh recap of
+[25:23] this topic uh the encoding topic uh
+[25:26] because uh uh once we will start with
+[25:28] the embedding journey right so at the
+[25:30] first place you will always learn about
+[25:32] the encoding and uh definitely once I'll
+[25:35] start my NLP playlist in the near future
+[25:37] so I'll come to this encoding part
+[25:39] encoding chapter so what is this
+[25:41] encoding guys so encoding it convert
+[25:44] data into the numerical format okay so
+[25:47] that machine can process uh now this uh
+[25:50] encoding actually it is a count base and
+[25:52] it is a matrix factorization based now
+[25:55] these are some method uh one hot
+[25:57] encoding B v which is called back of
+[26:00] words TF VM25 and globe so uh BM25 is
+[26:05] nothing it's a extended version of the
+[26:07] TF okay and globe actually it is nothing
+[26:10] it is a matrix factorization based
+[26:13] technique this one now uh this one hot
+[26:16] encoding B and TF actually It is a
+[26:19] countbased technique. Okay. Now here
+[26:22] guys, I kept the one hot encoding. Now
+[26:24] let's take a recap. Uh how let's let's
+[26:26] look uh let's let's take the overview
+[26:29] how does it work. I'm not going into the
+[26:31] depth topic but yeah I can give you some
+[26:34] understanding. So this is called one hot
+[26:37] and coding. Uh now if I want to see this
+[26:41] is my uh category red, blue, green.
+[26:45] Okay. Now if I want to convert into the
+[26:47] one hot encoded vector. So how I will do
+[26:49] that? First I'll create a column. Okay.
+[26:52] So this is my three category. Now what
+[26:54] I'll do guys uh in whatever row this
+[26:56] category is present I will write one and
+[26:59] to rest of the like column I will give
+[27:01] zero. So in the first row if you will
+[27:04] see the first row guys. So we have a red
+[27:06] right. So red is going to be one and
+[27:08] rest color is going to be zero. In the
+[27:10] second row blue will be one and rest of
+[27:13] the thing is going to be zero. In the
+[27:14] green one uh this two is going to be
+[27:16] zero one would be for the green and blue
+[27:20] uh this is going to be a zero and blue
+[27:22] will be one. So this is called one hot
+[27:24] encoded vector and this is a sparse
+[27:26] vector. Okay sparse vector means so this
+[27:30] vector actually this uh array this
+[27:33] vector is going to be contained a lots
+[27:35] of zero. We have lots of zeros over here
+[27:38] right. So uh this is uh called the one
+[27:41] not encoding guys. Now let's understand
+[27:43] about the bag of words. Now guys uh how
+[27:47] this uh bag of words works. So what we
+[27:50] do guys see let's uh understand we have
+[27:52] a document. See this is my first
+[27:54] document. Okay. Now uh this this is my
+[27:57] document guys. This one right now what
+[28:00] we do guys using this document first we
+[28:02] create uh if I'm saying document
+[28:04] document is nothing it is a sentence in
+[28:07] NLP actually this document is also
+[28:09] called the sentence. Okay, sorry.
+[28:11] Sentence is also called the document.
+[28:13] Now, uh let's say we have two document.
+[28:15] Now, what what I'll do guys? So, I will
+[28:17] create a vocabulary.
+[28:19] Okay, I will create a vocabulary using
+[28:22] this document. Now, this vocabulary is
+[28:24] nothing. It is a unique words.
+[28:27] Okay, unique words. So, these are the
+[28:29] vocabulary. This one child, dog, happy,
+[28:33] makes, the Okay, now how many times
+[28:36] these are coming. So uh here you can see
+[28:39] child dog happy makes the so in first
+[28:42] sentence in document one how many times
+[28:45] these are coming right. So child is
+[28:48] coming one time, dog is coming one time,
+[28:50] happy is coming one time, make is coming
+[28:52] one time, the is coming two time. Right?
+[28:54] So this is my vector. That's it guys.
+[28:57] Right? Now just look into this document
+[28:59] two. So child is coming one time. Dog is
+[29:01] coming one time. Happy is coming one
+[29:03] time. Make is coming one time. D is
+[29:05] coming two time. Just read out this
+[29:07] sentence. Automatically you will get it.
+[29:09] Okay? Automatically you will get it. So
+[29:12] this is my vector. Now here guys this
+[29:14] bag of words is nothing. It is just a
+[29:17] countbased technique. Okay. Now how it
+[29:21] is how it is working? So sorry how we
+[29:23] are going to be form this vector. So
+[29:25] first uh we'll we'll look into the
+[29:27] document. Okay. Document mean sentence
+[29:29] the entire data. From this we'll form
+[29:31] the vocabulary. Vocabulary is nothing it
+[29:33] is a unique words. So these are my
+[29:35] vocabulary which I'm representing as a
+[29:37] features over here. This one this I'm
+[29:39] representing as a column which is a
+[29:41] feature. Right? And then uh I'm just
+[29:45] checking a count inside the particular
+[29:47] sentence regarding these words. Okay.
+[29:50] And then the final vector we are showing
+[29:52] as a encoded vector. Right? Uh so I hope
+[29:57] guys you understood about the one
+[29:58] encoding and the bag of words. Now this
+[30:01] is the formula of the TF. Again I'm
+[30:04] showing again I'm telling you guys uh
+[30:05] this thing I will cover in some another
+[30:08] session where I'll discuss the
+[30:09] fundamental of the NLP. As of now, I'm
+[30:12] just showing you the formula. See, this
+[30:13] is the formula of the uh TF where TF is
+[30:17] called the term frequency. What is the
+[30:19] term frequency? Number of time the term
+[30:21] appears in the document. The term is
+[30:23] called the words. Okay, that is specific
+[30:25] word, the vocab. Okay, the unique word.
+[30:28] The total number of terms. Okay, the
+[30:30] number of all the unique words. Then
+[30:32] inverse document frequency means total
+[30:34] number of document in the given corpus
+[30:37] means total number of sentence. uh and 1
+[30:40] + number of document containing the
+[30:42] terms. Okay. Uh how many like uh number
+[30:46] of document containing that specific
+[30:47] term regarding that we are going to be
+[30:49] calculate the uh frequency. Okay. Now
+[30:52] here we are adding one. Why? Because if
+[30:54] the term is zero so we not it will not
+[30:56] not go to the infinite and here we are
+[30:58] taking a log of it. Okay. So this is a
+[31:02] TF IDF and once we are going to be
+[31:04] multiply this term okay TF and IDF. So
+[31:07] whatever number I will get whatever
+[31:09] number I will get regarding that vocab
+[31:13] okay for the given sentence that number
+[31:16] okay those number the series of number I
+[31:18] will be representing as a encoded vector
+[31:21] right so I will show you in my NLP
+[31:23] playlist I will give you the complete
+[31:24] intuition of this TF idea but as of now
+[31:26] just remember this formula now this is
+[31:29] all the encoding technique now let's
+[31:32] look into the embedding guys so I think
+[31:33] we all know about the embedding so let's
+[31:36] uh take a look one more time and after
+[31:38] that guys I'll come to some more
+[31:39] important concept. So embedding means
+[31:42] convert data into the vector
+[31:44] representation. Now here uh embedding of
+[31:47] the king okay embedding of the so just
+[31:51] thing guys uh if we have a embedding of
+[31:53] this king and right so let's say uh I I
+[31:56] can represent in a 2D uh like uh
+[32:02] 2D graph. So let's say we have x and y
+[32:04] axis. Now this is the embedding of the
+[32:07] king and this is the ambidding of the
+[32:10] queen right? So this will be having some
+[32:12] similarity. King and queen is having
+[32:15] some similarity. Not based on the gender
+[32:17] guys. I'm saying uh based on their title
+[32:20] they have some similarity. Okay. Uh so
+[32:24] the cosine similarity we will be very
+[32:27] high and the angle the cosine angle will
+[32:29] be very less. We we are going to be
+[32:31] showcased over the x and y axis this
+[32:33] vectors right. uh and uh if we are
+[32:36] talking about this king and banana so
+[32:39] the angle will be very very different
+[32:41] let's say this is my king okay king now
+[32:44] this is the queen okay now here would be
+[32:48] my banana let's suppose this one this is
+[32:51] what this is my banana so the
+[32:54] differences between this the angle
+[32:56] between this king and banana will be
+[32:58] very very huge because there is no such
+[33:00] similarity between the king and banana
+[33:02] banana is a fruit king is a living
+[33:04] person. Okay. Uh I hope you understood
+[33:07] what I'm trying to say. So what is the
+[33:08] classical method to find out this
+[33:10] embedding? So word to back actually it
+[33:12] was a method fast text is a method
+[33:15] right. Uh so this method actually it was
+[33:18] working over the neural networkbased
+[33:20] strategy.
+[33:22] Got it guys? So word to back and fast
+[33:24] text was working on top of that
+[33:26] strategy. Now this method were having
+[33:28] some limitations. What were the
+[33:30] limitations guys? limitation wise uh
+[33:33] they create embedding at the word level
+[33:35] only okay they create the embedding on
+[33:37] the word level means uh we're giving a
+[33:39] sentence let's say if I'm saying over
+[33:41] here Sunny
+[33:43] is a
+[33:46] AI engineer right AI engineer so if I
+[33:50] want to convert this uh sentence into
+[33:54] the embedding I will not be able to
+[33:57] create it using this what to back and
+[34:00] the fast text it was not possible okay
+[34:03] because it was only working on a word
+[34:04] level they produce static embedding now
+[34:07] what is a static embedding I'll come to
+[34:08] that I'll explain you that they do not
+[34:11] understand the context okay so they
+[34:14] produce the static embedding and they do
+[34:16] not understand the con uh context this
+[34:19] is very much important guys and because
+[34:21] of that only this embedding was going to
+[34:25] be failed okay we cannot use it further
+[34:28] uh instead of the sentence embedding the
+[34:30] sentence transform base embedding these
+[34:32] are quite powerful a contextual one but
+[34:34] this word embedding word to back we
+[34:36] cannot use everywhere because of these
+[34:39] limitations right so how this embedding
+[34:41] looks like so here I given one image uh
+[34:43] you can simply look into this image and
+[34:46] you can understand the embedding of the
+[34:47] man the woman king and the queen right
+[34:50] so these are some embedding now this uh
+[34:54] is a is also having some dimension or
+[34:56] these dimensions are nothing it is a uh
+[34:58] like features actually okay so in the
+[35:01] real embedding we would be having like
+[35:03] 300 to 400 feature at minimum this is
+[35:05] just a demonstration okay the dummy one
+[35:07] which I kept over here uh now over here
+[35:10] guys let's understand with the example
+[35:13] uh let's understand why what is the
+[35:15] meaning of the static embedding and why
+[35:17] this uh what to model was not having the
+[35:20] context so uh let's understand about the
+[35:23] sort transformer first then I'll come to
+[35:24] the comparison so sort means what
+[35:27] state-of-the-art
+[35:30] So state-of-art state-of-art transformer
+[35:32] based embedding model. So it is based on
+[35:34] the transformer architecture guys. The
+[35:36] earlier word to back model okay the
+[35:41] earlier word to back model or the fast
+[35:43] text uh model actually it was only based
+[35:46] on the neural network. But guys this
+[35:48] sort transform based model right the
+[35:50] embedding model actually it is based on
+[35:51] the transformer architecture. I'll come
+[35:54] to that architecture. I'll discuss few
+[35:56] points regarding that. Okay, how uh the
+[35:59] embedding is being generated everything
+[36:01] we'll try to understand. Now contextual
+[36:04] embedding, context aware embedding. So
+[36:06] it is going to be generated contextual
+[36:07] embedding and any text means a word,
+[36:10] phrase, sentence, full paragraph,
+[36:12] anything is coming. Let's say I'm saying
+[36:14] sunny. Okay, I'm saying sunny is a AI
+[36:21] engineer.
+[36:22] Right now this word, this sentence,
+[36:26] whatever paragraph we have, okay?
+[36:30] Whatever paragraph we have, whatever
+[36:32] kind of text we have, everything
+[36:34] everything we can convert, everything we
+[36:37] can convert into the embedding, right?
+[36:40] Uh this is a uh like uh very important
+[36:44] uh concept of the sort transformer. Now
+[36:47] example sort sentence transform model
+[36:50] mini LM BGE open AI embedding Jimny
+[36:52] embedding cloud embedding these are the
+[36:54] example right so these are the model
+[36:56] example and even I will show you the
+[36:57] model in very detail uh in some time now
+[37:00] here guys uh you can see I I kept one
+[37:02] example with that your understanding
+[37:03] will be very clear about the static
+[37:06] static embedding okay this one so let's
+[37:09] say I have one sentence in the first
+[37:11] sentence I'm saying I sat on a river
+[37:13] bank
+[37:15] right I sat on a river bank. Now in the
+[37:18] second sentence what I'm saying? I'm
+[37:19] saying I deposit my money in the bank.
+[37:22] Now over here guys just saying this bank
+[37:24] actually it's a river bank. Okay this
+[37:26] this bank actually it's a river bank but
+[37:28] this bank actually it's a money bank.
+[37:31] Okay. So here guys this bank is having a
+[37:35] different meanings. This bank is having
+[37:39] a different meaning in both the in both
+[37:42] the sentences. So if you're going to be
+[37:44] capture the meaning of the bank using
+[37:46] the word to back model right so it's
+[37:50] going to be a same let's say I use the
+[37:52] word to back model I generated an
+[37:53] embedding of this bank so guys this
+[37:56] always this bank is going to be generate
+[37:58] this embedding right whether it is
+[38:00] coming inside this sentence or it is
+[38:02] coming inside this sentence doesn't
+[38:04] matter bank will be always represented
+[38:08] using this embedding and that's a very
+[38:11] concerning thing. Now instead of that if
+[38:14] on the other hand we are using the soda
+[38:16] transform based model. So bank will be
+[38:19] represented according to the context. So
+[38:22] here bank is representing to the river
+[38:24] bank and here bank is representing to
+[38:26] the money bank. Right? So sort model
+[38:29] will generate a different different
+[38:31] embedding. So that was a huge difference
+[38:34] between this word back model and the
+[38:36] current sort model. I hope uh this thing
+[38:40] is clear. Now uh let's come to the next
+[38:43] point guys. Let's uh see uh this
+[38:45] embedding model actually it cannot only
+[38:47] uh transfer it cannot only convert text
+[38:50] into the embedding it can convert
+[38:51] everything into the embedding. So here I
+[38:54] kept couple of example let's say if you
+[38:56] want to convert image into the
+[38:58] embedding. So yes you can do that. So
+[39:01] image is what?
+[39:03] Sorry guys uh I'm suffering like with
+[39:06] little cuff and cold like okay so yeah.
+[39:10] So yeah now I think uh you got so what
+[39:13] is a image? So image is nothing it is a
+[39:15] collection of the pixel. Okay. So it is
+[39:18] a collection of the pixel. See this is
+[39:21] the image of it. Now this we can further
+[39:24] convert into the embedding.
+[39:27] Okay ambedding means we can use this vit
+[39:31] kind of model and we can get the vector
+[39:35] representation. we can get the vector
+[39:38] representation
+[39:40] representation
+[39:42] of the of the image right so here I
+[39:47] written some name so clip model vision
+[39:50] transform model are enough capable to
+[39:52] convert any data into the images and uh
+[39:55] any image data into the embedding and
+[39:57] even I will show you in the future okay
+[39:59] even I uploaded one video uh in my rag
+[40:02] playlist where I'm going to be convert
+[40:03] this image into the embedding and then
+[40:06] I'm performing having a retrieval on top
+[40:07] of it. If if you want to check, you can
+[40:09] go over there. Now, uh the other one
+[40:12] basically audio. Can we convert audio
+[40:14] and the video also into the embedding?
+[40:15] Yes, we can do it. Now, let's try to
+[40:17] focus over here. So, we're talking about
+[40:19] the audio guys. So, we have two
+[40:20] approaches over here. The first approach
+[40:22] is this one. Okay. And the second
+[40:25] approach is this one. So, uh let's look
+[40:28] into the first approach. The first
+[40:29] approach what we are doing, we are going
+[40:30] to be convert audio into the text. And
+[40:32] the text we are going to be convert into
+[40:34] the embedding, right?
+[40:36] It is the same one like we have uh we
+[40:39] have any text uh embedding model and we
+[40:41] are going to be convert uh the text into
+[40:43] the embedding. Okay. First we have
+[40:45] generated text from the audio using the
+[40:47] ASR model uh automatic speech recogniz
+[40:51] speech to text model. Okay. Now the
+[40:53] second one see these are all the model
+[40:55] even I listed the model over here. You
+[40:56] you can read it over here. We have open
+[40:59] air whisper we have Google speech to
+[41:00] text meta mms. These are some uh speech
+[41:03] to text model. Now on the other hand
+[41:05] guys what we can do we can directly
+[41:06] convert the audio into the uh embedding.
+[41:10] Okay so uh here you can see what we have
+[41:14] we have a audio we'll use the audio
+[41:15] decode encoder model then we'll convert
+[41:17] audio into the embedding and then we'll
+[41:19] store inside the vector database. Uh now
+[41:22] this is the image guy this is the image
+[41:23] of the audio. So yeah uh we can do it we
+[41:26] can directly take the audio file and we
+[41:28] have such models where we can directly
+[41:31] convert audio into the embedding. See
+[41:33] these are the model name. Just read the
+[41:34] model name. One is the Google YAML,
+[41:37] Google Yamnet. Then from the open, open
+[41:39] Cap. Uh then from the meta word to back.
+[41:42] Okay. Wave to back actually. Uh now uh
+[41:45] where we use this audio embedding. So we
+[41:47] use it uh inside the voice search in the
+[41:49] music similarity. So this could be some
+[41:51] example. This could be some application
+[41:53] actually of the audio embedding. So at
+[41:56] uh this place we can use it. Okay. And
+[41:59] now coming to the video part. So again
+[42:01] uh we're talking about the video. So
+[42:03] there also we have two method. Let's
+[42:05] focus on first one. So first uh we are
+[42:08] going to be convert video into the
+[42:09] images. Audio and the time dimension. So
+[42:11] audio we are going to be converted to
+[42:13] the uh text embedding. Okay. Frames
+[42:16] means images we are going to be
+[42:17] converting the image embedding. Uh and
+[42:19] then uh we have some metadata. Okay. So
+[42:22] this is called the multi vector right.
+[42:25] We we we are going to be uh we are going
+[42:28] to be capture the multiple vectors.
+[42:30] Okay. Okay. And we will store inside the
+[42:31] vector database and on top of it uh
+[42:33] whenever we'll perform the retrieval
+[42:35] operation. So that is called the multi
+[42:37] vector retrieval.
+[42:39] Okay. So uh now the second approach is
+[42:42] uh we can directly take a video and we
+[42:44] can convert into the embedding. So this
+[42:45] thing is also possible. We have such
+[42:47] model. So here you can see video ME
+[42:50] transformer sorry times former I3D. So
+[42:53] these are some model using that we can
+[42:55] directly convert our embedding. Okay. we
+[42:59] can directly convert our video into the
+[43:01] embedding. Now these are the use case
+[43:02] guys. So video search, content
+[43:04] moderation, recommendation on YouTube,
+[43:06] Netflix. So we use such things. I hope
+[43:09] uh this is clear the use case and all
+[43:12] everything is clear. So uh I believe
+[43:14] guys uh this entire thing is clear. So
+[43:16] we started from what is embedding and uh
+[43:19] let me let me highlight what thing we
+[43:21] have covered so far. What is embedding
+[43:22] then semantic search then keyword versus
+[43:24] semantic search then encoded versus
+[43:26] embedding. Now let's discuss application
+[43:29] of the embedding guys. This is going to
+[43:31] be very much important. So application
+[43:33] of the embedding. I written uh so many
+[43:35] points over there and the last one is
+[43:37] going to be very important. So please
+[43:39] don't miss out that. So we're talking
+[43:41] about the application of the embedding.
+[43:45] So uh initially only I told you the
+[43:47] semantic search is the most fundamental
+[43:50] application. Okay. Now what is a
+[43:53] semantic search? It is a meaningb ways
+[43:55] search. Now instead of matching keyword
+[43:57] we are going to be perform the vector
+[43:59] similarity. So it's being used
+[44:01] everywhere in the Google engine inside
+[44:03] the Google image search engine inside
+[44:05] the Google image search in the pin
+[44:07] Pinterest right so user search a red car
+[44:11] system retrieve image of red car. So
+[44:13] yeah we we we are doing that in a
+[44:15] Pinterest we are doing in a Google image
+[44:17] search and uh even we are writing those
+[44:19] thing over the Google uh directly and we
+[44:22] are getting those information and how
+[44:24] this is possible this is possible
+[44:26] because of this semantic search guys
+[44:30] right so because of the semantic search
+[44:33] this thing is possible so this is a
+[44:36] primary application of the embedding now
+[44:39] in the recommendation system also we use
+[44:41] this semantic search we use the
+[44:43] similarity search we use the embedings
+[44:46] right so in a Netflix similar movie in a
+[44:48] Amazon similar product in a Spotify
+[44:50] similar song all are using the vector
+[44:53] similarity so yeah this is again a very
+[44:56] huge application okay application of the
+[45:01] embedding now guys uh coming to the next
+[45:03] part so here topic modeling means a
+[45:06] clustering of the data okay based on the
+[45:08] similarity group similar document
+[45:10] together right so we We have document
+[45:13] one. Uh document one. We have document
+[45:16] two. Okay. We have document two. We are
+[45:19] we are going to be read a content of
+[45:21] these document and based on the
+[45:24] similarity we are going to keep it
+[45:25] together. If there is there is there is
+[45:28] some uh like uh there there is some
+[45:30] similarity between these document then
+[45:32] we are keeping it together. Okay. So
+[45:35] that thing is also per uh that thing is
+[45:37] also possible using the uh uh
+[45:40] documentation together. Now the last and
+[45:42] the like the last one is a very
+[45:45] important guys. This is the retrieval
+[45:47] argument generation and everyone's wants
+[45:49] to be know about this retrieval argument
+[45:50] generation. Uh everyone's uh everyone
+[45:53] knows about the embedding from this
+[45:54] retrieval argument generation only. So
+[45:56] let's understand what is this
+[45:58] retrievable document generation at the
+[45:59] first place. Uh then I will come to the
+[46:01] embedding part. So uh we're talking
+[46:03] about the data guys. So here
+[46:07] so if we're talking about data guys so
+[46:08] the data we can convert into the
+[46:10] multiple chunks right then we can
+[46:12] convert into the embeddings. So here uh
+[46:15] we are going to be convert using the
+[46:17] specific embedding model. Now here only
+[46:20] this embedding model comes. Now why we
+[46:22] are doing it I will tell you that then
+[46:24] we are going to be stored inside the
+[46:25] vector database. Okay vector DB. Now
+[46:29] guys whenever user is asking any sort of
+[46:31] a query right so this particular query
+[46:33] we are going to be convert into the
+[46:35] embedding using the embedding model and
+[46:37] then we are going to perform the
+[46:39] semantic search and then we are fetching
+[46:42] the retrieval we are fetching the
+[46:44] relevant data. Now this relevant data
+[46:47] this rank data it is also called the
+[46:49] context. So this context along with the
+[46:52] query this context this context along
+[46:56] with the query we are providing to the
+[46:58] llm okay we are argumenting our query
+[47:01] this query we are not directly passing
+[47:04] this query to the llm no we are passing
+[47:07] it through the vector database vector
+[47:08] first vector database is fetching some
+[47:10] context and then uh behalf on this
+[47:14] context right so just a second guys so
+[47:18] behalf on this con context only LM is
+[47:20] figuring out some uh result uh of the
+[47:23] query and then it is giving back to the
+[47:25] user. The final response is given back
+[47:27] to the user. So this is what this is the
+[47:30] rack guys. Okay, this is what this is a
+[47:32] rag. I hope this is clear. Just read out
+[47:35] this architecture by your end uh
+[47:37] everything will be clarified. If you
+[47:39] don't know please check out with my
+[47:41] previous video. So the biggest
+[47:42] application of the embedding is this rag
+[47:45] architecture. Okay. uh I hope uh you
+[47:48] understood where the embedding is being
+[47:51] used over here. So we are going to be
+[47:53] convert our data into the embedding and
+[47:55] here at this place actually uh through
+[47:58] the vector database we are performing
+[48:00] the semantic search the similarity
+[48:02] search and we are fetching a relevant
+[48:04] context over here. So yeah this thing is
+[48:06] clear and I hope you understood the
+[48:08] application of the embedding. Now what
+[48:12] are models we have regarding the
+[48:13] embedding and how to select the best
+[48:16] possible model then we'll see the
+[48:18] embedding leaderboard. So here I kept
+[48:20] the embedding leaderboard and then from
+[48:22] here guys uh the core and the
+[48:24] architectural concept we'll discuss in
+[48:26] the next video. Okay. So here I'll tell
+[48:28] you how the model look like if if we are
+[48:31] going to be train any embedding model
+[48:33] from then which uh model you have to
+[48:35] select which part of the transformer you
+[48:37] need to be select and how to train that.
+[48:39] But yeah, as of now we just uh we'll
+[48:42] just focus on the embedding model. So
+[48:44] first what I'm doing guys uh I'm going
+[48:46] to be just a second see here I kept a
+[48:48] different different model uh for the
+[48:50] embedding and uh let's look into this
+[48:53] model one by one and uh then basically
+[48:56] we'll come to the practical side
+[48:58] guys uh in the embedding model or model
+[49:02] for embedding uh you will see every big
+[49:05] companies are providing their own
+[49:07] embedding models. So just look into the
+[49:10] provider section. Now over here see
+[49:12] OpenAI is providing their own embedding
+[49:14] model. Google is providing their own
+[49:16] embedding models. Okay. Anthropic Coher
+[49:20] even AWS providing their own embedding
+[49:22] model that is called Titan embedding and
+[49:25] it is available over the bedro
+[49:29] [gasps]
+[49:31] guys. uh these all are model closed
+[49:33] source means uh you will have to pay
+[49:36] money if you want to use this model.
+[49:39] Okay. Uh now here I kept some opensource
+[49:42] model. So this model actually you will
+[49:44] get over the hugging face itself. You
+[49:47] can directly download this model from
+[49:50] the hugging face hub.
+[49:54] Okay. Now see uh this model is also
+[49:57] being provided from the different
+[49:59] company from the various company but but
+[50:00] it is available over the hugging face up
+[50:03] uh and uh some of the model we are
+[50:05] continuously using whenever we are
+[50:07] learning any rag rag related
+[50:09] architecture right or whenever we are
+[50:12] learning about the encoding embedding
+[50:15] right so we all are using these model
+[50:16] only so uh here the famous model is all
+[50:20] mpnet base v2 uh these are the model
+[50:23] based on the bird Okay. Then uh here you
+[50:26] can see the BAI from the Beijing
+[50:29] artificial intelligence research
+[50:30] organization, right? And then uh here
+[50:33] again from E uh here is a E5, right? I
+[50:37] think it is from the Google if I'm not
+[50:39] wrong. Uh I kept somewhere this the from
+[50:43] uh who is providing this E5 model? I'll
+[50:45] show you that. Then the mini LM actually
+[50:48] Microsoft is providing this mini LM.
+[50:50] Then open clip I think open a is
+[50:52] providing that that blip. Okay then dino
+[50:55] then web to back hubert yamnet clap
+[50:59] right. So guys not only the text
+[51:02] actually you will get a embedding model
+[51:04] regarding the different other modality
+[51:07] also. So I mention the provider I
+[51:11] mention uh the model whether the model
+[51:14] is a closed one or open one then I
+[51:16] provide about the modality and the
+[51:18] specific model name. So these are some
+[51:19] famous model. So I kept in my list but
+[51:23] guys I would like to show you one
+[51:24] leaderboard and uh with that leaderboard
+[51:27] actually your most of the understanding
+[51:29] will be clear. So the leaderboard
+[51:31] actually it belong to I will come to
+[51:33] this part how to select the best
+[51:34] embedding model but yeah before that let
+[51:36] me come to the leaderboard. So this uh
+[51:38] leaderboard actually it belong to the
+[51:39] MTE. So what is this uh what is this uh
+[51:43] MTEB? MTB is called massive text
+[51:47] embedding benchmark. Okay. So, uh let's
+[51:50] uh look into this MTEB. So, see what is
+[51:53] MTB? MTB massive text embedding
+[51:55] benchmark. So, it's providing even
+[51:57] leaderboard. See this leaderboard guys.
+[51:59] And here
+[52:03] here only you will see all the embedding
+[52:06] models. See this is all the embedding
+[52:07] model. This one right. And even you can
+[52:10] classify. So, if you want to check the
+[52:12] image embedding model, you can check
+[52:13] over here. Even you want to check the
+[52:15] different other model you can check over
+[52:17] here. You you can categorize based on
+[52:19] the performance. Okay. Performance the
+[52:21] model size performance based on the task
+[52:23] type performance based on the language
+[52:26] every sort of a filter uh they have
+[52:28] provided you over here. Right? So guys
+[52:31] this uh leaderboard is quite uh
+[52:33] important if you are like using the open
+[52:35] source embedding model. Now let me
+[52:36] highlight couple of models over here. So
+[52:39] uh if I'll scroll up see you will get
+[52:42] the first one K A LM. Okay it's from the
+[52:45] Google. Then again from the meta it's
+[52:47] from the coin right from the Alibaba
+[52:49] from the Google okay so every sort of a
+[52:52] model you will get over here the
+[52:53] embedding model and these model are the
+[52:56] open source okay and here you can see
+[52:59] the memory uses the number of uh
+[53:01] basically users what is this number of
+[53:04] uh okay just check out guys what is this
+[53:07] okay number of p something like that
+[53:09] then embedding max token mean okay just
+[53:12] explore this one if if you willing to
+[53:16] use the best emitted model, just check
+[53:17] over here. Right now, apart from this
+[53:19] one guys, see this is again one more uh
+[53:21] like uh one more resource for the
+[53:24] emitting model, the sentence transformer
+[53:27] documentation. Okay, just check out with
+[53:29] their hugging face page. Now over here
+[53:31] guys over there they have mentioned
+[53:33] about the documentation. Then uh they
+[53:35] have mentioned about the find all the
+[53:37] sentence transformer model. So this all
+[53:39] the model actually it is based on what
+[53:40] it is based on the uh this all the model
+[53:43] actually it is based on what uh it is
+[53:45] based on the transformer only. So just
+[53:47] scroll down you will get all the
+[53:49] sentence transformer based model and it
+[53:51] is having thousand of model right. So
+[53:53] see this uh like this you can categorize
+[53:56] this is the sentence transformer and now
+[53:58] over here once you will see once you
+[54:01] will scroll down now here only you will
+[54:02] get the model 127 model right. So just
+[54:05] check out with this 127 model and apart
+[54:07] and apart from this one once you will
+[54:08] from this one once you will click on
+[54:09] click on this one now find all the
+[54:09] this one now find all the sentence model
+[54:11] sentence model sentence transformer
+[54:12] sentence transformer model on the hub.
+[54:13] model on the hub. So you will get uh the
+[54:14] So you will get uh the other model which
+[54:16] other model which is working under this
+[54:16] is working under this sentence
+[54:17] sentence transformer. Okay from the buy
+[54:18] transformer. Okay from the buy again uh
+[54:20] again uh this is the based on the same
+[54:20] this is the based on the same concept
+[54:22] concept based on the transformer concept
+[54:22] based on the transformer concept only.
+[54:24] only. So in the at the same place
+[54:24] So in the at the same place basically
+[54:26] basically you will get these model also.
+[54:26] you will get these model also. So yeah
+[54:28] So yeah this resources are quite useful
+[54:28] this resources are quite useful if you
+[54:30] if you are willing to use the embedding
+[54:30] are willing to use the embedding model.
+[54:32] model. Now uh coming to the main part
+[54:32] So just check out with this 127 model
+[54:35] guys see so uh here I kept some
+[54:38] practical let's uh discuss this
+[54:39] practical and before that let me show
+[54:41] you that how many chapters we have
+[54:43] completed so uh let's look into the
+[54:45] chapters chapter one is completed the
+[54:47] chapter two all model for the embedding
+[54:49] fine tune it is completed type of the
+[54:51] embedding model yes this is also
+[54:52] completed how to select a best model
+[54:54] this is remaining and then embedding
+[54:56] model
+[54:58] uh then embedding model leaderboard so I
+[55:00] uh shown you this leaderboard so Guys,
+[55:02] let's do one thing. Let's look into some
+[55:03] practical. After that, I'll show you how
+[55:06] to select a best emitting model. And uh
+[55:08] then after that, guys, I will uh stop
+[55:10] this video and rest of the thing I will
+[55:12] show you in the next one. Okay, in the
+[55:14] next video. So, uh what I'm doing here.
+[55:17] So, let's uh connect with the GPU first.
+[55:25] Okay. So, here I'm going to be connect
+[55:26] with the GPU. Now, what I'll do, I'll
+[55:28] install the sentence transformer. I'll
+[55:30] install this torch. So here I'm going to
+[55:33] install this one and then it might take
+[55:36] some time if you are doing it first
+[55:38] time. So let it install. [snorts]
+[55:42] All right guys, so my sentence
+[55:44] transformer and the torch is installed.
+[55:46] Now after that I imported the sentence
+[55:48] transformer from this uh module. This is
+[55:51] the class actually. Now what I will do I
+[55:53] will create a object of this sentence
+[55:55] transformer class and I will write my
+[55:56] model name. So I'm using this all mini
+[56:00] LM. Okay. Uh all mini LM L6 V2. So this
+[56:05] is my model name. Now what I'll do guys
+[56:08] uh let me load this model and this is my
+[56:12] sentence. Embedding fine tuning improves
+[56:15] retrieval quality in the rag. So once
+[56:16] I'll run it guys see here I am able to
+[56:19] encode it. So yeah I'm able to get the
+[56:23] embedding of this particular sentence.
+[56:25] Now what I'll do guys see here uh I'm
+[56:28] just checking the shape and uh then what
+[56:31] I'm doing I'm just checking the shape
+[56:35] and I'm just checking few numbers okay
+[56:38] some initial numbers of my embedding
+[56:40] model let me write over here import np
+[56:44] yeah yeah so it is saying oh fine numpy
+[56:48] numpy got it got it got it guys numpy as
+[56:53] np
+[56:54] so Yeah, this is what this is my size of
+[56:57] the embedding 384 and here you can see
+[57:00] the first 10 value of the embedding. Now
+[57:02] what I'll do guys, I'll take some
+[57:03] document I'll perform some cosine
+[57:05] similarity. So let me run it. So I will
+[57:08] pass some document to this method. Okay,
+[57:10] this is the formula for the cosine
+[57:11] similarity. Here I written the formula.
+[57:14] Okay, so I made this formula using this
+[57:15] numpy methods np dot and lineage norm.
+[57:19] Okay, so I'm checking I'm getting a
+[57:22] norm, right? uh nom means what the
+[57:25] magnitude of the vector right so this is
+[57:28] the formula now what I'll do this is my
+[57:30] document so embedding finetuning
+[57:31] improves retrieval and drag lora reduce
+[57:33] GPU memory uses my car needs fuel then
+[57:36] vector databases store embedding now I'm
+[57:38] this is my query how how to improve
+[57:40] retrieval and drag so let's see this
+[57:43] query is like near to which document now
+[57:45] so if I run guys so here what I'm doing
+[57:47] I'm just going to be encode the document
+[57:50] this one and after that guys what I'm
+[57:52] doing so here is what here is my query.
+[57:54] Okay. Now what I'll do I will find out
+[57:56] the cosine similarity. So yeah I'm
+[57:59] iterating on top of each and every
+[58:00] document I'm adding and I'm checking the
+[58:02] cosign similarity between the query and
+[58:03] the uh documents. Okay. So I will I'm
+[58:07] getting my score. Now let's see let me
+[58:08] check uh it is near to which one? My
+[58:11] query is near to which one? So this was
+[58:14] my query. Okay. Now how to improve
+[58:17] ratable and drag? So it is very near to
+[58:20] this document. It is very near to the
+[58:22] sentence. It is uh less near to the
+[58:25] sentence. Vector database stores
+[58:28] embedding. Okay. So score is 0.05. My
+[58:31] car needs fuel. It is very low. Again
+[58:33] the similarity very low. Lora reduce GPU
+[58:35] memory. It is again very low. The
+[58:36] context of these word these sentence and
+[58:39] this sentence are different. So that's
+[58:41] why the similarity is very less. But the
+[58:43] context of this sentence and this
+[58:45] sentence are same. So see the similarity
+[58:46] is very high. Okay. Now here I kept come
+[58:49] some pair also. Let's see the similarity
+[58:51] between these sphere. I'm going to run
+[58:53] it guys. So see similarity between these
+[58:55] pairs are very high. Uh rather the
+[58:57] similarity is very low over here. Okay,
+[58:59] between these sentences. So let's see
+[59:01] between the difference between the
+[59:03] keyword search and the vector search. So
+[59:05] here is my uh document. Now what I'm
+[59:08] doing guys? So here I'm running it and
+[59:11] see uh I have my query.
+[59:15] Okay. Now what I'll do guys uh I will
+[59:19] convert it to the token first. So yeah I
+[59:23] will convert it to the token. See this
+[59:24] is the custom code which I written for
+[59:26] the keyword search. I will show you with
+[59:28] a VM25 also. So I'm tokenize my query.
+[59:32] So here you can see the query token
+[59:35] guys. Right this one. Now what I'll do
+[59:38] guys? See here uh I am going to be print
+[59:40] the query token as well as uh keyword
+[59:44] search score. So I I'll print the
+[59:45] keyword search score over here. Let me
+[59:47] do it. So I will iterate on top of the
+[59:50] document. Okay. I will tokenize that. I
+[59:52] will check uh like which all I I will
+[59:55] check the count matching between the
+[59:57] words uh between the document uh between
+[59:59] the like document on which I'm iterating
+[01:00:01] the sentence on which I'm iterating as
+[01:00:03] well as the query. Okay. Then uh here is
+[01:00:06] my score. This is my score. If uh it is
+[01:00:08] matching means the count is matching the
+[01:00:10] word count is matching then I will keep
+[01:00:12] it inside the score. Okay. Okay. And
+[01:00:13] then I'll print it over here. Now let me
+[01:00:15] check. Uh so in the first sentence we
+[01:00:18] have three match. So this would be very
+[01:00:20] high. In the next one we don't have any
+[01:00:22] match. So this is going to be zero. Now
+[01:00:24] here also you can see uh if I have this
+[01:00:26] query let me show you the query. So this
+[01:00:30] is the query guys. How to improve
+[01:00:32] retrieval and rag. So embedding fine
+[01:00:34] tune improve retrieval in the rag. So
+[01:00:36] this actually
+[01:00:39] uh this particular query right it is
+[01:00:41] very near to the sentence and we have
+[01:00:43] proved it using the keyword search right
+[01:00:46] where we we were just matching the
+[01:00:47] keywords right rather than the semantic
+[01:00:50] meaning. Now this was my custom code
+[01:00:52] regarding the keyword search. Now let me
+[01:00:53] show you using the BM25 okay so what I'm
+[01:00:56] doing guys I'm going to be install this
+[01:00:58] BM25.
+[01:00:59] Now here what I'm doing I'm going to be
+[01:01:01] import this BM25.
+[01:01:04] Okay, then here is my document. Let me
+[01:01:07] keep the document over here. This is my
+[01:01:09] document guys. Same one. Now this is my
+[01:01:12] query. Okay. Now what I'll do guys, I'll
+[01:01:15] tokenize a query. This thing is going to
+[01:01:17] be same. So now after that what I'll do?
+[01:01:20] So I will uh convert both into the
+[01:01:26] tokens. Okay. So token of the query,
+[01:01:28] token of the uh corpus. So this is the
+[01:01:31] token of the corpus and here is the
+[01:01:34] tokens of the query. Okay, I hope you
+[01:01:37] got it. Now what we are doing, we are
+[01:01:39] just going to be initialize a BM25 model
+[01:01:42] using this BM25 okay API. I will get
+[01:01:44] that. Now I'm going to be check a score.
+[01:01:46] Okay, so how how I'm going to check a
+[01:01:48] score. So BM25 is a model uh which I uh
+[01:01:52] like uh which I initialize using this
+[01:01:54] corpus. Now I'm getting a score using
+[01:01:56] this query. Okay, let's see what would
+[01:01:58] be the score. So if I'm going to print
+[01:02:00] the score, see I already done it.
+[01:02:01] Actually I was just practicing the
+[01:02:03] thing. So then only I executed it. Now
+[01:02:05] here you can see the score.
+[01:02:08] Understood guys? So yeah this model is
+[01:02:10] also showing the same one. Now uh one
+[01:02:14] more thing guys if you want to evaluate
+[01:02:15] any embedding model. So this is also
+[01:02:17] very easy. So using this MTB you can do
+[01:02:21] that. So let it install then I will show
+[01:02:23] you guys. Uh this MTB it got installed.
+[01:02:27] Now what I will do? So first I'll
+[01:02:30] explain you this MTEB that is uh massive
+[01:02:33] text emitting benchmark. Uh now we have
+[01:02:35] another term inside this MTEB that is
+[01:02:38] called STSB benchmark. STS benchmark
+[01:02:41] that is called semantics textual
+[01:02:42] similarity benchmark. Okay. Now it is
+[01:02:45] giving us some matrixes like spareman
+[01:02:48] matrix
+[01:02:50] P then cosine spearman then man and then
+[01:02:54] equian spareman. Okay. Now it gives you
+[01:02:58] some score also. I'll show you that
+[01:03:00] score. So this is the meaning of that
+[01:03:02] score. Okay. Now apart from that I
+[01:03:04] written the score uh range also. So what
+[01:03:07] would be the idle score range and when
+[01:03:09] your embedding would be like too
+[01:03:11] powerful. So this is very useful to
+[01:03:14] evaluate your embedding model. So if
+[01:03:16] someone is asking you like how to
+[01:03:17] evaluate the embedding model. So you can
+[01:03:20] say I evaluated using this uh package.
+[01:03:22] These all are the matrixes I was
+[01:03:24] getting. This this is what the score and
+[01:03:27] uh you just need to understand the
+[01:03:28] meaning of this matrix is and then even
+[01:03:31] you can explain them mathematically. Got
+[01:03:34] it? Now uh I installed this empty. Let
+[01:03:36] me give you the walk through of the
+[01:03:38] code. So here I created one function. It
+[01:03:40] will take a model name whichever module
+[01:03:42] I want to be evaluate. Then I it will
+[01:03:44] take best size means in one shot that
+[01:03:47] model how many sentence can encode.
+[01:03:49] Okay. Uh you will have to mention that.
+[01:03:52] Then normalize embedding. uh embedding
+[01:03:54] actually it is a back vector. So we can
+[01:03:56] normalize that vector. Okay,
+[01:03:58] normalization means what? So
+[01:04:00] normalization means uh the magnitude of
+[01:04:02] the vector would be the one. Okay, if we
+[01:04:04] are going to be normalized that and we
+[01:04:07] use the co uh in SDS benchmark we use
+[01:04:10] the cosine similarity in most of the
+[01:04:12] places for the similarity search. So for
+[01:04:14] the cosine similarity if the vector is a
+[01:04:17] normalized one then it performs well.
+[01:04:19] Okay. So uh normalize embedding I kept
+[01:04:22] it true. Then language in which language
+[01:04:25] uh what is the language of your
+[01:04:26] embedding model in which language it is
+[01:04:29] performing a encoding sorry whatever
+[01:04:31] what kind of data you are giving to a
+[01:04:33] model which in which language actually
+[01:04:35] you are giving a data to a model and
+[01:04:37] then it is generating a embedding. So
+[01:04:38] yeah that also we can mention. Now here
+[01:04:42] if the language is none we'll keep it
+[01:04:44] English only. Here we are going to be
+[01:04:46] load a model from the MTEB. Then uh we
+[01:04:49] are going to be uh like uh get a task.
+[01:04:52] The task is STS benchmark. I already
+[01:04:55] told you the task uh full form is
+[01:04:57] semantics textual similarity benchmark.
+[01:05:00] Okay. On top of this task only we are
+[01:05:02] going to be evaluate our model. Now
+[01:05:04] we'll run the evaluation. We'll uh call
+[01:05:06] this evaluate model method. We'll pass
+[01:05:09] the model. We'll pass the task. will
+[01:05:11] pass the encode kwgs like best size and
+[01:05:14] the normaliz thing. Now whatever result
+[01:05:17] we'll be getting so we are going to be
+[01:05:18] iterate on top of that particular result
+[01:05:20] and from there we are going to be get
+[01:05:23] all this thing model name model division
+[01:05:25] main squareman score Pearson Pearson
+[01:05:29] score cosine spearman cosine pearson
+[01:05:31] equilman man language hf subset and the
+[01:05:34] raw okay and then I will print over here
+[01:05:37] so this is the complete method guys you
+[01:05:39] can read it out by your end now here I
+[01:05:40] have written the meaning of this E5 that
+[01:05:42] is embedding for everything and every
+[01:05:44] everything to Everything this is
+[01:05:46] developed by the Microsoft okay and it
+[01:05:48] is very popular like it is the popular
+[01:05:49] model is inflat e5 base v2 bge means bi
+[01:05:54] journal embedding so it is from the
+[01:05:56] bijing academy of the artificial
+[01:05:58] intelligence and again uh their model
+[01:06:00] their embedding model is also quite
+[01:06:01] famous right uh now what I'm doing guys
+[01:06:03] so I'm running it on different uh models
+[01:06:07] so one is all all mini then second is a
+[01:06:10] bge base then another one is a e5 base
+[01:06:13] once I'll run it guys so Here I can
+[01:06:15] check the score of each and everyone. So
+[01:06:18] here uh it will take some time. See it
+[01:06:21] is running. Let it run because it is
+[01:06:24] loading a model and all. So it takes
+[01:06:25] time.
+[01:06:28] So guys my model is executed. Uh it is
+[01:06:31] it has evaluated a model over this STS
+[01:06:34] benchmark and then see the result. So
+[01:06:37] BGE base E1 it is having a highest
+[01:06:40] score. then E5 then here you can see the
+[01:06:43] all mini LM so likewise you can evaluate
+[01:06:47] your models and you can check out the
+[01:06:50] best possible embedding model now just
+[01:06:52] uh do some self study of this benchmark
+[01:06:55] guys I will sorry of this matrixes okay
+[01:06:58] so I given the typical range you can
+[01:07:00] check out your range okay in which range
+[01:07:02] it is falling these matrices are falling
+[01:07:05] based on that you can uh based on that
+[01:07:08] basically you can check whether whether
+[01:07:10] the model is good or not. Right? Now
+[01:07:12] let's uh see uh basically how we can
+[01:07:15] select a best possible uh model. Okay,
+[01:07:18] on which basis actually we have to get a
+[01:07:20] we have to select a best embedding
+[01:07:22] model. So I kept one point uh let me
+[01:07:25] highlight those points first of all just
+[01:07:27] a second where it is see how to select a
+[01:07:29] best embedding model. So the first is
+[01:07:32] embedding quality. So check the
+[01:07:34] benchmark performance the MTB
+[01:07:36] leaderboard and the BI benchmark. So I
+[01:07:39] will discuss this BI benchmark in my
+[01:07:42] next video. Okay, I'll discuss what it
+[01:07:44] is once I'll come to the uh different
+[01:07:47] architecture of the embedding that the
+[01:07:49] dimensionality guys. So we have several
+[01:07:52] dimensionality lightweighted to the high
+[01:07:54] quality dimension. So higher dimension
+[01:07:56] will give you the better representation
+[01:07:58] of the data but it is having a more
+[01:07:59] storage cost, memory uses and the speed
+[01:08:02] impact. So if you're going to be choose
+[01:08:04] a higher dimension, no doubt it will
+[01:08:06] give you the good quality. Okay, it will
+[01:08:08] give you the good result actually good
+[01:08:11] result rather this lightweight. So if
+[01:08:15] you don't have a constraint of the
+[01:08:17] storage memory right if you have a good
+[01:08:19] server good system
+[01:08:22] then use the high dimension embedding
+[01:08:25] then guys uh we have the cost again so
+[01:08:28] close source it give you the more cost
+[01:08:30] rather this open cost open source so
+[01:08:32] close source basically it is easy to
+[01:08:34] maintain high quality embeddings you
+[01:08:36] will get but the API cost would be there
+[01:08:38] open source wise you will have to host
+[01:08:40] the model somewhere uh you will have to
+[01:08:42] keep it on your own infrastructure
+[01:08:44] If the stealing would be there then a
+[01:08:46] scaling cost would be required but again
+[01:08:48] on a small scale right on a smaller
+[01:08:51] application it won't give it won't give
+[01:08:53] you that much of cost. So yeah open
+[01:08:54] source is a better choice for learning
+[01:08:57] always opensource the domain suitability
+[01:08:59] right so these are some general model
+[01:09:02] you can utilize it so it will fit in
+[01:09:04] every domains but if you want some
+[01:09:06] specific model tune model then you will
+[01:09:08] have to take one more step ahead and you
+[01:09:10] will have to finetune your own model. So
+[01:09:12] these are some simplest step based on
+[01:09:14] that you can select how to guess the
+[01:09:15] best emitting model. I would say this
+[01:09:17] benchmarking is the best one. First you
+[01:09:19] need to check that then you need to come
+[01:09:21] to the dimensionality and then for which
+[01:09:24] language and for which domain you are
+[01:09:25] going to perform the embedding. If like
+[01:09:28] uh if you are able to work with the
+[01:09:30] general model that is well and good but
+[01:09:31] if you are not then fine-tune your model
+[01:09:33] on a specific data that we are going to
+[01:09:36] learn in the next video. So yes guys I
+[01:09:38] will continue this part in next video.
+[01:09:40] Until thank you. Bye. Take care. I hope
+[01:09:42] you have learned so many thing over
+[01:09:43] here. I will see you in the next video.

@@ -1,0 +1,1629 @@
+Title: LLM Fine-Tuning 17: Fine-Tune ANY LLM with LLaMA Factory | Full Guide (WebUI + CLI | LoRA + QLoRA)
+Video URL: https://www.youtube.com/watch?v=RL38OsL5ycY
+Video ID: RL38OsL5ycY
+======================================================================
+
+[00:01] Hello everyone, welcome back to my
+[00:03] YouTube channel. My name is Sunny and
+[00:05] I'm back with another exciting and
+[00:08] important video. So guys, uh in this
+[00:10] particular video we're going to discuss
+[00:12] about the llama factory. Llama factory
+[00:15] is one of the open-source project which
+[00:17] is specifically developed for
+[00:19] fine-tuning the LM model. So in this
+[00:21] video I will show you how you can use
+[00:24] this llama factory for fine-tune any LLM
+[00:26] model. I will show you via web UI as
+[00:30] well as from the CLI. Okay. Uh so uh if
+[00:33] you haven't checked with my YouTube
+[00:35] channel guys, please go and check. I
+[00:37] have uploaded uh content uh regarding
+[00:40] the different different concept of the
+[00:41] genative AI like uh rag advanced rag
+[00:45] multimodel rag lang graph uh agentic AI
+[00:48] with lang graph then lang chain and
+[00:51] toend fine-tuning playlist lm ops right
+[00:54] uh different different like concept
+[00:56] useful concept actually you will get it
+[00:58] over here uh so guys uh if you haven't
+[01:01] seen uh and if you haven't gone through
+[01:03] with the content please go and check if
+[01:05] you like it then Please uh subscribe the
+[01:07] channel. It is very important for me. Uh
+[01:11] now guys uh let me show you this
+[01:13] finetuning playlist where I have
+[01:15] uploaded 17th video so far in the last
+[01:18] video. So the last video was the crash
+[01:20] course on top of this finetuning uh
+[01:22] because I was getting so many queries
+[01:24] sir uh you have given us 70 to 18 video
+[01:27] related to the finetuning that is fine
+[01:29] okay we can learn the end to end
+[01:31] finetuning but if we want to cover it up
+[01:34] for like for the interview perspective
+[01:37] right or within a day I want to prepare
+[01:39] the finetuning then how I can do it so
+[01:43] for uh those folks I have uploaded this
+[01:45] crash course you can go through with
+[01:47] this crash crash course and you can
+[01:50] prepare for the interview and even after
+[01:52] watching this crash course you can
+[01:54] fine-tune any model guys uh fine-tune
+[01:57] any model with any sort of a technique
+[01:59] whether it's a supervised fine-tuning or
+[02:02] supervised fine tuning with a
+[02:03] non-instruction data or RLHF or or DPO
+[02:07] basically right and uh yes I will record
+[02:10] 10 to 12 more video inside this playlist
+[02:13] I will give you the idea regarding each
+[02:14] and every framework uh like I am
+[02:17] discussing Llama factory you will get
+[02:19] regarding the unsloth regarding the
+[02:21] axelottal okay VLM and I'm going to be
+[02:26] record the different different other
+[02:27] concept of the finetuning like lora kora
+[02:30] okay means I will show you the
+[02:32] mathematical basically formulas and all
+[02:34] everything mathematical derivation
+[02:36] everything okay in my upcoming video so
+[02:38] yeah stay tuned with me uh I will be
+[02:42] coming up with lots many content in the
+[02:44] near future uh now guys uh what all
+[02:46] point the specific point I'm going to
+[02:49] discuss in this video. Now let's uh talk
+[02:51] about uh those point. So here I have
+[02:53] mentioned uh what you will learn. So the
+[02:56] first thing what is a llama factory
+[02:58] right? You will get the complete
+[02:59] introduction about that. Then what type
+[03:01] of training does llama factory support
+[03:03] right? So what kind of training you can
+[03:05] do means uh like supervised finetuning
+[03:07] RLHF DPO right. So we'll take a overview
+[03:11] of it and then we'll perform the
+[03:13] supervised fine tuning. uh then uh which
+[03:15] model are supported by the llama
+[03:17] factory. So we'll see all the model
+[03:18] families which is which all supported by
+[03:21] the llama factory right uh then which
+[03:24] data set format are compatible with the
+[03:25] llama factory. So if you want to
+[03:27] fine-tune any model so for fine-tuning
+[03:30] uh for fine-tuning in which format you
+[03:32] have to keep the data you have to
+[03:33] prepare the data so definitely we'll try
+[03:35] to discuss uh that also uh then
+[03:37] step-by-step guide for the finetuning
+[03:39] using the web UI. Okay. So, llama
+[03:42] factory is a project. So, the llama
+[03:44] factory actually it is giving the web UI
+[03:46] as well as you can run it from the CLI.
+[03:48] So, we'll see both thing. We'll see
+[03:51] step-by-step guide like for the
+[03:53] finetuning using the webbi web UI uh as
+[03:56] well as I will show you the uh as well
+[03:58] as I will show you the training via CLI.
+[04:01] Okay. So, these many points uh I will be
+[04:04] discussing throughout this video guys.
+[04:05] So, stay tuned with me till end. Uh you
+[04:09] will get to know everything. uh about
+[04:11] this llama factory.
+[04:14] So guys uh now let's understand about
+[04:16] the llama factory uh then only we'll
+[04:20] start with the practical. So uh llama
+[04:22] factory is an all-in-one open-source
+[04:26] fine-tuning project uh that makes LLM
+[04:29] training and inferencing very simple and
+[04:32] it works with hundreds of model and the
+[04:35] data set. So what is a llama factory
+[04:37] guys? So llama factory is nothing. It is
+[04:39] just a project which is coded by someone
+[04:42] else. So let's uh look into the source
+[04:45] code of the llama factory. So uh here
+[04:49] guys uh this is a source code of the
+[04:51] llama factory. This is the repository
+[04:54] name. Uh the name is Hi yoga. And uh
+[04:58] this uh repository is written by this
+[05:00] code is written by one Chinese guy. The
+[05:02] name is Yaoi Jinang. Uh here you can see
+[05:05] the location right. So uh this
+[05:07] repositories are quite famous and here
+[05:10] you can see the number of folks it is
+[05:12] around 7.7K
+[05:14] right and the star is around 63k okay so
+[05:19] uh now guys uh see this is the entire
+[05:20] code uh the complete source code uh you
+[05:23] can uh check over here you can just
+[05:25] click on this src and you can go through
+[05:28] with the different different folder you
+[05:29] can download this code inside your local
+[05:32] and you can run it and you can finetune
+[05:36] your model. So guys uh this llama
+[05:39] factory actually uh this llama factory
+[05:41] is a UI and CLI based framework right
+[05:45] means uh it is providing the CLI oh
+[05:47] sorry it is providing the UI uh it is
+[05:49] providing the CLI based execution both
+[05:53] thing it is being provided by the llama
+[05:56] factory. So [snorts] a UI it is also
+[05:58] called the llama board right. So it is a
+[06:00] beginnerfriendly web interface where you
+[06:02] can directly select the model, you can
+[06:04] upload the data set, you can set the uh
+[06:07] certain configuration related to the
+[06:09] finetuning, okay, you you can run the
+[06:11] training, you can export the model or
+[06:14] even after the training you can do the
+[06:15] chatting, right? So this each and
+[06:17] everything I will show you inside this
+[06:19] video itself. I'll give you the complete
+[06:21] walk through of the llama factory UI and
+[06:24] uh how to basically select the model,
+[06:26] how to train the model, how to uh do the
+[06:28] chatting and all everything I will show
+[06:30] you. Then the second way is a CLI. Okay.
+[06:33] So if you prefer scripting, automation
+[06:35] or advanced control then through the
+[06:37] command line interface also you can do
+[06:39] the training, you can export the model,
+[06:41] you can like start chatting, right?
+[06:44] Everything you can do by CLI also. So
+[06:46] just think in such a way uh I have
+[06:48] developed one project now that project
+[06:51] you can uh use you you can run via UI as
+[06:55] well as from the CLA that's it okay so
+[06:57] it is just a simple project nothing else
+[07:00] uh now guys uh one very important thing
+[07:02] regarding this llama factory just read
+[07:04] out this line so llama factory is a
+[07:06] build on top of the hugging face
+[07:08] libraries okay it internally wrap up
+[07:11] transformer paft bits and byes trl okay
+[07:15] So which provide one-click fine-tuning
+[07:18] workflow means guys the meaning is uh it
+[07:21] contains means llama factory basically
+[07:25] they haven't written the complete code
+[07:28] from scratch no they are using the
+[07:30] hugging phase libraries only okay but on
+[07:34] top of that they have written like
+[07:36] certain custom code for developing the
+[07:39] training pipeline okay for the UI for
+[07:42] the templates for the data set handling
+[07:45] Okay for uh some quantization and all as
+[07:48] far as I investigated their repository.
+[07:51] So there I haven't get any custom code
+[07:55] regarding the model. Okay. Uh like see
+[07:59] if we are going to be code any model any
+[08:00] transformer based model. So I will write
+[08:03] a code from scratch using the tensorflow
+[08:05] using the pytor and all right. So what I
+[08:09] figure out and whatever I search right.
+[08:11] So uh they have used the transformer
+[08:14] pafted bits and byes means they have
+[08:15] used the hugging face-based library only
+[08:18] and on top of that they have done the
+[08:21] certain customization means uh uh like
+[08:24] regarding the training loop regarding
+[08:26] the they have added the UI over there
+[08:28] they have like added like the data set
+[08:31] templates and all right to uh to like
+[08:35] use the data set in a efficient way
+[08:37] right so those thing they have done they
+[08:39] haven't written a like code regarding
+[08:42] any model from scratch. Even I can show
+[08:44] you inside the uh repository itself. So
+[08:46] if you will go and check with the
+[08:47] repository now here just uh open the
+[08:49] model. Okay. Now over here uh let's
+[08:52] click on this adapter. Now inside the
+[08:53] adapter just check see the import
+[08:55] statement. So they are using preft from
+[08:58] the hugging face. They are using the
+[08:59] transformer from the hugging face. Okay.
+[09:02] Now you can check uh let's suppose the
+[09:04] chat right. So in the inside the chat
+[09:05] also see they have created this hugging
+[09:07] face engine. So uh see uh they're using
+[09:10] the transformer right now you can check
+[09:12] out with the different different other
+[09:14] folder the different different other
+[09:15] code and all everywhere everywhere you
+[09:17] will you everywhere basically you will
+[09:19] get a use of the hugging face module
+[09:22] right and on top of it certain
+[09:23] customization certain logic and all for
+[09:25] the training and for the data set
+[09:27] handling and all they have done so I
+[09:29] hope you got the clearcut introduction
+[09:31] and the meaning of the llama factory now
+[09:34] let's see what all model is being
+[09:35] supported by the llama factory and uh
+[09:38] the data set format also.
+[09:43] Uh so guys uh different different
+[09:45] training type is being supported by the
+[09:47] llama factory. Uh so I written couple of
+[09:49] uh names over here like SFT uh DPO, RLHF
+[09:54] uh then RLif and even a full fine
+[09:57] tuning. uh so this all method uh is
+[10:00] being supported by the llama factory and
+[10:02] easily you can navigate to this method
+[10:05] from the web UI itself and definitely I
+[10:08] will give you the quick walk through of
+[10:10] it so sft sft is called the uh
+[10:13] supervised finetuning so like it is also
+[10:16] called the instruction finetuning and we
+[10:19] can perform this supervised finetuning
+[10:21] using the lora as well as with the Qura
+[10:24] okay then dpo dpo is called the direct
+[10:27] preference optimizer ization. It is a
+[10:29] method to perform the preferencebased
+[10:31] learning. I have shown this thing in my
+[10:33] previous video. You can check out over
+[10:34] there. Then RLHF is a reinforcement
+[10:37] based method for again for the
+[10:39] preference alignment and uh it is also
+[10:42] called the reward modeling. Okay. And
+[10:44] for the optimization we are using this
+[10:46] PO method. Right? So RLHF with reward
+[10:50] modeling and PO it is also very famous
+[10:52] method which is uh which which was used
+[10:54] by the open AI itself to uh to perform
+[10:57] the preference training. Then RLif it is
+[11:01] a like method. All right. So instead of
+[11:04] the human feedback we are training our
+[11:06] model on top of the AI feedback. Okay.
+[11:08] So this uh particular technique also I
+[11:10] discussed in my previous video you can
+[11:11] check out over there. I discussed the
+[11:13] research paper and all everything. Then
+[11:15] full fine-tuning means so we can train
+[11:17] all the weights of the model. Then yeah
+[11:20] this particular technique uh is also
+[11:22] available uh uh in the llama factory
+[11:25] right uh in the llama fac using the
+[11:27] llama factory basically we can retrain
+[11:29] the entire model we can train all the
+[11:31] weights of the model. So yeah these are
+[11:33] the couple of technique which is
+[11:35] supported by the llama factory. Now let
+[11:36] me show you the model as well. So uh the
+[11:39] model family supported by the llama
+[11:40] factory. So llama is being supported
+[11:43] that's fine. I think the name and the
+[11:45] llama right these both are matching. So
+[11:48] it's a pretty obvious thing that
+[11:50] definitely this llama model will be
+[11:51] available in the llama factory. Uh then
+[11:53] mist family uh then coin coin one coin 2
+[11:56] even the vision based model is also
+[11:58] available. GMA model from the Google
+[12:01] this is also available. Uh and five
+[12:03] model from the Microsoft it is also
+[12:05] available. Then couple of other modu
+[12:07] other model uh like yi okay it is also
+[12:11] very famous uh opensource model from
+[12:13] this uh 01.ai AI company belong to
+[12:15] China. Then uh by Chuan right so this is
+[12:18] also a very uh like famous repository
+[12:21] over the hugging face you can check and
+[12:23] it is from the Y chuan inc right it is
+[12:25] again from the China now other model
+[12:27] other popular like committee model right
+[12:30] uh like chat GLM from this uh Chinese
+[12:33] university okay then deepse again from
+[12:36] the China right and open buddy right uh
+[12:39] I don't know like to which like company
+[12:42] blog but yeah this is also one of the
+[12:44] famous opensource model now Guys here
+[12:46] you will see along with this meta mist
+[12:50] five okay and this dimema you will see
+[12:52] like various Chinese model because uh
+[12:55] this repository belong to one Chinese
+[12:57] guy so definitely he will give a space
+[13:00] to their like uh specific Chinese model
+[13:03] right those Chinese repositories so yeah
+[13:06] you you can basically go through with it
+[13:08] and you can check and even I will give
+[13:10] you the walk through from the web UI
+[13:11] itself and now the data set format so it
+[13:14] support uh three kind of format. So the
+[13:17] first is a alpaca format. There you can
+[13:19] put the instruction input and output
+[13:21] right and we already seen this
+[13:23] particular format right in our previous
+[13:25] uh like sessions. So uh this is called
+[13:28] the alpaka format which generally you
+[13:30] which which we generally use for the
+[13:31] instruction tuning right. So there we
+[13:33] have three columns. The first column is
+[13:35] the instruction, the second column is
+[13:36] the input and the third column is the
+[13:38] output. Right? Uh the second format is
+[13:40] called the sear GPT format. Right? So
+[13:43] this format is also being supported by
+[13:45] this llama factory. If you're keeping
+[13:47] your data in this specific format, the
+[13:49] definitely llama factory will support it
+[13:51] and you can fine-tune your model. So
+[13:53] what is this here GPD format? So inside
+[13:56] this share GPD format you will have this
+[13:58] conversation. Okay, this key and under
+[14:00] this conversation you will have this
+[14:02] from basically is representing to the
+[14:05] user and the value basically the uh the
+[14:07] specific message from the user. Now from
+[14:10] from the assistant, right? Uh so uh now
+[14:12] assistant means model what model is
+[14:14] replying then here is a value so this
+[14:16] will be the like the actual value. Okay
+[14:19] so in this particular format also you
+[14:21] can keep your data in the llama factory
+[14:23] and the third format for the DPO. So in
+[14:26] the DPO basically in the previous video
+[14:28] also I discussed this DPO format this
+[14:30] preference training preference alignment
+[14:32] format uh where we would be having three
+[14:34] column. The first would be the prompt
+[14:36] and the second will be the chosen and
+[14:38] the third will be the rejected. So this
+[14:40] format is also being supported by the
+[14:41] llama factory. So if you are keeping
+[14:43] your data in this three format the
+[14:46] definitely llama factory will support
+[14:47] and you can train your model. I hope
+[14:50] this uh data set uh like format is also
+[14:53] clear. Now coming to the couple of more
+[14:56] points. So if you want to like fine-tune
+[14:59] uh your model from the web UI right? So
+[15:01] step by step you can follow this process
+[15:03] and uh in some time I will show you
+[15:05] practical. So the first you can select
+[15:07] the model, you can load the data set,
+[15:09] you can do the certain configuration for
+[15:10] the training, you can select the GPU
+[15:13] right uh the GPU selection is also there
+[15:15] means uh it is not providing the server
+[15:18] right but the GPU configuration right
+[15:20] the certain configuration regarding the
+[15:21] GPU you will also get so that level of
+[15:24] optimization you can perform you can
+[15:26] start training you can evaluation you
+[15:27] can uh chat with your model and you can
+[15:29] export so in this uh specific uh
+[15:32] sequence you can fine-tune your model
+[15:35] from the web UI. Uh now one more thing
+[15:37] guys uh so if you are willing to uh like
+[15:42] fine-tune from the CLI so these are
+[15:44] certain command means you can write your
+[15:46] configuration inside the YAML file. So
+[15:48] see I have attached like YAML file.
+[15:51] Okay. And then what you can do you can
+[15:53] run the specific command. So if you want
+[15:55] to train you can run this command lama
+[15:57] factory CLI train. If you want to check
+[15:59] you can run this command. If you want to
+[16:00] evaluate you can run this command for
+[16:01] export this command. Okay. Uh so this
+[16:04] for the API configuration this for the
+[16:06] wave UI web chat. So for every uh sort
+[16:09] of a action one CLI command is also have
+[16:12] been given. Uh you can write your
+[16:14] configuration inside the YAML and then
+[16:15] directly you can pass in the CLI
+[16:17] command. So yeah guys uh now let's uh
+[16:20] see the practical. I will show you each
+[16:22] and everything through the practical
+[16:23] itself. Whatever we have discussed in
+[16:25] terms of theory uh and then uh we'll
+[16:28] wrap up this particular video guys.
+[16:32] So guys uh this entire practical will do
+[16:35] in the Google collab. Uh you can do in
+[16:37] your local as well if you have good
+[16:40] high-end system. I'm uh doing in the
+[16:42] Google collab because here I have a
+[16:44] support of the free GPU and over the GPU
+[16:48] the training would be little faster. Uh
+[16:52] so uh guys there is two way to setting
+[16:54] up this uh llama factory. Uh the first
+[16:56] is via GitHub. We can directly clone the
+[16:59] GitHub. Uh the second is we can
+[17:02] basically install this pi package. So
+[17:04] I'm not going with this pi package
+[17:07] because with this I was facing certain
+[17:09] issue. So directly I I'm going to be
+[17:11] clone uh this particular repository uh
+[17:14] this llama factory repository and then
+[17:17] uh use after cloning this repository
+[17:19] only I will uh show you the further
+[17:22] training. So what you have to do uh
+[17:25] first guys you have to select the
+[17:27] runtime. Okay. So just go just click on
+[17:30] this runtime and uh here see my runtime
+[17:33] is already running. Uh so what you have
+[17:35] to do guys you have to select the GPU
+[17:37] over here. If it is not selected then
+[17:38] let me check whether the GPU is selected
+[17:41] or not. So yes I have a I have access of
+[17:44] the free GPU you can purchase the Google
+[17:46] Collab Pro. If you want some high-end
+[17:48] GPU like 800 L4 right so uh you will get
+[17:52] the uh you will get the like some
+[17:54] high-end GPU with the paid version paid
+[17:56] version of the collab. Now let me save
+[17:58] it. And here see my uh server is also
+[18:01] connected. Right hand side you can see
+[18:03] this uh green tick. Now what I will do
+[18:05] guys first I will clone this repository.
+[18:08] After cloning this repository I will
+[18:09] install the requirement. TXT and then
+[18:12] only I will perform the uh further
+[18:15] training. So uh let's uh set up this
+[18:17] llama factory. Now guys see this llama
+[18:19] factory just it just a project right. uh
+[18:22] so it is not providing you any sort of a
+[18:25] platform where you can configure the GPU
+[18:28] okay uh it is not providing you any sort
+[18:30] of a GPU and all nothing so it is just a
+[18:33] simple project which you are going to
+[18:35] execute on your own server so in my case
+[18:38] means as of now right now the server is
+[18:40] a Google collab so uh here only on the
+[18:43] Google collab itself I'm going to be
+[18:45] execute this llama factory uh code right
+[18:49] I hope you got it so for cloning this
+[18:51] repository I will simply write this g
+[18:53] clone and uh then I will give the path
+[18:56] of this github. So how you can copy the
+[18:58] part of the github. So just uh open this
+[19:01] github and then click on this green
+[19:02] green icon. Now here you will get this
+[19:05] link. Okay, this https link. Just copy
+[19:08] this link and paste it over here. Okay,
+[19:10] this is a link. This is the same link.
+[19:12] Now paste it over here. That's it. Write
+[19:14] get clone and paste your link and then
+[19:16] run it. So once you will do it guys uh
+[19:18] you will be able to clone this entire
+[19:20] repository in your collab. So how we can
+[19:23] check it just click on this file icon.
+[19:25] So once you will click on this file icon
+[19:27] you will get the entire repository over
+[19:29] here. Okay. So this is the entire code.
+[19:31] Now what I will do guys I will check
+[19:33] where I am right now. So for that I can
+[19:36] simply execute this pwd command. So pw
+[19:39] pwd means what pwd means present working
+[19:42] directory. So I can check my present
+[19:44] working directory. So it is pointing to
+[19:47] the content but I want to go inside this
+[19:49] llama factory folder. So if I want to go
+[19:52] inside this llama factory folder I will
+[19:54] simply write this command cd. CD means
+[19:56] what? Change directory with this amp
+[19:58] percent. If you are doing a change if
+[20:00] you are changing the directory in the
+[20:02] collab you will be writing with this m%.
+[20:05] Okay. So amp percent cd contain and then
+[20:08] this folder llama factory. Once you will
+[20:10] run it and uh then you will check so the
+[20:12] present working directory will be
+[20:14] pointing to this llama factory. Okay,
+[20:16] this is very much important. Now what
+[20:19] you will do guys after that you will
+[20:20] check uh you will list all the
+[20:22] directory. Okay, with this ls command.
+[20:24] Now uh list ls means what? List all the
+[20:26] script. Okay, list all the files. So
+[20:29] once you will run this command you will
+[20:31] get all the directory uh sorry you will
+[20:32] get all the directory all the files
+[20:34] inside this particular folder inside
+[20:36] this llama factory folder. So here we
+[20:38] required this uh require.txt. Okay. So
+[20:41] what I will do I will install this
+[20:42] require.txt.
+[20:43] So uh here is a command for installing
+[20:45] the require.txt guys. Let me do it. So
+[20:49] uh I'm going to be install the
+[20:50] recon.txt. Now after installing the
+[20:52] requ.txt you can execute this command
+[20:54] also. So this particular package right
+[20:56] will be installed as a so this
+[20:58] particular project will be installed as
+[21:00] a package right pip install e. If you
+[21:03] know about my end to end project there
+[21:05] also I perform the same step to convert
+[21:07] my project as a local package. So here
+[21:10] also you can do the same thing. So you
+[21:12] just need to write pip install - e dot.
+[21:14] So let it complete uh let it install
+[21:17] this recan.txt. After that what I will
+[21:19] do I will execute this particular
+[21:21] command. Now a couple of more thing guys
+[21:23] what I have observed uh even though I'm
+[21:25] installing uh even though I'm installing
+[21:27] this recon.txt txt but sometime it is
+[21:29] giving me issue with the bits and bytes
+[21:31] library okay uh with this particular
+[21:34] library this specific library so what
+[21:36] I'm going to do I'm going to be install
+[21:38] this uh library as well separately maybe
+[21:41] it is not up to date inside the
+[21:42] recurrent txt so what I'm doing here I'm
+[21:45] installing this pip install bits and
+[21:47] bytes now after installing this bits and
+[21:50] bytes guys what I will do I will install
+[21:52] this pip install dot hyphen dot means
+[21:55] what it will do it will convert this
+[21:56] entire project into the package okay and
+[21:58] it will be saved in my local uh
+[22:01] environment right so I won't get any
+[22:03] package related issue something like
+[22:04] that so let it complete guys this bits
+[22:07] and byes will also take time now after
+[22:09] that couple of more step is required uh
+[22:11] so that I will let you know what all
+[22:13] other step is required for the uh setup
+[22:17] so yeah bits and byes is installed now
+[22:18] I'm running this pip install - e dot so
+[22:21] it will also take some time so let it
+[22:24] install
+[22:29] Okay. So it is saying file contain does
+[22:31] not appear to be Python project neither
+[22:33] setup. py nor pi project toml. Let me
+[22:37] check with the ls whether it is there or
+[22:39] not. Uh
+[22:42] here you can see setup. py is available.
+[22:46] Then why it is saying like this? Let me
+[22:48] again check with a pwd whether we are
+[22:50] pointing to the correct directory or
+[22:52] not. uh if it is not installing we'll
+[22:54] skip it. Okay. Yeah. So that is the
+[22:56] issue guys because I restarted the
+[22:58] runtime now because of that it is
+[23:01] pointing to the content again right so
+[23:03] if you are restarting then please check
+[23:05] where you are because once you will
+[23:07] write once you will like restart the
+[23:09] session. So again you will be pointing
+[23:11] to the home route only. Okay to the home
+[23:14] directory only. This is the home
+[23:15] directory this content. So what I will
+[23:17] do again I will run this cd content
+[23:19] llama factory. Now here see I'm into
+[23:21] this particular directory. Now I can
+[23:23] check with this pwd. So pwd means what?
+[23:25] Present working directory. And now I'm
+[23:27] into the current direc uh correct
+[23:29] directory. So what I'll do I will write
+[23:31] over here hyphen ls and hyphen ls
+[23:34] basically it will give me all the file.
+[23:36] Okay. So yes recon.txt is there and
+[23:38] inside the recon.txt itself the hyphen e
+[23:41] means
+[23:43] basically this is not required recon.txt
+[23:45] for installing this project as a
+[23:47] package. I can simply write this pip
+[23:48] install e dot. Okay. But yeah the like
+[23:52] the thing is we should be okay we should
+[23:55] be inside this specific directory uh
+[23:57] inside this llama factory otherwise it
+[23:59] will give you the error. See here I'm
+[24:00] getting this error because it is
+[24:02] pointing to the setup py file. Just look
+[24:04] in uh look at my uh end to end project
+[24:07] where I discuss this entire thing in a
+[24:09] very clear way. What is this setup py?
+[24:12] What is this hyphen dot everything guys?
+[24:14] Now uh let me install it. Uh let me run
+[24:16] it and I think now it will be working.
+[24:18] Yes it is. It is working. So let it uh
+[24:22] complete and we have to launch the UI so
+[24:25] that we can do the further uh we can
+[24:27] like uh do the training from the UI.
+[24:29] Okay. And after that I will show you
+[24:31] from the CLI as well. So everything I
+[24:33] kept don't worry everything I will show
+[24:36] you. So yeah guys I think this is done.
+[24:39] Now what I can do I can check with this
+[24:41] src folder. So inside this src folder
+[24:44] you will get this API llama llama
+[24:46] factory info. See this info file is
+[24:49] there. Okay. So now I can use this
+[24:51] package sorry this project as a package.
+[24:54] Uh train py is there. Web UI is there.
+[24:57] Okay. That is fine. Now what I have to
+[24:59] do guys see this UI will be launched
+[25:01] with the help of gradio. Okay it's a
+[25:02] gradio UI. We have streamllet UI. We
+[25:05] have a grad UI. So using this streaml
+[25:07] gradio we can uh like quickly create a
+[25:09] UI. So this UI basically which is
+[25:11] integrated over here. It's a gradual UI.
+[25:13] So how to get that UI? Let me show you.
+[25:16] So first you have to set this
+[25:17] environment variable gradio share. Okay
+[25:20] with that actually you will be able to
+[25:21] run this gradu UI over the public URL.
+[25:24] Now what you will do guys you will log
+[25:26] into the hugging face. So this is
+[25:28] required this step is required. Now why
+[25:30] this step is required because whatever
+[25:32] model and all being loaded right so it
+[25:34] will directly load it from the hugging
+[25:36] face itself. So uh for that this
+[25:38] particular step is required. If you're
+[25:40] not following it uh maybe you will get a
+[25:42] error that okay model is not getting
+[25:44] loaded or tokenizer is not getting
+[25:46] loaded something like that. Okay you
+[25:47] might get those specific error. Now just
+[25:50] put your token right and then uh select
+[25:52] no. Uh so here you can login. If you
+[25:55] don't know about the hugging phase how
+[25:57] to login how to get the token. So what
+[25:59] you can do inside this playlist itself I
+[26:01] have uploaded one crash course related
+[26:03] to the hugging phase that I have shown
+[26:05] all the method of the login. Okay. How
+[26:07] you can loging to the hugging phase. How
+[26:09] you can generate a token. What is the
+[26:11] different different type of token is
+[26:12] there like uh we have read token write
+[26:16] token fine grain token different
+[26:18] different kind of token. Okay. And
+[26:19] different different way of logging to
+[26:20] the hugging face. So what you have to do
+[26:23] guys you just need to write this hugging
+[26:24] face cla login. Just put the token over
+[26:26] here. This will be the read token. I
+[26:29] already created a token and I kept
+[26:31] inside my keys over here. So I just
+[26:33] copied from here. Okay, this particular
+[26:35] token and then I passed it over here.
+[26:38] That's it guys. And if it will ask you
+[26:40] to get credential. So this is not
+[26:41] required as of now. You can simply say
+[26:43] no and hit enter. That's it guys.
+[26:46] Nothing nothing else. Now uh I think we
+[26:49] are good to go. So what we can do? We
+[26:51] can launch the UI. So for launching the
+[26:55] UI guys this is the command web uh
+[26:57] inside this src folder we have a file
+[26:59] web ui. py even I can show you this
+[27:03] particular file. So once you will go and
+[27:05] check with this src folder. Under this
+[27:07] src folder you will get this web ui. py
+[27:11] file. You can open this file and you can
+[27:13] check the entire code. See this is the
+[27:15] entire code and this is running the
+[27:17] gradio server. So that you will get a
+[27:19] UI. So uh here what I'm doing guys I'm
+[27:22] going to be executed. So once I will
+[27:24] execute this particular file uh it is
+[27:26] going to be like uh it is it is going to
+[27:29] be up the uh like public server okay for
+[27:32] the web u for the uh gradio UI will get
+[27:35] a URL after clicking on that URL I will
+[27:38] be directly redirecting to the gradio UI
+[27:40] okay uh now guys see you have to follow
+[27:43] all the step in the same way which I am
+[27:45] doing if you are missing any sort of a
+[27:47] step guys you will not be able to
+[27:48] fine-tune the model using this llama
+[27:50] factory project okay so please do the
+[27:53] set up in the same way like I'm doing.
+[27:55] Now we have other way also. If you don't
+[27:57] want to be launch the UI with this
+[27:58] particular command, what you can do? You
+[28:00] can do it like this. You can import this
+[28:02] uh create UI from this web UI then you
+[28:05] can create a object of it and then you
+[28:07] can call this method launch. If you will
+[28:09] do like this in that case also you can
+[28:12] launch the UI. We have both way. Now
+[28:14] over here guys see it is running the
+[28:16] gradio UI. Okay. And over here I will
+[28:19] get my UI on this particular uh URL. So
+[28:21] we have this local URL also. This local
+[28:24] URL will not work because we are onto
+[28:26] the Google Collab server. So we required
+[28:28] the public URL. So yes, we are getting
+[28:30] the public URL. So just click on this
+[28:32] running on public URL. Local URL will
+[28:34] not work. Again I'm saying this local
+[28:36] URL will work if you are running it
+[28:38] inside your local okay inside your
+[28:40] system. So just click on this public
+[28:42] URL. Once you will do it guys, so here
+[28:45] uh once you will click on the public URL
+[28:47] guys.
+[28:49] So you will get your gradio UI. So this
+[28:52] is a UI which I was talking about and
+[28:55] this is a UI of the llama factory. With
+[28:57] this particular UI I think within a
+[29:00] minute or within 2 minute itself you can
+[29:02] fine-tune your model. You just need to
+[29:04] fill out the details. That's it. Okay.
+[29:07] So here you have to pass the model name
+[29:09] guys. See this is the model different
+[29:10] different model basically and as I was
+[29:13] telling you it is supporting to so many
+[29:15] Chinese model because this particular
+[29:17] code is being written by the Chinese
+[29:19] guy. Okay. Uh then model path
+[29:22] automatically the model path will be
+[29:24] coming where the model is available
+[29:25] inside your directory. Then from which
+[29:28] hugging from which basically
+[29:31] platform you are reading the model. So
+[29:32] model scope hugging phase open mind. So
+[29:34] as of now we are reading from the
+[29:36] hugging phase. Then finetune method. So
+[29:39] full freeze lora of fft. So see all the
+[29:42] different different method are there.
+[29:44] Now the checkpoint checkpoint path will
+[29:46] be over here. Then quantization
+[29:48] quantization method chat template rope
+[29:50] rope scaling. Okay. Booster. So
+[29:53] different different like parameter you
+[29:55] will get like okay so and here you can
+[29:58] see right after filling this entire
+[30:00] detail what you can do you can preview
+[30:02] the command you can save the argument
+[30:04] you can load the argument. You can start
+[30:05] the training. You can abort the
+[30:07] training. Now after that guys see here
+[30:09] you will get the output directory
+[30:10] wherever your model is going to be
+[30:11] saved. Here you will get the config path
+[30:14] right. So uh if you have any
+[30:16] configuration and all you can put over
+[30:17] there. Then device count okay how on how
+[30:20] many devices on how many server you are
+[30:21] running the training. Then uh here you
+[30:23] can see the deep speed stage. Right. So
+[30:26] so many configuration so many different
+[30:28] different configuration have been given
+[30:29] to you. Now just by seeing this
+[30:31] configuration just by seeing this UI you
+[30:34] can learn so many concept of the
+[30:35] finetuning which one which parameter you
+[30:38] need to be used you need to be choose
+[30:40] okay and how basically you can uh
+[30:43] basically how you can like do the best
+[30:48] to best fine-tuning right the how you
+[30:50] can get the optimized finetune model so
+[30:52] just by uh reading this UI okay you will
+[30:55] get so many knowledge regarding that
+[30:57] that's why it is important and that's
+[30:59] why we should go through with opensource
+[31:00] project. Okay. Now guys, uh what is the
+[31:03] next move? So I will explain you each
+[31:05] and every parameter from this UI. I
+[31:07] created one PD PDF. So let me open that
+[31:09] PDF. Okay. I will attach inside the
+[31:11] description. You can go through with
+[31:12] that PDF. You can understand each and
+[31:14] every parameter from here. And then uh
+[31:16] right after that we'll start with the
+[31:18] training guys. Okay. With our custom
+[31:20] data and I will show you how you have to
+[31:22] do the data entry inside this particular
+[31:24] project. Okay.
+[31:27] So guys uh I kept the complete detailed
+[31:30] guide of all the parameter inside uh
+[31:33] this PDF. So whatever parameter have
+[31:36] been highlighted over the UI right. So
+[31:39] you get you will see the description of
+[31:42] each and every parameter inside this PDF
+[31:45] and I will attach this PDF uh in the
+[31:48] description and I will keep in the same
+[31:50] repository. Okay. Uh so guys uh hub name
+[31:54] right. So we have seen this particular
+[31:56] option. So we were having the different
+[31:57] different option like hugging face,
+[31:59] model scope, open mine. You can select
+[32:02] anything. So generally we'll go with the
+[32:04] hugging face, right? Model scope
+[32:07] actually it's a Chinese based model hub.
+[32:10] So yeah, China is also developing like
+[32:13] model hub for the LLM models. That's
+[32:15] like very great thing. Then openminded.
+[32:18] Open-minded means if you want to be load
+[32:20] the model from any custom storage you
+[32:22] can select this one then uh related to
+[32:24] the finetuning which technique you want
+[32:26] to be used whether it's a lora full
+[32:29] freeze right or oft means orthogonal
+[32:33] finetuning it is a alternative of the
+[32:35] lora itself uh you can explore more
+[32:37] about this particular parameter and you
+[32:40] can select best and pos best possible
+[32:43] parameter okay while you are training uh
+[32:47] while you fine-tuning actually. So uh
+[32:49] quantisation width so 8 bit quantization
+[32:52] 4bit quantization then quantization
+[32:54] method bits and bytes HQ high quality
+[32:57] quantization or ETQQ experimental fast
+[33:01] quantization. Okay. Uh then rope scaling
+[33:05] means context window upgrade method
+[33:07] whether you want to be select linear
+[33:08] dynamic yan or llama 3based method.
+[33:12] Okay. Now guys uh here uh if you will go
+[33:15] and check with the UI right so you will
+[33:17] get like each and every option over here
+[33:20] I'm not writing by myself. So uh here
+[33:23] there I written all only those like
+[33:25] description which is available over this
+[33:27] UI. So I can show you uh if you will see
+[33:30] with this quantization bit. So see 8 and
+[33:32] 4 bit just now I shown you quantization
+[33:35] method. So BNB, HQ, EETQ right? So just
+[33:38] now I shown you this thing check
+[33:40] template. So whatever model you are
+[33:42] going to select. So according to that
+[33:43] you can select the chat template. Okay.
+[33:46] R O scaling right. So context window
+[33:49] upgrade method just now I shown you this
+[33:51] thing. So here also you can see linear
+[33:53] dynamic yan llama 3 these particular
+[33:55] options. Okay. In the booster see flash
+[33:58] onslaught lier kernel. So all this
+[34:00] description okay all this parameter
+[34:02] basically I kept over here. So just just
+[34:04] go through with it just read about it
+[34:06] and then select best and possible values
+[34:09] over there over the UI just do more
+[34:12] research from your side. Okay. Uh then
+[34:14] guys uh stages stages means what kind of
+[34:17] training actually are going to be
+[34:18] performed. So whether it's a supervise,
+[34:20] whether it's a RLHF, right? Reward and
+[34:22] PO, whether it's a DPO, right? Whether
+[34:24] it's a KTO pre-training. So you can uh
+[34:27] select these option also. Right? Apart
+[34:30] from this you can uh give the data
+[34:32] directory you can provide any custom
+[34:34] data set you can select the learning
+[34:35] rate epox right you can basically select
+[34:38] the maximum gradient norm again this is
+[34:41] uh related to the optimizer. So for that
+[34:43] uh you will have to take a deep
+[34:45] understanding of the of the optimizer.
+[34:49] Okay how the optimizer is working inside
+[34:51] the transformer architecture then only
+[34:53] basically you can have a better
+[34:55] understanding of this particular
+[34:56] parameter. What should be the exact
+[34:58] value of it? Okay. what value should I
+[35:00] keep over here. Okay, you can understand
+[35:02] in a better way if you have a
+[35:03] mathematical understanding of the
+[35:05] transformer model or LM model. uh then
+[35:08] max sample right how many max data we
+[35:10] have to provide then compute type
+[35:13] whether it's FP16 FP32 then cut off
+[35:16] length how many uh token we want to be
+[35:18] generate from the model right size
+[35:21] gradient accumulation validation size
+[35:24] learning rate setular okay then there is
+[35:26] some extra configuration logging step
+[35:28] save step and the other configuration
+[35:30] okay uh then uh guys you can see the
+[35:33] lower related configuration also have
+[35:35] been given there right uh RLHF related
+[35:38] configuration also is there. Uh then
+[35:40] multimodel related configuration is
+[35:42] there. Okay. Then you will find out some
+[35:44] uh optimizer related configuration.
+[35:46] Okay. So just look into uh just look
+[35:49] into like those configuration. So just
+[35:52] go through with all this configuration.
+[35:53] Okay. Understand it like what is the
+[35:56] meaning of it. See again I'm saying you
+[35:58] no need to like again like I'm saying
+[36:01] you don't need to select all the
+[36:02] configuration. You don't need to do
+[36:04] entire configuration in a single go. If
+[36:06] you won't select anything, it will keep
+[36:08] the by default value over there. Okay?
+[36:11] So no need to panic regarding each and
+[36:13] every point. I just given you this like
+[36:15] I just I I will give you this PDF as a
+[36:18] reference. Uh later on peacefully you
+[36:20] can read it and you can understand each
+[36:21] and every variable from there. But as of
+[36:24] now uh no need to worry too much. You
+[36:26] just need to take a select the model.
+[36:28] You just need to select the data. Keep
+[36:31] all the parameter
+[36:33] like as a by default one and start the
+[36:35] training. That's it guys. Okay. Now
+[36:38] apart from this uh particular parameter
+[36:41] I wanted to show you uh like I wanted to
+[36:43] like discuss about the data also. So uh
+[36:46] if you will go and check uh with the
+[36:48] llama factory repository. So inside this
+[36:50] uh repository basically you will find
+[36:52] out one folder. So the folder name is
+[36:55] data. Just open this folder. Now inside
+[36:57] this particular folder you will get the
+[36:59] different different demo data uh which
+[37:02] is being provided by the developer
+[37:03] itself. Okay. And uh inside this folder
+[37:06] you will get one file. So the file name
+[37:08] is data set info. So it is containing
+[37:11] the entire metadata regarding all the
+[37:13] data. So whatever data basically
+[37:15] whatever custom data you will you wanted
+[37:18] to use. So you will keep it over here
+[37:20] inside this data directory and you will
+[37:22] do the entry inside this file. uh if you
+[37:25] are creating any custom file right so
+[37:27] you will keep it over here you will make
+[37:29] a entry inside this data uh data
+[37:31] set_info
+[37:33] even if you are going to read a data
+[37:35] from the hugging face in that case also
+[37:37] you will have to make a entry inside
+[37:39] this particular folder sorry inside this
+[37:41] particular file so let me show you both
+[37:43] the thing so what I will do uh let me
+[37:45] open my code so here is a complete code
+[37:48] guys uh which I cloned so this is the
+[37:50] complete code now what I will do I will
+[37:52] upload my custom data I already created
+[37:55] the custom data. Let me show you those
+[37:57] data and all. [snorts] So, uh guys, uh
+[38:00] the data is available here. So, uh okay,
+[38:04] let me open it.
+[38:10] Okay. So, this is the data guys. See, I
+[38:12] created my custom data. My custom data
+[38:14] 2, my custom data 3 means I created a
+[38:17] data in each and every format. So, let
+[38:19] me open this my custom data how it looks
+[38:21] like. See, here is this my custom data.
+[38:23] Okay, instruction input and output. Then
+[38:25] my custom data 2, this is in a shared
+[38:28] GPD format. Okay, and then this my
+[38:30] custom data 3 uh it is a like plain
+[38:33] text. So uh in my one of the video I've
+[38:36] shown you if you have a plain text then
+[38:39] how you will create a model compatible
+[38:41] data or hugging face compatible data.
+[38:43] Right? So if you have plain text then
+[38:46] you can create your then you can keep
+[38:48] your data in a multiple chunks. Okay.
+[38:50] and uh that then basically you can keep
+[38:53] that chunk under this particular column
+[38:55] under this text column. So this thing I
+[38:57] already shown you in my 14th number
+[38:59] video if you will go there you will get
+[39:02] it. Uh now guys uh here I shown you data
+[39:04] in each and every format right. So like
+[39:08] my custom data 1 2 3 I will give you all
+[39:10] this data. So if you are going to be
+[39:11] create your own data your own custom
+[39:13] data you can create in a same format.
+[39:15] Okay. So let me keep at least one data
+[39:19] over the uh inside this data folder.
+[39:21] Okay, let me show you how to basically
+[39:23] mention inside the data set_.info.
+[39:26] So I'm uploading one data over here on
+[39:28] custom data. Okay, so see inside your
+[39:32] case maybe there would be like so many
+[39:34] rows so many like there would be like so
+[39:36] many rows right inside the data set. So
+[39:38] yeah, I think you know right how to
+[39:40] convert into the JSON. If you don't know
+[39:42] you can watch my previous video. I
+[39:43] already shown you over there. If you
+[39:45] have any type of data then how you can
+[39:47] convert into the JSON. Okay. So after
+[39:49] converting into the JSON uh you will
+[39:51] upload this file. Okay. You will keep
+[39:53] this file inside this data folder. So
+[39:56] let me keep it. Uh I think the data
+[39:58] file. Okay. So yeah my file is uploaded.
+[40:01] Now what I will do? I will just drag and
+[40:02] drop from here to this data. So let me
+[40:05] keep it and yes the file is okay. File
+[40:09] move fill. Why? Let me do it again. So
+[40:12] this is my file. I'll keep it over here
+[40:17] data.
+[40:18] Uh whether it is coming or not, let me
+[40:21] check. Yeah, my custom uh data JSON is
+[40:25] there guys. So, this is the file my
+[40:26] custom data JSON. So, uh here guys, see
+[40:29] you will have to keep the file inside
+[40:32] this particular folder my uh inside this
+[40:35] data folder right my custom data.json
+[40:39] then you will have to make a entry
+[40:40] inside this info file. So let me open
+[40:43] the info file data set_.info.
+[40:46] So inside this particular file I will
+[40:48] make a entry. Okay. So uh see what you
+[40:51] will have to see already you will find
+[40:52] out so many entries over here. It is
+[40:54] regarding this particular data. Whatever
+[40:56] data they have kept over here the demo
+[40:58] data. Okay. Uh now what I will do I will
+[41:02] uh see anywhere you can make you can
+[41:04] make in between you can make at the
+[41:06] first place you can make at the end
+[41:07] anywhere you can make. Okay. So I'm just
+[41:09] making it at the first place. So here I
+[41:11] will write a key first. So the key name
+[41:13] would be the my custom data. You can
+[41:15] write any sort of a name. I like there
+[41:17] is no issue with that. Uh then what you
+[41:19] will do guys you will write a format.
+[41:21] Okay format of the data. Now after
+[41:24] writing a format guys what you will do
+[41:26] you will give the path. So let let me
+[41:27] give you the complete uh detail. So what
+[41:30] all thing you need to keep over here. So
+[41:32] uh here guys you can see uh what we are
+[41:35] going to keep. So just a second. Yeah
+[41:38] now I think it is perfect. So guys uh
+[41:41] here we are going to keep the uh key
+[41:43] right my custom data under that we have
+[41:46] a format okay so the data format is
+[41:48] alpaca where we have a instruction input
+[41:50] and output then uh the path of the data
+[41:53] so it is available inside this data
+[41:55] directory and this is the like file name
+[41:57] then column so we have this prompt okay
+[42:00] that is instruction query that is input
+[42:02] okay and the response is the output so
+[42:04] in this particular way you will have to
+[42:05] mention the entry inside this data
+[42:07] set_info dojson file Okay. Now guys,
+[42:11] let's suppose if you want to read any
+[42:12] data from the hugging phase. So how you
+[42:15] will do that? So let me show you
+[42:18] let me give you the overview like how
+[42:21] like you can mention it inside this data
+[42:23] set_.info.json.
+[42:25] So uh I have this data okay the data set
+[42:28] name is uh Unix command right? So this
+[42:31] data actually it is available in this in
+[42:33] instruction input and output format. So
+[42:35] in the instruction we have an
+[42:37] instruction then in the input we have a
+[42:38] input right and the output we have a
+[42:40] final response uh we I even I have other
+[42:43] data I can use any one data so I'll pack
+[42:46] a clean right so here we have output
+[42:48] input and instruction again this three
+[42:50] column let's say I wanted to use this
+[42:52] particular data for my training okay I
+[42:54] want to be like fine-tune my model on
+[42:56] top of this particular data or any
+[42:58] hugging face data then how you will make
+[43:00] a entry inside the uh data set_infojson
+[43:04] okay Because guys I'm not going to be
+[43:06] upload the data over here means I'm not
+[43:08] going to be keep the data over here. The
+[43:10] data is already available over the
+[43:11] hugging phase right so in that case how
+[43:13] I will make a entry over here. So let me
+[43:16] show you I already kept the I already
+[43:19] kept the format. So I'm I'm adding in
+[43:22] the starting of this particular like
+[43:24] JSON. So see in this particular way you
+[43:27] will make a entry. So you will write key
+[43:29] hugging face data set. You can write any
+[43:31] name I like there is no like uh
+[43:34] basically rule for this key right? You
+[43:36] can write your name my name whatever
+[43:38] name you want to be write. I return
+[43:39] hugging face data set. Then you will
+[43:41] pass the hugging face URL means the id
+[43:43] of the data. Okay. So here you can see
+[43:45] like once you will click on it you will
+[43:47] get the id. Uh then you will get a you
+[43:50] will have to mention the column. So
+[43:51] prompt is a instruction query is a input
+[43:54] and response is a output. Okay. So in
+[43:56] this particular way guys what you will
+[43:58] do? you will mention the information of
+[44:00] your data. So again uh let me repeat. So
+[44:03] if you have any custom data guys so you
+[44:05] will keep it in a like first you will
+[44:08] create a file JSON file. Okay. So
+[44:11] whether the data like would be available
+[44:13] in the alpaka format or it will be you
+[44:16] will keep it in a like uh uh CGP format
+[44:19] or you will keep it like this. Okay. In
+[44:21] the text and the data right you you will
+[44:23] have a multiple rows. So yeah you if you
+[44:26] have plain text you can keep it in a
+[44:28] multiple chunks and you can add multiple
+[44:29] text over here like this let's say the
+[44:31] second text like this and third text
+[44:33] like this something like this okay uh
+[44:35] then guys you have one more format that
+[44:38] is a DPO format right uh prompt uh
+[44:42] rejected or selected right something
+[44:44] like that so yeah what you will do guys
+[44:46] so if you want to use your custom data
+[44:49] so first you will upload inside this
+[44:50] data folder now after uploading in after
+[44:53] uploading it inside this data folder you
+[44:55] will make a entry okay inside this data
+[44:57] set_info.json JSON. Okay. And after that
+[45:00] you can use it. So I will show you over
+[45:02] the UI how where you can select this
+[45:04] custom data. Now one more thing if you
+[45:06] want to use the data from the hugging
+[45:08] face then how you will make a entry over
+[45:10] here because the data is not available
+[45:11] in the local directory. So in that case
+[45:13] you will make a entry like this. You
+[45:14] will write the key under that hugging
+[45:16] face URL and then column. I hope guys
+[45:19] this thing is clear. Now let's do one
+[45:22] thing. Let's start the training from the
+[45:24] uh UI.
+[45:26] Now guys uh let's start with the
+[45:28] training. So for the training guys I
+[45:30] will have to select the model as well as
+[45:34] the data set. So a data set I already
+[45:37] configure. Now along with the model and
+[45:40] data set I will configure some essential
+[45:42] parameter over here. I'm not going to
+[45:44] configure all the parameter from here. I
+[45:47] will only select a few parameter. So
+[45:52] model. Okay. So there are so many names,
+[45:55] so many model. I will I'm I I have
+[45:57] selected this GMA 1.12B instruct because
+[46:00] it won't take much time. It is a small
+[46:02] model, right? Then automatically the
+[46:05] model path will come over here, right?
+[46:07] Then hub automatically it will be
+[46:08] selected as you will choose the model.
+[46:10] Uh then finetuning method which method
+[46:13] you are going to be use here. So I'm
+[46:15] going to be select the LRA. Uh then
+[46:17] checkpoint. So you don't need to mention
+[46:20] the checkpoint. automatically it will
+[46:22] come when the model will be trained.
+[46:24] Then here quantization bit. Okay. So it
+[46:26] will be required. So whether you want to
+[46:27] be select 4 bit or 8 bit. So I'm
+[46:29] selecting 4 bit. Now quantization method
+[46:32] this will also be required. So which
+[46:35] like method you want to be select BNB,
+[46:37] HQ, EQ. So I'm selecting B, BNB only.
+[46:41] The chat template automatically it will
+[46:43] be selected as you will select the
+[46:45] model. Then RO O keep it empty. booster
+[46:48] keep it like auto only then here is a
+[46:52] stage so what kind of training you want
+[46:53] to perform so I want to perform the
+[46:55] supervised finetuning now data set where
+[46:57] is your where is your data available so
+[47:00] if I'm selecting the custom data the
+[47:01] data will be available the data
+[47:03] directory but if you if I want to be
+[47:05] select the data from the hugging face
+[47:06] right so what I will do I will click on
+[47:08] this drop-down here I will get all my
+[47:11] configuration okay so uh here is see you
+[47:13] can see the custom data also so the
+[47:15] custom data I'm not going to select the
+[47:17] custom data right I'm selecting a data
+[47:18] from the hugging face. So I will select
+[47:20] the first one. Right. So if I'm going to
+[47:22] be select the custom data in that case I
+[47:24] will choose the directory data
+[47:25] directory. Okay. Under this data
+[47:27] directory my custom data is available
+[47:29] which I already configured which I
+[47:31] already mentioned inside the data set
+[47:33] info. So I will select this particular
+[47:35] option. But as of now I'm going to be
+[47:37] select the data from the hugging phase.
+[47:39] So I'm selecting this particular
+[47:40] configuration hf data set. Okay. Now uh
+[47:44] this is done guys. Now apart from this
+[47:46] learning rate so you can choose this
+[47:47] learning rate you can keep like any sort
+[47:50] of a value I'm keeping uh the same okay
+[47:52] I'm not going to touch this one epoch
+[47:55] I'm doing it for one single epoch okay
+[47:57] so let me select one epoch over here
+[48:00] maximum gradient norm I'm not going to
+[48:02] select maximum sample I'm not going to
+[48:04] be select okay uh compute uh type so
+[48:07] guys here uh you need to change this
+[48:09] compute type because uh BF 16 is for the
+[48:13] higherend GPU so you can select like
+[48:14] this app 16 okay it is for the lowerend
+[48:17] GPU uh then cut off length I'm not going
+[48:20] to be touch it best size I'm not going
+[48:22] to be touch and I'm not going to be
+[48:24] touch rest of the parameter so I'm
+[48:26] performing this Lora like fine-tuning so
+[48:29] I can look into this lura configuration
+[48:31] if I want to change some lura parameter
+[48:33] like lura rank lura alpha lora dropout
+[48:35] lura uh plus lr ratio right so
+[48:39] definitely I can tweak this but as of
+[48:41] now I'm not going to be touch this part
+[48:42] as well once I will teach you lura
+[48:45] the mathematical concept of the Lora
+[48:47] that definitely we can look into this
+[48:48] particular parameter and we can tune
+[48:51] means we can change it. Okay. Uh I hope
+[48:53] guys till here everything is fine. So
+[48:56] after configuring this entire thing this
+[48:58] is the mandary one whatever I done so
+[49:00] far. Uh then you will preview the
+[49:02] command. Okay. So uh you can uh preview
+[49:04] the command once you will click on it.
+[49:06] So here the entire command will come.
+[49:08] Right now uh you can see output
+[49:10] directory here your model will be saved
+[49:13] at this particular directory. Okay, this
+[49:14] is the config path. If you want to be
+[49:16] keep any sort of a config, right, you
+[49:18] can keep keep b see this entire
+[49:20] configuration, this entire like command
+[49:22] configuration will be saved over here
+[49:23] inside this yaml. Okay. Uh then device
+[49:26] count, I have only one device. So I'm
+[49:28] keeping it one deep seat. No, I'm not
+[49:30] going to be select that. This device
+[49:32] memory basically uh it will show you the
+[49:35] memory uses. So automatically this will
+[49:37] be uh here and there. Okay, this slider.
+[49:40] Uh so yeah, everything is like fine. Now
+[49:43] what I can do see I preview the command.
+[49:46] Now I can save the argument. If you want
+[49:47] to save the argument you can load the
+[49:49] argument the same argument. Okay. Uh now
+[49:52] what I'm doing guys after selecting all
+[49:55] this thing. Okay. After preving the
+[49:56] command after checking okay my output
+[49:58] directory is perfect and my
+[50:00] configuration path is fine. See even
+[50:02] though we are not going to be like uh do
+[50:04] anything right now with respect to this
+[50:06] configuration path but yeah you can
+[50:08] check all this thing all this value.
+[50:10] Then click on this start training. Now
+[50:12] once you will click on this start
+[50:13] training your training will be started.
+[50:15] Now you can check the same thing uh over
+[50:18] here as well. See uh that it will be
+[50:20] reflected over here also over the
+[50:22] collab. So this server should be up and
+[50:24] running guys. If you're going to be stop
+[50:26] it this will not work. This uh UI part
+[50:28] will not work. Okay. So see my training
+[50:30] has started. Now the same thing
+[50:32] basically you can see over here. So it
+[50:34] will be reflecting uh over the UI as
+[50:36] well your training. So it will take some
+[50:39] time maybe four to 5 minute after that
+[50:41] your training will be completed. Then
+[50:43] what we'll do guys. So here we'll select
+[50:45] this evaluate and predict. If I want to
+[50:46] evaluate my model I can do from here or
+[50:49] else I can check. Okay. Even I can
+[50:51] export my model. So yeah see the
+[50:54] training has started. Now once it will
+[50:55] be completed on top of it you will get
+[50:58] finished. Okay. And uh then basically
+[51:01] you can chat with your model. So let it
+[51:02] complete then I will show you the
+[51:04] chatting.
+[51:10] So guys uh here you can see my training
+[51:12] has completed. Uh it took around uh 4 to
+[51:16] 5 minute. So you can see finished over
+[51:19] here. Now uh you can uh see the same
+[51:22] thing over the console as well. Okay.
+[51:25] And uh where you will get a model. So
+[51:27] once you will check with your
+[51:28] repository. See llama factory. Once you
+[51:31] will check with your code under this
+[51:33] there is a folder. The folder name is
+[51:35] save. Just click on the save folder.
+[51:36] Here you will find your model GMA 1.12B
+[51:40] instruct. Okay. Now just uh click on it
+[51:44] and uh under this you will get Lora.
+[51:47] Under this Lora you will get this folder
+[51:49] train 2025 12 11 17 40 51. So see guys
+[51:55] uh this folder name is same over here.
+[51:57] This one here this is your output
+[51:58] directory. Okay. Now from here you can
+[52:01] load the model. You can just copy this
+[52:03] path. Copy the path of this model. Okay.
+[52:05] And keep it over here. Means uh you can
+[52:07] do the inferencing. Okay. So I kept the
+[52:10] inferencing code. You can do the
+[52:12] inferencing after training this model.
+[52:14] So what you have to do for that uh you
+[52:16] have to like uh write a path. Okay. This
+[52:19] path. So under this particular folder
+[52:21] your model is available. See this one uh
+[52:23] this tensor save tensor file is
+[52:25] available. Okay. So you can uh keep it
+[52:27] inside this variable. Then you can load
+[52:29] the tokenizer. Then you can load the
+[52:31] model. Okay. Then you can load the pft
+[52:33] model and finally you can evaluate it.
+[52:36] Sorry, finally basically you can make a
+[52:38] prediction, you can do the inferencing.
+[52:41] So this is from the code. Uh but if you
+[52:43] want to do it from the UI, yes, you can
+[52:45] do from here as well. So what you have
+[52:47] to do? You just have to click on this
+[52:48] chat. Okay. Now after clicking on this
+[52:51] chat, so here is a option load model. So
+[52:54] just click on this load model. So once
+[52:56] you will click on this load model. So it
+[52:58] is loading your train model. Now after
+[53:00] uh basically loading the model you can
+[53:02] do the chatting. So it will take maybe
+[53:04] like 1 minute. Okay. So within 1 minute
+[53:06] it will load your model and then
+[53:08] basically you can start chatting. So
+[53:10] let's wait for 1 minute.
+[53:13] [snorts]
+[53:17] Okay guys. So my model is loaded. Uh now
+[53:19] over here you can see so uh it is giving
+[53:22] me a option uh to write a prompt. So I
+[53:25] can see here is a role. Role is a user.
+[53:27] I can write a system prompt also. So I
+[53:29] can give my tools as well. So if any
+[53:32] input I have to pass I will pass over
+[53:33] here. So let's ask the same question. So
+[53:36] my question is can you tell me what is a
+[53:38] what is ls-l?
+[53:41] Okay would display. So this particular
+[53:43] question I'm providing over here. Uh
+[53:45] let's see what it is going to be
+[53:47] generate. So if I will submit it. Okay.
+[53:49] So here the output will be present. See
+[53:52] ls- displayed detailed listing of the
+[53:54] file. See it is generating the entire
+[53:56] output. You can uh see the complete
+[53:58] output over here guys. Means it is
+[54:01] working uh fine. Okay. So uh this is uh
+[54:05] the model which I finetune on my own
+[54:08] data using the llama factory and I shown
+[54:10] you the prediction. So this is from the
+[54:12] UI guys, right? This is from where? This
+[54:14] is from the UI. So I think you got to
+[54:16] know now how to like fine-tune from the
+[54:18] UI and how to make a prediction. There
+[54:19] is couple of more option you can uh like
+[54:23] uh evaluate and predict. Evaluate and
+[54:25] predict means what? So you can give the
+[54:27] bulk data and you can evaluate your
+[54:28] model how it is behaving. You can export
+[54:30] it. So wherever you want to be export
+[54:32] anywhere in any directory. Okay. You can
+[54:34] mention the directory and you can
+[54:35] directly export the model. So just
+[54:37] explore it from your end and try to find
+[54:40] you the model and then uh like do the
+[54:42] chatting and all. So this is from the UI
+[54:45] guys. But uh in the points I mentioned
+[54:47] one more thing. So I will show you via
+[54:49] CLI also. So let's do the same fine
+[54:51] tuning. Let me show you the command via
+[54:53] CLI. Okay. So how to do the same kind of
+[54:56] tuning via CLI?
+[54:59] So guys uh if I want to do the same
+[55:02] training from the CLI uh then uh
+[55:06] directly I can uh execute this command
+[55:09] and I can perform the finetuning. So
+[55:12] what is the command? The command is
+[55:14] python - m llama factory dot cli train.
+[55:20] Okay. and then I will pass my all the
+[55:23] parameter. But guys, this is not a good
+[55:26] practice. Okay. Uh we should not
+[55:28] directly run like this. So uh if I
+[55:32] wanted to train via CLI, then what I
+[55:35] will do? I will write one configuration
+[55:37] file, YAML file. Okay. And through that
+[55:40] YAML file only, I will train my model.
+[55:44] The same thing I have shown you over
+[55:46] here. Uh let me open the notes and let
+[55:48] me show you all the commands.
+[55:50] >> [snorts]
+[55:50] >> So here I already mentioned the
+[55:53] commands.
+[55:55] Okay. So llama factory cla
+[55:58] config.yamel.l config.l. You can write
+[56:00] any sort of a name. I just written
+[56:03] config.yamel.
+[56:04] Okay. So what I what I will do guys? So
+[56:07] I will write one config file. I means I
+[56:09] already written that. Let me show you
+[56:11] that particular file uh I kept in my
+[56:13] folder and this entire thing guys entire
+[56:15] resources I will provide you. Don't
+[56:17] worry. So this is my
+[56:20] config file guys. I hope you are able to
+[56:23] see this one. Right. So inside this
+[56:26] config file what we have. So just check
+[56:28] over here. So first we have the model
+[56:31] name. Let me zoom in a little bit. So
+[56:33] first we have a model name. Okay. Or
+[56:34] model path from wherever actually you
+[56:36] are going to be read the model. Then we
+[56:38] have a stage right. uh then do train
+[56:41] finetuning type lura means whatever
+[56:43] parameter you were selecting from the UI
+[56:45] now we are passing inside the yaml right
+[56:48] uh see we can write a yl or else we can
+[56:52] pass like this okay if if you're not
+[56:55] going to be write a yaml you can
+[56:56] directly pass like this all the
+[56:58] parameter but guys this is not a good
+[57:01] practice because if the terminal is
+[57:05] going to be closed or terminal is going
+[57:07] to be delete right so in that case this
+[57:09] all the parameter will be lost. So keep
+[57:11] it in one physical file that's going to
+[57:14] be YAML and then execute that YAML file.
+[57:17] Okay. So here you can see so whatever
+[57:21] parameter we were selecting from the UI
+[57:22] now we are going to be define inside the
+[57:24] YAML. Uh here you can see the data set.
+[57:27] So uh let me show you the data first.
+[57:29] See this is a data set. Uh I'm going to
+[57:31] be use data from the hugging face. But
+[57:33] if you are using from the local okay
+[57:35] your custom data then you just need to
+[57:37] mention the path over here. So uh let's
+[57:40] say guys if you're going to use this
+[57:42] custom data so the data basically was
+[57:44] available inside this data folder now.
+[57:46] So my custom data so just copy the path
+[57:49] uh after copy the path uh just mention
+[57:51] it over here. Okay that's it. So if you
+[57:54] will mention like this uh okay instead
+[57:57] of this alpaca demo uh you can use the
+[58:00] custom data. I hope this thing is clear
+[58:02] but as of now I'm using from the hugging
+[58:04] face so let it be [snorts] uh then guys
+[58:06] template cut off length and max sample
+[58:09] override cach I think you are already
+[58:10] familiar with all this thing now output
+[58:12] directory where you want to save your
+[58:14] model so you can give any sort of a
+[58:15] directory over here where wherever you
+[58:17] want to save the model okay and the rest
+[58:19] of the parameter basically it is a like
+[58:21] training specific parameter and for how
+[58:23] many epochs like I'm running it so let's
+[58:26] say I'm running it for the one epoch
+[58:28] only uh so guys this file I will keep in
+[58:31] the uh I will keep in the same uh I will
+[58:35] keep in the same folder. So I will keep
+[58:38] inside this llama factory folder. So let
+[58:40] me upload this file and uh here the file
+[58:43] name is train GMA Qura. Okay. So you can
+[58:47] write any sort of a name. I written just
+[58:49] uh train qura. You can write any sort of
+[58:52] a name. So I will pass uh sorry I will
+[58:54] move this particular file inside this
+[58:56] folder llama factory. Now what I will do
+[58:59] guys, see the file is available over
+[59:01] here. Train GMA Qura YAML. So first of
+[59:05] all, let me comment it. So yes, this is
+[59:07] fine. Now what I will do guys, I will
+[59:10] move I will like go inside this
+[59:13] directory. Okay, llama factory. Then I
+[59:15] will check with my current working
+[59:16] directory with the PW command. That is
+[59:19] fine. Now I will check with this Nvidia
+[59:21] SMI. Okay, the CUDA is there means I'm
+[59:24] using the GPU only, right? So uh here
+[59:28] you can see guys I mentioned one more
+[59:30] thing one more parameter uh so this you
+[59:32] have to set as a environment variable
+[59:34] that is CUDA launch blocking. Okay. So
+[59:37] you can set it as a true. So what it
+[59:40] will do guys uh it will not like block
+[59:44] it sorry it will basically not block
+[59:46] anything while the CUDA is getting
+[59:47] launched right but while the CUDA is uh
+[59:50] like getting used in a back end. Uh now
+[59:52] here what you have to do guys you just
+[59:54] have to write python hyphen name llama
+[59:56] factory cla this will be same even the
+[59:58] train this will be same now instead of
+[01:00:00] writing all the parameter inside this
+[01:00:01] command you're just passing this yl file
+[01:00:03] okay so this is a more safer approach uh
+[01:00:06] now if you will run it guys uh see the
+[01:00:09] training will be started that's it guys
+[01:00:11] uh nothing else okay and after that uh
+[01:00:14] your model will be saved uh you can
+[01:00:16] check with your model will be available
+[01:00:17] over here okay so wherever basically we
+[01:00:20] are saving and Then uh what you can do
+[01:00:23] you can simply test it for the testing
+[01:00:25] also you can create one uh sorry this is
+[01:00:28] just uh like uh file one testing file
+[01:00:31] basically I created. So see the training
+[01:00:33] is going on. So here the training is
+[01:00:35] going on it takes time it will take
+[01:00:37] maybe uh 4 to 5 minute or maybe more
+[01:00:39] than that. Uh then guys uh you can check
+[01:00:42] with your output folder whether the
+[01:00:43] model is there or not. And uh after that
+[01:00:46] what you can do you can make a
+[01:00:47] inferencing. So let me comment all this
+[01:00:50] unnecessary code. I was just testing. So
+[01:00:53] here here here this is fine. Uh yeah
+[01:00:56] this is the inferencing code guys. Okay.
+[01:00:58] So you can basically mention the model
+[01:01:00] path adapter path over here. You can
+[01:01:02] load the model and then finally you can
+[01:01:05] make a inferencing. That's it. Nothing
+[01:01:07] else. Okay. So this unnecessary code
+[01:01:10] which I was uh just like testing uh I
+[01:01:13] will remove it. I will comment it out.
+[01:01:15] So you will focus on the main code only.
+[01:01:18] Uh now let me uh show you guys the
+[01:01:20] training is going on or not. Yes, the
+[01:01:22] training is going on. So where is the
+[01:01:26] training? Here is a training guys. This
+[01:01:27] one. So yeah it will ask you one more
+[01:01:30] thing if you will do it from the CLI. So
+[01:01:31] create W uh WNB account. Use an existing
+[01:01:34] account or don't visualize my result. So
+[01:01:36] as of now I haven't I haven't like
+[01:01:39] configured bait and bias account. So I
+[01:01:41] will not select any one or two. I will
+[01:01:42] select three. Okay. Then hit enter. And
+[01:01:45] uh yes uh it is running now. So yeah it
+[01:01:49] has started training. It will take time.
+[01:01:51] Uh last time when I did it means
+[01:01:53] yesterday I was practicing. So it took
+[01:01:56] around 5 to 10 minute. So it might take
+[01:02:00] more than that. I don't know because the
+[01:02:02] RAM is being consumed continuously. So
+[01:02:04] it might it might crash also. Okay. So
+[01:02:08] guys uh I'm leaving this up to you. Uh
+[01:02:11] now what you have to do I'm giving you
+[01:02:12] an assignment also. So prepare uh any
+[01:02:15] custom data set keep it inside the data
+[01:02:17] folder and then finetune on top of that
+[01:02:19] data. Okay. Now after this training guys
+[01:02:21] what you will do? So after this training
+[01:02:23] uh just go and check with this
+[01:02:25] particular code. Right. Mention your
+[01:02:28] model path over here. Uh it will be
+[01:02:30] saved over here. Right? So yeah this is
+[01:02:33] the path. Just take this path. Uh copy
+[01:02:36] the path and mention it over here. and
+[01:02:39] then and then test it guys whether your
+[01:02:42] model is generating the answer or not.
+[01:02:44] That's it guys that is called the
+[01:02:45] inferencing after the finetuning. So
+[01:02:47] yeah this is it for this particular
+[01:02:49] video. I hope you like this entire llama
+[01:02:51] factory finetuning. I given you as much
+[01:02:54] as knowledge I can and now it's your
+[01:02:56] time to uh like revise evaluate
+[01:02:59] everything. Okay. And guys, one more
+[01:03:02] thing, if you're liking my content, if
+[01:03:04] you're liking my effort, then please uh
+[01:03:06] subscribe the channel and please share
+[01:03:08] uh this content with all of your
+[01:03:10] friends, okay? Whoever is required,
+[01:03:12] whoever is required this type of
+[01:03:14] content, okay? So, thank you. Bye. Take
+[01:03:16] care. I'll see you in the next video.
+[01:03:17] Until take care

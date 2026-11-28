@@ -1,0 +1,1620 @@
+Title: LLM Fine-Tuning: 02 Understanding Model Pretraining and Training in AI  #aiagents #finetuning #ai
+Video URL: https://www.youtube.com/watch?v=_V3zqVlCACQ
+Video ID: _V3zqVlCACQ
+======================================================================
+
+[00:01] Hey. Hi everyone. Welcome back to my
+[00:03] Doom channel. My name is Sunonny Savvita
+[00:05] and I'm back with another exciting and
+[00:08] important video. With this particular
+[00:10] video guys, we're going to continue our
+[00:12] finetuning series which I started in my
+[00:15] previous video. There I just explained
+[00:18] the syllabus of the finetuning and I
+[00:21] told you that um in uh in the upcoming
+[00:24] 10 to 15 video we are just going to
+[00:26] discuss the finetuning concept the LM
+[00:29] fine-tuning concept but unfortunately I
+[00:32] couldn't upload a video in my last
+[00:34] couple of days. So the last video which
+[00:37] I uploaded it was two week ago and I
+[00:40] know guys many of you you messaged to me
+[00:43] you written in a comment and even I got
+[00:46] the personal message sir why you stop
+[00:49] this fine tuning series and all so again
+[00:51] I'm saying I didn't stop it I will
+[00:54] upload all the video as it is whatever I
+[00:56] said um because of the buster and all I
+[01:00] just took a break and even I was
+[01:02] involved to create some refined content
+[01:06] for this finetuning series. So that's
+[01:08] why guys I couldn't record a video but
+[01:11] don't worry uh now I'll try to upload a
+[01:14] video uh as much as video I will try to
+[01:16] upload inside this playlist and I will
+[01:18] make sure that you will get enough
+[01:20] content from my YouTube channel. Okay.
+[01:24] So yeah fine I think I uh discussed all
+[01:28] the stuff all the thing whatever was in
+[01:30] your mind. Now uh first of all let me uh
+[01:33] show you the syllabus which I discussed
+[01:34] in the previous session and then I'll
+[01:36] come to the agenda of today's video. So
+[01:39] uh here guys all the thing uh I kept
+[01:42] inside my one notes. So this is the
+[01:46] syllabus and first of all let me discuss
+[01:48] this entire syllabus. So the syllabus
+[01:51] itself I told you that we are going to
+[01:53] discuss the complete and the detailed
+[01:54] introduction of the finetuning. Yes, in
+[01:57] today's video we'll discuss the detail
+[01:59] introduction of the finetuning. Uh then
+[02:02] we'll discuss the differences between
+[02:03] the finetuning rack AI agents and all
+[02:05] everything. Then we'll come to the
+[02:07] finetuning in the deep learning. Why
+[02:09] this
+[02:10] finetuning is why this finetuning is
+[02:13] possible in a deep learning okay why how
+[02:16] it came into the picture each and
+[02:17] everything we'll try to discuss inside
+[02:19] this particular lecture. Then why
+[02:21] finetuning is not possible inside RN.
+[02:24] And here you will learn some significant
+[02:26] uh significance uh differences between
+[02:28] the LSTM RNN and the transformer
+[02:31] architecture. Then the hugging face and
+[02:33] the line chain because lang chain does
+[02:35] not provide any support to the fine
+[02:37] tuning. It only support to the rack
+[02:39] based application and the agentic
+[02:41] application and the application which we
+[02:43] productionize right uh that so guys for
+[02:46] the fine tuning for sure we'll have to
+[02:48] learn this hugging face because hugging
+[02:50] face provide all the opensource model
+[02:52] and even the support for the fine
+[02:53] tuning. There is a library like the
+[02:55] transformer. There's a library like the
+[02:57] data set DRL accelerate. Right? All
+[03:00] those library is support for the
+[03:02] finetuning stuff. So for sure we'll have
+[03:04] to learn the pugface which is very much
+[03:06] important and the important concept of
+[03:08] this entire syllabus. Then the
+[03:10] finetuning in a classical language model
+[03:12] like B and all knowledge distillation is
+[03:14] also very important. People can ask
+[03:16] during interview. LM quantization again
+[03:19] this is a very important just to
+[03:21] basically reduce the size of the model
+[03:24] and to load it in any sort of a
+[03:25] configuration. Then here is a fine
+[03:27] tuning of the large language model the
+[03:29] main concept will start from here right.
+[03:31] So, so the concept basically which you
+[03:33] are waiting right so the concept will
+[03:35] start from this particular stage and
+[03:37] then guys API based model and then
+[03:40] framework for the large language model
+[03:42] again that the finetuning for the vision
+[03:44] language because you know right so
+[03:46] vision language vision modeling is also
+[03:49] going to be a very popular now and you
+[03:51] know chat GPD has integrated many
+[03:54] multimodel stuff right inside their
+[03:56] application so definitely we'll have to
+[03:58] learn about this vision uh Fine tuning
+[04:01] of the vision language model and then
+[04:03] reinforcement learning with the human
+[04:05] feedback very important concept guys uh
+[04:08] and we'll see some uh advanced concept
+[04:10] like the DPO and all and the embedding
+[04:12] fine tuning. So this was a syllabus
+[04:15] which I discussed in my previous video.
+[04:17] Now uh it's time to discuss about the
+[04:20] introduction of the finetuning and
+[04:21] without wasting a time we'll start uh
+[04:24] guys the introduction of the finetuning
+[04:26] and I'll let you know uh the each and
+[04:28] every point and again I'm saying guys
+[04:30] see uh my video is going to be quite
+[04:33] long from now onwards because I will not
+[04:36] discuss the thing on surface I will
+[04:38] discuss each and everything in depth. So
+[04:41] if you are uh interested to learn
+[04:45] everything in depth then stick with my
+[04:47] video otherwise this video is not for
+[04:50] you where I'm going to complete any sort
+[04:52] of a topic within 5 to 10 minutes. I can
+[04:54] do that for sure I can do that but I'm
+[04:58] not going to go okay so yeah let's uh
+[05:01] start uh with the introduction of the
+[05:03] finetuning and then I'll show you the
+[05:05] practical stuff also. So guys uh as you
+[05:09] can see I divided this introduction of
+[05:12] the fine tuning into the multiple
+[05:14] section. Uh so the first section we are
+[05:17] going to discuss what is a model
+[05:19] training. I want to start from guys. So
+[05:22] first I'll show you what is a model
+[05:24] training then what is a pre-training. So
+[05:27] this pre-training it plays a very
+[05:29] important role in the finetuning and we
+[05:32] need to understand the pre-training with
+[05:35] respect to the NLM models not only the
+[05:38] LLM model I'll try to explain you this
+[05:41] pre-training with respect to the other
+[05:43] deep learning model like CNN based model
+[05:47] then there is a concept of the transfer
+[05:50] transfer learning so we'll discuss what
+[05:52] are type of transfer learning we have
+[05:54] how we can modify the layer of the arch
+[05:57] architecture and how we can achieve this
+[05:59] transfer learning and where this
+[06:01] finetuning exists inside this transfer
+[06:03] learning then guys we have some
+[06:05] theoretical concept like advantage and
+[06:08] disadvantage of the finetuning then LLM
+[06:10] fine-tuning libraries so whatever
+[06:12] libraries we have I will try to explain
+[06:14] you about those library and we'll
+[06:16] discuss which library you can use then
+[06:19] we have these important research papers
+[06:21] so there are couple of research paper
+[06:22] which is very much important and you
+[06:24] should follow those research paper If
+[06:26] you are trying to learn the finetuning
+[06:28] itself then guys we have a next topic
+[06:31] which is tips of finetuning. So yes uh
+[06:34] you can follow couple of tips which will
+[06:37] uh which will will enhance your model
+[06:39] model training and the finetuning
+[06:41] result. So that we'll discuss at the end
+[06:43] of the video or maybe I can divide this
+[06:46] particular video into two section where
+[06:48] in the first section means in this
+[06:49] particular video I'll try to discuss
+[06:52] about this model training pre-training
+[06:53] and the transfer learning. Again guys
+[06:56] again I'm saying for the transfer
+[06:57] learning I have I have recorded one
+[07:00] specific session. So most probably after
+[07:03] this particular session uh one more
+[07:05] session will come with respect to the
+[07:06] rack versus fine tuning and agents and
+[07:09] then I will upload this task for
+[07:10] learning session. So I will explain you
+[07:13] most of the theoretical stuff in this
+[07:15] particular section but yeah in the next
+[07:17] session me next session I will try to
+[07:19] discuss the practical also. Uh now let's
+[07:22] begin with the model training. So what
+[07:24] is a model training in here? Let me
+[07:26] switch off my camera so that you can
+[07:28] access the entire board and you can
+[07:29] understand in a better way. Okay. So
+[07:33] here you can see guys uh I written this
+[07:35] entire notes. This entire notes written
+[07:37] by me and I will provide you this
+[07:39] particular notes and this so that you
+[07:41] can follow it and uh you can prepare the
+[07:44] finetuning stuff and all and whenever
+[07:46] anyone is asking you any sort of a
+[07:48] question related to the finetuning and
+[07:49] all so easily you can answer. Again I'm
+[07:52] saying guys this not is created by me
+[07:54] mindfully I created all the nodes okay
+[07:57] and that's why I took this much of time
+[07:59] to upload on this video. So first of all
+[08:01] guys we'll try to understand where uh
+[08:04] this fine tuning lies inside the model
+[08:06] training. So whenever we discuss about
+[08:09] the AI guys so this AI on a very high
+[08:12] level we can divide into the multiple
+[08:14] section. So here I can write AI. So
+[08:18] under this AI you will see machine
+[08:22] learning. Under the machine learning
+[08:25] there is one specific kind of AI which
+[08:29] we develop using the neural network that
+[08:32] is called deep learning. Now again you
+[08:35] can divide this deep learning into the
+[08:37] multiple neural network. So the one
+[08:39] neural network is called the artificial
+[08:41] neural network. Then there is a CNN
+[08:44] which is called convolution neural
+[08:46] network. And this convolution neural
+[08:48] network we use for handling the image
+[08:50] kind of data. Then we have a recurrent
+[08:53] neural network which we use for handling
+[08:55] the sequence kind of data. Then we have
+[08:59] a gains. Gates and autoenccoder. Earlier
+[09:02] it was using for generating a data and
+[09:06] this gaze is nothing this gaze basically
+[09:09] it was built on top of the CNN itself.
+[09:12] Then we have one more kind of uh
+[09:15] learning that is called reinforcement
+[09:17] learning. So inside the reinforcement
+[09:19] learning we always perform the reward
+[09:22] based learning. Uh and we uh use the
+[09:25] policies over there and here also we can
+[09:28] use the uh deep neural network. Okay. So
+[09:32] this is called deep reinforcement
+[09:35] learning. Now guys whenever we talk
+[09:38] about the the generative AI the agentic
+[09:40] AI where it lies. So here inside the CNN
+[09:44] guys you can see so CNN using the CNN
+[09:47] architecture uh we can we can achieve
+[09:51] basically some state of stateart model
+[09:54] right so uh there the you will find out
+[09:57] the evolution of the CV computer vision
+[10:00] and is the RNN basically right down the
+[10:02] line in the RNN itself. So they have
+[10:04] created one architecture the
+[10:06] architecture name was the transformer.
+[10:09] Again guys this RNN model was they were
+[10:12] using for handling the NLP related
+[10:15] problems. So uh now the line in the uh
+[10:18] RNN itself right so there is a variant
+[10:20] of the RNN like the NSP and the GRU as
+[10:23] you know right which we were using for
+[10:26] handling the NLP uh related task and all
+[10:29] the sequence to sequence related task.
+[10:31] Okay. So there was itself we were having
+[10:33] one more architecture the architecture
+[10:35] name was the transformer. So this
+[10:38] transformer architecture basically it
+[10:40] was very efficient to solve the uh like
+[10:43] sequence to sequence related problem and
+[10:46] because of this particular architecture
+[10:48] the evolution of the genative is
+[10:51] started. So they have created some early
+[10:53] stage LLM like the board and GPT and
+[10:56] nowadays we can find out many stateart
+[10:59] LLM and because of this transformer
+[11:01] only. So inside this transformer
+[11:03] architecture only they did some
+[11:04] finetuning and they have changed some
+[11:06] layer according to their requirement and
+[11:08] all and they created a very powerful
+[11:10] model. So uh here from here itself guys
+[11:13] you will see the error of the LMS. Now
+[11:16] by this transformer architecture it is
+[11:18] not only for sequence to sequence data.
+[11:20] After processing this uh image kind of
+[11:23] data, video kind of data again we can
+[11:26] handle it using the transformer only.
+[11:28] Okay. So nowadays we are using this
+[11:30] transformer in the field of visible. Now
+[11:33] coming to this generative AI. So now we
+[11:36] have a LLM guys and using the capability
+[11:39] of the LLM we have created one more kind
+[11:41] of AI. The AI is called agenting AI. So
+[11:45] inside this agent API what we are doing
+[11:47] we are using the capability of the LNM
+[11:50] we are using the brain of the L&M and we
+[11:54] are doing a certain actions and all and
+[11:56] we are like we are able to achieve some
+[12:00] like a good result. Okay so we are able
+[12:02] to do too much automation inside this
+[12:05] agent AI. So this is a complete map or
+[12:08] complete road map right whenever we
+[12:11] start learning this AI and all. Now why
+[12:13] I explaining this all all this thing so
+[12:16] that I can discuss about the model
+[12:18] building and I can tell you where this
+[12:20] uh fine-tuning lies okay and where uh
+[12:23] this fine tuning has started okay in the
+[12:26] deep learning in the machine learning or
+[12:28] specifically in the AI world so guys
+[12:31] whenever we talk about any model
+[12:32] building so first we collect the data
+[12:34] then we analysis a data then we
+[12:36] pre-process the data right and then only
+[12:38] we perform the model building if I'm
+[12:40] saying model building so the simple
+[12:42] meaning is model training. We are going
+[12:45] to train a model on some specific data.
+[12:48] Okay, we have a data on top of the data
+[12:51] basically, right? So we are going to be
+[12:53] train a model and again you see if I if
+[12:55] I'm saying a model so again the model is
+[12:57] nothing what is a model. So model is a
+[12:59] mathematical equation. Okay, this all
+[13:02] the thing I already explained you in my
+[13:04] previous videos in my history of the AI
+[13:07] video. You can go and check over there
+[13:09] and you can get a knowledge in very very
+[13:11] detailed manner. Okay. the complete
+[13:12] history of the machine learning AI and
+[13:14] all right now guys coming to some
+[13:17] generic uh thing okay so just uh I'm
+[13:20] just giving you the refresh refreshment
+[13:22] uh of the machine learning deep learning
+[13:24] algorithm and then specifically I'll
+[13:26] talk about the uh then specifically I'll
+[13:29] be talking about what I'll be talking
+[13:30] about the finetuning so first of all let
+[13:32] me clear the ground and again guys this
+[13:35] note was created by me and you can
+[13:37] utilize it in a better way just to
+[13:38] refresh your concept so let's say we
+[13:41] have a machine learning learning. So
+[13:42] this is the machine learning guys. We
+[13:44] have a supervised modeling. So these all
+[13:46] are the algorithm belong to the
+[13:47] supervised modeling. Okay. And then we
+[13:50] have unsupervised modeling. So this all
+[13:52] the algorithm the clustering algorithm
+[13:55] actually belong to the unsupervised
+[13:57] modeling. So K means clustering is
+[13:59] there. Hierarchical clustering is there.
+[14:01] Okay. DB scatter clustering is there. So
+[14:03] uh unsupervised means we don't have uh
+[14:06] we don't have like a target column.
+[14:09] Okay. And supervised means we have a
+[14:10] target column. Now I'll be talking about
+[14:12] a deep learning guys. So the deep
+[14:14] learning you can see we have artificial
+[14:16] neural network. We have a convolution
+[14:17] neural network. Okay. And on top of the
+[14:20] convolution neural network only uh they
+[14:22] have created couple of more couple of
+[14:27] very efficient network. Okay. Which was
+[14:29] able to solve this object detection,
+[14:31] object segmentation, object tracking,
+[14:34] object optical character recognization
+[14:36] kind of task. So here I written the name
+[14:39] of those model which was inspired
+[14:42] completely from the convolution neural
+[14:45] network. Okay. So this was the early
+[14:47] stage architecture of the convolution
+[14:49] neural network which was able to solve
+[14:52] this image classification kind of thing
+[14:54] that like uh image classification kind
+[14:57] of thing. They are able to classify the
+[14:59] image into the multiple classes. they
+[15:01] are able to perform the supervised
+[15:02] learning on top of that and the label uh
+[15:05] and the the model name was the name Alex
+[15:08] PG rest and test right and these was all
+[15:12] the task basically which we can perform
+[15:14] inside the CNN means using the CNN and
+[15:17] inside the computer vision okay so I
+[15:20] hope so guys uh this entire thing is
+[15:22] clear and you got some kind of a
+[15:24] refreshment now coming to the NLP guys
+[15:26] so whenever we talk about the NLP so the
+[15:28] NLP story begins from the RNN. So this
+[15:32] RNN network was developed to handle the
+[15:34] sequence kind of data. So if I'm saying
+[15:36] the sequence kind of data, so I'm
+[15:39] clearly talking about the text data.
+[15:41] Okay. So we have a text data and um like
+[15:45] what we are doing guys, we are doing a
+[15:47] sequence tosequence learning using this
+[15:50] text data. I soon I will create one more
+[15:52] playlist where I will explaining the RNA
+[15:54] LSTM also. So what what was this model
+[15:57] and how they have created it and why it
+[16:00] got failed in front of the transformer
+[16:02] each and every uh discrimination each
+[16:04] and every differences we'll try to see
+[16:06] okay so we have a RNN we have a
+[16:09] different variants of the RNN okay like
+[16:11] LSTM and GRU and using this RNN models
+[16:15] RNN based model we are going to be solve
+[16:17] these tasks like text classification
+[16:19] text summarization question answering
+[16:21] text generation and the text translation
+[16:24] okay so these are fundamental task where
+[16:27] these are the some fundamental task in
+[16:29] the in the NLP okay in the NLP on a
+[16:34] fundamental guys on a fundamental level
+[16:36] each and every task is a text at the end
+[16:39] it is generating a text only okay so
+[16:41] keep that thing also in your mind and
+[16:43] how it is doing that using this sequence
+[16:45] to sequence learning sequence to
+[16:48] sequence learning which we are able to
+[16:50] achieve using what using this R&N and LX
+[16:53] model so guys uh I hope this all the
+[16:56] thing is clear but why I'm telling you
+[16:59] all this thing why I am taking like a
+[17:01] five to 10 minute extra just to explain
+[17:03] you all this is in some time all the
+[17:06] thing is going to be clear but so first
+[17:08] of all you will have to focus on these
+[17:10] points so here in this point what I
+[17:12] mention so whenever I'm talking about
+[17:14] this and LSTM kind of model so here I'm
+[17:16] doing a training model training from
+[17:18] various branch okay and one more thing
+[17:21] guys here I mention I'm doing a task
+[17:23] specific training over Here task
+[17:25] specific training means what? Task
+[17:27] specific training means let's say if I
+[17:29] to do the text classification then I'll
+[17:31] do that text
+[17:32] summarization then I will train a model
+[17:34] on top of it. Then question answering if
+[17:36] I want to do question answering then I
+[17:38] will train my model again from a sketch
+[17:40] on top of it. Right? So I'm doing a task
+[17:42] specific training. I hope you got to
+[17:44] know the meaning of the task specific
+[17:46] training. Right? So guys uh so far what
+[17:49] we understood so far we understood we
+[17:52] are trying to train a model. Okay. And
+[17:54] we are trying to train a model on top of
+[17:56] some data. And this model training
+[17:58] actually it is from the scratch. Okay. S
+[18:01] RD C. Now where this finetuning lies
+[18:04] okay and
+[18:06] and where this finetuning lies and how
+[18:09] we were able to achieve this finetuning.
+[18:11] So guys the fine the uh the era of the
+[18:15] finetuning has started uh in 2011
+[18:19] itself. Okay. And guys you won't believe
+[18:22] the error this finetuning actually the
+[18:24] first time it was introduced inside this
+[18:26] CNN okay inside this CNN using the CNN
+[18:31] model only means the finetuning was not
+[18:33] introduced using this RNN and LSTM model
+[18:36] and guys you won't believe using this
+[18:39] RNN and LSTML model even we cannot
+[18:41] achieve the finetuning perpetually okay
+[18:43] so the fine duty was introduced in in
+[18:46] 2011 itself the uh one competition was
+[18:50] launched the completion name was the uh
+[18:53] ISL VRC right so I'll let you the full
+[18:56] form of that okay and we'll talk about
+[18:58] it because I have to discuss some pretty
+[19:00] concept also so I kept it in my next
+[19:03] slides so guys in 2011 that that
+[19:06] competition had have been launched and
+[19:08] uh like during that competition some of
+[19:11] the model was introduced and those model
+[19:13] basically have been train on a very huge
+[19:15] amount of data so this leet model and
+[19:18] this ln net model whatever model you can
+[19:20] see over here this model have been
+[19:22] trained on that time itself okay on that
+[19:24] in that era itself okay during the 2011
+[19:27] to 2015 and restn net is one of the very
+[19:29] successful model in that even the
+[19:31] efficient net denset google net so this
+[19:34] all the model basically uh was
+[19:36] introduced at that time itself so we are
+[19:38] talking about the finetuning guys so
+[19:40] this finetuning in the finetuning what
+[19:42] happened you know so uh we perform the
+[19:45] model training means all the steps will
+[19:47] be as it is means there will be a data
+[19:50] collection. Okay, data collection. Then
+[19:54] we do the uh whatever analysis and
+[19:57] pre-processing we have to do, right?
+[19:59] Pre-processing of the data, we'll do
+[20:01] that. Then after that we'll do the model
+[20:05] training. Now this model training now
+[20:07] we'll do on a huge amount of data. Okay.
+[20:11] So we'll do the we will do on a very
+[20:13] huge amount of data so that my model can
+[20:16] learn the pattern each and every pattern
+[20:18] from the data. Okay. Now guys this model
+[20:22] is called the pre-trained
+[20:24] model. This model is called pre-train
+[20:28] model. Okay. Now further this
+[20:31] pre-trained model what I can do further
+[20:33] this pre-trained model I can use as it
+[20:36] is. Okay. as it is means without any
+[20:40] changes I can use this particular model
+[20:42] as it is or else what I can do you know
+[20:44] or else I can finetune this model fine
+[20:49] tune the model so what you understood
+[20:53] what you understood from this entire
+[20:55] story you understood from this entire
+[20:57] story we we were having the classical
+[20:59] model we were having the machine
+[21:01] learning deep learning uh and this uh uh
+[21:05] basically RNN and the CNN and All but
+[21:08] the guys the finetuning era has started
+[21:11] from 2011 itself and where not in the
+[21:14] NLP it was started in the CNN the
+[21:17] computer vision okay and in the fine
+[21:19] tuning uh we should have one pre-trained
+[21:22] model and this pre-trained model
+[21:24] basically it should train on a very huge
+[21:26] amount of data so that we can capture
+[21:28] each and every type of pattern from the
+[21:30] data and further we can fine-tune that
+[21:32] particular model for our specific tasks
+[21:35] right so this is the entire moral of the
+[21:37] story. Okay, that's why I just gone
+[21:39] through with this all the steps so that
+[21:42] all of all these points basically so
+[21:44] that you can understand the crux from
+[21:46] the very very basic. Okay, now I have to
+[21:49] tell you guys one more thing. So how
+[21:51] this finetuning has started in the field
+[21:54] of this one NLP okay which was the model
+[21:59] which we have used like the first time
+[22:02] to achieve a finetuning inside the NLP
+[22:04] that's a still mystery right so we have
+[22:07] to understand that and guys don't worry
+[22:09] I kept all the thing over here so that
+[22:11] in a clearcut way you will be able to
+[22:13] understand how this this
+[22:16] finetuning how this finetuning error is
+[22:19] started inside the NLP
+[22:21] Now let's try to understand this
+[22:23] particular concept. Okay. So guys uh
+[22:26] whenever we talk about the fine tuning
+[22:27] inside the NLP right? So we always
+[22:29] discuss about this research paper. The
+[22:32] research paper name is universal
+[22:34] language modeling using enboard and
+[22:35] decoder architecture. So here guys I
+[22:38] would like to introduce two research
+[22:40] paper right uh which is mandatory for
+[22:43] learning. uh and if you are very
+[22:45] interested right to understand about the
+[22:48] uh about the in depth of the NLP right
+[22:51] so there's two research paper you should
+[22:53] go through the first research paper is a
+[22:56] encoder decoder which was published in
+[22:58] 2014 okay there even though they have
+[23:01] used the RN LSTM and the RN model but
+[23:04] again guys there are lots of concept
+[23:06] have been discussed inside this
+[23:08] particular research paper the next
+[23:10] research paper is uh was published in
+[23:12] 2018
+[23:13] And the research paper name is
+[23:15] what? Universal language model fine
+[23:18] tuning for the text classification. So
+[23:21] guys this research paper actually it's a
+[23:23] real starting of the uh it is a real
+[23:27] starting of the finetuning in the NLP
+[23:30] domain. Okay. And there is one more
+[23:31] research paper the research paper name
+[23:33] is neural machine translation by jointly
+[23:36] learning to align the align and
+[23:38] translation. If you're going to read
+[23:39] this all the three research paper guys,
+[23:41] believe me your understanding will be
+[23:44] much more complete in the field of in in
+[23:47] the in the field of this NLP right and
+[23:50] even you can understand the transformer
+[23:53] in a very very good way right in a
+[23:54] better way. So guys uh here I mentioned
+[23:57] just just try to read all this thing
+[23:59] what I mentioned. So one of the key
+[24:01] milestone one of the key milestone was
+[24:04] the idea of the universal language
+[24:05] modeling using the encoder decoder
+[24:07] architecture. So what they have done uh
+[24:10] they have pre-trained one model. Okay.
+[24:12] Uh and the pre-training basically it
+[24:15] happen using this machine translation
+[24:17] task. Okay. So guys as I told you
+[24:19] whenever we talk about the fine tuning
+[24:21] so for the finetuning guys we always
+[24:23] should have a pre-trained model. If we
+[24:26] don't have this pre-trained model,
+[24:27] pre-trained model on a huge amount of
+[24:30] data right on a huge amount of data in
+[24:33] that case we cannot perform the fine
+[24:35] tuning. So inside this research paper
+[24:38] what they have mentioned they have
+[24:39] mentioned they have trained one very
+[24:41] huge model okay it was not very used
+[24:44] compared to the uh like today's model
+[24:46] but yeah at that time basically it was a
+[24:48] use so it was a large scale text data
+[24:51] which was uh used for training a model
+[24:54] using this machine translation task that
+[24:56] my model can learn okay using this
+[24:59] particular task my model can understand
+[25:01] the grammar and the nitty-gritty detail
+[25:03] of the data then then what what they
+[25:05] have And then further they have fine-
+[25:06] tuned that particular model for what for
+[25:08] the uh for the text classification task.
+[25:11] So downream down the line they have fine
+[25:13] tuned that particular model for the test
+[25:14] classification task and the result was
+[25:17] super okay. So compared to the other
+[25:19] architecture, the vanilla architecture,
+[25:21] the vanilla LSTM and the RNM which we
+[25:24] were training from scratch right. So uh
+[25:26] the result of this particular approach
+[25:28] was quite good and this is the first
+[25:31] milestone the key milestone in the field
+[25:33] of NLP regarding the finetuning. Okay, I
+[25:36] hope you understood it now. So uh here
+[25:39] you can see inside this particular
+[25:41] model, right? So inside this particular
+[25:43] research paper, what was the limitation?
+[25:46] the limitation was very uh uh like a
+[25:48] straightforward. So for the pre-training
+[25:51] task they were using a machine
+[25:52] translation and using this machine
+[25:54] translation they were they were not able
+[25:56] to teach the model in a very good way
+[26:00] right so the model was not learning
+[26:03] anything right uh model was learning see
+[26:08] uh anything is not a correct word I
+[26:10] would say model was not learning
+[26:12] everything model was just learning
+[26:15] something
+[26:18] okay So here guys the issue was the
+[26:21] machine translation task was not good
+[26:23] for the pre-training that was the first
+[26:25] thing. The second thing basically they
+[26:27] were using the LSTM okay and LSTM and
+[26:29] the arc model these are not good for
+[26:33] the okay guys just give me a moment.
+[26:39] Yeah, this RN and LSTM model actually it
+[26:42] is not a very good model for the
+[26:44] long-term dependency means we cannot
+[26:46] handle very long sequence using this RN
+[26:50] and LSTM model and it was also not a
+[26:54] computationally e inefficient. Okay. So
+[26:57] uh it was not very computationally e
+[26:59] efficient mean it was a very inefficient
+[27:02] model in terms of the long sequence data
+[27:05] and because of that this uh model this
+[27:08] this research paper basically they have
+[27:10] introduced the fine tuning but uh it
+[27:12] couldn't scale the entire idea okay now
+[27:16] guys the game changer right so here I
+[27:18] have mentioned the game changer
+[27:20] transformer enter and now once it
+[27:23] entered now guys in the in the story in
+[27:25] our in our story Right. So the entire
+[27:28] thing got changed because this
+[27:30] transformer architecture is it was not
+[27:32] using the LSTM and the RNN at all. Okay.
+[27:36] It was not using it. So guys it has it
+[27:39] has like what what they have done they
+[27:42] have introduced something else. They
+[27:44] have introduced a concept of the self
+[27:45] attention. Uh actually the self
+[27:47] attention concept was uh was inspired
+[27:50] from this particular research paper.
+[27:52] this neural trans machine translation by
+[27:54] jointly learning to align the
+[27:56] translation. Okay, if you'll go and
+[27:58] check this particular research paper
+[27:59] they have defined the concept of what
+[28:01] they have defined the concept of the
+[28:03] attention. Okay. Now that this attention
+[28:06] basically it got converted into the self
+[28:08] attention formula. So uh here you can
+[28:10] see so we are having the self attention
+[28:12] instead of transformer architecture and
+[28:14] guys uh this is the specification a
+[28:17] quick spec the like a not a very
+[28:20] detailed one but yeah it is a like a
+[28:22] specification of the uh transformer
+[28:24] model there is input layer encoder
+[28:26] decoder and the output layer in some
+[28:28] other session I'll try to discuss about
+[28:30] this transformer and more okay so uh
+[28:32] guys after release of this after release
+[28:35] of this trans transformer guys So there
+[28:39] was some model was introduced like a
+[28:41] bird model, GPT model, T5 model, Excel
+[28:44] model. Now this all the model actually
+[28:46] it was based on the transformer only
+[28:49] right and this model basically it was a
+[28:52] quiet. Now what was the advantage inside
+[28:55] this particular model? So the advantage
+[28:57] basically uh let me write over here as I
+[28:59] told you. So whenever we talk about the
+[29:01] finetuning right whenever we are talk
+[29:04] whenever we talk about the finetuning so
+[29:06] what we required please mention in the
+[29:08] comment if you know so whenever we talk
+[29:10] about the finetuning we required some
+[29:12] pre-train model okay and this pre-trade
+[29:15] model it should train on a used amount
+[29:17] of data hedge amount of data okay now
+[29:21] guys uh earlier they have trained
+[29:24] pre-trained this particular model
+[29:25] pre-trained the model okay using the
+[29:28] machine translation task with the uh
+[29:30] language translation task but I as I
+[29:32] told you this language translation task
+[29:34] was not very efficient. Okay. So two
+[29:37] more task have been uh uh two most two
+[29:40] more tasks have been uh basically
+[29:43] published right. So uh in word research
+[29:45] paper they have published about the mass
+[29:47] language modeling and in GPD okay the
+[29:50] GPD research paper they have published
+[29:52] about the causal language modeling. So
+[29:54] in mass language modeling what we were
+[29:56] doing you know so we were masking the uh
+[29:59] we were m what we were doing you know we
+[30:01] were masking the random words okay
+[30:04] inside a particular sentence and we were
+[30:06] trying to predict that and inside the
+[30:08] GPD model you know what they were doing
+[30:09] they were trying to predict the next
+[30:11] word okay they were trying to predict
+[30:13] the next word inside the given sentence
+[30:17] so this two task was introduced guys and
+[30:19] you won't believe MLM was also fine but
+[30:22] this causal learning causal language
+[30:25] modeling C andM okay it is also called a
+[30:28] regressive modeling so it is also called
+[30:31] it is also called a regressive modeling
+[30:33] using this particular task when they
+[30:35] have trained a pre-trained model on a
+[30:37] huge amount of data now guys the result
+[30:40] was amazing is what I'm trying to say so
+[30:44] they want the pre-trained model okay now
+[30:47] how they can get the pre-trained model
+[30:49] so they can get a pre-trained model
+[30:50] using the machine translation term but
+[30:52] this was not good. So they have
+[30:54] introduced two more technique. First was
+[30:56] the MLM mass language modeling and
+[30:58] second was the causal language modeling.
+[31:01] This is also called regression modeling.
+[31:03] Okay, regressive modeling. So guys in
+[31:05] the inside the mass language modeling
+[31:07] you know what we are doing? We are
+[31:08] trying to predict the mask word. Okay
+[31:11] mask word inside the given sentence.
+[31:13] Okay. So this was fine. This was okay.
+[31:15] Okay. And the entire word concept it was
+[31:18] based on the mask language modeling. But
+[31:20] guys when they have when they have like
+[31:24] used this particular technique now
+[31:26] causal language modeling there they have
+[31:29] to put in the next one. Okay next one.
+[31:32] So using this particular technique the
+[31:34] model they have generated right the
+[31:36] pre-trained model they have generated
+[31:38] pre-trained model was very amazing. Now
+[31:41] whatever uh whatever current model you
+[31:44] can see right so whatever GPD based
+[31:46] model whatever like a mist model okay
+[31:51] lava model so this all the model
+[31:53] actually it is based on this technique
+[31:55] only okay causal language modeling where
+[31:57] they're trying to put in the next one
+[31:59] and this was a decoder okay and how they
+[32:02] were doing that they were doing that
+[32:04] using the decoder of the transformer
+[32:06] right they were taking the decoder of
+[32:08] the transformer and they are trying to
+[32:10] perform this particular task or next
+[32:12] word prediction causal language modeling
+[32:14] and they were pre-training that
+[32:15] particular they they generated a
+[32:17] pre-trained model okay and the model was
+[32:19] super now further this particular model
+[32:22] we can find here okay further this this
+[32:25] particular model we can find here I hope
+[32:27] you understand now you will ask to me
+[32:30] why we are doing this pre-training what
+[32:31] is our aim of this pre-training so the
+[32:34] aim of the pre-training is very very
+[32:36] simple guys so the aim of the
+[32:37] pre-training is uh we want to teach to
+[32:40] to the model. Okay, we want to tease to
+[32:42] the model. We want to tease to the model
+[32:44] the nitty gritty detail. Okay, the
+[32:46] nittyg gritty detail. Nitty gitty detail
+[32:48] means small to small detail. So we are
+[32:51] training our model for next prediction.
+[32:54] Okay, on top of this next word
+[32:56] prediction. In that case my model trying
+[32:58] to learn my model trying to learn
+[33:01] something from the data. Okay, my model
+[33:04] trying to learn my model trying to
+[33:06] understand the language. Okay, my model
+[33:08] trying to understand each and every
+[33:10] pattern and that was the that was the
+[33:13] advantage of this that was a very that
+[33:16] was a like very huge advantage of the
+[33:18] causal language modeling. We are able to
+[33:20] teach a pattern each and every pattern
+[33:22] from the data and because of that we are
+[33:24] able to get this GPD kind of model and
+[33:27] we are able to build this chair GPD kind
+[33:29] of application guys. I hope everything
+[33:32] is getting connected now. So what you
+[33:34] understood from this entire thing you
+[33:36] understood from this entire thing if we
+[33:38] want to fine-tune the model okay so we
+[33:42] no need to go through with this
+[33:44] classical approach we we are just going
+[33:45] to do the model training around it will
+[33:48] not be a simple model training it will
+[33:50] be a pre-training okay pre-training
+[33:52] means means pre-training is also kind of
+[33:55] a training but again pre-training
+[33:57] basically on a use amount of data and
+[34:00] for the pre-training guys we have a we
+[34:02] have some technique Right on CV we have
+[34:05] a technique right we are going to use
+[34:07] the CNN architecture and in NFP guys we
+[34:10] have this transformer based architecture
+[34:13] in the transformer based architecture
+[34:15] again we're going to use
+[34:18] the either mass language modeling or
+[34:21] this causal language modeling okay
+[34:24] causal language modeling is next one
+[34:26] prediction and this was the very
+[34:28] efficient technique if you're talking
+[34:30] about the efficient one the best one so
+[34:32] this was the best to best. So yeah, I
+[34:36] hope I given you the enough detail. Now
+[34:38] let's try to uh understand the further
+[34:40] things. So we were able to get the word
+[34:43] we are able to get the GPT. Then the
+[34:45] chat GPT came. Okay. So chat GPT have
+[34:48] introduced one more level of training
+[34:50] that was a reinforcement uh learning
+[34:52] through the human feedback. Now let's
+[34:54] try to reuse it the step. So if we want
+[34:56] to get a pre-train model. Okay. So first
+[34:59] we collect the data then we clean the
+[35:01] data analysis the data prep-process the
+[35:03] data then we have a unsupervised
+[35:05] pre-training using the GPT means using
+[35:08] this causal language model the next word
+[35:10] prediction okay so yeah here here you
+[35:12] can see the GPD based model decoder
+[35:14] based model okay then we have a
+[35:16] evaluation of the model using the
+[35:18] perplexity loss token accuracy and okay
+[35:21] now here guys I have a mention about the
+[35:24] pre-training you can read about it so
+[35:26] what it is it is a phase where model is
+[35:30] learning everything from the data. Okay,
+[35:32] it is a auto reggressive language
+[35:34] modeling predicting the next word next
+[35:35] token. I'm talking with respect to the
+[35:37] NLP. Okay, I'm talking about the
+[35:39] evolution of the GPT model. I'm talking
+[35:42] about the evolution of this chat GPT
+[35:44] application. Again I'm saying chat GPT
+[35:47] is a application. Okay, GPT is a model.
+[35:50] So chat GPT is a application. Then guys
+[35:54] uh here we are going to build a
+[35:55] foundation model. Now again I'm saying
+[35:57] this pre-trained model itself okay
+[35:59] pre-trained model itself is called a
+[36:01] foundation model. So if someone is going
+[36:04] to ask you what is a foundation model
+[36:06] this pre-trained model only it is called
+[36:08] the foundation model. So once we'll get
+[36:10] the pre-trade model guys now further we
+[36:12] can fine-tune that model. Okay we have a
+[36:14] supervised fine tuning technique inside
+[36:17] the LLMs right. So we can perform the
+[36:20] finetuning using the PEP technique. We
+[36:22] can perform the fine tuning using this
+[36:24] Laura to Laura and all each and
+[36:26] everything will try to learn going
+[36:28] forward. And then there is one more type
+[36:30] of fine tuning was introduced from the
+[36:33] chat GP end from the open end that
+[36:35] finetuning was the reinforcement
+[36:37] learning to the human feedback means
+[36:39] boss will generate a a result okay and
+[36:42] then whatever result is being generated
+[36:44] then we try to find out which is a best
+[36:46] result means which is a best result and
+[36:48] then again we'll try to align that
+[36:50] particular result with the human
+[36:52] question so that my response will be a
+[36:54] more controlled and will be more
+[36:56] accurate. Now this RLHF is being
+[36:59] replaced by this DPO technique. This is
+[37:01] called that is called direct reference
+[37:03] optimization DPO. Okay. And we'll try to
+[37:06] understand this DPO also in the upcoming
+[37:08] session. So guys now it's a now you are
+[37:12] welcome to the era where we have a
+[37:14] different different ILM from the llama
+[37:16] Mr. Jimny BC cloud and GPD and all. And
+[37:20] here you can see guys this is the
+[37:22] complete uh the the sequence okay of the
+[37:25] trading. So first we going to get a
+[37:27] pre-trained model then we can fine-tune
+[37:29] that particular model then basically we
+[37:31] can further fine tune it per we can
+[37:33] further perform the instruction
+[37:35] finetuning and all okay then we can
+[37:37] perform the RHF and all and this
+[37:39] continuous learning is going right so
+[37:42] this is the complete this is the this is
+[37:45] the like conclusion guys okay the entire
+[37:47] conclusion which I was trying to explain
+[37:50] now what I will do I will uh come to
+[37:52] this pre-training guys we'll try to
+[37:55] discuss couple of more thing with
+[37:56] respect to this pre-raining and I will
+[37:58] try to show you the practical of this
+[38:00] pre-training okay and then we'll try to
+[38:02] understand this transfer learning and
+[38:04] the finetuning as well uh means what it
+[38:07] is uh I'm not going to I'm not going in
+[38:09] a very detail about this transfer
+[38:12] learning and finetuning I'll just give
+[38:14] you the subace level idea okay then in
+[38:17] one of the session we'll try to discuss
+[38:18] it discuss it in a very detailed way
+[38:20] okay so your complete uh introduction
+[38:23] right complete introduction of the
+[38:25] finetuning is not going to be complete
+[38:28] in this particular class. Uh it will be
+[38:29] completed in next class because there is
+[38:31] couple of more point advantage
+[38:33] disadvantage reliability and all. So
+[38:35] I'll record one more video regarding
+[38:37] this one. Now let's try to understand
+[38:39] about the pre-training guys uh in a
+[38:41] little detailed way and then we'll see
+[38:43] the um we'll see the
+[38:46] practical. So guys uh what is a
+[38:48] pre-training? What is a pre-trained
+[38:50] model? Now let's try to discuss in a
+[38:52] little detail way. So uh here uh
+[38:55] pre-train means let first teach the
+[38:58] model on some basic knowledge before
+[39:01] asking do a specific task. Okay. Before
+[39:05] uh asking it to do a specific task.
+[39:07] Okay. So uh let's take a example of the
+[39:10] uh NLP. Okay. In NLP we have the GPT and
+[39:14] the bird and the llama kind of model. So
+[39:16] this bird and GPT uh it is called the
+[39:20] early stage LM model. uh okay and the
+[39:24] llama and the then mistrill then other
+[39:26] model the gymna and all okay this is
+[39:29] called a state of stateart model which
+[39:31] was recently launched one or two year
+[39:33] back then uh guys here you can see feed
+[39:36] in tons and tons of general data like
+[39:39] books website wikipedia and articles
+[39:41] okay feed this data to the model means
+[39:45] what's the meaning over here if we are
+[39:46] feeding a data means we are training a
+[39:48] model right we are training a model and
+[39:51] this training is called
+[39:54] pre-training right pre-training model
+[39:57] and the model which we are going to
+[39:59] create this model actually it's called a
+[40:01] foundation model okay foundational model
+[40:05] now further this foundation model we can
+[40:07] use in a various way okay means this
+[40:10] model I can use as it
+[40:14] is or I can do fine tuning of this
+[40:20] particular
+[40:22] example. Okay. Fine tuning of this
+[40:25] model. Now again the finetuning. So
+[40:28] either I can just change the last layer
+[40:31] the last output
+[40:33] layer. Okay. Or the next one is I can
+[40:38] change couple
+[40:40] of I can I can freeze all the layer and
+[40:44] only can change couple of last layer.
+[40:47] Couple
+[40:49] of last
+[40:52] layer. Okay. Couple of last layer. So
+[40:56] guys this way right. So this one this is
+[40:59] called a transfer
+[41:01] learning.
+[41:04] Transfer
+[41:06] learning. So here what we are doing we
+[41:08] are transferring a learning right
+[41:11] whatever we have learned throughout this
+[41:13] foundation model. So either we are going
+[41:16] to use this model as it is that's fine
+[41:18] okay we are using a pre-tend model but
+[41:21] let's say we want to fine-tune it so we
+[41:22] can finetune the last layer or else we
+[41:24] can finetune the couple of last layer of
+[41:26] the model okay in that case what we are
+[41:29] doing we are going to perform a transfer
+[41:30] learning means we are transferring a
+[41:32] knowledge of the model okay for some
+[41:35] other task okay and this comes under
+[41:38] this fine tuning means if I'm saying
+[41:41] transfer learning yes transfer learning
+[41:43] is
+[41:44] Transfer learning is nothing. It is just
+[41:46] a way to perform a fine tuning. Okay.
+[41:51] And how many ways we have? We have a two
+[41:54] ways. Either we can only change the last
+[41:56] layer of the model or else we can change
+[41:59] couple of last layer and we can
+[42:02] freeze most of the initial layer of the
+[42:05] model. Okay, this is the whole sort of
+[42:07] idea. It will get more clear if it is
+[42:09] getting confusing for as of now. Don't
+[42:11] worry. Now here you can see the
+[42:14] definition. So first teach to the model
+[42:16] on some specific knowledge. Then what
+[42:18] you have to do? So after that you can
+[42:20] further find. Now I given so many
+[42:23] examples over here. You can look into
+[42:25] it. Now uh here guys I someone is going
+[42:28] to ask you in an interview that why this
+[42:30] why to use this pre-trained model. So
+[42:32] you can easily say uh deep learning
+[42:35] model required a massive amount of data.
+[42:37] Okay. Okay. And because of that uh we
+[42:39] cannot train it again and again from a
+[42:41] scratch. Okay. Because if you are going
+[42:44] to do like this in that case there will
+[42:46] be a uh there will be so many uh this
+[42:50] computational resource will be
+[42:52] associated and even this is not
+[42:54] possible. Okay. It will take a very huge
+[42:55] time effort and all. So this is all the
+[42:57] thing I have mentioned that this deep
+[42:59] learning model is a uh is required a
+[43:01] massive amount of data. It's a data
+[43:03] hanging model and uh then uh if you're
+[43:06] going to train it from scratch so it's
+[43:07] required to use time, resources and
+[43:09] effort. Okay. So using this pre-trained
+[43:12] model what you can do you can take a
+[43:13] shortcut means someone can train that
+[43:16] model. Someone means the big giants the
+[43:18] big company or even you can also train a
+[43:21] model and then you can provide to that
+[43:23] community. The community can use this
+[43:26] particular model and the development
+[43:28] could be a faster in the field of this
+[43:30] AI. Okay, this is the whole sort of a
+[43:33] idea behind this pre-training model. Now
+[43:36] let's deep dive into the pre-training
+[43:37] model. So I was saying how this uh
+[43:41] pre-training was introduced inside the
+[43:42] CNN. Okay, inside a convolution neural
+[43:44] network. So the convolution neural
+[43:47] network guys see uh pre-training is when
+[43:50] convolution neural network is trained on
+[43:52] large or a general data set like a
+[43:54] imageet data set. So there was one data
+[43:56] set which was introduced okay uh in the
+[43:59] field of this convolution neural network
+[44:02] in the field of this uh computer vision
+[44:04] the data set name was the image net okay
+[44:08] so this data set basically uh was
+[44:10] created by the fif okay and uh she was
+[44:15] creating this particular data set from
+[44:17] 2006 itself they were maintaining a
+[44:20] database and inside the database there
+[44:22] was so many images how many images was
+[44:24] there I'll let you Okay, I kept all the
+[44:26] specification and all. So this further
+[44:28] this particular data set, this image
+[44:30] data set was used for one of the
+[44:32] competition and uh inside this
+[44:34] competition many uh intellectual has
+[44:37] participated. There was one guy Jeffrey
+[44:40] he participated with their own model.
+[44:42] The model name was the uh this one uh
+[44:45] Alex net. Okay, Alexnet was a model name
+[44:48] and he has used that particular model,
+[44:50] okay, on top of this data set and the
+[44:53] accuracy was amazing because the error
+[44:55] rate was getting very down and the
+[44:57] accuracy was coming fine, right? So
+[44:59] guys, uh here this is some pre-trained
+[45:01] model like VG, restnet, inception,
+[45:04] mobile net, efficient net which was
+[45:06] further uh introduced okay during this
+[45:09] image imageet competition only and uh it
+[45:12] was able to achieve a very good
+[45:14] accuracy. So whenever we are talking
+[45:16] about the CNN model guys those inside
+[45:18] the CNN model what it does the CNN model
+[45:20] actually it's trying to see uh see let's
+[45:23] let me give you the example with this
+[45:24] particular example you will be able to
+[45:26] understand very clearly let's say this
+[45:28] is the image now what is this image this
+[45:30] image is nothing it is a collection of
+[45:33] pixel okay so this image is nothing it
+[45:36] is a collection of pixel so from this
+[45:38] particular image we have to extract the
+[45:40] feature right we have to extract the
+[45:43] feature now if we are going need to if
+[45:45] you want to accept a feature from this
+[45:47] particular image we are going to use a
+[45:48] technique of the
+[45:49] convolution. So in the convolution
+[45:52] actually what we do we use some uh we we
+[45:55] use some uh this random matrixes okay we
+[45:59] multiply this random matrixes with the
+[46:01] images okay and we try to extract the
+[46:04] feature from this particular images now
+[46:06] this particular technique is called the
+[46:08] convolution and the convolution in the
+[46:10] network we use the same thing we take
+[46:12] some random features okay we multiply to
+[46:15] the real image and then we try to extend
+[46:17] some we try to like after the multip
+[46:20] implication and not whatever we get now.
+[46:22] So this this is called a feature right?
+[46:24] Now guys this images let's say this
+[46:26] image is a human image. Now just think
+[46:29] about the human. So in a human guys
+[46:32] there will be a face right over the face
+[46:35] uh there will be the nose ear okay
+[46:37] forehead cheeks lips whatever would be
+[46:40] there. Now the primitive feature of the
+[46:42] of any human would be a let's say there
+[46:44] is a sunny or let's say there is some
+[46:46] other person. So some other person is
+[46:48] also having a nose, eyes, ear, eyebrows,
+[46:51] forehead. Sunny is also having a same
+[46:53] thing, right? But guys, if we are going
+[46:55] to be a more specific, so Sunny's eye is
+[46:58] something else compared to the another
+[47:00] person. It's a sunny nose is something
+[47:02] else compared to the another person.
+[47:04] It's a sunny stick is something else
+[47:05] compared to the another person. Okay. So
+[47:08] this that is called the specific
+[47:09] feature. Okay. Or the complicated or the
+[47:11] sophisticated feature. So whenever we're
+[47:14] talking about the CNN layers the CNN
+[47:16] architecture so it is trying to capture
+[47:18] the features okay feature from the
+[47:20] images so feature I divided into the
+[47:22] multiple section primitive feature
+[47:24] intermediate feature is specific feature
+[47:26] and all so guys this primitive feature
+[47:28] or even this intermediate feature would
+[47:30] be a same right means this edge lines
+[47:33] corners okay this might be a same right
+[47:37] or 99% this would be a same pattern
+[47:40] curves block combination and all but
+[47:42] guys if they are going into the deeper
+[47:43] layer in that case some meaningful
+[47:45] feature which with that basically we can
+[47:48] identify whether this person is a sunny
+[47:50] or someone else right so the the type of
+[47:52] the eye the face okay whatever basically
+[47:56] right so what we are going to do using
+[47:58] the CNN architecture we are trying to
+[48:00] fet the feature and guys let's say if we
+[48:02] want to use the CNN model to some other
+[48:05] let's say I train this particular model
+[48:07] on a let's say I train this particular
+[48:10] model on a human okay on top of this
+[48:13] human data I I have what I have is tell
+[48:16] me I have the ced model now this
+[48:18] particular model I have prayed on a
+[48:21] human data right there are so many
+[48:24] picture where like there is a human male
+[48:26] female and all now if I'm giving if I'm
+[48:29] giving a image to this particular CN
+[48:31] model and I'm saying can you identify
+[48:33] whether in the image there is a human or
+[48:36] there is some other object some other
+[48:38] object definitely it can identify
+[48:41] Okay, it can identify that. But guys,
+[48:43] let's say if I will ask inside the
+[48:46] image, okay, there is a sunny or there
+[48:50] is some other person. Let's say Rahul.
+[48:52] So in that case, it will not be able to
+[48:54] identify whether it won't it will not be
+[48:57] able to answer whether this human is a
+[48:59] Sunny or this human is a Rahul because
+[49:02] primitive feature of the primitive
+[49:04] feature. Okay, primitive feature of the
+[49:06] Sunny and Rahul. It will be same. But
+[49:09] guys the sophisticated feature the deep
+[49:11] features okay
+[49:13] sophisticated feature means the specific
+[49:15] feature of this Sunonny and Rahul is
+[49:18] going to be different. Why? Because
+[49:20] Sunonny looks like something else and
+[49:21] Rahul looks like something else but both
+[49:23] are human but both are human. So the
+[49:26] primitive feature of the Sun and Rahul
+[49:28] will be same and the sophisticated
+[49:29] feature of the Sun would be different.
+[49:32] Okay. So what I want to say over here
+[49:34] let's say I have trained one CNN model.
+[49:37] I train one CN model on a very huge
+[49:40] amount of data. Okay. Now this data is a
+[49:43] human data. Okay. This human data. So
+[49:47] this model the CN model I can use as it
+[49:50] is as it is right for identify whether
+[49:54] the person is human human or some other
+[49:58] object. So this is all we are using a
+[50:01] pre-trained model. Okay. This is all we
+[50:04] are using a pre-trained model. But guys,
+[50:07] let's say if we have to identify, right?
+[50:10] So let's say we have a CNN model. Now
+[50:12] using the CNN model, I'm passing an
+[50:15] image to the CNN model. And now I have
+[50:17] to identify whether there is a sunny.
+[50:20] Okay, whether there is a sunny or there
+[50:22] is a rah inside the image. In that case
+[50:26] guys, this model is going to be f this
+[50:28] pre-trained model. Right? This
+[50:30] pre-trained model and this foundation
+[50:32] model will not work. So what will I have
+[50:34] to do? Any answer for this one? Yes, you
+[50:36] are thinking right. We are going to
+[50:39] finetune the model. Okay. And in the
+[50:41] finetune guys tell me now one more thing
+[50:44] will be clear. So we are going to be
+[50:46] finetune the primitive layers or we are
+[50:49] going to find out finetune this deep
+[50:52] layer. Obviously guys we are going to
+[50:54] find tune this deep layer because as I
+[50:56] told you this primitive sorry for the
+[50:59] bad wrong spelling but just write what
+[51:01] they said. So for the primitive layer
+[51:03] guys right for the primitive layer the
+[51:04] feature will be same right so in that
+[51:07] case we no need to finetune this
+[51:08] particular model so what we'll do we'll
+[51:10] try to keep it as it is we'll try to
+[51:12] freeze this layer as it is and we'll try
+[51:14] to we'll try to retrain couple of last
+[51:17] layer the deep layer okay the last layer
+[51:19] of the model that's why I was saying so
+[51:21] if we have any sort of a model okay
+[51:24] let's say we have any sort of a model so
+[51:26] initially we we try to freeze always the
+[51:29] initial layer okay we don't touch this
+[51:31] particular layer we always try to find
+[51:33] the last layer because this last layer
+[51:35] only it is responsible for extracting
+[51:38] the uh for extracting the tell me guys
+[51:41] what for extracting the deep features
+[51:44] okay from the image the supersticated or
+[51:46] the specific feature I won't this thing
+[51:49] is getting clear this is what basically
+[51:51] I wanted to explain you so guys this is
+[51:53] the complete detail of the image data
+[51:55] set you can read from here and I lsvr
+[51:58] see this competition name I was talking
+[52:01] about right. So uh image net large scale
+[52:04] visual recognization data or challenge
+[52:06] right. So inside the image net data set
+[52:08] this much was the images this much was
+[52:11] the validation images then there was
+[52:12] some classes and all. Okay. So in uh
+[52:16] 2012 uh ML plus manual feature
+[52:19] extraction technique was used but the
+[52:21] accuracy was not good. Then 2012 onwards
+[52:24] TL model was used. So the L submit model
+[52:27] the accuracy was good and then error
+[52:30] rate was dropping. Here they have used
+[52:32] the GPU model GPU uh basically platform
+[52:35] and the railway models and so this was a
+[52:37] complete chart guys how the uh accuracy
+[52:40] was decreasing year by year okay and how
+[52:42] the pre-trained model was getting
+[52:44] succeeded right sorry this uh
+[52:46] fine-tuning the basically was getting
+[52:48] succeeded okay they they were pretending
+[52:50] on top of the imageet data set they have
+[52:52] printed the model on top of the imageet
+[52:54] data set and then they were fine tuning
+[52:56] for any specific task at that time right
+[52:59] now so guys Here is the convolutional
+[53:02] network. You can see over here you can
+[53:04] go through with it and you can
+[53:05] understand this particular architecture.
+[53:07] Right? There is a multiple convolution
+[53:09] layer and at the end you will find out
+[53:10] the average pooling and this is a fully
+[53:12] collected layer. Okay. Now guys the
+[53:14] second thing is pre-trading is the large
+[53:16] language model. This is a pretty uh
+[53:19] interesting. So let's try to understand
+[53:21] it and uh then guys I'll try to conclude
+[53:23] the session after showing you a
+[53:24] practice. So here if you're talking
+[53:27] about the pre-training in the large
+[53:29] language model. So guys uh see uh what
+[53:32] happened first we collect the data the
+[53:34] massive amount of data we tokenize the
+[53:36] data we pass it to the transformer we
+[53:38] print the next token okay we calculate
+[53:41] the loss we do the back propagation and
+[53:43] then repeat so this is the training
+[53:45] process the entire training process of
+[53:48] what this is the entire training process
+[53:50] of the transformer based model okay now
+[53:53] guys here you can see we're talking
+[53:55] about the transformer and this
+[53:57] prediction next to so what I What what
+[54:00] what I'm trying to explain over here I'm
+[54:02] talking about the causal language
+[54:04] modeling in the causal language modeling
+[54:06] we're trying to predict the next word
+[54:08] okay and because of that we were trying
+[54:10] to uh we were trying to teach the model
+[54:13] okay the specific language see here I
+[54:15] mentioned training objective training so
+[54:17] predicting a next token either using the
+[54:19] causal or mass language modeling so here
+[54:22] I mention about the filtering type so
+[54:25] the GPT model we use the mask this
+[54:27] causal modeling in the part we use the
+[54:28] mask
+[54:29] modeling in T5 they were using the span
+[54:32] masking it is a one of the variant of
+[54:34] the masking in palm lama and all the
+[54:36] state-of-the-art modeling they are using
+[54:38] the causal pre-training model okay and
+[54:41] here you can see the number of tokens
+[54:43] and all how many number of tokens they
+[54:45] they are using means at which scale okay
+[54:49] and with which technique now I hope
+[54:52] everything is clear so from where they
+[54:54] are collecting a data they are
+[54:55] collecting a data from the problem
+[54:56] crawler from the Wikipedia news article
+[54:59] social media post, BS, GitHubs and all
+[55:01] from every places they are going to be
+[55:03] taking care the data now guys why it is
+[55:05] called unsupervised pre-training I think
+[55:07] you heard about one more note term apart
+[55:09] from the foundation model and the
+[55:11] pre-training model only because there is
+[55:13] no token there is sorry there is no
+[55:16] labels okay you will you will not be
+[55:18] able to find out the y label over there
+[55:21] okay so because of that it is called the
+[55:23] unsupervised pre-training but guys this
+[55:25] is not a correct one I try to explore
+[55:28] this particular thing. So in many of the
+[55:30] blogs in couple of research paper they
+[55:32] have said you can use one better word
+[55:34] for this particular training this
+[55:36] unsupervised pre-training which is
+[55:37] called self-supervised learning. Why?
+[55:40] Because in self-supervised learning what
+[55:42] we tell people sorry inside this unsuper
+[55:45] inside this unsupervised preing what we
+[55:47] do we try to predict the next word.
+[55:49] Okay. And how we get this next word?
+[55:50] From the data itself, right? So from the
+[55:54] data itself, we get a next word. Just
+[55:56] just see just look at the example here.
+[55:58] I kept the example or let let me write
+[56:01] example. Let's say here I'm going to put
+[56:04] Sunny. Sunny is AI master. Okay. Sunny
+[56:10] is a AI master. Now guys, just see if
+[56:14] you want to predict this AI or if you
+[56:16] want to predict this AI. So we'll keep
+[56:18] we'll consider this last two word. Okay,
+[56:20] we'll take this last two word and we'll
+[56:23] keep this particular word as a target
+[56:25] variable. Okay, and we'll try to predict
+[56:26] that. Okay, using the model. Now let's
+[56:28] say we want to predict this master. So
+[56:30] what we'll do? We'll try to keep this
+[56:32] all this three word okay as a as a x
+[56:35] label as a x label and we'll try to keep
+[56:38] this master as a y label. Okay, y label.
+[56:42] So automatically we are going to create
+[56:43] a y label from the given data. So
+[56:47] instead of saying so instead of saying
+[56:49] this is so instead of saying this is the
+[56:52] uh unsupervised prey so the better word
+[56:55] will be a self-supervised training okay
+[56:57] you can say automatically the label is
+[56:59] going to be create from the data and
+[57:01] then it is trying to predict that
+[57:02] particular label the next level so here
+[57:05] I written some analogy and all with
+[57:07] respect to the pre-training it's a
+[57:08] self-taught student okay first it is
+[57:11] PG2 itself and then uh basically it's
+[57:15] time to predict Okay. And if it is
+[57:17] required finetuning of some specific
+[57:19] task then we can do that. Now here I
+[57:22] return why this works. Okay. Like a
+[57:24] magic because because of this
+[57:26] pre-training actually it is able to
+[57:27] understand the grammar inside the data.
+[57:30] It is able to understand the word
+[57:31] semantic relationship and all. Okay.
+[57:33] It's trying to understand the crux of
+[57:35] the language and because of that it's
+[57:37] going to be uh it's going to work like a
+[57:40] magic. Okay. And this one single model
+[57:43] let's say we're talking about one
+[57:44] foundation model. One foundation model.
+[57:47] So it is able to do every sort of a
+[57:50] task. So it can do the uh it can do the
+[57:54] classification. It can u what it can do
+[57:57] is it can do the classification. Okay.
+[58:00] It can uh do the basically
+[58:03] summarization. Okay. This is also
+[58:05] possible. The other task like a
+[58:07] translation and all. So every kind of
+[58:09] task it is able to perform because of
+[58:11] what? Because of uh this pre-tailing
+[58:14] where we we are teaching the model to
+[58:16] each and every kind of grammar whatever.
+[58:18] So this is the example of the board guys
+[58:20] I kept it over here so that uh like you
+[58:23] can understand how the thing was working
+[58:25] in the board right and uh in the board
+[58:28] basically they were using the mass
+[58:29] language modeling and the GPA they were
+[58:32] using the regressive model. Okay, this
+[58:34] is the transformer architecture guys and
+[58:36] uh I hope so now you understood this uh
+[58:39] transformer architecture basically we
+[58:41] can pre-train and further we can use it
+[58:43] as a for the fine coding now uh there is
+[58:46] a next thing guys uh the transfer
+[58:48] learning and the finetuning so this
+[58:50] particular thing we'll understand in
+[58:51] some other lecture and uh what I can do
+[58:54] over here I can show you some practical
+[58:57] with respect to the finetuning so that
+[58:59] your understanding will be much more
+[59:01] clear so I created one notebook here You
+[59:03] can see uh inside this notebook guys I
+[59:06] kept couple of example with respect to
+[59:09] the uh CV model the CNN based model and
+[59:12] the board. So first what I'm doing guys
+[59:15] I'm connecting with my collab okay so
+[59:17] where is the below is the code for the
+[59:19] rest CV model. Okay. So here what I'm
+[59:21] doing I'm just going to be uh load the
+[59:23] model load the statement. Okay. All the
+[59:26] import statement. Then here I'm going to
+[59:28] load the model. Here is my model. Okay.
+[59:30] And I will provide the image. Let's see
+[59:32] whether it will be able to predict the
+[59:34] model. So this image basically I will
+[59:36] have to keep it in my local sorry in my
+[59:39] collab itself for my local itself. Okay.
+[59:42] So what I'm doing I'm just going to be
+[59:44] download upload the image. So I'm just
+[59:46] taking one dog image and one uh let's
+[59:49] say computer image. Okay, two image I'm
+[59:51] going to upload over here and then I'll
+[59:52] show you the pre-training using the uh
+[59:55] pre-training using the bird also. Okay,
+[59:58] so here you can see we are not going to
+[01:00:00] be train the model. So we are just going
+[01:00:02] to be load the model okay the
+[01:00:03] pre-trained model and I'm loading it for
+[01:00:05] the class only. And what is my model
+[01:00:08] name? So our model name it over here
+[01:00:10] it's a press net. Okay. Now uh here uh I
+[01:00:14] imported the statement all the input
+[01:00:16] statement that there is a restn net
+[01:00:17] model. Now I'm going to uh there is my
+[01:00:20] image path guys. So this image path I
+[01:00:23] will be passing. First let me define the
+[01:00:25] configuration of the image. Okay. So
+[01:00:26] here is the image and then there's a
+[01:00:28] target size. I'm going to load my image.
+[01:00:30] I got my image guys. I expanded this
+[01:00:33] particular image. Okay. So into the
+[01:00:35] array and I'm passing it to the model.
+[01:00:37] So here I will be getting a prediction.
+[01:00:39] So see this is this my model which I
+[01:00:41] loaded from the class library and here
+[01:00:44] what I'm doing I'm just doing a
+[01:00:45] prediction and see this is my
+[01:00:46] prediction. So how we'll get to know
+[01:00:48] what it belong to which class. So I can
+[01:00:51] simply check the probability of it. So
+[01:00:53] here see I'm passing a dog image. So the
+[01:00:57] highest probability of the golden
+[01:00:59] retriever. Okay. Labrador retriever.
+[01:01:01] Okay. And then golden retriever. So all
+[01:01:03] the dog name is coming. Right. Now let's
+[01:01:06] say if you want to check the other
+[01:01:07] image. So you can notice this tomato
+[01:01:09] image also how it looks like. So guys
+[01:01:11] this tomato image looks like this. Let's
+[01:01:13] try to predict about the tomato. So
+[01:01:15] instead of
+[01:01:16] giving the dog image now I'm giving a
+[01:01:19] tomato. Let's see whether my model can
+[01:01:21] identify the tomato or not. Now again uh
+[01:01:24] this weights I'm using from the image
+[01:01:27] data set. So this model was trained on
+[01:01:29] image data set. So I'm using that
+[01:01:31] particular weight only. I change the
+[01:01:32] image path. Now here I'm providing my
+[01:01:34] image again. Now here I'm doing some
+[01:01:36] pre-processing of the image. Then I'm
+[01:01:38] predicting it and here is my prediction.
+[01:01:40] Now you see the label. So it is saying
+[01:01:42] it is a strawberry pitcher orange hair.
+[01:01:45] Okay. So all the thing related to the
+[01:01:47] tomato. I think tomato will not be there
+[01:01:49] inside the particular data. That's why
+[01:01:51] it is not coming. But whatever thing is
+[01:01:53] going to be related to the tomato it is
+[01:01:55] giving me all the those things. Now I
+[01:01:57] hope this thing is also clear. Now
+[01:01:59] coming to the bird model. Okay. So using
+[01:02:02] the B model also we can perform this
+[01:02:04] pre-rain sorry we can also this pre-rain
+[01:02:07] B model and we can directly do the
+[01:02:08] prediction of our data. So here I'm
+[01:02:11] going to load this B model using the M
+[01:02:13] face only. So here is my tokenizer
+[01:02:16] model. So why we use this tokenizer?
+[01:02:19] What is this model? This word full mask
+[01:02:23] language okay what other classes we have
+[01:02:26] inside the task former and all in those
+[01:02:28] we'll discuss inside the hing based
+[01:02:30] classes. Okay. So here I'm just loading
+[01:02:32] a model in the tokenizer. Now this is my
+[01:02:35] like sentence the capital city of the
+[01:02:38] France is and here I given the mask one
+[01:02:40] means I need to predict this particular
+[01:02:41] next one. So this my text now first I'm
+[01:02:44] going to tokenize it and then I'm going
+[01:02:46] to like create a log okay mean my
+[01:02:50] forward pass from calculation. Then here
+[01:02:53] is my this mask ID is the tokenization
+[01:02:57] which we have done there we have created
+[01:02:59] ID. Now I'm passing it to the soft match
+[01:03:02] and here is my top game right soft match
+[01:03:05] over vocabulary plus take top prediction
+[01:03:08] for the position. Okay. Now here I have
+[01:03:10] a complete description. Now now what I'm
+[01:03:12] doing I'm just going to make a
+[01:03:13] prediction. See here it is giving me a
+[01:03:15] word what would be the next word. Okay.
+[01:03:17] So just read over here the sentence the
+[01:03:19] capital of the France is Paris. So it is
+[01:03:22] giving me highest probability for the
+[01:03:24] Paris and the other word also it is
+[01:03:26] generating but this is the correct one.
+[01:03:28] Okay. Now likewise you can utilize this
+[01:03:30] pre-trained word model for predicting
+[01:03:32] the next one. Okay using this mask
+[01:03:34] language model. Now here I kept the
+[01:03:36] example for what for the other model
+[01:03:38] like this text based uncase SST. So I
+[01:03:42] can execute it and I can check out uh
+[01:03:44] what it's going to be predict.
+[01:03:47] Okay. So I hope you understood uh the
+[01:03:50] meaning of this u you understood what
+[01:03:53] you understood the meaning of the
+[01:03:54] pre-train model and the tokenizer and
+[01:03:57] all. Guys, we'll try to discuss in the
+[01:03:59] upcoming sessions. Okay, each and
+[01:04:01] everything we'll try to discuss over
+[01:04:02] there in the again session. But don't
+[01:04:04] worry, I try to cap each and everything
+[01:04:06] inside this series. So, you won't be get
+[01:04:08] any issue with respect to the fine
+[01:04:10] giving. So, yeah, it is fine. Now, let's
+[01:04:13] try to conclude this session. In the
+[01:04:14] next class, I'll discuss about the
+[01:04:16] transfer learning uh concept and we'll
+[01:04:19] discuss couple of more concept with
+[01:04:21] respect to fine tuning. So, thank you.
+[01:04:23] Bye-bye guys for watching this video.
+[01:04:26] Stay tuned for this for the channel and
+[01:04:28] if you haven't subscribed, please
+[01:04:29] subscribe the channel guys so that you
+[01:04:31] will get this amazing content whenever
+[01:04:33] I'm uploading anything available. Thank
+[01:04:36] you. Bye-bye. Take care.

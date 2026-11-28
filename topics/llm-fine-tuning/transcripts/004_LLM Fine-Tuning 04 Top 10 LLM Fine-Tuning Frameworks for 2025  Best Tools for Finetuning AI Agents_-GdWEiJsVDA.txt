@@ -1,0 +1,1302 @@
+Title: LLM Fine-Tuning 04: Top 10 LLM Fine-Tuning Frameworks for 2025 | Best Tools for Finetuning AI Agents
+Video URL: https://www.youtube.com/watch?v=-GdWEiJsVDA
+Video ID: -GdWEiJsVDA
+======================================================================
+
+[00:00] Hey. Hi everyone. Welcome back to my
+[00:03] channel. My name is Sunonny Savvita and
+[00:05] I'm back with another exciting and
+[00:07] important video. So in this particular
+[00:10] video guys, we're going to discuss some
+[00:11] very important framework regarding the
+[00:14] LLM fine-tuning. Now along with our
+[00:17] framework, I'll discuss couple of
+[00:19] important point uh related to this LLM
+[00:22] fine-tuning. So as you know guys I uh
+[00:26] started this LLM fine-tuning series
+[00:28] where I already uploaded three video
+[00:31] related to that. Inside the first video
+[00:33] I discuss the complete slab bus. In the
+[00:35] second video I discuss the complete
+[00:37] introduction of the finetuning. Uh then
+[00:40] in the third video I discuss the
+[00:42] transfer learning concept. And guys here
+[00:44] I discuss along with the practical. Uh
+[00:47] then guys uh if you want to find out
+[00:49] this particular playlist right? So I
+[00:51] already created one playlist inside the
+[00:53] playlist section uh with the name of
+[00:56] complete fine-tuning. Uh you can go and
+[00:58] check over here and you can start your
+[01:00] learning. Now apart from this playlist
+[01:02] you will find out some other playlist
+[01:04] also uh like this langra agent advanced
+[01:07] rag lang chain multimodel rag. Okay,
+[01:10] each and everything I try to uh kept on
+[01:13] my YouTube channel so that smoothly you
+[01:15] can start your journey of the generative
+[01:18] AI and easily you can make a transition.
+[01:21] Uh now inside this video guys we going
+[01:24] to discuss some very important topic
+[01:26] like L&M fine-tuning framework important
+[01:29] resources like the leaderboard and all
+[01:32] uh then we'll discuss framework to goal
+[01:35] analysis how to decide a best framework
+[01:37] then finetuning enterprise level
+[01:41] expectation okay so what is a
+[01:43] expectation of or with respect to the
+[01:45] finetuning in enterprises and then some
+[01:48] important research paper so this video
+[01:50] is going to be very very important and
+[01:53] very resource inensive and guys uh if
+[01:56] you want to start your journey of the
+[01:58] LLM finetuning you can go and check with
+[02:00] this three video uh first uh see this
+[02:03] video actually it will clear clear your
+[02:05] all the basics with respect to the
+[02:07] supervised finetuning and the different
+[02:09] different other terminology and all and
+[02:11] then uh guys you can watch this video or
+[02:13] else you can watch this video uh because
+[02:16] later on whatever thing I will show you
+[02:19] uh we are going to do as a practical
+[02:22] okay inside this playlist itself. Now if
+[02:24] you don't know about the syllabus so
+[02:26] here is a complete syllabus I already
+[02:28] discussed this entire syllabus. So there
+[02:30] was around 15 module over here and here
+[02:33] we are into this introduction of the
+[02:35] finetuning itself. I will try to upload
+[02:38] like one or two more video with respect
+[02:40] to this one. then finetuning versus rag
+[02:42] fine tuning in a deep learning why
+[02:44] finetuning was not possible in RNL STM
+[02:47] hugging face right and all the other
+[02:49] advanced modules so guys this particular
+[02:52] video is going to be a like the a very
+[02:55] important milestone for all the upcoming
+[02:58] video because here I'm going to discuss
+[03:00] all those resources okay which we are
+[03:03] going to be utilizing in our upcoming
+[03:06] videos so now without wasting a time
+[03:09] guys let's start with the uh framework.
+[03:13] So here guys, I kept all the framework
+[03:16] at the single place. Uh not only this
+[03:19] framework, I'll show you their
+[03:20] documentation, their GitHub, each and
+[03:22] everything we'll try to discuss. Uh so
+[03:24] the first framework as you know right
+[03:27] and the very popular that is called
+[03:29] hugging face. So hugging face we
+[03:31] generally use for the finetuning. Uh if
+[03:34] you want to do a generic finetuning uh
+[03:37] you can use the hugging face. Okay, this
+[03:39] is very uh this is very important as
+[03:43] well as very popular among uh the entire
+[03:46] uh generative in the NLP community. Uh
+[03:49] the the second is a deep seed. Uh deep
+[03:51] seed is not a full-fledged framework for
+[03:53] the finetuning for the complete
+[03:55] finetuning. But guys this deep seed
+[03:57] actually we use for the memory
+[03:59] optimization. Okay. So using this deep
+[04:02] seed actually we can perform the
+[04:04] multiGPU fine-tuning and uh it is
+[04:07] similar to the TRL hugging face TRL this
+[04:10] all the thing we are going to discuss in
+[04:12] a very detailed manner in the upcoming
+[04:14] video I'll show you the practical of
+[04:15] each and everything this video is just
+[04:17] to introduce uh like regard this this
+[04:20] video just to introduce uh about all the
+[04:22] framework whatever framework and
+[04:24] whatever resources is available and then
+[04:26] step by step one by one we'll try to
+[04:28] implement all those thing uh then the
+[04:30] next one is a llama factory which is a
+[04:32] very popular framework among the entire
+[04:34] genativei community for uh fine-tuning
+[04:37] any sort of a model. Then the unslo is
+[04:39] also one of them. Unslo we use for
+[04:42] performing a fine tuning. Uh then
+[04:45] axelottal right. So this is also one of
+[04:47] the framework which we are using and
+[04:50] which we are going to use and even
+[04:52] community is also taking too much
+[04:55] interest right uh to like explore this
+[04:57] particular framework to update some new
+[05:00] uh thing inside this particular
+[05:01] framework. Okay. Uh then the next one is
+[05:04] a colossal AI. So colossal AI this is
+[05:06] also one of the framework for performing
+[05:09] a fine tuning. I written all the name uh
+[05:12] basically which you will see here and
+[05:13] there and guys easily you can figure out
+[05:16] the best one among all these framework
+[05:18] or at least you can explore two to three
+[05:21] framework like which will help to you to
+[05:24] build a very good concept or very good
+[05:26] basics with respect to the finetuning.
+[05:29] Uh now the next one is a light lm or
+[05:31] vlm. This is also one of the growing
+[05:34] framework and uh many more thing you
+[05:36] will find out inside this particular
+[05:38] framework. uh then we have some other
+[05:40] like open lm then we have this fast chat
+[05:43] sky pilot and all okay so this could be
+[05:46] a optional one like you can keep this
+[05:48] one as optional but guys couple of
+[05:50] framework are very important over here
+[05:52] so first let's start with the hugging
+[05:54] phase for the llm fine tuning so the
+[05:56] hugging face framework right so uh let
+[05:59] me show you the documentation of this
+[06:00] hugging face uh here I already opened
+[06:03] that uh so once you will go and check
+[06:05] out with the hugging phase website and
+[06:07] once you will click on this document
+[06:08] doumentation you will find out you will
+[06:11] find out all the documentation okay
+[06:13] which is being provided by the hugging
+[06:15] face itself. So guys this two module is
+[06:18] very much important. The first module is
+[06:20] core ML library. So inside this core ML
+[06:22] library they are they have provided you
+[06:24] this transformer they are provided you
+[06:26] this data set tokenizer evaluate
+[06:29] sentence transformer. Okay. So these
+[06:31] module are very much important for per
+[06:33] performing a finetuning. So we are also
+[06:36] going to use in upcoming video all this
+[06:38] module and I will show you the practical
+[06:39] of uh each module and even I have uh
+[06:42] like created one separate video over the
+[06:44] hugging face itself the complete end to
+[06:46] end hugging face tutorial soon that
+[06:48] video video also you will find out on my
+[06:51] YouTube channel. Then the next one is
+[06:52] the training and optimization. So this
+[06:54] is dedicatedly for the LLM fine tuning.
+[06:57] Now under this uh training and
+[06:59] optimization you will get this pft you
+[07:01] will get this accelerate you will get
+[07:03] this optimum AWS trainium and inferentia
+[07:07] then TRL is there then safe tensor is
+[07:09] there then bits and byes and light level
+[07:11] light so all this module all this
+[07:14] documentation guys we going to discuss
+[07:16] or we going to explore in our upcoming
+[07:18] classes and I will show you the
+[07:20] finetuning you by using all this
+[07:22] framework okay so this two module is
+[07:24] very much important so if you want to
+[07:26] explore it from your end feel free to
+[07:28] explore. Now the next framework was the
+[07:31] uh llama factory. Guys I will come to
+[07:33] this deep seed as I told you deep seed
+[07:35] is not a full-fledged framework for
+[07:38] performing a finetuning. It just a
+[07:39] framework for supporting a finetuning on
+[07:42] a multi-GPU. Okay. So using the hugging
+[07:45] face itself we can configure this deep
+[07:47] seed. Even in the hugging face also they
+[07:49] have given you the option to configure
+[07:50] this deep seed and you can perform the
+[07:53] multi-level GPU uh sorry multiGPU level
+[07:56] training. Okay. Now the next framework
+[07:58] is a llama factory. So guys this is one
+[08:00] and all this is one of the important
+[08:02] framework and uh here like once you will
+[08:05] go and check with the GitHub of this
+[08:06] llama factory okay you will find out
+[08:08] each and every detail regarding this
+[08:09] llama factory they have kept inside the
+[08:12] readme file of it. So once you will go
+[08:14] and check the readme file of this llama
+[08:15] factory see they have given you the
+[08:17] complete uh detail. So this framework is
+[08:20] used by the Amazon this framework is
+[08:22] being used by the Nvidia and the other
+[08:24] companies. Okay. Now what all thing is
+[08:27] being provided by this particular
+[08:28] framework. So there are so many thing
+[08:30] which is being provided by this
+[08:31] particular framework. So if you want to
+[08:33] explore all the necessary features and
+[08:36] all everything. So you can simply visit
+[08:37] the documentation of it. So once you
+[08:39] will click on this documentation here
+[08:41] you will find out the complete and the
+[08:43] detailed documentation. So this
+[08:45] framework is helping to ush related to
+[08:48] the acceleration. Okay, means you can
+[08:51] accelerate your finetuning with the
+[08:54] flash attention. Even you can connect
+[08:56] the onslaught. Okay, and the other
+[08:58] option as well. So it will uh enhance
+[09:00] your performance. Okay. Uh it will like
+[09:02] it will faster your training. Then there
+[09:04] is adapter. So you can utilize the pept
+[09:07] over here. You can uh even you can use
+[09:08] the different different uh other
+[09:10] technique of the pept that is called
+[09:12] lora kilora and all. And these are some
+[09:15] other one for sure you can explore. Then
+[09:17] distributed training is also there using
+[09:19] this deep seed. As I told you this deep
+[09:21] seed you will find out inside each and
+[09:23] every framework. Now FSDP is also there.
+[09:26] Okay we'll discuss about this FSDP I
+[09:28] kept inside this particular uh
+[09:30] discussion. Then quantization is there.
+[09:32] You can utilize the quantise model and
+[09:34] the different different quantization
+[09:35] post trading quantization or quantize
+[09:37] aware training and couple of more
+[09:39] technique. Then you have a trainers
+[09:41] monitors NPU arguments okay model
+[09:44] support. There are so many thing you
+[09:45] will find out inside the documentation
+[09:47] guys. So you could say this could be a
+[09:49] one-stop solution in your finetuning
+[09:51] journey. If you want to explore the
+[09:53] different different concept of the
+[09:54] finetuning okay at a single place for
+[09:57] sure you can explore this framework
+[09:59] right and here also I write couple of
+[10:01] point I will discuss it later on what
+[10:03] all point basically is there. Uh then
+[10:05] the next framework is a unslot this is
+[10:07] also very important framework and it is
+[10:09] very much popular as well uh in the
+[10:11] current generative community. So guys
+[10:14] once you will check out the GitHub of
+[10:15] this unsloth framework uh you will find
+[10:18] out the complete detail over here. So
+[10:19] inside the uh readme itself they have
+[10:21] uploaded the complete and the detail
+[10:25] documentation. They have created one
+[10:26] separate documentation also of this
+[10:29] unsllo framework. I'll come to that. But
+[10:31] guys why they have created this unsllo
+[10:34] framework? First of all we need to
+[10:36] understand that part. So guys this
+[10:38] framework is claiming a performance
+[10:42] along with the less memory. So if you
+[10:45] will read the heading of it uh heading
+[10:48] which they have mentioned fine-tuning
+[10:50] quen llama jimma f4 mist 2x faster with
+[10:54] a 80% less vramm. So uh here you can see
+[10:58] they have written a different different
+[10:59] model which is being supported by the
+[11:01] unsllo and uh they have given you the
+[11:03] free notebook. If you want to explore,
+[11:05] you can explore from here. And then uh
+[11:08] they are saying uh it is faster. Okay.
+[11:10] Performance- wise it is 2x faster. Then
+[11:13] some we are 2.2x faster than 1.5x
+[11:16] faster. Maybe they are like uh they are
+[11:21] going to be calculate this performance
+[11:22] based on some benchmark and uh then
+[11:25] there is a memory uses. So 70% less
+[11:28] memory. It is taking 80% less 60% less.
+[11:31] So the meaning is very simple and the
+[11:34] intention of this this unsllo is very
+[11:37] simple means they want to provide the
+[11:39] llm okay they want to provide a fine
+[11:41] tuning of the llm with a higher
+[11:43] performance and less memory uses and
+[11:45] because of that this framework is
+[11:47] getting too much popularity among the
+[11:48] all the geneti folks uh now let me show
+[11:52] you the documentation of it so this is
+[11:54] the complete documentation of this
+[11:56] onslaught uh they have given you each
+[11:58] and everything uh related to this
+[12:00] finetuning link. So here is a model
+[12:02] support. Uh then uh you can see the data
+[12:05] set guide. Okay. Then here you can see
+[12:07] the different different multimodel and
+[12:09] even they have included some open-source
+[12:11] model like llama for Gmail and all. Then
+[12:13] how to fine-tune and run NLMs. Right.
+[12:15] Each and every guide they are providing
+[12:17] you over here. Then chat templates is
+[12:19] also there. So if you want to do a
+[12:21] instruction based fine-tuning you can do
+[12:23] using this one. And guys all the uh
+[12:26] thing uh they are providing over the
+[12:27] documentation itself like Reddit page,
+[12:30] discord page, blogs and all. So you can
+[12:32] simply sign up and you can be a part of
+[12:34] this community and guys believe me this
+[12:37] llama factory and this analog will help
+[12:39] you a lot to building or to fine-tune
+[12:41] any sort of a llab model. Right now
+[12:44] coming to the next framework so the next
+[12:46] framework is going to be axelottal.
+[12:50] Okay, Axelottal and this colossal AI
+[12:52] this is also very good framework. So
+[12:54] that's why I kept inside my list. Uh let
+[12:56] me show you the GitHub of this Excel.
+[12:58] Now what they are claiming first of all
+[13:00] try to read that. So Excel is saying
+[13:02] Excel is a tool designed to streamline
+[13:04] post training for various AI model. Now
+[13:06] what what is the meaning of the post
+[13:08] training over here? Post-raining means
+[13:10] uh all the instruction finetuning all
+[13:12] the parameter efficient finetuning full
+[13:14] finetuning RLHF DPO all comes inside
+[13:18] this post training right because in the
+[13:20] pre-training we just perform the like
+[13:23] the uh semi sorry the self-supervised
+[13:25] training using the unlabelled data okay
+[13:28] which I already discussed how to do that
+[13:30] so uh they are claiming what they are
+[13:32] claiming exalt is saying we are for
+[13:35] every sort of a post training okay post
+[13:37] training refer of any type of any sort
+[13:38] of for modification over the pre-tail
+[13:40] model like that's that's called the
+[13:43] finetuning only. Now what they are
+[13:45] saying they are saying excel is designed
+[13:46] to work with the YAML configuration
+[13:48] file. So they are saying uh you don't
+[13:51] need to write any sort of a code you
+[13:53] just need to configure one file okay
+[13:55] with the key value pair and rest of the
+[13:57] thing we are going to do we are going to
+[13:59] we are going to do for you. Uh here
+[14:02] basically they are saying with a
+[14:04] minimalistic code you can fine-tune your
+[14:06] model. Now what all thing is being
+[14:08] supported by this Excel auto you can
+[14:10] simply check out with the documentation
+[14:11] you will get each and every kind of
+[14:13] detail. So this is a check out the
+[14:15] getting started guide. So just click on
+[14:17] it or else you can click on uh any of
+[14:19] this link you will get the
+[14:20] documentation. So let's look into the
+[14:23] documentation of the Excel. So over here
+[14:25] over the documentation they have
+[14:27] mentioned each and every detail guys. So
+[14:29] if you want to check out uh if you want
+[14:31] to like learn something from here feel
+[14:33] free to learn uh but yeah I will show
+[14:36] you this in my upcoming video. I'll show
+[14:37] you the complete practical using the
+[14:39] Excel how to write the DAML file for the
+[14:42] finetuning and even uh how you can
+[14:46] perform the finetuning using this excel
+[14:48] in a different different scenario. So uh
+[14:50] I hope guys this thing is getting pretty
+[14:52] much clear to all of you and you are
+[14:54] liking this video. If you're liking this
+[14:56] video uh you can hit the like button and
+[14:58] guys please subscribe the channel
+[15:00] because I seen many people are just
+[15:02] watching a video but they are not
+[15:03] subscribing the channel. This is not a
+[15:05] good thing. Now one more announcement
+[15:07] for all of you. So guys uh if you want
+[15:09] to connect with me onetoone so here I
+[15:11] given you the link for that as well uh
+[15:13] you can simply click on this uh topmate
+[15:15] link and you can connect with me with
+[15:17] respect to any of your query. Okay now
+[15:19] coming to the next framework. So here in
+[15:21] my next uh list the next framework is a
+[15:23] colossal AI. So colossal AI is also one
+[15:26] of the like evolving framework. So here
+[15:30] they have added so many thing inside
+[15:32] this colossal AI and this is again guys
+[15:35] uh it is providing so many things with
+[15:39] respect to finetuning. You can read out
+[15:41] the intentions what they are providing
+[15:43] inside the description itself. So
+[15:45] colossal AI making large language AI
+[15:47] model cheaper, faster and more
+[15:49] accessible. Okay. So again they are
+[15:51] saying with a lower configuration with a
+[15:54] fast with a fast performance. Okay. And
+[15:56] easily you can fine-tune your model. So
+[15:59] the they are also providing you each and
+[16:01] everything and here you can read out the
+[16:03] complete detail of it. So the main thing
+[16:06] which you will find out over here inside
+[16:07] this particular framework that is a
+[16:09] parallel training. Parallel training is
+[16:11] nothing you can train your model on a
+[16:13] multiple GPUs. Okay that kind of
+[16:15] training uh you can do using this
+[16:17] colossal AI. And apart from this one
+[16:19] they are providing you each and every
+[16:21] kind of other training. So uh they are
+[16:23] providing you some sort of a integration
+[16:25] okay with the other framework they are
+[16:27] providing you the simple GPU single GPU
+[16:29] training parallel GPU training okay
+[16:31] means the multiple GPU training and
+[16:33] apart from this one so many things. So
+[16:35] simply you can check out with the
+[16:37] documentation or the documentation
+[16:39] itself they have provided you the
+[16:40] complete detail. Okay. Uh okay this is
+[16:43] not a documentation here itself they
+[16:44] have written the complete detail. Uh so
+[16:46] you can check out with their
+[16:48] documentation for the more detail maybe
+[16:51] somewhere here they have given you the
+[16:52] link for the documentation. Let me check
+[16:54] it out for you. So once you will click
+[16:56] on this docs maybe you will find out
+[16:58] their docs. Okay. So yeah here is a docs
+[17:01] of the colossal AI. Now welcome to read
+[17:04] the docs and yeah getting started guide
+[17:07] is here. Just click on it. Maybe you
+[17:10] will find out the complete code snippet
+[17:12] and all everything. Okay, just to
+[17:14] implement this colossal AI, I will
+[17:16] create one video on top of it and I'll
+[17:18] try to show you the practical if you
+[17:20] want in the near future. Right. So this
+[17:22] is the complete talk guys. Now coming to
+[17:24] the next framework. So here guys, the
+[17:26] next framework is going to be a light
+[17:28] LLM. Light LLM is also one of the best
+[17:31] framework which I figured it out. So
+[17:33] inside this framework actually they are
+[17:34] providing again each and everything. See
+[17:36] this is a documentation of the deep
+[17:38] seat. uh deep seat as I told you it is
+[17:40] for the acceleration like we have a
+[17:42] hugging face TRL okay so if you don't
+[17:44] know about this acceleration and all in
+[17:46] the upcoming video you will get in a
+[17:48] very detailed way now coming to the next
+[17:50] one see as I was telling to you know you
+[17:53] can perform the deep seed you can do the
+[17:54] practical of the deep seed using the
+[17:56] hugging phase itself they have provided
+[17:58] you each and everything over there only
+[18:00] so for hugging phase with the finetuning
+[18:02] with the deep seed over the hugging
+[18:04] phase so this is the complete code okay
+[18:06] I kept each and everything for you so
+[18:08] that uh you No need to worry about
+[18:09] anything and you can easily walk through
+[18:11] uh regarding each and every resources.
+[18:14] Now guys, here is the framework. Uh so
+[18:16] this is the open LLM. Let me show you
+[18:18] the uh the B LLM. Okay. Uh it's a sky
+[18:23] plot and this one is which
+[18:27] one? Okay, this is a different GitHub.
+[18:31] So maybe yeah, here I kept this light
+[18:33] LLM or VLM. So this is also providing
+[18:36] you each and every kind of support okay
+[18:39] with respect to the finetuning. Uh so
+[18:41] here is a different different model the
+[18:43] opensource model right and uh here you
+[18:46] can see like the getting started
+[18:48] installation guide and all everything
+[18:50] model support is there okay development
+[18:52] docs is there. So again guys with the
+[18:55] lesser functionality this framework also
+[18:57] could be your one of the choice and yes
+[19:00] uh it is also having a very active
+[19:02] community you can go and check with the
+[19:03] GitHub itself. So here the GitHub of
+[19:06] this light LLMC star is around 3.2K and
+[19:10] the fork is around 256. It is a evolving
+[19:13] but by the time guys it is going to be
+[19:14] evolved right and see the definition of
+[19:17] it. So light LLM is a Python based
+[19:19] framework inferencing and serving
+[19:21] framework. Okay notable for the
+[19:23] lightweight design, easy scalability and
+[19:25] high speed performance. So light LLM
+[19:28] harshness the strength of the numerous
+[19:30] well regarded open-source implementation
+[19:32] including uh but not limited for the
+[19:35] fast transformation TGI and flesh
+[19:37] attention. So what they are saying they
+[19:39] are saying they are more focusing on
+[19:40] where of the inferencing and regarding
+[19:42] the deployment. So if you are intention
+[19:44] to deploy your model with the uh small
+[19:47] basically configuration okay and the the
+[19:50] small model only then for sure you can
+[19:52] try out with this light LLM. Now apart
+[19:55] from this one I kept couple of more
+[19:57] framework in the in my list. One is the
+[19:59] open LLM from the bento ML. It is also
+[20:02] having some sort of a pros and cons
+[20:04] right you can check it out. Fast LM is
+[20:06] also there and this sky plot guys. Uh
+[20:08] this could be the optional after the
+[20:10] light LLM. Okay. Uh this other framework
+[20:13] like fast chat sky plot and this open
+[20:16] LLM from the bentoml it could be the
+[20:18] optional one. You can visit it out or
+[20:20] you can skip this. It is up to you. Now
+[20:22] uh one of the framework guys which I
+[20:24] would like to highlight over here that
+[20:25] is a sky plot. So this sky plot guys it
+[20:28] is supporting a multiGPU sorry multiple
+[20:30] cloud like AWS, GCP, Azure you can uh
+[20:33] like configure it on any of the cloud.
+[20:36] Now apart from this one guys you can see
+[20:39] it is having a capability you can uh
+[20:42] what you can do you can uh configure it
+[20:44] over the cubernetics also. Okay if you
+[20:46] will go and check with their GitHub now.
+[20:48] So there they have mentioned about there
+[20:50] about that kubernetics and all. So see
+[20:52] here they have mentioned is scaplot
+[20:54] running AI jobs and any infrastructure
+[20:56] kubernetics or 16 plus cloud get unified
+[20:58] execution. So this is also a very good
+[21:00] framework guys but again uh there are so
+[21:02] many so you can keep it in your optional
+[21:04] list and whenever you are getting a time
+[21:06] you can explore that. Now let me
+[21:08] highlight some sort of a point with
+[21:10] respect to this framework which
+[21:12] framework you should use which framework
+[21:14] you should not use. Okay. And if you are
+[21:16] going to start your journey of the
+[21:17] finetune then uh which would be the best
+[21:20] framework for you
+[21:22] guys. Now guys this all the point I just
+[21:25] kept for all of you so that you can go
+[21:27] through with it and you can get some
+[21:29] understanding of this different
+[21:30] different framework. I'm not going
+[21:32] through with each and every point uh
+[21:34] because I already given you the idea
+[21:36] regarding each and every framework and
+[21:38] uh for sure I will teach you each and
+[21:40] every framework in a very detailed
+[21:42] manner in my upcoming video. Okay. And
+[21:44] at least I will try to pick up some
+[21:46] important framework like this hugging
+[21:47] face, llama factory, unsloth, axelottal,
+[21:50] clausal, right? And this light llm and
+[21:53] this is sky plot as well. But guys,
+[21:55] please don't miss out this point. Please
+[21:57] try to read it out from your end because
+[21:59] it will enhance your knowledge for sure.
+[22:01] Now coming to the comparison. Now before
+[22:03] the comparison guys, uh here is some
+[22:05] more resources which I kept. Okay, here
+[22:07] is some GitHub basically which I find
+[22:09] out and you will get some leaderboard as
+[22:11] well. I will show you in some time. And
+[22:13] now there is a next point fine
+[22:15] fine-tuning enterprise level
+[22:16] expectation. So what could be the
+[22:18] expectation on an enterprise level while
+[22:20] you are going to be fine-tune your
+[22:22] model. I will come to this as well. But
+[22:24] first of all let me show you one uh uh
+[22:26] table. Okay. So see guys this is the
+[22:29] table and here inside this particular
+[22:31] table I kept all the framework and which
+[22:34] one you should use when okay for which
+[22:36] particular technique. Uh so there are
+[22:38] couple of technique which I written. uh
+[22:40] first is the general finetuning uh and
+[22:43] the second is the speed efficiency right
+[22:45] which you want in most of the LLM uh and
+[22:48] the next is going to be uh so here the
+[22:51] next is going to be this RLHF DPO and
+[22:53] PPO uh I think everyone wants to do the
+[22:56] finetuning with their uh L&M generated
+[22:58] data again they want to retrain okay so
+[23:00] there this DPO RLHF comes uh speed
+[23:03] finetuning I already told you general
+[23:05] finetuning is also there then multiGPU
+[23:07] finetuning is very important nowadays
+[23:09] Okay, because the L&M is quite huge and
+[23:12] if the data is also very very huge then
+[23:14] we'll have to route the uh uh route our
+[23:17] training over the multiple GPUs. So this
+[23:18] is also called the parallel training
+[23:21] parallel training. Okay. Uh then we have
+[23:24] a open open style model serving. So chat
+[23:27] completion API lang use means uh what
+[23:29] I'm trying to say over here I'm saying
+[23:31] over here you can do the instruction
+[23:33] finetuning. So no need to uh like uh
+[23:35] write a code anything uh nothing right
+[23:38] you just need to prepare your data you
+[23:40] just need to prepare your question and
+[23:41] answer okay and this is also called a
+[23:44] instruction and you can directly provide
+[23:46] to the API and that API will take care
+[23:48] of it uh and automatically you will get
+[23:50] a fine-tune model so generally this kind
+[23:52] of thing we are doing uh in our openi
+[23:54] model in our gymni model okay we are we
+[23:57] are not going to be load the model from
+[23:59] a scratch we are just going to be pass
+[24:01] the data okay our question answer data
+[24:03] uh through the API itself and we are
+[24:05] able to fine-tune the model. So this API
+[24:08] based finetuning I will show you in the
+[24:09] upcoming video and I kept one specific
+[24:11] chapter for that only. uh now
+[24:13] quantization uh then low RAM okay so
+[24:17] without less memory if we can perform
+[24:19] the finetuning then training large
+[24:21] language model so not only the small
+[24:24] model or the quantise model even the
+[24:25] large model also okay so this is also
+[24:28] could be a one of the point then auto
+[24:30] parallelism fast open streaming okay
+[24:32] then cubernetics and the other cloud
+[24:34] deployment so these are all the pointers
+[24:37] these are all the goals guys uh which we
+[24:40] have to be achieved or which we have to
+[24:42] take care 99% time this thing only will
+[24:44] come while you are going to be perform
+[24:46] the finetuning. Okay, there are couple
+[24:48] of more point but yeah this 12 point is
+[24:50] going to be covered each and everything.
+[24:52] So here I written a framework name as
+[24:54] you can see guys and along with a
+[24:56] framework name you will find out the uh
+[24:59] the like some basically options right.
+[25:02] So here you can see tick means fully
+[25:05] supported double tick means in industry
+[25:08] level industry best for the goal and
+[25:10] regarding this symbol you will find out
+[25:12] the possible but needs effort right not
+[25:15] a primary goal and cross means it is not
+[25:17] going to be support right so guys this
+[25:19] four symbol actually it is trying to
+[25:21] explore each and everything which
+[25:22] framework is best for which thing so
+[25:25] we're talking about the hugging face one
+[25:27] so it is good for the G1 G2 G3 and G6 G7
+[25:31] then The other one basically it it might
+[25:34] support it and the rest of them it is
+[25:35] not supporting. Now how you will
+[25:37] identify let's say if I'm saying G1 G2
+[25:39] G3 so it is good for the general
+[25:41] finetuning it is good for the speed and
+[25:43] efficiency you can perform the Laura and
+[25:45] Qura you can perform the RLHF DPU also
+[25:48] using the TRL but guys uh G4 G4 means
+[25:51] what multiGPU training multiGPU is not
+[25:54] very good you will have to use some
+[25:55] external like resources okay so here you
+[25:58] can see it is fine it is not that much
+[26:00] good G5 it is not supporting openAI
+[26:03] style model serving you cannot perform
+[26:05] the chat finding tuning okay the
+[26:07] instruction finetuning then G6 G7 is
+[26:10] there means you can see rag compat
+[26:12] compatibility is there the model and all
+[26:14] which you are going to be create on top
+[26:15] of that you can create a rag
+[26:16] architecture then quantization is also
+[26:18] possible inside the GitHub right then G8
+[26:21] and G9 so here you can see low RAM it's
+[26:24] fine we can manage training large metal
+[26:26] we can manage but rest of the thing
+[26:28] parallelism fast tokenization fast token
+[26:31] streaming cubernetics deployment and all
+[26:33] this is not being supported right so
+[26:34] likewise guys here I written a like I
+[26:37] here I kept each and every framework and
+[26:40] the comparison based on this particular
+[26:41] thing. You can crossverify this
+[26:43] particular information and for sure guys
+[26:47] uh like you can crossverify this
+[26:50] particular information and yeah you can
+[26:53] choose it according to your requirement
+[26:55] but let me give you little more like
+[26:59] little more detail. So we're talking
+[27:01] about the general fine tuning. So in
+[27:02] that case hugging face is good one even
+[27:04] you can use the llama factory and
+[27:06] exalotal speed for speed guys axelottal
+[27:10] llama factory is the best one rl chip
+[27:13] dio again excelottal and hugging face is
+[27:15] a good one okay even you can use this
+[27:18] this one also unsloth also okay I will
+[27:21] keep the unslo over here because I have
+[27:23] used the unsloth even I will show you
+[27:25] the practical using this unsloth how you
+[27:27] can use it for the uh basically this rlf
+[27:30] and the dbo multiGPU Deep seed is there.
+[27:33] FSDP is there. Axelottal is there to
+[27:36] this colossal AI is there. So deep seed
+[27:38] is mainly for the deep seed is mainly
+[27:41] for what? For the multiGPU and the
+[27:43] distributed training. Then model serving
+[27:45] is there. Okay. So model serving wise
+[27:47] open LM fast is there. But again guys if
+[27:49] you are going to serve your model in
+[27:51] that case you are going to be deploy
+[27:52] over the cloud and even this will not be
+[27:54] required. So simply what you can do you
+[27:56] can select any of these framework and
+[27:58] then later on you can deploy it after
+[28:00] the finetuning on any of the cloud. Then
+[28:02] integration I think every uh see I don't
+[28:05] know about the onslaught I haven't
+[28:06] tested after finetuning whether we can
+[28:08] integrate in our rack pipeline or not
+[28:10] but yeah using the basically this uh
+[28:14] hugging face we can do this thing so I
+[28:16] can keep the hugging face over here I
+[28:19] just tested out with one but yeah I will
+[28:22] have to test with the other one even VLM
+[28:24] using the VLM also we can fine tune the
+[28:26] model and further we can use in our rack
+[28:28] pipeline so from the hugging phase I
+[28:30] already
+[28:32] And even I will try to explore can we do
+[28:34] it using the llama factory exotal and
+[28:36] the unslod. So what is the meaning of
+[28:37] the rag integration? Rag integration
+[28:39] simply meaning uh the simple meaning is
+[28:42] after fine-tuning can we integrate in
+[28:44] our rag pipeline or not. Okay. Can we
+[28:46] use it for the uh the for the uh the
+[28:48] more context right so we can provide a
+[28:51] context using the retriever pipeline and
+[28:52] then we can generate a output. Uh then
+[28:54] here we have a contisation I think each
+[28:56] and every framework is providing you the
+[28:58] contisation. Excel llama factory and
+[29:00] even hugging face is also providing the
+[29:03] quantization. Okay. Unsllo also
+[29:05] providing the qu contisation. So this
+[29:07] also I will keep over here. Unslo also
+[29:09] would be here. So guys here this is the
+[29:12] next one. Then collab tpu friendly 13
+[29:16] bit and 65 billion training. Okay it's a
+[29:20] like sorry 13 billion and 65 billion uh
+[29:23] training. It's a very huge model. then
+[29:24] auto parallelism realtime token
+[29:26] streaming full production infra API and
+[29:29] all so based on that basically we can
+[29:31] decide our framework but again guys I'm
+[29:33] saying if you don't know about anything
+[29:35] let's say if you have a zero knowledge
+[29:37] if you have at least 50% of knowledge in
+[29:39] in terms of the finetuning and all let
+[29:41] me suggest you the best best framework
+[29:43] okay the first thing you can like learn
+[29:46] about the hugging phase it is a best
+[29:47] ever framework right you can learn the
+[29:49] nitty-gritty detail of the finetuning
+[29:51] the deep speed for the acceleration okay
+[29:54] uh Then here you can see the llama
+[29:56] factory. Llama factory is also one of
+[29:58] them which is a good one. Here you will
+[30:00] find out a support of the multiGPU DP
+[30:02] speed FSDP which is called fully shred
+[30:04] data parallel. Okay. Flash attention for
+[30:06] the super optimized attention algorithm.
+[30:09] This is a very good framework guys which
+[30:11] can help you in a uh like you know many
+[30:13] more thing. Then unsloth is one of them.
+[30:15] I use it personally and I find out it is
+[30:17] very much useful okay for the faster uh
+[30:20] training for the better performance and
+[30:22] for the low RAM uses okay exeltal is
+[30:25] there you can explore this two means you
+[30:27] can think in such a way that let's say
+[30:29] if you are going to be explor this
+[30:30] hugging phase deep seed llama factory
+[30:31] and nonslo this could be your first
+[30:33] choice then the second is the axelottal
+[30:35] colosali and the light lm okay this
+[30:37] could be your second choice and then
+[30:39] opal llm fast chat and this is skypot
+[30:41] this could be your third one so guys
+[30:43] this all the framework which will give
+[30:44] you the all the nitty-gritty detail
+[30:47] regarding the fine-tuning and guys
+[30:49] believe me you will become a champion if
+[30:51] you're going to learn all this mention
+[30:53] framework with respect to this
+[30:55] finetuning because they have mentioned
+[30:57] many more thing over here now guys uh
+[31:01] let's try to discuss couple of more
+[31:02] resources some important resources so I
+[31:05] kept three GitHub uh for you uh so this
+[31:08] uh three GitHub might help you uh to
+[31:11] find out a resources regarding this
+[31:13] finetuning and all so first Let's look
+[31:15] into the first GitHub. So inside the
+[31:17] first GitHub uh guys just just go and
+[31:19] check with their uh readme page. Uh so
+[31:22] here they have mentioned about the LLM
+[31:25] performance and concept. Uh here you
+[31:27] will find out the different different
+[31:28] leaderboard okay all the leaderboard
+[31:30] basically which you can explore and you
+[31:32] can check out the best possible LLM
+[31:34] right for your use case. So just go and
+[31:37] just go and click on this open LLM
+[31:39] leaderboard. So once you will click over
+[31:42] here you will find out the open LLM
+[31:44] leaderboard and the different different
+[31:46] LLM guys which you can uh check okay
+[31:49] which you
+[31:50] can basically uh use okay according to
+[31:54] your requirement. So uh these are the
+[31:56] LLM some LLM from the different
+[31:58] different repository and all and they
+[32:00] are check they are like evaluating it
+[32:03] over the different different benchmark
+[32:05] data right and once you will scroll down
+[32:07] you will find out many more opensource
+[32:09] LLM and with their uh with respect to uh
+[32:13] the different different benchmarking
+[32:15] data set so this VB math GPQA these all
+[32:20] are the different different benchmark
+[32:22] data and with respect to that they have
+[32:24] mentioned the accuracy So for sure you
+[32:26] can check out it and uh you can select
+[32:28] any one of them you can directly utilize
+[32:30] it or you can finetune it fine-tune it
+[32:33] according to your requirement. Uh now
+[32:35] coming to the next one. So here guys you
+[32:37] can check out with the chatbot arena
+[32:39] leaderboard. This is one of my favorite
+[32:41] uh you will find out the different
+[32:42] different model not only the opensource
+[32:44] model you will find out some other model
+[32:46] as well. uh the close one uh close
+[32:48] source and all and with respect to each
+[32:50] and every model you will find out the
+[32:52] comparison right the comparison and the
+[32:55] many more thing they are providing to
+[32:57] you so see here is a jimny right jimny
+[33:00] is there then uh the latest model of the
+[33:03] jimny jimny 2.5 pro preview jimny 2.5
+[33:06] flash then 03 is there the chat GPT 40
+[33:09] latest is there okay and there is a
+[33:11] different different uh basically again
+[33:13] benchmarking uh uh benchmarking metric
+[33:16] Right. So boards is how many boards is
+[33:19] there? 95% CI. Okay. Uh score arena. So
+[33:23] it is all like a score from the arena
+[33:25] itself. Organization from which
+[33:27] organization they have which
+[33:29] organization have published this
+[33:30] particular model. The license you can
+[33:32] see. Okay. And here the knowledge cut
+[33:34] off and all many more thing you will
+[33:36] find out inside this knowledge uh inside
+[33:38] this arena. Okay. Chatbot arena
+[33:40] leaderboard you can see the complete
+[33:42] detail about each and every model. uh
+[33:45] this uh basically this particular
+[33:47] leaderboard is going to be very very
+[33:49] helpful uh if you are looking into the
+[33:51] best model if you want to make a
+[33:53] comparison of the different different
+[33:55] model and if you want to check that
+[33:57] which model we need to use right and you
+[33:59] always be you always in a confusion that
+[34:02] okay I'm not able to get all the model
+[34:04] name which model is a best which model
+[34:06] is not a best one right which model
+[34:08] should I use which model should I not
+[34:09] use so in that case for sure you you can
+[34:11] look into this
+[34:13] particular leaderboard board. Uh as I
+[34:15] told you guys this video is going to be
+[34:16] very uh resource intensive and yes I'm
+[34:19] sharing each and every detail. Now here
+[34:21] you will find out some other leaderboard
+[34:22] as well. So you can check out with this
+[34:24] alpaca well. Uh so this is again one of
+[34:26] the leaderboard okay from the alpaca. So
+[34:29] they are mentioned the different
+[34:30] different uh like different different
+[34:32] win rate. Okay regarding the different
+[34:35] different models. So GPD4 omni is there
+[34:38] turbo is there GPD 4 lama 4. Okay. And
+[34:41] the other model cloud model is there. So
+[34:44] based on this particular uh like
+[34:45] leaderboard based on their particular
+[34:47] matrixes okay the evaluation and all you
+[34:50] can decide your best and possible model.
+[34:52] So along with this particular detail
+[34:54] guys so if you will go and check uh with
+[34:56] this repository where it is just a
+[35:00] second not this one this one. So guys uh
+[35:03] here you can see uh apart from this one
+[35:05] they are providing
+[35:07] you it's not this one alaka uh where it
+[35:12] is this one now let me go back yeah so
+[35:16] here inside this repository you can see
+[35:18] they are providing you many more other
+[35:19] thing so you can look into that you can
+[35:22] check out with the collab and the kegel
+[35:24] notebook okay different different
+[35:26] solution and all right they are
+[35:27] providing you the llm backbones uh some
+[35:30] model uh the important model LLM
+[35:32] application is there some research paper
+[35:35] okay finetuning papers is there so you
+[35:37] can look into their framework see
+[35:39] framework also they have mentioned each
+[35:40] and every framework which could be a
+[35:42] like one of see I even though I discuss
+[35:45] all the framework but you can look into
+[35:46] some additional detail over here uh then
+[35:49] uh here you can see the tool and
+[35:50] software okay which tool and software
+[35:52] you can use for finetuning your model so
+[35:54] this uh repository is very resource
+[35:56] intensive now let me show you the other
+[35:58] repository also so this is from the
+[36:00] curated AW uh Sorry awesome listed. All
+[36:03] right. And here you can see the table of
+[36:05] content of this repository. So GitHub
+[36:07] project, article, blog, online course,
+[36:09] book, research, paper, video, everything
+[36:11] they are providing you with respect to
+[36:12] the finetuning at the single place
+[36:14] itself. So force here you can explore it
+[36:16] from your end right and let's say you
+[36:18] want some article and blog regarding the
+[36:20] finetuning just click on it and see here
+[36:22] is all the detail. Now apart from this
+[36:24] one let's say uh here you want to check
+[36:26] the tool and software of the finetuning
+[36:28] just click on it and you will get like
+[36:31] those tool and software over here. So
+[36:34] just click on it. I think it is coming
+[36:36] or it's not coming. Then you can scroll
+[36:38] down. Tools and the videos are here.
+[36:41] Tools and software is there. Right. So
+[36:43] they have also mentioned some sort of a
+[36:45] tools and all which you can explore and
+[36:47] you could like get some additional
+[36:51] knowledge in your fine
+[36:53] tuning chapter. Then there is one more.
+[36:56] So this is from the uh I think this is
+[37:00] not a one. Let me check out which one.
+[37:02] Uh there is one more yeah this mm areas
+[37:05] right memorous awesome fine tuning so
+[37:09] there also they are providing some sort
+[37:10] of a uh resources so of course here you
+[37:13] can go and check out so this three best
+[37:14] repository I found with respect to
+[37:19] the yeah so with respect to the LLM
+[37:23] fine-tuning for sure you can explore
+[37:25] this one guys so I hope I explain you
+[37:28] each and every part of it now let's look
+[37:30] into the next topic
+[37:32] So guys, next thing is going to be an
+[37:33] important research paper. Now after this
+[37:35] particular topic, I'll come to this
+[37:37] finetuning enterprise level expectation.
+[37:39] So important research paper in that I
+[37:42] cap couple of paper. If you want to
+[37:44] understand the LLM guys, you can for
+[37:46] sure go through with this particular
+[37:47] research paper. Uh the first one is the
+[37:50] board GPT, ULM fit, T5, llama, mist and
+[37:53] deep sea. Okay. Now apart from this one,
+[37:56] there is a GPT paper also. GPT is there.
+[37:58] Then a mixture of expert, right? Again
+[38:00] mixture of expert is nothing. It is one
+[38:02] of the concept which was appended inside
+[38:04] the transformer itself. So there is some
+[38:07] model which was created based on the
+[38:09] mixture of expert like this switch
+[38:11] transformer
+[38:12] G-Sh glam mixture. Okay, glam mixtrl and
+[38:16] this deep seed. So these all are the
+[38:18] model you can explore as a mixture of
+[38:20] expert. Many people are asking to me sir
+[38:22] can you suggest some good model with
+[38:23] respect to this a mixture of expert
+[38:27] architecture or the concept. So here I
+[38:29] kept some model name. Now these are the
+[38:32] like research paper right sorry these
+[38:34] are the model right which you can go
+[38:36] through you can explore the research
+[38:37] paper and all and you will get very many
+[38:40] more thing uh the many more detail with
+[38:42] respect to any LLM training. Now coming
+[38:45] to the next part. So here is a important
+[38:47] research paper guys with respect to the
+[38:48] finetuning. So first thing you need to
+[38:51] like learn about the Lora right. So you
+[38:53] can go and check about this Lora. Uh
+[38:55] here here is a research paper of it. the
+[38:57] Laura research paper the link I kept uh
+[39:00] it is one of the PEP technique okay it
+[39:02] is also called the Lora adapter so there
+[39:04] is a different different adapter in a
+[39:06] pep so this is called the Lora adapter
+[39:08] so once you will go through with this
+[39:09] particular research paper you will find
+[39:11] out the complete detail then adapters is
+[39:13] there so again parameter efficient
+[39:15] transfer learning in NLP so there are
+[39:18] different different adapter and the
+[39:19] complete history of the pept you will
+[39:21] get then prefix tuning is there which
+[39:23] was released in 21 for the optimization
+[39:25] continuous promp for generation Kilora
+[39:27] is there instruct GPT is there uh DPO is
+[39:30] there okay then self instruct is there
+[39:33] then this efficient training to fill in
+[39:35] middle so all this research paper guys
+[39:38] I'll find find out uh to be very useful
+[39:41] if you want to like uh understand about
+[39:43] the the LLM fine tuning and all okay
+[39:47] this two research paper is very near to
+[39:48] me first is this LoRa and the second is
+[39:51] the adapter okay PEP research paper and
+[39:53] this Lora and there Laura research paper
+[39:55] and even the DPU also have explored.
+[39:57] This is also a very uh uh like the
+[40:00] knowledge intensive research paper. Uh
+[40:02] you should definitely visit out. Uh now
+[40:04] if you like no need to visit any sort of
+[40:07] a research paper, no worries guys. In
+[40:08] upcoming uh video we are going to
+[40:10] discuss all this technique in terms of
+[40:12] the practical and all and that time I
+[40:14] will give you the walkthrough of the
+[40:15] research paper as well. Okay. So each
+[40:17] and everything we're going to discuss in
+[40:18] a very detailed manner in our upcoming
+[40:20] video. Now coming to the last point. Uh
+[40:22] so here guys I mention uh one more thing
+[40:25] fine-tuning enterprise level
+[40:27] expectations. So guys whenever we are
+[40:29] going to fine-tune our model okay on an
+[40:30] enterprise level that what could be the
+[40:32] expectation from the uh the uh the user
+[40:36] end sorry the owner end right so whoever
+[40:39] wants to be fine-tuned right uh that
+[40:41] particular model uh uh like it could be
+[40:43] any business group okay it could be any
+[40:46] the tech uh uh tech lead right the tech
+[40:49] manager and all right who wants you who
+[40:51] wanted to do the finetuning for their
+[40:53] own business related problem or from or
+[40:55] for any of the problem. So guys whenever
+[40:57] we a company plans to fine-tune the
+[40:59] model on enterprise level their
+[41:01] expectation are not limited to just the
+[41:03] training a model there should be many
+[41:05] more thing okay so they look for the
+[41:07] entire structure of the pipeline proper
+[41:09] governance cost cost optimization
+[41:11] planning and all okay guys so these
+[41:13] these are all the point based on that
+[41:15] see guys why I mentioned this particular
+[41:17] point so that you can answer in an
+[41:19] interview in a better way okay so you
+[41:21] are going to explore this thing I don't
+[41:22] know you're going to explore all this
+[41:24] thing so based on my experience only I'm
+[41:26] telling you all this thing because I
+[41:28] have done the finetuning in a real time
+[41:30] and I know the pain point and I know all
+[41:32] the points okay so that's why guys I'm
+[41:34] telling you uh the all the pinpoint
+[41:36] whatever is there whatever is required
+[41:38] for the finetuning okay on a enterprise
+[41:42] level this is why I have uh this that's
+[41:44] why guys I have included this particular
+[41:46] point now apart from this one I explain
+[41:48] you the different different framework as
+[41:50] as you know right so guys uh here
+[41:52] whatever framework you're going to
+[41:54] select so all the points I already share
+[41:56] with you but whenever we are going to be
+[41:58] select any sort of a framework we should
+[42:00] keep all this these all these point also
+[42:03] in our mind this is also very much
+[42:05] important so let's try to start with the
+[42:07] first point so what I mentioned over
+[42:08] here clear use case definition okay so
+[42:11] whenever you are going to be fine-tuning
+[42:12] a model you should be a clear definition
+[42:14] use case definition for what you are
+[42:16] going to be fine-tuned then you have to
+[42:18] collect the data okay this thing is very
+[42:20] much important and while you are going
+[42:21] to be collect the data you have to be
+[42:23] keep in your mind about the privacy
+[42:25] compliances is uh governance and all.
+[42:27] Okay. Then model selection this is also
+[42:29] very much important which model you are
+[42:31] going to be select for the finetuning.
+[42:33] Then infrastructure and computation
+[42:35] required. So infrastructure infra setup
+[42:37] is also very much important. Okay. What
+[42:39] will be the cost of the GPU how much RAM
+[42:41] you need to select right all the thing
+[42:44] all the decision you're going to take
+[42:45] right while you are going to be setting
+[42:47] the infrastructure. Then fine-tune model
+[42:49] cycle not only the fine-tuning the model
+[42:51] not only the training the model okay
+[42:53] after training it how to deploy it or
+[42:55] deployment also will be there. So let's
+[42:57] say if you are going to be fine- tune
+[42:59] any any of the cloud. So after the cloud
+[43:02] after the finetuning of it let's say you
+[43:03] are going to be fine-tune it over the
+[43:05] sage maker. Okay. So you fine-tune this
+[43:08] particular model over the Sage Maker.
+[43:10] But after fine-tuning it over the Sage
+[43:12] Maker how to how to utilize it inside
+[43:15] your pipeline. So that so also should be
+[43:18] in your mind uh like how to integrate
+[43:20] this fine-tune model inside your
+[43:21] pipeline. So for that guys not only the
+[43:24] sage maker you will have to explore the
+[43:25] other uh other services of the AWS as
+[43:28] well uh like how to consume uh this
+[43:31] particular fine-tune model in the form
+[43:32] of API how to keep their metadata and
+[43:35] all right how to keep kept their model
+[43:37] version and all where we have to keep
+[43:39] that in S3 Dynamob API what we have to
+[43:42] use for exposing the API like API
+[43:44] gateway and all okay so all those
+[43:46] ecosystem all those particular concept
+[43:48] you should uh you should be aware about
+[43:51] right if you want to be build the uh
+[43:53] industry level fine-tuning uh solution.
+[43:55] Then evaluation and benchmarking you
+[43:57] need to keep this thing also in your
+[43:58] mind right. So what evaluation technique
+[44:01] and the benchmarking technique should be
+[44:02] there risk management and the guardrails
+[44:04] right. So in which depth we have to go
+[44:06] right why we are going to be fine-tuning
+[44:08] this model and all then cost and ROI
+[44:10] right so cost is also very much
+[44:12] important why you are setting the
+[44:13] infrastructure and then which framework
+[44:15] you are using on top of that framework
+[44:17] sorry on top of that infra right and
+[44:19] what will the cost of it regarding that
+[44:20] LLM and all so first thing basically
+[44:23] infra will come then uh second thing the
+[44:26] framework will come whatever framework
+[44:27] you are going to be used then the third
+[44:29] thing the LM will come whatever LLM we
+[44:32] are going to be use right and then the
+[44:34] cost will come. So this all the thing
+[44:36] will be in a sync right? Uh you need to
+[44:38] be understand about all those thing.
+[44:40] Then fast training okay uh whatever
+[44:42] framework you going you're going to
+[44:44] select. So with respect to that right
+[44:46] you can estimate this training uh time
+[44:48] and all adaptive framework. Again I'm
+[44:50] saying whatever cloud you are going to
+[44:52] be used that framework let's say if I'm
+[44:54] talking about the hugging face you can
+[44:56] use this hugging face on any sort of a
+[44:58] uh this you can use this hugging face on
+[45:00] on any sort of a cloud whether it's a
+[45:02] AWS whether it's a GCP or maybe it's a
+[45:05] Azure right on any of the framework you
+[45:07] can utilize it but so but if you're
+[45:10] going to use other framework like llama
+[45:12] factory and slot so in that case it's
+[45:14] going to be work in the same way or not
+[45:16] then adaptive framework I think I
+[45:17] already discussed dynamic resources
+[45:19] adoption And okay so whether whenever
+[45:21] the resources right is going to be
+[45:24] update let's say the data is going to be
+[45:26] update so in that case the CI/CD is
+[45:28] going to be run all the configuration
+[45:29] and all everything is perfect or not
+[45:31] fine or not that framework is able to
+[45:33] adapt those dynamic allocation or not
+[45:35] right everything you need to be uh
+[45:37] everything you need to keep in your mind
+[45:39] autores right minimal code changes and
+[45:41] all like wherever we can do the
+[45:43] configuration uh only without any code
+[45:46] changes you need to keep that thing also
+[45:47] in mind and if you can if want to use
+[45:50] any uh specific framework for this one
+[45:52] you can do that community support is
+[45:54] also there right so that whatever
+[45:55] framework you're going to use regarding
+[45:57] that what is a community support so all
+[45:59] this point guys uh whenever we are going
+[46:01] to be fine- tuned the model on an
+[46:03] industry level so all this thing we need
+[46:05] to keep in our mind now let me summarize
+[46:07] the entire session so first I given you
+[46:09] the complete and detailed introduction
+[46:11] of the LM fine tuning framework so at
+[46:13] the first place I told you learn about
+[46:15] this hugging phase deep speed llama
+[46:17] unsloth exelortal Sorry until this
+[46:20] unslaw. Then in the second one, you can
+[46:22] go ahead with this exalt and colossal
+[46:24] and this light LLM. And then in the
+[46:26] third one, right, in your third
+[46:29] basically third time right, you can go
+[46:32] ahead with this open LLM, fast chat and
+[46:33] this is sky plot. Then there is some
+[46:35] important resources which you can figure
+[46:37] out figure it out over the like this
+[46:39] GitHub. The best one is the model,
+[46:41] right? So which model we need to select
+[46:43] when so you can look into the
+[46:45] leaderboard. Then finetuning on the
+[46:47] enterprise level. So this point you need
+[46:48] to keep whenever anyone is asking in
+[46:50] your in the interview. So you need to
+[46:52] explain the same thing in an interview.
+[46:54] Okay? In a same way at least keep five
+[46:56] to six point with you handy so that you
+[46:58] can explain. Now important research
+[47:00] paper. So guys this is all the research
+[47:02] paper you can go through right if you
+[47:03] want to be strong in your finetuning
+[47:05] concept. Now apart from this one one
+[47:07] more research paper I forgot to tell you
+[47:09] that was a one bit LLM right you can
+[47:11] look into that as well. Then uh guys
+[47:13] here you can see the framework to and
+[47:15] goal analysis. So all these particular
+[47:17] points on which basically you can uh
+[47:19] decide the framework okay which
+[47:22] framework you going to select and which
+[47:23] framework is supporting to what here I
+[47:25] written some uh here I given you some
+[47:28] sort of a idea okay this could be or
+[47:30] this could not be 100% correct but again
+[47:32] guys if you're going to explore at least
+[47:34] and then if you're looking into it then
+[47:35] you will get a better idea okay so first
+[47:38] explore the framework and then you can
+[47:39] look into this particular table for sure
+[47:41] you will get a better idea so I hope
+[47:43] guys this uh lecture uh you I found very
+[47:46] important, very useful and all this
+[47:48] thing we are going to discuss in our
+[47:50] upcoming session. Until guys, thank you.
+[47:52] Bye-bye. Take care. I'll see you in the
+[47:54] next video. Until take care

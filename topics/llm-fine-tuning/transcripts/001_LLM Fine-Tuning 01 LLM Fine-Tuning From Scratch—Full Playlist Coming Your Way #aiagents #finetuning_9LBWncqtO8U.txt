@@ -1,0 +1,501 @@
+Title: LLM Fine-Tuning: 01 LLM Fine-Tuning From Scratch—Full Playlist Coming Your Way #aiagents #finetuning
+Video URL: https://www.youtube.com/watch?v=9LBWncqtO8U
+Video ID: 9LBWncqtO8U
+======================================================================
+
+[00:00] Hey. Hi everyone. Welcome back to my
+[00:03] YouTube channel. My name is Sunonny
+[00:05] Savvita and I'm back with another
+[00:07] exciting and important announcement. Yes
+[00:10] guys, so in this particular video I'm
+[00:12] going to announce one brand new fresh
+[00:15] playlist about the fine tuning. Yes. So
+[00:18] I uploaded a content on my YouTube
+[00:20] channel regarding rag agents and you
+[00:24] loved it a lot and this fine tuning was
+[00:26] a very very demanding topic on my
+[00:30] YouTube channel. So in many videos you
+[00:33] have commented sir why you are not
+[00:35] teaching this finetuning why you are not
+[00:36] teaching about the LM from scratch. Now
+[00:39] I am here guys with that particular
+[00:42] playlist with that particular content.
+[00:44] So uh in this in this video I will
+[00:47] discuss about the syllabus of the
+[00:49] finetuning that what we are going to
+[00:50] discuss in upcoming two to three months
+[00:53] along with that I'll start one more
+[00:55] playlist where we try to understand this
+[00:58] LLM from very very scratch. So that uh
+[01:01] each and everything you can get at a
+[01:03] single place you can get on my YouTube
+[01:05] channel itself regarding the generative
+[01:07] if you are trying to prepare for the
+[01:09] generative agent LLM ops and all. So
+[01:12] this channel could be one stop solution
+[01:15] for all of you. So I'm keeping that
+[01:18] thing in my mind and according to that
+[01:20] I'm preparing my syllabus and I'm
+[01:23] designing my playlist and all. So guys
+[01:25] uh if you haven't seen my YouTube
+[01:26] channel so far please uh go and check
+[01:28] inside the playlist section you'll find
+[01:30] out the different different playlists
+[01:32] here I can suggest you couple of
+[01:33] playlist you can follow this rag you can
+[01:35] follow this multimodel rag you can
+[01:37] follow this lang graph which will give
+[01:39] you the in-depth understanding about the
+[01:41] agents uh lang chain lang graph and all
+[01:44] and along with that you can look into
+[01:45] this lang chain also so that your
+[01:47] understanding will be pretty much clear
+[01:49] how to build application using the lang
+[01:51] chain and all now uh you can check out
+[01:53] with my live section where I took a live
+[01:56] session regarding the projects I discuss
+[01:58] about the interview question and all and
+[02:01] yes so many thing you will find out on
+[02:03] on my YouTube channel regarding the
+[02:04] generative AI and all guys. So please uh
+[02:07] try to check uh please uh try to look in
+[02:09] the content. If it is useful for you
+[02:12] then please subscribe the channel, hit
+[02:14] the like button and leave your thoughts
+[02:16] inside the comment section. Now without
+[02:19] further delay let's start with the
+[02:22] discussion. So I uh created very
+[02:25] extensive syllabus for this fine tuning
+[02:28] and uh in the upcoming days right. So uh
+[02:31] I think I I'm planning it for next uh 2
+[02:35] to 3 months where we'll try to discuss
+[02:37] this each and everything with respect to
+[02:39] finetuning. But don't worry along with
+[02:41] that I'll take uh so many thing uh in
+[02:43] the live session I I'll discuss about
+[02:45] the projects. I'll discuss more about
+[02:47] the agents because there are so many
+[02:49] thing which I need to discuss with
+[02:50] respect to the agents. Now there is one
+[02:52] more thing which is MCP protocol which
+[02:55] could be a future uh in the AI. So we
+[02:57] have to discuss about that also. And
+[03:00] there are so many thing which is pending
+[03:01] but I'm picking up this finetuning. Now
+[03:03] let me tell you one thing about this
+[03:04] finetuning guys. So this finetuning
+[03:07] seems very underrated means most of the
+[03:10] people don't discuss about it. uh they
+[03:12] thought okay so we are discussing about
+[03:14] the rack uh we are discussing about the
+[03:16] agents we are discussing about the uh
+[03:18] basically uh some hot topics and all but
+[03:21] no one talks about the fundamental right
+[03:24] guys believe me this LLM fine-tuning
+[03:27] it's a fundamental topic of the genative
+[03:29] AI this gives you the understanding how
+[03:31] you can train your LLM model which could
+[03:34] be very very beneficial for you and you
+[03:37] won't believe guys uh companies are
+[03:39] doing that companies are spending their
+[03:42] money, their resources for fine-tuning
+[03:44] their models. Uh they are reading the
+[03:46] model from various API like cloud a open
+[03:49] and all but along with that they are
+[03:51] fine-tuning according to their
+[03:52] requirement. Okay, people are fine-
+[03:54] tuning opensource model then on top of
+[03:57] it they are creating a racks they are
+[03:59] creating agents. We will try to
+[04:00] understand each and everything in this
+[04:02] particular playlist. Uh how we can also
+[04:05] do the same thing how we can build an
+[04:07] industry grade solution because
+[04:09] finetuning is just not a finetuning just
+[04:11] not a training the model. uh it is uh
+[04:14] more than that means we can take a model
+[04:17] we can train that we can uh build a rag
+[04:20] on top of it we can use in our agent
+[04:22] flow if it is not working fine then
+[04:25] again we can retrain it right and
+[04:28] premiere guys see uh this is a like this
+[04:32] could be expensive I'm not saying it uh
+[04:35] it would be a free right uh it would be
+[04:37] free of cost if you're going to be
+[04:39] retrain your llm model or any sort of AI
+[04:42] I model but how we can train it in a
+[04:45] minimal cost what all framework what all
+[04:47] new researcher researchers are there
+[04:50] right so we we can explore those thing
+[04:52] and with a minimal cost with the no cost
+[04:54] we can fine-tune our model so I will
+[04:57] focus on those uh industry standard
+[04:59] inside this playlist and believe me guys
+[05:02] uh after watching this playlist after
+[05:04] watching this particular videos you will
+[05:07] become a champion in LLMs in finetuning
+[05:11] right in rag and agents and everything.
+[05:15] Okay, you could be a AI developer and uh
+[05:18] along with that I'll uh discuss so many
+[05:20] thing in the upcoming videos like how
+[05:22] you can build a object-oriented uh how
+[05:25] you can build the classes object right
+[05:26] how you can create your project using
+[05:28] this classes object with the
+[05:30] object-oriented programming concepts how
+[05:32] you can deploy your project okay with
+[05:34] the uh like CI/CDs and all okay so so
+[05:37] many thing I need to discuss on this
+[05:38] channel and uh definitely guys I'll
+[05:40] coming I will be coming up with this
+[05:42] type of full proof road map. Okay, I'm
+[05:46] not going to discuss like one or two
+[05:48] video. I I never do that because I
+[05:51] believe to give you the entire content
+[05:53] with a particular sequence with a
+[05:55] complete sequence. Okay? And that's why
+[05:57] I take a time uh like between the video,
+[06:00] right? So nowadays you'll find out I I'm
+[06:03] taking around uh 7 to 8 days that is
+[06:06] just because of my work and all nothing
+[06:08] else. But yeah, in between I'm preparing
+[06:11] the content for all of you guys. So
+[06:14] let's begin. Let's try to discuss this
+[06:15] particular syllabus. So I hope you are
+[06:17] able to see. I just prepared my one note
+[06:20] and definitely I'll share with you. So
+[06:22] here in the first video guys we are
+[06:24] going to discuss about the introduction
+[06:25] of the finetuning in AI. Right there I
+[06:29] capped so many points and we are going
+[06:31] to discuss that this will be a one
+[06:33] single video. We'll try to discuss the
+[06:35] importance of the finetuning. So we'll
+[06:37] start from very basic uh what is a model
+[06:39] training transfer learning. Okay,
+[06:41] pre-training, finetuning, why it
+[06:43] matters, all the theoretical stuff,
+[06:45] right? So, we will try to discuss about
+[06:47] the finetuning framework. What are
+[06:49] fine-tuning framework are there like
+[06:50] HFTL, unslot, llama factory, acceleral,
+[06:54] right? Then we'll try to discuss some
+[06:55] important research paper. what are
+[06:57] important research paper we have with
+[06:59] respect to this finetuning. Now uh all
+[07:01] uh after completing all this theoretical
+[07:04] stuff and all we'll come to the next
+[07:05] video there we'll try to see the
+[07:08] differences between fine-tuning rag and
+[07:10] AI agents okay when you need to uh
+[07:13] choose which like approach whether you
+[07:16] should go with a fine tuning or you have
+[07:17] to build a rag or agent or after the
+[07:20] finetuning let's say you fine tune your
+[07:22] model now on top of this fine tune model
+[07:25] how you can build a ram right how you
+[07:27] can create a agentic flow So this each
+[07:31] and everything we are going to discuss
+[07:34] in our upcoming videos. So guys uh I
+[07:37] hope uh this uh second uh point is
+[07:39] clear. Now in the third video right
+[07:41] we'll try to discuss the finetuning and
+[07:43] the deep learning. Uh fining the deep
+[07:45] learning means how this finetuning
+[07:47] finetuning have started in the deep
+[07:48] learning how they came up with the idea.
+[07:51] Okay. I'll show you a CNN training also
+[07:53] using the PyTorch and the KAS so that
+[07:56] you will get a clearcut understanding
+[07:58] how they have trained how like basically
+[08:02] we can train this uh PNN model okay
+[08:05] using the PyTorch using the kas and your
+[08:07] understanding between with respect to
+[08:09] the neural network with respect to the
+[08:11] layers parameters and all everything is
+[08:14] going to be clarified over here right so
+[08:16] till here this would be my fundamentals
+[08:19] now uh Let us look into the fourth
+[08:21] video. Okay. So in the fourth video I
+[08:23] mention about a fine tuning, right? Why
+[08:26] fine-tuning is not possible or why
+[08:28] fine-tuning was not possible inside the
+[08:31] uh inside the RNN and LSTM because we
+[08:34] know before the uh before the uh
+[08:37] transformer architecture right. So we
+[08:40] were using the RNN and RNN LSTM right in
+[08:44] 2015 to 2018. So this RNN analyst was
+[08:49] booming a lot in EI industry in NLP
+[08:51] industry mainly with respect the
+[08:53] sequence to sequence data. Okay. But
+[08:55] when this uh like when this transformer
+[08:58] came into the picture after that it got
+[09:01] failed. So why what was the reason why
+[09:04] scientists didn't focus on this RN and
+[09:06] LSTM? Why they chosen this transformer
+[09:08] architecture means why Google has not
+[09:11] invested much on this RN and LSTM kind
+[09:14] of architecture and put a decoder and
+[09:17] all while they came up with a different
+[09:19] research like transformer and all okay
+[09:21] and my main aim would be why finetuning
+[09:24] was not possible. So we'll see with
+[09:26] respect to the coding and all and I hope
+[09:28] so your each and every doubt will be
+[09:30] clarified over here. Now guys our main
+[09:33] thing is going to be start. So from here
+[09:35] I'll start with the hugging phase. Okay,
+[09:37] I'll explain uh what was the hugging
+[09:39] face, what was the length chain, uh what
+[09:41] is the differences between this hugging
+[09:43] face and lchain, when you need to use
+[09:45] which one either hugging face or the
+[09:47] lang chain uh and guys we'll see all
+[09:50] sort of a thing the HF installation how
+[09:53] we can read the model using HF API
+[09:55] hugging face API okay we'll try to use
+[09:57] the lenchen also in between but guys we
+[10:00] are going to be use the langun for the
+[10:02] hugging post model for the opensource
+[10:04] model okay we'll try to understand about
+[10:06] the sentence transformer library. We're
+[10:08] trying to understand about the different
+[10:10] different other liability of the hugging
+[10:11] face which is important for the fine
+[10:13] tuning right like hugging face TRL
+[10:16] hugging face bits and bites okay hugging
+[10:18] face data collateral and there are so
+[10:21] many liability which you'll find out
+[10:22] inside the hugging face docs itself so
+[10:25] I'll come on that I and I'll try to
+[10:27] discuss each and every part of it so
+[10:28] that your understanding will be much
+[10:30] clearer and this video would split in
+[10:32] two parts okay maybe hugging face uh
+[10:35] part one hugging face part two and uh
+[10:37] yep According to that we'll try to
+[10:40] proceed then guys after understanding
+[10:42] about the hugging phase and all inside
+[10:44] the sixth video you can see. So in this
+[10:46] particular video inside the next video
+[10:48] we are going to discuss about what guys
+[10:50] we are going to discuss about the
+[10:52] finetuning. So we'll try to pick up some
+[10:54] model from the hugging face itself. So
+[10:56] we'll try to pick up the model like what
+[10:58] okay we'll try to pick up the model like
+[11:00] tile. Okay. And we'll try to fine-tune
+[11:03] this model. We'll see how we can do that
+[11:06] because this model actually it's a
+[11:07] transformer based model and we need to
+[11:10] understand how this model was getting
+[11:12] fine- tuned earlier. We'll come to the
+[11:14] advanced part. Okay. How we are fine-
+[11:16] tuning this llama, mist, gimma, all the
+[11:19] different different other LLMs and all
+[11:21] the the like state-of-the-art LLM like
+[11:24] the deep sea, right? Each and everything
+[11:26] we are going to see. So we'll see the
+[11:29] finetuning of the board and D5 and uh
+[11:32] then your understanding will be much
+[11:34] more clear with respect to the
+[11:36] finetuning. Okay. Then we'll come to the
+[11:39] knowledge distillation also. What is the
+[11:40] meaning of the knowledge distillation?
+[11:42] Okay. how we can distill the knowledge
+[11:44] from one model to the next model and how
+[11:46] we have created this dist and we'll see
+[11:48] the finetuning of it. So guys till here
+[11:51] till here all of all the fundamental all
+[11:55] of your all the fundamental of this like
+[11:58] fine tuning and all will be clarified
+[12:00] and then will enter into the LLMs. Okay,
+[12:04] the LLM means what? LLM. If I'm saying
+[12:06] LLM, so LLM is representing to the large
+[12:10] language model. Let me write over here
+[12:13] large language model. The model which
+[12:16] was trained on a huge amount of data.
+[12:19] Again, if we are talking about the large
+[12:21] language model, then there is a uh there
+[12:23] is a different different mechanism of
+[12:25] the training. So, we'll uh see the
+[12:27] unsupervised pre-training. This
+[12:29] unsupervised pre-teening I'll show you
+[12:31] from scratch in some other video but
+[12:34] we'll more focus on this finetuning
+[12:36] itself how we can fine-tune this large
+[12:39] language model. Okay. Now guys here uh
+[12:42] first we'll try to understand about the
+[12:44] quantization. This is very much
+[12:45] important because using the quantization
+[12:48] only we can uh store the huge model in
+[12:52] the lower memory and uh you'll find out
+[12:55] the different different mechanism of the
+[12:57] guys of the water. So you'll find out
+[13:00] the different different mechanism of the
+[13:03] uh just a second of the quantization
+[13:07] like GGUF, GGM, ML, GPTQ, AWQ okay int4,
+[13:12] int 8 right so all this technique of the
+[13:15] quantization where we are going to be
+[13:17] suppress our model so that we can read
+[13:19] into the lower memory right the into the
+[13:22] lower configuration then we'll come to
+[13:23] the llama Mr. GMA P3 and the other
+[13:26] model. Okay, I'll show you one code.
+[13:28] With that particular code, you can
+[13:30] fine-tune the other model and there is a
+[13:32] different different techniques. Okay. So
+[13:34] whenever we are talking about the
+[13:35] finding of large language model come at
+[13:39] first place there Lora is there, Lora is
+[13:41] a very important technique. Qura is
+[13:43] there which is a combination of Lora and
+[13:45] quantization that Dora is also there.
+[13:47] Raft is also there. Okay. So these all
+[13:50] are technique we are going to discuss.
+[13:52] Then guys after this one we'll see how
+[13:54] we can prepare the data. Okay. Uh how
+[13:57] what is the meaning of full fine tuning
+[13:58] and the parameter efficient finetuning.
+[14:00] uh we'll look into the different
+[14:01] different tools okay which is there
+[14:03] which is ready made tools like a
+[14:05] Xlo MLX unsloth and all okay and after
+[14:09] the fine tuning how we can deploy the
+[14:11] model over the old armor how we can
+[14:14] build a rack on top of it and how we can
+[14:16] create a flow or maybe how we can keep
+[14:20] it over the hugging face hub and all or
+[14:22] wherever we want to deploy we'll try to
+[14:24] do that even over the cloud as well okay
+[14:27] now after that guys we'll try to discuss
+[14:29] about the API based fine tuning. So if
+[14:31] we have a model like open AI, we have a
+[14:33] model like uh basically Jimny, right? So
+[14:36] how we can fine-tune those model, right?
+[14:38] So directly we'll take a model and we
+[14:40] try to perform the instruction based
+[14:42] finetuning over here inside this
+[14:44] specific video. Now from video 9 guys
+[14:47] this video, video 9, video 10 there
+[14:48] could be a multiple part of it. Okay,
+[14:50] I'll divide into the multiple part like
+[14:52] 9.1, 9.2, 9.3 or 10.1, 10.2. So there
+[14:56] will be around uh 20 to 25 video inside
+[14:58] this entire playlist and then after that
+[15:01] we'll come to the best framework. We'll
+[15:03] try to understand about the best
+[15:04] framework for the finetuning. Okay.
+[15:06] After doing all the experiments and all
+[15:08] with respect to the different different
+[15:10] model. Then guys there is one more type
+[15:12] of model which exists into the real
+[15:14] world which is a vision language model.
+[15:17] Okay. Vision language model means the
+[15:19] model basically which is related to the
+[15:22] multi-model data. Okay. Multimodel data
+[15:26] means uh the data basically which is
+[15:28] beyond the text okay which is not a text
+[15:31] uh which could be a image which could be
+[15:34] a audio okay which could be a video you
+[15:38] guys will understand how we can finetune
+[15:41] the vision based model also like
+[15:43] vitan quen lama so there are some of
+[15:47] some model okay vision based model the
+[15:49] opensource model which will try to
+[15:51] understand how basically we can do the
+[15:53] finetuning using the latest and the
+[15:56] state of our technique. Okay. Uh then
+[15:59] guys uh there is a very important
+[16:01] concept which was introduced by the chat
+[16:03] GPD but now it become a backbone
+[16:06] backbone of what backbone of the
+[16:10] finetuning okay which is called RLHF.
+[16:13] Now we have a latest technique of the
+[16:15] RLHF like the DPO. So we'll try to
+[16:17] discuss this preference optimization
+[16:19] technique and we'll understand uh what
+[16:22] is a diff what what is the difference
+[16:24] between this RLF the traditional
+[16:26] mechanism which is a PO okay PO is one
+[16:29] of the RLH of technique and what is the
+[16:32] difference between this DPO so PO versus
+[16:34] DPO and we'll try to train our model
+[16:37] using this DPO and we'll try to align
+[16:39] our preferences to the LLM okay again I
+[16:42] am saying this technique is a backbone
+[16:45] of the latest LLM the LLM which mean
+[16:48] which is being trained and because of
+[16:50] this particular
+[16:51] technique this LLM is able to generate a
+[16:54] very uh good answers okay the good
+[16:57] responses okay we can align the
+[16:59] preferences uh it's a very simple thing
+[17:03] it's just a hype guys nothing else uh
+[17:06] yeah this algorithm could be a typical
+[17:08] one but uh don't worry the
+[17:10] implementation is very easy then
+[17:12] embedding finetuning this is also very
+[17:14] much important how you can finetune
+[17:17] any any uh transformer based model any
+[17:24] transformer base model. Okay. For what
+[17:28] tell me for the
+[17:30] embedding. So embedding is nothing.
+[17:33] Embedding is just a set of vector sorry
+[17:36] set of numbers. Okay. Uh which is also
+[17:40] called vector.
+[17:42] So we will see this all sort of a thing
+[17:44] in the upcoming video and uh then guys
+[17:47] there are some bonus session we'll try
+[17:48] to discuss about the adapters uh which I
+[17:52] like a lot okay this adapters guys I'll
+[17:55] try to discuss the different different
+[17:56] adapters for the finetuning and I'll
+[17:58] discuss about the evaluation metric so
+[18:00] this playlist guys I think I uh uh like
+[18:05] didn't leave any sort of a thing here
+[18:07] right uh if I left something then you
+[18:09] can mention inside the comment and I'll
+[18:11] try to include that and again I'm saying
+[18:13] this is going to be a long playlist so
+[18:15] last time I launched one langraph
+[18:18] playlist uh you loved a lot guys you
+[18:21] loved a lot to this particular playlist
+[18:23] and still people are watching it and
+[18:26] they are creating a industry great
+[18:28] solution okay and yeah I I I like I'm
+[18:32] very much happy that I release this kind
+[18:34] of playlist which is helping a lot to
+[18:36] the people and people are suggesting to
+[18:38] other as well okay so something like
+[18:41] this I'm trying to be create again so
+[18:44] that it could help to the community it
+[18:46] can it could help uh till uh till like
+[18:49] every level okay from starting to end
+[18:53] and guys uh again I'm saying this is the
+[18:55] requirement of the
+[18:58] indust they might ask you the question
+[19:00] from the finetuning you know okay and
+[19:03] yeah you'll have to answer that right so
+[19:06] fine I hope you understood the entire
+[19:07] syllabus now uh again if you don't know
+[19:10] about me you can check out with my
+[19:12] LinkedIn I'm a experienced geni engineer
+[19:16] which is building a realtime solution
+[19:18] for the industry okay and if you want to
+[19:21] connect with me one to one here is the
+[19:23] link guys for the onetoone call you can
+[19:26] go and check out you can book your slot
+[19:28] for any sort of a concern like resume
+[19:31] discussion for the quick chat career
+[19:32] guidance mock interview preparation and
+[19:35] all so I hope uh you understood the
+[19:38] entire agenda for this particular video.
+[19:41] Uh this is it and uh we'll try to
+[19:43] discuss rest of the thing uh from next
+[19:45] video onwards and don't miss out this
+[19:48] playlist. Don't forget to subscribe the
+[19:51] channel if you want to become a master
+[19:54] in generative. So I'll meet you in the
+[19:56] next video guys. Until thank you.
+[19:58] Bye-bye. Take care.

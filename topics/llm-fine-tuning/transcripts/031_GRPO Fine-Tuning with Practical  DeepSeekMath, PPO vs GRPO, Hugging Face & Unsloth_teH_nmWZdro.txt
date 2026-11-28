@@ -1,0 +1,1387 @@
+Title: GRPO Fine-Tuning with Practical | DeepSeekMath, PPO vs GRPO, Hugging Face & Unsloth
+Video URL: https://www.youtube.com/watch?v=teH_nmWZdro
+Video ID: teH_nmWZdro
+======================================================================
+
+[00:00] Hey, hello everyone. Welcome back to my
+[00:02] YouTube channel. My name is Sunny and I
+[00:04] am back with another exciting and
+[00:06] important video. So guys, inside this
+[00:09] video, we are going to discuss about the
+[00:11] GRPO. So GRPO, actually it is one of the
+[00:16] preference alignment technique, which
+[00:18] was a use by the DeepSeek researcher,
+[00:21] okay, or which was invented by the
+[00:24] DeepSeek researcher. So guys, in the
+[00:26] previous a couple of video, I was
+[00:28] talking about the RLHF, right? So this
+[00:30] RLHF
+[00:31] a process, it was based on the PPO
+[00:34] technique. So PPO, again, it was the
+[00:36] reinforcement learning based technique.
+[00:39] And this GRPO also, it is a
+[00:41] reinforcement learning based technique.
+[00:43] So inside this video, I will discuss
+[00:45] about the GRPO, like how you can use the
+[00:48] GRPO for the preference alignment or for
+[00:50] the preference tuning, which comes after
+[00:52] the supervised fine-tuning. Got it,
+[00:55] guys? So guys, in the previous
+[00:58] like video, right? I discussed about the
+[01:00] RLHF. So if you are willing to master
+[01:02] this RLHF, okay, so please watch out
+[01:05] this three part. It is very, very
+[01:07] important, right? And here basically I
+[01:09] discussed the reinforcement learning,
+[01:11] the concept of the preference alignment,
+[01:14] and even I discussed the complete RLHF
+[01:16] process. Now apart from this one, I
+[01:18] recorded this end-to-end complete LLM
+[01:21] fine-tuning playlist.
+[01:23] There guys, I uploaded around 30 video.
+[01:27] So inside this video, I explained each
+[01:29] and every concept of the LLM
+[01:30] fine-tuning. So if you are willing to
+[01:33] master LLM fine-tuning, then this
+[01:35] playlist is for you. Now apart from this
+[01:37] one, guys, if you will go inside the
+[01:39] live section, so you will find out some
+[01:40] live AI career podcast. So how people
+[01:43] made a transition from different
+[01:45] technology to this AI world, so I cover
+[01:47] up inside this live session. So within
+[01:49] this two week, guys, I took around four
+[01:51] podcasts from the different different
+[01:54] experience people, okay, which are the
+[01:55] expert in the different other technology
+[01:57] and how they move into the
+[01:59] AI world, right? So, if
+[02:01] basically you are willing to listen
+[02:03] their experience, right? If you are
+[02:05] willing to listen their strategy, okay?
+[02:08] So, guys, each and everything we have
+[02:09] covered over here. You can watch out
+[02:11] inside these video. Now, apart from this
+[02:13] one, guys, I'm starting the master class
+[02:16] also. So, one per week I will schedule
+[02:18] one master class. There I will discuss
+[02:20] one very important and the very hot
+[02:22] topic, okay, in the AI world. And
+[02:24] basically how you can master the topic.
+[02:26] So, I will be scheduling that inside the
+[02:28] live section itself. You can go and
+[02:30] check over here. Now, guys, let's come
+[02:33] to the next part. So, here basically
+[02:35] what all thing we are going to discuss
+[02:36] inside this particular video, I
+[02:38] mentioned over here. So, just
+[02:41] read it.
+[02:42] Okay.
+[02:43] Okay. So, yeah. So, first, guys, we'll
+[02:47] discuss what is a GRPO. So, we'll
+[02:49] understand the theoretical structure of
+[02:51] the GRPO and we'll see the quick
+[02:53] background of the DeepSeek math paper,
+[02:55] okay? And the DeepSeek training pipeline
+[02:58] where the GRPO was introduced.
+[03:00] Then, guys, we'll see the quick
+[03:01] differences between the PPO versus GRPO.
+[03:04] Then, we'll see the step-by-step example
+[03:06] of the GRPO, okay? How basically this
+[03:10] GRPO is working, you will get over here.
+[03:13] Then, guys, reward signal versus reward
+[03:15] model. So, one is specific technique was
+[03:17] used inside the GRPO method that was a
+[03:19] reward signal. So, we'll understand that
+[03:21] and we'll see how it is different from
+[03:22] the reward model that is LLM as a judge.
+[03:25] Then, we'll see the practical with the
+[03:26] hugging face and unslow.
+[03:28] So, yeah, guys, these many thing we are
+[03:30] going to discuss
+[03:32] inside this particular video. So, stay
+[03:34] tuned with me till the end. If you If
+[03:37] you wanted to master this this GRPO end
+[03:39] to end. So, let's start. Let's begin
+[03:41] without wasting a time. Let's understand
+[03:44] what is a GRPO.
+[03:46] Now, guys, before coming to this what is
+[03:49] GRPO, let me give you the quick uh
+[03:52] background of the GRPO. So, here guys, I
+[03:56] created couple of slide uh to give you
+[03:58] the quick background of the GRPO and the
+[04:01] DeepSeek.
+[04:02] So, first uh let me switch off my camera
+[04:05] so that uh you can access the entire
+[04:07] screen.
+[04:07] I hope guys this uh entire uh slide is
+[04:10] visible. Uh so guys, what is the full
+[04:12] form of the
+[04:14] GRPO? So, GRPO is called the group uh
+[04:16] related policy optimization.
+[04:20] Now guys, uh this uh GRPO was introduced
+[04:23] in the DeepSeek Math paper, okay? So, uh
+[04:27] DeepSeek have uh published one research
+[04:29] one model. The model name was the
+[04:31] DeepSeek Math. And inside uh that uh
+[04:34] research paper, this technique was
+[04:36] introduced, right? I will show you that
+[04:38] research paper, but before that uh let
+[04:40] me talk little more about the DeepSeek,
+[04:42] then what is the DeepSeek and what they
+[04:44] are actually providing to us. So guys,
+[04:47] here is the couple of link uh basically
+[04:49] which you can visit. So, first is the
+[04:51] official website of the DeepSeek, then
+[04:52] chat interface of the DeepSeek, then uh
+[04:55] basically API uh platform of the
+[04:57] DeepSeek, then GitHub repository and the
+[04:59] Hugging Face. So, let me show you all
+[05:01] this uh place so that you can understand
+[05:03] this DeepSeek in a better way. So,
+[05:05] DeepSeek, actually it is a Chinese
+[05:07] company, okay, which is providing the
+[05:10] which is providing the LLM model, okay,
+[05:12] which is providing the LLM model to the
+[05:14] entire world. Uh now here guys, it has
+[05:17] uh basically released the different
+[05:18] different LLM model. You can see the
+[05:20] list of the LLM model, okay?
+[05:22] Now guys, apart from this one, it is
+[05:24] providing you the different different
+[05:25] product as well. So, DeepSeek app is
+[05:27] there, DeepSeek chat is there, DeepSeek
+[05:29] uh platform is there, API is there,
+[05:32] right? So, each and everything they are
+[05:33] providing to us. So, you can uh check
+[05:36] out their chat interface. It is similar
+[05:38] to the ChatGPT. And uh like we are
+[05:41] chatting over the ChatGPT, in the same
+[05:42] way you can chat over here. Then guys,
+[05:44] it is providing us the API also. So, you
+[05:47] can uh basically purchase their API
+[05:49] credential and you can access their
+[05:51] you can access basically their premium
+[05:53] model using the API, okay. Now here
+[05:56] guys, you can see the DeepSeek GitHub.
+[05:58] So most of the model, most of the
+[06:00] researcher researchers actually are the
+[06:02] open source in the DeepSeek. So guys, if
+[06:04] you are willing to see see their work,
+[06:06] if you are willing to go through or deep
+[06:08] dive into the model of the DeepSeek,
+[06:10] then I think this repository is a
+[06:12] perfect for you. Okay, now you can go
+[06:14] and check out with this repository, so
+[06:16] you will find out all the source code
+[06:17] and all everything inside this
+[06:19] particular repository, right? Now apart
+[06:21] from this one, if you wanted to check
+[06:22] like what all open source model are
+[06:24] there from the DeepSeek, what all open
+[06:26] source model they are providing, so you
+[06:27] can check out with their DeepSeek GitHub
+[06:29] page sorry, DeepSeek hugging face page.
+[06:32] So there under there you will find out
+[06:34] the different different collection
+[06:35] spaces, okay? And just look into this
+[06:37] model section, you will get their model
+[06:39] also. So via DeepSeek API, they are
+[06:41] providing you the paid model, okay? And
+[06:44] via hugging face repository, they are
+[06:46] providing you what? They are providing
+[06:47] you the
+[06:48] uh basically the free open source model,
+[06:51] okay? So I hope guys, you got the enough
+[06:53] understanding about the DeepSeek. Now
+[06:54] let's do one thing, let's see what all
+[06:56] model
+[06:57] uh is published by the DeepSeek so far
+[06:59] and where this GRPO lies. So guys, here
+[07:02] you can see the like date-wise I have
+[07:05] mentioned the model. So in 2023, the
+[07:07] DeepSeek has released this model
+[07:09] DeepSeek-Coder-V1
+[07:11] and DeepSeek-LLM.
+[07:13] Then guys, in 2024, uh DeepSeek has
+[07:16] released this DeepSeek-MoE mixture of
+[07:18] expert, okay? Then again, the
+[07:20] DeepSeek-Math, okay? This this
+[07:22] particular model DeepSeek-Math. So
+[07:23] inside this particular paper only, they
+[07:25] have
+[07:26] discussed about the GRPO technique. Then
+[07:29] guys, they have released some vision
+[07:30] related model also like DeepSeek-VL,
+[07:32] DeepSeek-V2, okay? DeepSeek-V2
+[07:35] basically, it was the updated version of
+[07:37] this DeepSeek-LLM. Then
+[07:38] DeepSeek-Coder-V2, okay? Then again,
+[07:40] DeepSeek-V2.5.
+[07:43] Then guys the second version of this
+[07:45] language model that is VL3. Okay, so
+[07:48] after that guys in order to like
+[07:51] releasing this model. Okay, so down the
+[07:53] line only they have released their
+[07:54] flagship model that was a deep seek R1.
+[07:57] I think many of us have used this
+[07:59] particular model deep seek R1 and it was
+[08:01] released in 2025. Okay, it was a very
+[08:04] good reasoning model. So flex flagship
+[08:06] MOE was the B3 and right after that guys
+[08:08] the deep seek R1 was in videos. Now
+[08:10] inside this model
+[08:12] basically they have used a GRPO
+[08:14] technique and that was quite successful
+[08:17] and after that only this GRPO become a
+[08:19] very very popular. Then guys after this
+[08:22] model you will find out some other model
+[08:24] in the timeline. So Janus Pro deep seek
+[08:27] Pro or V2 then deep seek 3.1. These are
+[08:29] the updated version of the previous
+[08:31] model only and the latest model is a
+[08:33] deep seek B4. Okay, deep seek B4 preview
+[08:36] and even over the website also you will
+[08:38] find out the detail of this particular
+[08:40] model. So once you will go and check out
+[08:42] the website so there also they have
+[08:43] mentioned about the deep seek B4 model.
+[08:46] So so this is a very
+[08:48] good model. Okay, very good reasoning
+[08:50] based model. If you wanted to try then
+[08:52] you can purchase the API. Okay, and then
+[08:55] basically you can access this particular
+[08:57] model. So it is a complete detail of the
+[08:59] model. Okay, so officially they have
+[09:01] posted over the Twitter and all and it
+[09:03] is a performing very well. So they have
+[09:04] said that this is the open source one.
+[09:06] Okay, and even via API also it is
+[09:09] available. So if you are you if you
+[09:10] wanted to use it inside your production
+[09:12] system that I would suggest you you can
+[09:14] use you can basically purchase the API
+[09:16] credential and then basically you can
+[09:18] test this a model. Okay, you can compare
+[09:20] with the other model and even the
+[09:21] pricing criteria. So I hope this thing
+[09:24] is clear. Now guys the main
+[09:26] paper was the deep seek math paper. This
+[09:29] this particular paper which was released
+[09:30] in 2024 itself. Okay, so first let me
+[09:33] show you this research paper. So this is
+[09:35] the research paper guys. The research
+[09:36] paper name is DeepSeek Math, okay?
+[09:39] Pushing the limits of the mathematical
+[09:40] reasoning in open language model. So,
+[09:42] inside uh this uh particular research
+[09:44] paper, they mainly discuss about the
+[09:46] mathematical capability of the uh LLM
+[09:48] model, okay? So, they taught uh they uh
+[09:51] basically trained their model on the uh
+[09:53] raw mathematical data, okay? They
+[09:55] pre-trained their model on the raw
+[09:57] mathematical data, okay? And then it was
+[10:00] able to do lots many mathematical
+[10:02] related reasoning task, got it? So, this
+[10:04] is what all about this uh research
+[10:06] paper. I gave a quick summary of it. Uh
+[10:08] I will show you that particular summary.
+[10:09] So, once you will go and check out with
+[10:11] the research paper, somewhere here
+[10:13] inside uh this research paper, you will
+[10:15] find out this term GRPO, okay? You can
+[10:17] search it and you will get that. So,
+[10:19] see, guys, this is the uh at the first
+[10:21] place page only, you will get the GRPO
+[10:22] term in the abstract itself. Then you
+[10:24] can navigate to this particular term,
+[10:26] and you will get the uses of it, okay?
+[10:28] So, how this model was working around to
+[10:30] this GRPO, right?
+[10:32] Uh now, guys, uh let me do one thing.
+[10:33] Let me uh
+[10:35] basically give you the quick summary of
+[10:36] this particular research paper. Now, one
+[10:38] more thing I would like to highlight
+[10:39] over here, guys. If you will look into
+[10:41] this particular chart, okay? So, inside
+[10:43] this chart, you will at the first place,
+[10:45] right? When this DeepSeek model was
+[10:46] introduced, so there DeepSeek Coder V1
+[10:49] and DeepSeek LLM, right? This two model
+[10:51] was there. So, these two are not the
+[10:52] same model. This both are the different
+[10:54] models. So, one uh basically for the
+[10:56] general
+[10:57] general question answering, this uh
+[10:58] DeepSeek LLM model, and the other
+[11:00] another one basically, this one, it's a
+[11:01] DeepSeek Coder model, which is
+[11:03] specifically for the coding, okay? So, I
+[11:06] hope uh this part is also clear. And
+[11:08] till here, uh everything is uh getting
+[11:10] clear, and you are able to understand
+[11:11] every sort of a concept. Now, guys, uh
+[11:13] let me do one thing. Let me uh like read
+[11:16] out this line for all of you. So,
+[11:17] DeepSeek LLM and DeepSeek Coder V1 are
+[11:19] not the same model. So, the same thing
+[11:21] which I was telling you, right? So, Deep
+[11:23] DeepSeek LLM is a general model family,
+[11:25] while DeepSeek Coder is a coding focused
+[11:27] uh family, okay? And DeepSeek Coder
+[11:30] base, uh this this was the model,
+[11:32] basically, right? Which further
+[11:33] fine-tuned uh to create this DeepSeek
+[11:36] math model. Okay? So, they they picked
+[11:38] up this model only. Now, if you will
+[11:40] look into the hierarchy, you will get
+[11:41] that. So, the DeepSeek Coder was a
+[11:43] model, and after that only you got this
+[11:45] DeepSeek math model. Okay? So, they have
+[11:48] fine-tuned this particular model only,
+[11:50] DeepSeek Coder, to create the DeepSeek
+[11:52] math model, and there only they have
+[11:53] used the GRPO technique. So, this is the
+[11:55] quick summary of the research paper. So,
+[11:57] the core idea of the DeepSeek math paper
+[11:59] is to show uh showed that small 7B
+[12:03] open-source model can become a strong in
+[12:04] the mathematical reasoning. So, this
+[12:06] this particular model was around the
+[12:08] mathematical related task, okay? So,
+[12:11] they started with the DeepSeek Coder
+[12:12] model, as I told you, because code model
+[12:14] already have a good logical in the
+[12:16] structure reasoning ability, okay?
+[12:18] Ability. So, this
+[12:20] this particular model was already know
+[12:22] about the
+[12:23] logical in the structure reasoning.
+[12:25] Then, they continue pre-train this
+[12:27] model, okay? Over the large math-focused
+[12:29] data set.
+[12:30] So, they have included around 120
+[12:32] billion token math corpus, and the
+[12:34] useful data set from the
+[12:37] uh different places, okay? Then only,
+[12:39] after that only, guys, they have created
+[12:41] what? They have created the DeepSeek
+[12:43] math model. Okay? See, after
+[12:45] pre-training, they applied math
+[12:46] instruction tuning, that is pretty
+[12:48] obvious, as I already told you, we have
+[12:50] three stages of the training. One is a
+[12:51] pre-training, second is the instruction
+[12:53] tuning, and then final comes the
+[12:54] preference tuning, okay? So, for the
+[12:56] final step, basically, they have used
+[12:58] what? They have used a GRPO technique,
+[13:00] where the model generate multiple
+[13:02] answers and compare them and improve
+[13:04] based on the better ones. I think we
+[13:05] already discussed this this in our RLHF,
+[13:07] that what is a preference tuning and
+[13:09] all. If you don't know about it, you can
+[13:11] simply go and check out with this
+[13:12] particular video, the first video of my
+[13:14] RLHF, you will be able to get, okay?
+[13:17] What is the meaning of the preference
+[13:19] alignment. Here, I have discussed all
+[13:20] the all these things. Now, guys, I hope
+[13:23] this entire thing is clear related to
+[13:25] the DeepSeek math research paper. Now,
+[13:27] you can see some bench benchmark result,
+[13:29] how much accuracy this model has
+[13:31] achieved, okay? On top of which data
+[13:33] set, even that this is what I have
+[13:35] mentioned, okay? You can easily explain
+[13:38] this in the interview. Right? So, this
+[13:40] is the complete pipeline, guys. You can
+[13:42] see the complete pipeline. So, how this
+[13:44] deep seek math model was introduced and
+[13:46] where GRPO technique was there. Now, you
+[13:49] will be able to understand this pipeline
+[13:51] in a very well manner. So, the earlier
+[13:53] model was this one, deep seek coder
+[13:55] coder model. This was introduced in
+[13:57] 2023,
+[13:59] okay? Then guys, this particular model
+[14:01] was continuous pre-trained with 120
+[14:04] billion math token with some code
+[14:06] related data in the natural language.
+[14:08] Then finally, they got the deep seek
+[14:10] math model, okay? In which year, guys?
+[14:12] You can check out the timeline. The year
+[14:14] was the 24, okay? So, in 24, basically
+[14:16] they got this particular model. Then
+[14:18] guys, what they have done? They
+[14:20] performed the
+[14:21] instruction tuning, okay? On top of this
+[14:24] particular model, they have performed
+[14:25] the instruction tuning. So, math SFT
+[14:26] means what?
+[14:28] Supervised fine-tuning. Then they got
+[14:30] this particular model, deep seek math
+[14:31] instruct, right? After the supervised
+[14:33] fine-tuning. And then guys, they have
+[14:35] performed the GRPO technique. It is a
+[14:37] preference aligned technique, right?
+[14:38] GRPO reinforcement learning technique.
+[14:41] And there guys,
+[14:42] after after there only they have trained
+[14:44] the model this particular model over the
+[14:47] preference data and finally, they got
+[14:49] this a particular model, deep seek math
+[14:51] model, okay? With the RL tuning. And
+[14:54] this was a 7 billion parameter it was
+[14:56] quite good in terms of what? In terms of
+[14:58] the mathematical reasoning. So, this is
+[15:00] the complete story of the deep seek so
+[15:03] far. I hope you understood the complete
+[15:06] background, like how this
+[15:09] basically GRPO technique was invented,
+[15:11] where this GRPO technique was invented,
+[15:13] okay? What is a deep seek, where you
+[15:15] will find out all the resources related
+[15:17] to the deep seek and what all model we
+[15:19] have of the deep seek, okay? Now guys,
+[15:21] uh main idea of this video, the main
+[15:23] focus uh concept of this video is the
+[15:26] GRPO. So, first uh let's uh discuss
+[15:28] about the GRPO that was a GRPO, okay?
+[15:31] And after that, guys, I will come to the
+[15:32] quick example of it. Means I will
+[15:34] explain you uh with a uh very detailed
+[15:36] example. So, GRPO or it is also called
+[15:39] the group uh relative policy
+[15:41] optimization. This is the full form of
+[15:43] the GRPO, okay? So, inside this uh
+[15:46] particular term, you can see group.
+[15:49] Then, you can see the relative, okay?
+[15:51] The policy optimization, it is the same
+[15:53] one which is coming from the PPO or
+[15:56] proximal policy optimization. But, it is
+[15:58] not a proximal policy optimization. It
+[16:00] is a group relative policy optimization,
+[16:02] okay? Now, again, this is a RL-based
+[16:05] technique, right? So, it's a
+[16:06] reinforcement learning method used to
+[16:08] align LLM by comparing multiple
+[16:10] responses generated for the same prompt,
+[16:12] right? I think you must have seen when
+[16:14] you are chatting with a ChatGPT. So,
+[16:16] ChatGPT, basically, it is uh providing
+[16:18] you the two responses, right? So, it is
+[16:21] providing you the two responses, the
+[16:22] response one and the response two. So,
+[16:24] response one and response two. Now, it
+[16:27] is asking to you, okay, so which
+[16:29] response you would like to prefer?
+[16:30] Whether you prefer the first response or
+[16:32] whether you you are going for the second
+[16:34] response, right? Now, guys, this uh data
+[16:37] this uh particular click is recording in
+[16:39] the back end, okay? Uh ChatGPT uh OpenAI
+[16:42] is collecting those preference data in
+[16:43] the back end, and then again, it is
+[16:45] training their model, the GPT model,
+[16:48] let's say GPT-5 model, on top of that
+[16:50] particular data. Now, that is only
+[16:51] called the preference tuning, right? So,
+[16:54] guys, over here, you can see if we're
+[16:55] talking about the GRPO, right? So, GRPO,
+[16:57] what it how does it work? So, it's going
+[16:59] to be generate a multiple responses,
+[17:02] okay? And uh guys, uh this uh multiple
+[17:05] and then, guys, this response,
+[17:06] basically, is going to be compared,
+[17:07] okay? And uh whichever responses are the
+[17:10] best one, so it is aligning the LLM with
+[17:12] that specific uh response, right? This
+[17:14] is the overall idea behind the GRPO. Uh
+[17:17] now GRPO improves an LLM. Okay, just
+[17:20] read out this particular definition
+[17:21] also. So, GRPO improves an LLM by
+[17:23] generating a multiple responses for the
+[17:25] same prompt, is scoring them, updating
+[17:28] the model based on which response are
+[17:32] better or worse, right? The group
+[17:34] average, right? Without needing a
+[17:36] separate value critic model. So, this is
+[17:38] a specialty of the GRPO. If someone is
+[17:40] going to ask you that why we should use
+[17:43] GRPO, so you can say it is a light
+[17:45] weighted algorithm.
+[17:46] It is light weighted algorithm.
+[17:50] Okay?
+[17:51] Compared to what? Compared to PPO. So,
+[17:53] PPO basically it is a heavy algorithm
+[17:55] because of what? Because of this
+[17:58] because of this value model, which is
+[18:00] also called the critic model. But inside
+[18:02] the GRPO, guys, this value model I can
+[18:04] say the critic model is not being used.
+[18:07] Okay? This critic model is not being
+[18:09] used. And because of that, the GP is a
+[18:11] light bit process than this PPO method.
+[18:14] Now, let's understand the functionality
+[18:16] of the GRPO. How does it work? So, let's
+[18:18] say this is my prompt, guys. Just focus
+[18:20] on to this example. Your most of the
+[18:21] doubt and the definition also is going
+[18:23] to be clear from here. So, let's say the
+[18:25] problem statement is 2 + 2. Okay? So,
+[18:28] model is giving the four answer. Let's
+[18:29] say A is equal to four, B is five, C is
+[18:32] four, and D is what? D is six, right?
+[18:35] Now, guys, four is correct. So, we are
+[18:37] giving a reward one.
+[18:38] Five is wrong. We are giving reward
+[18:40] zero.
+[18:41] Four is correct. We are giving reward
+[18:43] four one. Okay? And the six is wrong,
+[18:45] the reward is zero. So, what we will do,
+[18:48] guys? We'll take a group average reward.
+[18:50] Okay? So, 1 0 1 0 / 4, so it's going to
+[18:53] be 0.5. Now, GRPO learns response above
+[18:57] average increase the probability.
+[19:00] Okay? What is the meaning of that? So,
+[19:02] over here you can see A was having one,
+[19:04] B was having zero, C was having one, and
+[19:08] again D is having what? Zero. So, you
+[19:11] can see this 0.5, okay? A is greater
+[19:15] than this 0.5.
+[19:17] B is less than this 0.5. C is greater
+[19:20] than this 0.5, and D is less than 0.5.
+[19:24] So, what this GRPO is doing? So, GRPO
+[19:27] basically it learns responses above
+[19:29] average, okay? So, this is the above
+[19:32] this is the average value, guys. So,
+[19:34] whatever responses are above this
+[19:36] average, okay? So, the probability of
+[19:38] that particular responses being
+[19:40] increasing, and responses below average,
+[19:42] so that it is decreasing the probability
+[19:44] of those responses. So, this response,
+[19:47] right? This this particular response
+[19:48] probability are going to be increased in
+[19:51] the GRPO. It's working in that way,
+[19:53] okay? And this response probability is
+[19:56] going to be decreased.
+[19:57] Right? This particular response
+[19:59] probability is going to be decreased
+[20:01] because it is a wrong one, or it is a
+[20:02] below to this average, right? In this a
+[20:05] particular fashion, in this fashion only
+[20:07] this GRPO is working. I hope, guys, you
+[20:10] are able to understand till here. I hope
+[20:13] you are with me till here. Now, guys, if
+[20:15] we're talking about the GRPO, right? So,
+[20:17] how the GRPO is different than PPO? So,
+[20:20] instead of using a separate value
+[20:22] getting model, okay?
+[20:24] GRPO collect a group responses. It has
+[20:26] collected the group average, is score
+[20:28] them, okay? And checks which responses
+[20:30] are better or worse than the group
+[20:31] average. The state is very very simple.
+[20:34] So, in that case, guys, the value model
+[20:36] is not required. If you will check out
+[20:38] with a PPO, guys, see this was the this
+[20:39] is the PPO which I discussed inside the
+[20:41] previous class. So, inside the PPO we
+[20:43] were having the value model,
+[20:45] okay? Now, what this value model was
+[20:47] doing? So, it was taking a same prompt,
+[20:49] the prompt basically which is which is
+[20:50] giving to this particular model, the
+[20:51] policy model, okay? The actor model. It
+[20:53] is taking a same prompt. It is
+[20:55] generating some but some output, okay?
+[20:57] And that is called my expected reward.
+[21:00] Now, this expected reward we were
+[21:01] comparing with what? We were comparing
+[21:03] with the reward model output. This
+[21:05] expected reward this expected basically
+[21:07] reward we were comparing with the reward
+[21:09] model output. This is what we were doing
+[21:11] inside of PPO. But if we're talking
+[21:13] about the GRPO guys, so inside of GRPO,
+[21:15] this concept is irrelevant, right? So
+[21:17] they are not going to be use this
+[21:19] particular concept. Instead of that,
+[21:20] what they are doing, instead of that
+[21:22] basically, whatever reward model is
+[21:24] generating, right? So let's say reward
+[21:26] is reward model is generating A1 B0 C1
+[21:29] D0. So we are not going to be compare
+[21:32] this particular thing with the value of
+[21:34] the critic model. Okay? We're not going
+[21:36] to be compare this particular thing with
+[21:38] the value and the critic model. Instead
+[21:40] of that, what we are doing, we are going
+[21:41] to be take a average of uh this entire
+[21:44] result, okay? And we are checking which
+[21:47] reward is greater than to this average
+[21:49] is and which reward is a lower than or
+[21:51] the less than to this average. This is
+[21:53] what we are doing. And this is what my
+[21:55] GRPO algorithm is learning. I hope this
+[21:58] entire thing is pretty clear to all of
+[22:00] you. So this is the complete uh flow of
+[22:01] the GRPO. If someone is going to ask you
+[22:04] that how the GRPO works, you can say we
+[22:06] are giving a prompt to the model. It's
+[22:09] going to be generate a multiple
+[22:10] response. We are scoring each response
+[22:13] using what? Using the reward signal,
+[22:16] okay? Or using the reward model.
+[22:19] Then compare response inside the group,
+[22:21] right? So whatever group average we are
+[22:23] coming, group average value we are
+[22:25] coming, so we're going to be compare the
+[22:27] individual responses. Then increase the
+[22:29] probability of the better, decrease the
+[22:31] probability of the weaker response,
+[22:33] right? So GRPO ask which answer is
+[22:35] better compared to other answer of the
+[22:37] same question. Instead, PPO style, was
+[22:40] this answer better than what the value
+[22:43] model expected? So here basically, we
+[22:45] are going to be evaluate everything in
+[22:47] terms of the value model. But if you
+[22:48] will check out, if you will check out
+[22:50] what if you will check out the GRPO, so
+[22:52] it is checking inside the group itself,
+[22:55] okay? It is checking It is making a
+[22:57] comparison inside the group itself,
+[23:00] right? This is the uh basically one of
+[23:02] the USB of this GRPO. I hope you you
+[23:05] understood this entire point. Now guys,
+[23:07] let me show you the step-by-step working
+[23:08] of the GRPO. See, here I kept the
+[23:10] differences between the GRPO and the
+[23:12] PPO. Let's take a quick uh overview of
+[23:15] these differences. So, if someone is
+[23:16] going to ask in an interview, then
+[23:18] easily you can explain that. So guys,
+[23:20] here you can see if we're talking about
+[23:22] the PPO, so PPO uses an extra value
+[23:24] model to estimate expected reward. But
+[23:26] GPO remove the value model, okay, and
+[23:29] uses group average reward as a baseline.
+[23:31] This particular concept is very much
+[23:33] important, guys. This one. And because
+[23:36] of that only this GRPO become popular.
+[23:38] Now, advantage calculation. So, PPO
+[23:40] advantage is equal to actual reward
+[23:42] minus value model, right? I think we
+[23:44] already done that. GRPO advantage
+[23:46] basically response reward compared with
+[23:47] the other responses in the same group. I
+[23:49] think I already shown you, right?
+[23:51] Responses reward, right? Compared with
+[23:53] the other responses in the same group.
+[23:56] Now, if you're if this line is not
+[23:57] getting clear, now I kept one end-to-end
+[23:59] detail example right after this slide,
+[24:00] you will be getting that part. Memory
+[24:02] and the computer compute cost. PPO is
+[24:04] more memory heavy because it is using
+[24:06] the policy reference reward and the
+[24:07] value model. This is completely true.
+[24:09] So, we have these many model where
+[24:11] inside the PPO. But if we're talking
+[24:13] about the GPO, guys, so they are
+[24:15] basically it is removing the value and
+[24:17] the critic model, and because of that
+[24:18] the training is the more efficient. So,
+[24:20] that's the overall differences between
+[24:21] the PPO and the GRPO. If someone is
+[24:23] going to be asked you that why PPO is
+[24:25] GRPO is better than PPO, you can just
+[24:27] simply talk about these differences. And
+[24:29] even I mentioned these differences over
+[24:31] here. No value critic model, GR
+[24:33] group-based comparison, okay? And then
+[24:36] more effective for reasoning task,
+[24:38] right? So, you can basically discuss all
+[24:41] these points, mainly these three
+[24:42] differences, so that you can easily
+[24:44] explain in the interview that why GRPO
+[24:46] is a better if someone is asking to you.
+[24:48] So, this is the complete working of the
+[24:49] GRPO, guys. Let's understand this
+[24:51] complete working so that each and every
+[24:53] part of the GRPO will be clear. Then
+[24:55] again, if you will check the recording
+[24:57] from a scratch and you will listen out,
+[24:58] okay? Your understanding would be very,
+[25:01] very, very clear. So, let's start with
+[25:03] this particular explanation.
+[25:05] Now, guys, see, this is a summarize the
+[25:08] working of the GRPO. So, inside this
+[25:12] basically image, I kept one example, and
+[25:15] with that easily you can relate whatever
+[25:17] we have learned so far. Got it? Now,
+[25:19] even you will be able to relate that why
+[25:21] GRPO is called a group relative policy
+[25:24] optimization. So, let's say, let's
+[25:27] suppose this is my user prompt. Okay,
+[25:29] the first stage is what? First stage is
+[25:30] my user prompt.
+[25:33] Okay. Now, this particular prompt
+[25:35] basically we are passing to the model.
+[25:38] Now, this is a model. This is a policy
+[25:40] model, actually. Okay? This is called
+[25:42] the policy model, and this is my main
+[25:44] LLM which I want to optimize, which I
+[25:47] want to which I wanted to train. Got it?
+[25:49] So, it is generating a multiple
+[25:51] responses, response A, response B,
+[25:53] response C. Got it?
+[25:55] So, it is generating a multiple
+[25:56] responses. Then, we have a reward
+[25:57] mechanism. Here in the GRPO also, we
+[26:00] have a reward mechanism. So, guys, we
+[26:02] are providing a reward with some
+[26:04] mechanism. So, either we can have some
+[26:06] hardcoded rule, with that we can provide
+[26:09] the rewards.
+[26:10] Or else, basically we can have one
+[26:12] trained LLM, okay? LLM as a judge, which
+[26:15] can which can judge this responses,
+[26:18] okay? And then, it can provide the
+[26:20] rewards. So, in a both way, basically we
+[26:22] can do it. So, guys, a reward is scoring
+[26:25] reward or reward scoring signal evaluate
+[26:28] each responses. So, this is the reward
+[26:30] basically result. Then, what is
+[26:33] happening? It is going to be
+[26:35] basically calculate the group baseline,
+[26:37] okay? So, group average reward is being
+[26:40] calculated. So, let's say 9, 6, and 2 is
+[26:42] become 5.67 after calculating the
+[26:45] average. Now, you will see there is no
+[26:47] separate value model. If you will look
+[26:49] into the PPO, just check out my previous
+[26:51] video, you will get that how the PPO was
+[26:53] working. So, there you will find out you
+[26:55] are having the value model. And after
+[26:57] generating the output from the value
+[26:58] model,
+[26:59] uh then only we are taking that expected
+[27:01] output and the reward reward output and
+[27:04] then we were comparing, okay? But, it is
+[27:06] not like this over here. So, over here
+[27:08] we are going to be calculate the
+[27:09] advantage score.
+[27:11] But, guys, uh this advantage score is
+[27:13] being uh calculated out of this group
+[27:16] value, okay? The actual reward this
+[27:18] reward basically which we're getting
+[27:19] from the reward function and this group
+[27:20] group uh average, okay? So, 9.567, it is
+[27:24] this one. And then 6 uh minus uh 5.67,
+[27:29] okay? So, it becomes 0.33. Then,
+[27:31] advantage C, 2 minus 5 minus 2 minus
+[27:34] 5.6, it is going to become minus 3.67.
+[27:37] So, you can see above average is going
+[27:39] to be encouraged and below average is
+[27:41] going to be discouraged, okay?
+[27:43] Discouraged. So, group update the
+[27:45] policy, okay? Response with positive
+[27:47] relative advantage become more likely.
+[27:50] Weak responses become less likely. So,
+[27:52] response A probability is going up,
+[27:54] response B probability is going slightly
+[27:56] up, and response C probability is
+[27:58] sliding down.
+[27:59] Okay? Now, guys, if you're talking about
+[28:01] updating the policy, so yesterday sorry,
+[28:04] in the previous class also I already
+[28:05] discussed, it is nothing, it is just
+[28:07] about updating the weights. So, like we
+[28:09] are updating a weight inside the model,
+[28:11] so we are saying updating the policy, it
+[28:13] is indicating the same thing. Got it,
+[28:15] guys? So, if we are updating a policy
+[28:17] means if we are updating a weight, in
+[28:19] that case, it is going to be update the
+[28:20] weight in such a way that the response A
+[28:22] probability will go up and response B
+[28:24] probability will slightly go up, and
+[28:26] response C probability is slightly and
+[28:28] response C probability is going to be
+[28:29] down. Okay? Now, efficient training, no
+[28:32] critic needed. Why GRPO is efficient?
+[28:33] Because no critic model, lower cost,
+[28:36] simple training pipeline, works well for
+[28:38] the verifiable task. For so many task it
+[28:41] have been tested. And guys, GRPO may
+[28:43] still
+[28:44] basically working well, okay? Then this
+[28:47] PPO in so many different different
+[28:49] benchmark result. Now, GRPO may still
+[28:51] use PPO style clipping for the stable
+[28:53] update. Okay, so this is also being
+[28:55] used. Again, it's a mathematical thing.
+[28:56] We are not going into that for formal
+[28:59] level detail detail and all because it
+[29:00] is not required until and unless you are
+[29:02] not a researcher and you are you are not
+[29:03] doing a PhD, okay? So, as a developer,
+[29:06] we need to understand this entire
+[29:08] working process like how it is working.
+[29:10] That is our main goal. Okay, so after
+[29:12] many example, guys, what will happen?
+[29:13] See, prompt multiple responses for group
+[29:15] comparison policy update, okay? So, this
+[29:17] model basically is going to be aligned
+[29:20] with the better policy means a better
+[29:21] weights and it will be generating the
+[29:24] aligned or the human preferred
+[29:25] responses, right? So, this is the whole
+[29:27] meaning or the whole idea behind this
+[29:29] GRPO. Now, guys, I hope this entire
+[29:32] explanation is clear to all of you. This
+[29:34] is all about the GRPO. I hope I have
+[29:37] covered each and everything over here,
+[29:38] okay? Now, let's come to the next point
+[29:41] that what is a reward model. I think we
+[29:43] already discussed the reward model,
+[29:45] okay? And even we have trained our
+[29:47] reward model in our previous
+[29:49] videos, okay? In the RLHF video. So, if
+[29:51] you wanted to understand more about
+[29:53] those reward model and all, you can
+[29:54] refer those video, okay? The previous
+[29:56] video. Now, guys, if you will read out
+[29:59] the research paper of the GR this one
+[30:01] GRPO the Deep Seek method research paper
+[30:03] and all, so there you will not find out
+[30:06] the concept of the reward model. Instead
+[30:08] of that, they have mentioned one
+[30:09] specific term that is called the reward
+[30:10] signal. But, in the later on paper and
+[30:12] the different different other research
+[30:14] paper, okay? So, even they have used a
+[30:16] reward model also along with the GRPO,
+[30:18] right? But, in the main Deep Seek method
+[30:20] research paper, they have used some hard
+[30:22] coded reward signal. This is what
+[30:24] basically I will show you in my
+[30:25] practical also in today's session,
+[30:26] right? So, guys, a very important point.
+[30:28] So, GRPO does not mean no reward, okay?
+[30:31] This is not true. Wrong
+[30:33] This is wrong, guys, okay? No reward is
+[30:35] a wrong one. This is a wrong statement.
+[30:37] Correct, GRPO still needs a reward
+[30:39] signal. The reward signal can come from
+[30:41] where? It can come from anywhere, right?
+[30:42] It can come from the rule base reward,
+[30:45] heuristic reward, okay? Heuristic reward
+[30:47] means what? The approximation reward,
+[30:49] task specific reward, reward model is
+[30:51] called. This is what basically we were
+[30:52] using in the PPO. But again, this is not
+[30:54] a mandatory one. We can use some other
+[30:56] approaches also, okay? For example,
+[30:58] let's say math problem, check final
+[31:00] answer correctness. Coding problem, run
+[31:01] test cases and check how it is working,
+[31:03] right? Reasoning task, reward correct
+[31:05] structure logic. So, it is not every
+[31:08] time mandatory that we are going to be
+[31:10] use the trained reward model, the heavy
+[31:12] LLM reward model. We can even
+[31:15] code some rule, okay? For getting the
+[31:19] reward or for getting the references,
+[31:21] right? References. So, if we if it is a
+[31:24] math problem, then we can check the
+[31:26] final answer correctness. This is
+[31:28] completely true. For coding wise, we can
+[31:30] run the test case and we can check.
+[31:31] Reasoning task, okay? Reward correct
+[31:34] structure or logic, right? For the
+[31:35] reasoning task. So,
+[31:37] this is what I wanted to say over here,
+[31:39] that always reward model is not
+[31:41] required. Got it, guys? And even I will
+[31:43] show you that. So, the correct
+[31:45] understanding is reward model may be
+[31:46] removed in some steps, some setups,
+[31:48] okay? But reward signal cannot be
+[31:50] removed, cannot be removed. So, one
+[31:54] thing I would like to conclude before
+[31:55] jumping to the practical, if I'm saying
+[31:58] reward signal,
+[32:00] so this reward signal actually it is a
+[32:03] It is what guys? It is the
+[32:05] basically parent term.
+[32:09] Okay?
+[32:12] This If we If we're saying reward model,
+[32:17] so this reward signal basically it can
+[32:19] come from the reward model.
+[32:21] This can come from some rule based
+[32:25] rule based reward.
+[32:29] It can come from the heuristic reward
+[32:31] from some task specific from some task
+[32:33] specific reward and all. It can come
+[32:35] from anywhere. This is what I wanted to
+[32:37] say, okay? So, reward signal it's a
+[32:39] generic term. And this reward signal we
+[32:41] might get from any of the places. I hope
+[32:44] this is getting clear. Now, let's uh
+[32:46] move to the practical, guys. Let's uh
+[32:48] understand about the practical. First,
+[32:50] let me connect with my runtime. So,
+[32:53] changing runtime.
+[32:54] >> [snorts]
+[32:55] >> Saving runtime. Connect with the
+[32:57] connecting with the GPU.
+[33:00] So, guys, uh the code is uh pretty
+[33:02] simple to understand. Uh so, first of
+[33:05] all, uh we'll have to install uh some
+[33:08] required library like data set
+[33:09] transformer, TRL, PEFT, accelerator,
+[33:12] bits and bytes. So, this library is
+[33:14] required for the native hugging face
+[33:16] solution. And I'm uninstalling one uh
+[33:19] library that is torch audio, which is
+[33:20] not required for this particular
+[33:22] practical. It was like showing me some
+[33:24] conflict
+[33:25] when I was running when I was running
+[33:27] this GRPE trainer, okay? So, that's why
+[33:28] I'm uninstalling it from my server from
+[33:30] this uh collab server.
+[33:32] Now, guys, uh these many import
+[33:33] statements statement are required. So,
+[33:36] first of all, let me execute this cell.
+[33:39] So, this is a native hugging face
+[33:40] solution. After that, I will show you
+[33:42] the unsloat. So, I'll give you that
+[33:43] solution you can execute from your end,
+[33:45] okay? The unsloat one. Uh it is not very
+[33:47] difficult. It is a very easy to
+[33:49] understand. If you find difficulty while
+[33:52] uh
+[33:53] basically implementing anything inside
+[33:55] the unsloat, then uh check out one of my
+[33:57] video, okay? Uh you will find out uh
+[33:59] inside the video section itself or
+[34:01] inside the fine-tuning playlist
+[34:03] uh related to the unsloat solution. This
+[34:05] is the video. You will understand the
+[34:06] complete unsloat methodology.
+[34:09] Uh now, guys, uh let's uh do one thing.
+[34:11] Let me execute this cell also. I'm going
+[34:13] to import uh some uh required packages
+[34:15] like sequence matcher, data set,
+[34:18] auto model for causal LM for loading
+[34:20] that LM model, tokenizer, okay? To
+[34:22] convert my input into the tokens and
+[34:24] then only we'll provide to the model. Uh
+[34:26] LoRA uh config PEFT model for
+[34:28] implementing the PEFT, okay? The LoRA
+[34:30] technique on top of the model. Then,
+[34:32] GRPO, GRPO trainer for mainly the GRPO
+[34:35] training. Okay? Now, guys, what I will
+[34:37] do, see, I created one analogy with that
+[34:39] you can easily understand this entire
+[34:41] code base. So, this is our model which I
+[34:44] wanted to train. So, we are saying it is
+[34:45] a AI student. Uh the data set prompt,
+[34:47] basically. So, I have one reference data
+[34:48] set. This is a reference data set, okay?
+[34:50] So, in the real time, how we can collect
+[34:52] this data set, uh already we have
+[34:54] discussed about it in the previous
+[34:55] classes. You can go and check.
+[34:58] Okay? Then, guys, uh we have a reference
+[35:01] answers over here. So, you can you can
+[35:03] think, see, first we have a data set
+[35:05] prompt. This is the my question. Okay,
+[35:07] this one. Then, guys, we have a
+[35:08] reference answers. That is a answer key,
+[35:11] teacher's answer key. Okay? Then, we
+[35:12] have a reward function. So, I have have
+[35:14] I have some hardcoded reward function,
+[35:16] which is working as a judge. Okay? Which
+[35:18] is working as a
+[35:19] teacher and judge. So, this is my model
+[35:21] which I wanted to train. Okay? Uh data
+[35:25] set prompt and the data set reference
+[35:27] answer. This is my
+[35:29] reference data set.
+[35:30] And then, I have a reward function, some
+[35:32] hardcoded reward functions, okay? Which
+[35:34] I which I will use as a judge. Got it?
+[35:37] So, let me initiate the data. See, data
+[35:38] is there. So, this is the complete
+[35:40] pipeline. So, prompt will go to the
+[35:42] model. Model will generate some answers.
+[35:45] Reward function compare answer with a
+[35:47] reference answer. Okay?
+[35:49] And generate answer
+[35:51] good answer will get a high reward. Bad
+[35:54] answer will get a low reward. And then,
+[35:55] GRPO update model. Got it, guys? So,
+[35:58] this is the complete flow which we are
+[36:00] going to be implement, right? So, reward
+[36:02] function, basically. So, we have a
+[36:03] reward function, okay? So, that compare
+[36:05] answer with a reference answer and
+[36:06] provide some
+[36:08] some provide some values. Got it? And
+[36:11] that with that actually we are going to
+[36:12] be find out the advantage score.
+[36:15] So, whenever you are forgetting uh
+[36:16] anything inside the GRPO or anywhere,
+[36:18] now, so you can simply check out the
+[36:20] summarize image. So, this will clarify
+[36:22] your all the doubts uh related to this
+[36:24] uh particular algorithm. Got it?
+[36:26] Now, guys, what I'm doing, I'm preparing
+[36:28] a
+[36:29] data set. Okay, I'm converting into the
+[36:31] Hugging Face format. This is the
+[36:33] like code for that. Okay, I'm using
+[36:35] dataset.from_list. I'm passing the data
+[36:38] and I'm passing with with my formatted
+[36:39] prompt function. So, it will format the
+[36:42] prompt basically. How it will keep the
+[36:44] data, let me show you. So, if I'll run
+[36:45] this dataset, okay? So, inside that you
+[36:48] will find out the prompt and the reward
+[36:49] reference answer. So, it has for it has
+[36:52] formatted the prompt. Okay, so earlier
+[36:54] we were just having the questions.
+[36:56] Sorry, earlier we were just having the
+[36:57] simple prompt. Now, it has formatted in
+[37:00] this way. See, you can see over here.
+[37:02] Explain reinforcement learning in a
+[37:03] simple term. Answer in simple English.
+[37:05] Okay, so in this particular format we
+[37:06] are going to be in this particular way
+[37:08] we are we have formatted our prompt. Got
+[37:10] it? Now, we this is the model which I
+[37:12] won't going to which I'm going to
+[37:14] fine-tune, right? Hugging Face TB is
+[37:16] small. From this particular repository I
+[37:19] have imported this model. Small LM 135M
+[37:21] instruct. Okay, it is a small model
+[37:23] only. Then, guys, I'm defining my
+[37:25] tokenizer setting. So, this is a
+[37:27] tokenizer related settings. Okay, I
+[37:29] think you already know about the
+[37:30] tokenizer and all. If you don't know,
+[37:31] guys, you can go and check out my
+[37:33] previous sessions. There I already
+[37:35] discussed about all this thing. So, this
+[37:37] is the tokenizer I'll I'm loading. Okay,
+[37:39] corresponding to this model. Let me load
+[37:41] the tokenizer. Then here I'm loading the
+[37:43] model. Okay, so let me load the model.
+[37:46] Then after that, guys, I'm implementing
+[37:47] the PEFT. So, I'm implementing the PEFT
+[37:50] on top of the model. Okay? So, because,
+[37:53] guys, I am just training the LoRA
+[37:55] adapter of this preference for the
+[37:57] preference alignment. I'm not training
+[37:58] the entire model and for that only I am
+[38:01] using this LoRA configuration. Got it?
+[38:03] So, LoRA with that LoRA configuration,
+[38:05] guys, I will be loading the LoRA enabled
+[38:07] model. I'll load in some time. Now,
+[38:09] before that, let me show you the reward
+[38:10] function. See, guys, this is my reward
+[38:12] function. And here is some theoretical
+[38:14] point and all I have written. You can
+[38:15] definitely read out this point just to
+[38:17] make your understanding more clear.
+[38:19] Okay? So, if we're be about the
+[38:21] different different model, right? We
+[38:23] which we are having inside the PPO. So,
+[38:24] in the PPO we were having the policy
+[38:26] model, reward model, reference model,
+[38:28] value and the critic model. Okay? So, in
+[38:30] the GRPO basically we have a policy
+[38:32] model which is our main model which I
+[38:34] wanted to train. Reward model basically
+[38:36] it can be used or we can use the hard
+[38:37] coded function. A reference model, yeah,
+[38:40] definitely it would be present because
+[38:42] we have to check the drift, right?
+[38:44] We have to check the drift of of our
+[38:46] main policy model. Okay, how much it is
+[38:48] aligning
+[38:50] from itself, right? So, that's why we
+[38:52] keep the coffee copy of the policy model
+[38:54] that is a reference model. Then value
+[38:56] critic model it is not required in the
+[38:58] GRPO. So, yeah, this is one of the
+[39:00] advantage of the GRPO. Now, some of the
+[39:03] basically reward function I created. Let
+[39:05] me show you the reward function. So, I
+[39:07] have a correctness reward, okay, this
+[39:09] one, helpful helpful reward, okay, and
+[39:12] then clarity reward. So, these three
+[39:13] function I have created and this is
+[39:15] taking a prompt, it is taking a answer
+[39:17] and based on that it is checking whether
+[39:19] this answer is correct, whether this
+[39:21] answer is helpful or whether and and
+[39:23] whether this this answer is clear, okay?
+[39:25] So, some
+[39:26] like a straightforward logic I have
+[39:28] written. You can definitely read out all
+[39:29] this particular logics, right? Now, just
+[39:32] to support this just
+[39:34] as a support method, as a utility
+[39:36] method, okay, I created couple of more
+[39:38] thing over here. See, this is one of the
+[39:40] method that is normalized text. So, it
+[39:41] is just for the text cleaning. So, if my
+[39:44] sentence is having a if my sentence is
+[39:46] having the spaces and all everything,
+[39:47] right? So, it will be removing that and
+[39:49] it will be keeping everything in a lower
+[39:50] case, right? That get completion text.
+[39:53] So, again it's going to be accept a
+[39:55] text, okay, from the chat itself, okay,
+[39:58] from the generated answer.
+[40:00] Then we have a similarity score, okay?
+[40:03] So, we are just going to be check the
+[40:05] sequence. We are just going to be check
+[40:07] whether both the answer is matching to
+[40:09] each other or not.
+[40:11] Now, again one more method that is
+[40:12] keyword overlap score. So, it is just
+[40:14] checking like uh the generated answer,
+[40:17] okay, the reference answer, how much it
+[40:18] is how much overlapping to each other,
+[40:20] right? So, this is all the reward
+[40:22] function, the hard-coded function I
+[40:24] created. And even we can use the reward
+[40:26] model as well. But yeah, at some of the
+[40:27] places in the deep seek research paper,
+[40:29] this our particular process have been
+[40:30] highlighted. So, this is one more
+[40:32] approach basically which I'm showing
+[40:33] you. Got it? So, yeah, all the functions
+[40:36] have initialized, right? So, let me
+[40:39] basically run it. Correctness reward.
+[40:41] Again, it is taking prompt and the
+[40:43] response, okay, and it's checking the uh
+[40:45] helpfulness, right?
+[40:47] Uh then guys, clarity, okay? Now, after
+[40:50] that guys, what I'll do, I'll define the
+[40:51] GRPO config. So, I'm passing the output
+[40:53] directory where I where I will save the
+[40:54] output. Learning rate, okay? Then uh
+[40:57] basically this is the
+[40:58] uh basically configuration related to
+[41:00] what? So, per device train batch size
+[41:03] means how many batch we are going to be
+[41:04] run gradient accumulation is related to
+[41:06] the optimizer, right? So, uh whether we
+[41:08] are going to be accumulating all the
+[41:10] gradient value and then we are
+[41:11] processing or
+[41:12] uh at every step we are doing that,
+[41:14] right? So, this is all about that. Uh
+[41:16] now, number of generation, okay, how
+[41:17] many output we are going to be generate
+[41:19] from the particular
+[41:20] uh model, okay? Max max completion
+[41:22] length, so 80 maximum token would be
+[41:24] there
+[41:25] uh inside the generated output.
+[41:27] Temperature top K values are also there,
+[41:29] okay? Temperature top K base value
+[41:31] basically just provide some tweak to the
+[41:33] answer, right? Now, you can see the max
+[41:35] step, okay? This is all about the
+[41:37] training. This this particular uh
+[41:38] basically steps are all about the
+[41:39] training, okay? So, KL penalty 00 is
+[41:42] default on the recent DRL GRPO. So, KL
+[41:44] penalty basically it works between the
+[41:46] actual model and the reference model,
+[41:48] right? So, we can uh that is called the
+[41:50] KL penalty, the the diversity, okay,
+[41:52] between the actual model and the
+[41:54] reference model, now, which is a freeze
+[41:56] version of the actual model, that is
+[41:57] called the KL penalty, right? So, uh
+[42:00] logging when we are going to be save our
+[42:02] uh detail, okay? Then we are going to be
+[42:05] remove the unused column if any unused
+[42:07] column is there, we can remove that. We
+[42:09] are not going to to save result
+[42:10] anywhere, report to none, okay? Gradient
+[42:12] checkpointing false. We are not doing
+[42:13] any gradient checkpointing at all. And
+[42:15] we are basically
+[42:17] running it over the CUDA. Okay.
+[42:20] This FP16 we are enabling for the CUDA
+[42:21] only for the GPU. So this is all the
+[42:24] basically parameter. Okay. And guys
+[42:27] you can go and check out with this
+[42:28] particular class of GRPE config. See so
+[42:30] many parameters are there.
+[42:32] It's very like a big algorithm. Okay.
+[42:35] And
+[42:36] so many configuration you will find out.
+[42:38] It's very difficult to explain you all
+[42:40] the parameter in single go and along
+[42:42] even with a clear visualization. But
+[42:44] yeah, what I'll do guys I will create a
+[42:46] separate separate video on top of this
+[42:48] configuration in all. Okay. On this
+[42:50] specific parameter so that you will get
+[42:51] a more clear understanding. Until you
+[42:53] can go and check out with this class
+[42:55] detail. Okay, just over your mouse you
+[42:57] will get all the parameter and the
+[42:58] detail of it. So let me define the
+[43:00] configuration. This is done.
+[43:03] Then guys let me define the GPU trainer.
+[43:04] So it is taking model which I wanted to
+[43:06] train. This is my main policy model
+[43:08] tokenizer. This is my reward function
+[43:10] guys. The training argument data set is
+[43:11] there and the LoRA configuration is
+[43:13] there. So it will implement the
+[43:15] LoRA configuration. It will train the
+[43:17] LoRA adapter only. Okay. So this is my
+[43:19] trainer guys. Now what I'll do I will
+[43:21] check out all the detail. Okay, I can
+[43:23] check out like this all the
+[43:24] configuration in all. And then I'll
+[43:25] start the training. Now see guys the
+[43:27] training has started. Okay. So it will
+[43:29] take It It will take some time. Let it
+[43:31] complete.
+[43:35] Okay, it is saying similarity score is
+[43:36] not defined. Maybe
+[43:38] we haven't executed that cell. Okay,
+[43:42] this is not executed this one this one.
+[43:44] This is clear. This one is fine.
+[43:46] Configuration is clear. Trainer is done.
+[43:49] And
+[43:50] now I hope the training would be
+[43:52] started.
+[43:55] Okay guys, so our training has started.
+[43:57] Let it complete. After that I will save
+[43:59] the model and I'll show you the final
+[44:01] basically
+[44:03] inferencing.
+[44:05] So guys the training is completed. It
+[44:07] just took around 1 minute inside this
+[44:09] collapse server because we just have a
+[44:12] very small data set and because of that
+[44:14] it took very minimum amount
+[44:17] very minimum time, right? But guys, if
+[44:19] you have a huge reference data set, if
+[44:21] you're taking a huge model in that take
+[44:23] in in that in that basically scenario,
+[44:25] it might take
+[44:26] hours of training, okay, and even days
+[44:28] in some cases. So yeah, the training is
+[44:30] done. Now, what I'll do guys, I will
+[44:32] save my model. So save model. So let me
+[44:34] save it save it inside this particular
+[44:36] directory. Okay, so tokenizer, chat
+[44:39] template, okay, and then
+[44:41] everything guys have been saved over
+[44:42] here inside this particular directory,
+[44:45] okay? So our Laura adapter model
+[44:46] everything you will find out. See, this
+[44:47] is my main model adapter model not save
+[44:49] tensor. Now, what I'll do guys, I will
+[44:51] load the model along with the slow
+[44:52] adapter, okay, and then I will perform
+[44:54] the
+[44:55] inferencing. So this is my base model
+[44:57] ID. This is my adapter. Now, what I'm
+[44:58] doing guys, I'm passing this adapter and
+[45:00] this is my tokenizer. Then this is my
+[45:02] base model, okay, and then along with
+[45:04] the base model I'm loading the adapter.
+[45:05] So this is my final model model, okay,
+[45:07] inside the this particular variable, I
+[45:09] will get my final model and I'm setting
+[45:11] it to for the evaluation so that I can
+[45:13] perform the inferencing, okay? So my
+[45:15] model is ready. Now, what I'll do, I'll
+[45:17] pass the question to this particular
+[45:18] model. So question will come over here
+[45:20] in this particular format. It will go to
+[45:22] the tokenizer and then it will go to the
+[45:23] model. So model is going to be generate
+[45:25] the response, right? So this is my
+[45:26] function which is responsible for
+[45:28] generating a response and let me execute
+[45:30] it. Explain AI in a simple term. So if
+[45:32] everything goes well, then it will be
+[45:34] generating the final answer, okay?
+[45:36] Because our training is done. Now, see
+[45:37] guys, what's our team explain the AI? So
+[45:39] this is the answer. And as of now we
+[45:41] have we have put some restriction in
+[45:42] terms of the generating answer. So it is
+[45:44] generating a limited answer, but yeah,
+[45:46] it is working fine. So you can test it
+[45:48] out for the different different data set
+[45:49] for the different different basically
+[45:51] problem statement and definitely this
+[45:53] training pipeline will work. Now guys,
+[45:56] we have one more wrapper on top of the
+[45:57] hugging face that is called the Unsloth.
+[45:59] So uh here you can see all the code the
+[46:02] entire code related to the onslaught. It
+[46:04] is the same one like the previous one,
+[46:05] okay? Some
+[46:08] like more different
+[46:09] function I have imported, okay, which is
+[46:11] belonging to the onslaught library.
+[46:13] That's it, nothing else. Everything is
+[46:15] same over here, okay? The entire reward
+[46:17] function and all everything, right? So,
+[46:19] I will provide you this particular code.
+[46:20] You can execute it and then you can
+[46:22] train the model. See, the entire code is
+[46:23] over here, okay?
+[46:25] So, yeah, this is it, guys, for this
+[46:27] particular video.
+[46:28] Uh if you are feeling difficulty while
+[46:30] understanding the onslaught, then this
+[46:32] this video can help you, this particular
+[46:33] video.
+[46:34] Okay? After watching this video, now you
+[46:36] will not face any difficulty in the
+[46:37] onslaught and easily you can execute
+[46:39] this
+[46:40] code, right? The entire concept is same
+[46:42] like a little more
+[46:45] additional import statement I have
+[46:47] imported from the onslaught and I
+[46:48] configure those only over here. That's
+[46:49] it. So, fine, guys. I hope this entire
+[46:53] practical and the theory was clear. So,
+[46:54] guys, if you like this video, then
+[46:56] please hit the like button because this
+[46:57] type of content takes a lot of effort to
+[46:59] simplifying the thing to make a
+[47:00] practical and to prepare the theory
+[47:02] notes and all. So, if you're liking the
+[47:04] effort, then please hit the like button
+[47:06] and please subscribe the channel for the
+[47:07] more upcoming video. Thank you, guys.
+[47:09] Thank you very much. Take care.

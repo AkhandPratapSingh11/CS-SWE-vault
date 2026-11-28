@@ -1,0 +1,1451 @@
+Title: LLM Fine-Tuning 15: Instruction Fine-Tuning Explained | Domain-Specific FineTuning with Hugging Face
+Video URL: https://www.youtube.com/watch?v=yOkOA_BjvX0
+Video ID: yOkOA_BjvX0
+======================================================================
+
+[00:01] Hey. Hi everyone. Welcome back to my
+[00:03] YouTube channel. My name is Sunonny and
+[00:06] I'm back with another exciting and
+[00:09] important video. So, uh, in this video
+[00:12] guys, we're going to discuss about the
+[00:14] instruction finetuning. Uh, as you know,
+[00:18] I started with the end to end LLM
+[00:20] finetuning playlist where I uploaded
+[00:23] 14th video so far. So uh in the previous
+[00:27] video I discussed how you can train your
+[00:30] pre-trained LLM model on your domain
+[00:32] specific data. If I'm saying domain
+[00:34] specific data means uh the data could be
+[00:37] available in any format and the data
+[00:39] would be available as a plain text. Now
+[00:42] in this video we'll see if you have
+[00:44] instruction based data then how you can
+[00:48] fine-tune your LLA model. So we're going
+[00:50] to take same model which we have already
+[00:53] trained in the previous class on top of
+[00:55] the same model I will perform the
+[00:57] instructionbased fine tuning. So this
+[01:00] video is going to be very very very
+[01:02] important. Now guys uh if you haven't
+[01:05] seen with my YouTube channel please go
+[01:06] and check uh there you will find out a
+[01:08] video with respect to each and every
+[01:10] concept of the AI of the genative AI. So
+[01:13] if you are willing to learn genative AI
+[01:15] then uh you can refer to my YouTube
+[01:17] channel and after watching the content
+[01:19] only uh you can make a decision whether
+[01:22] I have to subscribe or not. Now guys uh
+[01:25] if you will go in the playlist section
+[01:27] you will go you will get each and every
+[01:29] playlist uh whether it's a rag fine
+[01:31] tuning lang chain lang graph advanced
+[01:33] rag multimodel rag everything you will
+[01:36] get right if you want to start your
+[01:38] genativei journey then you can watch
+[01:40] this particular series this particular
+[01:41] playlist where I kept all the video in a
+[01:44] sequence okay uh now guys uh let me
+[01:47] discuss what all point we are going to
+[01:49] uh discuss in this particular video so
+[01:52] the first is what is the instruction
+[01:54] finetune tuning then how the data looks
+[01:56] like in the instruction finetuning uh
+[01:58] then we'll see why it is called the
+[02:00] supervised finetuning as I discussed in
+[02:02] the previous class that this is
+[02:04] instruction fine-tuning comes under the
+[02:06] supervised finetuning only uh then uh I
+[02:09] will come to the practical right so this
+[02:12] each and every point I will discuss
+[02:13] throughout this video and yes at the end
+[02:16] you will learn how you can uh fine-tune
+[02:20] your LLM model on the instruction based
+[02:22] data now guys uh without wasting ing our
+[02:24] time let's start with the video let's
+[02:27] understand the theory first and then I
+[02:29] will come to the practical guys
+[02:32] so guys uh before starting with the
+[02:35] instruction finetuning let's take a
+[02:38] recap of some previous points so uh the
+[02:41] first thing is what is the meaning of
+[02:43] the finetuning and why we do it so here
+[02:47] is a definition fine-tuning means
+[02:49] retraining an already trained model on
+[02:52] your own specific specific data set. So
+[02:55] guys, uh here if I'm talking about the
+[02:57] model, right? So the model is nothing
+[03:00] it's a LLM model.
+[03:03] Now this LLM model, it is based on the
+[03:06] transformer architecture as you know. So
+[03:09] uh let me write over here transformer.
+[03:12] So this transformer is nothing it is a
+[03:15] research of the Google which was
+[03:17] published in 2018 itself. Okay. It was a
+[03:22] sequencetose sequence architecture where
+[03:24] uh we were having two main thing one was
+[03:26] the encoder and the second was the
+[03:28] decoder. So the GPD model right uh the
+[03:31] GPD model actually it was built on top
+[03:34] of the decoder decoder part of the
+[03:36] transformer. So if you want to
+[03:39] understand the LLM then before coming to
+[03:41] any LLM architecture understand about
+[03:44] the transformer okay and then jump to
+[03:46] the LLM. Now here I'm saying uh LLM
+[03:49] right? So we are going to be retrain
+[03:51] already trained LLM and uh if I'm going
+[03:54] to be talking about the training right
+[03:56] so what we going to train here so we're
+[03:58] going to train weights and biases okay
+[04:02] so weights and biases
+[04:06] now uh this weights and biases where you
+[04:08] will get this uh weights and biases
+[04:10] inside this transformer architecture. So
+[04:13] uh we have attention right we have
+[04:15] attention layer inside the transformer
+[04:19] plus neural network. Okay. So this
+[04:22] transformer one single block of the
+[04:25] transformer it is a combination of the
+[04:28] attention layer as well as the neural
+[04:31] network. Right? So uh there we will get
+[04:34] the weight and biases and yes uh we are
+[04:37] going if we are going to be train our
+[04:39] model means we are going to adjust the
+[04:41] value of this bits and biases based on
+[04:43] that loss function and the optimizer and
+[04:46] if we are going to be again retrain it
+[04:49] in that case also we are going to be uh
+[04:51] adjust the value of the bait and biases
+[04:53] according to your data okay that's a
+[04:56] whole sort of a meaning of the training
+[04:58] or retraining right so uh I think you
+[05:01] understood about it uh and if you don't
+[05:03] know about this basics and all then you
+[05:05] can follow my previous video there I
+[05:08] already discuss about this thing in a
+[05:10] very detail along with the practical
+[05:12] right now uh if you're talking about the
+[05:14] LLM training process so in the LLM
+[05:17] training process the three stage plays a
+[05:20] very important role the first step is
+[05:22] called the unsupervised pre-training or
+[05:25] it is also called the self-supervised
+[05:26] training uh which we are doing on the
+[05:29] common grow data set so generally ly we
+[05:32] consider the internet data over here the
+[05:35] entire internet data. Okay. Uh then uh
+[05:38] the second thing is called the
+[05:39] supervised finetuning. Now inside the
+[05:42] supervised finetuning I discuss two
+[05:45] thing. The first uh basically first uh
+[05:48] behalf on the parameter.
+[05:50] Okay. [snorts] And the second uh based
+[05:53] on the uh the second based on the data
+[05:56] right I will again uh give you that
+[05:59] recap. The third was the preferencebased
+[06:01] alignment or preference based training.
+[06:04] Now here whatever uh output we are going
+[06:06] to be generate right from the AI from
+[06:08] the model. Okay. So based on that
+[06:11] particular output based on the feedback
+[06:13] of the user again we are going to
+[06:15] retrain our model right. So that comes
+[06:18] under this preferencebased alignment. So
+[06:20] here we have very popular algorithm that
+[06:23] is called
+[06:24] PO right. It is a reinforcement learning
+[06:27] based technique. Now apart from the PO
+[06:30] we have one more state-of-art technique
+[06:32] that is called DPO okay direct
+[06:33] preference optimization so we'll discuss
+[06:35] that in our next video okay and even I
+[06:38] will show you the mathematics and all in
+[06:40] my upcoming videos so guys uh here my
+[06:43] main focus onto this supervised
+[06:45] finetuning now let's take a recap of it
+[06:47] so as I told you if we're talking about
+[06:49] the supervised finetuning so we can
+[06:53] divide into two section right so one
+[06:57] basically it is bas based on the
+[06:59] parameter already I discussed this thing
+[07:01] in my previous video I'm just giving the
+[07:03] recap of it and the second behalf on the
+[07:06] data right now if you're talking about
+[07:09] the parameter wise uh so parameter wise
+[07:12] the first one is called the full fine
+[07:14] tuning okay full fine tuning and the
+[07:20] second is called and the second is
+[07:22] called partial finetuning
+[07:26] okay partial fine finetuning full
+[07:29] fine-tuning means we are going to
+[07:31] retrain all the parameters okay inside
+[07:34] the model whatever parameters we have we
+[07:37] are going to train all the parameter so
+[07:39] generally we don't take we don't follow
+[07:41] this particular technique so we always
+[07:43] go with the partial finetuning means we
+[07:45] take subset of the parameter over here
+[07:48] okay subset of the parameter now we're
+[07:51] talking about the partial finetuning so
+[07:53] we have two techniques over here the
+[07:56] first technique is called the old
+[07:57] technique technique. Okay, old
+[07:59] technique. Now here in the old technique
+[08:02] what we are doing, we are going to be uh
+[08:04] freeze. Okay, we are going to be freeze
+[08:07] some layer. Okay, and we are going to be
+[08:10] drained some layer, right? some layers
+[08:14] some layers okay but guys in terms of LM
+[08:18] we don't follow this particular
+[08:20] technique right instead of that we have
+[08:22] second technique that is called PETbased
+[08:24] technique parameter efficient finetuning
+[08:28] technique and in that lora is a very
+[08:31] famous technique right so Lora is very
+[08:34] famous technique now apart from the Lora
+[08:36] I discuss couple of more variants of the
+[08:38] Lora couple of more techniques so if you
+[08:41] want to understand that you can watch
+[08:43] out my previous video there I discuss in
+[08:45] a very very very detail okay so uh here
+[08:49] you understood we are going to perform
+[08:50] the partial finetuning and in that we're
+[08:52] going to discuss about the p and lora is
+[08:55] one of the way to follow the p okay to
+[08:58] perform the parameter efficient
+[09:00] finetuning now the second uh is based on
+[09:03] the data so if we're talking about the
+[09:05] data guys so data uh we could have okay
+[09:08] let me take a different color over here
+[09:10] so uh data basically
+[09:12] is available right in a
+[09:14] non-instructional format
+[09:17] right in a non-instruction format or
+[09:20] this is also called the plain text.
+[09:23] Now this plain text it would be
+[09:25] available in any sort of a document.
+[09:27] Okay, in any sort of a document. Now
+[09:29] this document could be the PDF document.
+[09:32] This document could be the PPD document.
+[09:34] This document could be the docx. Right?
+[09:37] This document could be anything. Right?
+[09:39] wherever basically we'll find out the
+[09:41] plain text that comes under this
+[09:43] non-instructional category. The second
+[09:45] data uh the second type of data is
+[09:47] called the instruction data. Okay,
+[09:50] instruction data. In instruction data
+[09:53] actually how it looks like uh I will
+[09:55] show you that. So instruction data
+[09:57] actually uh there we will be having
+[09:59] input column as well as the output
+[10:01] column. Okay, as well as the output
+[10:03] column. So guys this uh supervised
+[10:06] finetuning this specific term actually
+[10:08] it is being used in terms of this
+[10:11] context in terms of this instruction
+[10:13] data okay where actually we have a input
+[10:16] and we have a output. If you will uh if
+[10:18] you will uh think about the machine
+[10:20] learning right so in the machine
+[10:22] learning guys uh we have supervised
+[10:24] machine learning and in the supervised
+[10:26] machine learning uh what kind of data we
+[10:28] have the data where we have a output
+[10:30] column okay uh so in whatever data we
+[10:32] have a output column and we are feeding
+[10:35] that data to the algorithm any algorithm
+[10:37] it's a decision tree xg boost or svm
+[10:41] right and behalf on that labels the y
+[10:43] column if my model is learning so that
+[10:46] is what that is
+[10:47] supervised learning in a same way guys
+[10:49] this SFT actually okay so because of
+[10:51] this instruction finetuning only it is
+[10:53] called the SFT means we have a input
+[10:56] column and the output column so then
+[10:58] what is this non-instructional data okay
+[11:01] means it does not comes under the
+[11:03] supervised finetuning I would say no not
+[11:07] directly because this instruction
+[11:08] finetuning technique right it is only
+[11:11] called means because of that only we
+[11:14] call it the supervised fine tuning
+[11:16] tuning. Why? Because we have a labelled
+[11:18] over here. Okay? The output column,
+[11:21] right? Uh now guys over here what we are
+[11:24] going to be do see now one more thing
+[11:26] let me tell you over here if we talking
+[11:28] about the LMS right so whatever
+[11:30] technique uh we are discussing right
+[11:32] let's say in whatever stage we are so
+[11:34] let's say we are at first stage uh at
+[11:37] this particular stage unsupervised
+[11:39] pre-training or self-supervised learning
+[11:41] uh there also we are we are going to
+[11:44] predict the next token okay now we we
+[11:48] are at this particular stage SFT
+[11:49] supervised finetuning uh at At this
+[11:52] stage also we are going to predict the
+[11:53] next token. We'll format our data in
+[11:55] such a way uh that model will predict
+[11:57] the next token only right and in the
+[12:00] preference based alignment or in this
+[12:01] particular uh like technique again we
+[12:04] are going to predict the next token. So
+[12:06] in whatever way we have a data right uh
+[12:08] it doesn't matter let's say we have a
+[12:10] data the entire internet data without
+[12:12] label in that case also we'll arrange a
+[12:14] data in such a way that's going to
+[12:15] protect the next token. If we have a
+[12:17] data in the instruction in the output
+[12:19] format in that case also we are going to
+[12:21] predict the next token. We'll format our
+[12:23] data in such a way we'll predict the
+[12:25] next token. If we have a preference
+[12:26] based alignment alignment means we have
+[12:28] generated output as well as the feedback
+[12:30] regarding that in that case also we'll
+[12:32] format our data in such a way that model
+[12:34] is going to predict the next token.
+[12:36] Okay. So as it is a language modeling
+[12:39] language modeling and model will always
+[12:44] predict the next token in whatever way
+[12:46] we have a data okay at whatever stage we
+[12:49] are going to be uh perform the training
+[12:52] right so I hope guys this thing is clear
+[12:54] this is the fundamental which I already
+[12:56] discussed now uh let me uh talk couple
+[12:59] of more point so here I have written why
+[13:02] it is called the supervised finetuning
+[13:05] so in pre-training That is a first stage
+[13:08] right
+[13:10] there where we are doing a training on
+[13:12] top of the entire internet data where
+[13:15] actually that particular stage is also
+[13:17] called the self-supervised learning
+[13:19] means the label uh will be the next
+[13:22] token itself inside the sentence. Uh so
+[13:25] there actually what we are doing so in
+[13:26] the pre-training data model predict the
+[13:28] next token from the natural text itself.
+[13:30] Right? But if we're talking about the
+[13:32] instruction finetuning there also model
+[13:34] is going to predict the next text but we
+[13:36] have curated data in such a way that we
+[13:39] will be having the target column. Okay.
+[13:41] So in instruction finetuning model
+[13:44] predicts the next token only but from
+[13:46] the human curated target answer. I will
+[13:50] show you the example and because of that
+[13:52] it is called the supervised finetuning.
+[13:54] Means this instruction finetuning is
+[13:56] only called the supervised finetuning.
+[13:59] So uh guys over here I can give you the
+[14:01] quick recap. Uh we're talking about the
+[14:02] LLM training process. So we have three
+[14:05] stages unsupervised pre-training or
+[14:06] self-supervised. There's the first stage
+[14:08] where we are going to be create our raw
+[14:10] model. Second is called the supervised
+[14:12] fine uh tuning where we have already
+[14:14] seen
+[14:16] about the partial finetuning uh that is
+[14:18] called paft and uh that is a lora. Okay.
+[14:21] Uh this is based on the parameter right
+[14:23] how many parameter we are going to be
+[14:24] select while we are going to be train
+[14:26] the model. Now data wise how we are
+[14:28] going to prepare the data while training
+[14:29] a model. So we have two ways. First is
+[14:32] the non- instruction where we just have
+[14:34] plain text right and second is the
+[14:36] instruction based data. Now because of
+[14:38] this instruction based data we came up
+[14:40] we end up with this specific name that
+[14:42] is called the supervised finetuning.
+[14:43] Okay. But guys, uh if we just have plain
+[14:46] text, then ideally we should not say
+[14:48] it's a supervised finetuning means here
+[14:50] we will say we are just going to be
+[14:52] fine-tune our model. Okay. On top of on
+[14:55] top of our domain specific data. Okay.
+[14:58] Uh now I hope everything is clear. So uh
+[15:01] let's do one thing. Let's uh take some
+[15:03] example and uh then after that we'll
+[15:06] start with the practical guys.
+[15:09] Now guys, uh let's uh revise the
+[15:11] differences between the uh
+[15:13] non-instruction and the instruction
+[15:14] finetuning and after that I will let you
+[15:17] know why uh this instruction finetuning
+[15:19] is required and then we'll move to the
+[15:21] practical. So uh non-instruction
+[15:24] finetuning first uh let's discuss about
+[15:26] this one non- instruction finetuning. So
+[15:29] finetuning on a plain text means
+[15:32] teaching the model your domain language.
+[15:34] Uh now what's the purpose of it? So the
+[15:36] purpose it to help model to learn uh the
+[15:39] language tone and the terminology is
+[15:42] specific to your domain. Okay. So let's
+[15:45] say if you have this type of data uh the
+[15:47] plain text which is available in any
+[15:49] sort of a document. So on top of this
+[15:52] data we are going to be retrain or we
+[15:54] are going to be fine-tune our LLM model.
+[15:56] Now uh in which format we are passing
+[15:59] our data to the model. So uh the uh data
+[16:02] uh you will get at the end you will get
+[16:04] in this particular format means uh we
+[16:06] are going to put the next token. Okay.
+[16:08] So the next token will be in my output
+[16:11] column. So let's say this is my
+[16:13] sentence. Okay. So this is the next
+[16:15] token regarding it. Now this is my
+[16:17] sentence. Now here is the next token.
+[16:19] Now this is my complete sentence and
+[16:21] this is the token. Right? We already
+[16:23] understood in previous uh video. So uh
+[16:26] let me give you uh one more concept over
+[16:29] here. uh let's say uh there is one
+[16:31] company uh let's say there's meta okay
+[16:34] meta has trained one model the model
+[16:37] name is llama
+[16:40] 4.2 two something like that. Now you
+[16:42] want to be use this particular model
+[16:45] inside your organization. Okay.
+[16:49] So you belong to let's say pharma.
+[16:54] Okay.
+[16:56] Pharma.
+[16:59] Now in your company in your organization
+[17:02] you want to be used this particular
+[17:03] model. So what you will do? So you will
+[17:05] directly take a model and start using
+[17:07] it. No, this is not a right thing
+[17:09] because this model
+[17:12] this model does not know
+[17:17] the
+[17:19] [snorts] farmer
+[17:21] specific term,
+[17:30] right? This model does not know about
+[17:32] the pharma specific term. So it will
+[17:35] helinate. So what you will do here you
+[17:38] will fine-tune you will go with the
+[17:42] fine-tuned. Now here uh for the
+[17:45] finetuning directly you will finetune on
+[17:47] the instruction data set means directly
+[17:50] you will fine-tune on the input and
+[17:55] output data set. You can do it you can
+[17:59] teach your model.
+[18:01] Okay, you can teach your model if this
+[18:03] is the input then regarding that what
+[18:06] will be the output. This is only called
+[18:08] the instruction
+[18:11] tuning.
+[18:12] But guys this is not a good practice.
+[18:16] Okay, directly to teach your model
+[18:20] on a input and output it's not a good
+[18:22] practice. Right? So in between what you
+[18:24] can do you can take your data
+[18:27] company
+[18:30] specific
+[18:32] data okay from wherever you have
+[18:35] collected that. So you will be have a
+[18:37] big corpus okay for your company data
+[18:40] then first perform the
+[18:43] non instructional
+[18:48] fine tuning.
+[18:51] Now with this particular tuning
+[18:53] your model will understand
+[18:57] your
+[18:58] data right. It will understand the
+[19:02] specific vocabulary.
+[19:05] It will understand the terminology. It
+[19:08] will understand the technicality of your
+[19:10] data. Means overall it will deep dive
+[19:13] into your data. Right? And after
+[19:16] performing this particular step the
+[19:18] non-instructional finetuning then come
+[19:20] to this stage where you are teaching to
+[19:23] your model the more structure output
+[19:27] based on the given input. I hope this
+[19:30] thing is making sense. So that's why
+[19:32] guys this step okay most of the like
+[19:35] YouTube video will not teach you this
+[19:37] thing. This particular stage is very
+[19:39] much important and I already covered in
+[19:41] my previous video. You can go and check.
+[19:43] Now coming to the instruction
+[19:44] finetuning. So in the instruction
+[19:47] finetuning uh you will get a data right
+[19:50] in the form of instruction in the form
+[19:53] of input. Okay. So let's take example of
+[19:56] it. So first of all let's discuss the
+[19:57] purpose. So what is the purpose of it to
+[19:59] train the model to understand
+[20:02] instruction and generate well structure
+[20:05] and the relevant answer. Okay. So to
+[20:07] generate a structure and the relevant
+[20:09] answer based on the given instruction.
+[20:12] So you will find out a data in this
+[20:14] particular way in this particular format
+[20:16] where you will be having the instruction
+[20:18] you will be having the input regarding
+[20:19] the uh the corresponding input and the
+[20:21] output. So instruction uh summarize the
+[20:24] following paragraph. Now this is the
+[20:25] input regarding it. Okay. And we are
+[20:28] going to be summarize. So this is my
+[20:29] summarization. Here is my summarize
+[20:32] output. So after giving this particular
+[20:34] input uh we should get this kind of
+[20:37] output. Okay. So this is my instruction.
+[20:39] Now without input also you will find out
+[20:41] uh without input also you will find out
+[20:44] some sort of a rows. So let's say you
+[20:47] have a instruction list application of
+[20:48] EI in pharmaceutical research means here
+[20:50] you are giving input and then this is
+[20:52] the corresponding output. Okay. Now here
+[20:56] one more example. So explain a mechanism
+[20:58] of the M format. Now we don't have any
+[21:01] sort of input. Now here is my output.
+[21:02] Okay. So in this way also you will get a
+[21:04] data. So this uh data set format was
+[21:08] followed in the alpaka right. So if you
+[21:10] will check with this alpaka right. So
+[21:13] this is one of the data set which was uh
+[21:15] prepared by the researcher. I will show
+[21:17] you the research paper and the hugging
+[21:18] face data set and all everything. Uh I
+[21:20] think I showed in my previous video you
+[21:21] can check over there right. So in this
+[21:23] format only the data set have been
+[21:24] prepared but apart from this one you
+[21:26] will find out data set in some different
+[21:27] format also. So this is the one format
+[21:29] instruction input and response. As I
+[21:32] told you this is the alpaca right. Uh
+[21:35] apart from that you will get the
+[21:37] instruction. Uh this input could be the
+[21:39] context and this response could be the
+[21:40] answer. In this format also you can also
+[21:42] prepare the data. You can directly
+[21:44] prepare the question answer data as a
+[21:46] user and the assistant. Okay. In user
+[21:50] column you can give your questions and
+[21:51] in assistant you can write your answer.
+[21:53] You can give the uh you can prepare data
+[21:56] in this format also. System user and
+[21:57] assistant. Okay. This is also a way to
+[21:59] prepare data for the instruction
+[22:00] finetuning otherwise context and
+[22:02] response. See here I kept one example
+[22:04] for the context and the
+[22:07] response guys. So I hope uh this thing
+[22:09] is clear in which format actually you
+[22:11] will get a data for the instruction
+[22:13] fine-tuning. Now here is one more point
+[22:15] I written I missed this part. So you can
+[22:17] read it out. If instruction uses extra
+[22:21] text means if you have a instruction and
+[22:24] the input right. So in that case mostly
+[22:27] you will find out we are uh like uh
+[22:30] saying to the model do the summarization
+[22:32] translation rewrite you can go ahead
+[22:34] with this uh particular example. So here
+[22:37] we are giving a instruction to our model
+[22:38] with respect to this input and then we
+[22:40] are generating this output. Now uh here
+[22:43] you can see the second line if
+[22:45] instruction is a self contain. Okay, if
+[22:48] instruction is having the self-content
+[22:50] context or dialogue style or
+[22:52] conversational data then you can keep
+[22:54] input empty means this thing right I I
+[22:56] just written as a extra note and I think
+[22:58] you are able to get it what I'm trying
+[23:00] to say here means if we have a
+[23:01] instruction then we are giving a
+[23:03] instruction with respect to this
+[23:05] corresponding input uh if we don't have
+[23:07] any sort of input means uh in the
+[23:09] instruction only we are keeping some
+[23:11] context okay some question and regarding
+[23:14] that here is our output as simple as
+[23:16] that So uh I hope guys you understood
+[23:18] this entire thing. Now the biggest
+[23:20] question how you are going to be
+[23:22] generate this instruction data because
+[23:25] uh in every company that's why if I'm
+[23:27] taking example of any XY Z company any
+[23:29] ABC company or any uh YX company
+[23:34] everywhere you will not find out this
+[23:36] kind of data okay sorry not this kind of
+[23:39] data means instruction data. So what is
+[23:41] a way of preparing the data the
+[23:44] instruction data okay the first way see
+[23:47] here now the question is how to prepare
+[23:49] the data for the instruction finetuning
+[23:51] means in your company let's say the data
+[23:53] is available in the PDF right so this is
+[23:56] the biggest hurdle you have trained you
+[23:58] have done the non-instructional
+[23:59] finetuning but how you will teach your
+[24:02] model to generate the structure answer
+[24:05] right so for this one for generating a
+[24:08] structure answer you will have to
+[24:09] prepare that kind of data input and
+[24:11] output. How you will do that? Right? So,
+[24:14] here is a way. First, you can do it
+[24:16] manually. You can write your own like
+[24:18] question means you can uh only create
+[24:21] your question and answer, right? Uh but
+[24:23] you cannot do it for very huge scale.
+[24:26] Here the accuracy would be very very
+[24:27] high. But uh this could not be idle. If
+[24:30] you have very less data or maybe
+[24:32] mediocre data in that case, maybe you
+[24:34] can do it. But there's not an ideal
+[24:36] situation, right? The second thing is
+[24:39] theme. So again it's a manual way only
+[24:42] expert is doing that you are like hiring
+[24:44] some intern and all for doing this
+[24:46] specific thing or someme just to for
+[24:48] doing this thing or
+[24:51] like so many people are working in
+[24:52] parallel then this process could be
+[24:54] faster but again this human annotation
+[24:57] is not a idle thing for the bigger data
+[24:59] set. So the last thing is the LLM
+[25:01] synthetic data means here to the LLM
+[25:03] only you can give some instruction
+[25:07] uh not instruction I would say
+[25:08] instruction instruction will be the like
+[25:09] confusing here to LLM only you can
+[25:12] provide some prompt okay uh some guides
+[25:15] right to the GPD kind of to GPD model to
+[25:17] cloud a model right so those model only
+[25:20] can prepare your instruction data set
+[25:23] means let's say you have a plain text
+[25:26] this text you are feeding to your GPD
+[25:30] model and you are saying can you prepare
+[25:32] some question and answer from this
+[25:34] particular text GP model will do it for
+[25:36] you. So this is the one of the way and
+[25:38] companies following this specific way uh
+[25:41] like they can generate an synthetic
+[25:43] data. Now guys uh the next thing is uh
+[25:46] let's say if we have a data in this way
+[25:49] okay but how the LLM will look into the
+[25:53] data okay means it will be like this
+[25:56] instruction then input and then output
+[25:59] right separate separate one like uh we
+[26:01] are having in the machine learning as I
+[26:03] told you uh this is a supervised realm
+[26:06] right supervised why it is a supervised
+[26:08] because we have a human curated output
+[26:11] over here but actually this is a
+[26:13] language modeling. Language modeling
+[26:16] means we are doing a next token
+[26:20] prediction. Okay. So at the end we'll
+[26:24] have to format this data in such a way
+[26:27] that so that LLM can perform the next
+[26:29] token prediction. Right. So let's say
+[26:32] this is my data instruction input and
+[26:33] output. So here you will be formatting
+[26:36] your data in this way. So here is the
+[26:38] instruction then this is the input.
+[26:41] Right? And here you can see the response
+[26:44] guys getting my point. So here guys the
+[26:50] uh native right the native role or the
+[26:53] native behavior of the LM to predict the
+[26:55] next token only right. So because it is
+[26:58] a language modeling
+[27:01] the native behavior of the LLM to
+[27:03] perform the next token prediction. So
+[27:05] for sure in whatever way we have a data
+[27:08] at the end we'll have to prepare a data
+[27:11] in such a way that model can perform the
+[27:13] next prediction. So uh let's say we have
+[27:15] instruction input and output. So for
+[27:17] sure this is a supervised data because
+[27:19] we have a label over here. But at the
+[27:21] end we'll feed the model in this
+[27:23] specific format. Okay means input and
+[27:25] instruction what will be there along
+[27:27] with the responses and model is going to
+[27:28] be learned from this specific responses.
+[27:32] I hope uh this is getting clear. Now
+[27:34] let's see why this kind of tuning is
+[27:36] required. Why instruction tuning is
+[27:38] required? Then we'll move to the
+[27:39] practical.
+[27:41] Now guys let's understand why this
+[27:43] instruction finetuning is required. Uh
+[27:46] let's take a look onto it. Uh so here I
+[27:48] written a base LLM like llama, falcon,
+[27:51] GPT or any LLM model. It only knows how
+[27:55] to predict the next token. Okay. So I
+[27:58] written over here this means this means
+[28:00] it understand the pattern only pattern
+[28:03] of the data and based on the pattern
+[28:05] only it's going to be decide what will
+[28:08] come next okay next token or sentence
+[28:11] prediction uh so here is the example you
+[28:14] can see the example we have input
+[28:16] mattformin is used for so this will
+[28:20] complete the text the output will be the
+[28:22] treatment of type type 2 diabetes
+[28:25] melitus okay this is fine but Guys, if
+[28:28] we are giving this kind of prompt to the
+[28:30] model like explain this, summarize this,
+[28:34] write this, translate it or what it is
+[28:38] right. So in this case the model is
+[28:41] going to be fail means model will not
+[28:42] generate the appropriate answer in a
+[28:45] conversate
+[28:48] answer in a natural language like how we
+[28:50] are we human are talking right. So
+[28:53] that's why guys the instruction
+[28:55] finetuning is required and that was the
+[28:59] uh like successful mantra behind the
+[29:01] chat GPT right how chat GPT is giving
+[29:05] the uh human curated answer right uh
+[29:08] human compatible answer because of this
+[29:10] instruction fine-tuning so let's say
+[29:13] yeah here here is example if you will
+[29:15] ask the model write three points on
+[29:18] metformin mechanism so it might response
+[29:21] with something like this write three
+[29:22] point on Matt foring mechanism is
+[29:24] request mean it will just predict the
+[29:26] next token instead of giving the three
+[29:29] bullet point or three points. Okay. Now
+[29:32] because of this right because if we want
+[29:35] a instruction uh like a structure answer
+[29:37] or if we want a relevant answer right if
+[29:40] we want a answer in a human curated form
+[29:43] uh for that only this uh instruction
+[29:46] finetuning will be required. So here I
+[29:48] written so the conclusion is to teach
+[29:50] the model the meaning and purpose of
+[29:53] different different prompts. Okay. So
+[29:56] for the different different prompts we
+[29:58] perform this instruction finetuning. Now
+[30:00] in the instruction finetuning how the
+[30:02] data will look like as you know right
+[30:04] and what will be the result. So result
+[30:06] could be anything whatever user is
+[30:08] asking. So I hope you understood why
+[30:11] this instruction finetuning is required.
+[30:13] Now without wasting your time let's
+[30:15] start with the practical.
+[30:18] Now guys uh let's start with the
+[30:20] practical of the instruction finetuning.
+[30:22] So in this IPV file I kept the entire
+[30:25] code. Uh now in the previous uh video I
+[30:28] have shown you the practical of the
+[30:29] non-instruction finetuning. This entire
+[30:31] code is already available on my YouTube
+[30:34] channel. Please go and check uh the
+[30:36] description of the previous video. You
+[30:38] will get the link of this GitHub. Okay.
+[30:40] Now in the previous video guys I have
+[30:42] used this particular data matt for PDF.
+[30:45] So inside this PDF I just having one
+[30:47] single page okay but in the real time
+[30:49] the data could be very very huge. Now
+[30:51] guys this was the non-instructional data
+[30:53] means the plain text. So I trained my
+[30:55] model on top of this data but in this
+[30:57] video we required the instruction data
+[30:59] set means we required the question means
+[31:02] the instruction and the corresponding
+[31:04] responses. Okay. So uh I already created
+[31:07] a data I will show you in some time.
+[31:09] Right. uh now over here guys uh so I'm
+[31:12] going to use the same model which I
+[31:14] trained in the previous video okay so
+[31:17] what is my uh ideology over here let me
+[31:20] uh tell let me talk about that that what
+[31:23] I want to teach you so let's say we have
+[31:25] one pre-trained model
+[31:28] okay so we took the llama model this is
+[31:31] from the meta
+[31:34] now
+[31:36] I got a problem statement that okay uh I
+[31:39] have to fine-tune this model for some
+[31:41] pharma data right so uh I downloaded
+[31:44] this model this pre-trend model which
+[31:46] was this one tiny llama 1.1 intermediate
+[31:49] step 1431 K3T okay this model is a quite
+[31:54] small that's why I have used it
+[31:55] otherwise you can use any sort of a
+[31:57] model if you have a good infrastructure
+[31:59] now guys uh I took a pre-trained model I
+[32:02] trained it okay I performed the non
+[32:05] instruction
+[32:07] finetuning
+[32:10] on plain text. Okay. Now, why did I uh
+[32:14] why I perform it? So that I can teach my
+[32:17] model the specific term terminology.
+[32:19] Okay. I can make my model basically this
+[32:23] farmer ready. Now I will teach my model
+[32:25] to follow the instruction. Okay. Now
+[32:27] what I'll do I will do the instruction
+[32:32] fine tuning. Okay. on instruction data
+[32:38] set. So guys, uh I have a data set the
+[32:41] plain text and all. I taught my model uh
+[32:44] basically uh the language, the tone and
+[32:47] all everything. Now I will uh take this
+[32:49] instruction data set and I will teach my
+[32:51] model how to response with respect to
+[32:53] the different different questions. Okay.
+[32:55] Then in the next video I will discuss uh
+[32:57] the preference alignment. So based on
+[33:00] the user preference, okay, which
+[33:02] response needs to be picked up. So the
+[33:04] next uh video I will uh upload with
+[33:06] respect to this preference alignment. So
+[33:08] as of now we are over here. Uh I hope
+[33:11] you got it. So guys uh whenever uh uh so
+[33:14] when I was training this model right? So
+[33:16] I already uh saved this model. So let me
+[33:19] show you. So I already saved this model
+[33:21] under this directory. Uh you can check
+[33:23] with my previous video. Okay I shown you
+[33:25] over there. And what I did after that I
+[33:27] jib the model. Okay. And I downloaded
+[33:29] that so that I can use it anytime. So
+[33:32] here what I'm doing I'm going to be uh
+[33:34] I'm going to be basically unjip this
+[33:36] file this tiny Lora.j file and then I
+[33:39] will load my previously trained model.
+[33:41] So first of all let me load the
+[33:42] tokenizer. Uh I'm going to be execute
+[33:44] this one. This is perfect. I think you
+[33:46] are able to understand it clearly. Now
+[33:49] uh let me run this. Okay. Let me import
+[33:52] all the necessary uh libraries. So uh
+[33:55] here I think you are already familiar
+[33:56] with all these libraries. Okay. Uh now
+[33:59] what I'm doing guys I'm going to be load
+[34:00] the tokenizer. Tokenizer is very much
+[34:02] required to perform the tokens to get a
+[34:04] tokens. Okay and the token ID with
+[34:07] respect to the data. Now here what I'm
+[34:09] doing guys I'm going to be unjip the
+[34:12] model. See here is my model this one.
+[34:14] After unzipping it I will get like this
+[34:15] this one. This is my folder. I already
+[34:17] done it. That's why I'm getting it. But
+[34:19] uh if you are running it first time you
+[34:20] will means uh if you have this jip and
+[34:23] basically if you will run it then you
+[34:25] will only get this checkpoint. Right? So
+[34:28] I'm going to be executed and see after
+[34:29] unjpicate I'm getting this checkpoint
+[34:32] checkpoint dash five. Okay now uh guys I
+[34:36] got my model. Now let me load my model.
+[34:38] So this is my model path. So what I'm
+[34:40] doing I'm passing it to this particular
+[34:41] method auto model for causal lm from
+[34:45] pre-train. And here I'm passing my model
+[34:46] path. Okay. And device map is equal to
+[34:48] auto. So I got my non-instructional
+[34:50] model. Right now what I can do guys
+[34:52] after loading this model. So it might
+[34:54] take some time if you're doing it first
+[34:56] time. Now I'm giving my prompt. This is
+[34:58] my prompt. Clinical tri demonstrate that
+[35:00] whatever. Right? Now what it will do? It
+[35:02] will try to predict the future tokens.
+[35:04] Okay. So it is not any instruction. It
+[35:07] is not a like a specific question. It's
+[35:09] just a simple sentence. Okay. And it
+[35:11] will try to complete this sentence. So
+[35:13] here's my prompt. First I will tokenize
+[35:14] it. Then I will pass my input. Okay. And
+[35:17] these are the other parameter. I will
+[35:18] discuss this parameter. It's very easy
+[35:19] to understand. So how many max token
+[35:22] would be there in the output.
+[35:23] Temperature means whether my output will
+[35:26] be creative or not. Okay. Top P is also
+[35:28] belonging to the same thing. Right? So
+[35:30] this [snorts] parameter we'll discuss in
+[35:31] the upcoming session I will discuss some
+[35:34] more theoretical more like a
+[35:36] mathematical point. Okay. So there we
+[35:38] can talk about it or else we'll discuss
+[35:41] any sort of a API right open a API cloud
+[35:43] API and there also basically we'll get
+[35:45] this parameter and for sure we can
+[35:46] discuss. Now here I got the output see
+[35:49] and let me show you the output. So first
+[35:51] we'll decode it and uh after decode see
+[35:54] uh you will get the output. See critical
+[35:56] try demonstrate that combine
+[35:58] at o westin with is it timbi is a safe
+[36:02] and effective to treatment of the like
+[36:04] cholestromia.
+[36:06] Okay so like these are some pharma
+[36:09] related terms and disease related
+[36:10] disease specific term even I'm not
+[36:12] familiar with it. So see it is able to
+[36:15] generate the response right now what
+[36:17] I'll do guys. So here first of all let
+[36:20] me show you how the instruction data set
+[36:22] look like and then I will take the same
+[36:24] model this non-instructional model and
+[36:26] then we'll try to perform the
+[36:28] finetuning. Okay. So to just give you
+[36:30] the demonstration see what I did I
+[36:32] already I'm loading this pre-built data
+[36:34] set inbuilt data set from the hugging
+[36:36] face itself. It is already available
+[36:38] inside this repository amod repository
+[36:40] and the data set name is this mental
+[36:41] health counseling conversation. Right?
+[36:43] So once I load it guys see I'll get the
+[36:45] data inside this variable data set
+[36:47] variable
+[36:50] okay now uh here if I can show you the
+[36:52] data see this data okay is data set so
+[36:57] let me write over here data set so I got
+[37:01] the data set now inside the data set I
+[37:03] have just I just have two column context
+[37:05] and the responses okay and how many rows
+[37:07] we have we have 3 512 rows right now I
+[37:11] already downloaded this data set just to
+[37:13] showcase you. I I downloaded in both
+[37:15] format in any format basically you can
+[37:17] you can keep the data. So this is a CSV
+[37:20] format. Let me show you the CSV first.
+[37:22] Okay. So inside this CSV you will get
+[37:24] the context and the responses. Right. So
+[37:26] uh as I told you this uh instruction
+[37:29] instruction fine-tuning data set it
+[37:30] could be available in any sort of a
+[37:32] format. Even I uh given you the uh
+[37:35] example over here. So instruction input
+[37:37] response instruction context answer user
+[37:39] assistant system user assistant context
+[37:41] and response. So inside this data set
+[37:44] which is already available over the
+[37:45] hugging phase. Okay. So inside this data
+[37:47] set basically you will get two column.
+[37:50] One is the context and second is the
+[37:51] responses. Now see the same data set
+[37:54] basically I saved in the JSON format
+[37:55] also. So yes for sure you can keep it in
+[37:59] both format. Right now what I'm doing uh
+[38:01] here uh so I loaded the data set. Now
+[38:04] I'm going to be formatted. So here
+[38:07] basically I will be having my question
+[38:08] means this context is nothing is a
+[38:10] question. This response is nothing. It
+[38:12] is a answer. Right now I'm going to be
+[38:14] combine both and after that I'm keeping
+[38:16] inside this text column. So let me
+[38:17] execute it. So after executing it after
+[38:20] executing it guys see what I'm doing?
+[38:22] I'm mapping my entire data set data
+[38:24] set.m map. Okay. And here I'm I'm I'm
+[38:27] mapping my function. My function name is
+[38:29] this format row. Okay. So once I'll do
+[38:31] it guys I'll be getting my formatted
+[38:33] data set. Let me show you. So here is my
+[38:35] context. This is my responses and this
+[38:37] is my text. Okay. So see over here. So
+[38:39] instruction what is the instruction I in
+[38:42] nst okay it is a instruction so this is
+[38:44] the instruction I am going through this
+[38:45] this is that right and then with respect
+[38:48] to this instruction here you can see the
+[38:50] final responses okay so what I did guys
+[38:52] I formatted my data set means either I
+[38:54] can keep this contact and response okay
+[38:56] or I can keep it like this instruction
+[38:59] and this/ instruction instruction is
+[39:01] only representing the question and the
+[39:03] SL instruction is representing to the
+[39:05] answer right now over here instead of
+[39:07] writing this instruction and question I
+[39:09] can simply write this context means hash
+[39:11] has context okay or like this context
+[39:14] and then response right let me show you
+[39:17] how I'm I can keep it so you can keep
+[39:20] like this so let's say here is your
+[39:22] context and this is your response now
+[39:24] whatever text column you will get so
+[39:27] whatever text column you will get you
+[39:29] will get like this means instead of the
+[39:30] instruction you will be having the
+[39:31] context and then instead of the slice
+[39:33] instruction you will be having the
+[39:34] responses okay in any sort of a form you
+[39:36] can keep it but uh over here what I
+[39:38] wanted to show you that I have to pass
+[39:41] my data as a final string only. Okay,
+[39:43] this context and responses. Now what I
+[39:45] did over here see I created a data frame
+[39:47] of this data set uh the data set which I
+[39:50] loaded. Now see context and responses
+[39:51] you will get the context responses under
+[39:53] this data frame. Okay. Then what I did I
+[39:56] just saved it. So here I already shown
+[39:57] you this file right. So I can uh
+[40:00] basically load the data from the hugging
+[40:01] face. I can save it in my local or else
+[40:03] if I have a data in my local the CSV
+[40:05] data and all whatever right? I can
+[40:07] simply keep it over the hugging face. I
+[40:09] can compatible into the I can create a a
+[40:11] compatible data set. Okay, with respect
+[40:14] to this hugging face everything is
+[40:15] possible. Right? So see I have converted
+[40:18] into the JSON I convert into the CSV and
+[40:20] both way it is possible. I hope this
+[40:23] entire thing is clear. So this is just
+[40:25] guys this is just a uh like this is just
+[40:28] a demonstration that how the instruction
+[40:30] data look like okay and how to format it
+[40:33] for the training. Now uh in my case in
+[40:35] this particular practical I'm going to
+[40:37] use my own data set means I'm not going
+[40:39] to be use any pre-built data set over
+[40:40] here I will be using uh this particular
+[40:43] data. See let me show you the CSV. So
+[40:45] under the CSV basically you will only
+[40:47] get five to six rows. See how many rows
+[40:49] is there? I just have one uh then two
+[40:52] then three then four and five. Okay only
+[40:55] five row. Now I have a instruction. Okay
+[40:58] this is the output of it. Then again
+[40:59] instruction output of it instruction
+[41:00] output of it. Now instruction now this
+[41:02] is the input and here you can see the
+[41:04] output of it. Then instruction uh here
+[41:06] you can see the input and this is the
+[41:08] output right. So guys uh you can uh read
+[41:11] this data you can analyze this data on
+[41:12] top of this data only we are going to
+[41:15] perform the training. Okay we are going
+[41:16] to perform the finetuning. Uh now guys
+[41:19] here what I shown you I shown you how
+[41:21] the pre-built data set look like it
+[41:23] could be in any sort of a like uh like
+[41:25] there could be any sort of a column
+[41:27] right and here what we are doing now
+[41:30] guys we are going to be load our own
+[41:31] data set this data set actually I
+[41:33] created by myself manually okay you can
+[41:36] create it using the LLM you can take a
+[41:38] help of any theme subject matter
+[41:40] expertise right and you can generate
+[41:42] this instruction data set now how chatg
+[41:45] has done that so chatg actually took the
+[41:47] conversational data set. So,
+[41:48] conversational data set from the Reddit,
+[41:50] from the Kora, from the GitHub, from the
+[41:52] different different places. Okay. But if
+[41:53] you're doing for our domain specific
+[41:56] problem statement in that case, we only
+[41:58] have to create this data set. Okay. So,
+[42:01] I kept the data in both format, CSV and
+[42:03] JSON. In the real time also, it could be
+[42:05] in any sort of a format. Okay. Now, I'm
+[42:07] going to be loaded in a CSV format. So,
+[42:10] uh let's load it and perform the
+[42:11] formatting.
+[42:20] Now guys uh I loaded my CSV data over
+[42:23] here with this function load data. Uh
+[42:25] then I'm passing this parameter CSV.
+[42:27] Then I'm passing my file path. Okay. And
+[42:30] then I'm writing is split is equal to
+[42:32] train means whatever data I'm going to
+[42:34] be load over here it will be a train
+[42:36] one. Uh now uh inside the data set you
+[42:38] can see we have three column instruction
+[42:40] input and output. Uh I can uh show you
+[42:43] over here. This is my data set which I
+[42:46] am using. Okay. Now what I'll do? So
+[42:49] after that guys, I will format it as a
+[42:51] single string. As I told you, whatever
+[42:53] data goes to the llm, okay, it goes to
+[42:57] as a single string, right? So let me run
+[43:00] it. Let me execute it. See uh if you
+[43:02] will see this formatting prompt. So we
+[43:04] have a instruction, right? Instruction
+[43:07] will come over here. Then we have a
+[43:09] input. Okay. Uh the example will come
+[43:11] over here. and then response. Okay. So,
+[43:14] uh example input will come over here.
+[43:16] Then response, then example output will
+[43:18] come over here. Okay. So, uh here guys,
+[43:20] if I will run it and after running it, I
+[43:23] can map it. Okay. After mapping it, see
+[43:25] inside my data set, I'm having four
+[43:26] column. Now, instruction, input, output
+[43:28] and text. Now, this particular column,
+[43:30] this text column, we are going to use it
+[43:32] for the training. Now, let me show you
+[43:34] the first row over here. You can see so
+[43:36] we have a instruction then we have a
+[43:38] input and then we have corresponding
+[43:41] responses okay this is my responses now
+[43:44] if you want to check with the CSV now
+[43:46] over here see with check with the CSV so
+[43:48] this is my instruction okay and then in
+[43:51] the input I don't have anything it will
+[43:52] be blank then I have a output right so
+[43:55] this uh first row is going to be
+[43:56] combined likewise the second row will be
+[43:58] combined third row will be combined
+[43:59] fourth row will be combined uh means
+[44:01] first row will be combined and that will
+[44:04] become my one string I will pass it to
+[44:05] the LM for training. Likewise, the
+[44:07] second row, likewise, the third row,
+[44:08] fourth row and so and so forth. Okay, I
+[44:11] hope you got it. So, uh guys, uh this is
+[44:13] my data. I have formatted my data. Okay,
+[44:16] so first row, second row, third row,
+[44:18] fourth row means whatever column we had
+[44:20] over there, we just combine that and
+[44:22] we'll be passing as a single string. And
+[44:24] in that column what we have? We have our
+[44:26] instruction and the responses of it. Uh
+[44:28] now guys, see this is the row which
+[44:30] looks like this only. Over here you can
+[44:33] see we don't have any sort of a input.
+[44:34] input is none and then we just have the
+[44:37] response. If the input would be there
+[44:39] then instead of the none the actual uh
+[44:41] data for the input will be passed over
+[44:43] here. Now I'm going to be initiate my
+[44:45] tokenizer. Okay. And now I'm going to be
+[44:47] tokenize my data. So after tokenization
+[44:49] guys see here I'm going to tokenize my
+[44:51] data means I'm passing my single example
+[44:53] my first row. Okay. Now I'm taking the
+[44:55] text from there means this particular
+[44:58] value. Okay. Then I'm going to be
+[45:00] truncate. Truncate is equal to true. uh
+[45:02] if max length basically if it is going
+[45:04] to be exceed to the max length then we
+[45:07] are going to be truncated okay otherwise
+[45:09] we are going to be padded if it is less
+[45:11] than this 512 right now here is one more
+[45:14] line token labels is equal to token
+[45:16] input id dotcopy so why I am doing it as
+[45:19] I told you the behavior of the model so
+[45:21] the behavior of the model is to predict
+[45:23] the next token okay so by using this
+[45:26] line uh basically I'm telling to my
+[45:28] model so whatever data you will get
+[45:30] whatever text you will at this entire
+[45:32] row. Okay. So, you have to train
+[45:34] yourself in such a way that you are
+[45:35] going to predict the next token. This
+[45:37] all the thing I already discussed in my
+[45:38] previous video. Uh there also I have
+[45:40] used the same technique at some of the
+[45:42] places I have seen what I have seen
+[45:44] guys. So, they are going to be mask the
+[45:46] value till the responses. Okay. So, till
+[45:49] the responses they are going to be mass
+[45:50] the value means model will get to know.
+[45:52] Okay. So, this till here basically I
+[45:55] have a instruction I have a question and
+[45:57] after that my response is coming. So how
+[45:59] I will mask the value till response
+[46:01] means this particular value I can put
+[46:03] any special token like let's say I can
+[46:05] put minus 100 over here. So here to here
+[46:09] whatever token is going to be create. So
+[46:11] for for those token all the value will
+[46:13] be minus 100 and the actual token will
+[46:15] be assigned from here itself. Okay. Uh
+[46:17] actual token will be assigned from here
+[46:19] itself. So this kind of technique also I
+[46:20] have seen right. So just to teach the
+[46:23] responses to the model, we take this
+[46:24] kind of uh like uh we uh basically go
+[46:27] ahead with this kind of technique also,
+[46:29] right? But yeah, this is very effective
+[46:31] means we can uh entirely copy this input
+[46:34] ID to the labels. What does it mean?
+[46:35] Means I'm not going to be mask anything
+[46:37] model from this particular text model
+[46:39] will learn how to predict the next
+[46:41] token. Right? So here is the here all
+[46:44] the thing is done. Now what I'm doing
+[46:46] guys I'm going to be load my uh I'm
+[46:48] going to be basically load the model as
+[46:51] a lora model. So uh from the pept I have
+[46:54] used this lura config then get p model
+[46:56] then task type. Now here whatever
+[46:59] basically parameter I have used you can
+[47:01] see the description of it. So task type
+[47:02] means it's a causal lm means the next
+[47:05] value prediction. Next token prediction.
+[47:07] Now here r is representing to the rank.
+[47:09] So this could be the rank. Okay. Control
+[47:11] enable parameter size. So now here Lora
+[47:14] alpha it's a scaling factor so the value
+[47:16] will be between this one. So balance
+[47:18] adaption strength now Lora dropout so
+[47:21] dropout probability 0.5 so it's a
+[47:24] regularization value target module which
+[47:26] layer to tune. So I want to tune this
+[47:28] query and the value trade-off between
+[47:29] cost and quality means you can select
+[47:31] the other layer also we have key query
+[47:34] value right so you can select the
+[47:36] different layer which is remaining the
+[47:38] the next one okay then biases biases
+[47:41] find during none keep simple okay so
+[47:43] over here guys we are going to be
+[47:45] mention this parameter but under this
+[47:47] particular like class lora config you
+[47:49] will find out so many parameter so maybe
+[47:52] after discussing the mathematics of this
+[47:54] lura we can talk about it right so here
+[47:56] is my Lora configuration guys. Now what
+[47:58] I'll do I'll write get pept model. So
+[48:00] here I will pass my non-instructional
+[48:02] model which I trained in my previous
+[48:03] video and I here I'm passing my Lora
+[48:05] configuration. Okay. Uh now I will be
+[48:08] getting my Lora model. See here I got
+[48:10] the Lora model. Now what I'm doing I'm
+[48:11] going to be define my training argument.
+[48:13] So tiny llama instruction here I will be
+[48:15] getting my instruction model for three
+[48:17] number of epoch I'm going to be trained.
+[48:19] Okay. per device uh train batch size
+[48:22] means how many batch in in how many
+[48:24] batch we are passing a data gradient
+[48:26] accumulation step. So at what all step
+[48:28] we are going to be calculate the
+[48:29] gradient learning rate regarding the
+[48:31] optimizer it's a precision value logging
+[48:33] step at which step we are going to be
+[48:35] log the value save total limit okay now
+[48:39] repeat uh report to none means we are
+[48:41] not going to be capture any sort of a
+[48:43] matrixes anywhere on any platform so
+[48:45] this is my all the argument guys now
+[48:47] what I'll do I'll call the strain method
+[48:49] to the strain method I'll pass my model
+[48:50] I'll pass my argument I'll pass my
+[48:52] tokenization right now my trainer is
+[48:55] ready now what I'll do I'll call the
+[48:56] train. Okay. So here guys, see my model
+[48:59] is getting trained on top of this data
+[49:01] set. Now my model is my model got
+[49:03] trained. Now here actually you will get
+[49:05] the model. See tiny llama instruction.
+[49:07] This is my model. Okay. And under this
+[49:09] you can see I have a checkpoint 3 and
+[49:11] see my model got saved over here.
+[49:12] Adapter model dots save tensor. Right
+[49:15] now uh let me uh execute it. See this is
+[49:17] a model path. Now after that what I can
+[49:20] do? I can load my instruction model. Now
+[49:22] here guys see this is my instruction
+[49:23] model. Now I can give this kind of
+[49:25] question to my model. Explain the
+[49:27] mechanism of the action of metformin.
+[49:29] Right? So earlier guys I was uh not uh
+[49:32] maybe I cannot give this kind of
+[49:34] question to my model. It will definitely
+[49:36] hallucinate. Okay. We'll we'll compare
+[49:37] that. Don't worry. But guys now after
+[49:39] the instruction finetuning we can give
+[49:41] this kind of question where see my data
+[49:43] set is very small. I just train it for
+[49:44] very simple epoch. Okay. My model is
+[49:46] also very small one. So it might not
+[49:49] predict correctly. But if you are doing
+[49:50] it on a full scale with a good model
+[49:52] with a good data set with a huge data
+[49:53] set. Okay, that definitely this
+[49:56] technique will work. So here is my
+[49:58] prompt. Now what I'll do, I'll tokenize
+[49:59] the prompt. I'll pass it over here. Mean
+[50:01] I'll pass all the tokens over here.
+[50:03] Okay, now I let me uh take the output.
+[50:06] So here guys, you can see the output. So
+[50:09] what output is generating? Clinical tri
+[50:11] demonstrate that combine atro vestine
+[50:14] with azy timb is a safe and effective
+[50:17] for treatment of the hyrochloro hyro
+[50:20] cholesterolia. Okay. So guys here I
+[50:23] asked why explain the mechanism of the
+[50:24] action of the matt forming. So see it is
+[50:27] going to be explain everything right. So
+[50:30] it is going to be explain everything in
+[50:31] the uh normal human tone. Okay. Now uh
+[50:35] over here guys you can see. So this is
+[50:38] all the data which I have. Uh now guys I
+[50:40] wrote the CSV data. You can load the
+[50:42] data in the form of JSON also. Okay. And
+[50:45] this is the pre-built data set which I
+[50:47] took from the hugging face. Means I
+[50:48] shown you how to load it from the
+[50:49] hugging face and even I shown you how
+[50:51] you can save it and after saving it
+[50:53] anytime you can load it. Okay. Or else
+[50:55] if you will get the data in CSV and JSON
+[50:57] then from there you can easily load
+[50:59] everything I have shown over here. Now I
+[51:02] hope guys this thing is clear. Now let
+[51:04] me show you one more thing I was telling
+[51:05] you that basically before the responses
+[51:09] okay we can mask the value so that model
+[51:12] can easily understand my response is
+[51:14] getting started from here. So I took one
+[51:16] code over here. Uh let me show you. So
+[51:19] see what is happening over here. See we
+[51:21] are taking a data set. Okay we are
+[51:22] loading a data set. We are formatting a
+[51:24] data set. After that we are passing it
+[51:26] to the tokenizer. Okay. The tokenization
+[51:28] and all everything is done. See here
+[51:30] basically I'm going to be initialize my
+[51:32] tokenizer. Now see I'm getting my text.
+[51:34] Okay. Now after that guys see I'm
+[51:36] getting my uh input ids means my tokens.
+[51:40] Now here I'm writing response marker. So
+[51:42] this is my response marker. Now wherever
+[51:44] I will find out this response of from
+[51:46] wherever the response is going to be
+[51:47] start response answer whatever you can
+[51:49] say now over here what I'm doing so I'm
+[51:52] going to be mark it okay I'm going to be
+[51:53] mark it with this see till till the
+[51:56] response actually I'm going to be marked
+[51:58] with this minus 100 okay so uh till the
+[52:01] response actually I'm going to be mark
+[52:02] it uh with minus 100 with this special
+[52:05] token and after that the normal token
+[52:07] would be there so what does it mean the
+[52:09] mean is very very simple see here I have
+[52:11] written clone labels and mask ask out
+[52:13] everything before responses. So the
+[52:15] meaning is very very simple. My model
+[52:17] will be able to discriminate between the
+[52:19] instruction as well as the responses. It
+[52:21] will get to know okay till here means
+[52:23] this is a special token means this is my
+[52:25] input or like my instruction and after
+[52:27] that my actual response is getting
+[52:28] started. Okay. So both training you can
+[52:31] do you can try out with this one as well
+[52:33] as the previous one. Okay. You can check
+[52:35] which one is giving you the effective
+[52:36] result. According to me, the previous
+[52:38] one is a good one because here there
+[52:39] actually my model is learning onto the
+[52:41] uh my model is iterating onto the entire
+[52:44] string. Okay, the entire row right uh
+[52:46] text uh the instruction uh input and
+[52:49] this uh responses. Okay. Now here till
+[52:51] response we are masking and after that
+[52:53] only we are allowing to model to learn
+[52:55] through some tokens. Right. So yes I
+[52:58] have like written this logic over here.
+[53:00] You can go through with it. I have seen
+[53:01] in many like places people are following
+[53:03] that. So that's why I given you this
+[53:05] particular like solution as well. Okay
+[53:08] you can try it. Here is the entire code.
+[53:10] Now uh guys so I kept some question.
+[53:12] Okay. And what I'm doing over here I'm
+[53:14] going to be check with my uh
+[53:16] non-instruction and the instruction
+[53:18] model. what is going to be the answer
+[53:20] right so I have both model instruction
+[53:22] and the non-instructional so see this is
+[53:24] my question now what I'm doing I'm
+[53:25] iterating over the questions okay now
+[53:27] I'm tokenizing it and after tokenizing
+[53:29] it guys I'm passing to the
+[53:30] non-instructional model I'm generating
+[53:32] output and then printing the output now
+[53:34] here what I'm doing I'm going to be load
+[53:36] the tokenization model sorry I'm going
+[53:38] to be load the tokenizer then I'm
+[53:40] loading the instruction model okay and
+[53:41] then I'm going to be perform the uh then
+[53:43] I'm going to be generate the answer with
+[53:45] the instruction based model okay so here
+[53:47] I'm going to be generate the answer with
+[53:48] the non-instruction instruction here I'm
+[53:49] going to generate the answer with an
+[53:50] instruction so you will be able to
+[53:52] understand okay so if I'm asking this
+[53:53] kind of question like explain this
+[53:55] summarize this what is this what is that
+[53:57] so instruction model will be able to
+[53:59] perform good compared to the
+[54:01] non-instructional model so that's why
+[54:02] guys instruction fine-tuning is required
+[54:04] see my data set is very small my model
+[54:06] is also very small so it might not give
+[54:08] the correct answer but if you're doing
+[54:10] it really first teach your model on your
+[54:12] do domain specific data set on your PDF
+[54:15] text and all and later on perform some
+[54:17] instruction tuning it
+[54:19] work well guys it is proven technique
+[54:21] okay chat GPD also does did the same
+[54:23] thing right first they have trained on
+[54:24] the entire data first they have trained
+[54:26] on the entire internet data the
+[54:28] self-supervised learning and then after
+[54:30] that they have trained it on a question
+[54:31] answering task from the Reddit from the
+[54:34] hugging phase sorry from the like
+[54:35] different different forum like GitHub
+[54:37] stack overflow and all right so let's
+[54:39] run it and let's see what is going to be
+[54:41] answer so here it can predict it see uh
+[54:44] the answer explain the mechanism of
+[54:46] metaphoring so it It is saying explain
+[54:48] the metaphor for is dark. Fine. Now here
+[54:51] okay expect output test case test case.
+[54:54] Okay. Now here it is saying summarize
+[54:56] how MRN. So guys it is predicting
+[55:01] something right? Some garbage thing.
+[55:05] [laughter] Okay. Uh you you can try out
+[55:07] from your end. You can check right. You
+[55:09] can take some more data and then uh
+[55:11] basically again you can retrain and
+[55:13] check check check that out. Right. I
+[55:15] took the very specific question just
+[55:17] four to five row guys with respect to LM
+[55:19] is nothing just take some good data set
+[55:21] retrain your model okay uh on the
+[55:24] instruction data set and check okay
+[55:25] means first take the base model check
+[55:27] with the non-instructional data means
+[55:29] some PDF and all train it and then ask
+[55:31] the question and then again do one thing
+[55:33] create some instruction data give your
+[55:35] model so model will learn how to follow
+[55:37] this prompt and all and then then again
+[55:39] ask the question to your model and check
+[55:41] okay in which way it is performing well
+[55:42] in the instruction way or in the
+[55:44] non-instruction way right so fine thank
+[55:46] you guys I'll see you in the next video
+[55:47] where I'll discuss about the DPO
+[55:49] techniques and all thank

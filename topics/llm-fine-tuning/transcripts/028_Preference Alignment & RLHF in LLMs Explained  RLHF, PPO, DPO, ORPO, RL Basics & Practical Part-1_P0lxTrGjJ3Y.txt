@@ -1,0 +1,1376 @@
+Title: Preference Alignment & RLHF in LLMs Explained | RLHF, PPO, DPO, ORPO, RL Basics & Practical Part-1
+Video URL: https://www.youtube.com/watch?v=P0lxTrGjJ3Y
+Video ID: P0lxTrGjJ3Y
+======================================================================
+
+[00:00] Hello everyone. Welcome back to my
+[00:02] YouTube channel. My name is Sunny and I
+[00:05] am back with another exciting and
+[00:07] important video. So guys, from this
+[00:09] video onwards, I'm going to start with
+[00:12] the preference tuning. In the previous
+[00:14] video, I discussed about the Laura where
+[00:17] I given you the in-depth intuition of
+[00:19] the Laura along with the practical.
+[00:22] So if you haven't checked the video,
+[00:23] guys, please go and check out with my
+[00:25] YouTube channel. Once you will write
+[00:27] Sunny Savita over the YouTube and you
+[00:28] will go inside the video section, you
+[00:30] will get all the video. If you wanted to
+[00:33] check playlist wise, so please go inside
+[00:35] the playlist. Here, you will get the
+[00:37] different different playlist related to
+[00:38] the generative AI.
+[00:40] If you are confused that from where we
+[00:41] have to start the generative AI, right?
+[00:43] From where basically you can start the
+[00:45] generative AI,
+[00:47] then you can watch out this particular
+[00:49] road map or you can and you can watch
+[00:52] out this road map also, which is
+[00:54] guiding you related to the agent tech
+[00:56] AI. Okay. [snorts] Now guys, from this
+[00:59] video onwards, I will mainly focus over
+[01:01] the preference tuning and the different
+[01:02] concept of that. If you will go and
+[01:04] check with my previous video, that is a
+[01:06] Laura, so there I discussed what all
+[01:08] concept I have discussed inside my
+[01:10] current playlist of the fine-tuning.
+[01:13] So once you will
+[01:15] check out with the description, so there
+[01:16] I already given you all the notes and
+[01:18] all everything. There you will find out
+[01:20] this GitHub link as well. The
+[01:22] The repository name is the complete LLM
+[01:24] fine-tuning where you will get all the
+[01:27] fine-tuning related material. So
+[01:29] whatever I have discussed so far inside
+[01:31] my previous video, you will get all the
+[01:33] material over here in a sequence. So
+[01:36] this is the notes from the previous
+[01:37] class, guys, where I given you the quick
+[01:39] heads up that what all thing I have
+[01:41] discussed so far inside my fine-tuning
+[01:43] playlist. So if you don't know, guys,
+[01:45] you can refer that video and you can
+[01:47] understand. Now inside the same video, I
+[01:49] told you that I have already discussed
+[01:51] all this concept, okay? Now I'm going to
+[01:54] be focused the other concept of the
+[01:56] fine-tuning, okay, which is specifically
+[01:58] related to the preference tuning, that
+[02:00] is RLHF, reinforcement learning through
+[02:03] human feedback.
+[02:04] There are this PPO algorithm comes. Then
+[02:07] we have advanced technique that is
+[02:08] called the GRPO, which is used in a
+[02:11] different LLM training like
+[02:13] a deep seek. Then we have a DPO method,
+[02:16] which is not using any RL method, but
+[02:18] it's still we are able to achieve the
+[02:19] preference tuning. And then we have a
+[02:21] ORPO, which is again a advanced variant
+[02:23] of the DPO. There we no need to apply
+[02:26] any basically a separate loss function.
+[02:29] Okay? Everything we can do inside the
+[02:31] SFT itself. So yeah, these are the
+[02:34] concept which is pending one. And now
+[02:36] I'm going to discuss all this concept
+[02:38] one by one. So you will get four to five
+[02:40] video related to this specific concept.
+[02:43] And I will be uploading inside the same
+[02:44] playlist, which is going to be LLM fine
+[02:46] tuning. Okay? So the last video
+[02:48] basically which I uploaded one month
+[02:50] ago. And guys, this video actually it's
+[02:52] going to be a continuation of the same
+[02:54] playlist inside the same playlist,
+[02:56] right? So this video also going to be
+[02:58] belong to the LLM fine tuning itself.
+[03:01] Now guys, I hope each and everything is
+[03:03] clear. The agenda is perfectly clear. So
+[03:06] let's start, let's begin. And let me
+[03:08] tell you that what all thing I'm going
+[03:10] to be discuss over here
+[03:12] in order to discuss this preference
+[03:13] tuning and this RLHF. And then one by
+[03:15] one we are going to be discuss all those
+[03:16] concept. Okay?
+[03:18] Now guys, this RLHF along with the
+[03:20] reinforcement learning itself is a very
+[03:22] huge topic. So if I'm going to be
+[03:24] discuss inside a single video, so it
+[03:26] might take one to two hour. Okay? Or
+[03:27] even more than that. So what I'm
+[03:29] thinking, I'm thinking to divide this
+[03:31] concept in a multiple videos. So first
+[03:34] I'll discuss about the preference tuning
+[03:36] and I will give you the quick heads up
+[03:37] of the reinforcement learning and the RL
+[03:39] technique. Then in the next video guys,
+[03:42] I will discuss the different different
+[03:44] reinforcement learning technique like
+[03:45] Q-learning, deep Q-learning and the PPO
+[03:48] technique. Okay? This three technique.
+[03:50] Then after that guys, I'll come to the
+[03:52] RLHF. So this RLHF I'm going to divide
+[03:54] into three part, part one, part two, and
+[03:56] part three. So this is the first part
+[03:57] which you are watching. Now let me tell
+[03:59] you what all thing we are going to be
+[04:00] discuss over here, and then what all
+[04:02] thing we will be discussing in the
+[04:03] upcoming videos. So here inside this
+[04:06] particular video, I'll show you what is
+[04:07] a preference learning or preference
+[04:10] alignment or you can say preference
+[04:11] tuning.
+[04:13] All are the same thing, okay? Then why
+[04:15] do we need that? Why this preference
+[04:17] tuning is required? Then we'll discuss
+[04:19] problem with the SFT.
+[04:21] We are not going to perform the
+[04:23] preference alignment. We are just going
+[04:25] to be perform the supervised
+[04:26] fine-tuning. That what could be the
+[04:28] problem with the model, right? So we
+[04:30] need to discuss that thing as well. Now
+[04:31] we'll discuss all the methods for the
+[04:33] preference alignment. So I will give you
+[04:35] the quick overview what are more methods
+[04:37] we have to achieve this preference
+[04:39] alignment. So this is going to be a
+[04:41] introductory part, right? So all the
+[04:43] introduction related thing is going to
+[04:45] be clear over here inside this section.
+[04:47] Then guys, I will come to the
+[04:48] reinforcement learning. So
+[04:51] reinforcement learning is a very huge
+[04:52] chapter, is a very big chapter. So I'm
+[04:55] not going to teach everything over here.
+[04:56] I will just teach the introduction of
+[04:59] the reinforcement learning and the
+[05:00] different method of that. So I divided
+[05:03] this reinforcement learning chapter into
+[05:04] the multiple points. So the first is
+[05:06] going to be reinforcement learning
+[05:07] introduction. Then we'll discuss the RL
+[05:10] evolution timeline, right? So what all
+[05:12] method we have inside the reinforcement
+[05:14] learning and the proper timeline of
+[05:15] that. Then we'll discuss the difference
+[05:17] between the supervised learning and the
+[05:19] reinforcement learning. So supervised
+[05:21] learning is one of the paradigm of the
+[05:23] AI, right? One of the pillar of the AI
+[05:24] and alongside this reinforcement
+[05:27] learning is also there. So we'll discuss
+[05:29] the quick differences so that you will
+[05:30] get a idea, okay, these are the
+[05:31] differences between the supervised
+[05:33] learning and the reinforcement learning.
+[05:35] Then I will come to the Q-learning
+[05:36] versus deep Q-learning, deep Q-learning,
+[05:38] deep Q-network, or you can say deep
+[05:40] Q-learning and then PPO, right? So these
+[05:43] are concept are important inside the
+[05:44] reinforcement learning and even I can
+[05:46] show you the practical of that. So, I'll
+[05:48] show you the quick practical. Now, once
+[05:50] we'll get that particular understanding,
+[05:51] after that only we'll come to the RLHF.
+[05:53] So, what is the RLHF? PPO inside the
+[05:55] RLHF, and then practical of RLHF with
+[05:58] the custom data. So, this is going to be
+[05:59] an important thing. Okay? So, what is
+[06:02] RLHF? Guys, RLHF is a framework
+[06:04] reinforcement learning through human
+[06:06] feedback is a framework. Under that all
+[06:08] the reinforcement learning is being
+[06:09] used, right? and inside the
+[06:10] reinforcement learning this PPO method
+[06:12] have been used. Okay? And guys, uh
+[06:14] practical wise we can easily perform the
+[06:16] practical using the Unsloth or using the
+[06:18] Hugging Face. So, that I will show you.
+[06:20] Got it, guys? So, this video I'm going
+[06:22] to divide into three part. First, I'll
+[06:23] give you the quick introduction of that.
+[06:25] Then, uh we'll discuss about the
+[06:27] different algorithm of the reinforcement
+[06:28] learning, a quick recap of that, quick
+[06:30] overview of those algorithm, and then
+[06:32] finally we'll come to the RLHF. Okay?
+[06:34] And then the other different technique
+[06:36] in the next upcoming video. So, I hope
+[06:38] uh this introduction session is clear.
+[06:39] Now, let's begin. Let's start.
+[06:42] And uh let's start with the preference
+[06:45] uh
+[06:46] tuning introduction.
+[06:48] Now guys, uh
+[06:49] before understanding preference tuning
+[06:51] or any of its method, let's first
+[06:54] understand the LLM training pipeline,
+[06:57] and where preference tuning fits within
+[06:59] this pipeline.
+[07:00] So guys, uh this LLM training pipeline I
+[07:03] think I have explained many times inside
+[07:05] this fine-tuning playlist. So, let's
+[07:07] take a quick recap of that, and uh let's
+[07:10] understand where this uh preference
+[07:12] tuning is going to be fit inside.
+[07:14] So, the first stage of LLM training is
+[07:16] called the pre-training. There we are
+[07:18] going to be train our large language
+[07:20] model on a very huge amount of data set.
+[07:23] Okay?
+[07:24] And this provides the this provide the
+[07:27] general knowledge and the language
+[07:29] understanding to the large language
+[07:31] model. We are saying large language
+[07:32] model, so it is a nothing, guys. It is
+[07:34] just a transformer architecture.
+[07:37] Transformer architecture, mainly the
+[07:38] decoder part of the transformer
+[07:40] architecture, which which trying to
+[07:42] understand or which trying to learn how
+[07:44] to predict the next token inside the
+[07:47] data, right? And this is what we are
+[07:49] doing inside the pre-training.
+[07:51] Uh now guys, to teach the model, right?
+[07:53] To follow the to teach the model how to
+[07:55] follow the instruction, we perform the
+[07:57] specific kind of tuning that is called
+[07:59] the supervised fine-tuning or the
+[08:02] instruction fine-tuning. Uh this is a
+[08:05] instruction-based training to teach the
+[08:07] model how to follow user instruction.
+[08:10] So, whatever user is providing, right?
+[08:12] So, how to generate a answer, right?
+[08:14] According to that particular question.
+[08:17] So, on that kind of data actually we
+[08:19] train our model inside the second stage.
+[08:21] So, model learn how to follow the
+[08:24] instruction, right? Whatever user are
+[08:25] saying.
+[08:26] Now, after that only guys, the last
+[08:28] stage is called the preference tuning or
+[08:30] the preference alignment. Generally, we
+[08:32] perform this stage or generally we
+[08:34] perform this kind of training for the
+[08:36] behavior control, right? So,
+[08:38] preference-based tuning to align model
+[08:40] output with the human preferences. Now,
+[08:43] in whatever way the human wants output,
+[08:45] right? So, in whatever way the human
+[08:47] wants output, so according to that only
+[08:49] we are going to train our model. Now,
+[08:52] how to get a data for that, what are the
+[08:54] techniques we have, we are going to
+[08:55] discuss that one by one. Okay? Now guys,
+[08:58] over here you can see the method RLHF,
+[09:00] DPO, DPO, ORPO, right? So, these are all
+[09:02] the method of the preference tuning. So
+[09:04] guys, uh here you can see
+[09:06] where this preference tuning is uh
+[09:08] lying. So, the preference tuning lies
+[09:10] actually after the supervised
+[09:12] fine-tuning. If any model which is uh
+[09:15] uh which is fine-tuned, right? Which is
+[09:17] super uh which is uh like fine-tuned on
+[09:19] the instruction data side, okay? Uh
+[09:22] after that guys, uh on top of that
+[09:24] model, we can perform the preference
+[09:26] tuning. And this method actually uh it
+[09:29] comes from the uh OpenAI. So, OpenAI
+[09:31] perform this preference tuning or the
+[09:33] preference tuning preference training
+[09:34] for the uh GPT model, right? So, if you
+[09:37] will go and check out the research paper
+[09:40] of the GPT 3.5, to there you will find
+[09:43] out they have performed the they have
+[09:44] performed the RLHF training for the for
+[09:47] this behavior control, okay? Now, this
+[09:49] is only called the preference alignment
+[09:51] or the preference tuning. So guys, I
+[09:53] hope this thing is clear. Now, let's see
+[09:55] what are the methods we have for this
+[09:57] preference alignment or for the
+[09:58] preference tuning. So guys, method are
+[10:01] these one: PPO, GRPO, DPO, and the ORPO.
+[10:05] So, RLHF is nothing, it is just a
+[10:07] complete process, okay? And inside this
+[10:10] RLHF, this PPO is a method which we are
+[10:13] using for for the preference alignment.
+[10:16] So, here I have written some few more
+[10:19] thing just give you the just to give you
+[10:22] a few more clarity, few more
+[10:23] understanding. So, PPO, basically it is
+[10:26] using RL, yes, it is using RL. It's
+[10:28] using a reward modeling, yes, it is
+[10:30] using a reward modeling. And the
+[10:32] complexity of the PPO means the RLHF
+[10:35] which was introduced by the OpenAI, it
+[10:37] was the very high, okay? If you're
+[10:39] talking about the GRPO, so yes, it is
+[10:41] also using RL and it is also using the
+[10:43] reward modeling. And the complexity of
+[10:45] that it is high. So, this particular
+[10:46] method was used by a DeepSeek guys,
+[10:50] right?
+[10:51] If you don't know about the DeepSeek, so
+[10:52] again,
+[10:54] DeepSeek is a Chinese company which has
+[10:56] introduced the DeepSeek model, all
+[10:58] right, okay? And this PPO
+[11:01] actually the RLHF this RLHF method RLHF
+[11:03] process, it was introduced by the
+[11:06] OpenAI. Got it, guys? Then we have some
+[11:08] other technique which is not using the
+[11:10] RL, which is not using any reward
+[11:12] modeling, but it still we are able to
+[11:14] perform the preference tuning with that.
+[11:16] So, the one first method is the DPO.
+[11:18] Okay, it is a supervised method which we
+[11:20] use inside the preference tuning.
+[11:22] And the next method is called the ORPO.
+[11:25] Again, it is not using the reinforcement
+[11:26] learning and the reward modeling, right?
+[11:28] And still we are able to achieve the
+[11:30] preference tuning. So, the complexity of
+[11:32] this method is also not very high. It is
+[11:35] a medium and low. Okay, it falls under
+[11:37] this category. So, now you can
+[11:39] Now, you can see over here that what a
+[11:41] method we have to achieve this
+[11:42] preference tuning. Okay, you got some
+[11:44] clear-cut understanding over here. Okay.
+[11:47] So, guys, here I have written couple of
+[11:48] more thing couple of like a more points.
+[11:51] So, just read out this particular
+[11:52] points. You will get a more clarity. So,
+[11:54] RLHF and the GRPO basically it's a
+[11:56] complex expensive and the multi-model
+[12:00] complex and the like expensive
+[12:01] technique. And here we require the
+[12:03] multiple models, right? Base model,
+[12:05] reward model, and we require the
+[12:07] reinforcement learning training loop
+[12:09] inside this particular technique. But on
+[12:12] the other hand, if you're talking about
+[12:13] the DPO technique, so there we are going
+[12:15] to be trained there we are going to be
+[12:16] prepare our data
+[12:18] in this two-way, right? So, sorry in
+[12:21] this way where we have a two column. One
+[12:23] is a chosen and the second is a
+[12:24] rejected. And on top of this data only
+[12:27] we are going to train our model. And it
+[12:29] is a purely supervised
+[12:31] training only. Okay? Then ORPO basically
+[12:33] ORPO is a latest method. So, there we
+[12:35] have a SFT. Okay, and preference
+[12:37] learning in one loss. So, there we are
+[12:39] not going to be introduce any separate
+[12:40] loss function for the preference
+[12:42] training. Okay, everything we are going
+[12:44] to be combined at the single place
+[12:45] inside the supervised fine-tuning only.
+[12:47] I hope you got it. You got my point. So,
+[12:50] this is all the method and I hope this
+[12:52] slide is also clear and you are able to
+[12:54] understand
+[12:55] the different different method based on
+[12:57] the complexity, right? Now, coming to
+[12:59] the next part. Now, what is a preference
+[13:01] alignment guys? So, before coming to the
+[13:03] implementation of that, let's look into
+[13:05] the definition of it. So, here I clearly
+[13:07] written what is a preference alignment.
+[13:09] So, preference alignment is a process of
+[13:11] training a model to generate a output
+[13:14] that human prefer. So, in whatever way
+[13:16] the human wants answer, okay? If my
+[13:19] model is able to learn that, I think
+[13:20] that would be well and good for my
+[13:22] model. In simple terms, among many
+[13:25] possible answer, it help the model to
+[13:27] learn which response is going to be
+[13:29] liked by the human.
+[13:31] Understood, guys? So, the definition of
+[13:33] it is going to be very simple.
+[13:35] Now, let me show you a couple of
+[13:36] examples so that you will get a
+[13:38] clear-cut understanding over here. Now,
+[13:40] the example-wise, how do I prepare for
+[13:42] the exam? So, let's say this is my
+[13:43] question.
+[13:44] Uh now, here you can see the first
+[13:46] response. So, make a study plan, revise
+[13:47] daily, and take proper breaks to study
+[13:49] consistent. Now, here you can see the
+[13:52] second response. If you are not studying
+[13:53] 10 hour a day, you are going to be fail.
+[13:56] Now, just tell me, guys, which response
+[13:57] you are going to be prefer. Now,
+[13:59] obviously, guys, uh you are going to be
+[14:00] prefer the first response. Why? Why you
+[14:02] are going to be prefer the first
+[14:03] response? Because it is calm, it is
+[14:05] structure, okay? Uh so, because of that
+[14:09] only, uh it's a calm and the structure
+[14:11] advice, you will prefer this particular
+[14:12] response. And on the other hand, if you
+[14:14] will look into the second response, so
+[14:15] it is going to be a harsh response,
+[14:17] right? It's going to be a unsafe advice.
+[14:20] And because of that, you are going to be
+[14:21] reject that.
+[14:22] Getting my point, guys? So, this is what
+[14:24] we are teaching to our model, that how
+[14:27] to stick with this the with this calm
+[14:30] and the structure response.
+[14:32] Okay? And
+[14:33] if you will look into the ChatGPT also,
+[14:35] so here I have attached one image. With
+[14:36] that, you can clearly understand. So, uh
+[14:39] response one and the response two. So,
+[14:40] whenever uh you are asking any question,
+[14:42] so sometimes
+[14:44] uh ChatGPT is asking your preference,
+[14:46] whether you want prefer response one or
+[14:48] you do want response two.
+[14:50] Getting my point, guys? Yes or no?
+[14:52] Okay? So, likewise, they are collecting
+[14:54] a human preferences. And then, on top of
+[14:56] that, again, they are going to be
+[14:58] trained their model.
+[14:59] Okay? And finally, uh my model would be
+[15:02] ready after the preference alignment,
+[15:04] after the preference training. And
+[15:06] always it's going to be generate a
+[15:08] response which is going to be meet to
+[15:09] the human expectation. I hope the
+[15:12] concept and the idea is perfectly fine,
+[15:14] perfectly clear. Now, let's look into
+[15:16] the other point. So, guys, over here, if
+[15:18] you can see, so I mentioned a of more
+[15:20] point. Why do we need preference
+[15:22] alignment? Okay. And what is the problem
+[15:24] only with the SFT? So, you will
+[15:26] understand this thing. Let me show you
+[15:28] the other slide also and after that I'll
+[15:30] come over here. Okay. So, guys if you're
+[15:32] talking about the pre-training, so what
+[15:33] is the meaning of the pre-training,
+[15:35] guys? So, pre-training means predict the
+[15:37] next token. Okay. Pre-training models
+[15:39] are good at generate fluent text.
+[15:42] In pre-training models
+[15:44] what model is going to be learning the
+[15:46] pre-training? Pattern in the data,
+[15:47] grammar language, okay, general
+[15:49] knowledge. So, model is trying to
+[15:51] understand the language so that it can
+[15:53] predict the next token. Okay. So, that
+[15:56] it can predict the next token. But, guys
+[15:57] the training data may contain incorrect
+[15:59] incorrect or misleading information not
+[16:01] following the instruction properly and
+[16:03] not giving the proper consistently
+[16:05] correct or helpful answer. Right? So,
+[16:07] that's why guys we require one more
+[16:09] level of training that is called the
+[16:10] SFT.
+[16:12] Right? SFT that's called the supervised
+[16:14] fine-tuning where we are teaching a
+[16:16] model how to follow the how to follow
+[16:18] the instruction. Right? So, pre-training
+[16:20] makes model knowledgeable but not
+[16:23] controllable and the trustworthy.
+[16:25] So, to make a model controllable we'll
+[16:27] have to perform the SFT and to make a
+[16:29] model secure and the trustworthy we'll
+[16:31] have to perform we'll have to perform
+[16:33] the preference preference
+[16:36] tuning.
+[16:37] Got it, guys? Right? I hope this concept
+[16:40] is also clear. Now, guys I hope this
+[16:42] thing is clear. Now, coming to the next
+[16:43] slide just read it out over here. So,
+[16:45] guys if we are going to perform the
+[16:47] supervised fine-tuning alone that what
+[16:50] could be the
+[16:52] basically cons of that? Okay. Why my
+[16:54] model will would will not be performed
+[16:57] well. Okay. So, I have
+[17:00] listed some of the example over here
+[17:01] with that you can clearly understand.
+[17:03] So, supervised fine-tuning teaches the
+[17:05] model how to follow the instruction.
+[17:07] Okay. And the expect format of the
+[17:09] answer. Right? If you don't know about
+[17:11] it you can go and check out with my
+[17:12] previous video that I already discussed
+[17:14] about the instruction fine-tuning. You
+[17:15] will get a better understanding of it.
+[17:17] Okay? All I All I will pin the video
+[17:19] over the I button. You can check out
+[17:21] from there as well. Uh just check out
+[17:23] the description. Okay? I will mention
+[17:24] the link over there as well. Right? So,
+[17:26] SFT teaches to the model, this is the
+[17:28] good answer, but explicitly it does not
+[17:31] say this is a bad answer. Okay? And
+[17:32] don't follow that. So, this is the
+[17:34] biggest cons, right? Or this is the
+[17:36] biggest disadvantage of the SFT. And
+[17:39] because of that, to
+[17:41] uh basically to
+[17:42] uh ensure the security of the model, uh
+[17:45] we should perform the preference
+[17:46] alignment. Right? How human want the
+[17:49] answer, in which instruction in in which
+[17:51] instruction, right? In which format, or
+[17:54] uh basically in which uh which wording,
+[17:56] in which which language actually human
+[17:58] want answer, right? Now, what what SFT
+[18:01] does not guarantee? So, SFT SFT does not
+[18:03] explicit explicitly teach which answer
+[18:05] are the better one, which answer are the
+[18:07] unexpectable. Okay? And human value like
+[18:09] the politeness, safety, tone, and the
+[18:11] helpfulness. If you have to achieve all
+[18:12] these things, then we should go with the
+[18:14] uh uh preference tuning, right? So,
+[18:17] during SFT, probability of the good
+[18:18] answer increase, but probably
+[18:20] probability of the bad answer is also
+[18:22] going to be accidentally increase,
+[18:23] right? So, let's take example with that.
+[18:25] Maybe you can clearly understand what
+[18:27] I'm trying to say. So, guys, over here
+[18:29] you can see. Assume you are training a
+[18:31] model using a supervised fine tuning.
+[18:33] Now, training data, right? So,
+[18:36] uh you have a training data, right?
+[18:38] Where you have a input and output. So,
+[18:40] whenever we talking about the supervised
+[18:42] fine tuning, there we would be having
+[18:43] two column. One is going to be input
+[18:45] column, and the second column is going
+[18:47] to be output column. Now, user is
+[18:49] saying, "What is the capital of the
+[18:50] France?" Okay? So, model is taught Paris
+[18:52] is the capital of the France. Correct?
+[18:54] This is true. Now, that is all the model
+[18:56] see, only the correct answer. But, where
+[18:59] is the problem, guys? Now, in the real
+[19:00] world, let's say user is asking, "What
+[19:02] is the capital of the Germany?"
+[19:04] The model could generate two possible
+[19:06] outputs output over here. So, model
+[19:08] could say, "Paris is the capital of the
+[19:10] Germany, and Berlin is the capital of
+[19:12] the Germany. Correct? So, what does SFT
+[19:14] actually do? SFT only teaches Paris is a
+[19:17] correct.
+[19:18] Paris is a correct uh for the France,
+[19:21] right? But, it does not teach Paris is a
+[19:23] wrong for the Germany.
+[19:26] Are you getting my point what I'm trying
+[19:27] to say over here? So, here we are
+[19:28] teaching to the model that Paris is
+[19:31] going to be, right? Paris is going to be
+[19:34] a capital of the
+[19:36] France, right? But, here we are not
+[19:38] telling to the model Paris is a wrong
+[19:40] for Germany. We are not teaching the
+[19:43] wrong pattern to the model. And this is
+[19:46] what we are doing in a preference
+[19:47] alignment. So, human is giving that
+[19:49] preference. Human is saying, "Okay, this
+[19:51] is correct. That is fine. But, yeah,
+[19:52] this is also not correct. You can
+[19:54] discard that and give only the accurate
+[19:56] and the polite answer." I hope that
+[19:58] thing is clear. Now, again I'm coming to
+[20:00] this a particular slide. Let me explain
+[20:01] you one more time what I tried to what I
+[20:03] was trying to say over here. So, why do
+[20:05] we need preference alignment? And what
+[20:08] is a problem with only SFT? I think you
+[20:10] got to know the problem, right? So, we
+[20:12] are teaching a correct answer to the
+[20:13] model, but we are not saying that this
+[20:16] answer is a wrong one. Getting my point?
+[20:18] So, here you can see because supervised
+[20:20] fine-tuning improves task performance.
+[20:21] This is completely true. But, it does
+[20:24] not ensure that a model behavior align
+[20:26] with the human value, safety, and the
+[20:27] expectation. So, alignment technique
+[20:29] like RLHF, DPO, ORPO, it is going to be
+[20:32] ensure that the LLM not only generate
+[20:34] the correct output, but also produce
+[20:36] response that are safe, helpful, align,
+[20:38] and the human preferred. So, guys, a
+[20:40] preference alignment is a critical part
+[20:42] of the model LLM training, okay? And it
+[20:44] is not going to be optional nowadays.
+[20:46] So, if you wanted to train a responsible
+[20:48] model, if you wanted to follow the
+[20:50] responsible AI, in that case you will
+[20:53] have to be adapt this uh
+[20:55] preference tuning, okay? Now, modern
+[20:57] LLM, whatever is being used in a current
+[21:00] world right now,
+[21:01] uh whether it is in a healthcare system,
+[21:03] or in the finance system, education
+[21:04] system, or enterprise level co-pilots,
+[21:07] right? In this environment, in the
+[21:09] system, behavior is going to be matter
+[21:11] more than the correctness. How the
+[21:13] system is going to be behave, right?
+[21:15] Alongside the correctness, guys,
+[21:17] behavior is also become a very, very
+[21:19] challenging and the very important part.
+[21:21] And because of that, guys, this
+[21:22] preference tuning plays a very important
+[21:25] role. I hope you understood everything
+[21:27] about the preference tuning. Now, once I
+[21:29] will show you this entire thing with a
+[21:30] practical, you will get a more clear-cut
+[21:32] understanding, okay? Now, guys, coming
+[21:34] to the next part. So, here I written why
+[21:37] preference alignment is required.
+[21:39] So, yeah, you can say for the
+[21:41] helpfulness, for the harmless output,
+[21:43] for the honest output, polite output,
+[21:45] safe, non-toxic, and consistent with the
+[21:47] human expectation. So, if someone is
+[21:49] going to be ask you, why we should
+[21:51] perform the preference alignment, what
+[21:53] is the role of the RLHF kind of
+[21:54] technique, you can say RLHF, DPO, PPO,
+[21:57] or preference alignment technique, it
+[21:59] bridge the gap between no language and
+[22:02] behave well, right? So, this is a single
+[22:05] line which you can say, or else you can
+[22:06] explain in a detail as well, like I have
+[22:09] written each and everything. Getting my
+[22:10] point? I hope this part is going to be
+[22:13] clear.
+[22:14] Now, guys, coming to the next thing over
+[22:16] here. So, whenever we are talking about
+[22:18] the
+[22:19] the first technique which was introduced
+[22:22] by the OpenAI, that is a RLHF,
+[22:25] correct? So, for that, guys, this RL is
+[22:28] going to play a very important role,
+[22:30] right? Because here we were using the
+[22:32] technique like PPO, proximal policy
+[22:34] optimization. So, if you wanted to
+[22:36] understand that on a surface level, in
+[22:38] that case also you should have a basic
+[22:40] understanding of the reinforcement
+[22:41] learning and the technique like PPO. So,
+[22:44] guys, here I'm going to teach you some
+[22:46] surface or I'm going to teach you some
+[22:49] medium level of stuff related to the
+[22:51] reinforcement learning, so that
+[22:53] you are basically you you can understand
+[22:57] each and everything in a detail in
+[22:58] depth, because you are in my video and I
+[23:00] never left any sort of a concept uh
+[23:03] whether uh it's going to be related to
+[23:05] the practical or theory, okay? So guys,
+[23:08] uh here you can see uh I created one
+[23:11] chart, I created one uh basically
+[23:13] hierarchy over here. And with that,
+[23:14] we'll try to understand uh where this
+[23:17] uh where this reinforcement learning is
+[23:18] going to be like, okay? Inside the AI
+[23:20] umbrella. So before starting with the
+[23:22] RLHF technique, we'll have to understand
+[23:24] about the RL. And before understanding
+[23:26] the RL, we'll have to understand where
+[23:28] this reinforcement learning is going to
+[23:29] be like. So guys, if we're talking about
+[23:31] the AI, right? So under the AI umbrella,
+[23:35] so these three are the main pillar. The
+[23:37] first is going to be machine learning.
+[23:40] The second is going to be deep learning.
+[23:41] And the third is going to be
+[23:42] reinforcement learning, okay?
+[23:44] Uh now guys, if we're talking about the
+[23:46] machine learning and the deep learning,
+[23:48] so there actually we are mainly focused
+[23:52] on the
+[23:53] supervised
+[23:55] learning and
+[23:56] un-
+[23:57] super-
+[23:59] vised
+[24:00] learning, right? So this two concept
+[24:02] actually made this two concept is being
+[24:04] applied for the machine learning as well
+[24:06] as
+[24:07] uh for the deep learning also. Getting
+[24:09] my point?
+[24:10] I hope
+[24:11] this thing is clear, right? This is
+[24:13] being applied for the machine learning
+[24:14] and for the deep learning also. Now if
+[24:16] we're talking about the reinforcement
+[24:18] learning guys, so this is one more
+[24:19] paradigm of the
+[24:21] uh AI.
+[24:22] Okay. Now here guys, we are not going to
+[24:24] be perform the supervised learning,
+[24:25] unsupervised learning. It is a It is a
+[24:27] different paradigm.
+[24:29] Okay, it is a different kind of paradigm
+[24:31] or is a different kind of pillar for
+[24:33] achieving the AI.
+[24:34] So let's understand uh more about the
+[24:36] deep learning. So uh here guys, if we're
+[24:38] talking about the deep learning, so
+[24:39] these are the main pillar of the deep
+[24:41] learning, artificial neural network,
+[24:43] convolution neural network, uh recurrent
+[24:45] neural network, uh reinforcement
+[24:47] learning through the deep learning,
+[24:49] okay? So inside this one basically, we
+[24:51] are going to be use the neural network.
+[24:54] Right? So that's why guys, uh see this
+[24:56] is the classical RL uh again that comes
+[24:58] under the AI, but again when the deep
+[25:00] learning was introduced the neural
+[25:02] network and all. So, with that also the
+[25:03] deep learning with that also the
+[25:05] reinforcement learning was implemented.
+[25:07] The neural network function was used
+[25:08] over there. And here, this is the
+[25:10] updated version of the reinforcement
+[25:12] learning. Okay? Then the gains come and
+[25:15] then the variational autoencoder. Okay,
+[25:17] variational autoencoder or autoencoder
+[25:20] come. So, these are the complete
+[25:21] umbrella of the deep learning. So guys,
+[25:23] if you will drag this architecture more,
+[25:26] so you will understand. So, from this
+[25:27] RNN and LSTM itself this transformer
+[25:29] architecture came into the existence.
+[25:31] Now guys, if we are going to be extend
+[25:32] the transformer architecture, so from
+[25:34] here itself this generative AI is being
+[25:36] started, right? So, in the generative AI
+[25:38] we learn about the LLM, fine-tuning,
+[25:40] rag, agentic AI, and then we develop the
+[25:43] application related to the generative
+[25:45] AI. Okay?
+[25:46] Now here guys, if we're talking about
+[25:47] the CNN, so with that this computer
+[25:49] vision
+[25:50] like have been uh
+[25:52] uh implemented. Okay? Uh computer vision
+[25:55] related practical you will get. And now
+[25:57] guys, this computer vision the same
+[25:58] thing basically nowadays we can achieve
+[25:59] using this large language model also
+[26:01] using this LLM as well. Okay, so we have
+[26:04] VIT kind of architecture where we can
+[26:05] combine the capability of the CNN and
+[26:08] the large language model.
+[26:10] So, I hope guys you understood this
+[26:11] complete umbrella of the AI and you
+[26:14] understood where this reinforcement
+[26:16] learning is going to be like, right? Now
+[26:18] guys, you understood about the
+[26:20] reinforcement learning, uh right?
+[26:22] Uh so, you understood about the deep
+[26:24] reinforcement learning also. And even I
+[26:26] will give you the quick and the detailed
+[26:27] definition as well related to the deep
+[26:29] quick uh related to the deep
+[26:30] reinforcement learning. Okay? So, just
+[26:32] wait for few more minute. Uh now guys,
+[26:35] after that we need to understand what is
+[26:38] a reinforcement learning. Okay, so here
+[26:39] I kept couple of example and couple of
+[26:42] evaluation, right? Uh evolution of the
+[26:44] reinforcement learning. And then guys,
+[26:47] in further slide you will see the
+[26:48] differences between the supervised
+[26:50] learning and the reinforcement learning,
+[26:52] right? So, with that your
+[26:54] super reinforcement learning related
+[26:55] concept is going to be clear. And then
+[26:57] in the next part, we can discuss about
+[26:59] the different technique of the
+[27:00] reinforcement learning. And finally,
+[27:02] basically, we'll come where we'll come
+[27:03] to the RLHF part, okay? So, let's start
+[27:07] where guys? Let's start from the
+[27:08] RL. Like what is a RL, okay? Now guys,
+[27:12] let's understand what is a RL. So, RL or
+[27:20] Now guys, let's understand what is a RL.
+[27:23] So, it is a way of building intelligent
+[27:25] system that is called AI system, right?
+[27:28] So, reinforcement learning is a learning
+[27:30] method where model learns through the
+[27:32] trial and error, okay?
+[27:35] So, these terms are very very important.
+[27:37] Trial and the error. Now guys, an agents
+[27:40] learn by interacting with an environment
+[27:42] and receiving the rewards and the
+[27:43] penalties, right? So, inside the
+[27:46] reinforcement learning, we have one
+[27:47] agent.
+[27:49] Right? Uh this agent basically is going
+[27:51] to be interact with the environment. Now
+[27:53] it's it's receiving some rewards and the
+[27:57] penalties based on what? Based on the
+[28:00] action basically, which is being taken
+[28:03] by that agent inside the specific
+[28:05] environment, okay?
+[28:07] So, that is only called the trial and
+[28:09] error method.
+[28:12] There is no supervised learning, nothing
+[28:14] guys. Guys, over the time, it learns to
+[28:16] choose the best possible action. A
+[28:19] one-line definition if we can we can
+[28:21] define this reinforcement learning
+[28:22] within a single line, so we can say
+[28:24] reinforcement learning is all about
+[28:26] learning optimal behavior through reward
+[28:29] and penalties.
+[28:30] Uh there we take a action, get a
+[28:32] feedback, and improve the decision over
+[28:35] the time, okay?
+[28:37] I hope uh you are able to understand uh
+[28:39] what I'm trying to say. If not, I'll
+[28:40] give you couple of example. With that,
+[28:42] maybe your understanding will be more
+[28:44] concrete. Now guys, if we're talking
+[28:46] about uh the component of the
+[28:48] reinforcement learning, so we have a
+[28:50] various different different component.
+[28:52] So I highlighted over here the couple of
+[28:54] component. The first is called the
+[28:56] agent, that is a learner, okay? That is
+[28:59] a model. So it's nothing, it is just a
+[29:00] mathematical equation only, right?
+[29:04] I will give you very verbal example,
+[29:06] with that you can understand easily. So
+[29:08] the second thing is going to be a
+[29:09] environment, okay? Where we are running
+[29:11] that program, where we are executing
+[29:13] that equation.
+[29:14] Action basically, what all calculation
+[29:16] we are performing, okay? A state, the
+[29:19] current situation of the model, right?
+[29:22] Of the agent. And the reward, what
+[29:24] reward it is getting. It is similar to
+[29:26] the loss function. Inside the deep
+[29:27] learning we have a loss function, right?
+[29:29] So over here, inside the reinforcement
+[29:31] learning, we have a rewards, that is
+[29:33] called the feedback. So the whole idea
+[29:35] of the reinforcement learning is the
+[29:38] state. We have a state, the current is
+[29:40] state of the agent, which is taking a
+[29:42] action, where it is taking a action in
+[29:44] the environment. It is getting some
+[29:45] reward, that is being updated, okay? And
+[29:48] this process is being repeated until and
+[29:51] unless we are not reaching to the
+[29:53] conclusion, means until and unless we
+[29:55] don't have a best and possible rewards,
+[29:57] okay?
+[29:58] So yeah, I hope this thing is clear. Now
+[30:01] this particular philosophy could be a
+[30:03] could be like applied anywhere. I'll
+[30:05] show you very basic example, very basic
+[30:07] code of that. With that easily you can
+[30:10] understand what I'm trying to say over
+[30:11] here, okay?
+[30:13] Now
+[30:14] simple example, it could be a game,
+[30:16] right? Many of you, I think whenever you
+[30:18] started with the reinforcement learning,
+[30:20] at that time you understood this
+[30:23] reinforcement learning with a game
+[30:24] example. So let me give you this the
+[30:25] game example and then I'll give you
+[30:27] couple of more thing, more example,
+[30:28] okay? So let's say you have a agent,
+[30:30] that is your player. Now action, what is
+[30:32] the action of the player who is moving
+[30:34] right or left, and is getting a reward,
+[30:36] okay? Plus 10 for winning that action
+[30:38] and minus 10 for losing the action. So
+[30:41] over the time, agent learn which action
+[30:43] give me the max reward. So, here we
+[30:45] don't have a loss function.
+[30:48] So, agent is getting all reward.
+[30:54] Okay? And with that only is being
+[30:56] decided
+[30:57] whether agent is performing well or not.
+[31:00] I hope this thing is clear. Got it? Now
+[31:02] guys, here I kept my image. So, you can
+[31:04] see this game, I think it's a Mario
+[31:07] game, right? Everyone knows about it.
+[31:08] So, this game, the entire game is my
+[31:10] environment.
+[31:12] Right? Now, this person, this Mario is
+[31:14] my agent.
+[31:15] Now, this person can move, this Mario
+[31:17] can move right, left, up, and down.
+[31:20] Correct? Now, based on the movement,
+[31:22] based on the movement actually, whatever
+[31:24] See, this is the current state of the
+[31:27] Mario. Okay? This is my agent and this
+[31:29] is the current state of the Mario. Now,
+[31:31] here it will move up, down, left, and
+[31:33] right. And based on that, it will get a
+[31:36] reward or penalty.
+[31:39] Right? Penalty. So, let's say if there
+[31:41] is a mushroom, so it's getting a reward.
+[31:45] Means I got to know, this agent got to
+[31:46] know when I will take this mushroom, my
+[31:48] point is going to be increased, and then
+[31:50] I will follow the same thing. Let's say
+[31:52] I'm
+[31:53] like colliding with a cactus or I'm
+[31:54] colliding with a
+[31:56] I I'm colliding with a duck or anything,
+[31:58] right? Or with any other object. In that
+[31:59] case, we are going to be die or the size
+[32:02] is going to be small. So, in that case,
+[32:04] this is going to be a penalty. So, I
+[32:05] will not perform that particular action
+[32:07] again. Right? So, we're getting a reward
+[32:09] and that uh and then guys,
+[32:11] uh by the time the
+[32:14] uh the probability of getting that
+[32:15] reward is going to be increased. So,
+[32:16] that is a reinforcement learning, it is
+[32:18] a happening by the program itself.
+[32:20] Right? Nowadays, we have a deep learning
+[32:22] based method in the advanced algorithm
+[32:23] of the reinforcement learning that are
+[32:25] like the PPO and all.
+[32:27] But again guys, as a function, we are
+[32:28] using the
+[32:29] uh neural network only. I'll show you
+[32:31] that. So, this example uh explain of
+[32:34] reinforcement learning using a simple
+[32:36] real-life analogy. We'll understand it
+[32:38] programmatically also using the coding
+[32:40] coding example, okay? I'll show you
+[32:42] that. Now, let's see the evolution
+[32:43] pipeline of the reinforcement learning.
+[32:46] So, a reinforcement learning uh
+[32:48] basically it started in the 1950s
+[32:50] itself. So, here you can see
+[32:52] reinforcement learning is based on the
+[32:53] Markov decision process.
+[32:56] The core idea is state, action, and the
+[32:57] reward, the next state. It's still in
+[32:59] the backbone of the reinforcement
+[33:00] learning today. Then the next era of the
+[33:02] reinforcement learning comes from 1980
+[33:05] 1990. There we have a Q-learning,
+[33:07] temporal difference kind of uh
+[33:09] algorithm, okay? Uh temporal difference
+[33:12] kind of method. Uh it's being used
+[33:13] inside the Q-learning itself. With that,
+[33:15] uh we are going to be learn uh the
+[33:17] table.
+[33:20] But guys, again, this approach is not
+[33:21] going to be a scalable approach. Then
+[33:23] guys, uh from 2000
+[33:26] onwards, the progress the progress were
+[33:28] very slow, and there were mostly
+[33:30] theoretical work, okay? When the deep
+[33:32] learning era came in 2013 2015,
+[33:35] then the deep Q-network was used over
+[33:37] there. So, there uh they have combined a
+[33:39] neural network with a reinforcement
+[33:40] learning.
+[33:41] And they have solved the different
+[33:43] problem and the different challenges
+[33:44] also. Then in the 2016, guys, they have
+[33:47] introduced a policy gradient in the
+[33:48] actor-critic method. So, again, this was
+[33:50] a shift to the policy gradient uh
+[33:52] method, okay? So, instead of the
+[33:54] Q-values, we were using the PPO kind of
+[33:57] method, okay? Policy gradient kind of
+[33:59] method. Then in 2017, again, based on
+[34:01] this particular concept only, the PPO
+[34:03] method was introduced. It was a very
+[34:04] good method.
+[34:05] Then in 2018 2020, RL in the real
+[34:08] system, it was used in a game, right?
+[34:10] And the some robotics uh system as well.
+[34:13] Then in 2020 2022, RL was used inside
+[34:16] the LLM in the form of RLHF. So, OpenAI
+[34:19] has introduced uh this particular
+[34:21] concept, okay? So, I hope guys you
+[34:23] understood the complete uh pipeline,
+[34:26] sorry, complete evolution pipeline of
+[34:28] the reinforcement learning. So, just go
+[34:30] through with this particular slide, you
+[34:31] will understand that, Okay, just read it
+[34:32] out by yourself once. Got it? Now guys,
+[34:35] coming to the next part over here. What
+[34:37] is the differences between the uh deep
+[34:40] learning and the reinforcement Sorry,
+[34:41] what is the differences between the two
+[34:42] learning paradigm? That is a supervised
+[34:44] learning and the reinforcement learning.
+[34:47] And after that guys, I'll come
+[34:49] uh
+[34:49] the difference. Okay, the
+[34:51] straightforward difference between the
+[34:52] classical RL, deep RL, and the deep RL
+[34:54] this deep uh sorry, classical RL, deep
+[34:57] learning, and the deep RL. Okay? And
+[34:59] after that guys, we have other method
+[35:00] like Q-learning and all, so that we can
+[35:02] cover in the next part.
+[35:04] So, let's start uh let's begin from here
+[35:06] itself.
+[35:07] Now guys, let's understand what is a
+[35:10] deep RL.
+[35:11] So, you can see this is a picture of the
+[35:15] neural network, right?
+[35:18] So, inside the neural network, what we
+[35:19] have? So, inside the neural network, we
+[35:21] have input layer,
+[35:23] then we have a hidden layer.
+[35:25] Okay?
+[35:26] And then we have a output layer. This is
+[35:28] what this is my output layer. Got it?
+[35:31] So, what I written over here, just read
+[35:32] it out. What is a deep RL? So, deep RL
+[35:34] actually it is combining two things. The
+[35:36] first is a reinforcement learning.
+[35:39] Okay? Reinforcement learning and second
+[35:40] is a neural network.
+[35:42] So, earlier whatever thing we were doing
+[35:44] using the Q-learning,
+[35:46] Q-learning,
+[35:49] okay?
+[35:50] In the tabular format,
+[35:54] now that thing is being done using what?
+[35:57] Now that thing is being done using the
+[35:59] uh neural network.
+[36:01] Okay?
+[36:02] Neural network
+[36:04] function. So, this thing you will get
+[36:06] more once I'll come to that part. Maybe
+[36:08] in the next part I will explain you
+[36:10] that. Okay? So, deep learning learns
+[36:12] pattern from uh data using the neural
+[36:13] network. Reinforcement learning learns
+[36:15] optimal action using the reward signal
+[36:17] in the deep reinforcement learning
+[36:19] combines both to solve complex
+[36:20] decision-making problem using neural
+[36:22] network, right? So, you can think in
+[36:24] such a way that we We passing a state
+[36:28] Okay? Inside the neural network.
+[36:30] And then we are predicting what? We are
+[36:32] predicting action.
+[36:35] We are predicting action.
+[36:38] So this is the whole sort of a concept.
+[36:39] But as of now you will not get that
+[36:41] because I just given you the definition
+[36:43] of it.
+[36:44] Soon maybe sorry in the next upcoming
+[36:47] part I will clear explain you that what
+[36:49] is a Q learning deep Q learning deep Q
+[36:51] learning okay deep Q network and the
+[36:53] PPO. Okay so here you can see the
+[36:55] example and everything guys I'll show
+[36:57] you over here. Now coming to the next
+[37:00] part over here. So you can see I written
+[37:03] deep RL RL powered by the neural
+[37:05] network. So Alpha Go chat GPT's a best
+[37:08] example of that. So here whatever
+[37:09] reinforcement learning have been used.
+[37:12] Right? So they have used a PPO network
+[37:14] right? So this PPO network also
+[37:15] internally using the neural network. But
+[37:18] again guys this is not a supervised
+[37:19] learning. No. Supervised learning is a
+[37:21] different one. Reinforcement learning is
+[37:23] a different one. So it is learning by
+[37:25] taking the action.
+[37:27] Okay? It's not learning by a it's it's
+[37:30] taking it's learning by taking an
+[37:32] action. Okay by a reward and a penalty.
+[37:35] Reward and the penalty.
+[37:37] It's not it's not basically learning.
+[37:40] It's not learning by a loss function.
+[37:42] Okay? So the supervised learning the
+[37:44] loss function is involved. So let's see
+[37:45] the quick differences between two
+[37:47] learning paradigm. First is a supervised
+[37:49] learning second is a reinforcement
+[37:50] learning.
+[37:51] So if you're talking about the
+[37:52] supervised learning so there we have a
+[37:53] label data input and output column would
+[37:55] be there. Here we we don't have any
+[37:57] label data. Feedback immediate right? We
+[38:00] are getting a loss.
+[38:01] And we are going to be
+[38:03] decrease that loss. Okay now here
+[38:05] delayed reward. So it's going to be
+[38:07] learn until until until until until
+[38:09] we are not reaching to the highest
+[38:11] correct probability. So the delay might
+[38:13] be so reward might be delay over here.
+[38:15] Right? Means multiple iteration would be
+[38:18] required. Even here also but here too
+[38:20] much iteration. Goal predict correct
+[38:22] output, maximize reward. Learning is
+[38:25] style direct learning, okay, trial and
+[38:27] error. Example, image classification,
+[38:29] any supervised learning, right? Image
+[38:30] classification, text classification, or
+[38:33] any regression or the classification
+[38:34] technique, right? Here basically,
+[38:37] example guys, game playing, chat GPT
+[38:39] alignment, so that we'll understand
+[38:40] later. I will include it, right? So,
+[38:42] we're talking about the reinforced
+[38:44] supervised learning guys, so there the
+[38:46] teacher is present, means my output is
+[38:47] present.
+[38:50] So, inside the data basically, we have a
+[38:51] output. But if we're talking about the
+[38:53] reinforcement learning, so no teacher,
+[38:55] only reward system, means we don't have
+[38:56] any sort of output inside the data.
+[38:59] Just by reward system only, my model is
+[39:01] being learned, right? So, here I have
+[39:03] written in a more detail, so just read
+[39:05] it out over here. So, what is a real
+[39:06] learning, real learning in the
+[39:08] reinforcement learning? I will explain
+[39:10] you that. First of all, let me
+[39:12] explain you about the reinforced, sorry,
+[39:13] the supervised learning. So, over here
+[39:15] what we have, we have a input and
+[39:17] output, right?
+[39:18] Now, what is happening guys? See, my
+[39:20] input is going,
+[39:21] right? Here we have a, let's say, neural
+[39:23] network.
+[39:24] It's going through the neural networks,
+[39:26] then it is generating the output. Okay,
+[39:28] let's say this is what, this is my
+[39:29] output. This is output basically, it's
+[39:31] being
+[39:32] is being basically compared with the
+[39:35] actual value, and here only we are going
+[39:37] to find out the loss. Then we are
+[39:39] performing a back propagation, back
+[39:40] propagation, and here we are using a
+[39:43] optimizer, different different method to
+[39:46] uh basically
+[39:48] adjust the parameter for the neural
+[39:49] network. Let's say, weights and biases.
+[39:52] And what is the aim, what is the goal
+[39:53] over here? To minimize this loss, right?
+[39:55] So, this is a supervised learning.
+[39:58] On the other hand, if we're talking
+[39:59] about the reinforcement learning, so it
+[40:00] is a little different, okay? So, I'll
+[40:02] show you in
+[40:03] in some time
+[40:04] with a practical example. So, what is
+[40:07] the learning in RL? Forget theory,
+[40:09] things like this. Learning is changing
+[40:10] behavior based on the feedback. What
+[40:12] actually changes in ML/DL learning?
+[40:14] Updating the parameter, that is the
+[40:15] weights and biases, as I told you. Now,
+[40:18] in RL, model has policy.
+[40:20] Okay, meaning probability of taking
+[40:22] action in the state S. Now, learning,
+[40:24] changing this probability, good action
+[40:26] probability is going to be increased,
+[40:27] bad action probability is going to be
+[40:29] decreased. So, this is a verbal
+[40:30] overview. Now, what is the differences
+[40:32] between supervised learning and the
+[40:33] reinforcement learning? Supervised
+[40:35] learning optimize against correct
+[40:36] answer. As I told you, we have output
+[40:38] and we are going to be check out the
+[40:39] loss with respect to the actual value.
+[40:41] We are going to be We are going to be
+[40:42] minimize that. Now, on the other hand,
+[40:44] reinforcement learning optimize based on
+[40:47] rewards without knowing the correct
+[40:48] answer. Okay, it is not having any
+[40:50] output, basically. So, supervised
+[40:52] learning objective is simple, loss,
+[40:55] average error between the predicted and
+[40:56] true. Then, update rule is what? This is
+[40:58] the update rule, one kind of optimizer.
+[41:00] So, we are going to be adjust the weight
+[41:01] and biases using that. And then, we are
+[41:03] going to be minimize the loss value.
+[41:05] That's it. Now, here meaning is what? If
+[41:08] the error is more, then change the
+[41:10] weight, right? And what is the goal,
+[41:12] guys? Prediction, right? So, prediction
+[41:14] basically what? As much as the correct
+[41:16] answer, right? We want as much as the
+[41:18] correct answer over here in the
+[41:19] prediction. Now, we're talking about the
+[41:21] reinforcement learning. So, there, guys,
+[41:23] maximize total reward. So, let's say
+[41:25] this is my reward function. So, my
+[41:27] expected answer is what? The maximizing
+[41:29] the reward with each and every action.
+[41:31] So, we have a state, we have a action.
+[41:33] This is my probability, right? Of taking
+[41:35] action inside the state with the
+[41:37] corresponding state. Then, we have a
+[41:39] reward, then this is my model parameter,
+[41:40] and this is the total expected reward.
+[41:43] So, what is the goal, guys? So, goal is
+[41:44] nothing increase probability of the good
+[41:46] item. And what is the simple intuition?
+[41:48] Update reward and the probability. Okay,
+[41:50] so this thing basically comes under the
+[41:51] PPO. I'm showing you with respect to the
+[41:53] PPO, but if you are looking at it with
+[41:55] the busy basic example, so you will
+[41:56] understand instantly, right? So, meaning
+[41:59] is what? If reward is high, increase the
+[42:00] probability. If reward is low, reduce
+[42:02] the probability of the action, right?
+[42:04] So, this is the differences. Here, I
+[42:06] mentioned the differences between
+[42:07] classical RL classical RL deep RL and
+[42:10] the reinforcement learning. So, we'll
+[42:12] look into these particular differences
+[42:13] or else you can go through with the
+[42:14] slide. You can easily understand. Now
+[42:16] guys, here the other topic basically
+[42:19] Q-learning and the
+[42:21] uh deep Q-network and the PPO and all.
+[42:24] So, we'll understand that, okay? So,
+[42:26] I'll come to that. First of all, let me
+[42:27] do one thing. Let me
+[42:29] uh basically show you the practical over
+[42:31] here. So, here I kept some practical.
+[42:34] So, I'm going to show you a very basic
+[42:35] example as of now.
+[42:37] So, here uh
+[42:38] uh guys, you will understand with this
+[42:40] basic example how the reinforcement
+[42:41] learning is working. So, I imported this
+[42:44] uh random and this is my action right
+[42:46] left and right. Now, here I've defined
+[42:47] one Q-table, okay? Where left is equal
+[42:50] to zero, right is equal to zero. As of
+[42:51] now, both are zero. So, if I'll execute
+[42:54] it, so yes, I'm able to execute. Now,
+[42:55] see the value of the Q. Now, here is my
+[42:57] reward system. I'm saying, if I'll take
+[42:59] right, I will get one. If I'm taking
+[43:00] left, I will get minus one, okay? So, if
+[43:03] I'm saying 10, then it is saying minus
+[43:05] one. If I'm saying 20, it is saying
+[43:06] minus one, okay? So, if action is equal
+[43:10] to right, if given action is equal to
+[43:12] right, right? In that case, we'll be
+[43:13] getting one. If a given action is wrong,
+[43:16] then we are getting minus one. So, we
+[43:17] are giving 10 over here.
+[43:19] So, 10 is equal to right.
+[43:21] Okay. So, get reward. So, here what we
+[43:23] are passing? We are passing 10. If
+[43:24] action, so this is my action. Action is
+[43:26] equal to right? No.
+[43:27] Okay, it's an integer value. So, I'm
+[43:28] getting minus one over here, okay? Just
+[43:30] a testing of the method. So, here is my
+[43:31] learning rate which I define 0.1. It is
+[43:33] a hyper parameter. You can write
+[43:34] anything. So, I'm calling this random
+[43:36] choice, okay? This is my It is going to
+[43:38] my action. Now, here you can see.
+[43:40] So, left and right is going to be what?
+[43:42] It This is going to be my two action,
+[43:44] okay?
+[43:45] Now, here what I will do guys? So, I
+[43:47] will run it for 50 times. Now, see
+[43:48] random choice action. So, I'll be
+[43:50] getting left and right action. I'm
+[43:51] passing it inside the reward function.
+[43:53] It will provide me a reward and then I'm
+[43:55] going to be update the Q-table over
+[43:56] here, okay? With this
+[43:58] small learning
+[44:00] parameter, right? Q-action plus
+[44:02] alpha 0.1 and reward minus action. Now,
+[44:05] Now I will execute it guys, so here you
+[44:06] will get, so it is running. Uh Uh
+[44:10] Now it's saying name alpha is not
+[44:12] defined, so let me check where is the
+[44:14] alpha. Okay, here is alpha, I missed
+[44:16] that. Now let me execute it. Now see
+[44:17] here you will get. So step zero, action
+[44:19] is left, reward is this one. Okay, then
+[44:21] next into So see, by the by the
+[44:23] basically iteration, the left and right
+[44:26] value is going to be updated. Okay, so
+[44:28] at then here you will get uh it at a
+[44:30] step 49, action is going to be left,
+[44:32] step is reward is minus one. Okay, left
+[44:34] is this much and right is this much. So
+[44:36] if you will check out the probability,
+[44:37] so left probability is this much and the
+[44:39] right probability is this much, right?
+[44:41] Getting my point, guys? So likewise,
+[44:43] what we understood, so over here you can
+[44:45] see uh Q left initially was a zero. Now
+[44:48] after the training, guys, okay, with
+[44:49] this Q training So here you can see Q
+[44:52] right is a higher, which is a good one.
+[44:54] Q left, which is a lower, it is a bad
+[44:55] one. So here agent learns right is a
+[44:58] better, okay? And here is my greedy
+[45:01] policy, max Q K is equal to
+[45:03] Q.get_action.
+[45:05] So what is the final truth, guys? Final
+[45:06] truth is a interaction reward update,
+[45:09] right? So simple what is a intuition,
+[45:11] super simple intuition, no update, no
+[45:13] learning, update plus feedback is going
+[45:15] to be reinforcement learning. I hope you
+[45:17] got this entire phenomena of the
+[45:19] reinforcement learning.
+[45:21] So fine, guys, this is it for this
+[45:22] particular video, for this particular
+[45:23] part. In the next part we are going to
+[45:24] discuss uh couple of more thing with
+[45:27] respect to the reinforcement learning
+[45:28] learning and then final RLHF. So yeah,
+[45:31] thank you. Bye. Take care.
+[45:33] Uh I'll see you in the next video, guys.

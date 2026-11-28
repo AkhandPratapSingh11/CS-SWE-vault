@@ -1,0 +1,1415 @@
+Title: Preference Alignment & RLHF in LLMs Explained | RLHF, PPO, DPO, ORPO, RL Basics & Practical Part-2
+Video URL: https://www.youtube.com/watch?v=uhHn9PSP3ro
+Video ID: uhHn9PSP3ro
+======================================================================
+
+[00:01] Hey, hello everyone. Welcome back to my
+[00:03] YouTube channel. My name is Sunny and
+[00:05] I'm back with another exciting and
+[00:08] important video. So guys, inside this
+[00:10] video, we are going to discuss the
+[00:12] different different technique or the
+[00:13] different different algorithm of the
+[00:15] reinforcement learning.
+[00:17] Uh as you know, I started one end-to-end
+[00:20] LLM fine-tuning playlist where I discuss
+[00:23] almost all the concept of the
+[00:25] fine-tuning from basic to advanced.
+[00:27] So in order to that, I was talking about
+[00:30] the RLHF, uh which is one of the
+[00:31] technique for the preference alignment.
+[00:34] So guys, this RLHF uh technique I
+[00:36] divided into three main parts. Uh in the
+[00:38] first part, I discuss about the
+[00:40] preference tuning,
+[00:42] uh the introduction of the preference
+[00:43] tuning, uh the introduction of the
+[00:45] reinforcement learning and the different
+[00:46] different technique of the uh preference
+[00:49] tuning. Uh now, inside this video, we
+[00:51] are going to discuss uh the different
+[00:52] different algorithm of the reinforcement
+[00:54] learning. So if someone is going to ask
+[00:56] you uh that what is a reinforcement
+[00:58] learning and how it is being used inside
+[01:00] the fine-tuning, inside the preference
+[01:01] tuning, how did uh OpenAI OpenAI use
+[01:04] this uh fine-tuning for the preference
+[01:07] tuning, then you can answer confidently.
+[01:09] Uh then guys, inside the next video, I
+[01:11] will discuss the main RLHF framework and
+[01:14] I will show you the practical with the
+[01:15] custom dataset. Uh so guys, if you
+[01:18] haven't checked uh with my YouTube
+[01:19] channel, please uh go and check. Just
+[01:21] write Sunny Savita over the YouTube. Uh
+[01:23] there, after that, you will get my
+[01:25] YouTube channel. Go inside the video
+[01:26] section and check out the different
+[01:28] different video related to the
+[01:29] generative AI.
+[01:30] So if you are confused that from where
+[01:32] uh you uh can start the generative AI,
+[01:35] then uh this uh video will be useful for
+[01:37] you. Uh here I discuss the complete
+[01:39] detail end-to-end roadmap of the
+[01:41] generative AI. Uh then guys, uh you can
+[01:44] watch out this uh roadmap also. Uh it is
+[01:46] uh about the agentic AI. Here I discuss
+[01:48] the complete uh detail about the agentic
+[01:50] AI and how uh you can learn, what to
+[01:53] learn, right? In which sequence uh you
+[01:55] can learn the agentic AI. Everything I
+[01:57] have discussed over here. Uh now, apart
+[01:59] of from that, guys, if you want to
+[02:01] connect with me in a one-to-one call,
+[02:02] then uh here uh is the link for that.
+[02:05] You just click on it, and uh you can
+[02:06] check out or you can avail the different
+[02:08] different services.
+[02:10] Okay. Uh now, guys, uh let me tell you
+[02:13] that what all thing we have already
+[02:14] completed inside the first video, and
+[02:15] after that, guys, uh I will uh start
+[02:18] with the reinforcement learning.
+[02:20] So, guys, uh here you can see uh
+[02:23] I have mentioned all the point which I
+[02:24] already discussed inside the first part.
+[02:27] This one.
+[02:28] Uh now, inside uh today's video, inside
+[02:30] this video, uh we'll be talking about uh
+[02:33] this a particular algorithm, this
+[02:34] particular techniques. And inside the
+[02:36] next video, guys, I will talk about uh
+[02:38] this RLHF technique. Okay?
+[02:40] So, the first video, I already given you
+[02:41] the introduction of the preference
+[02:43] alignment. Uh we discussed why do we
+[02:45] need that, uh what is the meaning of of
+[02:47] the SFT, and why uh it is not only
+[02:50] sufficient one, right? Uh then, guys, we
+[02:52] discussed the uh different method for
+[02:54] the preference alignment, uh the
+[02:55] introduction of the reinforcement
+[02:57] learning, uh RL evolution timeline, and
+[03:00] the difference between the uh supervised
+[03:01] learning and the reinforcement learning.
+[03:04] Uh now, guys, let's start with a
+[03:05] Q-learning, uh deep Q-learning or deep
+[03:08] Q-network, uh then we'll discuss about
+[03:10] the PPO, proximal policy optimization,
+[03:13] and then I will show you this entire
+[03:15] thing via practical. Now, after that,
+[03:17] guys, in the next video, we'll discuss
+[03:18] the RLHF, we'll discuss the PPO role in
+[03:21] the RLHF, and uh we'll talk about the
+[03:24] practical of the RLHF with the custom
+[03:26] data set. Okay? So, let's uh begin.
+[03:28] Let's begin with the Q-learning. Uh
+[03:30] before that, let me give you the quick
+[03:31] definition of the reinforcement
+[03:33] learning, and then uh we'll start with
+[03:35] the main algorithm. Now, guys, uh let's
+[03:38] uh take a quick recap uh of the
+[03:40] definition of the reinforcement
+[03:42] learning. So, here is a simplest uh
+[03:44] definition of the RL. So, RL is a
+[03:46] learning method where an agent
+[03:49] interacting uh with an environment, and
+[03:53] receiving rewards or penalty for its
+[03:56] actions. Okay? So, guys, let's
+[03:58] understand this entire definition with
+[04:01] an example. So, let's suppose, guys, we
+[04:03] have a agent. That agent is my
+[04:05] self-driving car, right? Now, this
+[04:08] agent, basically, it can take a multiple
+[04:10] actions. It can brake, right? It can
+[04:13] accelerate. It can take a turn.
+[04:16] Now, where it is taking that action?
+[04:18] What is the environment for this
+[04:20] self-driving car? So, the road traffic,
+[04:22] or the road, actually, it is a
+[04:23] environment for the self-driving car.
+[04:26] And then, what kind of reward it is
+[04:27] going to be
+[04:29] basically getting? So, it is getting a
+[04:31] safe driving. So, this is a complete
+[04:33] example of what? Of the reinforcement
+[04:36] learning. Now, this agent, basically, it
+[04:39] could be anything. I'm just
+[04:41] taking over here the self-driving car,
+[04:42] right? The agent is a self-driving car.
+[04:44] But, it could be any mathematical
+[04:46] equation, anything it could be. Okay? I
+[04:48] will show you one example. With that,
+[04:50] you will get a more clear-cut
+[04:51] understanding. Now, I mentioned one more
+[04:54] example. So, here you can see simple
+[04:55] example. You can imagine a game. Okay?
+[04:58] So,
+[05:00] player is going to be a agent.
+[05:02] Move, right? So, whether the player is
+[05:04] going to be move left or right, that's
+[05:05] going to be action. And whatever reward
+[05:08] is getting, so that reward, basically,
+[05:11] whether it's a plus 10 or minus 10. So,
+[05:13] we are going to be quantifying this
+[05:15] reward as a win or loss, right? So,
+[05:17] based on that only, it's going to be
+[05:19] take a further decision. A simple
+[05:21] example.
+[05:22] I can give you one real-time analogy,
+[05:25] also. So, here I mentioned one real-time
+[05:27] analogy. So, let's suppose there is a
+[05:29] baby who is learning a walking, okay?
+[05:32] Now, baby walks correctly, and a parent
+[05:34] clap, and that is a positive positive
+[05:36] reward. Now, whenever baby is going to
+[05:39] be fall, right? So, in that case,
+[05:41] pain is there, and that's going to be a
+[05:43] negative reward. So, slowly baby learns
+[05:46] which action is good. Clap is a good
+[05:48] one. Uh that's a positive feedback. Or
+[05:51] uh this pain is a good or bad one, which
+[05:53] is a negative feedback. Now this is only
+[05:56] called the reinforcement learning where
+[05:58] agent by learning uh just by getting the
+[06:02] feedback, okay? Uh the feedback actually
+[06:05] could be the positive or it could be the
+[06:07] negative one. It is reinforcement It is
+[06:10] reinforcing itself.
+[06:12] Getting my point, guys? Yes or no?
+[06:14] Uh Now guys, uh let's see the component
+[06:16] of the reinforcement learning. So we
+[06:18] have a agent. Now this agent actually it
+[06:20] could be anything. Uh I explain you with
+[06:22] the two to three example. Now I hope you
+[06:24] got it. Uh then this environment where
+[06:26] the agent is going to be act, where the
+[06:28] agent is going to be interacting. Uh
+[06:30] then the action, okay? Whatever action
+[06:32] is being taken by the agent. Then a
+[06:35] state, guys, okay? What is a current
+[06:37] state of the agent, okay? The situation
+[06:39] of the agent. And the reward which is
+[06:41] getting by the agent. I hope guys I hope
+[06:44] guys this entire definition of the
+[06:45] reinforcement learning is clear. Uh it
+[06:48] is very easy, right? If you will read
+[06:49] this entire slide by yourself, you will
+[06:52] get the
+[06:53] entire thing. Uh now
+[06:55] uh let me explain you one more thing.
+[06:57] See, we're talking about the
+[06:58] reinforcement learning. So we can divide
+[07:00] this uh reinforcement learning into two
+[07:02] main category. Uh the first category is
+[07:04] going to be a value-based learning.
+[07:07] Okay? So this uh Q-learning actually it
+[07:10] comes under the value-based learning.
+[07:12] Q-learning and the DQN as well. So
+[07:14] Q-learning, what is the meaning of the
+[07:16] Q-learning? Q-learning means quality
+[07:17] quality learning, okay? DQN basically
+[07:20] it's again a quality learning, but here
+[07:22] we are taking help of the neural
+[07:23] network.
+[07:27] Okay, guys? So the second kind of
+[07:29] learning is called the policy-based
+[07:31] learning. So where the main focus is a
+[07:35] is over the probability actually. So
+[07:37] this is the notation of the probability.
+[07:38] We'll discuss this entire thing in a
+[07:39] detail in the upcoming slides. I already
+[07:41] kept uh the multiple example. You will
+[07:43] get the clear-cut idea. Okay, what is a
+[07:46] uh what is this pi A and S? Okay, A is
+[07:49] reflecting to the action and S is
+[07:50] nothing, it's a state. Now, over here uh
+[07:52] we are going to be create a table,
+[07:54] right? Or we are going to be use a
+[07:55] neural network with respect to the state
+[07:57] and the action.
+[07:58] Getting my point? So, this is the there
+[08:00] is a two method of the reinforcement
+[08:02] learning. One is the value-based
+[08:03] reinforcement learning, and the second
+[08:05] is going to be a policy-based
+[08:06] reinforcement learning. Now, guys, uh
+[08:09] let's uh quickly take a recap of the
+[08:11] reinforcement learning evaluation
+[08:13] timeline also. So, uh here you can see
+[08:16] the different different phases of the
+[08:17] reinforcement learning, and here is a
+[08:18] description of that. So, guys, uh we
+[08:21] talking about the phases, so I divided
+[08:22] into eight phases. So, the first is the
+[08:24] foundation actually. So, this is started
+[08:26] in 1950. So, there uh they have
+[08:29] introduced one uh learning model that is
+[08:31] called the Markov decision process, MDP.
+[08:34] So, if you wanted to understand this MDP
+[08:37] process, so you can uh directly check
+[08:39] out with a uh Wikipedia. Uh here uh
+[08:41] basically you will get the complete
+[08:43] detail of it. It's a very nice article.
+[08:45] Uh even I have read it. Uh it is a good
+[08:47] one. So, here you basically will get the
+[08:49] complete detail about the Markov
+[08:50] decision process, that it is a
+[08:52] mathematical model for the sequential
+[08:54] decision making. So, here only they have
+[08:56] introduced about the uh state action
+[08:59] reward next state, right? So, this kind
+[09:00] of thing. Uh now, guys, the next phase
+[09:03] uh it is start in the 1980, between 1980
+[09:05] to 1990. So, there they discuss about
+[09:07] the uh there basically they invented
+[09:09] about the Q-learning and the temporal
+[09:10] differences. Uh so, the Q-learning
+[09:13] method which we are looking now, so that
+[09:15] I invented in the 1980 itself. Yeah,
+[09:16] guys, so after that basically there was
+[09:18] a slow progress in the reinforcement
+[09:20] learning. Uh
+[09:21] so, inside the tooth in the 2000 decade,
+[09:24] uh there was model mostly theoretical
+[09:26] work, okay, and the limited real-time
+[09:28] application. Uh and there was because
+[09:31] there was no computation power, right?
+[09:33] Low computation power and the low no
+[09:34] deep learning support. Because of that,
+[09:36] there was a slow progress. Then in 2013
+[09:39] to 15,
+[09:40] this was a deep learning era, the deep
+[09:42] learning breakthrough, right? So, we got
+[09:44] a deep learning based model, and after
+[09:46] that only
+[09:47] we have included the deep learning or
+[09:49] neural network inside the reinforcement
+[09:51] learning. And we have solved some very
+[09:53] important gaming related problems. Then
+[09:55] guys, the 2016 was era of the policy
+[09:58] gradient method. So, instead of the
+[10:00] value based learning, we were
+[10:02] using the policy based learning. Okay,
+[10:04] so the instead of Q-learning, basically
+[10:07] we are directly learn via this
+[10:08] particular equation. So, what is this?
+[10:10] We'll understand about it in the PPO
+[10:12] method. Now, right after that guys, the
+[10:14] PPO method was introduced, and it was
+[10:16] the policy based method. Okay? And
+[10:18] because of that, we got the stable
+[10:20] training control update, and it was used
+[10:23] widely in the industry, and this was a
+[10:25] core of the reinforcement learning. Then
+[10:27] guys, in 2018 to 2020, so this a
+[10:30] reinforcement learning was used at
+[10:32] multiple places in the different
+[10:34] different gaming problems and all. Okay,
+[10:35] in the robotics also. And then in 2020
+[10:38] to 2020 2020 to 2022, this a
+[10:41] reinforcement learning was used inside
+[10:43] the AI as well for the AI training. So
+[10:46] yeah guys, this is a complete evolution
+[10:48] timeline of the reinforcement learning,
+[10:49] and I think you understood
+[10:51] this in a detail. Now guys, let's look
+[10:54] into the different different method of
+[10:55] the reinforcement learning. And after
+[10:57] that guys, I will show you the
+[10:58] practical.
+[11:00] So guys, we have three main method. The
+[11:03] first is called the Q-learning, which is
+[11:05] a quality learning. The second is called
+[11:07] the DQN, a deep Q network, and the third
+[11:10] is called the PPO, proximal policy
+[11:13] optimization. Now guys, the first method
+[11:16] actually it is a value based method.
+[11:18] Now, where we are going to be store a
+[11:20] data inside the first method? We are
+[11:22] going to be store it inside the table.
+[11:24] Okay, so we are going to maintain one
+[11:25] table. Now over here, inside the second
+[11:28] method actually, we are going to be uh
+[11:31] replace the table actually with the
+[11:32] neural network. Okay? Uh now inside the
+[11:35] second uh method they have introduced
+[11:37] the neural network. And inside the third
+[11:39] method again uh it is a neural network
+[11:41] based method. And this is also called
+[11:43] the actor and the critic method, right?
+[11:46] So mainly uh we are going to uh
+[11:48] basically generate the probability
+[11:49] inside the third method inside the PPO
+[11:52] method. So we'll understand each and
+[11:54] every method all these three method in a
+[11:55] detail. So uh first uh let's focus on
+[11:58] the
+[11:59] let's focus on this quality learning on
+[12:01] the Q-learning. So the value this is the
+[12:03] type of type of this learning is a value
+[12:05] based, okay? And where we are going to
+[12:06] be store the data over here, we are
+[12:08] going to be store it inside the table.
+[12:10] Now uh this is the
+[12:12] notation uh of the quality learning of
+[12:15] the Q-learning Q as A. So uh this S
+[12:18] actually it is a representing to the
+[12:20] state and A is representing to the
+[12:22] action, okay? Now it's work well for the
+[12:24] small and the discrete state space,
+[12:27] right? Uh what is the problem with this
+[12:29] uh Q-learning? So the problem basically
+[12:31] if the state of space is going to be
+[12:32] larger in that case table size is going
+[12:34] to be explored.
+[12:36] Getting my point? So this is the uh core
+[12:39] idea behind the quality learning. Now
+[12:40] what is this DQN? So again it is a value
+[12:43] based learning, but uh here we are going
+[12:45] to be upgrade our Q-learning, okay? Uh
+[12:48] instead of the Q table, instead of the
+[12:50] table basically we are going to be use a
+[12:51] neural network.
+[12:53] Getting my point? Now here input is
+[12:55] state input is going to be state and
+[12:56] output is going to be all the action. So
+[12:58] we are going to be
+[13:00] uh
+[13:00] pass the state as an input and we will
+[13:02] be getting an action, okay? With respect
+[13:04] to those state. Now uh what it is going
+[13:06] to solve guys? So it is going to be
+[13:07] solve the larger state of space images,
+[13:10] games, high dimension input and all. So
+[13:12] uh in the Q-learning basically we were
+[13:13] having a limitation, we can only pass
+[13:15] the smaller values. If the values are
+[13:18] going to be very very huge in that case
+[13:19] it's going to be explored. But DQN is
+[13:21] able to handle that thing. Now what is
+[13:23] the limitation of it? The limitation
+[13:24] basically it work mainly for the
+[13:26] discrete action of space. If the action
+[13:27] of space is going to be continuous one,
+[13:29] in that case it's going to be an
+[13:30] unstable one. Now, if we're talking
+[13:32] about the PPO guys, so it is a
+[13:34] policy-based method, actor-critic
+[13:36] method. Actor-critic is nothing, it's
+[13:38] just a neural network, okay? Two neural
+[13:39] network is participating inside this
+[13:41] process, that's it. So, probability of
+[13:43] taking action, okay, with respect to
+[13:45] given a state. So, this is a simple
+[13:47] meaning of the PPO. Now, what is the
+[13:49] advantage of it? So, this is the
+[13:50] advantage of the PPO. Works with a
+[13:52] continuous action.
+[13:53] Okay. Uh like robotics control system,
+[13:56] it provide a stable training compared to
+[13:58] the vanilla policy gradient, widely used
+[14:00] in a robotics games in a RLHF method.
+[14:03] PPO is not purely policy-based, right?
+[14:05] It is a actor-critic where basically uh
+[14:08] this policy and value function both is
+[14:10] going to be learned. Getting my point?
+[14:12] If you're not getting it, uh you will
+[14:13] get it in the upcoming slides. I uh
+[14:16] mentioned the enough amount of example.
+[14:18] So, uh guys, uh here you can see uh how
+[14:20] this PPO is going to be work. So, we
+[14:21] have a state. Now, this is a state
+[14:23] basically is being passed to the actor,
+[14:25] and it's going to be passed to the
+[14:26] critic also. Now, this is also a neural
+[14:28] network, this is also a neural network,
+[14:29] okay? Now, here we are getting a action,
+[14:32] action value, here we are getting a
+[14:33] state value, and then uh we are getting
+[14:36] advantage score, and after that guys, we
+[14:38] are updating the PPO. So, this is the
+[14:40] entire timeline, or it's the entire
+[14:41] process behind the PPO. We'll understand
+[14:43] that, okay? So, I hope uh this entire
+[14:46] thing is clear. Now, let's uh do one
+[14:48] thing guys, let's understand about the
+[14:50] Q-learning.
+[14:52] Now guys, uh what is a Q-learning? So,
+[14:54] Q-learning uh actually it is a
+[14:56] value-based reinforcement learning
+[14:57] method. Uh I already told you that. The
+[15:00] Q-learning learns how good each action
+[15:02] is in particular state. It is stored
+[15:04] these value in a Q-table, and choose the
+[15:07] action with the highest Q-value, right?
+[15:10] Uh maybe you are not getting much idea,
+[15:13] right? Uh just by reading this
+[15:14] definition, but once I once I'll give
+[15:17] you the example, maybe the thing will be
+[15:18] more clear. So, let's uh
+[15:21] uh basically think about around to this
+[15:22] game. So, uh this the game name is the
+[15:25] treasure hunt game, right? So, here we
+[15:27] have a current state. So, this is the
+[15:28] current state, okay, of the agent,
+[15:31] right? Uh so, you are standing at the
+[15:33] crossroad. Available action, go right,
+[15:35] go left, go straight. And what is the
+[15:37] goal, guys? The goal is nothing it's
+[15:38] just to find a treasure. Okay? So, this
+[15:41] agent basically it might go in any
+[15:43] direction. And what is the end goal of
+[15:45] this agent? To find out this treasure.
+[15:48] Right? So, let's uh try to solve this
+[15:50] particular problem using this
+[15:52] reinforcement learning. So, I mentioned
+[15:54] the solution over here. So, a
+[15:55] value-based RL says, right? So, let's
+[15:58] learn how good each action in the given
+[16:00] state.
+[16:01] Okay? So, what is the current state of
+[16:03] the agent? So, here you can see this is
+[16:05] the current uh state of the agent. Uh
+[16:08] agent is is standing over here. Now, he
+[16:10] might go anywhere in any direction. So,
+[16:13] let's uh see. Uh so, here the state The
+[16:16] state is a crossroad, okay, is standing
+[16:18] over there. If he's going left, then
+[16:20] he's getting 10 points. If he's going
+[16:21] right, he's getting 50 points. If he's
+[16:23] going straight, he's getting 20 points,
+[16:25] right? So, the agent learn and restore
+[16:27] these value in a table that is called
+[16:29] the Q table.
+[16:31] Understood, guys? I'll show you the Q
+[16:32] table how it looks like. Now, how does
+[16:35] the agent choose an action? So, it is
+[16:37] very very simple. The agent look at all
+[16:39] the Q value for the Q value for the
+[16:41] current state and select the action with
+[16:43] the highest Q value. So, if go left is
+[16:45] plus 10, if go right is 50, if go
+[16:47] straight is 20, so what is the maximum Q
+[16:50] value? The maximum Q value is a 50. So,
+[16:52] corresponding action is going to be
+[16:53] right.
+[16:54] Getting my point, guys? Yes or no? So,
+[16:56] this uh right action actually it is
+[16:58] associated with this 50. And according
+[17:00] to that only uh my agent will decide the
+[17:03] next uh action. So, therefore the agent
+[17:06] choose the action uh which is equal to
+[17:08] go right. Now, what is Q S A? What is
+[17:11] the meaning of it? Uh what is the
+[17:12] meaning of this notation? So, the Q
+[17:14] value Q value represent if I'm in a
+[17:17] state S.
+[17:18] Okay, if I'm if I'm taking an action A,
+[17:21] then how much total future reward can I
+[17:23] expect?
+[17:25] Getting my point, guys? Yes or no? So,
+[17:27] mathematically Q S A is nothing. So,
+[17:29] where where this mathematically this Q S
+[17:31] A is nothing, there S is representing to
+[17:33] the state and A is representing to the
+[17:35] action. So, here we are saying if I'm in
+[17:37] a state S and if I'm taking action A,
+[17:40] then how much reward we can expect?
+[17:43] Uh I hope, guys, this entire thing is
+[17:45] going to be clear. So, this is the
+[17:47] example, guys. You see, this is the
+[17:48] state. Crossroads is a state and this is
+[17:50] the action. So, we are getting plus 10.
+[17:53] So, cross road again, it is action. This
+[17:55] is the state. Sorry, this is the state.
+[17:57] This is the action. We are getting 50.
+[17:59] Crossroads is the action. This is the
+[18:01] Sorry, this is the state. This is the
+[18:02] state. This is the action and we are
+[18:03] getting 20. So, this means basically
+[18:05] going left is expected to give a future
+[18:07] reward 10. Going right is expected to
+[18:09] future reward 50. Going straight is
+[18:11] expected to give a future reward 20.
+[18:14] Simple uh notation, simple
+[18:16] representation. Now, how the final Q
+[18:18] table looks like, right? So, let me show
+[18:20] you that as well. So, this is the table,
+[18:22] guys. Likewise, you will define the
+[18:24] table. See, in the Q table, we have a
+[18:26] state, we have an action, and we have a
+[18:28] Q value. So, crossroads is a state, this
+[18:30] is the action, this is the value. Okay,
+[18:32] this is the state, this is the action,
+[18:34] this is the value. I hope, guys, you
+[18:36] understood how the Q table look like.
+[18:38] Now, let me give you a couple of more
+[18:39] example. So, Q table explosion problem.
+[18:42] So, let's understand about it and after
+[18:44] that, guys, I will move to the DQN
+[18:46] problem, okay? Uh DQN solution, right?
+[18:49] How this problem is being solved using
+[18:51] the DQN. So, guys, here you can see for
+[18:54] a smaller problem, Q learning works
+[18:55] fine. Let's say we have left is equal to
+[18:58] zero and right is equal to zero. So,
+[18:59] this is manageable. We have just have
+[19:01] two thing over here.
+[19:03] Getting my point, guys? We just have two
+[19:04] actions over here. Now, thing
+[19:07] if we have a state that is a car, okay,
+[19:08] car camera, right? One image is 1,000 by
+[19:11] 1,000 pixels. We have a possible state
+[19:13] it is in a billion.
+[19:15] Right, possible state it is in a
+[19:16] billion. So, in that case guys, Q table,
+[19:19] right? So, Q table basically is going to
+[19:21] be explored.
+[19:23] Okay, so Q table basically is going to
+[19:25] be explored. We cannot store all the
+[19:27] value inside a table corresponding to
+[19:29] this particular action, right? So, we
+[19:32] cannot store all the value, right? All
+[19:35] the action value corresponding to this
+[19:37] particular state. We don't know where my
+[19:39] camera will move, right?
+[19:42] Because there is a
+[19:43] billions possible state. Okay, so Q
+[19:46] table issue is what? A row is a needed
+[19:47] for every state. Okay, a column is
+[19:49] needed for every action. So, it is very
+[19:52] impossible to store.
+[19:54] So, if the
+[19:55] space is going to be very very huge,
+[19:57] possible space is going to be very very
+[19:59] huge. In that case, we cannot store
+[20:01] that. Now, just look into this
+[20:02] particular example. See, here is my
+[20:05] agent. Okay, this is my Q table which is
+[20:07] representing to the state and the
+[20:09] action.
+[20:10] So, we have multiple state and action.
+[20:12] Okay, multi multiple state and action.
+[20:14] But just think guys, if this value is
+[20:16] going to be very very huge, in that case
+[20:17] it will face a lot difficulty
+[20:20] Okay, to
+[20:21] reach out to the final conclusion. If my
+[20:24] possible state action is going to be uh
+[20:26] sorry, if my possible state and the
+[20:28] action space is going to be very very
+[20:29] huge.
+[20:30] Making sense? I hope this entire thing
+[20:32] is clear.
+[20:33] Now guys, after that only so, for
+[20:36] solving this particular problem only,
+[20:38] they figure out the
+[20:40] uh they figure out what guys? They
+[20:41] figure out the DQN.
+[20:42] Uh neural network, right? So, they enter
+[20:44] the neural network inside the
+[20:45] reinforcement learning. So, how does it
+[20:48] work? Let's understand that one by one.
+[20:50] So, instead of creating a table guys, so
+[20:52] we have a function.
+[20:54] Okay, that function actually it's a
+[20:55] neural network function uh that predict
+[20:57] the Q values. Okay, so Q table look up
+[21:00] is going to be replaced with the neural
+[21:02] network.
+[21:03] So, this is the example guys. In the
+[21:05] example, we have a input image, right?
+[21:08] Im- image is nothing, it's a current
+[21:09] state. Now, uh the output is going to be
+[21:11] Q value, right? So, Q value output the
+[21:13] action. So, the action could be left,
+[21:15] right, or brake. Means car uh camera
+[21:18] image, right? Is It is
+[21:20] being feed to the uh reinforcement
+[21:22] learning algorithm. And uh based on
+[21:24] that, it's trying to predict whether uh
+[21:26] it will go to the right, whether should
+[21:27] I go to the right, whether uh whether I
+[21:29] should go to the left, or should I press
+[21:31] the brake. I hope this is clear. Now,
+[21:34] this is the clear-cut
+[21:35] uh differences between the Q-learning
+[21:36] and the DQN. So, it store a table. Now,
+[21:39] here we learns via function, that neural
+[21:41] network function. Memory heavy, uh it's
+[21:44] a generalized one. Means uh it's not
+[21:45] very heavy, memory heavy, okay? Exact
+[21:48] value, it provide the approximate value.
+[21:50] Okay, finally, we are going to be
+[21:52] predict the action, that is nothing,
+[21:53] it's a probability altogether.
+[21:55] So guys, uh how the Q network looks
+[21:57] like? See, this is the image of the DQN.
+[22:00] Uh I hope uh just by seeing this
+[22:02] particular image, you are able to
+[22:03] understand everything. So, what we are
+[22:05] passing? So, we are passing a state. We
+[22:07] are uh having a Q network. So, this is
+[22:09] nothing, this is my neural network only.
+[22:11] It's going to be predict the Q value.
+[22:12] So, it is nothing, it is a action value.
+[22:16] >> [clears throat]
+[22:16] >> Okay? So, let's say my uh state is what?
+[22:18] Let's say I'm passing the image.
+[22:21] Okay? And it's coming from where? It's
+[22:23] coming from the car camera.
+[22:25] It's coming from where? It's coming from
+[22:27] the car camera. So, this RL algorithm is
+[22:30] predicting where should I go, whether
+[22:31] should I go to the right, I should go to
+[22:33] the left, or I should I put uh I should
+[22:36] put the brake, okay?
+[22:37] So, I hope guys, you understood how the
+[22:39] thing is being processed inside the DQN.
+[22:41] Now, uh just uh look the entire process,
+[22:44] what is happening, and then I'll give
+[22:45] you one more example related to this
+[22:46] DQN. So, we have a state one. So, Q
+[22:49] network predict the Q value.
+[22:51] Okay? Then choose the right action.
+[22:53] Environment give the reward, okay? And
+[22:55] this uh thing is going to be stored. So,
+[22:58] we are going to be store this particular
+[22:59] thing as a
+[23:00] uh metadata, right? So, this uh is going
+[23:02] to be stored. I'll show you where it's
+[23:04] going to be stored. And then during the
+[23:06] training guys, this sample, right? This
+[23:08] this particular data only is being again
+[23:10] feed to one more network, right? To
+[23:12] predict the value. So Q network predict
+[23:14] the current value. Target network
+[23:16] predict the future value. Okay, and then
+[23:18] target is equal to what? Reward plus
+[23:20] gamma is equal to best future value.
+[23:22] Using this particular equation only the
+[23:23] learning will be happening.
+[23:25] Right? So using this particular equation
+[23:26] only the learning
+[23:29] would be happening. Okay? And then we
+[23:31] are going to be calculate the loss over
+[23:32] here and then it's going to be update
+[23:34] the Q network. So this is the entire
+[23:36] process behind the DQN.
+[23:38] So let's look into one example. With
+[23:41] that your understanding will be very
+[23:43] very clear. So whenever we talking about
+[23:45] the DQN guys,
+[23:48] so we have two phases of it.
+[23:52] Two phases of it. The first phase of it
+[23:55] is going to be a data preparation. So
+[23:57] where we are passing a state.
+[23:59] Okay? We are passing it to the Q
+[24:01] network. That is nothing that's a neural
+[24:02] network only. It's going to be predict
+[24:04] the
+[24:05] >> [snorts]
+[24:05] >> state. Okay? Right, left, up, or down.
+[24:08] So it's going to be stored this thing
+[24:11] this
+[24:12] output actually. So it's going to be
+[24:13] stored this inside the experience replay
+[24:15] buffer. Okay? So the one dictionary is
+[24:18] going to be maintained.
+[24:19] And there we will be having the state,
+[24:21] action, reward, and the next state.
+[24:23] Okay? So this particular value is being
+[24:25] stored inside the experience replay
+[24:27] buffer. So this is called the data
+[24:28] preparation. Then guys in the training
+[24:29] phase what will happen? So we'll be
+[24:31] passing the state.
+[24:32] Okay? We'll be having the Q network and
+[24:34] it's going to be predict, right? This
+[24:36] thing is going to predict. Now in the
+[24:37] target network we have we'll having a
+[24:39] two network. One is a Q network and the
+[24:41] second is a target network. So inside
+[24:43] the target network basically we'll be
+[24:44] passing the next state. Okay? And then
+[24:46] we are going to be predict the output
+[24:49] with respect to the next state. Okay?
+[24:51] And now between that only we are going
+[24:52] to be calculate the loss. Getting my
+[24:54] point? So here you can see I mentioned
+[24:57] one more statement. DQN is not a
+[24:58] supervised learning because it does not
+[25:00] learn from the label. Okay, instead it
+[25:02] learns through the trial and error.
+[25:04] Which is interacting with an environment
+[25:06] using the reward as a feedback. So, here
+[25:08] basically this network this network is
+[25:10] preparing a data.
+[25:11] Okay. Then what is happening? See guys,
+[25:13] in the training phase we know Q network
+[25:15] is predicting this one, right? Uh this
+[25:17] value only we are going to be stored
+[25:19] inside the this this particular uh
+[25:21] dictionary we are going to be
+[25:21] maintained, right? Experience replay
+[25:23] buffer after the Q network only. And
+[25:25] then uh we have one more network
+[25:26] simultaneously which is taking a next
+[25:28] state and start to predict the output,
+[25:29] okay? And in between only we are going
+[25:31] to be calculate the loss. So, this is
+[25:32] the whole entire process behind what?
+[25:35] Behind the DQN. Uh now you can see this
+[25:37] particular statement. This is very
+[25:39] important. Don't think it is a
+[25:40] supervised learning because we don't
+[25:41] have any sort of a label inside the
+[25:42] data, okay? Now, this is the complete
+[25:45] image with that uh again you will
+[25:46] understand about the DQN and then I
+[25:48] mentioned the problem of the DQN. So,
+[25:50] what is a uh actual problem with the
+[25:52] DQN, okay? So, we'll understand about
+[25:55] it. So, first let's uh understand the
+[25:57] DQN using this particular example. This
+[25:59] is very much important, guys. So, just
+[26:01] focus for one more minute.
+[26:03] So, if we're talking about the DQN,
+[26:04] guys, see what will happen.
+[26:06] Uh in the step one, okay? In the step
+[26:09] one,
+[26:10] uh you can see the current state of the
+[26:11] robot. So, this robot actually it can go
+[26:13] the up, down, left, and right. So, what
+[26:17] uh it will happen? So, in the step two
+[26:19] actually Q network will predict. This is
+[26:21] the neural network. So, it will predict,
+[26:23] okay, for uh left this is the value, for
+[26:25] right this is the value, for up this is
+[26:27] the value, and for down this is the
+[26:28] value. So, right action has the highest
+[26:30] value. So, here you can see the right
+[26:32] action is uh having the highest value.
+[26:34] So, robot will choose the right action.
+[26:36] In the step three, what will happen?
+[26:38] Environment gives the reward, okay? So,
+[26:40] it is taking a right. Now, you can see
+[26:42] this was a state one and it is taking a
+[26:43] state two. So, what is the reward, guys?
+[26:45] The reward is a uh plus five and then
+[26:47] next state is a state two. So, this is
+[26:49] going to be is in the replay buffer. X
+[26:52] first state right plus five and the next
+[26:54] state, okay? So, during the training
+[26:56] what will happen? So, we are going to be
+[26:57] use the same data, this this particular
+[26:59] data, okay? So, the DQN needs to be
+[27:01] learned from this particular data, what
+[27:03] should be the correct value of taking
+[27:05] right action in a state one, okay? So,
+[27:07] this is what basically my network is
+[27:10] going to be learned. So, here in the Q
+[27:11] network, Q network correct prediction
+[27:14] current prediction, okay? So, left is
+[27:16] one, right is four, up is
+[27:18] two and down is zero. So, current
+[27:20] prediction is this one, right? Q net
+[27:21] which is being done by the Q network.
+[27:23] The target network is also doing a
+[27:25] prediction, so it is taking input as a
+[27:26] state two, left three, right six, up two
+[27:29] and down is one. So, best feature value
+[27:31] is going to be what? Max. Sorry, best
+[27:33] feature value is going to be what? Six,
+[27:35] okay? That is nothing, that's a right
+[27:36] only. How it's How it's going to be
+[27:38] calculated a targeted value? So,
+[27:39] targeted value is nothing, it's a
+[27:40] reward, gamma value and best feature
+[27:42] value. So, reward is five, this is gamma
+[27:44] value, this is the best feature value.
+[27:46] So, after calculation, we are getting
+[27:47] this. What is the meaning of it? The
+[27:49] meaning is the correct value of taking
+[27:50] right action in the state one should be
+[27:52] approximately 10.4, okay? So, we are
+[27:54] going to be compare prediction versus
+[27:56] target.
+[27:57] So, guys, here you [snorts] can see this
+[27:59] was the current prediction, this was the
+[28:00] target. Now, here this is the error
+[28:02] basically. Okay? Now, in the step one,
+[28:05] what will be doing? So, we are going to
+[28:06] be calculate the error.
+[28:08] Now, larger loss means model needs
+[28:10] update. So, what we will do again? Q
+[28:12] network is going to be update. So,
+[28:13] before update, this was the value. Now,
+[28:15] after update, guys, you can see right uh
+[28:17] basically having the higher value, okay?
+[28:19] And uh Now, this particular thing is
+[28:21] going to be improved by the time. So,
+[28:22] once it will reach to this particular
+[28:24] value, which is expected one, in that
+[28:26] case we can say this is the correct
+[28:27] chosen value. I hope uh this entire
+[28:30] thing is clear. So, this is the complete
+[28:32] uh basically explanation of the DQN, how
+[28:35] the DQN is working. I hope uh with this
+[28:37] particular example, you are able to
+[28:39] understand. Now, guys, uh whatever I
+[28:42] have explained inside the image, right?
+[28:44] So, here you can see the complete
+[28:46] explanation of that. So, you can read
+[28:48] out this theoretical point step by step
+[28:50] and you will get the same thing. I hope
+[28:52] you got it. Now, guys, let me tell you
+[28:54] the problem with the DQN. So, inside
+[28:57] this slide you will understand the
+[28:58] problem with the DQN.
+[29:00] So, DQN basically predict the Q value
+[29:03] for every possible action and then
+[29:04] select the action with the highest Q
+[29:06] value. Got it, guys? Now, it works very
+[29:08] well with the discrete action space. So,
+[29:11] the space is the left, right, jump,
+[29:13] shoot, right? So, this is what guys is
+[29:14] the discrete action space.
+[29:17] Okay?
+[29:18] But, guys,
+[29:19] uh see, this is the output basically
+[29:21] with respect to the discrete action
+[29:23] discrete action space.
+[29:24] Uh the agent simply choose the action
+[29:26] with the highest Q value. Uh since there
+[29:29] is only few action, the neural network
+[29:30] only need a few uh output node. But,
+[29:33] guys, if the action space is going to be
+[29:35] a continuous one,
+[29:36] in the real-time example, let's say we
+[29:38] can take example of the self-driving
+[29:40] car, uh where we have a steering of the
+[29:42] angle, right? So, just think over here,
+[29:44] see, we have 0°, 0.1°, 0.11°, 0.111°.
+[29:48] So, here you can see, guys, there is a
+[29:50] effectively infinite uh many possible
+[29:54] steering angles, right? Since the DQN
+[29:57] must estimate Q value for every possible
+[29:59] action,
+[30:00] right? So, in that case, this might be
+[30:03] an infinite number. And this is
+[30:05] computationally computationally
+[30:06] impossible because the neural network
+[30:09] cannot produce an infinite number of the
+[30:11] output. Getting my point, guys, right?
+[30:13] So, why not DQN for the other language?
+[30:15] Because of the same reason. Because for
+[30:17] the single word there may be uh
+[30:21] for the single word, guys, there may be
+[30:22] 1 lakh possible token as a output.
+[30:26] Right? This is what we are doing now
+[30:27] inside the generative AI. We are
+[30:28] predicting the next token. Okay? So, for
+[30:30] the sentence, the combination become
+[30:32] enormous, means the very, very huge. And
+[30:35] because of that, guys, we are using the
+[30:37] PPQ.
+[30:39] We are not going to be use the DQN.
+[30:42] Okay? I hope guys you understood.
+[30:45] Now, let's do one thing guys, let's
+[30:47] understand about the PPO and then I'll
+[30:50] show you the practical guys.
+[30:52] Now guys, this is a complete process of
+[30:55] the PPO. So, if you will look in the
+[30:58] previous slide, so there also I
+[30:59] mentioned some points. So, DQN works
+[31:01] well with the discrete action space as
+[31:03] we know, because the number of the
+[31:04] action is a finite. But, it is difficult
+[31:06] with a continuous action space because
+[31:08] it would need a estimated Q value for
+[31:10] the infinite many problem action. Okay?
+[31:13] So, therefore algorithms such as PPO,
+[31:16] DDPG, TD3, and SAC, SAC are the typical
+[31:19] used for the continuous problem
+[31:20] statement like the robotics and the
+[31:22] self-driving car. So, inside the
+[31:24] self-driving car also this a
+[31:25] reinforcement learning is being used.
+[31:29] Got it? So, DQN ask, "What is the Q
+[31:31] value for every action?"
+[31:33] Okay?
+[31:34] Now, what PPO is asking? PPO is saying,
+[31:37] "How should I slightly adjust my
+[31:38] behavior to get higher rewards?"
+[31:41] How should I slightly adjust my behavior
+[31:43] to get a reward? Now, let's see how it
+[31:45] is working. So,
+[31:46] first we have a state one, then it's
+[31:48] going to the policy network gives policy
+[31:51] network which provide the action
+[31:53] probabilities. Okay? Then action right
+[31:55] is selected, let's suppose, then
+[31:56] environment gives the reward. And it's
+[31:58] going to be stored inside the replay
+[32:00] buffer. So, till here everything is
+[32:01] going to be same. Then we have a value
+[32:03] network which is going to be predict the
+[32:05] value, okay? Of the given state. Then we
+[32:07] have a advantage is score, okay? Then
+[32:09] positive advantage means right was good.
+[32:11] Means we are going to be adjust toward
+[32:13] the rights. And then we are going to be
+[32:15] increase the probability of the right
+[32:16] slightly and then use the clipping so
+[32:18] the update is not going to be too large.
+[32:20] So, this is what guys? This is a
+[32:21] complete PPO algorithm. Okay? [snorts]
+[32:24] Now guys, maybe just by seeing this
+[32:27] particular flow you are not able to get
+[32:29] the what this PPO is doing. So, let me
+[32:31] show you the same kind of image with
+[32:33] respect to the PPO also. So, first let's
+[32:36] see some
+[32:38] basically more examples, okay? Then I'll
+[32:40] show you the image. So, here you can see
+[32:42] instead of the Q-learning Q instead of
+[32:44] the Q Q values like DQ and PPO directly
+[32:46] learns the policy, okay? So, what is a
+[32:49] state, guys? State is nothing best
+[32:51] action probability, right? So, we'll
+[32:52] provide the state and it will provide me
+[32:54] a best action probability. So, we have
+[32:56] two network. One is a one is a policy
+[32:58] network. So, this is also called the
+[32:59] actor network, okay? So, we are we are
+[33:01] passing a state. Now, this is my policy
+[33:03] network. Again, it is a neural network
+[33:05] only.
+[33:05] >> [snorts]
+[33:06] >> Right? Now, here we are calculating
+[33:08] probability of taking action
+[33:10] probability of taking A1 in a state
+[33:13] taking A2 A2 A1 A2 A3 is nothing it just
+[33:15] a actions, okay? With respect to this
+[33:17] particular state. Got it? Now, we are
+[33:19] going to be stored the data.
+[33:21] This particular data is state action
+[33:23] reward and the old action probability.
+[33:25] Now, then guys, what will happen? See,
+[33:27] proximal the most important idea. Don't
+[33:29] change the policy too much at the once.
+[33:31] Bad approach, right? From 70% to 100%.
+[33:34] Good PPO approach is nothing 70 to 75.
+[33:36] So, a small safe update. So, this make
+[33:39] training is stable. And this is the like
+[33:42] complete idea behind the proximal.
+[33:44] So, this is what, guys? This is a
+[33:45] complete idea behind what? Behind the
+[33:47] proximal, okay? So, if someone is asking
+[33:50] you what is the meaning of the proximal,
+[33:52] so you can say it is a small safe
+[33:53] update, right? Which is making a
+[33:55] training is stable. Now,
+[33:58] we are going to be stored the data as I
+[33:59] told you. So, policy this actor is going
+[34:01] to be predict something
+[34:02] predict the probability of the action
+[34:05] and then we are going to be stored it.
+[34:06] Let's say this is my one set of data,
+[34:08] okay? Now, what this value network will
+[34:10] do? So, again it's going to be a state.
+[34:12] Now, here you can see
+[34:14] it's going to be a state, right? And
+[34:16] then value network basically is a
+[34:17] critic. Then it's going to be predict
+[34:19] the value of it, estimated value of it.
+[34:21] Now, how we are going to be check the
+[34:22] loss? So, here predicted by the value
+[34:24] network and the actual return target.
+[34:27] Okay? So, we are going to be check the
+[34:28] differences between that and this is
+[34:30] going to be what? This is going to be my
+[34:31] loss. So, we just have to be decrease
+[34:33] this particular loss. I hope guys you
+[34:35] are getting this particular point,
+[34:37] right? Now, let's understand this entire
+[34:39] process
+[34:41] using this summarized image, okay? With
+[34:43] that, you will get a clear-cut
+[34:45] understanding. So, let me keep it little
+[34:47] left so that you will get the complete
+[34:48] view of this image.
+[34:50] So, what we are going to see here, you
+[34:51] can see the policy network makes a
+[34:53] decision. So, we have a state one. This
+[34:54] is my agent. So, this agent basically it
+[34:57] might go left, right, up, and down. So,
+[34:59] policy network actually it is going to
+[35:00] be predict the probability, okay?
+[35:02] So, right has the highest probability,
+[35:03] so robot choose the right action. So, it
+[35:05] is stored the old probability, 0.6,
+[35:07] okay? Now, in step two, environment
+[35:09] gives us a reward. So, here you can see
+[35:11] whenever we are going right, so in that
+[35:14] case we are getting a plus five reward.
+[35:15] And here the next state is going to be
+[35:17] S2. So, this is my data, S1 right, S
+[35:20] this is my plus five, and this is my old
+[35:21] probability. Got it? Got it? And then
+[35:23] guys, value network, so it makes a
+[35:25] prediction. So, value network basically
+[35:27] it will take a state one, okay? And it
+[35:29] is what? It is giving me one value.
+[35:31] Okay? So, this mean the model expected
+[35:33] future reward is three. Okay? So, the
+[35:35] actual return uh obtained from the
+[35:37] environment is five. Right? So, formula
+[35:40] is what? Advantage It is called the
+[35:41] advantage. Actual return the expected
+[35:43] return. Actual return is a five, and
+[35:45] expected return is a three. So, we are
+[35:47] getting plus two. Meaning the action is
+[35:48] right, perform better than the expected
+[35:50] one. So, PPO decide increasing the
+[35:52] probability of taking right action.
+[35:55] Okay? So, here is going to be my old
+[35:57] policy, okay? Which is [snorts] having
+[35:58] the 0.6. When is what the new policy
+[36:00] will come? So, this new policy basically
+[36:02] it will provide what? So, it will
+[36:04] provide me a more probability towards
+[36:06] the right one, right? So, this is the
+[36:07] ratio. So, this is a ratio between the
+[36:10] new probability and the old probability,
+[36:11] okay? So, meaning the action right is
+[36:13] not 20% more likely to that chosen.
+[36:15] Now, here basically we have a PPO
+[36:17] clipping. So, what it is doing? PPO is a
+[36:19] this is a main rule, do not change the
+[36:20] policy too much at once. Allow range,
+[36:23] okay?
+[36:24] So, we have a clipping.
+[36:25] It is nothing just a ratio basically
+[36:27] between what? Between the old policy and
+[36:29] the new policy, right? So, the ratio is
+[36:31] 1. So, the ratio we are getting it is
+[36:33] 1.2. It is a loud one because it is in a
+[36:34] given range. If the update is too large,
+[36:37] let's suppose if we are getting the
+[36:38] ratio is around 1.5, right? So, PPO will
+[36:41] clip it to the PPO will clip it to stay
+[36:44] within a range, right? So, PPO will not
+[36:46] go out of this particular range,
+[36:47] whatever range is being defined.
+[36:49] Okay, so with the with this particular
+[36:50] range only, with this given range only,
+[36:52] it's going to be update the probability
+[36:54] value. So, this is the complete
+[36:55] conclusion. It's [snorts] state policy
+[36:57] network state section environment value
+[36:59] function compute update policy compute
+[37:01] ratio and the apply clipping. I hope
+[37:03] guys this entire thing is getting clear
+[37:06] to all of you. It's very easy to
+[37:08] understand, right? Now, whatever I have
+[37:10] shown you inside the image, guys, so
+[37:11] everything I kept in the form of a
+[37:14] written example also. So, you can read
+[37:15] out uh this entire example, right? I
+[37:18] hope guys you got the clear-cut
+[37:19] understanding of the PPO. Now, we'll see
+[37:21] how this PPO is working in terms of the
+[37:23] RLHF. So, this I'll show you in the next
+[37:26] uh video. So, now let's uh look into the
+[37:27] practical whatever algorithm we have
+[37:29] learned. Uh I can show you the practical
+[37:32] of it.
+[37:36] So, guys uh let's uh start with a
+[37:38] practical. So, first I will show you the
+[37:40] very basic example of the reinforcement
+[37:42] learning, that is a Q-learning, right?
+[37:44] Q-table. So, for that I'm uh importing
+[37:46] this uh random.
+[37:48] After that, guys, what I will do, I will
+[37:50] uh define my two action, left and right,
+[37:52] okay? Now, this is what?
+[37:54] Uh this is my Q-table. Left is a zero,
+[37:56] right is a zero. So, initial value is a
+[37:58] zero, okay?
+[37:59] Now, see this is my Q-table. Now, this
+[38:01] is my reward system. So, whenever I will
+[38:03] pass the action, so according to that I
+[38:05] will get a reward. So, if the action is
+[38:07] right, then I will getting one. If the
+[38:09] action is uh
+[38:10] uh basically left, then I will be
+[38:11] getting the minus one, okay?
+[38:13] Uh now, guys, see if I'm passing right,
+[38:15] I'm getting one. If I'm passing left,
+[38:17] then what I'm getting, guys? I'm getting
+[38:19] minus one, right?
+[38:20] So, this is my learning rate alpha is
+[38:21] equal to 0.1. I'll tell you where it is
+[38:24] being used, right? So, we have two
+[38:26] actions, guys. Now, I'm passing to this
+[38:28] random.choice. Okay, so it will provide
+[38:30] me a random action. See, I'm getting
+[38:32] random action, right? Again, I will run
+[38:33] it, so I'll be getting right. Means,
+[38:35] randomly it will provide me action from
+[38:36] this two value.
+[38:38] So, Q action, so what I'm getting? I'm
+[38:39] getting zero, right? So, if you will
+[38:40] check out with the Q, so it is a Q
+[38:42] table.
+[38:43] >> [snorts]
+[38:44] >> Okay, so left is zero, all right is a
+[38:46] zero.
+[38:47] So, if I'm passing Q action, that is my
+[38:49] right right now, I'm I'm getting zero,
+[38:50] okay? So, I'm running it for 50 times,
+[38:52] so what is happening, guys? So, here,
+[38:55] uh basically, random.choice action, so
+[38:57] 50 time I'm choosing a random action.
+[38:59] I'm getting a reward, okay, and then I'm
+[39:01] updating this uh Q action. So, how it is
+[39:03] updating? Q action plus alpha, it is
+[39:05] small learning rate, reward, whatever
+[39:07] reward I'm getting minus Q action. Okay,
+[39:09] with this formula, I'm updating the Q
+[39:10] action. So, once I will execute it,
+[39:12] guys, here you can see, initially it was
+[39:14] 0 0, then right is updating, then again
+[39:16] right is 0.91, right is updating.
+[39:18] Uh then, guys, you will see at the end
+[39:20] at the end, uh right is having 0.92
+[39:22] probability, and this left is having
+[39:24] this this much of probability. So, if
+[39:26] I'll show you the Q table now, so see,
+[39:27] right is having this much of uh number,
+[39:29] right? Uh sorry, left is having this
+[39:31] much of number, and right is having this
+[39:33] much of number. So, what will happen,
+[39:34] guys? Uh this agent basically will
+[39:37] choose the right action. So, agent will
+[39:39] choose what, guys? So, agent will choose
+[39:41] the right action. I hope this is clear.
+[39:44] So, this is a complete explanation about
+[39:46] it. Uh you can read it out. I hope uh
+[39:48] this entire example is clear. It is
+[39:50] about the Q table. Uh now, let me show
+[39:52] you the DQN example. So, it is also very
+[39:54] simple. So, first, guys, what we are
+[39:56] doing? We are going to be create one
+[39:57] network. So, this is going to be our Q
+[39:59] network, okay?
+[40:01] Now, here is what? Here is my Q network.
+[40:04] This is my Q network.
+[40:06] Okay? So, there are basically, we have
+[40:08] created one simple neural network. It
+[40:10] will make a calculation. So, this is my
+[40:12] state size and the action size. So, in
+[40:14] the state, basically, we are passing
+[40:16] four uh
+[40:17] value, and the in the action basically
+[40:19] we are getting two output. Okay?
+[40:21] So, this is my state and the action.
+[40:23] Now, let me keep it over here. Okay?
+[40:25] Now, what is happening guys? So, here
+[40:26] you can see we have we are going to be
+[40:28] defined two network. One is going to be
+[40:29] model and
+[40:30] normal Q network and the second is going
+[40:32] to be a targeted Q network. So, let me
+[40:34] define it over here.
+[40:36] So, one is my normal Q network and the
+[40:38] second is going to be my targeted
+[40:39] network. So, target model and the normal
+[40:41] model Q model is defined. Okay? Now,
+[40:44] here is my uh optimizer and the loss
+[40:46] function. So, let me define the
+[40:47] optimizer and the loss function also.
+[40:49] So, here is my optimizer and the loss
+[40:50] function. Okay?
+[40:52] Now guys, uh here you can see. So, this
+[40:53] is nothing guys. Uh I'm not predicting
+[40:55] anything from the Q network the data
+[40:58] replay buffer I'm not creating as of now
+[41:00] using the Q network. You can do it.
+[41:02] So, for that I have created some random
+[41:03] data. Okay? So, this is working. This is
+[41:05] the behaving.
+[41:07] So, this uh particular data guys, just a
+[41:09] second.
+[41:11] Okay. So, this particular data basically
+[41:13] it's a behaving my
+[41:15] uh replay buffer data. Okay? This
+[41:17] particular data is state, next state,
+[41:18] reward, done and action. Right? So,
+[41:21] using this particular data only we are
+[41:22] going to perform the training.
+[41:25] So, this is my training guys where I
+[41:27] will be passing the state then it's
+[41:29] going to be predict the Q value.
+[41:31] Okay? Next Q and the targeted uh
+[41:34] means the target network is also
+[41:35] predicting then we are going to be
+[41:36] calculate the loss then this is my
+[41:38] optimizer. Okay? So, my loss value is
+[41:40] going to be minimize.
+[41:42] So, here guys this is my training step
+[41:44] and here you can see the loss value.
+[41:46] Right? So, this was this much is my loss
+[41:48] value means my model has learned.
+[41:50] Getting my point? So, it's a
+[41:51] reinforcement learning it's a DQL
+[41:53] learning. So, this is a complete
+[41:54] explanation of it. I have written the
+[41:56] theoretical points all the theoretical
+[41:57] points. You can read it out all the
+[41:58] theoretical points what is happening.
+[42:00] You will get the clear cut understanding
+[42:02] of it. Now, let's uh see the PPO
+[42:04] explanation like how the PPO works guys.
+[42:07] So, for the PPO guys we are using the
+[42:10] inbuilt package. Uh so, the package name
+[42:12] is what? A stable baseline three. So it
+[42:14] will provide you the different different
+[42:16] RL algorithm policy based algorithm
+[42:18] actually like the like [clears throat]
+[42:20] PPO, okay, and the other algorithm
+[42:22] basically which I mentioned earlier.
+[42:25] The second one is going to be swig,
+[42:27] okay, and the gymnasium box 2D. Now this
+[42:28] two library it is required to create a
+[42:31] simulated environment, the car racing
+[42:33] environment over here, okay, inside the
+[42:36] collab.
+[42:37] So let me install this two library three
+[42:39] library basic swig install the gymnasium
+[42:42] box. Now after that from the see I'm
+[42:44] importing the gymnasium then I'm
+[42:46] importing the PPO from the stable
+[42:47] baseline.
+[42:49] Okay, then guys I hear what I'm doing
+[42:50] I'm going to be create an environment
+[42:51] gym.make it is a car racing environment
+[42:54] I'm missing I'm mentioning the name and
+[42:56] the render mode is human, okay. So real
+[42:59] RL environment. Now here you can see
+[43:00] guys we are going to be defined a PPO
+[43:02] algorithm where CNN policy environment
+[43:05] verbose, okay, just to get a detail
+[43:07] learning rate how many steps for how
+[43:09] many steps we are going to be execute
+[43:10] and the best size, okay.
+[43:12] So why we are we have defined the CNN
+[43:14] policy so that
+[43:16] we can read the images because if you're
+[43:18] talking about the car racing, right? So
+[43:20] there
+[43:22] basically we are doing a
+[43:23] the car driving, right? The
+[43:25] the real
+[43:27] basically feeds coming on the form of
+[43:29] images, okay. So to process that images
+[43:32] we have we have defined the CNN policy.
+[43:34] Now let me execute it so my model is
+[43:35] ready. What I'll do guys so simply I'll
+[43:38] train the model. So model.learn I'm
+[43:39] passing total time is 10. Once I'll
+[43:41] execute it guys
+[43:43] my model basically is going to be
+[43:45] trained over here, okay. So my model is
+[43:49] trained.
+[43:50] Okay, I already trained I think it is
+[43:51] disconnected. Let me re-execute it one
+[43:53] more time. Let me check what has
+[43:55] happened.
+[43:57] So this is fine. This is perfect. This
+[43:59] is fine and this is also fine. So here
+[44:01] guys what will happen my model will be
+[44:03] trained, okay. And after model after
+[44:06] training the model, okay, reset the
+[44:07] environment and get the initial state,
+[44:09] right? So, we can get the observation
+[44:11] over here. So, once you will execute it,
+[44:13] guys, you will be getting the
+[44:15] uh the observation, okay? So, this is
+[44:16] the entire explanation which I
+[44:17] mentioned. You can read this particular
+[44:19] explanation regarding this example.
+[44:21] Okay, let me check why it is getting uh
+[44:24] crashed.
+[44:25] So, your session is going to be unknown
+[44:27] reason. What is the reason, guys?
+[44:30] Uh file validation, I think some problem
+[44:33] is there.
+[44:34] To run a Python module
+[44:38] Okay.
+[44:39] Let me change the runtime type. This
+[44:42] time I'm using a CPU instead of the GPU
+[44:43] because uh GPU is not required for this
+[44:45] particular training.
+[44:47] So, just a second, okay? Let me use the
+[44:49] CPU.
+[44:51] This is fine, so it is fine. Gymnasium
+[44:53] Box2D is clear, correct.
+[44:55] So, now let me import it, gym and the
+[44:58] PPO.
+[44:59] Now, this is my CarRacing-v3. This is my
+[45:01] simulated environment. Now, here is my
+[45:03] model. Now, here is my learning. Okay?
+[45:09] So, this is one working. This is also
+[45:11] done.
+[45:13] Let's see, guys, if it's not going to be
+[45:14] crash uh
+[45:16] means I can show you this output, okay?
+[45:18] We are going to be test the agent. Means
+[45:20] we are showing the final observation.
+[45:24] And then you can predict that
+[45:25] observation. So, that is in my next two
+[45:27] line.
+[45:29] So, this is also installed. This is
+[45:31] fine.
+[45:33] Okay, import is also working. Since CPU
+[45:35] actually, it might work a little slower.
+[45:37] But yeah, it will work. It might work,
+[45:39] okay? Let me check because I haven't
+[45:41] checked with the CPU.
+[45:43] Okay, PPO model is done. This is fine.
+[45:47] Model.learn. It should learn over here,
+[45:50] okay? It should train actually.
+[45:52] I think some mismatch issue I'm getting
+[45:54] because of because of the GPU maybe.
+[45:56] Okay, your session crashed
+[45:57] automatically. I think, guys, some issue
+[46:00] we have inside the notebook, Maybe Uh
+[46:03] I'll I'll look into that that, okay? So,
+[46:06] don't worry. In the next video when I
+[46:08] will record, I can quickly show you this
+[46:09] example one more time, or else you can
+[46:11] try it from your end, right? So, this is
+[46:12] very simple. Model your model will
+[46:14] learn, then you can check all the
+[46:16] observation, okay? Over here, and then
+[46:17] you can predict that using the model
+[46:19] itself. So, you will get the probability
+[46:21] of the
+[46:22] actions, right? And this is the complete
+[46:24] explanation of it.
+[46:25] So, yeah, fine, guys. I hope you
+[46:26] understood this RL. This session is
+[46:28] important to in order to understand RLHF
+[46:31] in future. And I hope, guys, you liked
+[46:33] it. If you like, then give me quick
+[46:34] thumbs up. And if you have any doubt,
+[46:36] you can write in the comment section.
+[46:37] So, yeah. Thank you, guys. I'll see you
+[46:39] in the next next session. Until thank
+[46:41] you. Bye-bye. Take care.

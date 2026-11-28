@@ -1,0 +1,1416 @@
+Title: LLM Fine-Tuning 22: Fine-Tune Any SLM (Small Language Model) | Crash Course with Practical(Unsloth)
+Video URL: https://www.youtube.com/watch?v=CeyI2l8LkYU
+Video ID: CeyI2l8LkYU
+======================================================================
+
+[00:00] Hey, hello everyone. Welcome back to my
+[00:03] YouTube channel. My name is Sunonny and
+[00:05] I'm back with another exciting and
+[00:08] important video. So guys, uh in this
+[00:10] video we'll discuss about the SLM. Uh
+[00:13] SLM stands for small language model. So
+[00:17] guys, this SLM is a very important topic
+[00:20] nowadays. Uh every companies are
+[00:22] training their own SLM. uh so in uh this
+[00:25] video I will give you the complete guide
+[00:27] how uh you can download your own SLM and
+[00:30] how you can fine-tune that uh then in
+[00:33] the upcoming videos I will discuss one
+[00:35] end to end project where we are going to
+[00:37] be host this SLM somewhere and we are
+[00:40] going to access like any API uh now guys
+[00:44] uh if you don't know I started with this
+[00:46] end to end finetuning playlist where I
+[00:48] uploaded uh 21 videos so far so in the
+[00:51] previous video I discuss about the gym
+[00:54] finetuning before that I discuss about
+[00:56] the open finetuning
+[00:59] and uh before that guys I discuss the
+[01:01] different different framework of the
+[01:04] finetuning and I discuss all the
+[01:06] fundamental related to the finetuning.
+[01:08] So if you are willing to learn
+[01:09] finetuning then uh this playlist could
+[01:11] be one-stop solution for all of you. Uh
+[01:14] now where you will get this playlist
+[01:15] guys. So once you will go and check with
+[01:17] my YouTube channel under the playlist
+[01:19] section you will find out this complete
+[01:21] LLM fine-tuning playlist. I created one
+[01:24] course as well. So you can explore the
+[01:25] course. Not only the finetuning playlist
+[01:28] guys, I have recorded other playlist
+[01:30] also. So if you are willing to explore
+[01:31] the uh different other playlist then
+[01:34] feel free to do that. If you have any
+[01:36] kind of doubt uh if you want to connect
+[01:38] with me regarding any doubt of the
+[01:39] generative AI, data science, machine
+[01:41] learning, software development, anything
+[01:43] guys then you can connect uh with me
+[01:46] through this link. Uh and uh so here I'm
+[01:48] providing the different different
+[01:50] services. So you can avail the service
+[01:52] according to your requirement. Uh now
+[01:54] guys uh let's uh come back to the topic.
+[01:57] So these all are the point which I'm
+[01:58] going to discuss throughout this video.
+[02:01] So first guys I will let you know like
+[02:03] what is a LLM? I think we all know about
+[02:05] the LLM. It's a like quite old topic.
+[02:07] Now uh now we'll discuss we'll focus on
+[02:10] the SLM part. What is a small language
+[02:12] model? Uh we'll see the differences
+[02:14] between the LLM and the SLM. And now
+[02:16] guys again this SLM is not a different
+[02:19] technology actually it is a same
+[02:21] technology but comparatively it is a
+[02:24] smaller model like large language model
+[02:26] is a very huge model as we know SLM are
+[02:29] the small model okay so we'll see why
+[02:32] these model are small we'll see the
+[02:34] differences I will not go in a
+[02:36] mathematical depth I will I will tell
+[02:38] you that in some other video but yeah
+[02:40] guys uh in this video I will give you
+[02:42] the complete walk through uh complete
+[02:43] theoretical understanding I will show
+[02:45] you the uh like the different different
+[02:47] research paper SLM leaderboard as I
+[02:49] written over here and then we'll see the
+[02:51] project implementation where you can uh
+[02:54] uh download any model uh after
+[02:56] downloading any model you can perform
+[02:58] the finetuning of that uh now guys uh
+[03:01] here I will show you the practical with
+[03:02] this unslo this unslo is a very good
+[03:05] library if you don't know about it you
+[03:07] can go and check with my previous video
+[03:09] I already discuss about this unsloth
+[03:11] inside this playlist itself uh this is a
+[03:13] very good framework uh guys uh even I
+[03:16] have used this framework this uh video
+[03:17] number 18 even I have used this
+[03:20] framework in my production grid solution
+[03:23] so where we have took one model one SLM
+[03:26] model only we have finetuned on some uh
+[03:29] data set domain specific data set and
+[03:31] then we have hosted that model on their
+[03:33] own server and now we are accessing even
+[03:35] the entire organization is accessing
+[03:37] that model for creating a chat
+[03:39] application and all so this kind of
+[03:41] thing like being implemented by many of
+[03:43] the companies guys that's why this thing
+[03:45] is very important to understand about
+[03:47] the SLM to how to deal with the SLM, how
+[03:50] to fine-tune that. Okay. Uh that's why
+[03:53] guys I'm putting uh like too much effort
+[03:55] on this side and I'm creating this end
+[03:57] to end video. Uh at this time I don't
+[04:00] know how long it will be. Uh now guys
+[04:02] here you can see so I written these many
+[04:04] topic and definitely we'll discuss it
+[04:06] inside this particular video. Uh now
+[04:10] first let's start with the LLM. what is
+[04:12] LLM and then we'll see the definition of
+[04:14] the SLM guys. Uh so here you can see I
+[04:18] written the definition of the LLM. A
+[04:20] large language model is a mathematical
+[04:22] model. Mathematical model means it's a
+[04:24] transformer-based model. Uh again the
+[04:27] transformer actually it's a combination
+[04:28] of the self attention and the neural
+[04:31] network. uh if you don't know about the
+[04:32] transformer uh in the previous video in
+[04:35] the playlist playlist itself I have
+[04:37] uploaded a different different video
+[04:38] regarding the transformer and the
+[04:40] finetuning of the other model okay so
+[04:43] where I have explained the transformer
+[04:45] architecture I just given the overview
+[04:47] not in depth actually but yeah you can
+[04:49] go and check over there so transformer
+[04:51] it's a collection of it's a combination
+[04:53] of the self attention and the neural
+[04:54] network uh so a large language model is
+[04:56] a mathematical model with the billions
+[04:58] of parameter billions and the trillions
+[05:00] of parameter if If I'm saying parameter
+[05:02] guys, so parameter means weights and
+[05:04] biases. Okay. Uh trained on the massive
+[05:06] and the diverse internet data. Uh it has
+[05:09] trained on the very huge amount of data.
+[05:11] Uh I we can say it is it has trained on
+[05:14] the entire internet data. Uh where
+[05:16] actually we have the trillions of token.
+[05:18] Okay. Parameter is a different thing.
+[05:20] Token is a different thing. Token we
+[05:22] create from the data itself. Okay. And
+[05:25] what is a parameter guys? So parameter
+[05:26] actually it's some weights and biases.
+[05:29] at the mathematical value of the model
+[05:30] itself. So please check out with the
+[05:32] previous video you will get a great
+[05:34] understanding of the transformer so that
+[05:36] you can uh like uh understand about the
+[05:38] weights and biases also. We should all
+[05:40] we should all have this fundamental
+[05:42] understanding uh even though we belong
+[05:44] like whoever we are right we are
+[05:47] software engineer data scientists AI
+[05:49] engineers right so we should have this
+[05:51] much of basic understanding uh now guys
+[05:53] uh if we're talking about the uh LLMs
+[05:56] guys so this is designed or this is
+[05:58] trained for the generalpurpose language
+[06:00] task now what is a journal purpose
+[06:02] language task so journal purpose
+[06:03] language task means uh it can chat it
+[06:06] can write it can read it can perform the
+[06:08] logic uh It can it can understand the
+[06:10] logic. It can perform the reasoning.
+[06:12] Okay. It can do the coding means every
+[06:14] kind of task general purpose task. So
+[06:17] like we human are communicating to each
+[06:19] other, right? Uh in a same way this
+[06:21] model can communicate to the human. So
+[06:23] it is overpowering this human language
+[06:26] actually. So that's a main name of this
+[06:28] there's a that's a main name of this LLM
+[06:30] large language model. Uh now example
+[06:33] wise guys this open a uh you know about
+[06:35] open A right? You know about the cloud
+[06:36] A, you know about the Google, everyone
+[06:38] knows about it. And these are the model
+[06:41] from the open AIA. These are the model
+[06:42] from the cloud A. These are these are
+[06:44] the model from the gymni. And this is
+[06:45] the open-source model from the meta. So
+[06:47] these all are offering LLM large
+[06:50] language model. And we have enough
+[06:52] understanding and the decent
+[06:53] understanding of the large language
+[06:55] model. Now we have to understand about
+[06:57] the uh SLM guys. Now guys, uh what is a
+[07:01] SLM? That is a small language model. So
+[07:04] a small language model is a compact
+[07:06] language model. Again it is a language
+[07:09] model. It is a subset of the large
+[07:11] language model only but it is having
+[07:14] less parameter. Whereas this LLM is
+[07:17] having a huge number of parameter like
+[07:20] 70 billion 50 billion 30 billion right
+[07:23] comparatively this LLM is SLM is having
+[07:26] lesser number of parameter usually under
+[07:28] 7 to 9 billion of parameter. This SLM
+[07:32] actually it is optimized. It is
+[07:33] optimized for the uh efficiency for the
+[07:36] speed and for the domain specific task
+[07:38] and uh it is often for the finetuning
+[07:41] okay for the particular use case and uh
+[07:43] the size is small so we can deploy we
+[07:46] can easily deploy it on any server okay
+[07:48] we can easily bear on any hardware this
+[07:51] SLM uh now what is the example of this
+[07:53] SLM guys the fi five model from the
+[07:55] Microsoft it is a example of the SLM
+[07:58] this GMA model it is example of the SLM
+[08:01] tiny llama again it's a example of the
+[08:03] SLM coin 1.5B deepseek R1 dist okay it's
+[08:08] a dist model again it is example of the
+[08:10] SLM uh Neotron H family it is example of
+[08:13] the uh SLM so here I tagged one image I
+[08:17] think but just by seeing this image you
+[08:19] can understand so many thing so just uh
+[08:21] see this image lama is providing us SLM
+[08:25] uh this Microsoft is providing us SLM
+[08:27] Google is providing us Mr. Apple uh
+[08:30] everyone's uh everyone training their
+[08:32] own SLMs okay and then they they are
+[08:34] making it open source and companies are
+[08:37] using it companies are using those SLM
+[08:39] as I told you uh because of the size
+[08:42] because of the number of parameter we
+[08:44] can easily wear those SLM small language
+[08:46] model on the hardware even though the
+[08:49] performance is not similar to the LLM
+[08:51] but again guys we can fine-tune for the
+[08:54] intended task for the uh domain specific
+[08:57] task and then we can utilize it. Uh
+[08:59] let's say I'm running one company. Let's
+[09:01] say I'm running one pharma company. Uh
+[09:03] where basically what I want to do I want
+[09:05] one model which can solve any sort of a
+[09:07] query regarding those pharma data. Uh
+[09:11] it's a internal it could be the internal
+[09:13] project. So what I will do I will not
+[09:15] consume any API from the uh from the
+[09:18] openi from the cloud from the gemini.
+[09:20] Instead of that what I will do I will
+[09:22] take one SLM uh I will train it on that
+[09:25] farmer data and I will host it on my
+[09:27] server. Okay. And by the time the
+[09:29] performance will be improved of that
+[09:30] model as we are getting query and again
+[09:32] we are training on the instruction data
+[09:34] set. So these the same uh step is being
+[09:38] taken care by many of the company and
+[09:40] even I am a part of those I I'm a part
+[09:42] of that project. So that's why guys I'm
+[09:44] uh recording this video with my all the
+[09:46] experience. So please guys watch this
+[09:48] video till the end if you want to master
+[09:50] the SLM technology.
+[09:53] Okay. So guys here I written uh one uh
+[09:56] line also. So before coming to this uh
+[09:59] difference is uh let's uh read out the
+[10:01] definition from some authentic resources
+[10:04] and uh let's go through some uh relevant
+[10:06] research paper. Uh so guys here I uh
+[10:10] open the different different website. So
+[10:13] uh here is the hugging face guys. So
+[10:15] there is one article a very good article
+[10:18] over the a small language model. So they
+[10:21] are saying a small language model a
+[10:22] comprehensive overview.
+[10:25] So uh this article is written by this
+[10:27] John Johnson. Uh now just read out this
+[10:30] article. It's a very good article uh
+[10:32] over the hugging phase. Okay. Uh the few
+[10:35] past year have been a blast for the
+[10:37] artificial intelligence with a large
+[10:38] language model uh stunning everyone with
+[10:41] their capabilities and powering
+[10:42] everything from chatbot to code
+[10:45] assistant. uh however not all all
+[10:47] application demand the massive size and
+[10:49] the complexity of the LM. The
+[10:52] computational power required makes them
+[10:54] impractical for many use cases. Uh this
+[10:57] is why small language model entered uh
+[10:59] the scene to make powerful AI model more
+[11:01] accessible by shrinking in size. Means
+[11:05] this person is saying large language
+[11:07] model are the huge one which is not
+[11:10] required at every place. uh the couple
+[11:12] of thing right which can be done by the
+[11:14] uh small model as well. So that's why
+[11:17] guys uh the era of the this this era
+[11:20] actually is going to be a era of the
+[11:22] small language model and many companies
+[11:24] are going to be adapted in the near
+[11:26] future. Uh now guys here you can see
+[11:30] what are the small language model it
+[11:32] they have highlighted over here. Uh now
+[11:34] apart from the see here one more thing
+[11:36] they have written the SLM type typically
+[11:38] range from the 1 million to 10 million
+[11:40] or 10 billion of parameter. So up to 10
+[11:43] billion of parameter we can consider up
+[11:46] to 10 billion of parameter we can
+[11:47] consider any model as a SLM model a
+[11:50] small language model. Uh now over here
+[11:52] how they have they made it how they made
+[11:54] the small one. So uh using the knowledge
+[11:57] distillation using the pruning
+[11:59] quantization. So if you don't know about
+[12:01] this uh topic guys uh then you can check
+[12:03] out with my playlist I already recorded
+[12:05] uh like video about the distillation
+[12:08] about the quantization and all. So you
+[12:10] will get some understanding about these
+[12:12] particular topic. But uh these are not
+[12:14] only the thing guys we have so many
+[12:15] things so many mathematical thing
+[12:17] mathematical parameter using those
+[12:19] parameter we are going to be we are
+[12:22] going to be like train a small language
+[12:23] model. We are going to be like shrinking
+[12:25] the size we are going to be shrinking
+[12:27] the size of the large language model. So
+[12:29] that thing I will discuss in one of the
+[12:31] video because I analysis that part
+[12:33] mathematically I understood what all
+[12:35] think like what all thing is possible
+[12:38] like how we can convert any LLM into the
+[12:40] SLM. Okay just by tweaking some
+[12:43] parameter just by taking subset of the
+[12:44] layer and to implement some mathematics
+[12:47] changes over there. Uh now guys example
+[12:50] of the small language model. So they
+[12:52] have highlighted the example of the
+[12:53] small language model like llama 3.21b
+[12:55] 21B quen deep se small fa the model name
+[13:00] which I was telling you uh now over here
+[13:02] you can see the benefit of using a small
+[13:03] language model so it is required low
+[13:05] computation it is required lower energy
+[13:09] faster inference on device right we can
+[13:11] host it on any device uh cheaper
+[13:14] deployment customizability so guys these
+[13:16] are the point which you can focus if
+[13:18] someone is going to ask you in an
+[13:19] interview then you can highlight this
+[13:21] point but guys I would suggest you you
+[13:23] have to like perform the practical as
+[13:26] well so that you can justify this point
+[13:28] not only the theoretical in terms of the
+[13:30] practical also you have to be pro. Uh
+[13:32] now limitation of the small language
+[13:34] model. So yeah we have the advantage
+[13:37] then on the other hand we have some
+[13:38] limitation also. So these are the
+[13:40] limitation it is it is having narrow
+[13:42] scope means we cannot use it everywhere
+[13:45] like the LLM. See LLM is a good enough.
+[13:48] I believe LLM is a decent enough. But
+[13:50] guys, if LM is overpowering something
+[13:53] means like if it is not required
+[13:56] somewhere where we can done the a small
+[13:58] task with the SLM itself, then why we
+[14:01] have to spend the money okay so that's a
+[14:03] main aim that's a main agenda right so
+[14:06] limitation of the small language model
+[14:07] it is having a narrow scope bias risk
+[14:10] reduced complexity and the less
+[14:12] robustness. So yeah we have to keep this
+[14:14] thing in our mind. So wherever it is
+[14:16] required there only we have to use it
+[14:18] otherwise we can skip it. We can use our
+[14:20] regular LLMs. Okay. Now real world
+[14:22] application of the small language model.
+[14:24] So these are the real world application.
+[14:26] So this is guys very good uh this is
+[14:28] guys very good like blog on top of the
+[14:30] very good article on top of the small
+[14:32] language model. I will provide you this
+[14:33] link. You can read it out. Now one more
+[14:35] article which I found from from the
+[14:37] trustable resource. This is from the uh
+[14:40] like Microsoft. So what are the small
+[14:42] language models? So uh here also you
+[14:44] will get a overview of the small
+[14:45] language model. Now apart from this how
+[14:48] does it work guys. So the basic
+[14:49] architecture of the small language
+[14:51] model. So they have mentioned over here.
+[14:53] Now uh the training process. So the
+[14:55] training process would be the same one
+[14:56] with the lesser data set. So here they
+[14:58] have mentioned about it the advantage of
+[15:01] using a small language model. Yes. Uh so
+[15:03] the same advantage which I was
+[15:05] discussing. So you definitely you can
+[15:07] read it uh read all this advantage of
+[15:09] the small language model. Uh now apart
+[15:11] from this one guys challenges and the
+[15:12] limitation of the small language model.
+[15:14] So the same thing they are also
+[15:15] describing over here. So definitely you
+[15:17] can read out this uh challenges and the
+[15:19] limitation of the small language model
+[15:21] and you can understand okay uh you can
+[15:23] understand in detail. Now a type of the
+[15:26] small language model. So again guys this
+[15:28] is very important. So please focus on
+[15:29] this point as of now. Let me give you
+[15:32] the quick highlight of it. Dist version
+[15:34] of the large language model. Dist
+[15:36] version means any model which we have
+[15:40] like distlized from the large language
+[15:42] model. So I can give you very good
+[15:44] example even I have mentioned that uh
+[15:46] model name in my notes as well. So just
+[15:49] uh read this name deepseek R1 distill
+[15:52] 1.5B. So this model actually this
+[15:55] deepseek R1 distill model it is dist
+[15:57] from the bigger LLM right. So one kind
+[16:00] of uh one kind of SLM are the dist one
+[16:03] from the huge model from the large
+[16:04] language model. The second basically
+[16:07] task specific model. Task specific model
+[16:09] means the model which we are training
+[16:11] for the task only for the specific task
+[16:13] only. Let's say there is one ABC
+[16:15] organization who is training their own
+[16:17] specific model on the do on a domain
+[16:20] specific task. Right? So this could be
+[16:22] one kind of model. Lightweight model
+[16:25] again guys lightweight model means the
+[16:28] llama tiny llama. Okay 51 model. So that
+[16:32] is again a general purpose model which
+[16:34] can do some uh which can do every kind
+[16:37] of task in some limitations. Okay. Tiny
+[16:39] llama model actually it is not a domain
+[16:42] specific model. It is again a general
+[16:43] purpose model but that model actually
+[16:47] cannot cannot answer similar to the
+[16:50] llama 70B model similar to the GPT4 or
+[16:53] GPT5 model. No it is not like that. It
+[16:57] is a lightweight generalpurpose model
+[16:59] which can do like some chatting, some
+[17:01] writing, some reasoning, some logical
+[17:03] thinking but not up to the mark. But if
+[17:05] we are going to be fine-tuned that for
+[17:06] the intented task then it will perform
+[17:08] well. So yeah we have three kind of
+[17:10] model means first which is distalized
+[17:13] then second it intentionally trained for
+[17:16] the uh for that domain and the third one
+[17:19] is the generalpurpose lightweighted
+[17:21] model okay which is a open-source one.
+[17:23] So guys, this two article is a very good
+[17:25] article on top of the SLM. If you want
+[17:28] to some authentic resources, then
+[17:30] definitely I can share like this even in
+[17:32] the description. Okay. Uh now one more
+[17:36] like link I can show you over here guys.
+[17:37] See uh LLM explorer. So here guys, this
+[17:40] is the complete leaderboard of the not a
+[17:43] leaderboard basically it's a complete
+[17:45] information of the SLM model. Over this
+[17:47] website actually you will get the
+[17:48] complete and detailed information of the
+[17:50] SLM. Now just uh read the model name the
+[17:53] different different model name they have
+[17:55] given over here along with the
+[17:56] maintainer size score VM quantise
+[17:59] license context length likes download
+[18:02] modify so they are capturing each and
+[18:04] every kind of information regarding the
+[18:06] SLM regarding the small language model
+[18:09] so you can see the different different
+[18:10] models see guys here in total you will
+[18:12] find out 6,000 model so they have
+[18:15] captured around 6,000 model definitely
+[18:17] we cannot go through with each and every
+[18:19] model over here but Guys again at least
+[18:22] try to read this name so you so that you
+[18:24] will get some understanding okay what
+[18:27] all are the small language model are
+[18:29] available who is providing that right
+[18:31] whether it's a opensource or it is
+[18:33] providing by some community or it is
+[18:35] providing by some bigger giants like
+[18:37] Nvidia like openAI Google's and all so
+[18:40] just read it out so model name is 53
+[18:42] mini 4K instruct it is being provided by
+[18:44] the Microsoft now here you can see the
+[18:46] size 4B okay the llama five deepse again
+[18:50] from the llama from the quen uh then
+[18:52] again from the five from the Google okay
+[18:54] this GMI is from the Google then five
+[18:56] from the Microsoft okay then this you
+[18:58] can see from the IBM so guys so many
+[19:01] models you will get over here here you
+[19:03] can easily compare the different
+[19:04] different SLM and according to the
+[19:06] requirement you can utilize it so
+[19:08] definitely I will provide you this link
+[19:10] I will provide you this link in the
+[19:12] description you can check it out over
+[19:13] there uh so this is the one thing guys
+[19:16] uh I think we have covered about the
+[19:17] article we have covered about the uh
+[19:20] like this LLM explorer okay where we
+[19:23] have so many SLM now let's see the
+[19:26] differences between the LLM and SLM
+[19:28] let's take a quick walk of it and then
+[19:30] guys I will show you one more research
+[19:31] paper the research paper name is this
+[19:34] SLM are the future of the agentic this
+[19:36] is very much important research paper
+[19:38] and right after this one we'll jump to
+[19:40] the practical so if we talking about the
+[19:43] SLM right SLM and the LLM so see guys I
+[19:45] listed couple of differences over here
+[19:48] you can discuss these differences In the
+[19:50] interview as well someone is going to be
+[19:52] ask you like how you have hosted your
+[19:54] LLM what is the difference between the
+[19:55] LLM and the SLM. So model size in the
+[19:58] LLM actually the model size will be very
+[20:00] very large around 7B uh not 7B 7B
+[20:04] actually comes under the SLM only
+[20:06] nowadays along according to the
+[20:07] definition and all but yeah after the 10
+[20:10] billion parameter
+[20:11] those model actually it is called the
+[20:13] large language model uh 70 billion
+[20:16] parameter 175 billion parameter these
+[20:18] are very huge one that's small to medium
+[20:21] 0.5 billion to 7 billion parameter and
+[20:24] up to 9 to 10 billion parameter in Some
+[20:26] research paper they have mentioned that
+[20:28] mark. Okay, that benchmark. Again there
+[20:30] is no like certain boundary but yeah
+[20:32] most of the research paper we will see
+[20:34] the collective results. So the
+[20:35] collective result are saying up to 9 to
+[20:38] 10 billion parameter we can easily host
+[20:40] on any server. After that guys it is a
+[20:42] little bit challenging. Now primary goal
+[20:45] to get a journal intelligence for many
+[20:47] unknown task. Now uh what is the primary
+[20:50] goal of the SLM? High accuracy only for
+[20:52] the known specific task. Okay. uh
+[20:55] training data massive multi-dommain and
+[20:58] the internet scale data where we have
+[21:00] trillions of token right uh now we're
+[21:03] talking about the SLM guys so it is a
+[21:04] small curated and the and for the domain
+[21:07] specific task uh training cost and infra
+[21:09] extremely expensive large cluster of the
+[21:12] GPU and it will take week and months for
+[21:15] the training right uh uh on the other
+[21:18] side if it's we are talking about the
+[21:19] SLM then it is affordable uh single to
+[21:22] few GPU and it takes hour to days only
+[21:25] it is like comparatively very small uh
+[21:27] this comparatively very small guys. Now
+[21:30] uh inference cost so again very high as
+[21:33] we know right we are paying to open AI
+[21:36] we are paying to cloud A right the we we
+[21:38] are paying very high cost and uh here
+[21:40] guys uh it is cheap and it is very fast
+[21:43] the inferencing also will be very very
+[21:45] fast because the size is small
+[21:47] architecture guys it is having deep
+[21:49] transformer type with the many layers so
+[21:52] transformer actually it is a backbone of
+[21:55] any LLM any large language model so if
+[21:58] you want to master the large language
+[21:59] model guys. I will highly suggest you to
+[22:01] master the transformer architecture. So
+[22:04] uh it is having so many ST okay in LLM
+[22:07] actually you will be having so many ST
+[22:08] along with the different different uh
+[22:10] like uh along with the different
+[22:13] different concept of the attention like
+[22:14] cross attention self attention okay uh
+[22:19] that multi-headed self attention now
+[22:21] here in the SLM actually you will be
+[22:23] having a fewer layers and the optimized
+[22:25] transformer block right now performance
+[22:28] strength again a strong regioning
+[22:30] open-ended task and the long context on
+[22:32] the other side is strong common fixed
+[22:34] task limited open reasoning. Now
+[22:36] deployment wise mostly cloud and API
+[22:38] based means we can uh like uh how we can
+[22:41] read the LLM. So we can read the alm
+[22:43] through the different APIs right or if
+[22:45] you have to be like uh or from the cloud
+[22:48] also right so we AWS is providing us
+[22:51] Azure is also providing us uh GCP is
+[22:54] still like providing us even I have
+[22:56] shown in my previous video right so
+[22:59] likewise we are accessing the LLM on the
+[23:00] other hand if we talking about the SLM
+[23:02] guys so it is we can host it on the
+[23:04] local server okay on promises server
+[23:06] over the edge devices over the single
+[23:08] GPUs and all so these are the quick
+[23:10] differences between the SLM LM and the
+[23:12] LLM. If someone is going to ask you the
+[23:15] clearcut differences, then you can talk
+[23:18] about it. Okay. So guys, we understood
+[23:20] so many things what is SLM, LLM, we have
+[23:22] gone through the different different
+[23:23] research paper, leaderboard and the
+[23:25] differences and all. Now let me show you
+[23:27] one more research paper and then I will
+[23:29] give you one more example and after that
+[23:31] we'll move to the practical. So I will
+[23:32] just take five more minute and right
+[23:34] after that we'll discuss the practical.
+[23:37] So guys when this SLM got like the fame
+[23:42] so this Nvidia actually they have
+[23:44] released one paper the paper name was
+[23:46] the L&M small language model are the
+[23:48] future of the agentic. Uh so this
+[23:51] research paper actually it was released
+[23:53] by the Nvidia research uh with the
+[23:55] collaboration of the Gorgia GIA
+[23:57] Institute of Technology. Uh now guys uh
+[23:59] this is a quite interesting and the very
+[24:01] good research paper. Uh if you want to
+[24:03] understand this research paper then
+[24:04] definitely go through with it. uh try to
+[24:06] read it. Uh I will give you the link of
+[24:08] it. But guys uh we are not uh like uh we
+[24:12] are not able to read the research paper
+[24:14] right and we we know the we know this
+[24:16] bitter truth. Uh so for all of you guys
+[24:19] I created the summary of this research
+[24:22] paper. Here you can see the complete
+[24:23] summary of this research paper. So uh
+[24:25] instead of going through this uh instead
+[24:27] of going through this research paper the
+[24:29] entire research paper you can download
+[24:31] my notes from the GitHub and you can
+[24:33] look into this summary. Okay. So let me
+[24:35] highlight what all thing have been
+[24:36] discussed inside the research paper and
+[24:38] then guys we'll take one more example
+[24:41] and right after that we'll come to the
+[24:42] practical. So guys uh this research
+[24:44] paper was released in 25 itself. So here
+[24:47] if you will check the date. So the date
+[24:50] is 15th September 2025. Now here uh they
+[24:53] have mentioned couple of model. So let
+[24:55] me uh show you these model. See these
+[24:57] are the model guys. So they discuss the
+[24:59] thing behalf on this model and guys uh
+[25:01] the center the center the core of this
+[25:04] research paper is the uh AI agents okay
+[25:07] because AI agents is going to be going
+[25:09] to be a future as we know for entire
+[25:11] automation guys we are using the AI
+[25:14] agents uh and in every company people
+[25:16] are hiring for the agentic AI for the AI
+[25:18] agents and every company are developing
+[25:21] their own AI agents for automating their
+[25:23] task right so if we want some autonomous
+[25:26] system then we'll have to understand the
+[25:28] AI agent and AI agent is going to be my
+[25:31] next playlist. So if you want that
+[25:32] playlist guys, you can uh comment in the
+[25:35] comment section. Uh definitely I will
+[25:37] create one playlist on top of the agent
+[25:39] AKI with all my experience where I will
+[25:42] record at least 25 video regarding the
+[25:44] different different concept. Uh yeah so
+[25:47] let's uh discuss the summary guys. So
+[25:49] here SLM are the future of the agenti.
+[25:52] So what they mean by SLM and LLM? So
+[25:55] let's uh see the definition of the SLMLM
+[25:57] according to this paper. So they are
+[25:59] saying a model that can run on a
+[26:00] consumer device okay over the single GPU
+[26:03] over the laptop over the edge devices
+[26:05] right with a lower latency for one user
+[26:08] agent uh that is called the SLM. Now
+[26:11] anything beyond to this right uh
+[26:13] anything beyond to large beyond to this
+[26:15] that is called the LLM. uh practical
+[26:18] rule according to this paper they have
+[26:20] mentioned below 10 billion parameter so
+[26:23] 8 billion parameter 9 billion parameter
+[26:26] and even 10 billion parameter is equal
+[26:28] to the SLM so they have given the
+[26:30] roughly estimation regarding the
+[26:32] parameters over here uh now these are
+[26:35] the model guys which they have mentioned
+[26:37] over here Microsoft 5 this is the good
+[26:39] model guys uh it and it is beating like
+[26:41] so many benchmark with the with a very
+[26:43] few parameters so if you want to use any
+[26:46] LLM for your task right sorry any SLM
+[26:49] for your general purpose task then this
+[26:51] model could be a very good model uh
+[26:54] similar to this uh deepseek model right
+[26:56] so deepseek R1 distill 1.5 uh guys I
+[27:00] haven't checked the benchmark of this
+[27:01] model but guys this is also performing
+[27:03] well I have seen in many leaderboard uh
+[27:05] so definitely you can try it out now
+[27:07] apart from this one Neotron again it is
+[27:10] a model from the Nvidia itself small LM
+[27:13] Hima Salesforce XLM so couple of more
+[27:16] model they have mentioned over there. So
+[27:18] definitely you can explore but I will
+[27:20] highly recommend you to check out with
+[27:21] this Microsoft 5 and the deep sea. Okay.
+[27:24] Now what is the core idea? What is the
+[27:26] core idea behind this research paper? So
+[27:29] they are saying in agentic AI system so
+[27:31] in agentic AI system most of the work is
+[27:34] done through the small repetitive most
+[27:37] of the work is done through the small
+[27:38] repetitive well- definfined subtask.
+[27:40] Okay. For this kind of work, a small
+[27:42] language model are the more than
+[27:44] powerful enough, more cheaper, right?
+[27:46] And the operationally better than using
+[27:49] one big LLM. Now guys, if you don't know
+[27:51] about the AI agent, so let me show you
+[27:53] the AI agency. See, this is the AI
+[27:55] agent. Uh I have like kept one image for
+[27:58] all of you guys. So whatever task you
+[28:00] want to be complete through the AI
+[28:01] agent. So AI agent is having three main
+[28:04] thing. One is the tool, second is the
+[28:06] memory and third is the planning. So
+[28:08] what does it mean guys? So the planning
+[28:10] is nothing. Planning means it think
+[28:14] then it take action. Okay. And then it
+[28:19] observe right it observe. Observe or it
+[28:23] evaluate. OB S E R V. Okay. It observe
+[28:28] and then it evaluate. So let me write
+[28:31] over here it evaluate. So these are the
+[28:34] main pillar of the planning. So AJ if we
+[28:38] we are saying like action so action is
+[28:40] nothing it's a tool calling and we can
+[28:43] have any sort of a tool guys. So tool
+[28:45] means any service any service we can
+[28:47] expose as a tool and there this MCP
+[28:50] comes right. So definitely I'll discuss
+[28:52] about the MCP also in my upcoming video
+[28:55] we'll discuss onto that. So uh here you
+[28:58] can see guys databases uh it could be
+[28:59] the tool local file could be the tool
+[29:02] census data API like from wherever we
+[29:05] can access the data the information
+[29:07] right that could be my tool I can create
+[29:09] any tool any custom tool okay so that's
+[29:12] a core agenda behind the agent behind
+[29:14] the AI agent and soon I will start one
+[29:17] playlist on top of the agent guys even
+[29:19] though I recorded one but again I will
+[29:21] discuss in very detail uh with all my
+[29:23] experience uh now here guys they are
+[29:25] saying the core idea of this research
+[29:27] paper most of the work basically is the
+[29:30] small work in the AI agent the subtask
+[29:32] actually which can be done through the
+[29:33] SLM now SLM actually why SLM fit for the
+[29:37] AI agent AI agents so agent task usually
+[29:41] non- chatty means we are not doing a
+[29:43] repetitive chat over there okay uh
+[29:45] format restricted means where we are
+[29:48] going to be generate the structure
+[29:49] output and agent are already the control
+[29:52] model which is tightly using prompt tool
+[29:54] logic so most of The LLM which is having
+[29:58] a general intelligence is a based one
+[30:00] right. So we can use the task specific
+[30:03] LLM. So this is a core idea behind this
+[30:06] uh behind this research paper guys and
+[30:09] after this research paper I have seen so
+[30:12] many tutorial on top of this SLM and
+[30:14] even like people have started using this
+[30:16] SLM. Uh now guys economically also it is
+[30:19] good. So 10 to 30x cheaper right than
+[30:23] this LLM. then much lower latency and
+[30:25] the energy use uh easy and the fast
+[30:27] fine-tuning. So yeah, that's the same
+[30:30] thing which I'm going to be discussing
+[30:31] inside this video how you can fine-tune
+[30:33] any SLM then it can run locally on the
+[30:36] devices uh better privacy and the
+[30:38] control and the recommended strategy is
+[30:41] SLM first then call LLM only when it is
+[30:44] required. So yeah this is the like uh
+[30:47] thing which uh they have discussed
+[30:49] inside this research paper. This is the
+[30:50] entire summary but for the more detail
+[30:52] again you can go through with this
+[30:54] research paper guys. Uh now we have
+[30:57] discussed I think uh like all the thing
+[31:00] but again guys one more example. So here
+[31:03] you know about this llama. So llama
+[31:06] actually llama 3 is a llama 3 is a llm
+[31:09] okay large language model which is
+[31:11] having billions of parameters. So it is
+[31:13] having more than 500 billions parameter.
+[31:16] It's having a different different
+[31:17] variants actually. So yeah you can
+[31:19] explore this research paper and you can
+[31:22] understand the different different
+[31:23] variants of the llama. So llama 70B then
+[31:26] uh then 8B 70B 405B okay uh so these are
+[31:31] the model which they have introduced
+[31:33] over here and it is also having a
+[31:35] general purpose knowledge okay uh it's
+[31:37] also having a general intelligence now
+[31:39] on the other hand we have one more model
+[31:41] the model is the tiny llama so guys if
+[31:43] we want to understand uh the differences
+[31:46] the real differences between the LLM and
+[31:48] the SLM okay and how mathematically they
+[31:52] are different what all other technique
+[31:53] what are different techniques tech they
+[31:54] have used in while they are training the
+[31:56] SLM right so definitely we should go
+[31:59] through with this research paper there
+[32:01] only you will find out the authentic
+[32:03] information so I prepare one quick
+[32:06] differences between this
+[32:08] LLM and the SLM so let me give you the
+[32:10] quick walk through mathematically we'll
+[32:12] discuss later on but if you want to
+[32:14] understand that definitely you can go
+[32:16] through with this research paper LLM and
+[32:18] the SLM and you can understand that so
+[32:21] here guys this is the uh these are the
+[32:23] differences which I kept over here. So
+[32:26] model size wise model size wise 1.1
+[32:29] parameter 1 1.1 billion parameter and
+[32:31] the llama actually you will find out 7B
+[32:33] to 70 B+ parameter okay category it fall
+[32:38] under this SLM it fall under LM training
+[32:40] data wise 2 to three trillion tokens 20
+[32:43] to 30 trillion token uh then primary
+[32:46] strength efficiency good performance at
+[32:48] the small scale uh so guys as I told you
+[32:51] this tiny llama also is trained for the
+[32:53] journal per task like FI model PHI okay
+[32:57] so it's not a task specific model which
+[33:00] is trained by uh the closed source
+[33:02] organization for any specific
+[33:03] organization for their own task no it's
+[33:05] a open-source model it is also having a
+[33:08] general knowledge but guys its general
+[33:10] knowledge it's a limited one okay its
+[33:13] general knowledge are limited compared
+[33:14] to the other llama model so that's why
+[33:17] it's a tiny llama now here the primary
+[33:20] strength is a strong uh and it is having
+[33:22] a general intelligence reasoning depth
+[33:24] basic to moderate reasoning. Uh it is
+[33:26] having deep multi-step reasoning and it
+[33:29] is also having a chain of thought
+[33:30] capability. Then common sense again is
+[33:33] strong for its size. It beats opt and
+[33:36] the pythia uh much stronger more
+[33:39] consistent.
+[33:40] Then uh code coding ability decent it is
+[33:43] having a strong capability instruction
+[33:45] uh good after finetuning excellent out
+[33:48] of box right uh context handling short
+[33:50] and the medium context it can handle and
+[33:52] it can handle long context fine-tuning
+[33:55] cost cheap expensive inference cost low
+[33:58] and the higher one latency very fast
+[34:01] slower deployment wise we can deploy it
+[34:03] on a single GPU here we can uh we
+[34:06] required a bigger GPU or the cluster of
+[34:08] the GPU best real Use case agent
+[34:11] automation drag right there we can use
+[34:14] and we can use this also at the same
+[34:16] place right but again it is a bigger
+[34:18] model uh production fist yes it is a
+[34:20] cons sensitive and uh we can use it in
+[34:23] in the production system production grid
+[34:25] system in our own server now it is a
+[34:27] high quality model which is required a
+[34:29] bigger infrastructure now best suited
+[34:32] for so again chat style assistant light
+[34:34] logic regioning light coding and the
+[34:36] Chinese task so yes couple of Chinese
+[34:37] task also we can perform using this
+[34:39] model now general purpose foundation
+[34:42] right so the task which is being
+[34:44] performed by this bigger llama model so
+[34:46] general purpose foundation task common
+[34:48] sense reasoning QA reading comprehensive
+[34:50] math code generation multi-dommain
+[34:52] knowledge or different different thing
+[34:53] so guys this is the quick uh differences
+[34:56] if someone is going to be ask you okay
+[34:57] what you know about the SLM and NLM then
+[35:00] you can highlight these differences
+[35:02] mathematically what all mathematical
+[35:04] changes mathemat mathematical changes
+[35:06] they have done while they are performing
+[35:08] the supervised finetuning learning or
+[35:10] the training of the model right so that
+[35:12] we'll discuss in the upcoming video
+[35:13] definitely I'll again highlight that
+[35:15] part so yeah guys we have discussed all
+[35:17] the points and now let's uh jump to the
+[35:21] practical guys
+[35:23] okay guys so this entire practical will
+[35:26] perform in the Google collab because in
+[35:28] the Google collab we have a access of
+[35:30] the GPU uh so in my local also I can do
+[35:33] it but uh see I have a GPU in my local
+[35:37] first of all uh let me show you my local
+[35:39] uh GPU guys. Uh yeah. So
+[35:45] this is my GPU. My GPU name is Nvidia
+[35:48] RTX5070
+[35:52] TI, right? So I don't know you are able
+[35:54] to see or not, but yeah, it's RTX5070
+[35:57] TI. This is the complete detail of my
+[36:00] GPU. Uh I can do it in my local as well.
+[36:03] Yesterday I also tried but unsloth
+[36:06] actually it is required the PyTorch.
+[36:09] Okay, Unsllo is required GPU as well as
+[36:12] it is required PyTorch in back end not
+[36:15] PyTorch CPU it is required PyTorch GPU.
+[36:17] So I was getting some version
+[36:19] incompatibility with this with my GPU
+[36:22] this RTX 5070Ti and this unsllo and the
+[36:28] PyTorch basically. So I uh did multiple
+[36:31] research on top of that and I figured it
+[36:33] out that that uh library actually is not
+[36:36] still compatible with my GPU. There are
+[36:38] some like gap in between. Uh I was
+[36:41] getting some data type related issues
+[36:43] over there. So that's why I'm not doing
+[36:45] it in my local. But yeah, if you have
+[36:47] any other GPU, if you have configured
+[36:49] any other GPU on any server, you can try
+[36:51] try out over there. I will do it over
+[36:53] the collab. Uh collab is providing us
+[36:55] free GPU. We can take we can take the uh
+[36:58] enterprise variant of the collab if we
+[37:01] have a bigger data set and the if you
+[37:03] have to do it for any P or for for any
+[37:05] MVP we can do that also or else we can
+[37:08] hire any uh cloud GPU as well. Okay. So
+[37:11] there are several option and uh
+[37:13] definitely I'll I'll create one
+[37:16] dedicated video in the near future
+[37:17] regarding all the GPU related option and
+[37:20] uh over the multi-GPU training also
+[37:22] because I did it guys. Uh now uh here uh
+[37:27] you can see so uh the model title sorry
+[37:30] the video title is the fine-tuning any
+[37:32] SLM any large language model. So guys uh
+[37:36] are we going to fine-tune any large
+[37:38] language model using this code? Yes, we
+[37:40] are going to fine-tune any large
+[37:41] language model. You just need to give
+[37:43] the name uh of the model and you just
+[37:45] need to provide the data. Okay. Uh this
+[37:48] code will take care everything. I
+[37:50] written this modular code in such a way
+[37:52] that it will take care everything and
+[37:54] yeah it will fine-tune your model. So I
+[37:57] written couple of name just to like
+[38:00] assist you over here. You can see these
+[38:03] are the couple of name. I hope you are
+[38:04] able to see this. So uh as I told you we
+[38:07] are not going to use the native hugging
+[38:09] phase or we are going to use unsloth.
+[38:10] Unslo is a very good package very good
+[38:13] framework to fine-tune the uh fine-tune
+[38:16] the model. Okay fine-tune any LLM or SLM
+[38:18] model. So yeah, I'm going to be use the
+[38:21] uh model from the unsloth library
+[38:23] itself. If you don't know about the
+[38:24] onslaught, I already recorded one video
+[38:26] in my playlist. You can go and check
+[38:27] there. And now data data set guys, we
+[38:30] can have any sort of a data set, any
+[38:32] data set from the hugging face. See this
+[38:34] is the inbuilt data set of the hugging
+[38:35] face. This one. Now this is the data set
+[38:38] from my repository. So even I uploaded
+[38:41] my data set over the hugging face. See
+[38:42] this is the data set. Let me show you.
+[38:44] If I will search it over the uh Google,
+[38:46] I will get my data set. Okay. So just a
+[38:51] second again I can search it. See? So
+[38:53] I'll get it over the hugging face. Let
+[38:55] me check with my profile. Okay. I will
+[38:58] have to login over here. Actually it is
+[38:59] not login that's why it's not coming. Uh
+[39:02] let me log check with a different
+[39:04] browser. So
+[39:10] okay it's not directly coming but uh I
+[39:13] can show you if I set that I can show
+[39:16] you
+[39:18] uh see collection spaces is there then
+[39:21] models are there then data set see this
+[39:23] is my data set which I already uploaded
+[39:26] over the hugging phase okay so I can uh
+[39:29] I can uh use any custom data set from
+[39:31] the hugging phase not from only from the
+[39:33] hugging phase we can use it from
+[39:34] anywhere here. Now if you will check
+[39:36] guys, so see uh this is the data set. So
+[39:38] I can keep it on my uh collab server. I
+[39:41] can keep it over here and I can utilize
+[39:43] it. So we can even uh read the data set
+[39:46] from the different different places. Uh
+[39:49] so first of all what you have to do you
+[39:51] have to install this uh library guys.
+[39:53] You have to install this torch torch
+[39:55] vision torch audio. You can skip this
+[39:57] torch vision and torch audio. This is
+[39:58] not required. You can uh install this
+[40:00] axe former and then you can mention this
+[40:04] index URL. Okay, this is required guys
+[40:06] for the compatible CUDA version. Uh now
+[40:09] you require the onslaught and keep the
+[40:11] library in the same order. Then you
+[40:12] require the transformer in the data set.
+[40:14] Okay, then you require the TRL. Uh again
+[40:18] TRL is one of the open-source library
+[40:21] which is available over the hugging
+[40:22] phase also. So if you will write TRL
+[40:25] GitHub, you will get the GitHub of the
+[40:26] TRL. All right. So here is the get the
+[40:30] TRL uh this library actually it is
+[40:32] developed by the hugging face only it is
+[40:34] an open source and you can download it
+[40:37] by a pip install okay UV pip install pip
+[40:40] install so this is a complete code of it
+[40:42] right transformer reinforcement learning
+[40:44] and under that only you can perform the
+[40:46] instruction finetuning and all
+[40:47] everything uh already I discussed these
+[40:49] thing uh now uh these many packages and
+[40:52] the library will be required so guys
+[40:53] please install it in a correct order and
+[40:56] please make sure that you have connected
+[40:57] with the GPU if you're not going to be
+[40:58] connect guys in that case you will not
+[41:00] be able to find you the model so here
+[41:03] let me run it and see this line will
+[41:05] confirm whether I have the GPU or not
+[41:07] okay so this will check this will
+[41:10] perform the sanity check okay so I'm
+[41:12] going to be install the required
+[41:13] packages uh let it install until I can
+[41:15] give you the uh walkthrough of the
+[41:17] module which I'm going to be importing
+[41:19] the data sorry uh here is a data class
+[41:22] guys so for defining the configuration
+[41:24] I'm using this data class then uh this
+[41:26] is again u like from the typing optional
+[41:29] in the list. Okay. So just for the
+[41:30] validation validation the check uh data
+[41:33] set uh from the data set library again
+[41:35] I'm going to be import the load data set
+[41:37] then from the unsloth fast language
+[41:39] model this is important guys this
+[41:40] package then from the pept model and
+[41:43] from the TRL sf and the sftic
+[41:45] configuration. So this package is being
+[41:48] installed until I can show you the other
+[41:49] thing. So here guys you can see I've
+[41:51] created one data class. So this the name
+[41:53] is the finetuning configuration. So we
+[41:55] have a model load in 4 bit. Okay. This
+[41:58] the these are all parameter actually
+[42:00] which I can define it into the different
+[42:01] different places. Okay. Uh model name
+[42:04] load and for bit it could be true and
+[42:06] false max sequence length and the data
+[42:08] type. This is one set of parameter. Then
+[42:10] for the data set another set of
+[42:12] parameter for the training guys another
+[42:14] set of parameter. Okay. Output directory
+[42:16] lora per device grad gradient
+[42:18] accumulation step epox warm up warm up
+[42:21] ratio. Then logging step packing and
+[42:23] all. Then for the lower another set of
+[42:26] parameter then for saving the model
+[42:28] these are the parameter. So whatever
+[42:30] configuration you have regarding your
+[42:31] parameter and all definitely you can
+[42:33] keep those parameters over here. Okay.
+[42:36] Uh now let me check whether it is
+[42:38] installed or not. Yeah still it is
+[42:40] installing like the package or the huge
+[42:42] one. So it will take time. Uh now apart
+[42:44] from this one guys. So I created one
+[42:46] more class. The class name is the
+[42:47] unsloth fine tuna. So inside this class
+[42:50] only I have defined my all the methods.
+[42:52] Now this is my main class the core class
+[42:54] actually. So this is the init method. I
+[42:56] will give you the quick walk through of
+[42:58] all this thing. Don't worry even I will
+[43:00] provide you the code. Uh you can go and
+[43:01] check uh then we are going to be load
+[43:03] the data set. Okay. Uh after the loading
+[43:06] so see we are going to be sorry we are
+[43:08] going to be load the model. See here is
+[43:09] the model. We are loading a model. Uh
+[43:11] then we are going to load the data set.
+[43:13] Okay. Then we are adding end of the uh
+[43:16] end of sentence token. Okay. This is a
+[43:18] special token. Uh we required it. uh so
+[43:21] we have to for we have to keep it we
+[43:22] have to add it inside the data. Then uh
+[43:24] this is the format different different
+[43:25] format of the data. See uh I written the
+[43:27] different different format of the data.
+[43:29] So according to the format actually uh
+[43:30] whichever data set we are going to be
+[43:32] provided so according to the format it
+[43:33] can be uh done. Okay it can be like
+[43:36] format according to the given format. So
+[43:40] it will check the name first and then it
+[43:42] will format the data set. Now uh here
+[43:45] guys you can see so I written for the
+[43:47] custom also. Okay. uh for the custom uh
+[43:50] data set and for my own personal data
+[43:52] set. So you can change the logic again I
+[43:54] will come to this part you will get a
+[43:56] good understanding. Now uh this is my
+[43:58] main method train method. So it is
+[44:00] handling everything. So here you can see
+[44:02] this train method using this train
+[44:04] method actually uh what we can do we can
+[44:06] initialize this SF trainer. So I define
+[44:08] the SF trainer over here and then I will
+[44:09] call the train and then I'm going to be
+[44:11] save the model over here. Okay. And then
+[44:14] this is the run method which is a master
+[44:16] method. master method means it is uh
+[44:18] taking care of each and every function
+[44:20] means it is uh like see it is asking the
+[44:22] restart session I will not do it because
+[44:24] the other package is going to be
+[44:25] installed it will be interrupted so let
+[44:27] me check whether it is done or not so
+[44:30] yeah it is still being done now uh here
+[44:35] you can see guys one class is a
+[44:37] finetuner finetune configuration another
+[44:40] class is the unslo finetuner it is
+[44:42] having a different different method uh
+[44:44] definitely I'll give you the code you
+[44:45] can explain explore it even I will give
+[44:48] you one more kind of time of revision
+[44:50] okay after run after explain you fully
+[44:52] uh till the end uh then here is a format
+[44:55] data set I already explained as this is
+[44:57] the train method this is a save and this
+[44:58] is the like orchestrator okay full
+[45:00] pipeline now uh here uh I already
+[45:03] executed it and see I was able to
+[45:04] perform the training and even I was able
+[45:06] to save the model then guys uh this is
+[45:08] my object here I'm going to create a
+[45:11] object of my class okay uh then I will
+[45:14] uh uh I will see here I've created a
+[45:17] object right now after that unsloth
+[45:20] finetuner again I've created a object of
+[45:22] it and I'm passing my configuration over
+[45:24] here and then I'm calling this run
+[45:25] method so this is the code guys which
+[45:28] you can directly use anywhere on any
+[45:30] server in any project uh it is a simple
+[45:32] code okay it is a modular one you just
+[45:34] need to create a specific file and you
+[45:36] need to paste this classes right so uh I
+[45:39] hope you understood how basically we can
+[45:41] fine-tune any model now let me check
+[45:44] whether my import whether my
+[45:45] installation is done or not. So yeah,
+[45:47] installation is done. So guys, I'm
+[45:50] commenting this thing. I just written it
+[45:52] uh to explain you. Uh I'm not using it
+[45:54] anywhere inside the code this particular
+[45:56] thing. Uh now over here you can see I
+[45:58] have importing the statement. So yes uh
+[46:01] data class then optional list load data
+[46:04] set and the other one. So it will also
+[46:06] take time. So this is the configuration
+[46:08] again I will import I will uh create a
+[46:12] sorry I will like initialize this cell
+[46:15] also and then I will create a object of
+[46:16] it. So I can show you that part. Now
+[46:19] this is my main class the core class
+[46:21] anselot finetuner trainer. So yeah I
+[46:23] will come to this first let uh all the
+[46:26] cell load. Okay till here this is
+[46:28] important guys.
+[46:33] So till here guys uh all the cell uh
+[46:35] loaded. Now what I'm doing I'm going to
+[46:37] be execute this one unsloth finetuner
+[46:39] and then I will explain you. So here let
+[46:42] me load this sol also and this is my
+[46:46] object. Okay. So what I'm doing guys I'm
+[46:47] going to be create a object of this
+[46:49] finetuned config class. So I'm passing a
+[46:52] different different parameters over
+[46:54] here. I'm passing model name. I'm
+[46:56] passing data set name. Okay. So you can
+[46:58] pass any model name. You can pass any
+[47:00] data set name over here. Uh you can pass
+[47:02] one more parameter that is a split.
+[47:04] Okay. where you want to be saved that
+[47:06] model. So Laura save path and then
+[47:08] output directory. So over here you can
+[47:10] save your model. Now for how many epox
+[47:12] you want to be run it uh on per device
+[47:15] basis. Okay. Then gradient accumulation
+[47:17] uh this is the learning rate mass
+[47:19] sequence length and save merge. Right?
+[47:22] So after training this uh LoRa right
+[47:25] after fine-tune using the Lora if you
+[47:27] want to merge that layer with your own
+[47:29] model you can do that also. Okay. I
+[47:32] given you the option regarding that. So
+[47:34] I hope guys this is clear. Now let's
+[47:36] look into the main method.
+[47:39] Now guys uh I'm going to be create a
+[47:41] object of this class unsloth finetuner.
+[47:44] Okay. Here I'm passing this object this
+[47:46] this particular object. Okay. It's a
+[47:49] data class actually. So using this
+[47:51] object only this object we can access
+[47:53] the different different parameter. I can
+[47:54] show you that. So if you want to access
+[47:56] the model name so simply you can take
+[47:58] this cfg then uh you can uh call this
+[48:02] model name. Okay. So, cfg is not
+[48:05] defined. Let me do it. Yeah, this is
+[48:06] done. Now, if I will run it, see, I'm
+[48:08] getting the model name. Now, if I want
+[48:10] to be like uh take the data set name, if
+[48:12] I want to be get the data set name, I
+[48:13] can take this objects efg and then I can
+[48:16] uh call this parameter data set name.
+[48:20] Now, see here, this is the data set
+[48:21] name. So, I can access any parameter
+[48:24] over here. Now, guys, unslot tuner. So,
+[48:27] I initialize this class unslot tuner
+[48:29] with the cfg. Okay. Uh with this
+[48:32] configuration and this is my object
+[48:33] trainer. Now once I will call this run
+[48:35] trainer.tr run my training will be
+[48:37] started. So now see guys uh my training
+[48:39] is started. First the model is getting
+[48:41] loaded. Uh now after that what will
+[48:43] happen. So after that the data set will
+[48:46] be loaded everything will be done. So
+[48:47] let me give you the quick walk through
+[48:48] of it. So let's uh look into the run.
+[48:50] Okay. Those step is running. Let it run.
+[48:53] Let me give you the quick walk through.
+[48:54] So first guys what will happen? So once
+[48:56] uh it will come to this run. So it will
+[48:58] call to this load model. Right. So this
+[49:00] is a load here is a load model. Load
+[49:02] model is a method, right? Which we have
+[49:04] defined. Then it will come to the load
+[49:05] data set. We'll get the raw data set.
+[49:08] Okay. Then we'll format the data set.
+[49:10] Okay. Then we'll train the model and
+[49:12] then we'll save it. So this is the
+[49:14] complete orchestration. So I think load
+[49:16] model and load data set was clear to
+[49:18] you. But again let me give you the quick
+[49:19] walk through of it. So here guys uh this
+[49:23] is the load data set right. So sorry
+[49:26] load model. So here what we are doing we
+[49:28] are passing the model name. We are
+[49:30] getting the model name. Uh then we are
+[49:32] passing the max sequence length data
+[49:33] type. Okay. And load in four bit. So
+[49:35] this is one side for loading the model.
+[49:38] We will get both model and the
+[49:40] tokenizer. Then we are calling fast
+[49:42] language get pept model. So we are
+[49:44] passing model and the other
+[49:45] configuration. Okay. Regarding the pep
+[49:48] parameter efficient finetuning regarding
+[49:50] the lora actually. So this is all the
+[49:51] parameter. So once I will explain the
+[49:53] mathematic part of the lora definitely
+[49:55] I'll come to this particular parameter.
+[49:57] Then here we are like uh here we are
+[50:00] going to be print the trainable
+[50:03] parameter. Okay. So this is the
+[50:05] information which we are going to be
+[50:06] print just to validate the thing. Then
+[50:08] here we are going to be load the data
+[50:09] set. So whatever data set will come we
+[50:11] are going to be load it. Okay. So uh
+[50:13] here you can see uh the data set will
+[50:16] come over here and we'll load it a split
+[50:18] wise which part of the data set we want
+[50:19] to be load. So if you will check with
+[50:21] the data set let's say this alpaka data
+[50:23] set. So here you can see it is having
+[50:25] three part. Okay. One is a train, second
+[50:27] is a test and third is a validation. So
+[50:29] for training the model, I just want the
+[50:31] train part, training part, right? So
+[50:33] over here guys, you can see so we are
+[50:36] going to be load the data set and then
+[50:38] uh we are going to be formatted. Now how
+[50:40] we are going to be formatted? So these
+[50:42] are the master function for it. I
+[50:44] written the master function for my data
+[50:46] set. So it will check the data set name.
+[50:48] Okay, it will check belong to which one.
+[50:51] So yes, you can uh like make a more
+[50:53] generalized logic over here. So here I
+[50:56] written the logic. Okay. Uh so according
+[50:58] to data set name here you can write the
+[51:00] more generalized logic that is not a
+[51:01] issue. So here I'm mentioning if the
+[51:04] data set will be this one, this one,
+[51:06] this one, this one. So it will format
+[51:07] accordingly. If the data set is this one
+[51:09] means my data set means from my
+[51:11] repository is coming it will format
+[51:12] accordingly. Okay. And these are some
+[51:14] fallback statement right? So uh now here
+[51:18] guys see it will format the data set.
+[51:19] After formatting the data set it will
+[51:21] initialize the SF trainer with all this
+[51:23] parameter. Okay. This is the parameter.
+[51:26] Now it will take the parameter model
+[51:27] tokenizer data set. Okay. Uh it will
+[51:30] take the SFT configuration. This is the
+[51:32] configuration regarding the mathematical
+[51:34] uh thing and then it will call the train
+[51:36] and then we are going to be save the
+[51:38] model. That's it guys. So this is all
+[51:40] the functionality of this entire code
+[51:42] and see after training the model we'll
+[51:43] get it over here. Once I will refresh it
+[51:45] see inside the free out uh inside this
+[51:47] output I'll be getting my checkpoint.
+[51:49] See the model checkpoint is over here.
+[51:51] So you can give any model. Okay, you can
+[51:54] provide any model whatever model you
+[51:56] want to be provide over here. So while
+[51:58] you are going to be define a
+[51:58] configuration, just provide the model
+[52:00] name. Just provide a data set. See, I
+[52:01] provided my data set. So it is taking
+[52:03] that data set and it's training the
+[52:05] model. Okay, my data set was a quite uh
+[52:08] uh like uh small one. We just had the
+[52:10] five rows over there. Okay, inside this
+[52:13] uh inside my data, let me show you
+[52:15] again. So inside my data, inside this
+[52:17] particular data, I just have five rows.
+[52:19] So that's why the training happened very
+[52:21] quickly. But if you're going to be and
+[52:22] the model also were quite small and
+[52:25] model also was small and the and we are
+[52:27] using unsloth. So that's why guys we are
+[52:29] able to do the training very quickly but
+[52:31] if you are using a big data set in that
+[52:33] case it might take the time. Now I hope
+[52:36] guys uh it is clear. So please test it
+[52:38] with a different different model with a
+[52:39] different different data set you can
+[52:41] create your own custom data and you can
+[52:43] uh train your model you can finetune.
+[52:45] Okay. So that's why guys I put the title
+[52:47] of this video finetune any SLM just put
+[52:50] the name over here just put the data set
+[52:52] and this code will work. If you're
+[52:53] getting any issue anything please let me
+[52:55] know and uh please make uh the code
+[52:58] accordingly. If you want to uh changes
+[53:01] if you want to make any changes
+[53:02] according to your requirement then make
+[53:04] changes accordingly. Yeah fine guys. So
+[53:07] yeah we have learned so many thing over
+[53:08] here. I will provide you this entire
+[53:10] code and all everything. Please check it
+[53:12] from your end and check out with my fine
+[53:14] tuning playlist for the more
+[53:15] information. I'll be coming up with this
+[53:17] kind of video in the near future. So
+[53:19] yeah, if you have any doubt, any
+[53:20] suggestion, if you want any more topic,
+[53:22] please let me know in the comment
+[53:23] section. Uh until uh thank you. Uh take
+[53:26] care. Bye-bye guys. I will see you in
+[53:28] the next video.

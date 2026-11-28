@@ -1,0 +1,1325 @@
+Title: LLM Fine-Tuning 06: Why Finetuning Was Difficult in RNN or LSTM – How Transformers Changed the Game
+Video URL: https://www.youtube.com/watch?v=gZdS0pNuaMs
+Video ID: gZdS0pNuaMs
+======================================================================
+
+[00:00] Hey. Hi everyone. Welcome back to my
+[00:03] group channel. My name is Sunonny
+[00:05] Savvita and I'm back with another
+[00:07] exciting and important video. So guys in
+[00:10] this particular video we going to
+[00:11] understand some fundamental concepts of
+[00:14] the NLP and this concept it is directly
+[00:17] related to our topic which we are
+[00:19] learning currently. So uh if you don't
+[00:22] know about it guys I started with the
+[00:24] finetuning playlist where I already
+[00:26] uploaded five video. So inside the first
+[00:29] video guys I discuss the complete
+[00:31] syllabus of the finetuning that what I'm
+[00:33] going to discuss then I discuss the
+[00:35] complete introduction from starting to
+[00:37] end. Uh then I discuss about the
+[00:39] transfer learning and the finetuning
+[00:41] then top LLM fine-tuning framework. Now
+[00:44] in the previous video I discussed one
+[00:46] more concept with respect to the
+[00:48] interview which could be helpful and
+[00:51] even it will helpful to understand the
+[00:53] fundamental regarding the fine-tuning
+[00:55] rag and agents and when you need to use
+[00:59] which concept. So if you haven't seen
+[01:00] this particular video so far please go
+[01:02] and check uh it's going to be a very
+[01:04] amazing for your learning for your
+[01:06] fundamental and all. Now in this uh
+[01:08] video guys we are going to discuss one
+[01:10] more very important concept uh which
+[01:13] could be your interview question as well
+[01:15] and intentionally I kept this video
+[01:18] inside my fine-tuning playlist so that
+[01:21] each and every detail each and every
+[01:23] concept each and every nitty-gritty
+[01:24] thing you can understand. So my topic is
+[01:28] going to be for this video uh like was
+[01:31] fine-tuning possible inside the LSTM
+[01:34] model uh and what is the differences
+[01:37] between the LSTM and the transformer
+[01:40] model. Okay, this two thing we are going
+[01:42] to discuss right after this one guys
+[01:44] I'll discuss about the hugging phase. Uh
+[01:46] I uh created one very detailed video on
+[01:48] top of the hugging phase. uh after this
+[01:51] video I'll upload uh that particular
+[01:53] video and uh after that I'll come to the
+[01:56] finetuning concept how we can fine-tune
+[01:58] the classical LM models like what T5 and
+[02:01] all and then uh we'll discuss about the
+[02:04] displation and the quantization and all
+[02:06] and then the main LLM fine-tuning and
+[02:08] all. So in this particular sequence I
+[02:10] will go and after four to five videos
+[02:13] four to five more videos you will find
+[02:15] out the main fine-tuning video regarding
+[02:18] the LLM and all and this playlist is
+[02:21] going to be little longer so where I
+[02:23] will upload around 20 to 25 videos. So I
+[02:26] hope guys you got the entire context and
+[02:29] you are align with my agenda whatever
+[02:32] basically I have and guys if you haven't
+[02:35] subscribed the channel so far I would
+[02:36] request to you please subscribe the
+[02:38] channel because I have seen many people
+[02:40] are watching a video but they are not
+[02:43] subscribing a channel guys. So if you
+[02:45] will subscribe guys uh I will only get a
+[02:48] motivation to record more and more uh
+[02:51] video and the content for you and
+[02:53] believe me guys I will be coming up with
+[02:56] more amazing content which will directly
+[02:58] help you to crack any sort of a
+[03:00] generative AI or AI interview. Okay now
+[03:04] uh I hope everything is clear. So
+[03:06] without further delay let's uh move to
+[03:09] the topic
+[03:10] guys. So topic wise guys here only I
+[03:14] kept the entire nodes uh what is the RN
+[03:16] and LSTM why finetuning was not possible
+[03:19] see the entiretical nodes okay uh and
+[03:22] then uh what is the differences between
+[03:24] the LSTM and transformer so guys for
+[03:27] this one what is the differences between
+[03:29] the LSTM and transformer I will uh
+[03:32] record one more specific video right
+[03:33] after this one you will get that uh but
+[03:36] let's try to discuss what is a RN LSTM
+[03:38] model and why finetuning was not
+[03:41] possible possible uh not only the theory
+[03:44] guys I will talk about the practical as
+[03:47] well here I already created one collab
+[03:50] file and inside this collab itself I am
+[03:52] going to write my code right regarding
+[03:55] the LSTM and all okay each and every
+[03:57] idea you will get guys don't worry each
+[03:59] and everything I'll be clarify but
+[04:01] before starting with this thing let me
+[04:03] uh give you the overview that what was
+[04:05] the RNN and LCM model and uh I will tell
+[04:08] you guys whether it is being used or not
+[04:11] in a current era because now it's a era
+[04:14] of the LLMs and hardly we are using this
+[04:17] RNN and LLSTM model but to understand
+[04:19] the fundamental and to like answer for
+[04:22] the interview question for sure we'll
+[04:24] have to go through with this topic as
+[04:26] well because if we won't understand
+[04:29] about our past then we won't be able to
+[04:32] understand anything about our present
+[04:34] right which is a LLM only so guys uh
+[04:37] here I kept what is a RNN and okay and
+[04:41] then uh what was the LSTM and what was
+[04:44] the sequence to sequence model right so
+[04:46] this three thing we'll clarify and after
+[04:48] that I'll come to the practical so we're
+[04:50] talking about uh the RNN so what is the
+[04:53] full form of the RNN guys see again this
+[04:55] RNN could be one of the specific topic
+[04:58] uh I can record one entire video on top
+[05:00] of this RNN but as of now I'm we'll be
+[05:02] just giving the overview so that so that
+[05:04] at least you can understand about the
+[05:06] practical and all okay and whatever kind
+[05:08] of interview question is giving to you
+[05:09] you can answer those thing. So uh here
+[05:13] uh the thing is what is a RNN? So the
+[05:15] full form of the RNN is recurrent neural
+[05:20] network. Okay. So before coming to the
+[05:22] recurrent neural network you will ask to
+[05:24] me Sunonny what is a neural network? So
+[05:26] here guys this is the architecture of
+[05:28] the neural
+[05:30] network. Okay. Now inside the neural
+[05:32] network you can see we have three main
+[05:36] layers. The first is called input layer.
+[05:38] The second is called hidden layer. Okay.
+[05:41] This
+[05:42] one hidden layer. Okay. And the third is
+[05:46] called just a second. Yeah. This one is
+[05:48] a hidden layer. And the third is called
+[05:50] the output layer. Now this hidden layer
+[05:52] is nothing. It's a
+[05:53] hyperparameter. Okay. Means we can have
+[05:56] as much as hidden layer inside the
+[05:58] neural network. If you are familiar with
+[06:00] the basics of the neural network
+[06:02] definitely you are aware about this
+[06:04] particular concept. Right? Now guys what
+[06:06] is the RNN? So inside the RNN guys uh
+[06:09] see as I told you neural
+[06:12] network is a collection of three thing.
+[06:17] The first is
+[06:19] input. The second is
+[06:23] hidden. The third is a output. Okay. Now
+[06:26] inside the RNN one more term is going to
+[06:29] be involved that is called a recurrent.
+[06:31] Okay. Recurrent means what? Recurrency.
+[06:34] Recurrency means what? uh again the same
+[06:37] thing is happening right so the R
+[06:39] actually it is representing to the
+[06:43] recurrency okay so again the same thing
+[06:46] is happening means whatever output is
+[06:48] being generating from this particular
+[06:51] layer from here okay again we are
+[06:54] passing same output to the hidden layer
+[06:57] itself and this is happening on a
+[06:59] sequence basis right and this is only is
+[07:03] called the recurrency Okay, again I'm
+[07:06] repeating neural network means input,
+[07:08] hidden and output. RNN means recurrent
+[07:11] neural network. R is representing to the
+[07:14] recurrency where the recurrency means
+[07:16] whatever output is being generated from
+[07:18] the hidden layer again we are passing to
+[07:20] the same hidden layer until and unless
+[07:22] we are not able to process the entire
+[07:24] data and using this RNN generally we
+[07:27] handle the sequence data. Now you will
+[07:29] ask to me son what is a sequence data?
+[07:31] sequence data one of the example of the
+[07:33] sequence data is a text okay text is
+[07:36] there and audio is there right DNA
+[07:39] information is there so those kind of
+[07:41] data is called the sequence data where
+[07:43] the sequence matters right I have kept
+[07:45] the example of it I'll show you that
+[07:47] part I hope you understood about the
+[07:49] neural network and the recurrent neural
+[07:51] network now guys whenever we talk about
+[07:53] the recurrent neural network so we seen
+[07:55] this kind of architecture okay so this
+[07:58] kind of architecture now this is the
+[08:00] expandation And this is the expanded
+[08:02] version of this architecture. Okay. Now
+[08:04] let's try to understand it. So what we
+[08:06] do guys let's say we have a sentence.
+[08:08] Okay. Any sort of a sentence let's say
+[08:10] here I. Now next is love. Okay. And the
+[08:14] next is a mango. So what we are doing we
+[08:16] are passing I love and mango. See so we
+[08:19] are we are passing an input. Okay. My
+[08:21] input is going to the hidden layer. Now
+[08:23] whatever like processing will happen
+[08:25] over here. So after processing it guys
+[08:28] again on the next time stem it will pass
+[08:30] to the same hidden layer. Okay in the
+[08:31] same way see here only I have shown you
+[08:34] let's say here you you can imagine
+[08:36] inside this architecture let's say I'm
+[08:37] passing I over here okay it is going to
+[08:40] be process and then how it is going to
+[08:43] be processed inside the hidden layer
+[08:44] itself. Now whatever output we are going
+[08:46] to be generate so this particular output
+[08:48] again we are passing to the hidden layer
+[08:49] and at the same time okay at time frame
+[08:52] two this love is also being passed.
+[08:54] Okay. So from here this love will be
+[08:56] passed. Now now once the love will be
+[08:58] processed okay through this hidden layer
+[09:00] again this will be passed to the like
+[09:02] hidden layer again. Okay at time three
+[09:05] uh and then after this love guys what is
+[09:08] the next word? The mango will be passed.
+[09:10] Okay. So from here from this particular
+[09:11] input layer the mango will be passed and
+[09:13] see here is a mango. So at first time
+[09:15] step I will be passed. Okay. And
+[09:18] whatever process will happen over here
+[09:20] it will happen. Then this output will be
+[09:22] passed to the next head layer. Sorry.
+[09:23] The same middle layer on the next time
+[09:25] stem. Okay. And the fresh input at time
+[09:29] stem two. This is and t is equal to 1.
+[09:33] This is at t= 2. This is at t= 3. This
+[09:36] will be going on as per the sentence
+[09:38] length. Okay. So guys here the at time 2
+[09:42] this love also will be passed and I will
+[09:44] also become over here. Now it will
+[09:45] process the entire data will be
+[09:46] processed and then this data this output
+[09:49] will be passed to the uh same hidden
+[09:51] layer on the next time stem. Okay. And
+[09:53] here the mango will be passed and the
+[09:55] output which is being generated from the
+[09:57] past two time step. I hope you
+[09:59] understood this RNA architecture and
+[10:01] mainly we use it for uh uh handling the
+[10:04] sequence data. So I kept couple of
+[10:06] example over here for handling the
+[10:08] sequence like what is a example of the
+[10:10] sequence data you can clearly see over
+[10:12] here. Uh the first example of it is a
+[10:15] text itself as I told you. The second is
+[10:17] a time series data where the sequence
+[10:20] also matters. Audio speech data is also
+[10:22] a example of the uh al also example of
+[10:26] the sequence data. Then here whatever
+[10:29] basically comes in a sequence right
+[10:30] wherever sequence matter uh that type of
+[10:33] data we can process using the RNN. Okay.
+[10:36] Now I hope you got the understanding.
+[10:38] Now the next thing is why recurrent okay
+[10:41] uh because RNN remember the previous
+[10:43] input okay previous information and they
+[10:46] pass information from one time to the
+[10:49] next time. As I given you the example of
+[10:51] this particular sentence. So I love
+[10:53] mango. So at first time stem I will be
+[10:56] passed. Okay. It will be generating
+[10:57] output. Then next time love will be
+[10:59] passed and output from the previous time
+[11:02] we are getting output of this law I.
+[11:04] Okay. Then at the third time step this
+[11:06] mango will be passed. And here we are
+[11:07] getting a output from all the two time
+[11:10] stamp. Right. So this is the simple uh
+[11:12] understanding uh regarding the uh RNN.
+[11:15] Now uh guys if we're talking about the
+[11:18] like RNN in the RNN also you will be
+[11:20] able to find out the input layer then
+[11:22] there will be a hidden state okay and
+[11:25] then uh in the hidden state itself
+[11:26] actually we are going to be sustain the
+[11:28] memory as I shown you how to do that and
+[11:30] then basically we are going to be
+[11:32] generate the output so this is all about
+[11:34] the RNN guys and this was the like the
+[11:37] kind of neural network which we were
+[11:40] using for processing the sequence data
+[11:42] but nowadays we have a very advanced
+[11:44] model like the transformer kind of model
+[11:46] and the different different variant of
+[11:47] the transformer. Okay. And we even we
+[11:49] have a mama also you can check out with
+[11:50] the mama. It is a updated uh like
+[11:53] upgraded of the upgraded version of the
+[11:55] transformer. Okay. And more than
+[11:56] transformer and maybe it could be the
+[11:58] future. Uh I hope you understood about
+[12:00] the RNN. Now coming to the next topic.
+[12:02] So LSTM is one of them. Uh so guys this
+[12:05] LSTM is nothing it is a special type of
+[12:07] RNN network. So in short I can say this
+[12:10] LSTM actually it is a updated version of
+[12:13] the RNN. Okay. Now one more thing guys
+[12:17] uh here I'm just giving you the overview
+[12:19] of this particular architecture but
+[12:20] there could be a separate section or
+[12:22] separate lecture on top of it and yeah
+[12:25] uh I can take up one uh series the NLP
+[12:28] series there only I can discuss all this
+[12:30] topic and soon I'll be starting after
+[12:32] completing this particular fine tuning
+[12:34] and all. Now whenever we talking about
+[12:36] the LSTM guys so LSTM again is a special
+[12:38] type of RN okay that is designed for
+[12:40] handling the sequence data. But guys in
+[12:43] the LSTM we have some like a special
+[12:46] thing. So LSTM can like remember the
+[12:49] long-term information compared to the
+[12:51] RNN. RNN is struggle to remember the
+[12:53] long-term information. Okay. LSTM is
+[12:56] going to resolve this particular issue
+[12:58] like the RNN was not able to sustain the
+[13:00] long-term information. Now so LSTM is
+[13:03] going to be uh resolve this particular
+[13:06] issue using this three concept. The
+[13:09] first thing is called uh the forget
+[13:11] gate. Second is called the input gate
+[13:13] and the third is called the output gate.
+[13:14] Okay. So this uh two gate actually it's
+[13:17] a main one inside the LSTM. The first is
+[13:19] a forget one. Okay. And here the second
+[13:22] is the input gate. In the forget one
+[13:24] basically uh so we like the purpose of
+[13:28] the forget gate is what needs to be
+[13:30] forget. Okay. Uh the main purpose of
+[13:33] input gate what needs to be add. Okay.
+[13:35] What new thing is going to be add the
+[13:37] new one. All right. And what was the
+[13:39] purpose of the output gate? like uh what
+[13:42] needs to be passed as a output to the
+[13:44] next time next time step. So this is the
+[13:46] cell this is a unit the LSTM unit here
+[13:49] you can see this is the same thing uh
+[13:52] like
+[13:53] the RNN itself. So we are passing input.
+[13:57] Okay. And here we are getting a output
+[13:59] from the previous hidden state and it is
+[14:01] processing. But apart from this one guys
+[14:02] you will be able to find out one more
+[14:04] cell over here that is a hidden one.
+[14:05] Sorry this is the memory cell. Okay. And
+[14:07] this input this input and this memory
+[14:11] cell it is connected to each other via
+[14:12] this three gate. The first gate is
+[14:14] called the uh forget gate. Okay. This
+[14:17] particular gate is called the input
+[14:19] gate. Okay. And this particular gate is
+[14:22] called the output gate. So it is similar
+[14:25] to the RNN only this one we are passing
+[14:28] input at a time stamp and we are getting
+[14:31] something from the previous time stamp
+[14:32] from the previous time step from the
+[14:33] hyena state itself but this thing is
+[14:35] connected to memory cell this is called
+[14:38] a memory cell for sustaining a long-term
+[14:40] memory okay with this three gate first
+[14:42] is a forget gate second is the input
+[14:44] gate and third is a output gate and
+[14:45] finally we are getting a output see uh
+[14:48] likewise we'll be having a multiple
+[14:50] units okay in a different on a different
+[14:51] different time stamp if you want to
+[14:53] understand about the uh this LSTM guys
+[14:56] you can go and check with this
+[14:57] particular art article it is a very good
+[14:59] article uh on top of the LSTM you will
+[15:01] get a like very com like a minute detail
+[15:05] regarding the LSTM and all along with
+[15:07] the equation right so they have brief
+[15:09] about the RNN as well as the LSTM and uh
+[15:13] if you don't know about it you can go
+[15:14] through with it and you will get some
+[15:17] you will get some good understanding
+[15:18] regarding it okay now coming to the next
+[15:20] part so LSTM you understood now what was
+[15:23] the differences between the RNN and
+[15:24] LSTM. So guys uh in the so see here I
+[15:28] written couple of point and based on
+[15:29] this particular point we can identify
+[15:31] the differences. Okay the first one
+[15:33] basically memory. So we're talking about
+[15:35] the memory guys. So in RNN uh there was
+[15:38] a short-term memory means we cannot
+[15:40] remember like more than 10 to 15 words.
+[15:42] Okay the sentence basically which is
+[15:44] more than 10 to 15 word now we won't be
+[15:46] able to like uh uh process that. Okay.
+[15:48] We won't be able to recall that
+[15:50] particular sentence. Now but in LSTM
+[15:52] basically we can recall that sentence up
+[15:54] to 30 words. Okay, that was an
+[15:56] enhancement over there. Handle long-term
+[15:58] context. Yes, it was not able to handle
+[16:00] but yes somewhat it is able to manage at
+[16:02] that time. Okay. And uh in 2014 and 15
+[16:05] now guys LSTM was on a different level
+[16:08] right structure wise so simple
+[16:10] architecture of the RNN but it was a
+[16:12] complex because of the gate concept.
+[16:14] Then uh uses today it is rare no one
+[16:17] using the RNN. LSTM wise replace via
+[16:20] transformer even the LSTM is not also
+[16:23] being used. Okay. So here I written
+[16:25] couple of limitations of the RNN uh the
+[16:28] basic RNN. So forget the long-term
+[16:30] information vanishing gradient issue was
+[16:31] there and the slow training also was
+[16:33] there and somewhat this problem was
+[16:35] encountered with the LSTM also compared
+[16:37] to the transformer. Uh that we will look
+[16:39] into the next session. Okay. There I
+[16:41] will explain the LSTM versus transformer
+[16:44] and uh you will understand the clearcut
+[16:46] differences between both. Okay. Now I
+[16:48] hope guys uh this each and everything is
+[16:51] clear. I just took 15 to 16 minutes to
+[16:53] explain this entire thing so that you
+[16:55] can enjoy the practical. Now let me
+[16:58] discuss this uh sequence to sequence
+[17:00] learning and uh then uh guys I'll be
+[17:02] explaining you what I'll be explaining
+[17:05] the practical of it.
+[17:07] Okay. Okay guys. So what is the meaning
+[17:10] of the sequence to sequence learning? So
+[17:12] sequence to sequence learning means what
+[17:14] we are passing
+[17:16] uh as a input and what we are getting as
+[17:20] a output. Okay. So in input are we
+[17:24] passing sequence or in output are we get
+[17:27] a sequence right? So that matters over
+[17:30] here. Let's try to understand uh what
+[17:32] does it mean. So guys uh whenever we
+[17:34] talking about this RNN and
+[17:37] LSTM okay or this transformer
+[17:42] architecture right so this architecture
+[17:44] actually it was prone to the sequence to
+[17:48] sequence learning only means we were
+[17:50] passing one sequence as a input and we
+[17:54] were getting the another sequence as a
+[17:56] output. Okay let's try to understand
+[17:58] what does it mean. So here guys you can
+[18:00] see this is the example of one to sorry
+[18:04] many to
+[18:05] one many to
+[18:07] one okay in input you can see we are
+[18:10] having a multiple inputs okay it is a
+[18:13] sequence itself you can assume it's a
+[18:15] sentence and we are passing single
+[18:17] single words on a like single single
+[18:19] time stamp okay so at t is equal to0 we
+[18:21] are passing one t is equal to 1 we are
+[18:23] passing one word at t is equal to 2 we
+[18:24] are passing another word t is equal to 3
+[18:26] t is equal to 4 and so forth right so So
+[18:28] here you can see this could be RNN or
+[18:30] LSTM and as a output you can see we are
+[18:33] just getting one. Okay, we are just
+[18:36] getting one word. So this is the example
+[18:38] of the text classification
+[18:40] guys. Text
+[18:43] classification you will ask to me
+[18:44] Sunonny what is a text classification?
+[18:47] So text classification means in input we
+[18:48] are passing text. Okay. And in output
+[18:52] actually so this is my input text means
+[18:55] sequence and in output basically we are
+[18:57] just getting whether the text is a
+[18:59] positive or negative or it is basically
+[19:03] spam or ham right male I'm talking about
+[19:07] or basically what does it mean the text
+[19:10] basically what it is trying to represent
+[19:11] okay it is a like it belong to which
+[19:13] category right so we are just going to
+[19:16] be categorize the text now the second
+[19:18] example basically it is sequence
+[19:20] Sequence to se again it is a example of
+[19:22] the sequence to sequence but it is many
+[19:24] to many okay what does it mean guys? So
+[19:27] many to many means so we are passing a
+[19:29] sequence over here okay and we are
+[19:31] getting sequence over here. So what
+[19:34] could be the example of it? So here the
+[19:36] example is a
+[19:39] ne. Okay. Now inside the ne you can see
+[19:43] in the input we are passing
+[19:45] text and in output actually we are
+[19:48] getting tag corresponding to each input
+[19:52] word. Right? So it's a very good example
+[19:54] of the ne. Now this is nothing guys. So
+[19:57] this is actually multiple hidden layers.
+[19:59] It is representing to the multiple
+[20:00] hidden layers. It is the same one
+[20:02] actually many to one and here is a many
+[20:04] to many. Okay. Now guys one more thing
+[20:07] is there. Now whenever we talking about
+[20:09] many to many okay so there is a two kind
+[20:13] of architecture. So this was a early
+[20:15] stage
+[20:18] architecture with respect to many to
+[20:21] many. Okay. And this was this this kind
+[20:24] of architecture guys. This one you can
+[20:25] see right either this one or this one.
+[20:27] So this is with the one hidden layer and
+[20:29] this is with the three hidden layer.
+[20:30] Okay. This is called the deep RNN or
+[20:31] LSTM. So guys whenever we talking about
+[20:34] this early stage architecture with that
+[20:35] we were just able to solve the NE poss
+[20:38] tagging and all but when this
+[20:40] architecture was involved okay many to
+[20:42] many with the a synchronized length. So
+[20:44] input actually we can pass any sort of a
+[20:46] length and in output we can get any sort
+[20:48] of a length okay so using this
+[20:50] particular architecture we were able to
+[20:52] solve X summarization kind of
+[20:55] task. we are able to solve text
+[20:59] generation translation kind of
+[21:02] task. Okay. And even we were able to
+[21:05] handle this text generation kind of task
+[21:08] but with a very limited
+[21:11] capability. Okay. So this is also called
+[21:15] many. We are passing many words over
+[21:17] here and we are generating many words
+[21:19] over here. So this is also many to many
+[21:21] but it is
+[21:24] asynchronized. Asyn
+[21:27] croise. So what does it mean?
+[21:29] Asynchronize means different length in
+[21:33] input we can pass different
+[21:37] length. Okay. And an output actually the
+[21:41] length of the output could be a
+[21:43] different. Okay. So you can think in
+[21:46] such a way we are passing something over
+[21:48] here. Let's say we are passing they are
+[21:49] watching something something something
+[21:50] and we are going to be generate a
+[21:51] summary. So for sure the summary length
+[21:53] the output length is going to be
+[21:54] something different based on this input
+[21:56] if we are talking about translation.
+[21:58] Okay the translation let's say I have a
+[22:01] Hindi sentence TV they so they are
+[22:05] watching cricket. So in English actually
+[22:07] the English sentence there could be a
+[22:09] different number of words. Okay same
+[22:12] into the generation as well let's say we
+[22:13] have passed one sentence and we want to
+[22:15] generate the further thing of the like
+[22:17] the whether we want to predict the next
+[22:19] word or we want to generate a further
+[22:20] word. Okay. So in that case also the
+[22:22] length is going to be mismatch of the
+[22:24] input and the output. Get my point guys.
+[22:26] So this architecture was very good at
+[22:29] that time till 2017 until the
+[22:32] transformer was not
+[22:34] introduced. Getting my point guys yes or
+[22:37] no I hope many doubt is getting
+[22:39] clarified. So we are if I'm going to be
+[22:41] summarize the sequence to sequence
+[22:42] learning. So using sequence to sequence
+[22:47] learning. So sequence to sequences
+[22:50] learning is nothing it is just a way to
+[22:52] process the input and
+[22:54] output okay just a just a pass just a
+[22:57] way to pass input and getting a output
+[22:59] okay through what through this
+[23:02] RNN
+[23:04] and LSTM kind of architecture right so
+[23:07] we have different different type of
+[23:09] sequence to sequence learning the couple
+[23:10] of are very famous many to many sorry
+[23:14] many to one that represent to text
+[23:17] classification
+[23:21] Okay. Now the next one is what? Next one
+[23:26] actually many
+[23:29] to
+[23:32] many with
+[23:34] synchronize
+[23:36] synchronize
+[23:37] length. Okay means input and output
+[23:40] would be on a same length. So there is
+[23:42] that there is example I can give the
+[23:44] example of it. Let's say NER and POSOS.
+[23:49] The next one many to
+[23:52] many. This also comes under this encoder
+[23:56] and decoder
+[23:58] architecture. Right. The encoder and
+[24:00] decoder research paper was published in
+[24:02] 2014
+[24:03] itself. Okay. Many to many. And this was
+[24:07] the asynchronized. Asynchronize means
+[24:09] what? Asynchronize means sin crow c r o
+[24:15] n i z e right. As synchronized means
+[24:18] what? So the length could be different.
+[24:20] The input and the output l could be
+[24:22] different. And there actually the the
+[24:26] summarization. Okay. The
+[24:30] translation
+[24:33] translation the
+[24:36] generation this kind of task comes. I
+[24:40] hope you understood the entire
+[24:42] fundamental now. So earlier we were
+[24:44] using the RNM. Nowadays we have a
+[24:46] transformer model. But guys this is all
+[24:48] the fundamental. Now let's uh do one
+[24:50] thing. Let's try to uh look at the
+[24:52] practical of it and then we'll see why
+[24:55] basically finetuning was not possible
+[24:58] inside this LSTM and the RNN
+[25:02] architecture. I will not show you the
+[25:03] RNN. I'll just show you the LSTM. So
+[25:05] guys uh now without wasting a time let's
+[25:08] start with the practical guy. So for the
+[25:11] practical guys we'll have to import
+[25:12] couple of library. So I already imported
+[25:14] this library. See nai is there
+[25:16] transformer is there. Then here I'm
+[25:18] going to import the model from the t
+[25:20] kas. Okay. Yeah kas is a part of the
+[25:23] transformer tensorflow itself. So I'm
+[25:25] using that same uh then I'm using this
+[25:27] input ldm embedding and dense layer and
+[25:29] then pad sequence. Okay. Uh now here I
+[25:32] am going to be define some parameters.
+[25:34] So this I'm going to be use further. So
+[25:36] the first is a max length the max length
+[25:38] of the sentence there will be 200 there
+[25:41] could be 200 character. Then the
+[25:42] vocabulary size whatever data I'm going
+[25:44] to be used regarding that it is then
+[25:46] embedding dimension. Okay. What will be
+[25:48] the dimension of the embedding of the
+[25:49] particular word and related dimension
+[25:51] means the header layer dimension. Okay.
+[25:53] So yes uh first what I can do guys I can
+[25:55] import the data. So I'm going to import
+[25:58] the data here. Uh I have imported data.
+[26:01] Uh the data basically it's IMDb data. So
+[26:03] first I'm going to be uh solve the text
+[26:05] classification task. Okay. So let me
+[26:07] import the data. I'm just going to be
+[26:08] use this train X train and Y train data.
+[26:10] Okay. For the validation and all it is
+[26:12] not required that's why I'm not going to
+[26:14] be import the test data. Okay. I'm
+[26:16] simply keeping it underscore. Uh then
+[26:18] after that guys let me show you the
+[26:20] length of it. So I already written a
+[26:21] code. I'm just like going to be copy and
+[26:23] paste over here because I already
+[26:24] prepared the entire solution. So here
+[26:27] you can see the solution uh like the
+[26:28] length of it the length of the x and y
+[26:31] train uh is going to be 25,000. So this
+[26:33] much is data like very huge. So in that
+[26:35] case what I can do I can just take a
+[26:37] subset of the data. Okay just to train
+[26:39] my model. So I'm just taking 3,000 rows
+[26:42] the initial 3,000 rows. Okay. Now if I
+[26:44] will check with the length of the data.
+[26:45] So I'll get 3,000 only. Okay. You can
+[26:48] check with the length and sorry length
+[26:49] of this x and y you will get the 3,000
+[26:52] only. Now uh now guys I'm going to
+[26:54] perform the padding because if I'm
+[26:56] talking about the sentence guys so
+[26:58] sentence length could be something uh
+[27:00] different. Okay so let me show you the
+[27:02] extra one. So here is my extra if I'm
+[27:04] going to show you the first sentence. So
+[27:06] see uh this is my first sentence. Okay.
+[27:08] It is in a number itself. I'll show you
+[27:10] I'll show you the decode. I I'll decode
+[27:12] this also. Okay. Uh so see this is the
+[27:15] length of the first sentence. So here
+[27:17] you can see
+[27:18] 280 words is there. But if you will go
+[27:21] and check with the second length, second
+[27:23] sentence length. So there could be a
+[27:24] different one. So see here the second
+[27:26] length is a 181. So I want to keep it in
+[27:28] a same one. So that's why I'm doing a
+[27:30] padding. Okay. There I am passing extra
+[27:33] maximum length of the sentence. Padding
+[27:35] post padding and truncation post
+[27:36] truncation. Okay. So padding means we
+[27:39] are going to be at zero at the end of
+[27:41] the sentence. Okay. Just to match the
+[27:44] sequence.
+[27:45] If the if the sentence length length is
+[27:49] more than 200 in that case I'm going to
+[27:51] be trunk truncate the sentence. Okay,
+[27:53] I'm going to be deduct the sentence
+[27:54] those specific word. Now here is my
+[27:56] extent guys. Now what I'm doing I'm just
+[27:58] going to be create my model. So see here
+[28:01] is my LSTM model which I'm going to be
+[28:03] create. So first is a input length sorry
+[28:05] input layer. So this size of the input
+[28:08] is max length okay of the sentence. Then
+[28:10] here is embedding right. So this input
+[28:14] layer actually I'm going to be connect
+[28:15] with the embedding layer and in the
+[28:17] embedding guys you can see the size of
+[28:18] the vocabulary and the embedding
+[28:20] dimension. So every word basically we
+[28:21] are going to be represent with this
+[28:22] particular dimension size. Now this
+[28:24] embedding layer I'm going to be connect
+[28:26] with the hidden layer. So this is my
+[28:27] header layer and how many neurons is
+[28:29] there inside the hidden layer. There is
+[28:31] a how much 256 neurons are there in the
+[28:35] hidden layer. Okay. Uh then guys here we
+[28:38] are going to be connect this hidden
+[28:40] layer guys. this LSTM uh dense layer.
+[28:43] Okay. Uh with what with the output
+[28:45] layer. Okay. So in the output actually
+[28:47] we just have one output because it text
+[28:48] classification and see we have a three
+[28:50] parameter over here. LSTM layer, hidden
+[28:52] state and the cell state. Okay. If you
+[28:55] will look into the LSTM architecture you
+[28:57] will find out this three thing itself
+[28:58] inside the LSTM cell. I hope you
+[29:00] understood it. Now then here using this
+[29:03] model we are going to be create a model.
+[29:04] So this is my final classification
+[29:06] model. This is just like simple way of
+[29:08] creating LSTM model using the class.
+[29:10] Okay. Now if you want to check the layer
+[29:12] of the classification model simply you
+[29:14] can write classification model dot here.
+[29:16] See here is all the layers. Okay input
+[29:18] embedding output and all everything. Now
+[29:20] if you want to check out the summary so
+[29:22] you can simply call the classical model
+[29:24] or summary and see this is the summary
+[29:26] of the layers. Okay. So in input layer
+[29:28] this is the size of input layer. This is
+[29:30] a trainable parameter of the embedding
+[29:32] layer. Then this is a hallel layer.
+[29:33] These are these are the trainable
+[29:34] parameter and this is the output layer.
+[29:37] Okay. So total trainable parameter and
+[29:39] all everything you can see over here
+[29:41] right now. So here I'm going to be
+[29:44] compile my model. Let me uh compile my
+[29:47] model guys. Now after compilation what I
+[29:49] will do? I'll train that. So compilation
+[29:51] is there. I am passing my optimizer loss
+[29:53] function and the matrix on which matrix
+[29:56] I'm going to be validate my model on top
+[29:58] of the accuracy itself. Okay. So here
+[30:00] I'm going to pass the uh like the here
+[30:02] I'm going to be execute this uh fit.
+[30:04] Okay. Classical model.fit. I'm passing
+[30:06] my extend by train batch size the data
+[30:09] will go in a batches I'm just executing
+[30:10] one epoch and here is the validation is
+[30:12] split means 0.1% data is going to be
+[30:15] used for the validation okay and on the
+[30:16] accuracy basically we'll be showing you
+[30:18] the validation result so once I will
+[30:20] execute it guys here uh you will find
+[30:22] out the training of it so my training is
+[30:25] going on now if you want to check out
+[30:26] guys so this is a code to check out uh
+[30:29] the model whether everything is perfect
+[30:30] or not okay so I'm just taking one first
+[30:34] sentence okay and and predicting with a
+[30:36] model whether it is a positive or
+[30:38] negative. So I will get a final output.
+[30:40] So let it complete then only I'm going
+[30:42] to do that. Now guys here I written a uh
+[30:45] one more code. Okay. And don't worry
+[30:47] guys this entire code written by me only
+[30:49] I tested first in the different file
+[30:51] then only I'm going to be copy and
+[30:52] paste. So step by step you can
+[30:54] understand everything. Now here you can
+[30:56] see so this is my uh basically uh this
+[31:00] one is this one is a code just to decode
+[31:02] the sentence because the sentence
+[31:04] actually it is in a number if you want
+[31:06] to check the uh the word regarding that
+[31:08] okay the complete sentence with the
+[31:09] natural language so you can execute this
+[31:11] particular code see here I'm just
+[31:13] checking with the first review sample
+[31:14] review only and let's see what it would
+[31:16] be so here my model training is done now
+[31:18] if I want to check with the model so see
+[31:20] here you will get the prediction so
+[31:21] prediction of the sentiment is a
+[31:23] positive right now if I want to check
+[31:25] with this particular sentence whatever I
+[31:26] was uh whatever I have passed over there
+[31:29] the sample review you can see it is in a
+[31:31] number itself right now but uh guys if
+[31:33] you want to check the uh the actual
+[31:36] sentence of it so you can execute this
+[31:38] code okay so here you can see this is
+[31:41] the code now it is giving me error IMDb
+[31:44] is not defined uh let me check whether I
+[31:46] have defined the IMDb or not so
+[31:51] imbdget get word index So you define the
+[31:55] IMDb or not? It should be
+[32:01] there.
+[32:08] IMDb. Okay guys, just a second. Let me
+[32:10] check whether I have imported the IMDb
+[32:12] or not. Okay guys, so here I define the
+[32:15] IMDb. Actually I forgot to import that
+[32:17] from the data set itself. So once I
+[32:19] define the IMDb here you can see we are
+[32:21] able to decode the sentence. Likewise
+[32:23] you can decode any sentence means you
+[32:24] can get the actual word of it. Okay. Now
+[32:27] there is a couple of basically here you
+[32:30] can see reverse word index 0 1 2 3 and
+[32:33] all. So what it is representing to us
+[32:36] actually it is representing some special
+[32:38] word. Okay. So unknown is there start is
+[32:41] there and is there. Okay. We can specify
+[32:43] that and we can give assign the specific
+[32:45] token number to that. As of now you can
+[32:46] forget just execute this code. Okay.
+[32:49] What you will get guys? So once you will
+[32:50] execute this code now, so you will be
+[32:52] able to map the exact number with the
+[32:54] actual word of it. That's it. So this is
+[32:56] a decode review. Here you can see the
+[32:58] decode review. Now if I want to save
+[33:00] this model after the training, I can
+[33:02] save it. Okay. So let me run it. And
+[33:04] here the model is going to be saved. So
+[33:05] if I'm going to be refresh this one. So
+[33:07] left hand side you will find out the
+[33:09] model. Now guys, now the actual thing is
+[33:11] started. Now let's see uh whether we
+[33:13] will be able to retrain this LSTM model
+[33:16] and let's see whether we can retrain the
+[33:19] same LSTM model for the different kind
+[33:22] of task. Uh let's say for the uh text
+[33:25] summarization okay so this is going to
+[33:28] be very important
+[33:30] now first see the retraining part. So
+[33:33] what I'm doing after loading this
+[33:34] particular model okay again I'm going to
+[33:37] be retraining. So for loading guys uh I
+[33:40] think you know the command is very very
+[33:42] simple. So for the retraining again what
+[33:45] I'm doing I'm taking a same data but you
+[33:47] can take a different data. Okay. So I
+[33:50] what I'm doing I'm taking a same IMDb
+[33:52] data but a different vocabulary size.
+[33:54] I'm just taking thousand vocabulary.
+[33:56] Okay. And here you can see the sentence
+[33:58] length and all everything is same.
+[34:00] Right? But uh in your case you can take
+[34:02] a some you can take some different data
+[34:04] and you can train on it. Now let me
+[34:06] execute it. So this is done. Now I'm
+[34:08] just taking 1,000 word from here. Okay,
+[34:12] sorry uh 1,000 sentences because uh
+[34:15] there is like 25,000 sentence in total
+[34:18] in the data set itself. Vocabulary size
+[34:20] and the sentence both are different
+[34:21] guys. We are just going to be
+[34:23] consider,000 word for making those
+[34:25] sentences and how many sentences are
+[34:27] there? Total 25,000 sentences are there
+[34:30] but on 25,000 sentences we are just
+[34:32] taking 1,000 sentence this this time. So
+[34:35] here you can see we are able to take
+[34:36] that. Now coming to the next part. So we
+[34:38] are going to be load the model. So here
+[34:40] the model loading is there. So let me
+[34:42] load the model. Okay. Now after loading
+[34:44] a model guys what I will do. So here see
+[34:47] model uh loading is not defined. So let
+[34:49] me do one thing. Uh let me define the
+[34:53] load model also over here. Uh I think I
+[34:56] missed it while I was loading that. Just
+[35:00] a second guys. Let me do it also. Now I
+[35:03] return a load model. I uh imported this
+[35:05] particular statement. Now after that
+[35:07] guys, I'm passing my model name over
+[35:08] here. LSTM IMDb model. Okay. So finally
+[35:12] I'm going to be load my model. So I'm
+[35:13] keeping it inside this load
+[35:14] classification model. Okay. Now what I'm
+[35:17] doing, I'm just going to be compile this
+[35:18] model again with the optimizer with a
+[35:21] loss function and there is a matrix.
+[35:23] Okay. Now here I'm going to be execute
+[35:24] that. Now here see what I'm doing. I'm
+[35:26] just going to be retrain again on top of
+[35:28] this data which I just loaded XY train.
+[35:32] So this is a retraining. uh this is the
+[35:34] retraining actually retraining on the
+[35:36] same model. So once I will retrain guys
+[35:38] so what I will get I will be getting my
+[35:39] model with the updated knowledge. Okay
+[35:41] but the thing is guys we are using the
+[35:44] LSTM model and LSTM model are not
+[35:46] scalable means we are going to be
+[35:48] retrained again on some new data set. So
+[35:50] there is a chances it might forget to
+[35:51] the previous data set because uh it is
+[35:54] learning okay it is performing a
+[35:56] learning on it is doing that sequence
+[35:58] learning only right. So first of all we
+[36:00] cannot train it on very large sentences
+[36:04] or we cannot even train it very huge
+[36:06] amount of data set. Okay I'll discuss
+[36:08] this particular point. So here we are
+[36:10] going to be uh lo this uh train this
+[36:13] particular model on the updated data.
+[36:15] Okay. And here what I'm doing I'm just
+[36:17] going to be save my model. So yeah save
+[36:19] model is there. Now after saving it guys
+[36:21] see once you will check now here. So you
+[36:23] will get two model. Now first was the
+[36:25] like the normal model and the second
+[36:27] basically was a retrained model the
+[36:28] updated model. Okay. Now my main aim can
+[36:31] we take the same model okay the updated
+[36:34] model can we load the same model and can
+[36:36] we uh retrain again get on on the
+[36:38] different kind of task because if you
+[36:40] will see the LLM nowadays so one LLM is
+[36:42] able to do every kind of task like
+[36:44] classification summarization translation
+[36:47] generation and all so why this thing was
+[36:49] not possible with the LSTM that's my
+[36:51] main aim to teach you so here what I'm
+[36:53] doing I'm just going to be load the
+[36:55] model this one now what I'm doing guys
+[36:58] uh in the in while I'm see now I'm going
+[37:01] to be retraining this particular model
+[37:02] for the summarization task. So here what
+[37:04] I'm doing I'm just going to be take the
+[37:06] same thing okay same architecture
+[37:08] because see if we are talking about the
+[37:09] summarization I shown you uh for the
+[37:13] summarization the architecture would be
+[37:14] different uh so here we were using the
+[37:18] see for the summarization guys this
+[37:19] would be the
+[37:20] architecture asynchronized encoder and
+[37:22] decoder and for the text classification
+[37:24] the simple many to one was architecture
+[37:26] many to one architecture was there so
+[37:28] that's why guys uh see if you want to
+[37:30] retrain this model our model okay text
+[37:33] classification model for the
+[37:34] summarization. So we'll have to add
+[37:36] encoder and decoder part. So encoder
+[37:38] basically I'm going to take from the
+[37:39] same model from this updated model here
+[37:41] you can see input length is there same
+[37:43] updated classification from the updated
+[37:45] classification model. So here I'm going
+[37:47] to take the the layer okay my layer
+[37:50] first if you will check the layer simply
+[37:52] you can call the layer on top of this
+[37:54] model. So let me take this model name
+[37:57] and on top of it I can call the layers.
+[38:01] Okay. Now see the layers. So 0 1 2. So
+[38:04] first I'm taking embedding layer. The
+[38:06] same embedding layer and the same uh
+[38:07] hidden layer also. Okay. From the same
+[38:09] model. Now I'm creating my encoder. So
+[38:12] this is fine. Now for the decoder guys.
+[38:13] The decoder actually we'll have to
+[38:14] create from a scratch. Okay. Because we
+[38:17] don't have decoder because we just have
+[38:18] single output in the previous task.
+[38:22] Right. So this is my decoder. So this is
+[38:24] the size of the decoder. Some vocabulary
+[38:25] size I'm going to be mention. And here
+[38:27] is a input embedding LSTM layer. And see
+[38:30] this is the decoder part of it. And
+[38:32] finally I have a decoder layer. Now once
+[38:34] I will run it guys and see here is my
+[38:36] model which I'm going to be compiled.
+[38:38] Okay. Now after compiling a model what
+[38:40] I'm doing I'm just going to be prepare
+[38:42] my summarization data on top of this
+[38:44] particular data only. We have to
+[38:45] summarize uh we have to train our model.
+[38:48] So let me run it and let me show you the
+[38:49] input data first how it looks like. So
+[38:51] here is my input data. Okay. And this is
+[38:55] my input data which I will be passing
+[38:57] through the encoder. And here is my
+[38:59] decoder data. Okay, decoder input data.
+[39:02] And uh here is my decoder target data.
+[39:04] Because whenever we talk about this uh
+[39:06] summarization now encoder decoder
+[39:08] training, so we do the teacher forcing
+[39:10] over here. What is the teacher forcing
+[39:11] guys? Teacher forcing means here see uh
+[39:14] this is the
+[39:15] architecture. Okay, this one uh for the
+[39:19] summarization, right? So we pass the
+[39:21] input data from here. Okay, from this
+[39:23] particular site they are watching
+[39:25] something like this. Then see b o okay
+[39:28] so here this is the start of sentence
+[39:30] right so l l l l l l l l l l l l l l l l
+[39:30] l l l l lls regarding so this particular
+[39:32] data right we are we are passing the
+[39:34] decoder also okay means what I'm trying
+[39:37] to say over here this this data is fine
+[39:40] we are passing this they are watching
+[39:41] now we are going to be translated right
+[39:43] whatever we are going to be generate
+[39:44] from here again we are passing over here
+[39:46] whatever we are going to be generate
+[39:47] over here we are passing over here
+[39:48] getting my point so this is called the
+[39:50] teacher forcing while we are going to be
+[39:51] train the model okay so this is the like
+[39:54] itself is a different concept we'll
+[39:55] learn it sometime whenever I'll discuss
+[39:57] the classical NP playlist and all but as
+[40:00] of now it is not required. So here is my
+[40:01] encoder input data decoder input data.
+[40:04] Okay. And this is my uh like this data
+[40:06] decoded target data what needs to be
+[40:08] generated. Okay. Now after that guys
+[40:10] here is my sequence to sequence
+[40:11] training. Now let me train this model.
+[40:14] See so my model is getting trained. Now
+[40:16] just observe couple of thing over here.
+[40:18] So what could be your observation over
+[40:20] here. See my training has started. Okay
+[40:23] means that LSTM model I took one LSTM
+[40:26] model. I created one LSTM model from a
+[40:28] scratch. I took this classification
+[40:30] data. I was able to train that. See here
+[40:32] is a model. Okay. LSTM IMDb model.
+[40:35] Right. Now after that I loaded this
+[40:37] particular model. Okay. And I was able
+[40:39] to update the knowledge of this model.
+[40:41] That is also fine. Till here everything
+[40:43] is perfect. Now after that what I did I
+[40:46] want to train the same model on top of
+[40:48] the different data. Okay. So I took uh
+[40:50] the uh the uh layer the pre-trained
+[40:54] layer of that particular model. I
+[40:55] created my encoder. Okay. And then uh
+[40:57] decoder I designed from scratch because
+[40:59] decoder part was not there. And here see
+[41:01] I'm able to retrain that. But guys what
+[41:04] is the issue over here? Why this model
+[41:07] actually was not
+[41:09] uh basically why this model was was not
+[41:12] equal to the transformer. Let's try to
+[41:15] discuss those thing now. Okay. And this
+[41:17] is going to be very very important with
+[41:20] respect to your LSTM understanding that
+[41:22] why LSTM was not capable. So here only I
+[41:26] can ask you one very simple question.
+[41:27] Let's say to
+[41:28] this model the sequence to sequence
+[41:31] model which I trained can I predict the
+[41:33] previous task now with that the text
+[41:35] classification same you will say sun no
+[41:37] we cannot do it so using the sequence
+[41:40] sequence model we can only do the
+[41:42] summarization now we cannot do the text
+[41:44] classification but if you will do the
+[41:46] see the latest lmna so there actually
+[41:49] with the same model we can do the text
+[41:51] classification we can do the
+[41:52] summarization and all okay because we
+[41:55] are able to train those model on very
+[41:57] huge amount of data the unsupervised
+[41:58] pre-tuning and all supervised pre-tuning
+[42:00] is also there means the finetuning and
+[42:02] all and apart from that guys the
+[42:04] ecosystem the framework and all also
+[42:07] supporting to those model not to this
+[42:09] model okay so in none of the framework
+[42:13] you will find out a support of LSTM for
+[42:15] the several task node that kind of code
+[42:17] has not been built if you will look into
+[42:20] the bot and all so several attention had
+[42:22] several head was introduced for the but
+[42:24] as well but for classification but for
+[42:27] tokenizer but for the NE but for this
+[42:30] that hugging face has done that okay but
+[42:33] for the LSTM no because LSTM was not
+[42:35] having that potential which can take
+[42:37] care the longer sentences which can be a
+[42:41] memory efficient okay which can which
+[42:43] could be trained on a very huge amount
+[42:45] of data in the faster mode and all no
+[42:47] that was not possible in the LSTM okay
+[42:50] and guys whenever we talking about the
+[42:51] NLP in NLP actually we have a diversity
+[42:54] in the task like one task is different
+[42:56] to the another task if you will look in
+[42:58] the text classification where we were
+[42:59] predicting the positive and negative
+[43:01] right but this is completely different
+[43:03] to this uh like this summarization task
+[43:07] okay so with the LSTM actually we can do
+[43:09] the task specific training either we can
+[43:11] do the for the summarization or we can
+[43:12] do for the classification but one single
+[43:15] model universally we cannot train like
+[43:18] with this LSTM okay so I mentioned
+[43:20] couple of point so let's try to discuss
+[43:22] those point and within like two minute
+[43:24] two to three minute I'll try to uh like
+[43:26] concluded. So here uh let's try to see
+[43:30] so what was the points here I mention
+[43:32] each and everything the first thing is a
+[43:36] why uh not directly fine-tune that okay
+[43:40] you have seen the task type mismatch so
+[43:42] first task basically it was a
+[43:43] classification task okay and the next
+[43:46] task basically was a summarization so
+[43:48] both are different how it could be the
+[43:50] possible and four guys for this
+[43:53] particular task the architectural also
+[43:54] is a mismatch
+[43:57] Okay. Architecture wise, so let's say we
+[44:00] talking about the uh the normal text
+[44:03] classification. So there we required the
+[44:06] many to one. But if we are talking about
+[44:09] the uh
+[44:11] summarization, so there actually we
+[44:13] required many to many sequence
+[44:15] architecture. So that was also one of
+[44:17] the case. I think you can understand
+[44:19] this both the point. Please go through
+[44:21] with it. The third part is vocabulary
+[44:23] differences. So vocabulary differences
+[44:25] means let's say we have trained on IMDb
+[44:27] data set. Okay. Now if we are going to
+[44:29] be retaining on a summarization task
+[44:32] guys just think I just retain on a same
+[44:34] data set. Okay. I just took a same
+[44:36] vocabulary and all but if the vocabulary
+[44:38] is going to be different in that case
+[44:40] the encoder part is also going to be
+[44:42] fail means encoder has learned
+[44:46] something and we are passing any other
+[44:50] data. Okay. while we are retraining.
+[44:53] Okay. So that's not going to be m that
+[44:56] that's not going to be matched with the
+[44:57] encoded data which we have trained
+[44:59] earlier. Okay. Let's assume see we have
+[45:01] trained on IMDb data. The encoded part
+[45:04] we took as it is now over there. Okay.
+[45:08] And let's say any new data is coming. So
+[45:10] that will be out of vocabulary case.
+[45:13] Now getting my point that is that was
+[45:17] also the issue. Okay. Out of vocabulary
+[45:19] issue means we haven't trained it for
+[45:21] huge amount of data. We can face the out
+[45:23] of vocabulary issue because our encoder
+[45:26] was trained on IMDb data set but
+[45:28] anything is coming from any other data
+[45:29] set uh while we are doing testing it
+[45:32] might fail performance objective
+[45:34] function. Yes, for the classification
+[45:36] there is a category
+[45:38] binary cross entropy for the binary
+[45:41] classes. Okay, zero and one positive
+[45:43] negative. But for the summarization guys
+[45:45] there is a cross entropy uh means for
+[45:48] the sequence itself there was major
+[45:50] there was so many issues guys. Okay. Now
+[45:53] what can be reused from this particular
+[45:55] model? The model basically which I shown
+[45:56] you I already shown you I think we can
+[45:58] only use the encoder weights but again
+[45:59] it is not a prominent solution for the
+[46:02] summarization task as well. Okay. We'll
+[46:04] have to take a very huge amount of data
+[46:06] or we'll have to do the task specific
+[46:08] training only al sorry we'll have to
+[46:11] like uh we might get a wrong output as
+[46:14] well if any out of-box sentence is
+[46:15] coming because our encoder is trained on
+[46:17] very limited data set if any new data
+[46:20] set is coming while we are testing it
+[46:22] might fail now limitation of the
+[46:24] traditional RNN so here you can see uh
+[46:28] uh traditional RNN LSTM basically uh
+[46:31] let's try to discuss this point first
+[46:33] then I'll come to that. So initially
+[46:35] guys uh there was no universal language
+[46:38] model like we have the GPT and the MR
+[46:40] lama and all. LSTM had to be trained
+[46:43] from scratch for the specific task.
+[46:45] Okay, that I already told you. Transfer
+[46:48] transferability concept means the
+[46:50] transfer learning concept was not
+[46:52] possible. Okay, ulm fit that was a
+[46:55] research which was introduced along with
+[46:56] the transformer itself. There they have
+[46:58] used the encoder decoder with the
+[47:00] attention. Uh okay. And inside the
+[47:03] encoder decoder they have used LSTM
+[47:04] model. But again guys the ulm fit
+[47:07] universal language model fine-tuning
+[47:08] paper demonstrate by the demonstrated as
+[47:10] a breakthrough one. They first train a
+[47:13] LSTM based encoder and decoder model on
+[47:15] a large modeling. Okay. And the modeling
+[47:17] was the translation. Right now then they
+[47:20] fine-tune this particular model on the
+[47:23] text classification. That was a
+[47:24] downstream task text classification. And
+[47:26] the result was significantly good. The
+[47:29] result was pretty good compared to the
+[47:30] normal one. But guys, this was still not
+[47:33] a fully generic solution because even
+[47:36] though fit showed a power of
+[47:37] pre-training plus fine-tuning, there was
+[47:39] a major limitation. LM based model can
+[47:42] are computationally inefficient for the
+[47:44] larger data. There are lack of there is
+[47:48] a lack of scalability due to the
+[47:50] sequential processing. Okay. In
+[47:52] transformer actually we have a parallel
+[47:53] processing. I will show you in the next
+[47:55] class that cannot handle very long
+[47:58] sequence or the massive data. Okay. So
+[48:01] guys that's why later on B GPT5 model
+[48:04] which was a transform based model
+[48:05] replace LSTM
+[48:07] uh as universal NLP architecture means
+[48:12] no one is using the LSTM model nowadays
+[48:15] because this was the issues even though
+[48:19] encoder decoder architecture was trained
+[48:21] with the some language modeling task but
+[48:24] again this was also very successful
+[48:26] because we have a different different uh
+[48:28] task in NLP variety of the task like
+[48:31] classification is there then generation
+[48:35] is there okay generational is there then
+[48:39] summarization is there okay and QA is
+[48:43] there translation is there okay see
+[48:47] fundamental everything is a generation
+[48:49] only if you will look on a fundamental
+[48:50] level so in every task something is
+[48:53] being generated in classification also
+[48:56] one word is being generated
+[48:57] summarization also some summarize
+[48:58] sentence being generated question answer
+[49:00] normal answer is being generated.
+[49:01] Translation, some translation part is
+[49:03] being generated. Okay, in generation
+[49:05] again the sentence itself is being
+[49:06] generated. So fundamentally everything
+[49:08] is a generated one but guys the variety
+[49:10] of the task was different and one model
+[49:12] the LCM model was not able to handle
+[49:14] this thing and key inside guys here you
+[49:17] can see I return some sort of a point.
+[49:18] So RNL LSTM model was a task specific
+[49:21] not as scalable. ULM fit has introduced
+[49:23] something transferring NP using the LSTM
+[49:26] which was a major breakthrough but due
+[49:28] to the LSTM limitation itself it could
+[49:30] not scale okay it could not become
+[49:32] generic. Later on the universal model,
+[49:34] the transformer based model board GPT
+[49:36] was introduced and here uh guys uh the
+[49:39] transformer was having the parallel
+[49:40] mechanism. Uh it was trained on a
+[49:42] massive data because of the parallel
+[49:44] mechanism and all and they were using
+[49:46] something called uh this one uh
+[49:49] basically uh scale sorry uh attention
+[49:52] mechanism. Okay. So that was also was
+[49:55] that was also a major breakthrough
+[49:57] inside the transformer. Okay. To retain
+[49:59] the global context of the data, right?
+[50:01] So this was it guys for this particular
+[50:03] video. I think you understood it very
+[50:05] well why this LSTM was not being used
+[50:08] okay and why LSTM couldn't be successful
+[50:12] because everything against this LSTM
+[50:14] model compared to the current LLM model
+[50:16] the ecosystem and all and the task
+[50:18] variety and all and I shown you this
+[50:20] part as a practically as well. Now I
+[50:22] hope you understood it you learned
+[50:23] something and I will see you in the next
+[50:25] video where we'll discuss the
+[50:27] differences between the LSM and
+[50:28] transformer. So until guys, thank you.
+[50:30] Bye-bye. Take care.

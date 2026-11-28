@@ -1,0 +1,1735 @@
+Title: LLM Fine-Tuning 20: OpenAI(GPTs) Fine-Tuning Masterclass | Supervised FT | Token & Cost Analysis
+Video URL: https://www.youtube.com/watch?v=4JU3eshdu4U
+Video ID: 4JU3eshdu4U
+======================================================================
+
+[00:00] Hey, hello everyone. Welcome back to my
+[00:03] channel. My name is Sunonny and I'm back
+[00:06] with another exciting and important
+[00:08] video. So guys, in this video, we'll
+[00:10] learn how you can fine-tune any GPD
+[00:12] model using OpenAI API. Yes guys, so in
+[00:16] the previous video I shown you how you
+[00:18] can fine-tune any LLM using Axelottal,
+[00:21] which is low code and no code. And now
+[00:24] from this video onwards we are going to
+[00:27] start API based fine-tuning where we'll
+[00:30] discuss OpenAI API and after that we'll
+[00:33] discuss vortex API. Okay. Uh now guys if
+[00:36] you don't know I started with this end
+[00:38] to end playlist of the LLM fine-tuning
+[00:41] where I uploaded 20 videos so far. This
+[00:44] is going to be 21st video. Okay. So uh
+[00:48] let me show you that what are point we
+[00:50] are going to discuss in this particular
+[00:52] video. So uh here is all the point guys.
+[00:55] Uh so first we'll take a look over the
+[00:57] finetuning documentation. Uh then we'll
+[01:00] see a supported method via open AI API.
+[01:03] Uh open a API is supporting so many
+[01:05] method like SFT, vision fine-tuning,
+[01:08] DPO, RLHF. Uh we'll take a look onto
+[01:12] each and every method but guys at the
+[01:13] end we'll perform only supervised fine
+[01:16] tuning. Okay. uh then uh we'll see uh
+[01:19] how we can fine-tune via dashboard and
+[01:22] uh via Python API. I will show you both
+[01:24] method but uh mainly I will focus on the
+[01:27] Python API not over the dashboard itself
+[01:29] because uh the same job we can perform
+[01:32] using the dashboard uh but we'll explore
+[01:35] the Python API because as a programmer
+[01:37] we have to focus on this side uh then
+[01:39] finetuning step-by-step process. So
+[01:41] these many process are involved when you
+[01:43] are going to be fine-tune any LLM model
+[01:45] using the open API like collect a data
+[01:48] set example format a data set into the
+[01:51] JSON then data set format validation
+[01:54] token counting cost estimation uh then
+[01:57] how to upload the data set using Python
+[01:59] API how to create a finetuning jobs
+[02:01] start the finetuning evaluating a model
+[02:04] everything guys everything will come
+[02:05] inside this video itself then a
+[02:08] fine-tuning best practices from the open
+[02:10] API So we'll try to explore each and
+[02:12] every model. I will give you the quick
+[02:14] walk through of the entire
+[02:15] documentation. There we'll focus on the
+[02:18] data quality. What kind of data actually
+[02:20] you need to be have. Uh then hyper
+[02:22] hyperparameter tuning. What all like
+[02:25] hyperparameter we have and what value we
+[02:27] can keep. Uh then total limit right. So
+[02:30] every model is having their own total
+[02:31] limit. So we'll discuss onto that. So
+[02:34] guys these many points we are going to
+[02:35] discuss throughout this video. So if you
+[02:37] want to become master in uh OpenAI API
+[02:40] fine-tuning then this video is for you.
+[02:43] So please watch this video till the end
+[02:46] so that uh you can fine-tune any GPD
+[02:48] model using the open AI API. Uh now guys
+[02:52] uh one more thing many people uh like
+[02:55] asking their doubt over the LinkedIn and
+[02:57] they are mailing to me continuously. So
+[03:00] uh for those folks for those people guys
+[03:02] I have created this uh topmate topmate
+[03:05] link. So if you have any sort of a doubt
+[03:08] guys just go through with this topmate
+[03:09] link and here I have like given you the
+[03:13] different different services the various
+[03:14] services uh like quick chat rum review
+[03:17] mock interview preparation tips career
+[03:19] guidance genative generative uh AI
+[03:21] interview preparation. So guys according
+[03:24] to your requirement you can connect with
+[03:26] me. Okay. Now uh let's start let's start
+[03:30] with the fine tuning. First take a look
+[03:31] over the documentation and then uh step
+[03:33] by step one by one we'll perform the
+[03:35] entire practical guys. So guys uh for
+[03:39] accessing the documentation you just
+[03:41] need to write open API platform in any
+[03:44] browser. So I'm using brave browser. You
+[03:48] can use any browser. Now once uh you
+[03:50] will write this openi API platform you
+[03:53] will get this openi.com now just click
+[03:55] on it just open this open api
+[03:58] openaiapi.com
+[04:00] now here they have given you the login
+[04:02] this login option now just click on this
+[04:04] login here you will get the three option
+[04:07] one is the chat gpd second is the API
+[04:09] platform and third is sora okay so I
+[04:11] want to access this API platform so I
+[04:14] will click on this API platform uh now
+[04:17] after clicking on this API platform you
+[04:19] will find out the entire documentation.
+[04:21] So this documentation is very huge.
+[04:23] There are lots of thing. Uh so if you're
+[04:26] going through with this documentation,
+[04:27] you will understand how to access the
+[04:29] open API key, how to access the various
+[04:31] model, the core concept of the open API,
+[04:35] then agents, tools, uh evaluation,
+[04:38] uh so many thing basically they have
+[04:40] mentioned over here, right? But uh here
+[04:42] our aim to understand the finetuning and
+[04:45] here our aim to generate the open API
+[04:48] key so that using that we can access the
+[04:51] uh we can access the different different
+[04:52] model and we can fine-tune those model.
+[04:56] So first guys I will show you how you
+[04:58] can generate a key how you can keep how
+[05:00] you can basically recharge your openi
+[05:02] API account uh and then I will show you
+[05:05] the finetuning. Now uh guys uh if you
+[05:07] will scroll down uh onto this
+[05:09] documentation. So inside this evaluation
+[05:13] section. Okay let me show you. So here
+[05:17] is the evaluation sorry model
+[05:18] optimization. So under this model
+[05:20] optimization actually you will get this
+[05:22] finetuning. Okay. So once you will click
+[05:24] on this dropdown see here uh they have
+[05:27] given you the option to perform the
+[05:28] supervised finetuning means how you can
+[05:30] perform the supervised finetuning. They
+[05:32] have given you the complete step. uh so
+[05:34] you just need to go through with this
+[05:35] each and every step and easily you can
+[05:37] fine-tune your model. Okay, I will show
+[05:40] you what all model you can fine-tune. I
+[05:42] will give you the complete guide of all
+[05:44] those model along with the costing. Uh
+[05:46] uh apart from that you can perform the
+[05:48] vision fine-tuning. If you have vision
+[05:49] data you can do that also. See this is
+[05:51] the model. Then uh you can perform the
+[05:53] direct preference optimization. See this
+[05:55] is the model there you can perform the
+[05:58] DPO reinforcement finetuning. Yes, that
+[06:01] is also available uh with this model. So
+[06:04] just go through with this documentation
+[06:06] guys, you will get the complete detail
+[06:08] of the finetuning. Don't worry uh after
+[06:10] generating a key okay and after adding
+[06:12] some credential inside my account I will
+[06:14] give you the walkthrough of this
+[06:15] finetuning pages okay of this
+[06:18] documentation itself. Uh now guys what
+[06:20] you have to do you just need to click on
+[06:21] this uh quick start. Now once you will
+[06:23] click on this quick start here you will
+[06:24] get a option to create an API key. So
+[06:27] just click on this create an API key.
+[06:29] Now after clicking on this create an API
+[06:31] key you will get a option to generate
+[06:33] the API key. Okay.
+[06:38] So it is loading uh for me. Let it load.
+[06:49] Uh it's still loading.
+[06:54] It should not take this much of time.
+[06:57] Yeah. So guys, I got my API key, right?
+[07:01] So I already generated one API key. So I
+[07:03] have my API key over here. So using this
+[07:06] API key, I can access the different
+[07:08] different model and then I can perform
+[07:10] the finetuning. But if you don't have
+[07:13] any API key, then you can click on this
+[07:15] create a new secret. Okay, once you will
+[07:17] click over here, you will get a option
+[07:18] to create a new secret key. So just
+[07:21] write the name whatever name you want to
+[07:23] be write in under what pro under which
+[07:25] project you want to be create that just
+[07:27] write the project name and then create a
+[07:30] secret key. Okay. Uh now guys a very
+[07:32] important thing. So after creating this
+[07:35] key can you access any model? Can you
+[07:37] access any model from the open API? The
+[07:40] answer is no. You cannot access the
+[07:41] model until you don't have money inside
+[07:44] your openi API account. So how to add
+[07:47] the money? So let me show you that. So
+[07:49] once you will click on this uses okay so
+[07:52] after clicking on this uses you will get
+[07:53] the various option over here. So it will
+[07:56] give you the complete metrics of your
+[07:58] uses. How many uh tokens you are using
+[08:01] while you are using the chat completion
+[08:03] API while you are generating a images
+[08:05] file search web search moderation
+[08:07] embedding every sort of a thing you will
+[08:09] get over here. Every sort of a thing you
+[08:11] will get over here regarding your money
+[08:13] right regarding your tokens regarding
+[08:15] your tokens count. So you can see over
+[08:17] here the Fary budget. Uh the FAR budget
+[08:20] is $120. Okay. And I spent $0. I haven't
+[08:23] used this API. Okay. Uh now guys this is
+[08:26] not a money actually. This is a budget.
+[08:28] I can decide the budget and then
+[08:29] according to my requirement I can add
+[08:31] the money inside my account and then
+[08:34] basically I can use it. So how to add
+[08:36] the money inside the account. So for
+[08:38] that there is a option. So you just need
+[08:40] to click on this edit budget. So once
+[08:43] you will click on this edit budget.
+[08:45] Okay. So here you can see uh you can
+[08:48] edit your budget right. So uh you can
+[08:50] add the alerts, you can edit the budget.
+[08:53] Uh so apart from this you can explore
+[08:55] the model right. So you can explore the
+[08:58] token limit of every model. TPM means a
+[09:00] token per minute. Okay. Uh so rate per
+[09:04] minute token per day. Okay. So this is
+[09:08] the full form of this specific term TPM,
+[09:10] RPM and TPD. You can explore more about
+[09:13] it. Right. As of now, I'm not going into
+[09:15] these detail. I will more focus on the
+[09:17] finetuning. Now guys, you can see the
+[09:19] users limit. So maximum I can uh use $1.
+[09:23] Okay, on one single account I can use
+[09:25] one lakh dollar. Means I can set uh the
+[09:27] limit up to one lakh over here. Okay, so
+[09:30] I can set up to one lakh rupees of
+[09:32] budget for my openi API key onto one
+[09:35] single account. Now guys, uh here you
+[09:38] will get this billing option left hand
+[09:39] side. Just focus on this billing. Now
+[09:41] once you will click on this billing so
+[09:43] see this is my credit actually so I
+[09:45] added $10 into my open API account okay
+[09:49] and I'm using this uh amount only for my
+[09:52] for accessing the model okay for
+[09:54] generating the uh responses based on the
+[09:56] given request right so if you want to
+[09:59] add it if you want to add the money into
+[10:01] your account so here is the option add
+[10:03] to credit balance so once you will click
+[10:06] on it so here you can write the amount
+[10:08] whatever money like whatever like amount
+[10:10] you want to be added add. Now just uh
+[10:12] add your payment detail, credit card
+[10:14] detail, okay? And then click on this
+[10:15] continue. Then guys, what you can do?
+[10:17] You can add the money into your OpenAI
+[10:19] API account. Now you can enable the auto
+[10:22] recharge also. If the money is going to
+[10:24] be end, then automatically it will
+[10:26] recharge your account. So guys, this
+[10:28] money this is your actual money which
+[10:30] you have inside your account and then
+[10:32] you can like decide the budgets and all
+[10:35] right. So whatever budgets you have in
+[10:37] your mind, you can keep it. See again
+[10:39] I'm saying this is not a money. I can
+[10:40] give you a example. Uh let's say you are
+[10:43] going to decide a budget for your
+[10:45] grocery. Okay. Uh per month you are
+[10:47] going to be decide a budget for your
+[10:48] grocery. Let's say 5,000 rupees. But in
+[10:51] but in your current account in your
+[10:52] current saving account you just have
+[10:55] 3,000. So the budget you have decided
+[10:58] that is 5,000 that is on paper right
+[11:00] this much you are going to be spent. But
+[11:02] the actual amount you have inside your
+[11:05] account that is 3,000 right? So you can
+[11:08] adjust your budget according to your
+[11:09] requirement uh whatever you want to be
+[11:11] keep over here. But this is the actual
+[11:13] money uh which you need to be charged
+[11:16] right which which you need to be
+[11:17] recharged inside your openi API account.
+[11:20] I hope uh this thing is clear because
+[11:22] this is a very important thing guys. If
+[11:24] you don't have it then you cannot
+[11:25] fine-tune your model. Even you can keep
+[11:28] $5 also but I think minimum is $10. You
+[11:31] can explore from your end this one.
+[11:34] Okay. Now guys uh let's uh take a look
+[11:36] onto the documentation or the data set
+[11:38] and all okay and after that I will show
+[11:40] you this entire code. See this is the
+[11:42] entire code which I prepared for all of
+[11:43] you. Uh definitely one by one uh step by
+[11:47] step uh we'll do the finetuning using
+[11:49] this entire Python code.
+[11:52] Now guys uh before starting with the
+[11:54] coding part let's explore the
+[11:56] documentation. Uh let's see what all
+[11:58] method is being provided by the open
+[12:00] API. uh let's explore the data set
+[12:03] format and uh let's explore the uh
+[12:05] costing of the different different
+[12:07] model. So guys once you will click on
+[12:09] this model optimization and uh if you
+[12:11] will scroll down here so you will get
+[12:14] this finetun a model section. So let's
+[12:17] uh read this paragraph at least and
+[12:19] let's see what this openai is saying. So
+[12:21] openai models are already pre-trained to
+[12:23] perform across a broad range of a
+[12:25] subject and task. Finetune lets you take
+[12:28] an openi based model provide the kind of
+[12:30] input and output you expect in your
+[12:32] application and get a model that excel
+[12:35] in the task you will use it for. So was
+[12:38] it what does it mean guys? So the
+[12:39] meaning is very simple. Uh f this GPT
+[12:43] model is already trained on a very huge
+[12:44] amount of data. It is capable to perform
+[12:47] a broad range of task but still if you
+[12:49] want to uh fine-tune on your specific
+[12:52] data then you can do it. So guys, I'm
+[12:55] not going to be read each and every line
+[12:57] of this documentation. I will highlight
+[12:59] only the important point. So guys uh
+[13:01] here in order to this uh important
+[13:03] important point uh this table is very
+[13:06] important guys. So they have given you
+[13:08] the different different methods over
+[13:09] here supervised method vision finetuning
+[13:12] direct preference optimization
+[13:14] reinforcement finetuning and they have
+[13:16] given you the model name also with
+[13:18] whatever model you can use it. Okay use
+[13:20] this different different method. So if
+[13:22] you want to perform the supervised
+[13:24] finetuning you can use this model. If
+[13:26] you want to perform the vision
+[13:27] finetuning you can use this model. For
+[13:29] the DPO this model and for the
+[13:32] reinforcement fine-tuning this model. If
+[13:35] you don't know about these particular
+[13:36] method you can go and check with my
+[13:38] playlist already. I have discussed these
+[13:40] method in a very detailed manner. You
+[13:42] can follow this video number 14 15 and
+[13:44] 16 or else you can follow this crash
+[13:46] course. Got it guys? Now guys let's uh
+[13:49] come to the supervised finetuning. So uh
+[13:52] here is a complete overview like how we
+[13:54] can perform the supervised fine-tuning.
+[13:56] So we have to build our own data set.
+[13:58] Then we'll have to upload our data set.
+[14:00] Okay. The data set will be in the prompt
+[14:02] formatting. Uh I will show you how the
+[14:04] data set looks like. Then you have to
+[14:06] create the finetuning job. Then you have
+[14:08] to evaluate the model after the
+[14:10] finetuning. Now here guys uh this is the
+[14:13] complete detail how you can build your
+[14:14] data set. Now minimum how many
+[14:18] minimum how many example you can keep?
+[14:20] So minimum minimum you can keep 10
+[14:22] examples and maximum you can keep 15 to
+[14:25] 100 and 50 to 100 example are the good
+[14:27] one. Okay. So if you want to be really
+[14:30] improve the uh if you really want to be
+[14:32] improve the answer the output of the
+[14:35] model then at least you should have 15
+[14:37] to 100 example. You can read this entire
+[14:39] documentation. It will give you the
+[14:41] complete and the detailed idea about the
+[14:44] data set format and the data preparation
+[14:46] and all. But guys uh uh this much
+[14:48] information is not required. Once uh
+[14:50] follow this video till the end after
+[14:53] following this video after performing
+[14:54] the practical and all uh then you can go
+[14:56] through with this entire documentation
+[14:58] and the entire page and all right so
+[15:00] that your understanding will be more
+[15:02] comprehensive and the more concrete. Now
+[15:04] guys this is the format of the data set.
+[15:06] Uh this is the format of the supervised
+[15:08] data set. If you want to explore one
+[15:10] single row you can simply click on this
+[15:12] corresponding JSON data set. Now once
+[15:14] you will click over here you will get
+[15:15] the format of the one single row. So
+[15:17] this is the JSON format guys. Now inside
+[15:19] this JSON format we have a key. So the
+[15:22] key name is the message and the value
+[15:23] will be the list. Now inside this list
+[15:26] you will be having the different
+[15:27] different role like user assistant
+[15:29] system. Okay. And then you can keep the
+[15:31] content. So content could be anything.
+[15:33] So over here you can see so we have a
+[15:35] role user. This is the content. Content
+[15:37] is nothing just a question or whatever
+[15:39] you want to be like pass to the model.
+[15:42] uh then role is assistant and here is
+[15:43] the content. The content is a tool
+[15:45] calling. So either you can write a
+[15:47] simple message or you can define your
+[15:49] tool calling and all. Right? So both is
+[15:52] fine. Uh in our finetuning we are not
+[15:54] going to be uh fine-tune our model on a
+[15:56] specific tool data. I'm just going to be
+[15:59] fine tuned on a simple chatting. Let me
+[16:01] show you my data set how I prepared my
+[16:03] data set. Okay. So guys uh now here if
+[16:06] you will scroll down you will get like
+[16:08] more detail about the finetuning jobs
+[16:10] and all. All right. So definitely you
+[16:13] can go through with uh you can go
+[16:14] through with this documentation for the
+[16:16] uh more understanding. Right. It is just
+[16:19] for your self learning selfstudy. Now
+[16:21] guys let me show you how I prepared my
+[16:24] data set. So once you will go through
+[16:25] with my uh GitHub guys this is my GitHub
+[16:28] finetuning GitHub. Now inside this
+[16:30] GitHub I created one folder. So the
+[16:32] folder name is LLM finetuning 20 GPT uh
+[16:36] LM finetuning 20 GPT finetuning. So just
+[16:39] open this folder. Now over here you will
+[16:41] get this data set data dot JSON. Okay.
+[16:43] JSON means what? JSON L. L is
+[16:46] representing to the new line. Okay. So
+[16:48] as many as JSON object you can keep
+[16:50] which is separated by the new line. So
+[16:52] this is the data set guys which I
+[16:54] created for the finetuning. At minimum I
+[16:57] can keep 10 rows. So I just kept the 10
+[16:59] rows just to demon demonstrate you. But
+[17:02] if you are doing it in a real time in
+[17:03] that case guys you will have to keep at
+[17:05] least 50 to 100 row rows for the better
+[17:08] output. Uh now guys uh here uh this is
+[17:12] the data set guys which I opened in the
+[17:14] VS code just to show you how it looks
+[17:16] like. So this is the one single row. So
+[17:18] inside this row I have a key. Key name
+[17:20] is message. Then we have a value. Value
+[17:23] is the list. Now inside this list we
+[17:25] have a system. Okay. Then we have a
+[17:27] user. Now here we have a assistant. So
+[17:30] yes like regarding each and every role I
+[17:33] have written their corresponding
+[17:34] messages. I will again come to this
+[17:36] particular data set. I will explain you
+[17:38] that why I have written these many me
+[17:39] these messages. What is the meaning of
+[17:41] it and on which what kind of data set I
+[17:44] am fine-tuning my model. Okay. I hope
+[17:46] you got the understanding of the data
+[17:47] set. Okay.
+[17:51] Now guys, so if you want to explore the
+[17:54] other data set, you can go through with
+[17:56] the different different pages like
+[17:57] vision finetuning. So here you can see
+[18:01] uh the data data set format of the
+[18:03] vision uh for the vision finetuning. So
+[18:06] this is the data set format. If you want
+[18:08] to prepare your data set for the vision
+[18:10] finetuning then you can follow this
+[18:12] particular format. Uh if you want to
+[18:14] prepare your data set for the DPO you
+[18:16] can follow this particular format. See
+[18:18] here is a format. If you want to prepare
+[18:21] your data for the reinforcement learning
+[18:23] then you can follow this specific
+[18:25] format. So in the upcoming classes in
+[18:28] the upcoming video definitely I'll show
+[18:30] you how you can fine-tune uh how you can
+[18:33] fine-tune your model with the different
+[18:35] different methods with the different
+[18:36] different techniques. Uh definitely I
+[18:38] will show you in my upcoming video. Now
+[18:41] guys for the reinforcement learning guys
+[18:44] we required few additional thing like a
+[18:46] grader and all. So if you want to
+[18:48] manually grade the output whether it is
+[18:51] a good or bad you can do otherwise you
+[18:53] can use the LLM model. Okay, LLM as a
+[18:56] grader. So this is a separate thing once
+[18:58] I will come to the reinforcement
+[19:00] learning definitely I will show you this
+[19:02] as also. Uh now here is some best
+[19:05] practices. So definitely we'll explore
+[19:07] inside this video itself. I will give
+[19:09] you the quick walkthrough of this best
+[19:11] practices. What should be the data
+[19:12] quality and how we can calculate the end
+[19:16] cost? What is the hyperparameter tuning
+[19:18] and all we can perform. Now guys uh this
+[19:20] is all about the data set. Now if you
+[19:22] want to know about the model guys, so
+[19:24] what you can do? So you can uh simply
+[19:27] click on this pricing. So just click on
+[19:29] this pricing. Now after clicking on this
+[19:31] pricing guys uh here you will get the
+[19:33] pricing of each and every model. Okay,
+[19:35] regarding the different different task.
+[19:37] Now guys once you will scroll down over
+[19:39] here see here you will get this
+[19:40] finetuning this one. So just click on
+[19:42] this finetuning. Now after clicking on
+[19:44] this finetuning you will get the pricing
+[19:47] of each and every model with respect to
+[19:49] the finetuning. So these many model we
+[19:52] can finetune like 04 mini 04 mini okay
+[19:56] this is the date which when this model
+[19:58] was like published then here is a GPD
+[20:02] 4.1 GPD 4.1 mini nano 40 mini and the
+[20:06] other model also now guys uh here you
+[20:08] can see so this is the trading cost this
+[20:10] is per our r basis now this is the input
+[20:13] cost so the input cost means the message
+[20:16] which you are providing to the llm okay
+[20:18] so uh this is the input cost this is
+[20:20] Cach a cost means if you're going to be
+[20:22] provide a same input again so open is
+[20:25] going to be picked that particular input
+[20:27] from the cache memory. So this is the
+[20:29] cost regarding the cache. Now this is
+[20:31] the output cost guys. So here you can
+[20:33] see the cost the pricing it is per 1
+[20:36] million token on per 10 lakhs token. So
+[20:40] this is the training cost with respect
+[20:41] to the finetuning guys. Now here is the
+[20:43] cost for the inferencing. So after the
+[20:46] finetuning whenever we are going to be
+[20:47] inference inference the model whenever
+[20:49] we are performing the inferencing the
+[20:51] prediction then this will be the cost uh
+[20:53] this cost will come from the input cache
+[20:55] input and the output so in this video I
+[20:58] will show you the finetuning using this
+[20:59] GPT 4.1 nano because it is having the
+[21:02] minimum pricing okay 1 uh $150
+[21:06] per hour I hope guys this thing is clear
+[21:09] you understood about the data set format
+[21:11] you understood about the different
+[21:13] different methods of the finetuning in
+[21:15] open a API and you understood about the
+[21:18] pricing part. Now let's uh start with
+[21:20] the practical and whatever things will
+[21:22] come in between or definitely we'll
+[21:24] explore through the documentation
+[21:26] itself.
+[21:35] Okay guys, so the entire practical will
+[21:37] perform in the Google collab. uh but you
+[21:40] can perform this practical anywhere on
+[21:42] any server. If you want to do in your
+[21:44] local you can do uh if you want to do on
+[21:48] any cloud server you can perform there
+[21:50] as well. So feel free to perform this
+[21:52] practical anywhere. So I am doing it
+[21:55] over the Google Collab. So first of all
+[21:58] guys uh I will have to connect with my
+[22:00] runtime. So here I will select my
+[22:02] runtime. So runtime wise I'm not going
+[22:04] to select the GPU this time because I'm
+[22:06] not going to perform any training on my
+[22:08] server. So the training will be
+[22:10] performed over the OpenAI server. I just
+[22:12] need to configure the training using the
+[22:14] Python API. Uh now guys what I will do?
+[22:17] So first I will select the CPU then I
+[22:20] will connect and now I will install the
+[22:23] OpenAI SDK. So for installing the OpenA
+[22:26] SDK I will simply write FIP install fib
+[22:29] install open AI. So once I will write
+[22:32] this pip install openai and I will
+[22:34] install it. So yeah it is getting
+[22:36] installed. Now after that guys I
+[22:38] required my openi key. So I shown you
+[22:40] how to get the openi key. So in the same
+[22:43] way you have to generate a openi key and
+[22:45] you have to keep it inside this uh
+[22:47] inside this key. Okay. So you can uh add
+[22:50] a new secret. You can click on this add
+[22:52] a new secret. You can add a secret.
+[22:54] Okay. You just need to write a name open
+[22:55] API key and then paste the actual key
+[22:58] over here and then save it. That's it
+[23:00] guys. nothing else. So I already did it.
+[23:02] So I just need to activate it. See here
+[23:04] is my openi key. This is the value of
+[23:06] it. Now what I will do guys? I will read
+[23:08] the key over here. So for reading a key
+[23:11] what I will do? I will simply uh copy
+[23:13] and paste this code snippet. Uh google.c
+[23:16] collab import user data. Now uh user
+[23:19] data.get openai API key. So I will get
+[23:22] the open API key. Uh see the key is
+[23:25] available inside this particular
+[23:26] variable. Now what I will do guys I will
+[23:29] set this uh key as a environment
+[23:30] variable. So for for that guys I will
+[23:33] import OS. Now I will call uh this
+[23:37] method OS dot environment and then I
+[23:41] will write this open AAI API key. Okay.
+[23:45] Uh this is my variable name open a API
+[23:48] key. Now I will give the value of it. So
+[23:50] this is the value open AI API key. I'll
+[23:52] mention the value over here. And now I
+[23:54] will run it. So see guys I set the open
+[23:56] API key as a environment variable. Now
+[23:59] guys what I will do? I will import the
+[24:01] open AI class from the open AI itself.
+[24:03] So from open AI import open AI. Okay
+[24:09] open AI. Now what I will do guys uh I
+[24:12] will import the open AAI. Now I will
+[24:13] create a object of this open AI. So here
+[24:16] is a class. I'm going to be create a
+[24:18] object of this class and the object name
+[24:21] is going to be client. C L I E N T.
+[24:23] Okay. Now what I will do guys the client
+[24:25] is there client is ready. Now I will
+[24:27] check whether my model is working or
+[24:29] not. So here I will uh call this method
+[24:32] this chat completion method. client dot
+[24:35] chat completion dotcreate. Okay. And
+[24:37] this is my model name. Now here's my
+[24:39] message. So what is the champions trophy
+[24:42] in the uh in in the cricket and how it
+[24:44] is different from the world cup. So this
+[24:46] is my message. A user is asking this
+[24:48] particular question to my model to the
+[24:50] model and this is the model guys. I can
+[24:52] use any model but yeah I'm just checking
+[24:55] with this particular model whether I'm
+[24:57] able to hit the API or not. Then later
+[24:59] on I will fine tune. Now uh if I will
+[25:02] hit it guys I will get a response over
+[25:04] here. So I can get a response. I can
+[25:06] simply call this uh I can simply call
+[25:08] this chat uh I can simply call this
+[25:10] completion choice message and content.
+[25:13] Now uh see guys this is the message
+[25:15] means uh we are able to uh hit the model
+[25:18] and we are able to get the response. So
+[25:21] yeah, my model is working fine. Now what
+[25:22] I will do guys, I will take a data set
+[25:24] and uh first I will check whether the
+[25:26] data set correct or not. Then I will
+[25:28] count the token and uh then basically
+[25:31] we'll perform the finetuning on top of
+[25:33] that particular data set.
+[25:36] Now guys uh we'll load the data set. So
+[25:39] I already shown you the data set. See
+[25:41] this is our data set data.json.
+[25:44] Uh JSON means JS O N. JSON I think you
+[25:48] know about the JSON right? So it's a
+[25:50] dictionary object which we keep inside
+[25:52] the file inside the physical file. JSON
+[25:55] means you can keep as many as JSON
+[25:58] object which you can separate via new
+[26:00] line. So if you will see that kind of
+[26:03] data inside any file. So this is the
+[26:06] extension for it JSON. Okay this L this
+[26:10] is L actually. Uh now let me show you
+[26:12] the data set data.json
+[26:15] if I'm if I can open it. See here is our
+[26:17] 10 rows 10 JSON object. I think I
+[26:20] already shown you this data and you can
+[26:23] see this data actually it is all about
+[26:25] the smartphone smartphone detail. I will
+[26:27] come to that uh that what kind of data
+[26:30] basically I cap and like how we can
+[26:33] perform the training. First of all
+[26:35] before performing the training let's uh
+[26:36] do the validation of the data set. So
+[26:39] what I'm doing guys? So here I'm going
+[26:41] to load the data set. So for loading a
+[26:44] data set guys what I will do? I will
+[26:45] open this file. So this is the code for
+[26:47] it. Uh let me give you the code. See
+[26:50] here is a code import JSON. Uh then you
+[26:53] can uh give the path of the file content
+[26:55] data do JSON. I I created one more file
+[26:59] this data 2.jl. I will come to this file
+[27:02] while why I created it. Uh definitely
+[27:04] I'll show you use of this as well. Okay.
+[27:06] This another file because inside this
+[27:09] file actually I missed some data point.
+[27:11] So while I will show you the validation
+[27:13] I will show you with the both file first
+[27:15] with the correct data and second with
+[27:17] the incorrect data. Uh so here I create
+[27:20] here I kept the path content data dojal.
+[27:23] Now here is the encoding. Encoding is
+[27:24] equal to UTF8. Okay. Uh this is the
+[27:27] universal encoding. Keep this only if
+[27:29] you're going to be read your data inside
+[27:30] the collab or in your local. Uh now I'm
+[27:33] going to be open the file. Now what I
+[27:34] will do guys I will iterate on top of
+[27:36] this file object. Okay. And then I will
+[27:38] keep it inside the list. So this is the
+[27:40] further code for it. Uh I will iterate
+[27:43] on top of this file object. Okay, I will
+[27:45] keep it inside the line variable. Then
+[27:48] uh I'm going to be loaded using this
+[27:49] JSON.loads. So I will not get a string.
+[27:52] I will get a proper JSON object means
+[27:54] the dictionary. In Python you can say
+[27:56] it's a dictionary. Uh now let me do it.
+[27:58] Let me load it guys. So if I can show
+[28:00] you the data. See here is a data guys.
+[28:02] Inside this particular data we have 10
+[28:04] rows. So at least we'll have we'll have
+[28:07] to keep 10 rows. Okay. inside the file
+[28:09] if you want to fine-tune the GPD model.
+[28:11] If you're going to keep below 10, then
+[28:13] it's not going to fine-tune. Okay, it
+[28:15] will generate the error. It will give
+[28:17] you the error that okay, you your data
+[28:18] set is not having 10 rows. Please
+[28:20] increase the number of rows. Uh now uh I
+[28:23] think so you got the data. Now if I want
+[28:25] to check the one single row of the data,
+[28:28] I can simply write data zero. So here I
+[28:31] will get the one single row. Inside this
+[28:33] particular data, inside this particular
+[28:35] object, inside the JSON object, we have
+[28:37] message key. Under this message key
+[28:39] guys, uh you will find out the different
+[28:41] different role like system, you will
+[28:43] find out the uh user and you will find
+[28:45] out the assistant. Okay, role is there.
+[28:48] Then content is there. So there is two
+[28:50] key. Okay, role and the content inside
+[28:52] this particular inside uh this
+[28:54] particular list. Okay, inside this
+[28:55] particular list, we have one more uh
+[28:57] dictionary object. Okay, this one this
+[28:59] is a dictionary. Then this is a
+[29:01] dictionary. So every role guys it is uh
+[29:03] separated inside the dictionary only. Uh
+[29:07] now what I'm doing guys if I if you want
+[29:08] to check the number of example that how
+[29:10] many number of examples we have. So
+[29:12] simply you can call the length on top of
+[29:15] the data because it is a uh it is a list
+[29:18] guys here you can see this is a list. So
+[29:20] inside this list only I kept the entire
+[29:22] object. Okay this JSON object. So if I
+[29:24] can check how many JSON object we have.
+[29:26] So you will get the number. So number of
+[29:28] example is 10. Okay. I hope uh this
+[29:31] thing is clear. Now how we will validate
+[29:33] the data. So for validating a data we
+[29:36] required couple of more import
+[29:37] statement. So here I'm going to keep all
+[29:39] the import statement like tick token. Uh
+[29:42] this is for token counting. So we are
+[29:44] counting the token. Okay. So if you want
+[29:46] to count the token. So we'll use this
+[29:48] tick token module. Then we have one more
+[29:50] module that is numpy. Okay. So if you
+[29:52] want to convert anything into the array
+[29:55] right then you can use this numpy. uh
+[29:58] then we have one more uh mod uh we have
+[30:00] one more module that is collection and
+[30:01] from this collection we are we are
+[30:03] importing this default act. I will show
+[30:05] you the use of this default act that
+[30:06] where we are using it. Now what thing we
+[30:09] are going to validate over here. So guys
+[30:11] uh here I can make the heading. So the
+[30:13] heading is very simple uh data
+[30:16] validation. Data validation means uh we
+[30:19] are checking the format of the data
+[30:21] whether the format of the data is
+[30:22] correct or not. So I can also write over
+[30:25] here format validation. I hope this
+[30:27] thing is clear. So format validation or
+[30:29] the data validation anything you can
+[30:31] say. So we are just checking the format
+[30:32] of the data the data is correct or not.
+[30:35] Now uh here what I will do guys I will
+[30:37] uh I will keep one code. I will write
+[30:39] one code. Okay. And using that
+[30:41] particular code we are going to validate
+[30:43] the data. Now what thing we are going to
+[30:45] validate. So you should be aware about
+[30:47] that also. So here I'm going to copy and
+[30:49] paste. Uh so this is the entire table
+[30:52] guys. Please read out this table very
+[30:54] carefully. uh so that you won't face any
+[30:57] difficulty while you are understanding
+[30:59] the code. So we are going to validate
+[31:01] the example type means uh this one
+[31:03] example. See guys uh this one data row
+[31:06] this one this one data row actually it
+[31:08] is also called example understood this
+[31:11] one data row okay where we have the
+[31:13] message then we have a role like system
+[31:16] user and the assistant and we have a
+[31:18] content regarding each and every role.
+[31:19] So guys uh this particular this single
+[31:22] object actually it is also called the
+[31:24] example. I hope it is clear. So how many
+[31:27] in total example we have? So we have 10
+[31:29] example 10 in total example. So first we
+[31:31] are checking the example type whether it
+[31:33] is correct or not. Okay. So whether it
+[31:35] is a dictionary or not whether it is a
+[31:38] uh like the JSON object or not. Right.
+[31:41] The JSON object which is separated by
+[31:43] the line. So we have a 10 JSON object
+[31:46] you can say JSON object or in Python it
+[31:49] is a dictionary. So we are checking
+[31:51] that. Then we are checking message keys
+[31:53] whether the message key exist or not.
+[31:55] Then we're checking the required key.
+[31:57] Okay, role and content. Then we we are
+[32:00] checking there is no extra key. Then we
+[32:02] are checking role. Okay, like system,
+[32:04] user, assistant, function, we are
+[32:06] checking all those role. Then we are
+[32:07] checking the valid content means uh
+[32:09] there is no empty string. Okay. Uh then
+[32:12] we are checking assist assistant
+[32:14] present. At least one assistant role
+[32:16] should be there inside one JSON object.
+[32:18] So this is one JSON object. Okay. If you
+[32:20] are not keeping assistant over here, in
+[32:22] that case this data set format is wrong.
+[32:24] So at least one assistant should be
+[32:26] there. Okay, you can keep as many but
+[32:28] yeah, at least one assistant should be
+[32:29] there. Okay, inside one JSON object. Now
+[32:33] guys, uh I hope this thing is clear. Now
+[32:35] what I will do guys, I will create a
+[32:36] object of the default D. Default dict
+[32:38] means it will give you one dictionary
+[32:39] actually nothing else. So here what I'm
+[32:41] doing, I'm going to be create a default
+[32:43] dict and here I will keep it inside the
+[32:45] variable. So variable name is what?
+[32:47] Errors. Okay. So I'm initializing one
+[32:50] dictionary and uh I will keep all the
+[32:52] error and all everything inside this
+[32:54] particular dictionary. So this is the
+[32:55] code guys which I written. Let me show
+[32:57] you the code. So with this particular
+[32:58] code you can easily understand what do
+[33:01] think we are going to validate. So let's
+[33:04] start over here. So we'll iterate over
+[33:06] the data set. The example will come over
+[33:08] here. We are checking the type of the
+[33:10] example whether it is a dict or not. So
+[33:12] if it is if it is not a dict one then
+[33:14] we'll say errors data type is equal to
+[33:16] one. Means we'll say over here like the
+[33:19] data type is equal data type is a key
+[33:21] and the value will be one. Means inside
+[33:23] the error dictionary we are going to
+[33:24] keep the error. Okay, the error
+[33:27] basically it is related to the data
+[33:29] type. You will get to know I will show
+[33:30] you the end output. Don't worry. Uh then
+[33:32] we have example get. So here we are
+[33:35] fetching the detail of the message. So
+[33:37] and we are checking okay if the message
+[33:39] is not there in that case also again
+[33:41] we'll log the error inside the
+[33:42] dictionary. Uh then we are iterating on
+[33:45] top of the messages we are checking ro
+[33:47] and content is present or not. If the
+[33:49] role and content are missing then again
+[33:51] we are logging the error inside the
+[33:53] dictionary then guys we are checking ro
+[33:55] content name function call weights
+[33:57] everything we are checking inside the
+[33:59] particular message okay if it is missing
+[34:02] then we can say message unrecognized key
+[34:05] right so message is a unrecognized key
+[34:07] over there then we are checking system
+[34:10] user assistant function okay if this is
+[34:13] not a role in that case again we are
+[34:15] going to again we are going to log the
+[34:17] error okay that unrecognized is role if
+[34:19] we are checking the content okay if the
+[34:22] content is is a function call right if
+[34:25] it is a function call so we are checking
+[34:27] uh the content inside the function call
+[34:29] if it is missing then we are saying
+[34:30] missing content so you can go through
+[34:33] with this code you can understand what
+[34:35] basically I'm trying to say over here
+[34:37] how I am formatting the data sorry how I
+[34:39] am checking the validation against the
+[34:41] formatting of the data the data which we
+[34:43] are about to pass for the finetuning to
+[34:45] the open AI guys okay I hope it is clear
+[34:48] If there is a error, if we have
+[34:50] something inside the dictionary, then we
+[34:51] are saying found error and then we'll
+[34:53] represent the error. We'll show the
+[34:54] error. If there is no such error, then
+[34:56] we simply print no error form. I hope
+[34:59] this thing is clear. So, let me execute
+[35:01] it. Uh I think you will understand in a
+[35:03] better way once I will uh execute it.
+[35:06] Okay. So, uh here you can see. So, once
+[35:08] I execute it guys, with respect to this
+[35:10] data, so it is saying no error found
+[35:13] means in my data everything is perfect.
+[35:15] Everything is clear. But guys uh here I
+[35:17] kept one more data data 2.json. Now
+[35:19] inside this particular data I haven't
+[35:21] created one role. So let me show you
+[35:23] this particular data with that you will
+[35:25] get a very good understanding. So we
+[35:27] have message okay message then we have
+[35:29] role role is a system then content. This
+[35:31] is the content. Then guys you can see so
+[35:34] we have role is a user and this is the
+[35:37] content. Now if you will check with this
+[35:39] particular data. So we don't have
+[35:40] assistant over here. Okay. So now we are
+[35:43] checking this particular data whether
+[35:44] this data correct or not. Okay this
+[35:46] particular code again this code we are
+[35:48] checking our data whether the data is
+[35:50] correct or not. So what I will do see we
+[35:53] don't have any sort of a error we we
+[35:55] don't have any sort of error with this
+[35:56] data data data do.json I think you
+[35:59] understood about it but if you are going
+[36:01] to be check with this data 2 dol let's
+[36:03] see what we'll be getting what we will
+[36:04] be getting as a final output. So here
+[36:06] what I'm doing guys I'm going to be
+[36:08] write data 2 dot jsonl. Okay. Now let me
+[36:12] execute it. So here is my data. Now you
+[36:14] can check the data. See in the first
+[36:16] message itself we don't have assistant.
+[36:18] Now number of example will be same data
+[36:20] validation. This is a complete
+[36:21] theoretical point. You can read it by
+[36:23] your from your end just to get a more
+[36:25] understanding. Then uh here is my uh
+[36:28] like input statement. This is my by
+[36:30] default dictionary. Okay. You can think
+[36:32] it is a empty dictionary. Right. Then
+[36:34] guys we are going to be it on top of the
+[36:36] data. Example will come over here. It it
+[36:38] is going to be check the data type. Then
+[36:40] guys here you can see it is you can see
+[36:42] it is checking the missing message list
+[36:44] misses missing message key missing
+[36:47] message unrecognized key unrecognized
+[36:49] role function call okay so many thing it
+[36:51] is checking now if I will execute it see
+[36:53] what you will get so guys here I'm
+[36:56] getting one uh error found one error
+[36:58] example missing assistant message one so
+[37:01] it is saying in all the example in all
+[37:03] 10 example at one place okay this
+[37:06] assistant is missing the role assistant
+[37:08] is missing I I hope guys this entire
+[37:11] thing is clear. Now what I will do guys,
+[37:13] I will show you how you can count the
+[37:15] token. Okay, token counting uh token
+[37:18] counting utilities. Uh I will tell you
+[37:21] now and then we'll come to the final
+[37:23] training call. Okay, so after completing
+[37:25] this one, we'll do the final training
+[37:27] call guys. Now guys, uh let's perform
+[37:30] the token counting and the cost
+[37:33] estimation. Uh so guys, uh here I shown
+[37:35] you the pricing page. So uh here you can
+[37:39] see uh there's a different different
+[37:40] model and the pricing of that model. So
+[37:45] this is a training price uh this is the
+[37:47] training price means uh actually it's a
+[37:49] cost of the GPU on a hourly basis. Uh
+[37:53] this is the input uh price input token
+[37:55] price and the output token price input
+[37:58] token price and the output token price
+[38:01] per 1 million token. So guys as I told
+[38:04] you this is a inferencing input and
+[38:07] output token price. But guys uh this
+[38:09] statement was the wrong. So this uh
+[38:11] input and output token price it is with
+[38:14] respect to the training only. Uh if you
+[38:16] have trained any model or any classical
+[38:19] ML and DL model uh there what we do we
+[38:22] provide the data we provide the input to
+[38:25] the model and model predicts some
+[38:27] output. Okay. And based on that loss and
+[38:30] all we basically estimate right how my
+[38:34] model is performing uh so and then we
+[38:37] perform the inferencing on top of that
+[38:40] train model right so this is the like
+[38:42] simple uh training mechanism if we will
+[38:44] perform training of any model not only
+[38:46] the LLM so we are going to do in the
+[38:48] same way we provide the input then model
+[38:51] predicts some output we calculate the
+[38:52] loss and we try to correct that loss
+[38:55] okay like uh like that only we train any
+[38:58] model. So uh this is the uh input and
+[39:01] output of the training data set. So guys
+[39:04] uh here what I'm doing uh let me show
+[39:06] you. So first guys I'm going to be load
+[39:08] the uh encoding model. If you don't know
+[39:11] about it guys uh I I will create a
+[39:14] separate video of it. What is this
+[39:16] encoding model and uh how basically it's
+[39:18] going to perform the encoding. Uh if you
+[39:20] don't know much about it so what you can
+[39:22] do you can check out with my hugging
+[39:23] face tutorial. I recorded one crash
+[39:25] course over the hugging face. uh there I
+[39:27] discuss how you can load any
+[39:29] transformerbased model and how you can
+[39:32] perform the uh encoding using that model
+[39:35] okay and how you can uh get how you can
+[39:37] assign the uh encoding ids right token
+[39:41] ids uh to those specific sentence and
+[39:43] all you can check over there right so
+[39:45] what I'm doing guys I'm going to be use
+[39:47] the open specific encoding model so open
+[39:50] provides you one library the library
+[39:53] name is stick token so uh using this
+[39:56] token I'm going to be load this model
+[39:58] CL1 uh sorry CL 100K base model. So this
+[40:03] is my encoding model guys. What it will
+[40:04] do? It will perform the uh token. It
+[40:07] will create a token out of this sentence
+[40:09] and it will assign a ID okay to this
+[40:11] particular token to the specific token.
+[40:14] Okay. So this is also a transformer
+[40:16] based model. Again you can check out
+[40:18] that video or else I will create a
+[40:19] separate video. So this is my encoding
+[40:22] model. I'm going to be loaded. Now here
+[40:23] I'm this is my text guys. uh I'm just
+[40:25] showing you how it is going to perform
+[40:27] the encoding okay and how it's going to
+[40:30] be assigned a a proper ID okay token ID
+[40:34] token ID to that and then I will show
+[40:36] you the uh uh tokenization of my actual
+[40:39] data set so uh here is my text guys so I
+[40:42] took this particular example hello how
+[40:44] are you and I'm passing to this
+[40:45] particular method encoding encode text
+[40:48] now what it will do it will create a
+[40:49] tokens okay so uh to uh and it will
+[40:52] provide me a token id so this is the
+[40:54] token id case as you can see over here.
+[40:56] So this is the meaning of each and every
+[40:58] ID. So hello is being represented by
+[41:00] this 9906. A comma is being represented
+[41:03] by this 11. How is being represented by
+[41:06] this 12868 then R then U and then uh
+[41:09] this question mark. Now if you want to
+[41:12] decode that uh sentence right so you can
+[41:15] simply call encoding decode and then you
+[41:17] can provide this token ID. So you will
+[41:19] get your text back. So here is your
+[41:21] text, right? So what you are doing guys?
+[41:23] So you have a text you are going to be
+[41:25] tokenize the text. Okay. So once you
+[41:27] will tokenize the text you will get the
+[41:29] token id and uh then simply you can
+[41:31] decode and using which model we are
+[41:34] doing using this uh model we are doing.
+[41:36] So this model is available under this
+[41:38] stick token library which is created by
+[41:41] the open. Uh now guys what I'm doing I'm
+[41:44] going to be I'm going to be check like
+[41:46] how many tokens are there inside my data
+[41:48] set and on top of it only we'll try to
+[41:51] check the estimation. Okay. So, uh what
+[41:54] like the cost estimation. Now, one more
+[41:56] thing guys, uh this is a pricing page.
+[41:59] Uh here they have listed all the pricing
+[42:01] and all regarding each and every model
+[42:02] of the finetuning. Uh but apart from
+[42:05] this, we have one more like page. Okay.
+[42:08] So, this is again from the openi itself.
+[42:11] So, the uh like the address of this page
+[42:14] is cookbook.openai.com.
+[42:16] So, OpenAI is providing you the
+[42:18] different different cookbook where they
+[42:19] are providing you the readymate code.
+[42:21] Okay. So you can directly utilize that
+[42:23] code uh inside your uh inside your
+[42:26] examples inside your like development.
+[42:29] So uh I'm taking a reference of this
+[42:31] code only. So if you will go through
+[42:33] with this particular page. So here only
+[42:35] they have given you the code of the
+[42:36] format validation. Uh just now I have
+[42:38] shown you the format validation. Right.
+[42:40] So I took the code from here itself and
+[42:42] now I'm going to be calculate the
+[42:44] counting the token and I'm going to be
+[42:46] counting the calculating the cost.
+[42:48] Right? So I'm taking a reference of this
+[42:50] particular code itself. So guys uh here
+[42:53] I'm taking a reference of this entire
+[42:55] code and I'm making it making that easy.
+[42:57] But if you want to explore everything in
+[42:59] a very detail then uh definitely you can
+[43:01] check out with the cookbook and uh you
+[43:03] can understand uh each and everything in
+[43:05] a detail. But guys here also I try to
+[43:07] decode everything in a detail. Uh means
+[43:09] I try to like uh give you the summary of
+[43:11] each and everything. So yeah first you
+[43:13] can go through with it. you can
+[43:15] understand the process and then for the
+[43:16] like more detail you can check out with
+[43:18] their own specific page. Okay. Uh so
+[43:21] this is the uh like this is my two list
+[43:25] one is the to total token and the second
+[43:27] is the assistant token. Uh this
+[43:29] assistant token is a output token. Okay.
+[43:31] So first let me initialize this two
+[43:33] list. Uh now what I'm doing guys I'm
+[43:35] going to be create two functions. So
+[43:37] this is my function guys. Uh the first
+[43:39] function is a count total token. Now
+[43:41] here what I'm doing I'm iterating over
+[43:43] the messages. So I will be getting this
+[43:45] messages. Now from here I'm getting this
+[43:47] content. Okay. Now I'm going to be
+[43:49] encode that content and then I'm
+[43:51] checking the sum. Okay. Now if you don't
+[43:53] know about it simply you can check out
+[43:55] the data. So what you can do you can uh
+[43:57] write the data. So you will get the
+[43:58] complete data. Now if you want to check
+[44:00] the first message write the zero over
+[44:02] here. See this is the first message
+[44:04] guys. Uh this is the first message.
+[44:07] Okay. So how you will get a content
+[44:09] guys? See this is the content. Content.
+[44:11] This is the content. Okay. So you are
+[44:13] checking the content uh you are checking
+[44:15] the uh like size of the token. Okay,
+[44:17] this is this is the content. So what you
+[44:19] are doing you're going to be converted
+[44:20] to the token and you are checking the
+[44:22] sum of it. I hope you understood it. So
+[44:25] the same thing we are doing over here.
+[44:27] So inside one message how many tokens
+[44:29] are there? So we are checking that using
+[44:30] this particular code. Now let me execute
+[44:33] it. Yes, this is fine. Now what I'm
+[44:34] doing guys? So here again I'm iterating
+[44:36] over the message. Uh now if the role is
+[44:39] the assistant to then only we are
+[44:41] checking uh then only we are going to be
+[44:43] uh encoding it means we are checking the
+[44:46] token okay we are counting the token and
+[44:47] we are doing the sum of it right. So
+[44:50] here counting assistant token. So this
+[44:52] two function one is giving me the total
+[44:54] token one is giving the assistant token
+[44:56] with that actually we can check how many
+[44:58] total token how many input token and how
+[45:01] many uh output token are there. So let
+[45:03] me execute it. So here I'm passing the
+[45:06] here I'm iterating on top of the data.
+[45:08] So uh I will be getting example. So from
+[45:11] the example I'm passing the message.
+[45:13] Okay I'm passing a message to this
+[45:15] method as well as to this method. This
+[45:17] is a simple Python code. Right now let
+[45:19] me exh execute it and see here is a
+[45:21] total token. See in first message how
+[45:23] many total token is there? In second
+[45:24] message how many total token is there?
+[45:26] In third message, fourth message, fifth
+[45:28] message. In all the 10 messages these
+[45:30] many tokens are there. Okay. Then
+[45:32] assistant token. So here uh the this is
+[45:34] the output token actually. So in uh
+[45:37] every message how many output tokens are
+[45:39] there. Okay. So simply we are able to
+[45:41] calculate it. Now here is some few more
+[45:43] statistic. So average token per example
+[45:46] I can calculate the average token. I can
+[45:48] check with the maximum token. So here is
+[45:51] the average token per example is 56
+[45:53] around 56. Average token is there in
+[45:55] every example and the maximum token is
+[45:58] 62. uh now here average token in uh
+[46:01] assistant to average assistant token and
+[46:03] maximum assistant token. So here I'm
+[46:06] checking average assistant token which
+[46:08] is around 21 token in every uh output
+[46:11] message there is on an average 21 tokens
+[46:14] and maximum is around 25. So this is
+[46:16] like some more analysis again I'm again
+[46:18] this is not like having any meaning but
+[46:20] yeah this is just for the analysis.
+[46:23] Okay. Now what I'm doing guys I'm
+[46:24] checking the total tokens. So it will
+[46:26] provide me the total tokens. Okay. So I
+[46:29] will sum of this total token of this
+[46:32] particular list. So it will provide me
+[46:34] the total token. So how many total
+[46:35] tokens we have? So we have uh here you
+[46:38] can see we have 562 tokens in my data
+[46:42] set. Now I let me check the output
+[46:44] token. So here is my output token guys.
+[46:46] See this is my output token. So how many
+[46:48] output tokens we have? So let me show
+[46:50] you the output token also. So output
+[46:52] token is 212. I can check the input
+[46:54] token. So let me check the input token.
+[46:58] So here is the input token. So guys
+[47:01] likewise uh see what we are able to
+[47:03] figure out over here. So we are able to
+[47:05] figure out total tokens, output tokens
+[47:07] and the input tokens. Okay. Uh now this
+[47:10] is the pricing of this particular model.
+[47:11] So we are fine-tuning this model GPD 4.1
+[47:14] nano 20250414.
+[47:17] Uh you can check out with this model
+[47:18] over here. See this is the model guys.
+[47:20] This this particular model GPD 4 4.1
+[47:23] nano. Okay. Now what I'm doing guys so
+[47:25] here uh this is the pricing. So pricing
+[47:27] for for for 1 hour, right? So $1.5 for
+[47:31] using the GPU. Uh input cost $0.2
+[47:36] per 1 million token. There's a cache
+[47:39] cost and then output cost. So this is
+[47:41] the input rate guys. This is the output
+[47:43] rate. Okay, here I mention the output
+[47:46] rate and this is the hourly rate, right?
+[47:48] Per our training compute. Now what I'm
+[47:50] doing guys, I'm checking the uh token
+[47:52] cost. So this is my token per 1 million
+[47:54] and then input rate multiply by input
+[47:56] rate. Then output token per 1 million
+[47:58] and then output rate. Okay. So likewise
+[48:01] you will be able to get the token cost.
+[48:03] So this is the token cost guys. Let me
+[48:04] show you the token cost. So 0.23
+[48:08] something like that. Now training let's
+[48:09] say my training is going to be run for
+[48:11] the half an hour. It could be run it
+[48:13] could be run for 1 hour 2 hour 3 hour it
+[48:15] depends but I'm taking the bare minimum
+[48:18] time. Let's say my training is running
+[48:19] for the half an hour. Okay. So according
+[48:21] to that uh my uh total cost will be how
+[48:24] much? So here is my training cost guys.
+[48:26] This is my training cost. Uh this is the
+[48:29] training cost $0.75. Now what is the
+[48:31] total cost guys? So the total cost will
+[48:33] be this one. So let me show you the
+[48:35] total cost. Okay. So this is the total
+[48:38] cost 07 0.702396.
+[48:43] So if I am uh running the training okay
+[48:45] using uh this model guys. Which model
+[48:49] guys? using this uh gibbre 4.1 nano and
+[48:52] uh the with the same data set the data
+[48:54] set which I shown you this data dojson
+[48:57] where I am having 10 rows so the
+[49:00] training uh cost would be around this
+[49:02] much okay it is a rough cost guys again
+[49:04] I'm saying 0.75 you can multiply it with
+[49:07] a like uh 91 so multiply with the 91
+[49:12] this is the dollar rate current dollar
+[49:13] rate so it is around 68 rupees or 69 so
+[49:17] roughly 69 to 70 rupees I will get okay
+[49:20] this this much cost I will be getting if
+[49:22] I'm going to be fine- tune my this model
+[49:25] on top of uh this data okay 10 rows so
+[49:29] here is the message guys you can check
+[49:30] so this is the total tokens and this is
+[49:33] the roughly cost I hope guys you
+[49:36] understood how to calculate the cost
+[49:38] maybe it might be wrong or it might be
+[49:40] more and less I just did the rough
+[49:43] estimation now uh like rest of the thing
+[49:45] you can explore I shown you each and
+[49:48] everything how to calculate the cost uh
+[49:50] like how to go through with this pricing
+[49:52] documentation and uh this particular
+[49:55] cookbook. Okay. Now let's do one thing
+[49:57] guys. Let's perform the finetuning and
+[50:00] after that guys I will go through with
+[50:02] the API uh and then we'll look this then
+[50:06] guys we'll look into the dashboard right
+[50:08] how you can perform the finetuning
+[50:09] through the dashboard itself. Now guys
+[50:12] uh your actual training will start from
+[50:15] here. So uh you know I initialized the
+[50:18] client. I created a client guys. Here I
+[50:20] can show you.
+[50:24] So this was my client. I created a
+[50:26] object of this open AI class. Now what I
+[50:29] will do guys using this client only I
+[50:31] will call some function some method. So
+[50:35] the first method the first function is
+[50:37] going to be client do.file do.create.
+[50:40] Okay. So what I will do guys I will call
+[50:43] this particular method client do.file
+[50:45] file.create.
+[50:46] Uh this is my file. So content data
+[50:50] do.json. This file could be available
+[50:52] anywhere. Okay. So this file as of now
+[50:55] this file is available over here inside
+[50:57] this uh collab inside this collab
+[51:00] workspace. So I just copied from here.
+[51:02] Okay. I just keep copied path from here
+[51:04] and I paste it over here. Okay. So what
+[51:07] I have I have this file. This is my
+[51:09] data. I already like gone through with
+[51:11] the data. I already understood the data.
+[51:13] each and everything we have done. Now
+[51:15] what I'm doing guys? So here I'm writing
+[51:16] a purpose. So what is my purpose? My
+[51:19] purpose is a fine query. So first I will
+[51:21] do what I will do guys. First I will
+[51:23] upload the file. So using this method
+[51:25] client dofile.create
+[51:27] I can upload my data to the open AI.
+[51:30] Okay. Uh now once I will run it guys. So
+[51:32] see my file object is created. So this
+[51:36] is my file ID. This file lsxqm
+[51:40] this this this right? So this is very
+[51:42] important. So this uh file ID is
+[51:44] required. Uh this one this this
+[51:46] particular ID will be required. Now if
+[51:49] you want to see right if you want to
+[51:51] list your all the file whatever you have
+[51:53] uploaded over the open a platform you
+[51:55] can you can do that. So for that what I
+[51:57] will have to do I I will have to take
+[52:00] this client again and now what here I
+[52:02] will have to call this files. Okay. Uh
+[52:05] then uh here I will have to call one
+[52:07] more method that is list. Now once I
+[52:09] will run it guys, I will be able to get
+[52:11] all the file whatever I have uploaded so
+[52:13] far. So see I have I have done like
+[52:15] three to four times. So yes I'm getting
+[52:17] all the file object means whenever you
+[52:19] will upload any file so it will create a
+[52:21] file object and it will assign one ID to
+[52:24] that. Right? So let me do one thing. Let
+[52:26] me iterate on top of this files. Let me
+[52:28] show you what all files we have.
+[52:29] Whatever files basically we have over
+[52:31] here. Whatever file I have uploaded over
+[52:33] there and uh this is the latest one
+[52:35] which I uploaded just now. Okay. So here
+[52:38] I'm saying files and this will be my
+[52:41] files. From here I'm taking the ID, I'm
+[52:43] taking the purpose and this will be my
+[52:45] file. Now let me run it guys. So see
+[52:47] over here it is saying files is not
+[52:51] there. So let me keep it inside the
+[52:53] files. Okay, I'm just going to be keep
+[52:56] inside the
+[52:58] variable. Right now what I can do I can
+[53:01] iterate on top of it. So see so far I
+[53:05] have uploaded four times. So I am
+[53:07] getting four ID this this and this. This
+[53:10] is the latest one. Okay. The first one
+[53:12] is the latest one. I have I have I had
+[53:15] uploaded this one then this one then
+[53:19] this one and this one. So four time I
+[53:21] have performed the finetuning means
+[53:22] three three time I have performed the
+[53:24] finetuning. So this is from the last
+[53:26] three time and this is the latest one.
+[53:28] Okay. So I required this particular ID.
+[53:30] I hope you got it. Now what is the next
+[53:32] thing? So here guys I can create a
+[53:35] variable. See this ID will be required.
+[53:37] So I'm just going to be copy over here
+[53:38] and I'm keeping it inside the variable.
+[53:41] So the variable name is going to be
+[53:42] training file ID. Okay. Uh now let me
+[53:46] execute it. So I got the training file
+[53:47] ID. Now I required one more thing. Uh so
+[53:51] I'm going to be create one more
+[53:52] variable. The variable name is suffix
+[53:54] name. So I can write over here custom
+[53:59] YT. Okay. YT class finetune model. So
+[54:04] this will be my suffix name. So after
+[54:06] the model whatever my whatever model I
+[54:09] will be choosing. So along with that
+[54:10] model okay this uh suffix name will be
+[54:13] added okay at the end. So this is my
+[54:16] suffix name what now what I'm doing
+[54:17] guys. So here I'm going to be call the
+[54:19] finetuning jobs. So this is very easy.
+[54:21] So what I'm doing here I'm going to be
+[54:23] call one method client do finetuning do
+[54:27] job dot create. Now here I'm passing my
+[54:29] training file id. So I'm saying on top
+[54:32] of this file I want to fine-tune my
+[54:34] model. Now which model I don't want to
+[54:35] fine-tune the GPD 40. I want to finetune
+[54:37] the GPD nano. Okay. Uh this this
+[54:40] particular model. So I'm I'm going to
+[54:42] copy the name of it and then I'm passing
+[54:44] it over here. This one GPD 4.1 nano
+[54:47] 2025414.
+[54:49] Then suffix name. So this will my suffix
+[54:51] name. So after the finetuning guys, what
+[54:53] I will get? I will get the model as
+[54:55] along with this suffix name. Okay. So
+[54:57] that I can easily identify my model. Now
+[55:00] this is my uh type. So which what kind
+[55:02] of uh like finetuning I'm going to
+[55:04] perform. I'm going to perform the
+[55:05] supervised finetuning according to that
+[55:07] only I have prepared my data. Then uh
+[55:09] guys here is the hyperparameter. So best
+[55:11] size is 16 by means in how many batches
+[55:14] we are passing the data in like in one
+[55:17] batch we are passing 16 rows. But guys
+[55:19] this is irrelevant as of now because I
+[55:22] just have 10 rows right now. Okay. The
+[55:24] learning rate multiplier. So yes this is
+[55:26] 1.0 zero learning rate you know to
+[55:29] stabilize the training uh this is again
+[55:31] a mathematical concept of the uh
+[55:34] gradient okay uh gradient of this model
+[55:37] the neural network so definitely we can
+[55:39] understand that while I will teach you
+[55:41] the neural network then number of epoch
+[55:44] so for how many epochs you are running
+[55:46] the training I'm running it for the
+[55:47] three epochs right so this is all the
+[55:49] hyperparameters so in this particular
+[55:51] points I have also mentioned
+[55:52] hyperparameter tuning so you can uh play
+[55:55] with those hyperparameter total limit
+[55:57] I'll come to that and the data quality I
+[55:59] already taught you what kind of data you
+[56:01] have to keep and how to format the data
+[56:03] now if I will run it guys so what I will
+[56:05] be getting I will be creating the
+[56:06] fine-tune job in a back end okay so my
+[56:09] job is created means now now the back in
+[56:12] the back end the finetuning has started
+[56:14] how we can check that I will show you in
+[56:15] some time uh now guys uh if you want to
+[56:18] list your all the job okay whatever job
+[56:21] see again uh whenever you uploaded the
+[56:23] file you got this uh you got this ID
+[56:27] right? Uh this this is the ID regarding
+[56:29] the file whatever file you have
+[56:31] uploaded. Now whenever you will list
+[56:33] whenever you will list the job okay
+[56:34] whenever you will create the job the
+[56:36] finetuning job again one ID will be
+[56:39] assigned to you. So this is the id guys
+[56:41] this one. Now if you want to check your
+[56:42] all the all the jobs whatever jobs you
+[56:45] have created so far. So for that you can
+[56:47] simply call client.finetuning
+[56:49] jobs.list. So once you will call it
+[56:51] guys. So here you will get list of all
+[56:54] the jobs whatever you have created so
+[56:56] far. So as I told you before this
+[56:58] tutorial I have executed it three time.
+[57:00] So I'm getting uh to in total four job
+[57:03] okay along with this current job. So I
+[57:05] hope uh this thing is clear. You can
+[57:07] list all your jobs. Now uh here guys you
+[57:10] can see so this will give you a fine
+[57:13] tune model. This this particular code
+[57:15] snippet will give you a finetune model.
+[57:17] So I'm calling client.fetuning jobs
+[57:20] list. Okay. then jobs will be there and
+[57:22] then from the job actually I'm going to
+[57:24] be check the finetune model. So
+[57:26] regarding each and every job one
+[57:27] finetune model will be associated I will
+[57:30] get one finetune model. So I can get
+[57:32] that finetune model from here. So let me
+[57:34] run it. So over here you can see so
+[57:37] sorry I run it three times. Okay along
+[57:41] with this. So here you can see none
+[57:44] none. Okay this is this is from the
+[57:46] second time right? This is from the
+[57:48] second time. And after the finetuning
+[57:50] guys I will get my latest model over
+[57:52] here. As of now I'm getting none because
+[57:53] the finetuning is the finetuning is
+[57:56] happening in back end. As of now it is
+[57:58] not completed. So once it will be
+[58:00] completed I will get my model over here.
+[58:02] Okay. So one first time when I started
+[58:04] the finetuning before this tutorial I
+[58:06] cancel the job. Second time I have
+[58:08] completed the job. Okay this is my
+[58:09] finetune model. Now this time in this
+[58:11] tutorial again I started the finetuning.
+[58:13] It is running in a back end but still I
+[58:15] didn't get a model. So once I get a once
+[58:17] I will get a model okay so the model
+[58:19] name will be reflected over here
+[58:21] everything I will show you from the
+[58:22] dashboard don't worry uh so yeah this is
+[58:25] uh it guys for the fine tuning now if
+[58:27] you want to chat with your model so here
+[58:30] is the model guys so you can keep this
+[58:32] model you can copy the model name like
+[58:34] this and you can keep it over here this
+[58:37] this particular model right so here is a
+[58:39] model this is the role then there is a
+[58:42] content there's the like user and here
+[58:44] is a like question from the user. Okay.
+[58:48] So I hope this thing is clear like how
+[58:50] to perform the finetuning. Now let me
+[58:52] show you how where the fine-tuning job
+[58:54] is going to be listed. So once you will
+[58:56] go through with the dashboard. So just
+[58:58] uh open the dashboard guys uh where you
+[59:01] will get it. Let me show you. So just
+[59:04] click on this quick start. Then click on
+[59:06] this create an API. Okay. Then over here
+[59:10] uh once you will scroll down. So left
+[59:12] hand side you will get this finetuning.
+[59:13] So just click on this finetuning and
+[59:16] here guys see your finetuning is
+[59:18] happening regarding this particular
+[59:20] model. You understood guys see first
+[59:22] time this was my finetune finetuning I
+[59:25] cancel the job. Second time my
+[59:27] finetuning job got successful. Okay
+[59:29] means this this is the second time again
+[59:31] I finetune with one more data set. So
+[59:34] yeah this is my model. Now this is I'm
+[59:36] doing in front of you. Okay this is your
+[59:38] model which I'm fine-tuning. So here you
+[59:40] can see there's a model name is status
+[59:42] it is running then this is a job id then
+[59:45] training method is a supervised suffix
+[59:47] name is this one okay there's a base
+[59:49] model name created at this time then
+[59:52] data sharing is private okay epox is
+[59:54] three batch size 16 learning rate
+[59:57] multiplier is one seed is this one okay
+[01:00:00] then the other detail so here guys you
+[01:00:02] can trace the everything right and yes
+[01:00:06] my finetuning is running I hope you got
+[01:00:07] it what I'm doing Now if you want to do
+[01:00:10] the finetuning from the dashboard itself
+[01:00:12] without this Python code see here I'm
+[01:00:14] doing the finetuning using the Python
+[01:00:16] code. So if you want to avoid this
+[01:00:18] process if you don't want to use this
+[01:00:20] Python code simply you can fine-tune it
+[01:00:22] from the uh dashboard also. So see right
+[01:00:24] hand side you can see the option this
+[01:00:26] create one. So just click on this
+[01:00:28] create. Now once you will click on the
+[01:00:29] create see you just need to fill out
+[01:00:31] this particular form. So method method
+[01:00:33] is supervised. You can select the other
+[01:00:35] method also. Then after that you can
+[01:00:37] select the base model. So select the
+[01:00:39] base model then suffix name then seed uh
+[01:00:42] just to like avoid the randomness then
+[01:00:44] training data upload your training data
+[01:00:46] then validation data upload the
+[01:00:48] validation data configure some
+[01:00:49] hyperparameter and then create the job
+[01:00:52] guys that's it nothing else and then you
+[01:00:55] can perform the fine tuning so guys this
+[01:00:57] finetuning will take some time uh maybe
+[01:01:00] it will take 15 to 20 minute so last
+[01:01:02] time when I did it so it took around 10
+[01:01:05] to 15 minute only so let me again give
+[01:01:07] you the quick recall all. So the
+[01:01:09] training is going to be start from here
+[01:01:11] and it is very easy to understand. So
+[01:01:13] this is my client. So I just uploaded my
+[01:01:15] file. So once I will upload the file, it
+[01:01:17] will provide me a unique ID regarding
+[01:01:19] that file. So as many as time you will
+[01:01:21] upload the file. You will get the unique
+[01:01:22] ID. Okay. So so far I have uploaded four
+[01:01:25] times. So I'm getting I get I got four
+[01:01:27] unique ID. This is the latest one which
+[01:01:29] I uploaded inside this tutorial. Okay.
+[01:01:31] Uh then guys, this is my training file
+[01:01:33] ID which I uploaded. Now this is my
+[01:01:35] suffix name. So I'm performing a
+[01:01:37] finetuning of this model. Okay. Once I
+[01:01:39] will get the fine-tuned model. So this
+[01:01:41] name will be associated with this
+[01:01:42] particular model name. This is my
+[01:01:44] hyperparameter. Okay. I think you
+[01:01:46] understood all the hyperparameter. See
+[01:01:47] this is my training job. Uh this is my
+[01:01:50] training job guys which I created. Okay.
+[01:01:52] Again I got a ID. So I can list my all
+[01:01:55] the training job whatever I have done so
+[01:01:57] far. So you can see over the dashboard I
+[01:01:59] have performed the finetuning three
+[01:02:01] time. This is the latest one inside this
+[01:02:03] tutorial. This is this I have done like
+[01:02:05] just for the practice last time. So here
+[01:02:08] you can see I have done on 16th of
+[01:02:09] January. Then this I have done again on
+[01:02:11] the last time 9th of January. Okay. So
+[01:02:14] all the three object ID I'm getting over
+[01:02:17] here. Fine-tuning job ID I'm getting
+[01:02:19] over here. So if I want to check the
+[01:02:22] model so yes I can uh run it. I can uh
+[01:02:24] like basically run this code snippet. So
+[01:02:27] job.fetune model. So first model I
+[01:02:30] cancel the job. Second was completed. So
+[01:02:32] this was the final model. After the
+[01:02:34] finetuning, I got this model. This was
+[01:02:36] the third one. Okay. So which is still
+[01:02:38] running. If you will again check, you
+[01:02:40] won't get anything because the job is
+[01:02:42] still running over here. Once this will
+[01:02:44] be completed, you can access your model
+[01:02:46] over here. Then guys, after accessing
+[01:02:48] the after getting the model, you can
+[01:02:49] chat with your model. So here is your
+[01:02:51] model guys, you can provide the model.
+[01:02:53] Here is a message, system message, and
+[01:02:55] this is the uh user message. So once I
+[01:02:57] will run it, guys. So I'm I'm just
+[01:02:59] checking with the previous model. This
+[01:03:00] is my previous model which I fine tuned.
+[01:03:02] So I'm just checking with the previous
+[01:03:04] model and here let's see whether it will
+[01:03:06] be able to answer to me or not. So yes
+[01:03:08] it is running.
+[01:03:11] See I'm able to get an answer guys. So
+[01:03:13] see this is my final answer. So like uh
+[01:03:16] so just understand about the data guys.
+[01:03:18] So if you will go and check the data.
+[01:03:20] See this was the data guys. Uh just a
+[01:03:23] second. This was the data guys. This
+[01:03:25] one. So just understand about the data.
+[01:03:27] This data set is all about the uh
+[01:03:31] smartphone. So just assume that your uh
+[01:03:33] GP model don't know anything about the
+[01:03:35] smartphone about your shop. What kind of
+[01:03:38] customer is coming to your shop? Okay.
+[01:03:40] What kind of question they are asking?
+[01:03:42] So you you are going to be create uh one
+[01:03:44] chatbot uh one chatbot for your shop for
+[01:03:47] your local business. And this is the
+[01:03:49] data right this is the question answer.
+[01:03:51] uh so you want to be tune your GPT model
+[01:03:54] on top of this data so that whenever
+[01:03:56] someone is visiting your website uh
+[01:03:58] model can reply in a well manner okay so
+[01:04:01] this is all about this is the like use
+[01:04:03] case guys okay so here uh you can see uh
+[01:04:07] yeah so my model is able to generate a
+[01:04:09] response so see this is the response see
+[01:04:11] this is the previous model I finetune I
+[01:04:13] finetune it on 16th of January so after
+[01:04:16] completing the training guys after this
+[01:04:18] uh training so as of now it is saying it
+[01:04:20] is in baiting So once it will be
+[01:04:23] completed so you will get this green
+[01:04:24] icon succeed. Then you can access uh
+[01:04:27] this particular model. See this is your
+[01:04:28] output model. Uh this will be your
+[01:04:31] output model guys. Uh you will get over
+[01:04:34] here itself once the training will be
+[01:04:36] completed. Okay. So yeah this is it for
+[01:04:38] this particular video guys. I hope you
+[01:04:40] understood. If you want to access this
+[01:04:42] model guys. So what you will do for
+[01:04:43] that? So you just check you you will
+[01:04:46] just check over here. You will just run
+[01:04:47] it. So you will get your latest model.
+[01:04:49] Okay. Instead of none you will get your
+[01:04:51] latest model you can pass that model
+[01:04:53] over here and you can do the chatting
+[01:04:56] and you can do it for your business
+[01:04:58] right whatever data you have just format
+[01:05:00] your data and fine-tune your model now
+[01:05:03] guys one more thing uh here you can see
+[01:05:06] I'm going to be call I'm calling a
+[01:05:08] different different methods over here
+[01:05:09] client finetune jobs uh list right and
+[01:05:12] then here you can see I'm going to be
+[01:05:14] call this client file list so if you
+[01:05:17] want to deep dive into each and every
+[01:05:18] method so what you can do you can simply
+[01:05:20] Click on this API reference. Now after
+[01:05:22] clicking on this API reference, just
+[01:05:24] scroll down over here and you will get
+[01:05:25] this finetuning. So just uh scroll down
+[01:05:28] right. So see all the all the parameter
+[01:05:31] and all everything all the method
+[01:05:33] function and uh like all the parameter
+[01:05:36] of each and every method and function
+[01:05:38] you will get over here. So guys uh if
+[01:05:40] you want to explore uh each and every
+[01:05:43] method function in a detail regarding
+[01:05:45] the finetuning then go and check over
+[01:05:48] here. So yeah, I uh shown you each and
+[01:05:50] everything guys. Now I hope everything
+[01:05:52] is clear to all of you. My training is
+[01:05:55] still running. Uh and yes, it will take
+[01:05:57] some time for you as well. But yeah, how
+[01:05:59] to access the model and all everything I
+[01:06:01] shown you. So yeah, this is it for this
+[01:06:02] particular video. I hope you understood
+[01:06:04] how to fine-tune the GPD model using the
+[01:06:07] open API. In the next uh video, I will
+[01:06:10] show you how to fine-tune the Jimny
+[01:06:12] based model using the Vortex AI API.
+[01:06:14] Until thank you. Bye-bye. Pick a vase.

@@ -1,0 +1,1731 @@
+Title: LLM Fine-Tuning 25: Improve RAG Retrieval with Finetune Embedding | Embedding Fine-Tuning Full Guide
+Video URL: https://www.youtube.com/watch?v=f_4pU1WUTwo
+Video ID: f_4pU1WUTwo
+======================================================================
+
+[00:00] A hello everyone. Oh, welcome back to my
+[00:03] YouTube channel. My name is Sunny and I
+[00:06] am back with another important video.
+[00:09] Also, guys, in this video, I will show
+[00:11] you how you can fine-tune any embedding
+[00:14] model on your own custom data.
+[00:17] And I will show you how you can fit that
+[00:20] embedding model inside your rack
+[00:22] pipeline. Also, in the previous video, I
+[00:25] discussed all the fundamental of the
+[00:28] embedding.
+[00:29] If you haven't seen that video, please
+[00:31] go and check. It is already there on my
+[00:33] YouTube channel. Now, guys, in this
+[00:36] video, we'll focus on the fine-tuning
+[00:38] side. So, this is going to be a second
+[00:41] part of the previous video. So, if you
+[00:44] don't know anything about the embedding,
+[00:46] then please go and check with the first
+[00:48] video. You will understand everything
+[00:50] about the embedding. Now, guys, after
+[00:54] this video, I will upload a video
+[00:57] related to the Agentic AI. After this
+[01:00] video, basically, first I'll discuss the
+[01:03] roadmap of the Agentic AI. Then, a
+[01:06] couple of video I will take in a live
+[01:09] mode and then the recording will come
+[01:11] up, okay? And alongside, I'm preparing
+[01:15] like the different project and all with
+[01:18] the entire white coding with the
+[01:19] co-pilot and along with different
+[01:22] different ID, okay? So, soon you will
+[01:25] find out those video also on my YouTube
+[01:27] channel. So, if you haven't subscribed
+[01:30] my YouTube channel, please go and
+[01:32] subscribe, guys, because in the future
+[01:34] you will get
+[01:35] very
+[01:36] exciting content. Now, first let me show
+[01:40] you my tube. So, guys,
+[01:42] just search Sunny Savita over the
+[01:44] YouTube, you will get my channel. So,
+[01:46] this was the part one where I already
+[01:48] discussed all the fundamental of the
+[01:51] embedding. Now, guys, if you want to
+[01:54] complete the playlist and all, then you
+[01:56] can check out in the playlist section.
+[01:58] So, inside the playlist section, I
+[02:00] uploaded a different different playlist.
+[02:02] Please go and check if you are like
+[02:06] really serious to learn the generative
+[02:08] AI.
+[02:09] Now, let me discuss that what all thing
+[02:11] I'm going to discuss inside this video.
+[02:14] So, guys, these all are the chapter
+[02:16] which I
+[02:17] this particular topic I divided into the
+[02:20] six chapter.
+[02:21] So, guys, I already discussed this two
+[02:23] chapter in the previous video. Now, from
+[02:26] chapter three onwards, I will discuss
+[02:28] inside this video. So, in the chapter
+[02:30] three, I will focus on the training
+[02:33] side,
+[02:34] basically, how this embedding model have
+[02:36] been trained. And in the chapter four, I
+[02:39] will discuss onto the fine-tuning.
+[02:44] How to perform the custom fine-tuning on
+[02:47] your own data set, okay? We'll take any
+[02:49] sort of a model and we'll try to perform
+[02:52] a fine-tuning. Then, in the chapter
+[02:54] five, we'll discuss how you can prepare
+[02:57] the data set, how basically you can
+[03:00] train the model, the complete practical
+[03:01] guide, and how you can fit that model
+[03:04] inside the rack pipeline. Then,
+[03:07] in the inside the chapter six, I will
+[03:09] discuss the differences between the
+[03:10] embedding fine-tuning and the LLM
+[03:12] fine-tuning. So,
+[03:15] with this differences, guys, I'm going
+[03:16] to close this topic, okay? I hope this
+[03:20] entire topic is clear. Now, let's jump
+[03:23] to the chapter three directly.
+[03:26] So, guys, I prepared a very beautiful
+[03:28] slide. So, here you can see I kept the
+[03:31] entire detail about the embedding
+[03:33] fine-tuning. First, I will discuss about
+[03:37] the embedding model training and then
+[03:38] only we'll come to the embedding
+[03:40] fine-tuning. So, in the second slide, I
+[03:42] kept the complete detail about the
+[03:44] fine-tuning, okay? Here you can see.
+[03:47] So, first let's discuss about the
+[03:49] embedding model, like how this model
+[03:51] have been trained. First, let's take the
+[03:54] entire fundamental knowledge so that
+[03:56] your understanding really
+[03:58] your understanding will be very concrete
+[04:01] when you are going to apply this concept
+[04:03] from your end. And guys, if my
+[04:05] explanation is little slow, then you can
+[04:07] speed up this video. So, on a personal
+[04:09] note, I will suggest you, please watch
+[04:11] out this video at 1.5x, okay?
+[04:14] So, first let's discuss the differences
+[04:17] between the LLM and the embedding model.
+[04:20] So, guys, if we're talking about the
+[04:22] LLM, as you know, so this LLM training,
+[04:25] basically, we can divide into the
+[04:28] three major section.
+[04:30] The first is called the
+[04:31] pre-training.
+[04:36] The second is called the
+[04:39] supervised fine-tuning.
+[04:43] Okay?
+[04:44] Now, here I already discussed about the
+[04:46] instruction tuning and even I discussed
+[04:49] about the non-instruction tuning.
+[04:51] Everything I discussed. If you will go
+[04:53] and check with my previous video, you
+[04:55] will get that. Now, the third stage is
+[04:57] called the preference alignment.
+[05:01] Even I discussed about the preference
+[05:03] alignment in the same playlist.
+[05:05] Please go and check if you haven't
+[05:07] checked so far, okay?
+[05:09] So, these are the three stages whenever
+[05:11] we are going to train any model. So,
+[05:14] guys, whenever we're talking about the
+[05:15] hugging face, so over the hugging face,
+[05:18] you will get so many model, so many
+[05:20] pre-trained model, basically. Right?
+[05:23] This is also called the raw model.
+[05:26] You will get even the SFT model, okay?
+[05:29] Over the hugging face. And many model
+[05:31] with a preference training. And if we're
+[05:33] talking about the OpenAI, right? If
+[05:36] we're talking about the GPT's model
+[05:38] or
+[05:40] Cloud A model or Gemini model, right?
+[05:43] Which we are directly accessing via API.
+[05:46] So, there those model, actually, it is
+[05:48] already trained on the preference data,
+[05:50] right? So, all these three stages have
+[05:52] been performed. Now, after this stages,
+[05:55] one more stage comes, right? So, that
+[05:57] stage is called the custom fine-tuning.
+[06:01] Custom
+[06:03] fine-
+[06:06] tuning, okay?
+[06:08] So, guys, uh this is the target. This is
+[06:11] our target. So, this entire playlist,
+[06:13] actually, we were talking about this
+[06:15] custom fine-tuning. So, either we can
+[06:18] take this pre-trained model,
+[06:20] right? Either we can take this
+[06:21] pre-trained model and we can perform
+[06:24] this custom fine-tuning. Or else, we can
+[06:26] take any supervised fine-tuned model,
+[06:29] right? And we can perform the custom
+[06:31] fine-tuning. Okay? Custom fine-tuning
+[06:34] means means means we can perform our own
+[06:36] SFT.
+[06:37] We can perform our own preference
+[06:39] alignment. And even we can take the
+[06:41] model with the preference alignment,
+[06:43] okay? Which is already trained on top of
+[06:45] this data. And after that also, we can
+[06:47] perform the custom fine-tuning, right?
+[06:49] So, in the entire playlist, guys, we
+[06:51] have discussed
+[06:52] about this custom fine-tuning only. Now,
+[06:56] if we're talking about the pre-training,
+[06:57] so pre-training, basically, we perform
+[06:59] over the entire internet data. So, here
+[07:02] inside the pre-training, what we teach
+[07:04] to our model. So, inside the entire
+[07:06] pre-training, guys, we teach a general
+[07:08] intelligence, general intelligence to
+[07:11] our model.
+[07:15] If you have seen my previous video, I
+[07:16] already discussed all this concept. If
+[07:19] you don't know, please check out the
+[07:20] previous video, you will get a more
+[07:22] concrete understanding. So, this is all
+[07:24] about the LLM model. Now, we're talking
+[07:26] about the embedding model. So,
+[07:29] I can write over here, embedding model.
+[07:32] Okay?
+[07:33] So, in embedding model also, we have
+[07:35] three stages.
+[07:36] Sorry, two stages, okay? Two main
+[07:39] stages. The first is called the
+[07:41] pre-trained model, right? So, here also,
+[07:43] we'll get a pre-trained model.
+[07:46] So, let me write over here.
+[07:48] Pre- trained model.
+[07:50] On the second stage, basically, after
+[07:52] the pre-training, what you will get.
+[07:54] After the pre-training, basically, we'll
+[07:55] get a tuned model, okay? Tuned model.
+[07:59] Now, guys, here actually, we are not
+[08:00] going to perform the supervised
+[08:02] fine-tuning. Instead of that, we perform
+[08:04] the contrastive learning, okay?
+[08:06] Contrastive
+[08:08] learning. Now, what is the meaning of
+[08:10] this contrastive learning? We'll discuss
+[08:12] about it, okay? I'll explain what is
+[08:14] this contrastive learning. So, we
+[08:16] perform the we take a pre-trained model,
+[08:20] right? And what we do, guys, we perform
+[08:22] the
+[08:23] we perform the tuning on top of this
+[08:26] pre-trained model. So, after this only,
+[08:28] this particular step come, right? And
+[08:30] here also, what we can do, we can
+[08:32] perform our own custom tuning.
+[08:35] Custom
+[08:36] fine-tuning.
+[08:38] So, we are
+[08:39] we are going to discuss this particular
+[08:42] stage, the custom fine-tuning. Either we
+[08:44] can take the pre-trained model, the raw
+[08:46] model. This is our raw model, guys.
+[08:48] Again, it is trained on a internet data,
+[08:50] okay? And
+[08:52] or we can take any tuned model and we
+[08:54] can perform our custom fine-tuning. If
+[08:57] you are confused between this
+[08:58] pre-trained model and the fine-tuned
+[09:00] model, okay? Which is already done by
+[09:01] someone else, right? So, let me give you
+[09:04] the example. With that, maybe your
+[09:05] understanding will be very concrete. So,
+[09:08] I kept some model name over here. So,
+[09:10] see, the first model is the Meta Llama
+[09:12] and the second model is the Meta Llama
+[09:13] 3.21B instruct.
+[09:16] Now, let me show you this model. So, if
+[09:18] I will go ahead with this hugging face,
+[09:21] okay? So, see, the model name is Meta
+[09:23] Llama, Llama 3.21B. So, this is the raw
+[09:26] model. Means
+[09:28] this model is just pre-trained. Okay,
+[09:30] this is just having some general
+[09:32] intelligence. Uh
+[09:33] Means the capability of generating a
+[09:36] text, of generating a next token, okay?
+[09:38] This is not
+[09:40] tuned on any other data, right? But on
+[09:43] the other hand, if we'll talk about this
+[09:44] model, Llama 3.21B instruct, so this
+[09:48] model is trained on a instruction data
+[09:50] set, right? This model is already tuned
+[09:52] on a instruction data set. So, guys,
+[09:55] Uh, I hope now your understanding is
+[09:56] clear. So, either we can take a raw
+[09:58] model, okay, or else we can take already
+[10:01] a fine-tuned model and we can perform
+[10:03] our own custom tuning. Now, the same
+[10:05] thing goes with the embedding model
+[10:07] also. So, here you can see I kept two
+[10:09] name. The first name is a MPNet-base,
+[10:12] okay, and the second is the
+[10:13] all-mpnet-base-v2.
+[10:16] Now, guys, if you will check with this
+[10:17] repository, Microsoft repository, under
+[10:19] this you will find out this model,
+[10:21] MPNet-base, okay? So, let let me show
+[10:24] you this MPNet-base. See, this is the
+[10:25] model and this is a raw model. Means,
+[10:28] this this particular model basically is
+[10:30] trained on a very huge amount of data,
+[10:33] okay? And further we can fine-tune this
+[10:36] model, further this model, right?
+[10:38] Further this model is fine-tuned for the
+[10:40] embedding task. Now, here you can see
+[10:42] all-mpnet-base-v2.
+[10:44] So, this sentence transformer model, it
+[10:46] maps sentence and paragraph to
+[10:48] 768-dimension dense vector and can be
+[10:51] used for task like a clustering and
+[10:52] semantic search, okay? So, this is a
+[10:55] very popular embedding model and I think
+[10:57] we have seen this embedding model many
+[10:59] times. We were we are using it inside
+[11:01] our rack pipeline, right? To perform the
+[11:04] embedding. Now, if the thing if this
+[11:06] thing is not clear, let me show you one
+[11:08] more paragraph they have written at the
+[11:10] end of this repository. So, just read
+[11:12] this particular
+[11:14] just read this particular paragraph. So,
+[11:16] what they are saying over here? They are
+[11:18] saying the project aims to train
+[11:20] sentence embedding model on very large
+[11:22] sentence-level dataset using
+[11:24] self-supervised contrastive learning
+[11:26] objective. We use the pre-trained model.
+[11:29] This is the pre-trained model, guys,
+[11:30] Microsoft MPNet-base, okay?
+[11:34] That and fine-tune it on a 1 billion
+[11:36] sentence pair, right? So, this model was
+[11:39] the pre-trained model and this model
+[11:41] further was fine-tuned for what? For the
+[11:43] embedding task, right? Now, how the
+[11:46] dataset looks like for the embedding,
+[11:48] how to prepare this pairs and all, what
+[11:50] is the meaning of the contrastive
+[11:52] learning, each and everything we'll
+[11:54] discuss inside this video itself. I
+[11:57] already prepared a material, so
+[11:58] definitely I will show you. So, please
+[12:00] make sure, guys, you are going to watch
+[12:02] this video till the end if you want to
+[12:04] master the embedding fine-tuning, okay?
+[12:06] I'm going very slow and I'm teaching you
+[12:09] each and everything, right? Now, here
+[12:11] you can see. So,
+[12:13] this was the
+[12:15] this is what is this is the
+[12:17] This is nothing. This is a base model
+[12:19] and this particular model is a
+[12:22] this particular model is a fine-tuned
+[12:24] model, right? So, either we can take
+[12:26] this base model or we can take this
+[12:28] fine-tuned model and what we can do, we
+[12:30] can do our own custom fine-tuning. Now,
+[12:32] why we are doing this own custom
+[12:34] fine-tuning? We are doing this own
+[12:36] custom fine-tuning so that we can train
+[12:38] our model over our own domain-specific
+[12:41] task, right? So, we can train our model
+[12:43] on our own domain-specific dataset,
+[12:46] right? And guys, whether we are talking
+[12:48] about this LLM model or we are talking
+[12:50] about this embedding model, right? All
+[12:52] this model actually it's nothing it's a
+[12:55] transformer base model, okay? So, this
+[12:58] behind this model there is no like other
+[13:00] technology except the transformer. So,
+[13:03] if you don't know about the transformer,
+[13:04] this is the architecture of the
+[13:06] transformer, okay? So, inside the
+[13:08] architecture you can see we have two
+[13:09] part. One is the encoder, the left-hand
+[13:11] side part is called the encoder and the
+[13:13] right-hand side part of the part of this
+[13:14] architecture is called the decoder.
+[13:17] So,
+[13:17] behind this LLM model, behind this
+[13:20] embedding model, you will only get the
+[13:22] transformer model, right? So, let me
+[13:25] summarize the thing now. So, what I was
+[13:27] saying, guys, we are talking about the
+[13:29] embedding model, so this is the
+[13:30] transformer base model. So, it is
+[13:32] already
+[13:33] like a pre-trained model, right? Which
+[13:35] is trained on a very huge amount of
+[13:37] data. Now, this model is further tuned,
+[13:40] okay, on the contrastive learning. So,
+[13:42] this is a special kind of learning where
+[13:44] we where we prepare our data in some
+[13:46] specific format and we have some
+[13:48] different loss function, right? And what
+[13:50] we get, we get our fine-tuned we get our
+[13:52] embedding model. The embedding model
+[13:54] which we are seeing on a different
+[13:56] different places, right? Now, what we
+[13:58] can do, we can take this model, okay,
+[14:00] the final model and we can perform our
+[14:01] custom fine-tuning. Or else what we can
+[14:04] do, we can take a pre-trained model, on
+[14:06] top of that also we can do our custom
+[14:07] fine-tuning, okay? But generally, guys,
+[14:10] we take already trained model, we take
+[14:12] already like fine-tuned model because it
+[14:15] is
+[14:16] like this model is already like trained
+[14:18] on some task, on some
+[14:20] like the pair a dataset, right? So, it
+[14:23] is having some knowledge and on top of
+[14:25] that if we are going to fine-tune our
+[14:27] if we are going to be fine-tuned on our
+[14:28] own dataset, so it will get a very like
+[14:31] good understanding because it is already
+[14:33] having some knowledge, okay, about this
+[14:35] contrastive learning and all and then
+[14:37] further we are going to be fine-tuned on
+[14:38] our task, okay? So, this is a like good
+[14:41] approach. Otherwise, if you want to do
+[14:43] everything from a scratch, then you can
+[14:45] take this pre-trained model also.
+[14:48] So, now, guys, let's understand. So,
+[14:50] here I have highlighted something. If we
+[14:51] talking about the pre-trained model, so
+[14:53] this model actually is trained on a very
+[14:55] massive dataset. Massive dataset means
+[14:58] what? It is a trained on a Wikipedia
+[15:00] data, common crawl dataset, book corpus
+[15:02] dataset, web text dataset, open dataset,
+[15:05] public web pages, right? So, these are
+[15:07] the
+[15:08] internet data, internet is scaled data
+[15:10] and why we are
+[15:12] like using this data? So that my model
+[15:15] can understand my model can uh
+[15:18] understand the general knowledge, okay?
+[15:21] So, whatever general thing I'm going to
+[15:23] be asked to my model, right? Regarding
+[15:25] anything, so it can understand that and
+[15:27] it can generate the next word, the next
+[15:29] sentence behalf on that particular
+[15:32] sentence, okay? Whatever we are going to
+[15:34] be asked. So, just to provide a general
+[15:36] intelligence to my model, I am training
+[15:39] my model on top of this data. Now,
+[15:41] contrastive in the contrastive
+[15:42] fine-tuning, what we have? So, in the
+[15:44] contrastive fine-tuning, guys, we are
+[15:45] going to perform the contrastive
+[15:46] learning. So, there what we have, we
+[15:49] have the pair of similar and the
+[15:51] dissimilar text, right? So, what is the
+[15:54] what is a like similar and the
+[15:56] dissimilar text? Let's
+[15:58] like look into that. So, here I kept
+[16:01] some dataset format and I think just by
+[16:03] seeing this dataset format, you will get
+[16:05] a better understanding. So, just look
+[16:07] into the first format. See, this is the
+[16:09] first one.
+[16:10] This is the second one, okay, and here
+[16:12] is what? Here is the third one, right?
+[16:14] So, in this all this three format, guys,
+[16:16] what we can do, we can prepare our
+[16:18] dataset. So, in the first format you can
+[16:20] see what we have. So, in the first
+[16:22] format we have the sentence, okay?
+[16:25] What we have, guys? We have a sentence
+[16:26] first,
+[16:27] we have sentence two and we have a
+[16:29] label. Now, this label actually it is
+[16:31] telling the similarity between these two
+[16:33] sentences, okay? Zero means not similar,
+[16:36] one means similar, okay? And we will be
+[16:38] having the value between zero to one.
+[16:41] Now, in the second, guys, we have this
+[16:43] is the this is called the triplet
+[16:44] format. So, where we have a
+[16:48] So, where actually we have a query,
+[16:49] right? Then we have a positive message
+[16:51] and then we have a negative message. So,
+[16:53] likewise also we can prepare our data
+[16:55] for the embedding fine-tuning, okay?
+[16:58] Now, case C, so we have N-way format.
+[17:01] So, in that actually we'll be having a
+[17:02] query, then positive data, positive
+[17:05] column and then the negative column.
+[17:07] Now, in the positive, guys, you will get
+[17:09] the document one, document two means the
+[17:10] multiple positive document. And in the
+[17:12] negative, again you will get a multiple
+[17:14] negative document. So, in this format,
+[17:16] first of all, in this format we'll have
+[17:18] to prepare our dataset. If we are
+[17:21] talking about the normal instruction
+[17:22] fine-tuning, so there the dataset format
+[17:24] was a different one, right? But if we
+[17:26] talking about the contrastive learning,
+[17:28] contrastive fine-tuning or fine-tuning
+[17:30] on the embedding model, then we'll have
+[17:32] to prepare our dataset into this
+[17:34] particular format. So, on whatever
+[17:37] pre-trained model, so I was talking
+[17:38] about this pre-trained model, right?
+[17:40] This MPNet-base. So, this MPNet-base
+[17:44] further fine-tuned, right? This model
+[17:46] was further fine-tuned and it is open
+[17:48] source, right? So, this model also have
+[17:50] been trained either of this format. So,
+[17:53] the community has prepared a data or
+[17:55] whoever has fine-tuned that model, this
+[17:57] base model, right? So, they have
+[17:59] prepared a data like that like this only
+[18:01] and then they have performed the
+[18:03] like then they only perform the
+[18:05] training, the further training, okay?
+[18:07] Now, guys, let me show you some sort of
+[18:09] a dataset which is already present over
+[18:11] the hugging face, okay? So, here if I
+[18:14] will go through the hugging face, see,
+[18:16] guys? So, this all are the dataset.
+[18:19] Now, just look in the first data. So,
+[18:22] inside the first data, see, the dataset
+[18:24] name is the all NLI, okay? So, in the in
+[18:27] the column actually we have this anchor,
+[18:29] positive and the negative. Now, in the
+[18:31] second dataset, guys, see, this the
+[18:33] dataset name is what? STS-B, okay?
+[18:36] So, again inside this particular dataset
+[18:38] you will see sentences, okay? Sentences
+[18:41] and the score, right? So, it this score
+[18:43] actually it is telling the similarity
+[18:45] between these sentences. Then we have
+[18:47] the third dataset. See, this is the
+[18:49] third dataset, AI job embedding
+[18:51] fine-tuning. So, inside this dataset
+[18:53] again you will see. So, we have a query,
+[18:55] okay? This is the job description which
+[18:56] is a positive one and then we have a job
+[18:59] description which is a negative one,
+[19:00] right? So, in this way we'll have to
+[19:02] prepare our dataset.
+[19:04] We'll be having a query, we'll be having
+[19:06] positive side and the negative side,
+[19:08] okay? So, on top of this data once we'll
+[19:10] train our model, so my model will
+[19:12] understand what is correct and what is
+[19:14] not correct, right? Means, I'll be
+[19:15] passing a query and I'll be passing a
+[19:17] sentence, so my model will easily
+[19:19] understand, right? What is correct
+[19:21] thing, what is a like what is like the
+[19:23] near one, okay? And what is like a not a
+[19:26] near one, right? So, I can explain you
+[19:29] this thing with one example. I think
+[19:31] with that your understanding will be
+[19:33] very clear. So, let's say we have a
+[19:35] model, right? So, I have one embedding
+[19:38] model.
+[19:39] So, I have one
+[19:41] embedding model.
+[19:43] Now, to this embedding model
+[19:45] I'm training this embedding model on two
+[19:47] one data, okay?
+[19:48] So, I'm saying over here
+[19:51] Sunny
+[19:53] is
+[19:54] AI
+[19:56] master. Okay. So, this is my sentence.
+[19:59] Sunny is a AI master.
+[20:01] So, here I'm writing
+[20:04] Sunny
+[20:06] teach AI.
+[20:08] And the second sentence is Sunny
+[20:12] teach
+[20:13] Java.
+[20:15] Okay, this one. Now, I'm marking this
+[20:17] sentence as a negative sentence.
+[20:20] And I'm marking this sentence as a
+[20:23] positive sentence, okay? And this is
+[20:25] what? This is my actual query.
+[20:29] Right?
+[20:30] This is my actual query. Now, see, this
+[20:33] is the positive sentence means this
+[20:35] sentence actually it is near to this
+[20:37] particular query, okay? And this
+[20:39] particular sentence is negative means
+[20:41] this is the far from this is the far
+[20:44] this is far from this query. Now, in
+[20:47] future in future in future, guys,
+[20:50] whatever see, in in future, if this kind
+[20:52] of queries coming to my model, if I'm
+[20:55] getting a query Sunny
+[20:58] is a
+[20:59] AI
+[21:00] guy, right?
+[21:02] So, this this model basically
+[21:04] automatically will understand what will
+[21:06] be the closest sentence, okay? What will
+[21:09] be the closest document to this
+[21:11] to this particular sentence, right?
+[21:13] Because I already trained my model on
+[21:15] top of this type of data, right? I
+[21:17] already trained my model on top of this
+[21:19] of data this embedding model can
+[21:22] understand what will be the closest.
+[21:24] Let's say I have a corp I have a like
+[21:26] very huge list of the sentences, right?
+[21:29] Inside this list I have a
+[21:31] I have let's say
+[21:33] 100 sentence. Okay,
+[21:35] it is all about the the different it is
+[21:38] it is all about the different tech
+[21:40] jargon. So, Sunny knows this, Sunny
+[21:42] don't know this, okay? AI is this, that,
+[21:44] whatever. So, if I'm passing this
+[21:47] sentence sentence to my embedding model,
+[21:49] so embedding model will automatically
+[21:52] find out whichever is a nearest sentence
+[21:54] to this sentence because I already shown
+[21:57] that kind of data I already shown that
+[22:00] kind of data to my model, right? So,
+[22:03] this is a simple
+[22:04] phenomenon, right? This is a simple
+[22:06] concept behind the embedding model,
+[22:08] okay? Now, guys, here I
+[22:11] kept the goal and all everything and I
+[22:13] kept like how this model have been
+[22:16] trained. So, what's the goal, guys? So,
+[22:18] the goal is close vector, right? So,
+[22:20] close vector similar close vector
+[22:22] different distance vector. So, if the
+[22:25] sentence is different, so they will
+[22:27] maintain a distance between that. If the
+[22:30] vector are close, so they will they will
+[22:32] be closer to each other. They will be
+[22:34] the similar sentence. And I think I
+[22:36] already given you the example. Now, if
+[22:38] we're talking about this training, guys,
+[22:40] the embedding model training, right? So,
+[22:42] this is being performed using this three
+[22:44] concept. So, the first concept is called
+[22:46] the cosine similarity, second is called
+[22:48] the triplet loss. Either I can use the
+[22:51] triplet loss or I can use this
+[22:52] contrastive loss, okay? This is also
+[22:55] called the info NCE. So, this is a
+[22:57] similarity formula, guys. This is the
+[22:58] cosine similarity. There is a triplet
+[23:00] loss, guys, and here is the info NCE
+[23:03] contrastive loss, right? So, using this
+[23:06] uh
+[23:07] like loss function only we are going to
+[23:09] be train our model. If you don't know
+[23:11] the training pipeline, so let me give
+[23:13] you the highlight. So, the training
+[23:14] basically it always runs in a epoch. So,
+[23:17] I here I can write. So, if if we're
+[23:19] talking about the training, guys, the
+[23:21] training actually it always run in a
+[23:23] epochs, okay? If you don't know the
+[23:25] epochs, let me tell you the epochs. So,
+[23:27] in the epochs what we what we do, we
+[23:29] perform the forward uh propagation and
+[23:32] we perform the backward propagation,
+[23:34] okay? So, in the forward propagation
+[23:36] what happened? So, in the forward
+[23:37] propagation we always calculate the
+[23:39] value, right?
+[23:41] We always calculate the value. Means we
+[23:44] perform the calculation in the forward
+[23:46] propagation. If we're talking about the
+[23:48] transformer architecture, so in the
+[23:50] transformer architecture we perform this
+[23:51] calculation using the attention, okay?
+[23:54] Attention and with the feedforward
+[23:57] neural network, okay? Then, guys, what
+[24:00] we do, we calculate a loss over here.
+[24:02] So, we always calculate a loss value,
+[24:04] right? And after that in a backward
+[24:06] propagation, so if if we're talking
+[24:08] about the backward propagation, what we
+[24:09] do over here in the backward
+[24:11] propagation, so in the backward
+[24:12] propagation we use the optimizer, right?
+[24:15] We use the optimizer. Why we use the
+[24:17] optimizer? To adjust the to adjust to
+[24:20] adjust the weights, guys.
+[24:23] To adjust the weights, right? So, in the
+[24:26] back propagation we use the optimizer to
+[24:29] adjust the weight. So, here what we do,
+[24:31] guys, see in the first we perform the
+[24:34] forward propagation, we pass our data,
+[24:36] we calculate
+[24:37] the values, okay? We have some weights
+[24:40] over here, the random weights, and we
+[24:42] pass our data, we calculate the final
+[24:43] value, then we catch calculate the loss,
+[24:46] okay?
+[24:46] And then in the back propagation we have
+[24:48] a optimizer and there we adjust the
+[24:50] weight. So, this is the complete
+[24:52] training, okay? This is a this is called
+[24:54] the one epoch.
+[24:55] This is only called the one single
+[24:57] epoch.
+[24:59] Okay? This is only called the one single
+[25:01] epoch. Now, here this is loss function.
+[25:03] Now, this loss function actually it
+[25:05] plays a very important role because in
+[25:07] the optimizer also we take the
+[25:09] differentiation, we take the
+[25:11] we take the derivation, okay? We take
+[25:13] the differentiation.
+[25:15] Differentiation of what? We take the
+[25:18] derivation of the differentiation of
+[25:19] this loss function function only. I hope
+[25:21] you are getting my point. If you don't
+[25:23] know, guys, so this all the thing
+[25:24] actually it comes under the deep
+[25:26] learning fundamentals. So, I I can
+[25:28] record a video on top of that in future
+[25:30] definitely I'm thinking there I can
+[25:32] teach you this entire mathematics and
+[25:34] all, right? So, this loss function
+[25:36] actually it plays a very important role.
+[25:38] So, we're talking about this embedding
+[25:39] training, so in the embedding training,
+[25:41] guys, either we use this triplet loss or
+[25:44] or else we use this info NCE loss, okay?
+[25:47] This one. This this particular loss.
+[25:49] Now, here inside this loss, guys, you
+[25:51] can see this similarity. Now, how we are
+[25:53] going to be calculate this similarity?
+[25:55] So, we are going to be calculate this
+[25:56] similarity using this cosine similarity,
+[25:58] okay? So, this is what, guys? This is a
+[26:01] cosine similarity, okay? This is what?
+[26:03] This is a cosine similarity. Now, using
+[26:06] this cosine similarity only we are going
+[26:08] to be calculate the similarity. Now, let
+[26:09] me
+[26:10] explain the formula that what we are
+[26:11] going to be do over here. So, we have a
+[26:13] similarity between the query, whatever
+[26:15] query is being asked, and the negative
+[26:17] document. We have a similarity between
+[26:19] the query as well as the positive
+[26:21] document, okay? And this is one my
+[26:23] hyperparameter, the M value. Now, we are
+[26:25] going to be check the max of it, okay?
+[26:27] And this would be the loss, right? So,
+[26:30] this value the loss actually we want to
+[26:32] be minimize. How we will do that? So,
+[26:34] we'll use the optimizer. It will run the
+[26:36] multiple epoch, okay? And
+[26:39] at the end, guys, we'll meet to the
+[26:42] minimum loss, right? So, we'll run our
+[26:44] training until we are not going to be
+[26:46] reach to the minimum loss. So, this is
+[26:48] one of the loss function which we can
+[26:50] use and the other one basically is this
+[26:52] one, right? So, we can utilize this loss
+[26:54] also. Again,
+[26:55] like here also we are going to be use
+[26:57] the similarity, but
+[26:59] like the mathematical the
+[27:02] calculating a loss in a mathematical way
+[27:05] that is little different over here.
+[27:07] Okay? So, this is a high-level overview
+[27:10] of this entire embedding model. So, if
+[27:12] you want to deep dive into the
+[27:14] mathematics and all with all the
+[27:15] examples, so I can discuss that in a
+[27:17] near future session, guys, okay?
+[27:20] Because to explain the entire
+[27:21] mathematics it would be the different
+[27:24] kind of effort, right? Uh
+[27:27] Okay, and first of all this fundamental
+[27:29] should be clear coming for coming for
+[27:31] understanding this mathematics and all.
+[27:33] Now, after that, guys, what we'll do,
+[27:35] we'll
+[27:37] perform our own custom fine-tuning. So,
+[27:39] in the third stage what we'll do, we'll
+[27:40] perform our own custom fine-tuning. So,
+[27:43] let me revise this entire pipeline and
+[27:45] after that I will come to the
+[27:46] architectural side. So, here, guys, you
+[27:48] can see, so first of what we have, we
+[27:51] have a pre-trained model. Let's take
+[27:53] example. Let's say let's say we have
+[27:54] this MPNet base model, okay? Now, this
+[27:57] model
+[27:58] further have been trained on some pair
+[28:00] or similar and dissimilar text, okay?
+[28:03] Again, this is a generic data set which
+[28:05] is collected from the different
+[28:06] different sources, okay? The data set
+[28:08] have been prepared in this particular
+[28:10] manner. Either we can prepare in this
+[28:11] manner, this manner, or this manner,
+[28:13] right? So, let's suppose, guys, after
+[28:15] this entire fine-tuning we got this
+[28:17] model, this sentence transformer all
+[28:19] MPNet base V2. Now, till here everything
+[28:22] is clear. We got the fine-tuned model.
+[28:24] Now, what we can do, we can perform our
+[28:27] own custom fine-tuning. So, either we
+[28:30] can download this fine-tuned model, this
+[28:32] contrastive fine-tuned model, or either
+[28:34] I can take this pre-trained model and we
+[28:36] can perform our own custom fine-tuning.
+[28:39] So, this own custom fine-tuning would be
+[28:41] the third stage, okay?
+[28:43] Now, guys, which model we need to be
+[28:44] considered as I already told you, so
+[28:46] what whichever model is already trained
+[28:48] on some data set means they have already
+[28:50] performed some contrastive learning and
+[28:52] all. Just take that model and perform
+[28:54] the perform your own custom tuning. If
+[28:57] you're going to take a base model,
+[28:58] right? So, if if you're going to be take
+[29:01] a very base model, so in that case you
+[29:03] will be required a very huge data set,
+[29:05] right? So, just take uh
+[29:07] that kind of model which is already seen
+[29:08] some similar and dissimilar text, then
+[29:12] like you can fine-tune that on your own
+[29:14] custom data. And I will show you on the
+[29:15] same model, okay? I will take this all
+[29:17] MPNet base V2, right? And after that
+[29:20] we'll fine-tune on our own custom data.
+[29:23] Now, if we're talking about the
+[29:24] architecture, guys, see, this is the all
+[29:26] data set, the different different data
+[29:27] set uh
+[29:28] basically. So, here I shown you this
+[29:31] format, right? So, according to the
+[29:32] format I given you the link. So, this is
+[29:34] all the link, guys. You can go through
+[29:36] with this link and you can check the
+[29:37] different different data set. Now, if
+[29:40] we're talking about the core
+[29:42] architecture, so, guys, uh this
+[29:44] embedding model actually we can divide
+[29:46] into the multiple category, okay? So, uh
+[29:49] let's uh discuss onto the architectural
+[29:51] side. So, as I told you guys, this
+[29:53] embedding models are nothing.
+[29:55] Uh this embedding model, it is a
+[29:59] transformer-based model, okay? Now, uh
+[30:01] on the transformer side as well, uh we
+[30:03] generally use the
+[30:05] encoder.
+[30:06] Okay?
+[30:08] We use the encoder side of the
+[30:09] transformer. So, as I shown you, we have
+[30:12] two side of the transformer. The first
+[30:14] is called the encoder, the second is
+[30:16] called the decoder, right? So, what we
+[30:18] do, we use the encoder side of the
+[30:21] transformer generally. Nowadays, we have
+[30:23] a decoder-based model also, and in some
+[30:25] time, I will give you that example also.
+[30:28] So, this is a uh encoder side of the
+[30:30] transformer, and uh we generally use
+[30:32] this uh encoder side of the transformer
+[30:34] transformer only for the embedding. Now,
+[30:37] let's see how this thing works, okay? We
+[30:39] are passing any text, then how this data
+[30:41] is being converted into the embedding.
+[30:43] So, this is the step-by-step process,
+[30:45] guys, uh which I mentioned over here,
+[30:47] and I think you can clearly see this
+[30:48] entire box. So, uh let's say first we
+[30:51] are getting a text, okay? Now, this text
+[30:54] could be anything. Uh I'm I'm writing a
+[30:56] very uh simple text over here just to
+[30:58] explain you. Uh let's say
+[31:00] uh I'm writing AI.
+[31:02] Okay? AI is a future. Now, this
+[31:06] particular text this particular text I
+[31:08] wanted to convert I wanted to convert
+[31:10] into the embedding. So, my final goal is
+[31:12] what? So, my final goal, see here I'm
+[31:14] going to redraw the embedding, guys. I
+[31:16] think it is clearly visible. So, uh my
+[31:18] final goal is to get a embedding out of
+[31:21] this particular text, okay? So, first
+[31:24] what will happen? So, first, guys, this
+[31:26] uh text will be converted into the
+[31:28] token. So, let's say we have AI over
+[31:30] here.
+[31:31] Okay? Then, we have is over here. This
+[31:34] is the next token. Then, a, okay? Then,
+[31:37] a, and then what we have, we have a
+[31:39] future, okay? Then, what we have, we
+[31:41] have a future. Now, what I'll do, guys,
+[31:43] so this particular text I will be
+[31:45] passing through this
+[31:47] transformer encoder. Now, inside the
+[31:49] transformer encoder, you can see we have
+[31:52] two main thing. The first thing is
+[31:53] called the multi-head attention. Here,
+[31:55] right-hand side, you can see the first
+[31:57] thing is called the multi-head
+[31:58] attention, and the second thing is
+[31:59] called the feed-forward network, okay?
+[32:02] It is a neural network. Now, what I'll
+[32:04] do, guys, so this uh data will be passed
+[32:06] either from the encoder on the decoder.
+[32:08] So, most of the model actually, that
+[32:10] embedding model, it is a encoder-based
+[32:12] model. But, nowadays, couple of model uh
+[32:14] uh whatever model we are having, right?
+[32:17] So, those are the decoder also. I kept
+[32:19] one table, and in some time, I will show
+[32:20] you that what is the encoder and the
+[32:22] decoder-based model, okay? So, uh guys,
+[32:25] uh this uh particular tokens, actually,
+[32:27] I will pass from where? I will pass from
+[32:29] the encoder and decoder. Now, what I'll
+[32:31] do, first I will convert all these
+[32:33] tokens into the embeddings, okay? So,
+[32:36] the this token will be converted into
+[32:38] the embedding. This is the word
+[32:39] embedding, right?
+[32:41] Word embedding. Now, uh this is called
+[32:43] the word embedding, guys. So, uh we'll
+[32:45] take any word embedding model and we'll
+[32:47] convert that. Now, after that, guys,
+[32:49] what I'll do, I will add one more layer.
+[32:50] So, this uh layer, basically, it would
+[32:52] be the positional encoding, okay? So,
+[32:55] this uh this particular uh layer would
+[32:58] be the positional encoding. So, let me
+[33:00] add over here.
+[33:01] Positional encoding.
+[33:05] Okay? Positional encoding. Now, after
+[33:08] that, guys, what I'll do, see, this all
+[33:10] the sentences this all the vector,
+[33:11] actually, it will go to the positional
+[33:13] encoding. Now, over here, you can see uh
+[33:15] we have input, we are going to be
+[33:16] converted into the embedding, then we
+[33:17] are going to be add the positional
+[33:18] embedding. Now, after that, we'll pass
+[33:20] this particular data, okay? Whatever
+[33:22] data we have, so we'll pass this
+[33:24] particular data, okay? To the attention
+[33:27] layer, right? So, this attention layer
+[33:30] is nothing. This is for the contextual
+[33:32] understanding, right? So, after passing
+[33:34] my data from the attention layer, we get
+[33:36] the contextual embedding. So, we'll pass
+[33:38] it from the attention layer, we'll pass
+[33:40] it from the neural network feed-forward
+[33:42] neural network, okay? So, this is my
+[33:45] encoder side. This is what? This is my
+[33:46] encoder of the transformer. After that,
+[33:49] what we do, guys, we perform the
+[33:50] pooling. So, pooling means what? To
+[33:53] pooling means to uh take the relevant
+[33:56] feature from the vector, okay? So, uh
+[33:58] either we can do the max pooling or we
+[34:00] can do the minimum pooling or we can do
+[34:03] the average pooling. There different
+[34:04] different ways of the pooling, right?
+[34:06] So, generally, we perform the average
+[34:08] pooling, okay? So, uh what we do, guys,
+[34:10] we have a multiple vectors, okay? We are
+[34:12] passing from the attention and the
+[34:14] neural network. So, let's suppose we are
+[34:15] getting multiple vectors over there,
+[34:17] then we are going to perform the
+[34:18] pooling. So, either we can perform the
+[34:20] max pooling, minimum pooling, and the
+[34:21] average pooling, okay? And after that,
+[34:24] what we'll get, whatever vector will be
+[34:25] getting, whatever single vector we are
+[34:27] getting, okay? If you want to extract
+[34:29] more feature from there, so this is the
+[34:31] optional layer, the dense layer, okay?
+[34:33] It is nothing again, it is a neural
+[34:34] network only. So, after passing my data
+[34:36] from here, we'll get a final vector,
+[34:39] this vector, okay? This contextual
+[34:40] vector. So, this is the entire process
+[34:43] to convert any sort of a sentences into
+[34:46] the vector, right? So, just go through
+[34:48] with this entire points. Just try to
+[34:50] write it down like this, okay? And a
+[34:51] step-by-step, try to understand uh
+[34:54] basically, how we can uh convert any
+[34:56] sort of a sentence into the embedding.
+[34:58] So, first we have a sentence, we are
+[35:00] going to be converted into the tokens,
+[35:01] we are going to be converted into the
+[35:02] embedding, then we are adding the
+[35:04] positional embedding, we are passing it
+[35:05] to the attention neural network. Then,
+[35:07] whatever sentence whatever vectors we
+[35:09] are getting, we are performing the
+[35:11] min-max pooling, minimum pooling, and
+[35:12] average pooling. Now, why we are doing
+[35:14] it? To uh like uh get the most important
+[35:18] feature from there. So, whatever single
+[35:20] vector will be getting, again, we can
+[35:21] pass it from one projection layer from
+[35:23] from the dense layer, okay? Again, it is
+[35:25] a neural network layer only. And then,
+[35:27] we can perf- we can we then out of that
+[35:30] only, we will be getting our final
+[35:32] flattened vector. And that flattened
+[35:34] vector is called the embedding, okay?
+[35:36] And this is what? This is my
+[35:37] contextual embedding, guys. I hope uh
+[35:40] this entire thing is clear, and I hope
+[35:43] you are able to understand this entire
+[35:45] explanation. Now, we we are talking
+[35:47] about this embedding model. So, this
+[35:49] embedding model, actually, we can uh
+[35:51] divide into the multiple category on a
+[35:53] architectural level. So, uh guys, uh
+[35:56] here you can see. So, uh encoder-only
+[35:58] model, uh cross-encoder, multi-dual
+[36:01] encoder, and the decoder-based
+[36:04] embedding. So, we're talking about the
+[36:05] encoder model only, so we have this S
+[36:07] bot, E5, BGE. These all are the
+[36:10] encoder-based embedding. Now, we're
+[36:12] talking about the cross-encoder, so this
+[36:14] MS Marco cross and the all the model,
+[36:17] basically, we'll get under the core
+[36:18] here, right? So, those model, actually,
+[36:20] it's a cross-encoder. Some of the model
+[36:22] is a multi-model dual encoder, right?
+[36:24] And some model are the decoder-based
+[36:26] model, so these are the name of it. Uh
+[36:28] OpenAI embedding, Gemini embedding,
+[36:30] right? So, these model, actually, it's a
+[36:32] decoder-based model, right? Now, over
+[36:35] here, guys, you can see I uh clearly
+[36:36] written a differences between the
+[36:38] cross-encoder and the dual encoder.
+[36:40] Well, what's the difference between it?
+[36:42] Because uh I think you already seen the
+[36:44] encoder what is a encoder, so you know
+[36:47] the normal encoder, but uh maybe this
+[36:49] dual encoder and the cross-encoder is
+[36:51] different for you, right? And uh at many
+[36:53] places uh in whenever you are going to
+[36:55] be create a rag pipeline, you are going
+[36:57] to be create your embedding pipeline, at
+[37:00] uh those places, guys, you are going to
+[37:02] be use this cross-on encoder and the
+[37:04] dual encoder kind of thing,
+[37:06] right? So, uh let's understand this uh
+[37:08] dual encoder and the cross-encoder. Uh
+[37:10] here I written a clear-cut differences.
+[37:13] So, uh how these two model how these two
+[37:16] uh like encoder are different, right?
+[37:18] So, these are different in terms of
+[37:20] their data processing capability. So,
+[37:22] how they are going to be process the
+[37:24] input, how they are going to be process
+[37:26] their data, it is just uh having a
+[37:28] difference uh in terms of the data input
+[37:30] only. Nothing else, guys. Nothing rocket
+[37:32] science. No rocket science. Nothing over
+[37:34] here, right? So, how they are processing
+[37:36] a data, uh they just have that different
+[37:38] capability. Now, let's uh look into the
+[37:41] dual encoder. So, query and document
+[37:43] encoded separately, okay? And then,
+[37:45] similarity computed between that. So, on
+[37:49] the one side, we are passing the query,
+[37:50] on the other side, we are passing a
+[37:52] document, right? And those thing is uh
+[37:54] being calculated separately. Inside the
+[37:57] cross-encoder, what we are doing, we are
+[37:58] passing query and document together in
+[38:01] one single pass, okay? And then, we are
+[38:03] going to be check the direct relevance
+[38:05] uh score. Getting my point? So, in
+[38:07] cross-encoder, we are combining both
+[38:09] query and the document, and we are
+[38:11] passing it through the encoder. And
+[38:13] inside the dual encoder, we are passing
+[38:15] uh the query first. Means, we are
+[38:17] passing query and the documentation
+[38:19] document means the uh query and the
+[38:21] other data separately. So, that is a
+[38:24] difference, guys, okay? Nothing else.
+[38:26] Now, uh dual encoder is fast, is
+[38:28] scalable, and uh like we can pass
+[38:30] millions of document, and cross-encoder
+[38:32] a little slow because we are going to be
+[38:34] combine our data over here. This
+[38:36] cross-encoder, you you have heard, guys,
+[38:38] this cross-encoder, actually, we are
+[38:39] going to be use it uh inside our uh this
+[38:42] cross-encoder, actually, we are going to
+[38:44] be use uh inside the re-ranking also,
+[38:47] right? So, how uh we are doing that?
+[38:49] Because we are we are combining the
+[38:51] query and the uh other sentences that
+[38:53] document, okay? And then, we are uh
+[38:55] passing it through the model, so model
+[38:57] is able to understand, right? Model is
+[38:59] able to understand the relevance very
+[39:01] clearly. So, this thing uh basically, I
+[39:04] even shown in my rag uh chapter. And uh
+[39:06] on top of this cross-encoder and dual uh
+[39:08] encoder, basically, I can take one
+[39:10] separate session, and I can decode the
+[39:12] entire thing like this only, okay? If
+[39:13] you want. So, yeah, this is the entire
+[39:16] uh thing, guys, and I think uh you
+[39:17] understood how this embedding model
+[39:19] works. Now, I'm coming to the next part.
+[39:23] So, guys, uh now the question is uh what
+[39:25] is the embedding fine-tuning? So, let's
+[39:27] understand this, and after that, uh
+[39:29] we'll come to the practical.
+[39:32] Uh guys, uh till now, I think uh you got
+[39:35] to know what is a embedding fine-tuning,
+[39:38] uh but it's still uh we need to check
+[39:39] out the definition. So, here is the
+[39:41] exact definition of the uh embedding
+[39:44] fine-tuning. So, embedding fine-tune
+[39:47] means uh training an embedding model for
+[39:50] the on your specific data set so that
+[39:54] its vector representation become more
+[39:57] accurate and relevant for your
+[39:58] domain-specific task. Okay?
+[40:01] Uh embedding fine-tune means training an
+[40:03] embedding model so that its vector
+[40:05] representation become more task-specific
+[40:07] rather than a generic, right? Now, uh
+[40:11] whoever don't know about this thing,
+[40:13] means uh whoever don't know about the
+[40:15] embedding and where this a vector
+[40:16] representation is being used, you will
+[40:18] get to know in some time. Okay? Uh
+[40:21] now here guys, you can see. So, normal
+[40:23] embedding model, it is a pre-trained on
+[40:25] a large generic data set as we know, and
+[40:27] it is a good for the general search,
+[40:30] right? Or semantic search. But if we're
+[40:31] talking about the fine-tuned model, so
+[40:34] further train on on your own specific
+[40:36] data set, and model learns better
+[40:39] semantic structure about your own
+[40:41] domain. So, we have a normal embedding
+[40:43] model, which is just pre-trained model,
+[40:45] or which is just just like fine-tuned on
+[40:47] some on some general data set and all
+[40:49] like I shown you this uh MPNet model.
+[40:52] Okay? So, it is good for the general
+[40:54] task, but if you're doing your own
+[40:55] domain-specific task, in that case, you
+[40:58] required the fine-tuned model. Okay?
+[41:02] You required uh basically your
+[41:04] domain-specific model. So, in that case,
+[41:06] you can do it. See, here I uh here I
+[41:08] kept some images also with that uh your
+[41:11] understanding would be clear. Let's say
+[41:13] uh we have a base model. So, this is the
+[41:15] MPNet base model.
+[41:18] Okay?
+[41:19] MPNet base model. Then guys, uh we have
+[41:21] fine-tuned that model. So, MP
+[41:25] net base.
+[41:27] Okay? B1 means all they are fine-tuned
+[41:30] on some sort of a data set. Then guys,
+[41:33] uh we have a base model, we have
+[41:34] fine-tuned model. Now guys, this is the
+[41:36] additional fine-tuning. So, here this is
+[41:39] your This is This could be your custom
+[41:43] fine-tuning. This particular stage could
+[41:46] be your custom fine-tuning. I hope
+[41:48] you're getting my point what I'm trying
+[41:50] to say. So,
+[41:52] I'm saying over here that let's see
+[41:54] let's look into this model. So guys, uh
+[41:56] this is the model, right? This this
+[41:58] particular model uh this particular
+[42:00] model MPNet is a base model, right? Now
+[42:04] guys, they further uh tuned this model,
+[42:06] and the model name is all MPNet base
+[42:09] two. They have trained on their specific
+[42:11] data for the for generating the
+[42:12] embedding and all, right? Now guys, on
+[42:15] top of this model, again you can perform
+[42:18] the fine-tuning
+[42:19] so that it will look like this, the
+[42:22] additional one, this one. Okay? So, this
+[42:24] one single image is clarifying all the
+[42:27] thing in a single shot, and I hope this
+[42:31] is clear. Now, coming to the step, like
+[42:34] what all step is required to perform a
+[42:36] fine-tuning. See you guys. So, step one,
+[42:39] uh we'll have to gather the positive and
+[42:41] the negative pairs. Then, we'll have to
+[42:43] pick a pre-trained model. Okay?
+[42:45] Pre-trained model on any
+[42:46] uh like uh model which is available uh
+[42:50] like generic fine-tuned model. Okay?
+[42:52] Then pick a loss function, fine-tune the
+[42:54] model, and after that, evaluate the
+[42:56] model. So, this is the step which we
+[42:58] need to follow to perform a fine-tuning.
+[43:01] Now, uh what kind of data? So, we'll
+[43:03] have to prepare this kind of data guys,
+[43:05] this I already highlighted over here,
+[43:07] this one. So, we'll be having a query,
+[43:08] we'll be having a positive match and the
+[43:10] negative match, right? So, model will
+[43:12] understand what a positive and what a
+[43:14] what is negative for that specific
+[43:16] query, and according to that only, it's
+[43:19] going to pick a data from the vector
+[43:21] database, or it's going to be picked the
+[43:23] relevant document. Okay? Uh now guys, uh
+[43:27] here you can see. So, why this uh
+[43:29] fine-tuning is required? Why we should
+[43:31] do that? So, I written example I I
+[43:34] written a multiple uh basically
+[43:37] uh points over here. Just by reading
+[43:39] this, your understanding will be uh even
+[43:41] more concrete. Okay? So, here is the
+[43:43] real reason for the practical use cases.
+[43:45] For the domain-specific understanding.
+[43:48] So, uh let's say uh if you are a pharma
+[43:51] company, uh if you are a pharma company
+[43:55] and you have lots and lots of data,
+[43:57] right? Lots and lots of data. Now, on
+[44:00] top of this data, right? You on top of
+[44:02] this particular data, you want to build
+[44:04] a rag. But inside the rag pipeline, what
+[44:07] uh you are feeling? You're feeling that
+[44:09] your embedding model is not working uh
+[44:12] very good. Okay? Your embedding model is
+[44:14] not aligned with your data, then what
+[44:17] you will do guys? So, you will take this
+[44:19] lots and lots of data, and you will
+[44:21] train your embedding model, and then
+[44:24] only you will utilize inside your rag
+[44:26] pipeline, right? Then only you will
+[44:28] utilize in your rag pipeline, and that
+[44:31] thing can increase, right? That thing
+[44:34] might might increase your 60 to 70% of
+[44:38] accuracy. Okay? Uh now over here, see
+[44:41] domain-specific understanding, your
+[44:42] model will get a domain-specific
+[44:44] understanding. Uh you will be having a
+[44:46] better search, semantic retrieval,
+[44:48] right? Specifically, I'm talking about
+[44:50] the rag system, right? Or task-specific
+[44:53] nearest nearness. Not only inside the
+[44:54] rag pipeline. Now, if you're going to be
+[44:56] perform any other task, let's say you
+[44:58] have one query and going to be and you
+[45:00] are going to be check the intent, okay?
+[45:01] Regarding the other document. Okay? Uh
+[45:04] of that specific query. In that case
+[45:06] also, you can utilize it for the
+[45:07] duplicate detection, right? So, you have
+[45:09] a query and you want to be check like
+[45:11] what all document the duplicate to that
+[45:12] document to that specific query, right?
+[45:15] So, you can do that also, right? So,
+[45:17] apart from the rag apart from the rag,
+[45:20] there could be multiple semantic search
+[45:21] application, and here I have highlighted
+[45:23] those one.
+[45:24] So, yeah. Uh now guys, I think you are
+[45:27] enough ready to understand the
+[45:29] practical. So, let's go through the
+[45:31] practical. Let's understand uh the
+[45:33] entire practical, and uh
+[45:36] after that guys, I'll show you the
+[45:37] differences between the LLM fine-tuning
+[45:39] uh and the uh embedding fine-tuning.
+[45:42] Okay? So, here I kept the differences
+[45:43] guys. I just uh need to discuss this one
+[45:46] table.
+[45:48] Now guys, uh here is the entire training
+[45:50] code. So, let's execute it one by one.
+[45:53] So, first we'll have to install the
+[45:54] sentence transformer and the start. Uh
+[45:57] after that we'll have to import uh these
+[46:00] modules. So, I'm writing the I'm
+[46:01] importing this load from disk. So, I'm
+[46:03] going to be load my own custom data. Uh
+[46:05] then sentence transformer, sentence
+[46:07] transformer trainer, sentence
+[46:09] transformer trainer argument. Uh then
+[46:11] guys, we require this uh multiple
+[46:14] negative ranking loss. Okay? Uh then
+[46:17] guys, so this a batch sampler, right?
+[46:19] So, these many thing is required to me.
+[46:22] Now, after that guys, what I'll do? I'll
+[46:23] load my model. So, here I'm going to
+[46:25] load my model. Now, this model only I
+[46:27] will fine-tune on my own custom data.
+[46:30] So, yeah, the model is being load. Now,
+[46:32] after that guys, what I'll do? So,
+[46:34] either I can take the data from the
+[46:36] hugging face, any inbuilt data set, or I
+[46:38] can prepare my own custom data, and I
+[46:40] can fine-tune the model. So, here I'm
+[46:42] taking a second approach, means I'm
+[46:44] taking my own fine-tuned I'm taking my
+[46:47] own custom data, which I already
+[46:48] prepared. Okay? And on on top of that
+[46:51] data, I'm going to be fine-tune my
+[46:52] model. So, let me tell you the scenario
+[46:55] the entire scenario. So, the scenario is
+[46:57] very simple.
+[46:58] Uh
+[46:59] I'm assuming that I'm working in one
+[47:01] pharma company. Okay?
+[47:04] I'm working in one
+[47:06] pharma company.
+[47:07] Now, for this pharma company, I have to
+[47:11] build a rag pipeline.
+[47:14] Right? Rag pipeline. So, how we create a
+[47:16] rag pipeline? So, we have a data.
+[47:19] Then, we perform the chunk out of this
+[47:23] data.
+[47:25] Then, we perform the embedding.
+[47:30] Okay?
+[47:31] And then, we store this embedding inside
+[47:33] the vector database.
+[47:35] In the vector DB. Okay?
+[47:38] Then what will happen guys? So, my user
+[47:40] will ask any query. Okay? Or I will be
+[47:43] getting any sort of a query. I will be
+[47:45] getting any sort of a query. So, this
+[47:47] query basically, it's uh going to the
+[47:49] vector database,
+[47:51] right? So, this query actually is going
+[47:53] to the vector database.
+[47:55] Okay?
+[47:56] And I'm uh fetching a relevant result,
+[47:59] right? So, I'm fetching a relevant
+[48:02] result.
+[48:03] Now, what will happen guys? See here,
+[48:05] this relevant result will go to the LLM
+[48:08] for the
+[48:09] and LLM is going to be generate uh their
+[48:12] final response.
+[48:16] Got it? So, this is a complete rag
+[48:19] pipeline. Now, over here guys, see what
+[48:21] I'm assuming, see uh I'm going to be
+[48:23] perform the embedding, and this
+[48:24] embedding model is not performing well.
+[48:28] Okay?
+[48:29] Means on top of this data, on top of
+[48:31] this particular data, this this
+[48:33] embedding model this embedding model
+[48:36] don't know anything about this data.
+[48:38] Okay? So, whatever embedding is being
+[48:39] generated regarding this data and
+[48:42] regarding this query. Okay? So, it's
+[48:44] it's not performing a well semantic
+[48:47] search.
+[48:48] The semantics it is not performing a
+[48:50] well semantic search.
+[48:53] Okay?
+[48:54] Then, uh if I'm if I'm not able to get
+[48:56] if I'm not able to perform the well
+[48:58] semantic search, then we will be we will
+[49:00] not be able to get a relevant result. If
+[49:02] we will not be able to get a relevant
+[49:04] result, then we are not passing a good
+[49:06] context to the LLM, right? So, that
+[49:09] thing should not be there. So, what I'll
+[49:11] do guys? So, I will train this embedding
+[49:13] model on my own data set. Okay? I will
+[49:15] fine-tune this training embedding model
+[49:17] on my own data set, and then only I will
+[49:19] fit it inside the rag pipeline. So, I
+[49:21] already prepared data. So, here is the
+[49:23] data guys, see uh train pairs. I have
+[49:25] this train pairs. If you want to see
+[49:28] this data I I already uploaded that this
+[49:29] data uh I already uploaded this data
+[49:32] over the GitHub. You can check out, and
+[49:33] you will get this link in uh you will
+[49:35] get that link inside the description
+[49:36] only. Okay. So, uh, guys, uh, what I'm
+[49:39] doing? So, here you can see we have this
+[49:41] data. Okay, data info This is the
+[49:43] information about the data.
+[49:45] How the pairs look like, I can show you
+[49:47] that. See, this is the information about
+[49:49] the data, all the information, the meta
+[49:50] information. There's a state.json, okay,
+[49:53] one more file we have regarding the
+[49:54] data. It's again a meta file. This
+[49:57] chunk.jsonl.
+[49:58] So, likewise the data will look like.
+[50:01] Okay, this like this the data will look
+[50:03] like. Uh, let let me keep it over here.
+[50:06] And, uh, after performing this chunking
+[50:08] and all, after creating this pair and
+[50:10] all, so I kept it inside this dot arrow
+[50:12] file. Okay? So, see, this is the data,
+[50:16] guys. Now, over here you can see we have
+[50:17] a text.
+[50:19] Okay? Uh, and regarding the this text,
+[50:21] basically,
+[50:22] uh, we'll be having a positive and the
+[50:24] negative. Okay? So, we'll be having
+[50:27] positive and negative. And, uh, then
+[50:29] guys,
+[50:30] using that data, what I have done, I
+[50:32] have created this data
+[50:34] a 000 of 0001.arrow,
+[50:37] uh, file. Okay, this particular This is
+[50:39] the compressed file, uh, which is being
+[50:41] used, uh, by this hugging face only,
+[50:44] right? And, we can load our chunks and
+[50:46] all, everything. I will show you how the
+[50:47] data set look like, don't worry. Okay,
+[50:49] if you're not able to see over here,
+[50:50] I'll show you. Otherwise, you can
+[50:51] download all this file from my, uh,
+[50:53] repository itself and you can check.
+[50:55] Now, see what I'm doing. So, I already
+[50:57] kept the data in a zip, I did the unzip,
+[50:59] and I'm loading it over here. See, I'm
+[51:00] loading the tech train pair, right? Now,
+[51:03] uh, load from disk. And here you can see
+[51:05] we are going to be load the train data.
+[51:07] Uh, this this particular data train
+[51:09] pairs. Now, what is the arrow file,
+[51:10] guys? So, arrow file actually Apache
+[51:12] arrow columnar format. So, it's a
+[51:14] hugging face data set internally for
+[51:16] hugging face data set use it internally.
+[51:19] Okay? So, for the faster memory map, for
+[51:21] the efficient column base mapping, for
+[51:23] the faster training, right? Now, over
+[51:25] here let let me show you the data set.
+[51:27] So, if if I'm going to be print the data
+[51:28] set, see, this is the data set, train
+[51:31] data set. Okay?
+[51:33] And how many features we have? We have
+[51:34] anchor, positive, and the negative,
+[51:36] right? So, anchor and the positive. Now,
+[51:39] if I can show you the column name, so
+[51:41] see, this is the column name, anchor and
+[51:43] the positive. Okay? So, either anchor,
+[51:45] positive, negative, or either anchor or
+[51:48] positive. I can keep in this format,
+[51:49] right? This will also be fine. So,
+[51:52] anchor means the real text and positive
+[51:54] means the positive one. So,
+[51:55] automatically my data will understand
+[51:56] which is a positive. If something will
+[51:58] be negative, it will not show be
+[51:59] similarity with that particular
+[52:01] sentence. Okay?
+[52:03] Now, what I'm doing, guys? I'm going to
+[52:04] be initialize the loss function. So,
+[52:06] here is the loss function for the
+[52:07] embedding training only. Now, this is my
+[52:10] sentence training a sentence transformer
+[52:12] training argument. Here is my output
+[52:13] directory. After the,
+[52:15] uh, training, my model will be available
+[52:16] over here. Number of epoch, right? Uh,
+[52:18] this is the best size, learning rate.
+[52:20] Okay, warm up rate, uh, FP16, best
+[52:23] sampler,
+[52:24] uh, then logging step and the save
+[52:26] strategy. So, once I'll execute it, so
+[52:28] my training argument has, uh, created.
+[52:31] Now, what I'll do, I will, uh,
+[52:33] create object of the sentence
+[52:34] transformer trainer. Here I will pass
+[52:35] the model, argument, data set, and loss
+[52:38] function. Now, once I'll do that, guys,
+[52:39] so see, my training will be started once
+[52:42] I'll call this trainer.train. So, see,
+[52:43] the training is started now. Okay? So,
+[52:46] training, uh, is uh, started. It might
+[52:48] take some time. Now, after that, guys,
+[52:50] what I'll do, so I will save the model.
+[52:54] Okay, so model will be saved over here.
+[52:56] Uh, basically at this particular
+[52:58] location, model pharma embedding
+[53:00] fine-tuning. Okay? So, once it will be
+[53:02] run, means my model has saved. It won't
+[53:04] take much time because I already have a
+[53:06] very small data set. So, this training
+[53:08] will not take very huge time. Now, after
+[53:10] saving a model, guys, what I can do?
+[53:12] See, this is the additional code, means
+[53:13] I can zip the file model file and I can
+[53:15] utilize it later. So, I'm not executing
+[53:17] it right now. Then what I can do? I can
+[53:18] do the inferencing. Okay? So, here is my
+[53:21] model. I will be loading my model. I
+[53:23] will pass a sentence to it and I will
+[53:24] be,
+[53:25] uh, and I'm going to be basically
+[53:27] uh, then what I'm doing, guys? I'm going
+[53:29] to be, uh, like, get a encoding out of
+[53:32] it. Okay, so this is just an inferencing
+[53:33] of it. Now, see, guys, the training is
+[53:35] going on and, uh, after that my model
+[53:37] will be saved. And after, uh, saving the
+[53:40] model, guys, I will perform the
+[53:41] inferencing. Now, over here, guys, this
+[53:43] is my embedding model, so I can give a
+[53:44] query around to that. This is a general
+[53:46] query I I had written. Now, uh, if you
+[53:49] wanted to see the data set, how the data
+[53:51] set look like, let me show you that. I
+[53:54] already have a data I downloaded in my
+[53:57] local. See, this is the data, guys. So,
+[54:00] uh, this is the data pharma demo. On top
+[54:02] of, uh, this particular data I'm going
+[54:04] to create my rag, okay, then on top of
+[54:06] this particular data. And on top of this
+[54:08] data only I have trained my model. Okay,
+[54:10] this this PDF. Now, this PDF, uh, and
+[54:13] this data actually I have converted into
+[54:15] this format. Okay? So, where is the
+[54:18] format? This one. Let me show you that
+[54:20] pharma ft data. See, this is the format,
+[54:22] train pair. Okay? So, I converted this
+[54:24] data into the anchor and the chunk,
+[54:26] okay, and I compress inside this arrow
+[54:28] file. So, I had the PDF, inside the PDF
+[54:31] I had a text. Now, that a particular
+[54:33] data I have compressed inside this arrow
+[54:35] file. Okay, I hope you got it. Now, how
+[54:38] I did it, guys? So, for that I had a
+[54:39] complete a script. Let me show you that
+[54:41] a script. So, uh, I already get that a
+[54:44] script and I kept it inside the GitHub
+[54:46] also. You can look into that. But, yeah,
+[54:49] uh, I can show you that. So, this is the
+[54:52] script data creation. I'm just going to
+[54:54] be open it. And this is script I already
+[54:56] given you inside the GitHub only, right?
+[54:58] Okay, so just go and check. You will
+[54:59] get, uh, this particular script. Now,
+[55:01] see. So, here, guys, uh, this is the
+[55:04] entire data page.
+[55:06] Okay? Means, first actually I created a
+[55:09] PDF out of this data so that I can
+[55:10] utilize inside the rag. And using the
+[55:12] same data only I prepared a embedding
+[55:15] fine-tune data. Okay? So, uh, after
+[55:17] that, guys, what I have done, so see,
+[55:19] positive and the negative text. This is
+[55:22] the entire code. Just go through with
+[55:23] it. You will understand
+[55:25] how this data have been created. Okay?
+[55:28] So,
+[55:30] to understand about the data and all,
+[55:31] it's not very difficult.
+[55:33] See, first we had a query, then uh, we
+[55:36] have some uh, templates and all. Okay?
+[55:38] And, uh, building a fine-tuning data set
+[55:41] where we have a anchor, which is a
+[55:42] query, and the positive chunk, right?
+[55:45] So, uh, guys, you can go through with
+[55:47] it. You can understand how this data
+[55:48] have been created. And after that, guys,
+[55:50] what I have done, I have compressed it
+[55:52] inside the arrow arrow file so that
+[55:53] later on I can utilize it. Now, uh, here
+[55:56] I can give any sort of a query and just
+[55:59] to check whether, uh, uh, just to check,
+[56:02] guys, whether this model is working or
+[56:04] not. So, I can take a query from the
+[56:06] same, uh, PDF. Let me take that. So,
+[56:10] what is
+[56:11] amoxicillin capsule 500 mg? Okay? So,
+[56:15] this is the query which I'm going to be
+[56:16] asked. So, here I'm going to be write,
+[56:18] what is what is what is
+[56:22] capsule? Right? Now, what I'll do, I'll
+[56:24] keep it in a double quote. And then I
+[56:26] will run it. Now, see, guys, you will
+[56:28] get a embedding out of this particular
+[56:29] sentence. So, once you will check with
+[56:31] the embedding, you will be getting a
+[56:33] embeddings over here. See, you will be
+[56:35] getting a embedding. See, this time the
+[56:37] Now, the embedding is being generated,
+[56:38] means I'm able to perform a uh, I'm able
+[56:41] to perform a inference out of that
+[56:42] particular model. Now, what I'm doing,
+[56:44] guys? I'm going to be stored this data,
+[56:46] okay, the uh, this uh, PDF data, okay,
+[56:49] inside the vector database. And I will
+[56:51] be using this embedding model to perform
+[56:53] a similarity search based on the given
+[56:55] query. Okay, and I will I will fetch the
+[56:57] relevant result from that particular
+[56:58] data. So, for that, what I'm doing, I'm
+[57:00] going to be initialize this files. Okay?
+[57:03] So, for initializing this files,
+[57:06] uh,
+[57:06] I will have to install I will have to
+[57:09] run this thing, LangChain and the
+[57:11] LangChain OpenAI. Okay? Then after that,
+[57:13] guys, what I'll do, I will, uh, I'll run
+[57:15] this LangChain community and the PyPDF
+[57:17] because I'm going to be initialize my
+[57:18] rag pipeline over here. Uh, then I'm,
+[57:21] uh, running this PyPDFLoader.
+[57:23] Okay? So, I'm running my PyPDFLoader,
+[57:26] and here I'm going to be load the data.
+[57:28] This is my data. Okay, from the PDF.
+[57:29] This is the one This is my
+[57:31] PDF. Okay, pharma demo, right? So,
+[57:34] pharma demo, it is my PDF. It is my
+[57:36] data, guys. Uh, this one I can show you,
+[57:39] this one. So, on top of this data only
+[57:41] I'm going to create my rag pipeline.
+[57:44] Right? So, yeah, the
+[57:47] package is going to be installed. PyPDF
+[57:49] is going to be load. Then, uh, it's
+[57:51] going to be load the PDF. This is my all
+[57:53] the document, means my all the pages of
+[57:55] the PDF. And after that I can show you.
+[57:57] See, how many pages we have? Three
+[57:58] pages. Okay? Now, what I will do, guys?
+[58:00] I will, uh, I can perform the chunk of
+[58:02] my data, but the data is very small, so
+[58:04] chunking is not required. So, what I'll
+[58:06] do, I will initialize the files. I will
+[58:09] I will import this hugging face
+[58:10] embedding also. It is very important to
+[58:12] convert my model. Okay, it is very
+[58:14] important to convert my model into the
+[58:16] hugging face compatible model. So, I'm
+[58:18] going to be import both. Now, what I'll
+[58:20] do, I will give my model path, which I
+[58:22] already saved over here. Here you can
+[58:23] see. So, my model is over here. Okay?
+[58:27] After the fine-tuning, I will be getting
+[58:29] my model.
+[58:30] Uh, after the fine-tuning, I will be
+[58:33] getting my model over here. Okay, this
+[58:34] is the model, guys. So, inside this
+[58:37] particular, uh, folder I have a model.
+[58:39] Now, I'm going to be load my model. Uh,
+[58:41] sorry, this is my model path. Now, I'm
+[58:42] going to be convert into the hugging
+[58:44] face compatible format. Okay? Now, I get
+[58:46] my embedding model. Now, what I'll do,
+[58:48] so let me delete this. It's not
+[58:50] required. Now, I will install the file
+[58:51] CPU. Okay? After that, guys, I will
+[58:54] store all the data inside the files
+[58:56] document. Okay? Then see, this is my
+[58:58] index. The files index is there. Now,
+[59:01] uh, I will
+[59:02] uh, ask a question, what are the warning
+[59:04] and the precaution? So, see, I will be
+[59:07] getting a result, and here you can see
+[59:08] the result, guys. See, my result is
+[59:10] working. Means, what I have done,
+[59:12] uh, on top of the PDF, okay, I create I
+[59:14] I I'm going to be create a rag. So, I
+[59:17] took that PDF, I kept it inside the
+[59:19] vector database. Okay? Now, whatever
+[59:21] embedding model I'm using for the
+[59:23] similarity search, for the semantic
+[59:24] search, that embedding model is already
+[59:26] fine-tuned on top of this data, on top
+[59:29] of this pharma data. And how I have done
+[59:31] that? First I have converted this PDF
+[59:33] into the uh, compatible format this
+[59:35] file. Okay, here you can see this one.
+[59:37] This insert the training period you will
+[59:39] get that. Okay, this arrow file and then
+[59:42] I fine tune my model. Now, how I get
+[59:43] this data? So, using this particular
+[59:45] script I got this data. Okay.
+[59:48] Now, what I'll do guys? So, yeah, this
+[59:49] is done. Now, here I will set up my
+[59:51] vector retriever. Now, I will be setting
+[59:53] up my open API key. Here is my LLM.
+[59:56] Okay, the LLM will be initiated and then
+[59:59] basically I will check whether my LLM
+[01:00:01] was is working fine or not. Now, here is
+[01:00:03] what here is my enable pass through STR
+[01:00:05] output parser. I'm going to be filter
+[01:00:06] the warning. This is my prompt guys.
+[01:00:08] Okay, I'm initializing my prompt. Now,
+[01:00:10] this is my format document and here is
+[01:00:12] my complete rack chain. Now, let me keep
+[01:00:15] the key the open AI key. I'll let me
+[01:00:19] show you the
+[01:00:20] final output guys.
+[01:00:23] So guys, I kept my open AI API key
+[01:00:27] inside the secrets and I'm able to run
+[01:00:29] my model. Now, what I'll do guys? I will
+[01:00:30] import this runnable pass through so
+[01:00:33] that I can take a input on a run time
+[01:00:35] and then
+[01:00:36] STR output parser for the final output.
+[01:00:39] Now, here is what here is my prompt. So,
+[01:00:40] in the prompt what I'm saying, you are a
+[01:00:42] helpful assistant. Use the following
+[01:00:43] context to answer the question. Right?
+[01:00:45] Simple prompt. Then format document.
+[01:00:47] Now, this is what this is my rack chain.
+[01:00:49] Okay. So, what I will do guys here
+[01:00:52] actually I will
+[01:00:53] See here is my prompt, LLM and STR
+[01:00:55] output parser and this context I'll be
+[01:00:58] getting from where? From the web and the
+[01:01:00] database. Okay. And I'm formatting that
+[01:01:02] context. Now, what I'll do guys? I will
+[01:01:04] invoke this chain. What I'm asking over
+[01:01:06] here? What are the consideration for the
+[01:01:08] Amoxicillin 500 mg? So, if I will run it
+[01:01:10] guys, I will get my final answer. See,
+[01:01:13] this is the final answer.
+[01:01:15] And guys, the answer is correct. You can
+[01:01:18] check out over this PDF.
+[01:01:21] Okay.
+[01:01:22] So, that is a use of this embedding
+[01:01:24] model. I hope you got it. If you not if
+[01:01:27] you didn't get it then guys again please
+[01:01:29] again check out with this video. Go
+[01:01:31] through it one more time. If you still
+[01:01:33] you have any sort of a doubt, please let
+[01:01:34] me know in the comment section.
+[01:01:36] Now guys, I will see you in the next
+[01:01:38] video. So, if you haven't subscribed the
+[01:01:39] channel so far, please subscribe the
+[01:01:41] channel and if you're liking the video,
+[01:01:43] then hit the like button. So, until
+[01:01:45] thank you.
+[01:01:46] Bye-bye guys. Take care.

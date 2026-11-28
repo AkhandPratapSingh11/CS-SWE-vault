@@ -1,0 +1,2411 @@
+Title: LLM Fine-Tuning 23: Multimodal LLM Fine-Tuning with Unsloth (Vision + Text) | QwenVL, LLaVA, Pixtral
+Video URL: https://www.youtube.com/watch?v=vYH_UE2-z3I
+Video ID: vYH_UE2-z3I
+======================================================================
+
+[00:00] Hey, hello everyone. Welcome back to my
+[00:03] YouTube channel. My name is Sunny and I
+[00:05] am back with another exciting and
+[00:08] important video. So guys, in this video,
+[00:11] we're going to discuss about the
+[00:12] multi-modality and multi-modal
+[00:14] fine-tuning. In the previous video, I
+[00:17] discussed about the SLM, which is called
+[00:19] a small language model. Uh now, in this
+[00:22] video, we'll explore multi-modality and
+[00:24] multi-modal fine-tuning from basic to
+[00:27] advanced. Yes, guys. So, uh if you don't
+[00:29] know, I started this end-to-end
+[00:31] fine-tuning playlist where I discuss
+[00:33] each and every concept related to the
+[00:35] fine-tuning. Uh so guys, uh recently I
+[00:38] got a question, "Sir, your fine-tuning
+[00:40] uh playlist is quite huge. Means uh you
+[00:42] have 20 to 25 video." Uh so, if I wanted
+[00:46] to cover the most important concept or
+[00:48] if I wanted to complete within a week,
+[00:50] then how I can do it? So guys, if you
+[00:53] want to complete this playlist within a
+[00:55] week or you are just preparing for the
+[00:57] interview, then uh you can start from
+[01:00] this video, from video number 14. Uh
+[01:03] from video number 14, basically I
+[01:04] discuss about the LLMs and I discuss
+[01:08] along with a practical that how you can
+[01:10] fine-tune any model using any sort of a
+[01:13] data using the different different
+[01:15] framework, API-based fine-tuning. And
+[01:18] now we are into the multi-modal
+[01:20] fine-tuning. Now guys, if you want to
+[01:22] clarify everything from basic, uh then
+[01:24] uh you you will have to watch from 1 to
+[01:27] uh 14th as well. Okay? Uh now, where you
+[01:30] can find out this playlist? So, just go
+[01:32] and check with my uh YouTube channel.
+[01:34] Just write Sunny Savita on YouTube.
+[01:36] Go inside the playlist section. There
+[01:38] you will find out the various playlists
+[01:39] regarding the different different
+[01:41] concept of the generative AI along with
+[01:43] this fine-tuning. Uh now, let me show
+[01:45] you that what all thing we are going to
+[01:47] discuss inside uh this particular video.
+[01:50] So guys, uh these many points uh we are
+[01:53] going to discuss. The first thing uh
+[01:54] we'll understand the key terms and the
+[01:56] terminology inside the uh language model
+[01:59] ecosystem. I'll I'll just give you the
+[02:01] walk-through of the key terms or what
+[02:03] are key terms is there related to the
+[02:04] language modeling. Uh then I will come
+[02:07] to the multi-modal large language model
+[02:10] and we'll understand what is a
+[02:11] multi-modality. I'll give you the
+[02:13] clear-cut definition regarding this
+[02:14] concept. Uh then guys, I'll come to the
+[02:17] model example. I will give you the
+[02:19] different different model example. We'll
+[02:21] discuss the open-source, close-source
+[02:22] model. And even I will show you the
+[02:25] different different leader boards. Uh
+[02:26] then guys, we'll understand why do LLM
+[02:29] needs multi-modalities? Means why we
+[02:32] should
+[02:33] train our
+[02:34] like LLM on the multi-modal data. Uh
+[02:37] then we'll understand what is a
+[02:38] multi-modal LLM fine-tuning and when and
+[02:41] why should use the multi-modal
+[02:42] fine-tuning. Then I will take
+[02:44] architectural overview.
+[02:46] So I will show you how this multi-modal
+[02:48] works. At least I will take one modality
+[02:51] and I'll show you this concept. Uh then
+[02:53] guys, we'll understand what exactly get
+[02:55] fine-tuned when we talk about the
+[02:57] multi-modal training. Then we'll discuss
+[03:00] the different different data format for
+[03:01] the multi-modal fine-tuning. Uh then
+[03:04] we'll see how we can create a the custom
+[03:05] data set. Means let's say if I have to
+[03:08] fine-tune on my own multi-modal data,
+[03:10] then how we can do it. Uh then we'll
+[03:12] understand the differences between the
+[03:13] normal fine-tuning and the multi-modal
+[03:15] fine-tuning. And then finally I will
+[03:17] show you the practical using the
+[03:18] Unsloth. Now guys,
+[03:20] we are going to all these points inside
+[03:22] this particular video. So that's why I
+[03:24] told you it's going to be a kind of
+[03:26] crash course. Uh not only the course
+[03:28] crash course guys. So in the even in the
+[03:31] course as well, you will not find out
+[03:32] these many points in any of the course
+[03:35] basically. So yeah, I'm going to be
+[03:37] cover up cover all these points
+[03:39] throughout this video. Uh so first of
+[03:41] all guys, let's understand the key terms
+[03:43] and the terminology. And before coming
+[03:45] to that, let me show you the practical
+[03:47] as well. That what is my practical? See
+[03:49] here is the practical. The practical I
+[03:51] prepared completely. I kept so many
+[03:53] things over here. The different
+[03:54] different multimodal, the different
+[03:56] different type of data. And we are going
+[03:59] to do it using the classes and object
+[04:01] itself. I'm not going to be right a
+[04:02] normal code over here. We are going to
+[04:04] be right a computer model of code, which
+[04:06] you can directly copy and paste on any
+[04:08] server. Then guys, we'll understand how
+[04:10] we can prepare our own custom data. See,
+[04:12] this is our the code for that. Then see
+[04:15] the different different leaderboard and
+[04:16] not only the LLM leaderboard guys, I
+[04:18] will come to the trending research paper
+[04:19] also. Then guys, these many data set we
+[04:22] are going to discuss throughout this
+[04:24] video. I will give you the
+[04:26] like complete guide how this our data
+[04:27] have been prepared and what are the
+[04:29] column basically we have inside. Now,
+[04:31] let's see the key terms inside the
+[04:33] language modeling. And then guys, I will
+[04:36] come to the definition of the
+[04:37] multimodality.
+[04:39] Now first term is the LLM guys, the
+[04:42] large language model.
+[04:44] The second is called the multimodal
+[04:46] large language model. And third is
+[04:48] called the SLM, small language model. So
+[04:51] these three important terms is
+[04:53] associated with this language model
+[04:56] ecosystem. So let's see the definition
+[04:58] of it. So first is transform based model
+[05:01] trained on the massive data set to
+[05:03] understand and to generate a language.
+[05:05] The model basically comes from the GPT,
+[05:07] from the Cloud A, from the Gemini,
+[05:09] Llamas, or from anywhere, right? So that
+[05:12] model basically can understand the
+[05:14] language and it can generate the
+[05:16] language. So those are called the large
+[05:18] language model. Now on the other hand,
+[05:21] what is a multimodal large language
+[05:24] model? So in LLM extended with an
+[05:26] additional capability with the vision,
+[05:29] audio and video. So we are providing a
+[05:32] additional capability to the large
+[05:33] language model where it can understand
+[05:36] the images, it can understand the videos
+[05:39] or audio, right? So those LLMs itself is
+[05:42] called the multimodal large language
+[05:45] model. So we know, right? A GPT-4o, a
+[05:47] Gemini 2.5, Qwen 3 VL, LLaVA. So, these
+[05:51] all are the uh multimodal large language
+[05:54] model. It can process the text along
+[05:57] with along with the text, guys. It can
+[05:59] process the other different modality of
+[06:02] the data. And now, the third or term is
+[06:04] called the small language model. So,
+[06:07] what is a small language model, guys? A
+[06:09] small language model or the multimodal
+[06:12] uh typically, which is uh less than 10
+[06:14] billion parameter are optimized for the
+[06:16] efficiency, speed, and the
+[06:17] specialization.
+[06:19] So, again, a small language model could
+[06:21] be the normal language model, which can
+[06:23] only process the text, which can only
+[06:25] process the language, or it could be the
+[06:28] multimodal, means uh it can process the
+[06:30] text along with the along with the
+[06:32] images and the other type of data. So,
+[06:34] that is called the small language model.
+[06:36] A small language model is having less
+[06:38] than 10 billion of parameter. So, if you
+[06:40] want to understand this a small language
+[06:42] model in a detail, uh then check out
+[06:44] with my previous video. I given you the
+[06:46] complete in the detail guide about this
+[06:48] a small language model. Now, what is the
+[06:50] example of this a small language model?
+[06:52] So, the example is Phi-3 Mini, uh Gemma
+[06:55] 2B, Gemma Vision, right? Then, Tiny
+[06:58] LLaMA, Qwen 2 VL 2B, LLaVA Small. So,
+[07:01] here I kept the uh normal model, which
+[07:04] can only process the text like Phi-3
+[07:06] Mini and Gemma. And even I kept the
+[07:09] multimodal like Gemma Vision and LLaVA
+[07:11] Small, Qwen 2 VL uh 2B, right? Which can
+[07:15] uh even understand the images. Uh I
+[07:17] hope, guys, uh this uh thing is clear.
+[07:20] And now, let's uh look into some other
+[07:22] term. Uh so, the another term is the
+[07:23] vision language model. So, again, uh if
+[07:26] someone is saying the vision language
+[07:27] model, so that is nothing that is a
+[07:29] multimodal large language model only. Uh
+[07:31] if someone is saying audio language
+[07:33] model or speech model like uh
+[07:35] text-to-speech or speech-to-text, again,
+[07:38] uh those model comes under the
+[07:39] multimodal large language model only.
+[07:42] So, I hope guys all these terms and uh
+[07:44] terminologies clear to all of you. Now,
+[07:46] coming to the next part.
+[07:48] So guys, there is few more term which we
+[07:50] need to understand.
+[07:52] The first term is called the closed
+[07:54] source model and the another term is
+[07:56] called the open source model. So, what
+[07:58] is a open sorry, what is a closed source
+[08:01] model?
+[08:02] So guys, the model actually which we can
+[08:04] only access through the API
+[08:07] and we cannot access the weight of the
+[08:10] model means we cannot download that
+[08:12] model
+[08:13] and we just have a limited fine-tuning
+[08:15] access. So, those model actually it is
+[08:18] called the
+[08:19] those model is those model are called
+[08:21] the closed source model.
+[08:24] Now, on the other hand we have the open
+[08:25] source model.
+[08:27] So, we can access the weight of the
+[08:29] model means we can download the model.
+[08:32] We can perform the fine-tuning of the
+[08:33] model and even the local deployment is
+[08:36] available. So, we can download the model
+[08:38] directly. We can deploy it anywhere.
+[08:41] Even we can fine-tune that model. So, in
+[08:43] whatever way we want to be fine-tuned
+[08:45] whether it's a full fine-tuning or
+[08:47] it just like a partial fine-tuning.
+[08:50] Whatever kind of fine-tuning you want to
+[08:51] do, you can do
+[08:53] using this open source model, right? So
+[08:56] guys, this is a very important. You need
+[08:58] to understand the differences between
+[09:00] the closed source and the open source.
+[09:02] Now, we need to understand the other
+[09:04] different terminology regarding the
+[09:05] data. Now, let's understand that part.
+[09:07] So, for that guys I kept one image. I
+[09:09] think you are able to understand the
+[09:12] different different like terms related
+[09:14] to the data. So, whenever we talk about
+[09:17] the data guys, so we have a different
+[09:19] different modality of the data as you
+[09:21] can see. So, we have text modality. We
+[09:24] have image modality. We have audio and
+[09:26] the video. Okay, video. So guys, this is
+[09:29] all this is this is called the modality
+[09:31] of the data. This is called the nature
+[09:33] of the data. The data will be present in
+[09:35] this a format. Okay,
+[09:38] Uh uh where the data could be the text,
+[09:39] image, audio, and the video. Uh now uh
+[09:42] the on the other hand, we have one more
+[09:43] terminology, which is called the file
+[09:45] format, where we can store the data.
+[09:47] Uh the first thing is called the PDF,
+[09:49] the second is the docx, CSV, JSON, YAML,
+[09:51] MP3, MP4. So, inside this
+[09:54] uh storage, right? Inside this file
+[09:56] format, basically, we can store the
+[09:57] data. Uh then, guys, we have one more
+[10:00] model
+[10:00] It is not a modality, actually. I would
+[10:02] say it is a semi-modality. Uh so, that
+[10:04] semi-modality is called the tables,
+[10:06] right? So, what is a table, guys? A
+[10:08] table is nothing. It is a way of
+[10:10] structuring our data, right? So, we can
+[10:12] structure our data in the form of
+[10:13] tables. Again, uh it does not comes
+[10:16] under the modality because in the table,
+[10:17] we can keep anything. We can keep the
+[10:19] text, we can keep the images, we can
+[10:21] keep the audio file, right? Whatever we
+[10:23] want to keep inside this table, we will
+[10:25] we can keep that. So, table is nothing.
+[10:28] It is just a way of structuring the
+[10:30] data.
+[10:31] On the other hand, we have a one more
+[10:33] specific term, that is called the
+[10:35] document. So, what is a document, guys?
+[10:37] So, the report, invoice, research paper,
+[10:39] presentation. So, these are nothing.
+[10:41] These are the reports, right? Now, this
+[10:43] report, actually, it can be the PDF,
+[10:45] docx, Excel. Means, in any file format,
+[10:48] we can create this document. I hope you
+[10:51] are getting
+[10:52] uh
+[10:52] the differences between each terms and
+[10:55] the terminology, okay? So, these are the
+[10:57] fundamental, guys. Uh before starting
+[10:58] with the multi-multi-modality,
+[11:00] we need to understand all these
+[11:02] fundamental.
+[11:03] Uh now, I hope, guys, uh this slide is
+[11:05] clear. Uh the key terms in the language
+[11:07] model ecosystem,
+[11:09] uh the differences between the
+[11:10] closed-source and the open-source, and
+[11:13] the term uh the different different term
+[11:15] related to the data, uh which is
+[11:16] modality, other different file format,
+[11:19] uh the structured data, which is also
+[11:20] called the table, and uh the another
+[11:22] term is a document. Now, understand uh
+[11:25] what is an multimodal large language
+[11:27] model, and let's understand this
+[11:29] particular diagram. So, guys, uh first,
+[11:31] let's start uh is a multimodal large
+[11:33] language model.
+[11:35] So, guys, uh if we're talking about the
+[11:36] multimodal large language model, so this
+[11:38] is nothing. It's just a AI model
+[11:41] uh that can understand and process and
+[11:43] generate uh multiple type of data, okay?
+[11:47] Multiple type of modality. So, uh what
+[11:50] is a example of those modality? So, the
+[11:52] example of those modalities is the text.
+[11:55] Uh it's a image, uh audio, and the
+[11:58] video, guys, right? If we're talking
+[12:00] about the video, so videos are nothing.
+[12:02] It is a collection of the images,
+[12:05] uh audio, and the timestamp, right? So,
+[12:08] video is a collection of uh
+[12:10] of these three things. I will discuss
+[12:12] that. I'll come to that. I created one
+[12:13] separate table regarding the different
+[12:15] different modality and the example of
+[12:17] it. I'll come to that part. But before
+[12:19] that, guys, let's understand this a very
+[12:21] important architecture, and uh let's
+[12:23] understand what it is saying.
+[12:25] So, uh we all know about the LLM, guys.
+[12:27] Uh so, we have a LLM over here. So, to
+[12:30] this LLM, what we are passing? We are
+[12:31] passing text, we we are passing image,
+[12:34] we are passing audio, and video. So, we
+[12:37] are able to pass uh more than one uh
+[12:39] modality, means one uh more than one
+[12:41] type of data. So, that is called the
+[12:43] multimodal LLM. Uh now, over here, guys,
+[12:46] uh let's say we are passing text and we
+[12:48] are generating a text, right? This is
+[12:50] possible, right? This is possible, and
+[12:52] this is what we are doing. Uh on the
+[12:54] other hand, let's say we are passing
+[12:55] text, and we are able to generate an
+[12:57] image. Yes, this thing is also possible,
+[13:00] So, uh this is called the multimodality.
+[13:01] Means we are we are passing one type of
+[13:03] data, and we are generating another type
+[13:05] of data. Uh let's say we are passing
+[13:07] text, and we are generating uh audio.
+[13:09] Yes, uh text-to-speech is possible. Uh
+[13:12] model is capable to do that thing. Uh
+[13:15] now, if we're passing text, and we are
+[13:16] able to generate a video. Yes, uh that
+[13:18] thing is also possible. So, we have
+[13:20] several models like OpenAI Sora, right?
+[13:23] Uh Runway, uh and uh even a couple of
+[13:26] models in the Gemini API, you will find
+[13:28] out the text to video. So yeah, this
+[13:31] modality, this functionality is also
+[13:33] possible. So this is only called the
+[13:36] That's why guys, we are
+[13:38] we are saying this a normal LLM, the
+[13:40] multimodal LLM, because it can process
+[13:43] the multiple because the LLM if LLM can
+[13:45] process the multiple modality and it can
+[13:48] generate the different kind of output,
+[13:50] right? Heterogeneous output. So what is
+[13:53] a heterogeneous output? If we are
+[13:54] passing text and if we are able to
+[13:56] generate an image or audio or video, so
+[13:58] that output is called the heterogeneous
+[14:00] output, right? Now guys, images wise, so
+[14:03] yes, if we are passing images, so we'll
+[14:06] be able to generate that text. This is
+[14:08] possible. Nowadays, we are passing
+[14:10] images to to the GPT model, to the
+[14:12] Claude model, to the Gemini model and it
+[14:15] is able to generate a caption, it is
+[14:17] able to generate a description out of
+[14:18] that image. Then guys, from image to
+[14:21] image, yes, that thing is also possible.
+[14:23] We have certain tools using that we can
+[14:26] modify the image, we can basically
+[14:28] customize the image, okay, we can edit
+[14:30] the image. So yeah, this thing is
+[14:33] possible using the AI. Then image to
+[14:35] audio,
+[14:37] I think
+[14:38] I haven't seen that system so far, maybe
+[14:40] it is available, but yeah, we can do
+[14:42] that also. So model basically if we we
+[14:45] are talking about to generate a video or
+[14:47] audio, right? So model directly cannot
+[14:50] do that. Model can only process the
+[14:53] mathematical information. Let's say text
+[14:55] text, we are going to be converting to
+[14:57] the embedding model can process that.
+[14:59] Images, we are going to be converting
+[15:00] the embedding, we can process that.
+[15:02] Audio, we can convert to the embedding
+[15:04] and
+[15:05] model using that model is doing
+[15:07] processing that. Audio, we can convert
+[15:09] to the images then into the timestamp
+[15:12] then basically audio and model is
+[15:14] processing that. But guys, if we want to
+[15:17] like
+[15:18] direct see if we are directly passing a
+[15:20] video and and LLM is processing that
+[15:22] means behind that there is some process
+[15:25] which is breaking down the thing okay
+[15:27] into the smaller part which LM can
+[15:29] understand and LM can process. Now
+[15:31] generation wise again video audio so LM
+[15:35] directly can cannot generate those MP4
+[15:37] file or any audio file right? But guys
+[15:42] it can give us a give us the
+[15:44] mathematical component and using those
+[15:46] mathematical component we can
+[15:48] reconstruct the output right? So we are
+[15:50] talking about audio to
+[15:52] sorry image to audio or audio to video
+[15:56] or
+[15:56] basically video to video. So that is a
+[15:59] complete system like GPT is a model and
+[16:02] chat GPT is a complete system which can
+[16:04] process anything
+[16:05] similar to that guys if you are going to
+[16:07] be generate video to video or audio to
+[16:10] video right? So that would be the
+[16:12] complete system. I hope you understood
+[16:15] it. Now let me show you the different
+[16:17] different example regarding the
+[16:18] different different model and after that
+[16:21] guys I will come to the fine tuning
+[16:23] part.
+[16:24] Okay guys this is a table where I given
+[16:26] the example of the different different
+[16:29] modality. So let's understand about the
+[16:32] modality then
+[16:34] transformation type then description of
+[16:37] it then what all close close source in
+[16:39] the open source model are available
+[16:42] regarding to that modality.
+[16:44] So the first is a text modality as you
+[16:46] can see so what it is doing is going to
+[16:48] be generate text out of text.
+[16:50] So whenever we are passing any text guys
+[16:55] So whenever we are passing any text so
+[16:57] it's going to be generated text.
+[16:59] This is called the classical LM case and
+[17:02] what all close source and the open
+[17:03] source model are there. So open AI based
+[17:06] GPT anthropic cloud AI Gemini or any
+[17:08] other open source model.
+[17:10] Sorry any other close source model
+[17:13] which we cannot access directly for
+[17:15] those we'll have to pay.
+[17:17] Then the other one is called the open
+[17:18] source for llama mistrial all the model
+[17:21] basically which we can access from the
+[17:23] hugging face hub or maybe via free API.
+[17:26] Those are called the open source model
+[17:28] means for those model we no need to pay
+[17:30] anything. The other one is the image
+[17:32] modality. So from here to here guys you
+[17:34] will find out the example of the image
+[17:36] modality where we are passing the image
+[17:39] and we are generating a text. We are
+[17:41] passing a text we are generating a image
+[17:43] or we are passing image and we are
+[17:45] generating a image. So let's see image
+[17:47] to text. So we are providing an image
+[17:49] and we are extracting the content out of
+[17:51] it. Okay. So this thing is very common
+[17:54] nowadays. Means
+[17:56] every company wants to be the LM with
+[17:58] the multimodal capability where at least
+[18:00] it can process the image. Right? Then
+[18:03] guys here is all the model. So this is
+[18:05] all the model guys you can read out the
+[18:07] name. I will provide you all this notes.
+[18:09] You can go through with this table and
+[18:11] you can understand it by yourself. Okay,
+[18:13] you can do self you can do some self
+[18:15] study. Okay, using this entire table.
+[18:18] Now guys here you can see some open
+[18:20] source model. So yeah, image to text we
+[18:22] can do using the open source model. So
+[18:25] the model from the sales for from the
+[18:26] motor sorry from the meta from the
+[18:29] Alibaba
+[18:30] from the Google right and even from the
+[18:32] hugging face. So some model are
+[18:34] available which can do this task. Then
+[18:36] text to image. So whenever we are
+[18:38] passing any sort of a text so out of the
+[18:40] text we can generate the image. So open
+[18:43] AI Delhi midjourney Gemini 2.5 flash
+[18:46] image Gemini 3 image preview
+[18:48] which comes under the nano banana right
+[18:50] the image generation model. So these
+[18:52] model are the closed source model. Now
+[18:55] on the other hand we have stable
+[18:56] diffusion model from the stability AI
+[18:59] from the black forest labs there is
+[19:01] flux. Okay, the model name is flux. F L
+[19:04] U X flux 1 2 X is representing the
+[19:07] version 1 2 3. So we can pass a text and
+[19:10] we can generate the image. Okay, so
+[19:13] the other one is the image to image. So
+[19:15] why we use this modality? So image to
+[19:18] image so we modify we we can modify the
+[19:21] image we can enhance the image we can
+[19:23] transform the image. Okay.
+[19:25] Means we can remove the background. We
+[19:27] can do some
+[19:28] style transfer. We can do some
+[19:30] resolution related thing. We can
+[19:32] perform some face swapping. So yeah,
+[19:34] this kind of thing is also possible
+[19:37] using some system. So here I written a
+[19:39] name. So the first one is what is Adobe
+[19:42] Firefly.
+[19:44] So this is very good image editing tool
+[19:47] even using open air daily also you can
+[19:49] do that.
+[19:50] Using the Nano banana also you can do
+[19:52] that. So these are some closed source
+[19:54] one and on the other hand we have open
+[19:56] source from the stability API that's
+[19:58] called the stable diffusion image to
+[20:00] image. Okay, or iron painting in
+[20:03] painting. So this a model using this
+[20:07] basically system you can perform image
+[20:10] to image a generation.
+[20:12] Then the other hand guys see on the
+[20:14] other hand we have other different model
+[20:15] modality like audio modality and the
+[20:17] video modality. So regarding that also I
+[20:19] kept some examples. So you can
+[20:21] understand this entire image this this
+[20:24] particular image which I was talking
+[20:25] about. So let's understand about the
+[20:28] audio modality. So we have text to audio
+[20:30] audio to text and
+[20:32] yeah, there is two modality. So convert
+[20:34] text into synthesize a speech which is
+[20:36] called text to a speech. Okay, and audio
+[20:39] oh sorry, text to
+[20:41] uh go go go go got it guys. So text to
+[20:44] audio text to audio means text to a
+[20:46] speech.
+[20:47] Audio to text convert a spoken audio
+[20:50] into text. Okay, which is called the
+[20:51] speech recognition. Audio to audio
+[20:54] transform or modify input audio. Sorry,
+[20:56] I missed this one this one.
+[20:59] Now over here guys see this is the model
+[21:01] some closed source model some open
+[21:03] source model. So I listed each and every
+[21:05] model. So this is open AI whisper API
+[21:08] and the Google speech-to-text are the
+[21:10] very well-known model, right? On the
+[21:13] other hand, this OpenAI TTS and text to
+[21:15] Google text-to-speech again for it's a
+[21:17] very well-known model for text to audio.
+[21:20] These are some open-source model, as you
+[21:23] can see. OpenAI Whisper again, it give
+[21:26] you like the open-source access also
+[21:28] till some extent. On the other hand, we
+[21:30] have this Mozilla DeepSpeech, okay,
+[21:32] which is completely free. You can
+[21:33] utilize that. Then from the
+[21:36] Coqui, there's one model, Coqui AI TTS,
+[21:40] and from ESPnet, there's one more model,
+[21:42] which is a TTS, okay, which which I can
+[21:45] use for converting text to audio. Now,
+[21:48] audio to audio, guys, so again audio to
+[21:50] audio directly, we cannot pass the audio
+[21:52] file. We require some kind of system
+[21:54] which can
+[21:56] convert the information into the
+[21:57] mathematical patches and which can
+[21:59] provide to the model. So, this
+[22:01] ElevenLabs Voice Voice AI, Adobe Enhance
+[22:04] Speech, Meta Voice Box, so these are
+[22:07] some platform using that we can do the
+[22:09] audio to audio generation. Now,
+[22:12] coming to the next part, video modality.
+[22:14] So, a video is nothing, guys. Video is a
+[22:17] combination of the images, time, and the
+[22:19] audio. So, video modality is going to be
+[22:21] combine all these three thing, as I
+[22:23] written over here. Now, text to video,
+[22:26] video to text, and video to audio is
+[22:28] possible. So, we talking about text to
+[22:30] video, guys. So, again, Runway,
+[22:33] Pika Labs, and OpenAI Sora. Then of
+[22:35] video to text, again, OpenAI GPT-4o,
+[22:38] Gemini Vision model can perform this
+[22:40] task. Now, on the other hand, in the
+[22:42] open source, if we talking about, so
+[22:43] Stability AI Video Diffusion from
+[22:46] ModelScope text-to-video, and even
+[22:49] Alibaba Group, right?
+[22:51] Alibaba Group is providing some model
+[22:53] like Coin or VL, Coin 3 Omni.
+[22:56] Okay, so using these particular model,
+[22:58] what we can do, we can generate video to
+[23:00] text. I think this Coin is very famous
+[23:02] model from the Alibaba. Right? We have a
+[23:04] different variant of the coin. Uh
+[23:06] definitely we'll uh talk about it. Now
+[23:09] again, guys, video-to-video. So, yeah,
+[23:11] uh the model is working. The multi-model
+[23:13] is there in the system, but again, for
+[23:16] uh doing this thing, we require the
+[23:17] end-to-end system. So, uh modify or
+[23:20] transforming the existing video, uh what
+[23:22] we are going to be modified. So, we are
+[23:24] going to be modified the style, uh the
+[23:26] some video enhancement, face swapping,
+[23:28] and all some editing in the video. So,
+[23:29] we can do using uh these uh particular
+[23:32] tools. So, I listed the tool over here.
+[23:34] I written a tool name. So, guys, this
+[23:35] table is very important to understand
+[23:37] the complete multi-modality. That's why
+[23:40] I created this kind of table uh with the
+[23:42] uh like different different examples.
+[23:44] Okay, with a very vast example. And uh
+[23:47] definitely I'll provide you this notes,
+[23:48] so that you can go through with it. Uh
+[23:50] now, uh let's understand the next point.
+[23:52] Uh let's look into the different
+[23:54] different leaderboard. And uh let's look
+[23:56] into some trending uh research paper,
+[23:58] guys.
+[24:00] Guys, uh the first uh leaderboard is
+[24:02] from the Open LLM uh from the Hugging
+[24:05] Face itself. This is a Open LLM uh
+[24:08] leaderboard. So, here you will find out
+[24:10] all the open source model. So, they have
+[24:13] listed around 4,000 model over here. Uh
+[24:15] you can uh simply go and check. Okay? Uh
+[24:19] now, apart from this one, you can apply
+[24:21] uh so many filters over here. Uh so,
+[24:23] filter wise, you can see leaderboard is
+[24:25] there, citation is there. Then, uh even
+[24:27] you can compare the model. Now, apart
+[24:29] from this one, you can uh check out with
+[24:31] this advanced filtering. See, uh they
+[24:33] have given you some quick filter, where
+[24:35] you can uh select the model for the edge
+[24:36] devices. You can check out the consumer
+[24:38] model, mid-range model for the GPU
+[24:40] range, right? And uh only from the
+[24:42] official provider. Apart from this one,
+[24:44] you can apply some uh advanced
+[24:46] filtering. You can uh click on this one,
+[24:48] and uh here you can select the model
+[24:50] type. So, if you're going to be select a
+[24:52] multi-model, so they will give you the
+[24:54] recent multi-model. So, uh okay, so let
+[24:57] let me show you. They are showing some
+[24:59] nine multi-model over here. See, these
+[25:02] are the name. Going to VL, right?
+[25:06] Then from the Demon
+[25:08] Demon talks and then from the rhythms.
+[25:11] So, from the different different
+[25:12] provider, you will find out the
+[25:14] multi-model. And even see guys, you will
+[25:16] find out some benchmark also over here.
+[25:19] So, on whatever benchmark this model
+[25:21] have been tested, you will get those
+[25:23] benchmark also inside this one. Now,
+[25:26] apart from this leaderboard, we have one
+[25:28] more leaderboard, which is a quite
+[25:29] famous again, that is a
+[25:32] like Arena leaderboard, LM Arena
+[25:34] leaderboard. So, just just go and check
+[25:36] out over here. So, here also you will
+[25:38] find out the different different models
+[25:40] actually. So, see this is a text related
+[25:43] model. Then here is a code related
+[25:45] model, then vision related model, then
+[25:47] text to image model,
+[25:49] then image editing model, search model,
+[25:52] okay, image to video model, text to
+[25:54] video model. So, different different
+[25:57] modality you will get over here. So, if
+[25:59] you want to compare the model, if you
+[26:01] want to check like which model is doing
+[26:03] well, which model is performing well,
+[26:06] then you can go through with this
+[26:07] leaderboard.
+[26:08] Apart from this one, if you wanted to
+[26:10] like know about more model, okay, the
+[26:13] different more model regarding the
+[26:14] different modality, so simply you can go
+[26:17] and check with the Hugging Face. Let me
+[26:18] show you that. So, once you will click
+[26:21] on the Hugging Face, see, just click on
+[26:23] the Hugging Face, just go with the home.
+[26:25] Just go and check with the home page of
+[26:26] it. Then here you will get the model
+[26:28] option. Click on the model option. Now,
+[26:30] on left hand side you can filter out.
+[26:32] So, left hand side they are giving you
+[26:34] the various filters various option. You
+[26:38] can check out directly with the text to
+[26:40] image, text to basically
+[26:43] text to text, image to text, video to
+[26:46] text. The different different filter you
+[26:48] can implement over here and you can
+[26:49] check your required model with your
+[26:51] required model. Just check out over
+[26:53] here. See
+[26:54] audio category, natural language,
+[26:56] computer vision category, then
+[26:58] multimodal category. Uh, the different
+[27:00] in the various category they have
+[27:01] provided you over here. So, likewise
+[27:03] guys, uh, you can explore the different
+[27:05] different model. Uh, now I would say
+[27:08] guys, I would suggest you this uh,
+[27:09] leader board is a quite uh,
+[27:11] like important and the required also.
+[27:14] Even I am going through with this leader
+[27:15] board whenever I have to decide any
+[27:17] model. So, I can check out with the
+[27:19] various model over here. I can directly
+[27:21] check. Let's say if I want the vision
+[27:23] model, I can click on the vision and I
+[27:24] can look over here. Once you will click
+[27:26] on the view all, you will get the
+[27:29] all the model, all the listed model.
+[27:31] Okay? Uh, now here is one more leader
+[27:34] board guys. Now, this leader board is
+[27:35] not about the models. Uh, this leader
+[27:38] board actually it is about the research
+[27:40] paper. So,
+[27:42] uh, hugging face over the hugging face
+[27:43] itself, you will find out one
+[27:45] over the hub itself, right? You will
+[27:47] find out one page regarding the trending
+[27:50] paper by the uh, research community. So,
+[27:52] these all are the like trending paper
+[27:55] with you can go through with these
+[27:57] papers. See, whenever I have to check
+[27:59] with any recent
+[28:00] research, right? The updated research,
+[28:02] then I go through with this
+[28:04] I go through with this research Sorry, I
+[28:06] go through with this leader board
+[28:08] leader board of the trending research
+[28:09] paper and I try to figure out some
+[28:12] uh, uh, the latest research, okay? So,
+[28:14] many people were asking to me, "Sunny,
+[28:16] how you are keeping your up-to-date
+[28:18] regarding the LLM research, the research
+[28:20] paper? Okay, the different new concept
+[28:22] which is coming day to day in AI." So, I
+[28:25] generally follow these approaches. I
+[28:26] generally follow these up platform. I
+[28:29] hope this entire thing is clear. Now,
+[28:31] you can go through with this like you
+[28:33] can go through with this platform. The
+[28:35] one is the arena. Okay? Arena leader
+[28:37] board. The another one is the open
+[28:40] LLM leader board and another one is the
+[28:42] uh, trending paper leader board. Okay?
+[28:45] So, you will get some additional
+[28:46] information. Now again coming back to
+[28:49] the uh, like the topic. So here guys we
+[28:52] were talking about the
+[28:55] let me show you the last one. So yeah,
+[28:57] we were talking about like the different
+[28:59] different modality. So now let's discuss
+[29:02] why do LLM need multiple modality. Okay,
+[29:05] what is the requirement of that? Or why
+[29:07] basically we cannot train our model only
+[29:09] the text. So whenever we talk about the
+[29:12] real world guys, so real world is a
+[29:14] multimodal. Now tell me what is the
+[29:17] capability of the human? So human can
+[29:20] see something, right? Human is having a
+[29:22] vision capability and human can speak.
+[29:25] Means human can understand the language
+[29:28] and behalf of that behalf of that
+[29:30] language it can speak something. So
+[29:32] human is having two capability. One is
+[29:34] the vision and second is the language
+[29:36] capability. And even human can listen
+[29:38] something, right? So human can speak,
+[29:41] human can see something and human can
+[29:43] listen something. So human is having all
+[29:46] the capability like language related,
+[29:48] audio related, vision related. And if I
+[29:51] want the same capability inside the AI,
+[29:53] then
+[29:54] definitely I will have to train my model
+[29:57] over the different type of data. Okay,
+[30:00] so what is the main aim of the AI guys?
+[30:02] So the main aim of the AI is
+[30:06] to provide same kind of intelligence.
+[30:10] Whatever intelligence the human is
+[30:12] having, right?
+[30:14] To provide a same kind of intelligence
+[30:18] which
+[30:19] the human brain
+[30:23] can
+[30:24] explore, right?
+[30:26] So this is the main aim of the AI. And
+[30:29] to achieve this thing guys, we cannot
+[30:31] only rely over the text.
+[30:36] Right? Because human can speak.
+[30:40] Human can watch something.
+[30:44] Human can listen something.
+[30:48] So, similar to that, if I want to give
+[30:49] this capability to the AI, so we require
+[30:52] a different type of data. Means, we
+[30:53] require the text data,
+[30:56] which is a language, right?
+[30:58] Which is a language.
+[31:00] The second, we'll have to provide the
+[31:02] vision data.
+[31:04] And even uh we can give the audio data
+[31:07] as well. And video is nothing, guys.
+[31:09] Video, again, it is a combination of the
+[31:12] vision
+[31:13] as well as the audio
+[31:15] along with the timestamp.
+[31:17] Getting my point? So, that's a main aim,
+[31:19] right? So, that's why, guys, LLM needs
+[31:22] multimodality. So, the same thing I have
+[31:24] written over here, you can read out. So,
+[31:27] model needs multiple modality because
+[31:30] the real world is not a text only.
+[31:32] Intelligence requires seeing, hearing,
+[31:34] and understanding the context. Okay? I
+[31:37] hope you understood this point. If
+[31:39] someone is going to ask in the
+[31:41] interview, then explain in a same way.
+[31:43] Right? So, that you can leave your
+[31:45] impression. Now, another example. So,
+[31:47] here I kept another example. Let's uh
+[31:50] like think. So, uh let's say there is a
+[31:52] doctor, and uh doctor is looking into
+[31:55] the doctor want to understand like what
+[31:57] uh kind of problem this uh patient is
+[31:59] having, right? So,
+[32:01] uh the patient uh brought this uh x-ray
+[32:04] brought his or her x-ray. Now, uh doctor
+[32:06] is looking into the into uh the x-ray,
+[32:09] right? Along with the x-ray, he is
+[32:11] reading the reports uh and the he's
+[32:13] understanding the lab value. So, just
+[32:16] after combining only just by combining,
+[32:19] okay, just only just come after
+[32:21] combining all this thing, uh doctor can
+[32:24] uh bring or doctor can make a better
+[32:27] conclusion, right? So, here the image,
+[32:30] right? Patient report, uh which is
+[32:32] having the text, the lab lab value,
+[32:35] again, it is having a text, and whatever
+[32:36] patient is saying, right, regarding
+[32:38] their disease and all. So, yeah, doctor
+[32:40] is listening to that. So, after
+[32:41] combining all this context only, doctor
+[32:45] make a better conclusion. Uh I hope you
+[32:48] understood why LLM required a multiple
+[32:51] modality. Now, guys, after uh see, we
+[32:55] all cover up the fundamental of the
+[32:57] multi-modality.
+[32:58] Uh now, let's come to the next topic,
+[33:00] which is a fine-tuning one. Now, what is
+[33:03] a multi-modal fine-tuning, when and why
+[33:05] it is required, and then we'll see all
+[33:07] the concept related to the fine-tuning
+[33:09] only.
+[33:10] So, guys, adopting a multi-modal large
+[33:13] language model to perform a specific
+[33:15] task or a domain-specific task using
+[33:19] multi-modal data, uh that is called
+[33:22] multi-modal LLM fine-tuning. Uh means we
+[33:25] are going to be retrain our multi-modal
+[33:29] LLM uh over the multi-modal data, like
+[33:32] images, audio, or videos. So, uh when uh
+[33:36] you should uh perform this a multi-modal
+[33:38] fine-tuning. Uh so, the first thing is
+[33:41] uh if you want to give the capability,
+[33:43] right, multi-modal capability to the
+[33:45] large language model, uh in that case,
+[33:48] we should perform this uh multi-modal
+[33:50] fine-tuning. Uh the second is the OCR,
+[33:53] right? If you want to give the OCR
+[33:56] capability to our model. Means uh
+[33:58] uh let's say there is a model, uh let's
+[34:00] say there is a GPT-4o.
+[34:02] Uh what uh this GPT-4o can do? Uh I can
+[34:04] write over here. Uh what this uh GPT-4o
+[34:07] can do? This uh GPT-4o
+[34:09] can take any type of data, it can take
+[34:12] images, it can take uh
+[34:14] text, right? Now, guys, uh let's say if
+[34:17] I want to train this GPT-4o, if I want
+[34:19] to retrain this GPT-4o on my own data.
+[34:23] Uh let's say I wanted to perform the OCR
+[34:25] on my own uh domain-specific
+[34:28] uh problem statement. Uh Uh, let's say
+[34:30] the problem statement is a
+[34:32] medical analysis.
+[34:35] So, I want to provide some medical
+[34:37] document to the GPT-4 and I want to get
+[34:40] some information out of it. So, for that
+[34:42] what I will do, I will perform the
+[34:44] multi-modal fine-tuning. Means I will
+[34:47] collect some images related to my
+[34:50] domain-specific task, and I will retrain
+[34:53] this GPT-4 model.
+[34:55] Uh, if I want to do the visual
+[34:58] conversation, means uh, let's say if I'm
+[35:00] going to be provided images and like
+[35:03] behalf of that images, right? I want to
+[35:05] generate some output. And again, the
+[35:07] output I want to the I want into the
+[35:09] images. Or let's say
+[35:11] like I'm passing image along with the
+[35:13] text, and I want to generate some
+[35:15] output. Okay, on my domain-specific
+[35:18] task. So, for that also I will perform
+[35:20] this multi-modal LLM fine-tuning. Now,
+[35:22] again the last one is a document AI,
+[35:24] right? So, this could be some sort of a
+[35:27] reason
+[35:28] because of that basically I'm going to
+[35:30] be perform this multi-modal LLM
+[35:33] fine-tuning. So, the funda is clear, the
+[35:36] idea is clear, the definition is clear.
+[35:38] If I want to retrain my multi-modal LLM
+[35:42] on any domain-specific task. Okay, so
+[35:45] for that only I will perform this
+[35:48] multi-modal LLM fine-tuning. I hope this
+[35:51] definition is clear.
+[35:53] Now, what I'm doing I see here is a one
+[35:55] more definition. I'll come to this
+[35:57] definition. First of all, let me explain
+[35:59] you how you can learn this multimodality
+[36:02] and this multimodal fine-tuning. Because
+[36:05] see, if we're talking about the
+[36:06] multimodality, let me let me write over
+[36:08] here.
+[36:09] So, we're talking about the
+[36:11] multimodality, guys. So, multimodal is
+[36:14] going to be like contain a different
+[36:16] type of data. Let's say we have a image
+[36:18] over here, right? Or let's say we have a
+[36:20] audio.
+[36:22] Right?
+[36:23] Let's say we have a video. So, every
+[36:25] type of data
+[36:27] guys,
+[36:28] to process every type of data and and to
+[36:31] train a model on every different type of
+[36:33] data is required a different
+[36:34] architecture. So, how you can understand
+[36:37] this multi-modality? So, if you want to
+[36:39] understand this multi-modality, then you
+[36:41] should start from the images, guys,
+[36:43] right? So, you know, guys, audio and
+[36:46] video, maybe we are not using that
+[36:49] widely,
+[36:50] but yeah, we are using the images very
+[36:52] widely. So, whenever we have to process,
+[36:56] like see, whenever basically we are
+[36:58] using chat GPT, so
+[37:00] along with the text most of the time we
+[37:02] are providing the images, okay? So,
+[37:05] guys,
+[37:06] if you are starting your multi-modal
+[37:08] journey, then you should start from the
+[37:11] images itself. So, inside this video
+[37:13] also I'm going to be teach you the
+[37:15] vision language model, like how the
+[37:17] vision language model is working. Again,
+[37:19] I told you, the vision language model is
+[37:21] nothing, it is a multi-modal only, okay?
+[37:23] So, in this we will discuss about around
+[37:26] vision language model. I'll not focus on
+[37:28] the audio and the video data. Again, we
+[37:31] can look into the model, the different
+[37:32] model that which can process the audio
+[37:34] and video. So, that I'll let you know in
+[37:36] the separate video, okay? So, in this
+[37:38] video I will focus on the image data and
+[37:41] we are going to fine-tune our model on
+[37:43] top of this image data only. So, here is
+[37:46] one more definition, just and along with
+[37:48] the definition, guys, I kept the
+[37:50] different different
+[37:52] research paper also and in this
+[37:53] particular sequence only you need to
+[37:56] like go through with this research paper
+[37:59] if you want to understand the
+[38:00] multi-modality using the image data. So,
+[38:04] over here, guys, just read out this
+[38:06] definition. Multi-modal LLM fine-tuning
+[38:08] is a process of adapting a multi-modal
+[38:11] large language model that process both
+[38:13] visual and the textual input. So, here
+[38:15] I'm
+[38:16] like
+[38:17] here I'm saying in the context of the
+[38:20] Uh, here I have written the context of
+[38:22] the images, okay? So, textual input by
+[38:24] updating it a projection layer, the uh,
+[38:27] language model, okay? Language model
+[38:29] weights uh, using the image and text
+[38:32] instruction data set to improve the
+[38:34] domain-specific cross model reasoning.
+[38:37] So, if you want to fine-tune the
+[38:39] multimodal or if you I want to fine-tune
+[38:41] the multimodal, uh, which is uh, like
+[38:44] specifically related to the images, so I
+[38:47] will have to focus on this two part. The
+[38:49] first is called the projection layer,
+[38:51] guys. So, we'll we'll understand what is
+[38:53] this projection layer. And after that
+[38:56] after this projection layer only this a
+[38:57] language model will come. And inside
+[38:59] this language model only will be having
+[39:01] the attention as well as the
+[39:03] uh, MLP multi-layer perceptron, okay?
+[39:06] Uh, so these all are the research paper.
+[39:08] If you are starting your multimodal
+[39:10] journey, then guys you can start with
+[39:11] this research paper. It will give you
+[39:13] the in-depth understanding of the
+[39:15] multimodality using the images. So, you
+[39:17] can go through with this VIT clip uh, C
+[39:20] L I P. Uh, then this coin model, uh,
+[39:23] then this blip model, lava model, then
+[39:25] open AI Delhi and then Google sorry,
+[39:28] Google image gen. Okay, so the nano
+[39:30] banana the model basically you know the
+[39:32] nano banana, it uh, have been created
+[39:35] using uh, this particular research only.
+[39:38] Uh, now let's see
+[39:41] how we can understand this
+[39:42] multimodality, right? Or the vision
+[39:45] language model. So, if you want to
+[39:47] understand the vision language model,
+[39:49] guys, you will have to follow this path.
+[39:51] So, the first thing is the image uh,
+[39:54] modality. You will have to understand
+[39:55] see,
+[39:56] uh, you will have to understand about
+[39:58] image to text and text to image. Both
+[40:00] are the different thing. Uh, text to
+[40:02] text we know, but I we are passing text
+[40:04] if we are going to be generate a image
+[40:06] or if you are going to be image and if
+[40:07] you are going to be generate a text,
+[40:08] both are the different thing. In both
+[40:12] like modality, right? In both image
+[40:14] modality, uh, the data is being
+[40:16] processed in a different manner. So, uh
+[40:18] for understanding this thing, you will
+[40:20] have to understand the
+[40:22] uh image first. So, what is an image,
+[40:24] right? So, uh you will have to
+[40:25] understand about the images
+[40:27] mathematically. So, this is going to be
+[40:29] your first thing, first topic. Then, you
+[40:31] will have to understand about the CNN
+[40:32] basics, okay? Then, uh you will have to
+[40:35] understand the backbone of the image
+[40:37] model modality, that is called the uh
+[40:39] vision or language or trans Sorry,
+[40:41] vision transformer. Uh this uh paper was
+[40:43] published by the Google uh inside this
+[40:45] paper only they have uh showcased
+[40:48] like how uh you can
+[40:50] process the images and how you can
+[40:52] provide that embedding output to the
+[40:54] LLMs, okay, to process the images. Uh
+[40:57] this paper is very good. Now, another
+[40:59] fundamental paper is the CLIP, C L I P,
+[41:01] uh which is applying a very important
+[41:03] role while we are going to be generate a
+[41:05] image using any LLM. So, whatever model
+[41:08] you are seeing, whether it's a Delhi or
+[41:10] Midjourney or any other model, guys, so
+[41:12] in back end those model is using this
+[41:15] CLIP technology. So, if you want to
+[41:17] understand the image modality, whether
+[41:19] it's a image to text or text to image,
+[41:21] then this two model is very useful first
+[41:25] uh sorry, two paper is very useful.
+[41:26] First is a vision language Sorry, vision
+[41:28] transformer, and the second is the CLIP,
+[41:31] okay? Uh now, apart from this one, if
+[41:33] you want to understand the models, so
+[41:34] model wise, guys, I would highly
+[41:36] recommend you this two model, uh Lava
+[41:39] and this Coin model, okay?
+[41:40] Uh this is image to text. And if you
+[41:43] want to understand the uh like text to
+[41:45] image, then this model, guys, Delhi and
+[41:47] the Image Chain. So, likewise, you can
+[41:49] cover the entire this image modality and
+[41:52] you can understand the multimodal
+[41:53] concept. Uh now, let me give you the
+[41:56] overview, architectural overview of the
+[41:58] image mathematically, the CNN, and then
+[42:01] I will come to this VIT model, okay? And
+[42:03] then we'll understand some architecture.
+[42:06] So, here you can see the image image of
+[42:08] Here you can see one image, okay, the
+[42:10] mathematical representation of the
+[42:11] image. Uh then we have this convolution
+[42:13] neural network, guys. Well, I'll give
+[42:15] you the quick walk-through of it. Then
+[42:17] we have this vision transformer. So,
+[42:19] over here you can see how the vision
+[42:20] transformer is working. Then we have
+[42:22] this Delhi architecture, which is
+[42:24] representing how this
+[42:26] text to image is working. Okay. So,
+[42:29] let's do one thing. Let's take a
+[42:30] overview of this.
+[42:32] So, guys, if we're talking about the
+[42:34] images, these images are nothing. It is
+[42:37] a collection of the pixels. Okay. Here
+[42:40] you can see the pixel. So, pixel What is
+[42:42] a pixel? If you don't know about the
+[42:44] pixel, guys, pixel is just a numbers.
+[42:48] Pixel. What is a pixel? Pixel is just
+[42:50] out the number. So, the range of the
+[42:52] pixel between 0 to 255.
+[42:56] Okay.
+[42:57] And if we're talking about the images,
+[42:59] right? So, we have two type of images.
+[43:01] One is called the black and black and
+[43:03] white image.
+[43:04] And the second type of image is called
+[43:06] the color image.
+[43:09] In black and black and white image, so
+[43:11] we just have 2D array.
+[43:14] And in color image, actually, we have 3D
+[43:16] array.
+[43:17] 3D array, actually, it is a combination
+[43:19] of the R, G, and B value.
+[43:24] Understood, guys? So, if we're talking
+[43:26] about the images, it is nothing. It is
+[43:27] just a collection of pixel. The range of
+[43:29] the pixel between 0 to 255. We're
+[43:32] talking of the black and white images,
+[43:34] so it's a collection of 2D array. Okay.
+[43:37] In 2D only all the pixels value you will
+[43:39] get. And if we're talking of the color
+[43:41] image, so in that, actually, you will
+[43:42] find out the three channels.
+[43:44] Okay. Three channels like this. Three
+[43:47] channels like this. And each channel
+[43:49] having their own pixels value.
+[43:52] I hope this thing is going to be
+[43:54] clarified. Now, guys, how the CNN is
+[43:56] working, we need to understand that
+[43:57] part. So, if we're talking about the
+[43:59] CNN, the full form of the CNN is the
+[44:01] convolution neural network. So, it's
+[44:03] going to be extract the feature or the
+[44:05] important feature, the important value
+[44:07] from the images. And uh that uh thing we
+[44:10] are going to be provide to the uh
+[44:11] artificial neural network. Okay? So, we
+[44:14] can divide uh this uh you can divide
+[44:16] this divide this architecture into the
+[44:18] two into two part. So, uh the first part
+[44:21] is called the feature extraction and the
+[44:23] second part is called the
+[44:24] classification. So, we're talking about
+[44:26] the ViT paper, guys. So, in the ViT
+[44:28] paper, in this vision uh transformer
+[44:30] paper, we just require this feature
+[44:32] extraction part. So, we are going to be
+[44:34] collect the patches, okay? The important
+[44:36] feature of the images. And that uh
+[44:38] feature we are providing to the uh large
+[44:41] language model. So, instead of this
+[44:42] neural network, guys, so you will not
+[44:44] get the neural network inside the ViT
+[44:46] paper. Instead of that, instead of this
+[44:49] uh neural network you will get this
+[44:50] large language model. Understood? I hope
+[44:54] uh this thing is clear. So, let's uh
+[44:56] look into this uh feature extraction
+[44:58] process, that how we are going to be
+[45:00] find out of feature out of images. So,
+[45:02] what we do? So, uh let's say we have a
+[45:04] image. Image is nothing, it is a
+[45:05] collection of the pixel. We are going to
+[45:07] be multiplied with the uh filters, okay?
+[45:11] Uh with the multiple filters. So, uh
+[45:13] that process is called the convolution.
+[45:16] So, we are going to be multiply this uh
+[45:18] image with the various filter, whatever
+[45:20] information we want to be get from this
+[45:22] image, okay? According to that,
+[45:23] basically we are going to be create a
+[45:25] filter. Uh now, this filter basically
+[45:27] it's a learnable value. So, uh
+[45:30] like uh while we are going to be train
+[45:32] the model, so this all the filter is
+[45:34] going to be learn, okay?
+[45:36] Uh
+[45:37] so, you know the learning, the forward
+[45:38] propagation the back prop backward
+[45:40] propagation. In the backward
+[45:42] propagation, we always update the
+[45:43] values, okay? Values of the weights. So,
+[45:46] in CNN actually we update the value of
+[45:48] this uh uh like neural network, as well
+[45:51] as we update the value of this learnable
+[45:53] uh filters, okay? This is also called
+[45:55] the kernel. So, we multiply uh this
+[45:58] kernel or this filter with the images
+[46:00] and we are going to be collect uh we are
+[46:02] going to be find out this uh convolution
+[46:04] image, okay?
+[46:06] After that we are going to be perform
+[46:07] the uh
+[46:08] pooling on top of it. Okay, we are going
+[46:10] to be select some important features,
+[46:12] some important pixel value out of image,
+[46:14] okay? And now then we get the filtered
+[46:17] one, filtered data. So here is my
+[46:19] filtered data, here is my all the
+[46:21] features out of images. And now we are
+[46:23] going to be flatten it and then finally
+[46:25] we are passing to our network. So in the
+[46:28] classical CNN network we had the fully
+[46:31] connected layer which is called the
+[46:33] which is which was the which was my
+[46:34] neural network. Now inside the VIT,
+[46:36] inside the vision transformer actually,
+[46:38] you will only get the uh LLMs, okay? And
+[46:41] this a flatten layer actually it's going
+[46:43] to be replaced by the projection layer.
+[46:45] So now let me discuss the VIT one, let
+[46:48] me discuss the VIT architecture. So this
+[46:50] is a VIT architecture. So here what we
+[46:53] are doing guys? So we are passing a
+[46:54] image, so we are having a image, okay?
+[46:57] Here you can see. Now this image
+[46:59] actually we are going to be convert into
+[47:01] the multiple feature using the
+[47:02] convolution process. So this is the
+[47:05] multiple feature, okay? This is the
+[47:06] multiple feature which I extracted from
+[47:09] the image. Uh then guys what we are
+[47:11] doing that replace that flatten layer
+[47:13] actually we are going to be replaced
+[47:14] with this projection layer. So linear
+[47:17] projection of the flatten. It is a
+[47:19] similar kind of operation where we are
+[47:21] going to be convert our all the image
+[47:23] into the embedding, okay? Means
+[47:26] this is the images only, this is a value
+[47:28] of the pixel. So we are going to be
+[47:30] flatten all the value, we are going to
+[47:32] be convert into the 1D array, okay? We
+[47:35] are going to be convert into the 1D
+[47:37] array. So this is called the linear
+[47:39] projection of the flatten patches,
+[47:41] right? Uh then what we are doing guys?
+[47:43] We are going to be apply this position
+[47:44] embedding and after that we are passing
+[47:47] into the transformer only and then this
+[47:49] transformer is doing the prediction that
+[47:52] what we are having inside the images. So
+[47:55] So is a straightforward architecture, a
+[47:56] very simple architecture of the VIT.
+[47:59] They have replaced They have replaced
+[48:01] what? They have replaced the neural
+[48:03] network with this transformer encoder.
+[48:05] If you don't know about the transformer
+[48:06] encoder, guys, this is a transformer
+[48:08] encoder. You can check out with my
+[48:10] previous session. There I already
+[48:11] discussed about this transformer
+[48:13] encoder, okay? Our transformer encoder
+[48:15] and the decoder. So this is the overall
+[48:17] process, guys. Here you can see this
+[48:19] entire process. So we are having images.
+[48:21] We are passing it to the vision encoder,
+[48:24] okay? Uh then we are going to be uh
+[48:27] extract the images feature. We are
+[48:29] passing it to the projection layer. We
+[48:31] are converting to the embedding and then
+[48:32] we are passing it to the LM. And now
+[48:34] over here, guys, this vision encoder is
+[48:36] nothing. See, uh here I wrongly written
+[48:39] this thing. Let me remove this. This uh
+[48:41] vision encoder is nothing. It is a CNN
+[48:44] process, right? CNN-based
+[48:46] process, convolution neural
+[48:48] network-based process, okay? Now uh if
+[48:51] uh See, guys, I uh here uh we have one
+[48:54] thing uh which is a linear projection of
+[48:55] the flattened. So don't be confused with
+[48:57] this thing. I can explain you this thing
+[49:00] uh uh with one more example. So whenever
+[49:02] we are talking about the text, guys, so
+[49:03] let's say we have a text. The text is my
+[49:06] Uh I'm just writing over here and I will
+[49:08] just take one more minute. My name My
+[49:12] name is Sunny. So if I'm going to be
+[49:15] write it down and if I want to pass this
+[49:17] particular text to the LLM, how I will
+[49:19] do that? So first I will convert this
+[49:21] text into the tokens.
+[49:23] So let's say I have a token. Token is
+[49:25] my. Then second is name. Okay, then the
+[49:28] next token is is and then Sunny. Then
+[49:32] what I will do? So I will convert the
+[49:34] I'm I will create the embedding out of
+[49:35] this word, right? So let's say this is
+[49:37] the embedding of this word. Then here is
+[49:40] the embedding of this word. Then
+[49:42] embedding of this is and then embedding
+[49:44] of this Sunny. Then what I will do? I
+[49:46] will
+[49:47] connect this embedding with the
+[49:48] positional embedding, right? Position
+[49:52] embedding embedding.
+[49:54] And then only we'll pass this data to
+[49:56] the attention layer. Okay? Then only
+[49:59] we'll pass this data to where? To the
+[50:01] attention layer. So, this is the process
+[50:03] which we are following. Now, over here
+[50:05] what we are doing inside the images
+[50:07] guys, just replace this particular text
+[50:09] with the image. So, what we have? We
+[50:11] have a small small patches of the
+[50:13] images. We have a small small feature of
+[50:15] the images which I got after the CNN.
+[50:17] Okay? After the after performing the
+[50:20] convolution operation I got this uh
+[50:22] different different patches of the
+[50:23] images. Then what we have done? See, we
+[50:25] have this this is nothing this is the
+[50:26] area only. Right? This is the area only.
+[50:29] It is having some value. So, what we are
+[50:30] doing? We are going to be flatten it.
+[50:32] Flatten means what? We are going to be
+[50:34] convert in it we are going to be
+[50:36] converted into the 1D array. This entire
+[50:39] uh patches. Okay? So, let's say we got
+[50:41] the 1D array. Okay? This 1D array. This
+[50:44] 1D array. Now, we are going to be
+[50:47] uh attach this position encoding with
+[50:49] this 1D array.
+[50:50] Okay?
+[50:51] So, the process is same. The process is
+[50:53] same. Here also we are doing the same
+[50:55] thing. So, this is the token we are
+[50:56] going to be convert the embedding and
+[50:58] all together simultaneously means uh we
+[51:00] are going to be combine all this
+[51:02] embedding. We are going to be uh merge
+[51:04] this
+[51:05] position embedding then only we are
+[51:06] passing it to the attention. Getting my
+[51:08] point? So, the same thing we are doing
+[51:11] with the images but here we have a
+[51:13] feature of the image and uh here we have
+[51:15] a token which we are going to be
+[51:16] generate from the text itself. I hope uh
+[51:19] you understood the meaning of this
+[51:20] linear projection of the or linear
+[51:22] projection or the flattening operation.
+[51:25] So, uh just uh read this uh line. The
+[51:27] paper proves you can do image
+[51:29] recognition with a pure transformation.
+[51:32] Uh
+[51:33] don't require the CNN by splitting an
+[51:35] image into the fixed size patches. Okay?
+[51:37] Uh the size of the patches the feature
+[51:39] basically we are going to be extract
+[51:41] from the image. The size of it would uh
+[51:42] the size of this uh feature would be 16
+[51:44] cross 16.
+[51:46] Uh then flattening each patches into the
+[51:48] vector then linearly linearly embedding
+[51:50] them like a tokens at at the positional
+[51:53] embedding and then feed the sequence to
+[51:55] the transformer. The same thing which I
+[51:57] was explaining, the same thing I have
+[51:59] written over here. Okay? So, this is the
+[52:01] entire process behind what? Behind image
+[52:03] to text. So, whenever we are going to be
+[52:05] pass any image uh
+[52:07] any image to the model, let's say we
+[52:09] have a GPT-4 model. So, in back end it
+[52:13] is going to be perform all this uh
+[52:15] procedure only. So, it's going to be
+[52:16] perform this entire procedure. Now guys,
+[52:19] uh let's understand the architecture of
+[52:21] the DALL-E like how the DALL-E is
+[52:22] working. So, we talking about the DALL-E
+[52:24] guys, so see just look over here. So, we
+[52:27] are passing a prompt to the DALL-E,
+[52:29] okay?
+[52:30] We have a text encoder over here. We're
+[52:32] going to be generate a text embedding.
+[52:34] Then we have one prior layer. We're
+[52:37] passing it to the image We're going to
+[52:38] be generate a image embedding. Then we
+[52:40] are going to be passed to the decoder
+[52:42] and the decoder is generating a image.
+[52:44] So, this is the entire process behind
+[52:46] the DALL-E. Now, let's try to decode it.
+[52:48] What is happening actually? What what
+[52:50] basically is happening in back end
+[52:52] really? So, uh
+[52:54] if if we talking about the user prompt,
+[52:55] so this could be anything. This could be
+[52:58] Let's say here I again I'm writing
+[53:00] uh image image of cat. Okay? Generate
+[53:05] image of cat. Now, what will happen? So,
+[53:08] it will come to this clip clip model.
+[53:10] Now, this clip model actually it is a it
+[53:12] is trained on the image and the caption.
+[53:15] Okay? It has trained on the multiple
+[53:17] image and the caption. So, what will do?
+[53:20] So,
+[53:21] a real according to this given input,
+[53:24] okay? It will generate the image of it.
+[53:27] Okay? Image of it. Right? So, image and
+[53:31] along with the image we have what? We
+[53:33] have this user prompt user prompt. Then
+[53:37] what will happen guys? So, here we are
+[53:39] going to be We are going to be create a
+[53:41] text embedding out of this text, right?
+[53:43] Then prior model, so text
+[53:46] is going to be converted into the See,
+[53:48] here we have a text embedding and the
+[53:49] image embedding. Both I'll be getting,
+[53:51] okay? In a same space. In a same space.
+[53:54] Using this clip model actually,
+[53:56] we'll be getting the text embedding and
+[53:57] the image embedding. Okay? Then we are
+[54:00] passing to the diffuser.
+[54:02] Right? So,
+[54:03] it's going to be generate a image.
+[54:04] Initially the image will be the noisy
+[54:07] one, but by the time it's going to be
+[54:08] enhanced, okay? And then we'll be having
+[54:11] a final generated image. So, we are
+[54:12] talking about the daily architecture.
+[54:15] So, the main component of the daily
+[54:16] architecture is what? It is a clip
+[54:18] model. So, understand how the clip model
+[54:20] works. Okay? Then after that guys, the
+[54:23] diffusion model. Understand how the
+[54:25] diffusion model is works, okay?
+[54:28] So, this two is a main architecture of
+[54:30] the
+[54:31] two is a main like component of the
+[54:33] daily, right? And apart from this,
+[54:35] understand about the embedding side,
+[54:37] like how the embedding works, whether
+[54:39] it's a text embedding or the image
+[54:40] embedding. So, this is the main
+[54:42] component actually. So, likewise if we
+[54:44] are going to be pass any text, so the
+[54:46] image is going to be generated
+[54:47] accordingly. So, here guys, we
+[54:49] understood both Here we took the
+[54:52] overview of the both architecture of the
+[54:54] image modality. One is the basically
+[54:56] text to image and another is the image
+[54:59] to text. Now guys, let's do one thing.
+[55:01] Let's understand which thing is going to
+[55:04] be fine-tuned, what exactly it's going
+[55:05] to be fine-tuned. Whenever we are
+[55:07] performing this vision fine-tuning or
+[55:09] this multimodal fine-tuning with the
+[55:11] image capability, right? So, here we
+[55:14] have a option one. Now guys, just read
+[55:16] this each and everything one by one.
+[55:18] It's a very much important. So, in the
+[55:20] option one, what
+[55:22] what we are going to be fine-tuned? So,
+[55:24] train everything, right? So, train
+[55:26] vision encoder
+[55:28] projection and the LM. So, here
+[55:31] if you will see, so we are going to be
+[55:33] fine-tuned all this thing. This one. One
+[55:36] is this one.
+[55:37] Second is this one and third third is
+[55:39] this one this LLM. Okay. Now guys this
+[55:41] process is going to be expensive. Now
+[55:43] here guys we are going to be talk about
+[55:44] this
+[55:46] image to text.
+[55:50] Okay, we're talking about this image to
+[55:53] text. Now this process is going to be
+[55:55] very expensive. So we generally prefer
+[55:57] don't we generally we generally don't
+[55:59] prefer this process. The second is the
+[56:02] train only the projection layer. Okay.
+[56:05] So here what we are going to be do we
+[56:06] are going to be freeze the vision
+[56:08] encoder and the LLM. We're just going to
+[56:10] be retrain the
+[56:11] projection layer, right? So how the
+[56:14] embedding is going to be generate?
+[56:17] Sorry, how the flattening is happening
+[56:19] the projection is going to be happen,
+[56:20] right? This one. So
+[56:22] we can train this also. We have three
+[56:24] component inside this architecture.
+[56:27] First component
+[56:29] is this a patch. Okay, the patch is
+[56:30] being generated from the CNNs. Okay. The
+[56:33] second is the projection one this one.
+[56:35] And third is this transformer
+[56:36] architecture the encoder one, right? So
+[56:39] either we can train this entire one all
+[56:41] these three thing which is going to be
+[56:43] very expensive. Here I written over
+[56:45] here. The second thing just train the
+[56:48] projection layer or else train the a
+[56:51] projection plus LLM. Okay, this is the
+[56:53] common one. Actually we generally don't
+[56:55] go with this one actually.
+[56:57] Let me mark in a red color this one.
+[57:01] So we always go ahead with this one this
+[57:04] part. Train projection plus LLM which is
+[57:06] a very common one. I generally we
+[57:08] generally
+[57:09] fine tune this layer only. And the
+[57:11] another one basically fine tune
+[57:12] everything means fine tune the vision
+[57:15] layer as well as the LLM layer attention
+[57:17] and the MLP using the LoRA. Okay. So
+[57:20] whatever component we have on top of it
+[57:22] we can apply the LoRA. Okay and we can
+[57:25] try that. Oh sorry, we can retrain that.
+[57:28] So we have these approaches. Okay.
+[57:31] What needs to be fine what will be
+[57:33] fine-tuned? So, over here I clearly
+[57:35] mention again I give again let me give
+[57:38] you the quick revision of it so that
+[57:39] easily you can understand. Don't worry
+[57:41] about the time, guys. The time
+[57:43] definitely we'll be going there. So, now
+[57:46] here if we're talking about this image
+[57:48] see, we have three part of it. If we're
+[57:50] talking about image to text, one is the
+[57:52] patches which we are going to be
+[57:54] generated from the CNN model. This is
+[57:56] also called the vision encoder. The
+[57:57] second is the projection one and the
+[57:59] third is the LLM one. Over here, got it?
+[58:02] Then what are we going to be fine-tuned?
+[58:03] So, option one, train everything which
+[58:05] is expensive. We generally don't go with
+[58:07] this one.
+[58:08] Second, basically this projection layer
+[58:11] as well as what projection layer with
+[58:13] LLM one. So, this is the common one, but
+[58:16] again it will take a more resources,
+[58:18] okay? The next one basically fine-tune
+[58:21] everything with the Lora. Okay, so what
+[58:24] we are going to do over here just read
+[58:25] each and every line and maybe the
+[58:27] understanding will be clear. So, what we
+[58:29] what I mean uh what I've written over
+[58:31] here, Lora-based multimodal fine-tuning.
+[58:33] So, vision layer, Lora, apply Lora on
+[58:36] top of it. Then LLM layer, attention and
+[58:39] MLP, apply the Lora over here, okay?
+[58:42] Means you're not going to be fully
+[58:43] retrain the entire one. You're just
+[58:45] training the Lora adapter, okay?
+[58:47] This will work even on the smaller GPU
+[58:50] and it is a memory efficient. So, you
+[58:53] can retrain every component using the
+[58:55] Lora capability, right? And yes, this is
+[58:59] possible. And this guys I'm talking with
+[59:01] respect to image to text. I hope this is
+[59:04] clear. Now, if you're going to do
+[59:05] without Lora, it will be a little
+[59:07] expensive. Now, coming to the next part,
+[59:10] if we're talking about the data set
+[59:11] format. Now, how the data set looks
+[59:13] like? So, we're talking about the data
+[59:15] set format, guys. So, data set is having
+[59:16] a different format, okay?
+[59:19] So, these all are the format basically
+[59:22] in which you will get the data set while
+[59:23] you are doing this
+[59:25] multimodal fine-tuning. The first is a
+[59:27] simple image and the instruction. Now,
+[59:29] again, guys, we are talking about the
+[59:31] image to text over here. Okay? Image to
+[59:36] text over here. So, if I wanted to
+[59:38] retrain my If I wanted to retrain my
+[59:40] model, if I wanted to retrain my LLM
+[59:42] model on top of the images, okay? So, in
+[59:45] this three way only I will be preparing
+[59:47] my data set. So, the first is a simple
+[59:49] format. What I'll do, I'll keep a image,
+[59:52] okay? Either I'll be keeping the path of
+[59:55] the image or I'll be keeping the object
+[59:58] of the image.
+[01:00:00] Object means I'll keep the image itself
+[01:00:02] in the PIL format.
+[01:00:04] Got it? Or I'll keep a path of the image
+[01:00:06] so that
+[01:00:07] like I can read the image from the
+[01:00:09] specific folder, right?
+[01:00:11] This folder could be available on any
+[01:00:13] platform and or any cloud or it can
+[01:00:15] could be available in my local itself.
+[01:00:17] So, images and then the caption
+[01:00:19] regarding the images. So, example.png
+[01:00:22] This is the caption.
+[01:00:23] The column name could be the a text or
+[01:00:25] it could be the caption, anything.
+[01:00:27] The second is a BKG VQK format, okay?
+[01:00:30] Visual question answering format. There
+[01:00:32] are you will be keeping the images, then
+[01:00:34] question, and then answer related to
+[01:00:36] that, okay? So, this is the normal
+[01:00:38] captioning, right? Image captioning. On
+[01:00:40] top of the image captioning only you are
+[01:00:42] going to be retrain your model.
+[01:00:44] This particular format basically it's a
+[01:00:46] visual question answering format where
+[01:00:48] you have the images along with that you
+[01:00:50] have question and answer regarding that
+[01:00:52] particular image. The third format is
+[01:00:54] called the LLaVA format, right? So,
+[01:00:56] inside the LLaVA format what you will
+[01:00:57] have, you will be having the images and
+[01:01:00] the conversation,
+[01:01:02] conversation basically you can see the
+[01:01:04] role is a user, content is this one
+[01:01:06] means the user is asking this question
+[01:01:07] and we are going to be generate this
+[01:01:08] answer. Again, it is similar to the
+[01:01:10] question answering only the
+[01:01:11] conversational
+[01:01:13] regarding the conversation only, okay?
+[01:01:15] So, either we can keep in this format
+[01:01:17] just simple image question answer or
+[01:01:20] either we can keep it like this, okay?
+[01:01:21] Both will work. So yeah, here also I
+[01:01:24] mentioned the same thing. So if you will
+[01:01:25] go through with this
+[01:01:27] data set the different different data
+[01:01:28] set which I open over here. See,
+[01:01:30] one very famous data set is a chart QA.
+[01:01:32] Just check over here what I have written
+[01:01:34] over here. See,
+[01:01:35] sorry what they have given over here.
+[01:01:37] They have given the images. It is a like
+[01:01:39] the
+[01:01:40] image itself. Okay, it's a PIL format of
+[01:01:43] the image which we kept inside this
+[01:01:46] table. Okay. So you can see this is the
+[01:01:48] image. This is the query regarding it
+[01:01:50] and there's a label means the answer. So
+[01:01:51] this is a conversational format. Now
+[01:01:54] just look into the another data set. So
+[01:01:56] the data set name is Lava instruction.
+[01:01:58] So what we have we have a image path. We
+[01:02:01] don't have a image guys. So we just have
+[01:02:02] a image path. So separately we'll have
+[01:02:04] to download the image data. It is a Coco
+[01:02:07] data set. So we'll have to image
+[01:02:09] download that data set folder and
+[01:02:11] accordingly we'll have to load the
+[01:02:12] images from there. Okay, and see this is
+[01:02:14] a conversational about the images.
+[01:02:17] Right? So again this is a conversational
+[01:02:18] data the question answering data which
+[01:02:20] we can keep in this format. So we have
+[01:02:22] two ways. One we can keep the image like
+[01:02:25] this. Okay, or we can keep the path of
+[01:02:27] the images so that we can read the
+[01:02:29] images from the source. Okay, from the
+[01:02:31] given source over here. Then guys over
+[01:02:33] here you can see we have one more type
+[01:02:35] of data set. So images is there then we
+[01:02:37] have a text. Okay, means either we can
+[01:02:40] keep the text, we can keep the caption,
+[01:02:42] whatever we can keep. So this is just
+[01:02:43] one more column. So image is there and
+[01:02:45] then text is there. Okay, this is the
+[01:02:46] image captioning.
+[01:02:48] Then here you can see one more format.
+[01:02:50] So image is there then caption is there.
+[01:02:52] Okay. So image and regarding the image
+[01:02:55] we have a caption or the text or either
+[01:02:57] you can say the description. Anything
+[01:02:58] you can say. So the different different
+[01:03:01] data set guys you can see over here as I
+[01:03:03] shown you. So either we can keep the
+[01:03:06] image in the column or we can keep the
+[01:03:08] path. So just keep all this thing in my
+[01:03:10] mind. I created my own custom data set
+[01:03:12] so that if you have own custom data uh,
+[01:03:15] like how you can train your model on top
+[01:03:17] of that data. So, uh, see this is my own
+[01:03:19] data, guys. I uh, I had some images of
+[01:03:22] the iPhone. Uh, let me show you in the
+[01:03:24] local itself. So, this is the iPhone
+[01:03:25] images, guys. Uh, sorry. This is the
+[01:03:27] images I kept outside of the folder. Let
+[01:03:29] me keep it over here.
+[01:03:31] So, this is the iPhone images. Uh,
+[01:03:33] let me open the image. See, this is the
+[01:03:36] image. So, uh, using this image only, I
+[01:03:39] created some data. I I'll show you how
+[01:03:41] to create it. I have a script, the
+[01:03:43] complete script of it. So, this is the
+[01:03:45] first image, then second image, third
+[01:03:46] image. In total, I just have five
+[01:03:48] images. I kept the five images, okay?
+[01:03:50] You can keep as many as images. So, I
+[01:03:52] had this data, and I thought, "Okay,
+[01:03:53] let's create our data set, our custom
+[01:03:55] data set, using these images only." So,
+[01:03:57] this is the one, uh, like our data. See,
+[01:04:00] along with the images. And then, see
+[01:04:01] this uh, this is the another data with
+[01:04:03] the path only, okay? Now, over here, if
+[01:04:06] you will see with this data, so I have a
+[01:04:08] image and the caption regarding that.
+[01:04:10] And even I can keep this message column.
+[01:04:12] So, I can utilize my data in this way. I
+[01:04:14] can use the image and the text out of
+[01:04:16] this data set. Or else, what I can do, I
+[01:04:18] can use this image and this messages. Or
+[01:04:20] I can use the uh,
+[01:04:22] all these three column all together just
+[01:04:24] to train my model. I hope you are
+[01:04:26] getting You are getting my point. Now,
+[01:04:28] uh, just see over here inside this data.
+[01:04:30] See, I created this particular data set.
+[01:04:32] So, uh, over here you can see we have
+[01:04:34] our image path. We don't have our image.
+[01:04:35] I didn't keep the
+[01:04:37] image inside the column. I just kept the
+[01:04:39] path of it. And over here, you can see
+[01:04:41] the text regarding this particular
+[01:04:42] images. And this is the message, the
+[01:04:44] complete conversation. Now, guys, uh, if
+[01:04:47] we are going to be use this particular
+[01:04:48] data set, uh, means this particular
+[01:04:50] format, then I will have to keep one
+[01:04:52] iPhone image folder in my local. From
+[01:04:54] there only, we'll have to read this
+[01:04:56] particular images. Getting my point? So,
+[01:04:58] whenever someone is giving you this kind
+[01:05:00] of data set, then uh, it will provide
+[01:05:02] you the data folder also. Or it will
+[01:05:04] provide you the data folder location
+[01:05:06] also, okay? Data folder also, or the
+[01:05:08] data folder location also. Uh, inside
+[01:05:11] the data folder, uh, you would be having
+[01:05:13] the images, those specific images. I
+[01:05:16] hope guys all the data format is clear,
+[01:05:18] what kind of data format should be there
+[01:05:20] if you're going to be train your model
+[01:05:21] on top of the images. Uh here I kept
+[01:05:24] each and every example. Now guys, after
+[01:05:26] that, let's come to the final thing,
+[01:05:27] final topic. So, what are the
+[01:05:29] differences between the normal
+[01:05:30] fine-tuning, means the text fine-tuning,
+[01:05:32] and the multimodal LLM fine-tuning? So
+[01:05:35] guys, here I kept all the differences.
+[01:05:37] Let's read all the differences one by
+[01:05:38] one. So,
+[01:05:40] one
+[01:05:41] input type will be the text only here.
+[01:05:43] Input type could be anything along with
+[01:05:45] the text. Architecture, LLM only, mean
+[01:05:47] the decoder part of the LLM. Here,
+[01:05:49] encoder projection LLM, and whatever
+[01:05:52] another thing. This is just a general
+[01:05:53] This is the term basically I kept
+[01:05:57] behalf on the image to text only, but if
+[01:05:59] you're going to work with image to
+[01:06:01] sorry,
+[01:06:02] like text to image, audio to
+[01:06:04] text, text to audio. So, this term could
+[01:06:07] be the different one. Okay, so according
+[01:06:08] to that, you will have to keep the term
+[01:06:10] over here. Then computation, guys,
+[01:06:12] medium, medium to high. Uh GPU needed,
+[01:06:14] moderate GPU, maybe high GPU, but here
+[01:06:17] guys, if you're going to be process this
+[01:06:18] image, audio, video, so yeah, we require
+[01:06:21] the higher VRAM and the higher high-end
+[01:06:22] GPU. Complexity will be the medium one,
+[01:06:25] here would be the higher one. Uh
+[01:06:26] processing, tokenization, here media
+[01:06:28] processing, means images, audio, video,
+[01:06:31] right? Whatever other type of data we
+[01:06:33] have, we'll have to process that. Now,
+[01:06:35] it is more stable and it is little
+[01:06:37] sensitive because we have a different
+[01:06:39] modality. So, if we are going to be
+[01:06:41] fine-tune our model just over the text
+[01:06:43] guys, so it is like little easier
+[01:06:45] compared to the multimodal. Over the
+[01:06:47] multimodal guys, on the other hand, in
+[01:06:49] the multimodal guys, we have a little
+[01:06:51] more complexity. So, I hope guys I you
+[01:06:54] understood everything, every sort of a
+[01:06:56] term, whatever I have mentioned over
+[01:06:57] here.
+[01:06:59] Now, finally, let's
+[01:07:01] look into the practical. After that,
+[01:07:02] I'll end this video.
+[01:07:05] So guys, uh this entire practical will
+[01:07:06] perform over the collab. Uh you can do
+[01:07:09] it anywhere or wherever you have access
+[01:07:11] of the GPU. Uh now, see guys, uh first
+[01:07:13] of all, you need to select the GPU. Just
+[01:07:15] click on this runtime and then change
+[01:07:16] the runtime type and then select the
+[01:07:18] free available GPU. Uh just save it,
+[01:07:21] guys. After that, uh connect with your
+[01:07:24] GPU. Now, these all are the model. Uh
+[01:07:26] here you can see I kept the name of all
+[01:07:28] the multi-model. Just uh read out the
+[01:07:31] name. So, uh these all are the
+[01:07:33] multi-model, actually, from the Quen,
+[01:07:36] okay? Then from the Lama, from the Gema,
+[01:07:38] from the Mistral, and from the Lava.
+[01:07:41] This Lava, actually, it is from the
+[01:07:42] Microsoft. So, uh guys, this is all uh
+[01:07:45] the multi-model we are going to
+[01:07:47] fine-tune. Means, uh we can pick up any
+[01:07:50] multi-model from here and we can
+[01:07:52] fine-tune it. So, I uh written a name
+[01:07:55] over here. So, what I did, guys, I
+[01:07:57] created one a model registry uh using
+[01:08:01] these model. Means, I can pick up any
+[01:08:03] sort of a model from this model registry
+[01:08:05] and I can perform the fine-tuning, okay?
+[01:08:08] Uh and then, guys, dataset uh wise also.
+[01:08:11] See, I this is my registry, so I can
+[01:08:13] keep I can like read any sort of a
+[01:08:15] dataset from here and I can perform the
+[01:08:17] fine-tuning. See, I kept my own custom
+[01:08:19] dataset, okay? So, that's why, guys, I
+[01:08:22] kept the name of this video, "Fine-Tune
+[01:08:24] Any Multi-Model." Uh the title is going
+[01:08:26] to be justified over here. So, uh let me
+[01:08:30] again give you the quick recap. So, this
+[01:08:31] is all the model, guys, which we can
+[01:08:33] fine-tune. You can create a model You
+[01:08:35] can keep it inside the model registry
+[01:08:36] and whichever model you want to
+[01:08:38] fine-tune, you can do that. Now, uh
+[01:08:41] here, guys, uh first of all, you will
+[01:08:42] have to install some packages. So, first
+[01:08:44] is the transformer, second is the uh
+[01:08:47] TRL, then third is the Unsloth, then
+[01:08:50] fourth is the SentencePiece, Protobuf,
+[01:08:52] and the other required packages. If you
+[01:08:54] want to know about these packages, you
+[01:08:56] can go and check out with my Hugging
+[01:08:57] Face crash course. Uh there I discuss
+[01:08:59] the complete uh Hugging Face ecosystem
+[01:09:02] along with this
+[01:09:03] packages also.
+[01:09:04] Now guys, why we are installing this
+[01:09:06] hugging face packages? Because see this
+[01:09:08] Unsloth actually it is created on top of
+[01:09:10] the hugging face only.
+[01:09:12] And
+[01:09:13] it is a certain level of
+[01:09:15] it is a certain level of optimization
+[01:09:17] over the hugging face. So if you want to
+[01:09:19] understand this
+[01:09:21] Unsloth, right? Then please go and check
+[01:09:23] with my video. It is already available
+[01:09:25] inside the playlist. So just go and
+[01:09:27] check with a video number
+[01:09:30] 19. Okay, so here I discuss the complete
+[01:09:32] Unsloth. Now
+[01:09:34] what I'm doing I'm going to be install
+[01:09:35] all these packages. It will take some
+[01:09:38] time, maybe 2 to 3 minutes. So let it
+[01:09:40] install.
+[01:09:43] Now guys, you can see my all the package
+[01:09:46] are installed.
+[01:09:47] Now after that what I'll do, I'll import
+[01:09:49] these packages. See I kept the data link
+[01:09:52] also. So whatever data I have shown you
+[01:09:54] over here, all this data set, I kept the
+[01:09:56] link inside my collab. So you can go
+[01:09:58] through with these link.
+[01:10:00] Now what I'm doing I'm going to be
+[01:10:03] import the packages. So first is
+[01:10:06] Unsloth, second is OS torch, then data
+[01:10:08] class, then dict. Then the other
+[01:10:10] packages like load data set, text
+[01:10:12] streamer, fast vision model, fast vision
+[01:10:15] model. This is the class inside the
+[01:10:16] Unsloth for loading the vision based
+[01:10:18] model. That's Unsloth vision data
+[01:10:20] collector. Okay then SFT trainer and the
+[01:10:23] SFT config. So apart from this here is
+[01:10:26] my model registry. It is nothing it is
+[01:10:27] just a simple dictionary where I'm
+[01:10:30] keeping the model name along with the
+[01:10:31] key. So whatever model I wanted to use I
+[01:10:34] will just pass the key name and I can
+[01:10:35] access that specific model.
+[01:10:37] Similar to this similar to that similar
+[01:10:40] to this I created data registry. So
+[01:10:42] whatever model I wanted to whatever data
+[01:10:44] set I wanted to use, I'm just passing a
+[01:10:45] name. And which part of the data I
+[01:10:47] wanted to use, so I wanted to use the
+[01:10:49] train part, train data set. And I'm
+[01:10:51] passing the image key. Okay, so it is a
+[01:10:54] column actually where the image is going
+[01:10:56] to be keep. So image I'm passing and the
+[01:10:57] text are related to the that image the
+[01:10:59] text I'm passing. Okay? Either it could
+[01:11:01] be text, caption, or that conversation.
+[01:11:04] I shown you each and every format. I
+[01:11:05] think now you are family. So, likewise
+[01:11:07] what you can do you can prepare your
+[01:11:10] data set registry. Okay?
+[01:11:12] Uh now, what I'm doing? See, first I'm
+[01:11:14] going to be import this thing. So, let
+[01:11:16] it import.
+[01:11:19] If it is asking you to restart your
+[01:11:20] kernel, then restart your kernel and
+[01:11:22] then import it.
+[01:11:24] And guys, please keep this Unsloth at
+[01:11:27] the first place, otherwise you might get
+[01:11:29] error.
+[01:11:32] Okay, guys, uh you can see we are able
+[01:11:34] to import all the statements
+[01:11:35] successfully. Uh now, what I'll do,
+[01:11:38] guys, I'll create one class. So, I
+[01:11:40] created one class. The class name is the
+[01:11:43] Vision Fine-tuning Config. Uh it is a
+[01:11:46] data class where I define my all the
+[01:11:48] required variable. So, whatever variable
+[01:11:52] I wanted to use, I will I have defined
+[01:11:54] over here inside this config class.
+[01:11:56] So, let me give you the quick walk
+[01:11:58] through of it. So, first is a model key,
+[01:12:00] then data set key. So, by default I kept
+[01:12:03] one model key here and the data set key.
+[01:12:05] Uh whatever I wanted to use, I can pass
+[01:12:07] it. Okay? I can pass to this Vision
+[01:12:10] Config class. I'll I'll pass I'll show
+[01:12:13] you how to do that. Then guys, uh
+[01:12:15] subset. How many
+[01:12:16] rows I want from the data? Because data
+[01:12:18] is very huge. Okay? I cannot use the
+[01:12:21] complete data set over here to train my
+[01:12:22] model. If I'm going to be use any
+[01:12:24] Hugging Face data, there
+[01:12:27] we have like maybe
+[01:12:29] 10,000 to 1 lakh rows. Okay? So, I'm
+[01:12:32] just using the subset just to
+[01:12:33] demonstrate you. Then evaluation ratio.
+[01:12:36] So, this is the evaluation ratio. Means
+[01:12:37] uh 10% data. 0.1 means 10% data I will
+[01:12:40] use for the evaluation. Then seed means
+[01:12:42] again it is for the reproducibility. So,
+[01:12:44] if I'm running again and again, then
+[01:12:46] random sample should not come. Okay? The
+[01:12:48] data set should be the same. Then guys,
+[01:12:50] this is the LoRA configuration. So, R
+[01:12:53] means the rank of the Laura. Okay, Laura
+[01:12:55] alpha and Laura dropout. This is again
+[01:12:57] two more variable to regularize the
+[01:12:59] Laura. Okay.
+[01:13:01] Low rank adaption. And don't worry, I'll
+[01:13:03] I'll explain this Laura concept in very
+[01:13:05] detail in my upcoming video. I already
+[01:13:07] planned that. Uh then guys, uh we have a
+[01:13:09] training. So, for the training guys, see
+[01:13:11] per device trained batch size. So, just
+[01:13:14] read it from uh back only. So, size
+[01:13:18] batch. Okay, batch size trained training
+[01:13:20] batch size device. Okay, per device. On
+[01:13:23] per GPU, how many
+[01:13:25] uh like in how many batches the data
+[01:13:27] should go? Okay. Now, uh gradient
+[01:13:30] accumulation is step. Gradient
+[01:13:31] accumulation means uh in how many step
+[01:13:34] we are going to be
+[01:13:35] uh change the value of the
+[01:13:37] gradient. Okay, the weight actually.
+[01:13:39] Gradient accumulation. So, let's say we
+[01:13:42] have run for the first step, second
+[01:13:43] step, third step, fourth step. We are
+[01:13:44] not changing up to four step. In four
+[01:13:46] step, cumulatively which will change the
+[01:13:48] value of the weight. Okay.
+[01:13:51] So, this is just to reduce some
+[01:13:52] overfitting and all this one. This one.
+[01:13:54] Then number of epochs for how many
+[01:13:56] epochs you are running, learning rate.
+[01:13:57] Okay, again very important part. Logging
+[01:14:00] is step. At every 10 step, we are going
+[01:14:02] to be log it log the value. Weight
+[01:14:04] decay. Okay, max length max length of
+[01:14:06] the generated output. So, all these
+[01:14:08] value guys, it is related to the
+[01:14:10] training. So, uh the SFT configuration.
+[01:14:13] Uh I'll explain you all this thing. Uh I
+[01:14:15] will explain you in the near future
+[01:14:16] also, guys. Uh because uh I know it is a
+[01:14:19] pain point that we don't know like most
+[01:14:21] of the parameter which we are using
+[01:14:23] while we are fine-tuning the model. So,
+[01:14:25] I have this thing in my mind and
+[01:14:26] definitely in my uh future classes, I'll
+[01:14:28] discuss on to it. Okay. Now, coming to
+[01:14:31] the uh next part. So, here is output
+[01:14:33] directory and the save directory. So,
+[01:14:35] I'll keep my log every checkpoint over
+[01:14:37] here and my final output will be over
+[01:14:39] here.
+[01:14:40] Uh so, what I'll do guys, I'll create a
+[01:14:41] class. I'll uh run it and I have uh
+[01:14:44] loaded this class. Okay. Then guys, uh
+[01:14:47] if you want to check the data like how
+[01:14:48] the data looks like, Uh so I can show
+[01:14:51] you using one data only. So, here I'm
+[01:14:55] loading this chat QA data. And mainly I
+[01:14:57] wanted to show you the chat this image
+[01:14:59] column, okay? So, after loading the
+[01:15:01] data, see the data is getting loaded. I
+[01:15:03] can print this data set. So, let me
+[01:15:06] print this data.
+[01:15:07] And then, what I can show you, I can
+[01:15:09] show you the first Okay, so here I can
+[01:15:12] split it.
+[01:15:13] Did I split over here? No. I think
+[01:15:16] I can split it like this. Just a second.
+[01:15:20] This is a data set, guys. So, what we
+[01:15:21] have, we have a train data set,
+[01:15:23] validation data set, and the test data
+[01:15:24] set.
+[01:15:25] So, again, let me load it with the train
+[01:15:27] and split.
+[01:15:28] Means I will just get the train data
+[01:15:30] set, okay?
+[01:15:31] So, yeah, I got the train data set. Now,
+[01:15:33] let me show you the first of the train
+[01:15:34] data set, see.
+[01:15:36] See, this is the first row. We have a
+[01:15:37] image, and it is a PIL image.
+[01:15:40] Okay, this is the configuration of the
+[01:15:41] image. So, we can So, you will be having
+[01:15:43] the image in this particular format in
+[01:15:45] the column. Got it? I hope this is
+[01:15:47] clear. Now, this is the main class, the
+[01:15:49] trainer class. Just focus onto this
+[01:15:51] class. This is going to be very
+[01:15:52] important. So, the class name is the
+[01:15:54] vision fine-tuner. So, first what we are
+[01:15:56] doing, we are loading the model.
+[01:15:58] Then, we are preparing the data set.
+[01:16:00] After that, we are building a trainer.
+[01:16:03] Okay? And then, we are going to be train
+[01:16:05] the model. And then, finally, we are
+[01:16:06] going to be save the model. And if you
+[01:16:08] want to do the quick inferencing, so
+[01:16:10] yeah, for that also we have a method
+[01:16:11] over here.
+[01:16:12] So, this is the complete
+[01:16:14] This is the complete class, guys. So,
+[01:16:16] you can directly take this class. You
+[01:16:17] can keep as it is inside any sort of a
+[01:16:20] code. Now, let me execute it. Yes, sir,
+[01:16:22] it's going to be execute. Now, what I'll
+[01:16:24] do, guys, first I'll
+[01:16:25] uh run. Okay, first I'll create a
+[01:16:28] configuration, see.
+[01:16:30] What I'm doing, I'm going to be call
+[01:16:31] this vision FT configuration class. I'm
+[01:16:33] passing my model key. So, I define one
+[01:16:36] by default model key, or else
+[01:16:38] see, those are the default one. I If I
+[01:16:40] wanted to override that, I can pass the
+[01:16:42] value from here.
+[01:16:43] So, I am what I'm doing guys, this is my
+[01:16:46] vision configuration class. Let me show
+[01:16:47] you where it is. So, here is a class,
+[01:16:49] this one, this I I define, this one,
+[01:16:52] vision configuration. So, I can pass any
+[01:16:54] sort of a value, whatever I want to
+[01:16:55] define for my end, whatever I I want to
+[01:16:57] take from the user, okay? So, what I'm
+[01:16:59] doing, I'm just passing my model name
+[01:17:02] uh over here
+[01:17:03] and the data set. You You can pass
+[01:17:05] anything guys, model key and the data
+[01:17:07] set key. You know we have defined the
+[01:17:08] model registry.
+[01:17:09] So, let me show you that model registry.
+[01:17:11] I'm writing over here model
+[01:17:13] underscore registry. Let me take the
+[01:17:16] variable from here itself, from the sale
+[01:17:18] only.
+[01:17:19] So, this is my model registry. It is in
+[01:17:20] a capital. So, if I'm going to be print
+[01:17:23] it over here, uh let me print over here
+[01:17:25] and you will see that what are models we
+[01:17:27] have. See, this are these are all the
+[01:17:28] model. So, whatever model you want to
+[01:17:30] fine-tune, you can simply fine-tune it
+[01:17:31] over here. Okay, just pass the Just just
+[01:17:34] pass the model key and uh the respected
+[01:17:36] model, the respective model will be
+[01:17:37] loaded. So, now what I'm doing guys, I'm
+[01:17:39] going to be configure the vision uh
+[01:17:41] fine- I'm going to be configure the
+[01:17:43] values, okay? Through this class,
+[01:17:44] through this data class. Now, what I
+[01:17:46] will do guys, I'm going to be create
+[01:17:48] object of this uh vision fine-tuner
+[01:17:50] class, okay? I'm passing this
+[01:17:52] configuration. Then uh guys, what I'll
+[01:17:54] do, I'll call the load, prepare data set
+[01:17:56] and build trainer. Right? So, my object
+[01:17:59] will be ready over here. So, my trainer
+[01:18:01] object is ready. I will uh come to this
+[01:18:03] part, I'll explain you each and
+[01:18:05] everything uh what uh is happening. Then
+[01:18:07] what I'll do guys, I will train the
+[01:18:09] model. See, my model will be trained
+[01:18:11] over here. Then I will save the model.
+[01:18:13] My model will be saved, okay? Using this
+[01:18:15] train.save. And then uh I will perform
+[01:18:19] the inferencing. So, I can pass the
+[01:18:20] question, any question uh related to the
+[01:18:23] train data, okay? And then I can test my
+[01:18:26] model. So, uh let it complete until I
+[01:18:29] can give you the quick walk-through of
+[01:18:30] this vision uh fine-tuner class one more
+[01:18:32] time and then we'll come to the final uh
+[01:18:34] result guys. So,
+[01:18:37] if you will look into this vision find
+[01:18:38] your class. So, what we have over here
+[01:18:40] first uh we have this configuration. So,
+[01:18:42] we are passing a configuration, okay?
+[01:18:44] The type of the configuration is going
+[01:18:46] to be the data class, right? So, I'll
+[01:18:47] get a complete configuration. From here
+[01:18:49] we can access any sort of a value. Uh
+[01:18:52] then guys, we are going to be load the
+[01:18:53] model. We are going to be load the data.
+[01:18:55] We have these three things.
+[01:18:56] Uh now, what I am doing? So, here guys,
+[01:18:59] we are going to be load a model. So, uh
+[01:19:02] using this fast vision model from
+[01:19:03] pre-trained we are passing a model name.
+[01:19:05] We are passing load in 4-bit true and
+[01:19:07] then use gradient checkpoint on slot.
+[01:19:09] So, we are loading model and checkpoint,
+[01:19:11] okay? Then we are getting a PEFT model
+[01:19:13] over here, see? We are passing all these
+[01:19:15] parameter to get a PEFT model parameter
+[01:19:17] efficient model. Uh then I I'll be
+[01:19:20] getting a model inside this particular
+[01:19:22] variable self.model, okay?
+[01:19:24] Uh now, I got the model. I got the
+[01:19:26] self.model. Now, what we are doing? We
+[01:19:28] are going to prepare the data set. So,
+[01:19:29] we are loading our data set. Uh okay?
+[01:19:32] And here I have a data set like how many
+[01:19:35] uh rows we want from the data, means the
+[01:19:37] subset of the data. Then here is my
+[01:19:39] instruction uh which I define inside the
+[01:19:41] data registry, then image key uh
+[01:19:43] uh the image we are getting from the
+[01:19:45] data and then text key. Now guys, uh if
+[01:19:48] you have a path of the image uh see here
+[01:19:50] I shown you uh the image path, right?
+[01:19:52] This one. If you have a image path, then
+[01:19:55] uh you will have to keep the respective
+[01:19:56] folder uh onto your If you If you will
+[01:19:59] have to keep the respective folder over
+[01:20:01] here, over your server, okay? Over your
+[01:20:03] Whatever directory you want to keep. You
+[01:20:05] will keep a server You will keep a
+[01:20:06] respective folder and from there only
+[01:20:08] you are going to read the images, okay?
+[01:20:10] Then here I'm going to format the data
+[01:20:12] set. So, see uh here is my user. Uh the
+[01:20:15] instruction will come. The image will
+[01:20:16] come over here.
+[01:20:18] Right? This one. Then assistant, okay?
+[01:20:21] This is the assistant, right? So, user
+[01:20:23] is giving this instruction along with
+[01:20:25] this images and then the assistant means
+[01:20:27] the uh chat uh the model should reply
+[01:20:30] this one. So, this is my complete format
+[01:20:32] of the data. Now, I'm going to be mapped
+[01:20:33] with my data, okay? And here I will be
+[01:20:35] getting my split. Means
+[01:20:37] how much for the evaluation and how how
+[01:20:39] much for the training, okay? And then we
+[01:20:41] are going to be return. Now, this is my
+[01:20:43] trainer. So, what we are doing guys, we
+[01:20:44] are going to be define the SFT config.
+[01:20:47] This is my SFT trainer, okay? And now
+[01:20:50] what I'll do guys, I'll
+[01:20:51] train, okay? I'll call this
+[01:20:52] trainer.train, right? So,
+[01:20:54] cell.trainer.train. Once I'll call this
+[01:20:56] train method on top of this trainer, on
+[01:20:59] top of this SFT trainer, my model
+[01:21:01] training will be started. And then how
+[01:21:03] guys we are going to be save it and here
+[01:21:05] we are going to perform the inferencing.
+[01:21:06] So, how we can perform the inferencing
+[01:21:08] guys? So, for that we are having a
+[01:21:10] image, okay? We are passing this
+[01:21:12] particular message along with the
+[01:21:14] images, okay? We are passing images
+[01:21:16] along with the instruction and my model
+[01:21:17] will be generated the output. So, this
+[01:21:19] is the complete code for what? For the
+[01:21:21] inferencing. You can go through with it.
+[01:21:22] See, here we are going to be passed here
+[01:21:25] going we are going to be get a message
+[01:21:26] which will be which will be passed to
+[01:21:28] that tokenizer. This tokens will be
+[01:21:30] passed to the models and finally we are
+[01:21:32] going to be generate a output and then
+[01:21:33] we are going to be decode that output.
+[01:21:35] That's it guys.
+[01:21:37] Now, what we have see, my
+[01:21:39] data have been there, see?
+[01:21:42] Load model, model is loaded, data is had
+[01:21:44] been prepared and my builder is ready.
+[01:21:46] Now, what I'll do guys, I'll call this
+[01:21:48] trainer, trainer.train and my model
+[01:21:50] training will be started over here. Once
+[01:21:52] the model will be trained guys, I'll
+[01:21:54] save that model. I'll save wherever I
+[01:21:56] can save, I can save it over the hugging
+[01:21:57] face, I can save over here. Okay, or
+[01:22:00] else basically I can save it
+[01:22:03] on any cloud wherever I want. So, yeah,
+[01:22:06] the training is started. It will take
+[01:22:07] some time. Two epoch, maybe it will take
+[01:22:09] 5 to 10 minutes. So, let it train.
+[01:22:15] Okay guys, so my training is completed.
+[01:22:17] It took around 7 minute.
+[01:22:20] And see over here,
+[01:22:22] I have run my two epochs, okay? All the
+[01:22:24] two epochs.
+[01:22:26] Now, this is what? This is the step. at
+[01:22:27] every 10 step we are going to be logged
+[01:22:29] the information. So, yeah, I logged this
+[01:22:32] three steps over here.
+[01:22:34] Uh in my data set uh
+[01:22:36] uh basically, according to my data set
+[01:22:38] uh the information is shown over here,
+[01:22:40] okay? Now, what I'm doing I'm going to
+[01:22:42] be save the model once I'll call it. Uh
+[01:22:44] so, my model will be available over
+[01:22:46] here. See, this is the VLM Laura output.
+[01:22:49] So, we got our model. Uh save tensor
+[01:22:50] file is over available over here. It's a
+[01:22:52] binary file.
+[01:22:54] Now, if I wanted to do the quick
+[01:22:55] inference, so I can uh run this one. So,
+[01:22:57] automatic the code will be executed and
+[01:22:59] whatever image and the caption I'm
+[01:23:01] giving, according to that the answer
+[01:23:03] will be generated, okay? Over the
+[01:23:05] fine-tuned model. So, I'm loading the
+[01:23:06] fine-tuned model over here. Again, let
+[01:23:08] me give you the quick walk-through and
+[01:23:09] then I'll show you the output. So, what
+[01:23:11] is happening, guys? So, over here, see,
+[01:23:13] uh for inference the model will be
+[01:23:14] loaded. This is the uh fine-tuned model.
+[01:23:17] Then the data set will be loaded, okay?
+[01:23:19] So, load data set data set info name and
+[01:23:21] a split, right? So, raw data I got the
+[01:23:22] raw data set. Now, over here what what I
+[01:23:25] do, so I will pass the sample index, the
+[01:23:27] data set information, and from there I
+[01:23:28] will take a image. I'm passing the image
+[01:23:30] along with the instruction, so this is
+[01:23:31] my complete message. I'm tokenizing
+[01:23:34] that. I'm converting the input text.
+[01:23:35] Then I'm passing this complete input to
+[01:23:38] my uh model, okay? And the model will
+[01:23:41] generate the response. So, let's see
+[01:23:42] what response is being generated over
+[01:23:43] here. So, see, guys, uh whatever image
+[01:23:46] I'm passing, according to that I'm
+[01:23:47] getting a response. Now, I can format
+[01:23:50] this particular information, actually.
+[01:23:51] Uh on which data set I trained my model,
+[01:23:53] let me show you. It is a LaTeX OCR data
+[01:23:56] set. So, this is a data set, guys, uh
+[01:23:58] this one. Uh here we have a formulas.
+[01:24:01] So, this is a text. Okay? Uh this is the
+[01:24:04] images and this is the corresponding
+[01:24:05] text. So, we have trained our model on
+[01:24:07] top of this particular images, right?
+[01:24:09] So, if we are passing this image, so it
+[01:24:10] will extract the formula out of this
+[01:24:12] images and it will provide to us and we
+[01:24:14] can format that later on in this same
+[01:24:16] manner.
+[01:24:17] I hope, guys, you understood this entire
+[01:24:19] thing, entire tutorial. Now, one more
+[01:24:20] thing, uh let me highlight over here. If
+[01:24:22] you want to prepare your own custom
+[01:24:24] data, then you can do using this
+[01:24:26] particular script. So, you can keep the
+[01:24:28] images inside the folder. You can give
+[01:24:30] the respective caption. Okay? And after
+[01:24:32] that, guys, you can execute this You can
+[01:24:34] execute this cell where the
+[01:24:36] conversational format the description of
+[01:24:38] the data set will be created. If you
+[01:24:40] want to keep the images, okay?
+[01:24:43] If you want to keep the images, then you
+[01:24:46] can run this particular line.
+[01:24:48] All right, this particular line.
+[01:24:51] feature
+[01:24:52] You can create a feature object where
+[01:24:53] you can pass the image text in the
+[01:24:55] message and see. You just need to run
+[01:24:57] this one. If you don't want to keep the
+[01:24:59] images, you just want to keep the simple
+[01:25:00] path, then I'm uncomment this line and
+[01:25:03] run it. So, you will get a data in this
+[01:25:06] particular format. Let me show you. In
+[01:25:08] this way. Okay? You will be getting the
+[01:25:09] path. If you want to keep the images,
+[01:25:11] then you will have to run it in a
+[01:25:13] another way. Okay? This one. Then, guys,
+[01:25:15] run it and push it. For that, guys, you
+[01:25:17] will have to generate the right API key
+[01:25:19] from the Hugging Face and you can push
+[01:25:20] your data to the Hugging Face itself
+[01:25:22] directly. So, a simple code. I will give
+[01:25:24] you this code so that you can execute it
+[01:25:27] from your your end and you can create
+[01:25:28] your own custom data and you can keep it
+[01:25:30] anywhere, guys. Yeah, so this is it for
+[01:25:32] this particular video, guys. I hope you
+[01:25:34] liked it. This kind of content takes
+[01:25:36] very much effort, guys. I was preparing
+[01:25:38] it from last 1 week itself. So, if you
+[01:25:41] like it, then please hit the like
+[01:25:43] button. Please subscribe the channel and
+[01:25:45] please support this channel so that
+[01:25:47] other person also can learn the AI and
+[01:25:50] then they can trust on my content. Thank
+[01:25:53] you, guys. Thank you very much. I'll see
+[01:25:55] you in the next video.

@@ -1,0 +1,1659 @@
+Title: LLM Fine-Tuning 10: LLM Knowledge Distillation | How to Distill LLMs (DistilBERT & Beyond) Part 1
+Video URL: https://www.youtube.com/watch?v=gSzv6s9X5Ak
+Video ID: gSzv6s9X5Ak
+======================================================================
+
+[00:01] Hey. Hi everyone. Welcome back to my
+[00:03] YouTube channel. My name is Tani Savvita
+[00:06] and I'm back with another exciting and
+[00:08] important video. So guys, in this
+[00:11] particular video, we're going to discuss
+[00:13] about the knowledge distillation. So
+[00:16] this knowledge distillation is a part of
+[00:18] this fine-tuning playlist. In this
+[00:20] particular video, I'll tell you the core
+[00:23] concept of the knowledge distillation
+[00:25] and how it could be useful in terms of
+[00:29] finetuning. So both thing we're going to
+[00:31] discuss in terms of theory as well as
+[00:34] practical. If you don't know guys, I
+[00:36] started one finetuning playlist. In that
+[00:40] uh so far I have uploaded nine video. So
+[00:44] uh where you can find out all those
+[00:46] video if you will go and check with the
+[00:47] playlist section there I already created
+[00:50] one playlist complete LLM fine tuning
+[00:53] you will get all the finetuning videos
+[00:55] over there apart from that you can check
+[00:57] out with the videos section as well so
+[01:00] the last class in the last video I
+[01:02] discussed about the finetuning of the
+[01:05] bird model is one of the classical model
+[01:09] in this video I uh explain about the
+[01:12] bird finetuning as well as I given you
+[01:14] the overview with respect to the other
+[01:17] models as well. Uh now before that guys
+[01:20] I discuss about the hugging phase.
+[01:22] Hugging phase is a very important
+[01:24] framework if you're going to learn NLP
+[01:27] genative AI you will find out so many
+[01:29] models so many data set and even the
+[01:32] different def different services over
+[01:33] the hugging phase which you can directly
+[01:36] utilize freely guys. Okay. Now guys uh
+[01:39] inside this particular playlist as you
+[01:41] can see there is a nine video and there
+[01:44] I covered all the fundamental concept
+[01:47] related to the finetuning. Now after
+[01:50] this particular video after the
+[01:52] distillation one more video will come
+[01:53] with respect to the quantization because
+[01:56] quantization is also one of the
+[01:58] important concept uh in the world of LM
+[02:01] fine-tuning and then we'll start with
+[02:04] the uh implementation different
+[02:06] different framework different different
+[02:07] data set different different model and
+[02:09] we'll try to find fine-tune each and
+[02:11] every model over here with the different
+[02:13] different techniques. Okay. So uh now
+[02:16] guys first of all let me uh show you
+[02:18] that what all thing we are going to be
+[02:19] cover up here. So this is the points
+[02:22] guys points to be cover. So first we'll
+[02:25] try to discuss about the knowledge
+[02:26] distillation that what is the knowledge
+[02:28] distillation in the deep learning. Let
+[02:30] me zoom in a little bit more so that you
+[02:33] can see uh clearly. So here guys uh you
+[02:36] can see uh so I cap the point about the
+[02:40] knowledge distillation. Then we'll
+[02:42] discuss about the concept of the teacher
+[02:44] and the student model that what is a
+[02:45] teacher model? What is a student model?
+[02:48] Then we'll discuss distillation in the
+[02:50] neural network. So on a fundamental
+[02:52] level I'll explain you what is a
+[02:53] knowledge distillation in the neural
+[02:55] network. Then we'll see distillation in
+[02:57] the large language model. We'll discuss
+[02:59] in terms of the large language model as
+[03:01] well. We'll we'll see the theory as well
+[03:04] as the code implementation. Both thing
+[03:06] we are going to be cover up in this
+[03:07] particular video. Now apart from this
+[03:09] one you will see the normal finetuning
+[03:11] versus distillation. We'll see the
+[03:13] differences between the finetuning and
+[03:15] the distillation and when we have to use
+[03:18] which concept. Then guys we'll come to
+[03:20] the uh next point where this uh dist
+[03:22] where to use this dist model. Now what
+[03:25] is the utilization of it? What is the
+[03:27] advantage of it right? So each and
+[03:28] everything we're going to discuss inside
+[03:30] this particular section. Then guys we'll
+[03:32] come to the overview of the deepseek
+[03:34] distin
+[03:38] top of the dist uh dist knowledge right.
+[03:40] So it has distilled the knowledge from
+[03:41] the GPD model itself and many uh like in
+[03:45] many blogs in many and even in the
+[03:47] official research paper of the deepseek
+[03:49] that thing have been confirmed. I'll
+[03:51] show you those resources as well as the
+[03:53] uh deepseek model. So I'll give you the
+[03:55] overview of the deepseek model. So your
+[03:57] understanding of the dualization with
+[03:59] respect to the large language model with
+[04:02] uh will bit more clear. Okay. So these
+[04:04] are the point guys. I hope uh it is
+[04:06] clear. So step by step one by one we're
+[04:08] going to discuss each and every point.
+[04:10] Now apart from this one let me show you
+[04:12] the code base also the code base which I
+[04:14] created for all of you here guys uh this
+[04:17] is the complete code base inside this
+[04:19] file I cap the entire code. So we're
+[04:22] going to discuss the code from very
+[04:23] scratch. I'll tell you each and every
+[04:25] fundamental concept. Then right after
+[04:27] this deep learning concept I'll come to
+[04:29] the LLM. So that LLM code also I kept
+[04:31] over here. We are going to be read the
+[04:33] different different LLM. So llama we are
+[04:36] going to be read and even I'll show you
+[04:38] with the classical model like B and all.
+[04:40] Okay. So each and every technique we
+[04:43] going to see in terms of the practical.
+[04:45] So stay tuned in this video and you will
+[04:47] learn this knowledge distillation uh and
+[04:49] you will learn like how does it work and
+[04:51] the differences with the normal fine
+[04:53] tuning. So uh guys if you haven't
+[04:55] subscribed my YouTube channel so far
+[04:57] please go and subscribe because you will
+[04:59] find out these type of video in the near
+[05:02] future and yes I will be coming up with
+[05:05] more exciting content. Now let's do one
+[05:07] thing guys let's start with the
+[05:10] knowledge distillation.
+[05:12] So first uh we'll start with the
+[05:14] definition of the knowledge
+[05:15] distillation. So I created uh the entire
+[05:18] nodes for all of you guys. See this is
+[05:20] the complete nodes. Okay. and uh we'll
+[05:24] see uh with some diagram also I I'll
+[05:26] explain you this particular concept
+[05:28] using some diagram and I kept some real
+[05:30] time example also. So uh let's uh
+[05:34] discuss the definition at the first
+[05:35] place that what is a knowledge
+[05:37] distillation. So a knowledge
+[05:39] distillation is a technique used in deep
+[05:42] learning to transfer the knowledge of
+[05:45] the large heavy model. This is also
+[05:48] called the teacher model. Okay. Into the
+[05:51] smaller model. smaller or lightweight
+[05:53] model which is called the student model.
+[05:56] Okay. So in the knowledge distillation
+[05:58] we have a concept of the teacher as well
+[06:00] as the student model. Now guys uh you
+[06:03] can uh see the analogy. I'll explain you
+[06:05] this analogy by studying the teacher
+[06:07] notes. The student can pass the exam
+[06:10] with less effort instead of studying
+[06:12] everything from scratch. So we'll have
+[06:15] to understand this particular analogy at
+[06:17] the first place. Okay. then only we'll
+[06:19] be able to understand the concept of the
+[06:22] knowledge distillation in a better way.
+[06:24] Now before coming to this analogy or
+[06:25] before coming to the core definition the
+[06:27] core concept let me uh give you the uh
+[06:30] let me give you the idea that from where
+[06:31] we got this distillation idea okay this
+[06:34] distillation thought so Hinton or Venile
+[06:38] and Jaff Dean introduced this concept in
+[06:41] 2015 right so uh here you can see the
+[06:44] research paper I kept the link of the
+[06:47] research paper over here so once you
+[06:49] will click on it you will be directly
+[06:51] redirecting to that specific research
+[06:53] paper. So guys uh inside this research
+[06:56] paper the complete concept of the
+[06:58] knowledge distillation have been uh
+[07:00] explained. So uh the date was 9th March
+[07:04] 2015 when this Jupy uh Joffrey Hinton
+[07:08] and this guy wait guys let me open it
+[07:12] again. When this Joffrey Hinton Oran
+[07:14] Venile and this Jeb Dean was working in
+[07:17] the Google at that time they have came
+[07:20] up with this particular concept. So at
+[07:22] this time guys the uh deep learning was
+[07:25] getting later popularity and community
+[07:27] was working on so many CNN based model.
+[07:30] Okay.
+[07:32] So inside this research paper guys the
+[07:34] complete formula as well as the complete
+[07:37] benchmarking
+[07:39] uh with respect to this knowledge
+[07:41] distillation and all everything have
+[07:43] been explained. If you want to be deep
+[07:45] dive into that particular concept then
+[07:47] for sure you can refer this uh research
+[07:49] paper. Now uh I will try to simplify
+[07:52] this entire research paper this entire
+[07:54] process uh in my explanation and I'll
+[07:57] give you the uh complete end to end
+[08:00] explanation with some uh diagram. Okay.
+[08:03] Uh so I'll give you this research paper
+[08:05] link for sure you can uh look into it.
+[08:08] So uh let's check out with the uh other
+[08:11] point. So displaying the knowledge in
+[08:14] the neural network. So this was a Google
+[08:16] research work and the paper demonstrate
+[08:19] that a smaller model can be accurate as
+[08:22] large one when trained using the soft
+[08:25] target. Okay. So guys uh whenever we are
+[08:28] talking about this distillation so we
+[08:30] need to understand some concepts. The
+[08:32] concepts include teacher model concepts
+[08:35] include student model soft loss okay
+[08:39] soft target hard target okay and we have
+[08:42] to understand one loss function as well.
+[08:44] So I'll show you the formula of that
+[08:45] particular loss function which is a
+[08:47] combination of the cross entropy and K
+[08:51] divergence. Okay. So uh those are many
+[08:54] thing we need to understand. Now where
+[08:56] it is being used where this distilled
+[08:59] model is being used. So here I kept
+[09:01] couple of point and for sure we're going
+[09:03] to discuss these particular point in the
+[09:05] upcoming uh in in this video itself.
+[09:08] Okay. So uh now here is a teacher model.
+[09:11] Right. Now the concept of the student
+[09:13] model then here you can see the loss
+[09:16] function right so the loss function
+[09:18] basically it's a combination of the
+[09:19] cross entropy loss and as well as the
+[09:21] kale divergence loss then we have a hard
+[09:24] level okay we have to understand about
+[09:26] the hard level which is also called the
+[09:28] ground truth soft level which is a
+[09:30] teacher prediction it is a soft max
+[09:33] prediction right you know about the soft
+[09:35] max so soft max is going to predict the
+[09:37] probability so it is a soft max
+[09:39] prediction and here is a loss function
+[09:41] Guys, this is what this is a loss
+[09:43] function which we're going to use while
+[09:45] we are going to be distaliz the
+[09:47] knowledge right so these all are the
+[09:49] concept which I kept in terms of
+[09:51] theoretical points over here step by
+[09:53] step one by one we need to understand
+[09:56] all this concept okay so uh first let's
+[09:59] start with this analogy like what is
+[10:01] this analogy okay and what we are going
+[10:03] to do inside the distillation the
+[10:06] knowledge distillation so here guys I
+[10:08] kept one diagram let me show you that
+[10:11] specific specific diagram. First of all,
+[10:12] let me clear this entire screen as of
+[10:15] now. It is not required. So, I'll write
+[10:18] everything from scratch itself. So, give
+[10:22] me a moment. Let me
+[10:25] clean it up.
+[10:28] So, perfect guys. Now, I have uh let me
+[10:31] copy and paste one diagram. So, the
+[10:33] diagram includes the entire analogy, the
+[10:35] analogy which I was trying to explain.
+[10:37] Okay. So inside this diagram you can see
+[10:40] we have a teacher right. So uh the lady
+[10:43] actually she's a teacher let me uh write
+[10:46] over here and here is a student.
+[10:51] Okay. So here is a student. Now you can
+[10:55] think this student is going for the
+[10:58] exam. He's preparing for the exam. So
+[11:00] how this student can prepare for the
+[11:02] exam? This student can prepare by
+[11:06] himself. means he can uh uh he can go
+[11:09] through with the internet, he can go
+[11:11] through the Wikipedia, chat GPT or he
+[11:14] can go through with the different
+[11:14] different books and all right and he can
+[11:17] acquire the knowledge with respect to
+[11:18] the specific uh exam right uh and after
+[11:22] that guys after acquiring a knowledge
+[11:23] with respect to the specific subject now
+[11:26] the person is going for the exam okay
+[11:28] this is the one way now what is another
+[11:30] way the another way is so uh this person
+[11:33] right this student can gather some notes
+[11:36] from the teacher teacher the teacher who
+[11:38] already knows about this specific
+[11:40] subject. Okay, this teacher is a sub
+[11:42] subject matter expertise. So this
+[11:45] teacher have prepared some notes. Now
+[11:47] this person now this student can
+[11:49] directly consume this specific class
+[11:52] notes and he could be appear for this
+[11:54] particular exam. So there is two thing
+[11:56] the first thing basically a student can
+[11:59] himself prepare for the exam uh from the
+[12:01] variety of the resources he can gather
+[12:03] the information and the second one
+[12:05] basically he can take the class notes
+[12:08] right he can take a class notes from the
+[12:10] teacher and then only he can prepare for
+[12:12] the exam. So guys uh whenever we talking
+[12:15] about the knowledge distillation
+[12:18] knowledge distillation so this knowledge
+[12:22] distillation is based on the same
+[12:24] concept. What does it mean guys? So the
+[12:27] meaning is very very simple. So we have
+[12:29] one teacher the teacher is nothing it is
+[12:32] a this teacher is a heavy model. Heavy
+[12:35] or the large model.
+[12:37] Okay, heavy model or I can say this
+[12:41] teacher is a large model.
+[12:44] This student who is a student guys, this
+[12:46] student is nothing. A student is a small
+[12:48] model. In the world of deep learning, we
+[12:51] always train a model. In the world of
+[12:52] AI, we always train a model. So this uh
+[12:56] student is nothing. It's a small model,
+[12:58] right? He's a small model, right? So
+[13:00] guys uh now what he's doing this a small
+[13:03] model is taking a knowledge. Okay, this
+[13:06] small model is taking a knowledge from
+[13:09] the heavy model, right? So this small
+[13:12] model is taking a knowledge from the
+[13:14] heavy model or in short I can say this a
+[13:16] small model is disting distillizing the
+[13:19] knowledge. Okay, distillizing the
+[13:22] knowledge distalizing the knowledge from
+[13:25] where? From the heavy model and then it
+[13:28] is going to be perform their own task.
+[13:31] That's a simple concept of the knowledge
+[13:33] distillation. Now let me show you one
+[13:35] more diagram with that your
+[13:36] understanding will be bit more clear. So
+[13:39] here guys you can see so I kept one more
+[13:42] diagram. So inside that we have a large
+[13:44] model or the huge model. So this large
+[13:46] model it's a GPT model as you can see.
+[13:50] So large model is a GPD model. I kept
+[13:53] couple of model GPD 4.1 GPD 4 GPD 4.5.
+[13:58] These are quite huge model as you know
+[14:00] if you are familiar with the open based
+[14:02] model and all then you must be aware
+[14:04] about these particular model right. So
+[14:05] we are going to be dislike this
+[14:07] particular knowledge the knowledge from
+[14:09] these large model from the huge model
+[14:12] okay and we are we are training this
+[14:14] small model. So we are disliking the
+[14:16] knowledge from the large model to the
+[14:19] small model. Okay, a small model. So
+[14:22] there is a complete process for
+[14:24] dislizing
+[14:30] the knowledge knowledge from where from
+[14:34] the large model to the small model.
+[14:38] Okay, I'll show you that specific
+[14:39] process. I hope you understood this
+[14:41] analogy and I hope you understood the
+[14:43] concept of the uh distalization. So uh
+[14:47] this large model itself is called the
+[14:49] teacher model and this a small model is
+[14:51] called the student model. Okay. So
+[14:54] that's why I kept this diagram at the
+[14:55] first place and then I came over here.
+[14:58] Now coming to the next part. So guys uh
+[15:00] here first of all we'll have to
+[15:03] understand about the model training. If
+[15:05] you're familiar with the model training
+[15:07] let me write over here. So uh guys
+[15:09] whenever we talking about the model
+[15:10] right model in machine learning so model
+[15:16] in machine learning
+[15:18] in ML
+[15:21] or if we're talking about the model in
+[15:23] DL deep learning that is RNN sorry ENN
+[15:27] CNN RNN okay even the transformer based
+[15:30] model which is comes specifically in GNI
+[15:33] it's having two phase every AI model is
+[15:35] having two phase the first phase of the
+[15:37] AI model is called is called the
+[15:40] training. First we train the first we
+[15:44] train the model then the second phase of
+[15:47] the model is called the prediction we
+[15:49] perform the prediction after the
+[15:51] training. Okay. So we have a model in ML
+[15:54] classical M and DL in GI also right and
+[15:57] in every sort of a like you know every
+[16:00] sort of a like domain right MLDDL or
+[16:02] geni we first train the model and then
+[16:05] we perform the prediction. So guys uh
+[16:07] let's try to understand uh the training
+[16:09] process how the training happens okay
+[16:12] then only we'll be able to understand
+[16:14] that how it is going to be distlized the
+[16:16] knowledge from the teacher model to the
+[16:18] student model. So uh here uh you can see
+[16:20] I kept one diagram and with this
+[16:22] particular diagram your understanding
+[16:24] will be bit more clear. So let's try to
+[16:27] understand the training process at the
+[16:29] first place. So uh in the training guys
+[16:31] see uh let's try to understand about the
+[16:34] training process. So the training uh
+[16:37] what is required? So we required a data.
+[16:40] So you can see over here we have three
+[16:43] type of data three classes in the data
+[16:45] itself. Uh we have cats, we have dogs
+[16:48] and we have rabbit. Right? So this is
+[16:51] what my database and in my database we
+[16:53] have three three type of classes. Now
+[16:57] what we are doing guys we are going to
+[16:58] be train one artificial neural network.
+[17:01] Okay, we are going to be trained one
+[17:02] artificial neural network means see we
+[17:04] have a specific type of neural network
+[17:06] which is called the CNN that is called
+[17:08] convolution neural network but we can
+[17:10] directly flatten this images okay
+[17:12] without processing use using the CNN
+[17:15] architecture and we can pass it to the
+[17:17] artificial neural network. So as of now
+[17:18] this is just the analogy or this is just
+[17:20] the overview. So you can think whether
+[17:22] it's a artificial neural network or it's
+[17:24] a specific CNN neural network which is
+[17:28] specifically we use for the image data.
+[17:30] Okay. So anyone model you can think over
+[17:33] here you just need to think that this is
+[17:34] a AI model. So here we have a database
+[17:37] inside this data we have three classes a
+[17:39] cat dog and rabbit and we have the
+[17:42] artificial neural network means one AI
+[17:44] model which we are going to be trained
+[17:46] and here guys this particular model is
+[17:49] called the teacher model. Why it is a
+[17:50] teacher model? I'll tell you that
+[17:52] because this model is bigger compared to
+[17:55] the pre compared to the next model which
+[17:57] I will show you. Okay. So guys what we
+[18:00] are going to be do we are going to be
+[18:01] train this particular model. Now what is
+[18:04] the training process for uh train any
+[18:06] artificial neural network. Okay. So here
+[18:09] guys this is a diagram. With this
+[18:11] particular diagram we'll try to
+[18:12] understand the training process of the
+[18:15] artificial neural network. So first what
+[18:17] we do guys we perform the feed forward
+[18:20] feed forward sorry first we perform the
+[18:23] forward propagation forward
+[18:26] propagation. Okay then what we do we
+[18:30] perform the backward propagation as you
+[18:32] know right we perform the backward
+[18:35] propagation. So forward propagation is
+[18:38] one thing and then we perform the
+[18:40] backward propagation. Now in the forward
+[18:42] propagation what we do we pass the
+[18:44] input. So this is what this is my input
+[18:47] layer. Okay, we pass the input. So this
+[18:50] input comes to the hidden layers. This
+[18:51] is called the hidden layer. Hidden layer
+[18:53] first, hidden layer second. Okay, then
+[18:55] it goes to the output layer. So this is
+[18:57] my output layer. So this output layer,
+[19:00] it could be binary output layer. Okay,
+[19:02] in the binary output layer, we would be
+[19:04] having one neuron. Binary means two
+[19:06] classes. And this could be the uh uh
+[19:09] this could be a uh multi we can design
+[19:13] this output layer for the multiple
+[19:14] output also. Okay. So multiple output.
+[19:19] So this layer could be a binary output
+[19:21] layer or this layer could be a could be
+[19:23] for the multiple output output also. So
+[19:25] in the binary output we use the sigmoid
+[19:27] function and the multiple output we use
+[19:29] the softmax function. Right? So guys
+[19:32] whenever we perform the forward
+[19:33] propagation we pass the data from the
+[19:35] input layer. So this input layer is
+[19:37] nothing we are going to be convert our
+[19:39] data into the array right. So this is my
+[19:41] array. Now this particular data we pass
+[19:43] to the hidden layer. This is my hidden
+[19:45] layer. Now in the hidden layer we have
+[19:47] two operations. The first operation
+[19:50] inside the hidden layer which is called
+[19:51] guys which is called the summation. So
+[19:53] what we do? We perform the summation.
+[19:56] Okay summation. Now after performing the
+[19:59] summation what we do we pass it from the
+[20:01] activation function. Okay, we pass it
+[20:04] from the activation function. The
+[20:06] summation and activation function is a
+[20:08] uh is a like uh this is a process which
+[20:11] is happening inside the one single
+[20:13] neuron. Okay, this is the operation
+[20:15] which is happening inside the one single
+[20:16] neuron. So after performing the
+[20:18] summation okay of the entire input and
+[20:21] after passing it from the activation
+[20:23] function we pass it again from the
+[20:25] hidden layer. Okay then in the hidden
+[20:27] layer the second hidden layer in every
+[20:28] neuron the same thing is going to be
+[20:30] happen and then finally it comes to the
+[20:32] output layer. Okay in output layer also
+[20:34] what we have we have a activation
+[20:36] function. Okay, it is a binary output
+[20:38] then we have a uh then we have guys uh
+[20:42] this one sigmoid activation function and
+[20:45] if we have multiple output in that case
+[20:47] we have a softmax output function okay
+[20:51] softax output function now guys uh so
+[20:54] we'll get a output now after getting
+[20:56] output what will happen what will happen
+[20:58] you know so after getting a output guys
+[21:00] we'll try to compare this output let's
+[21:02] say this output is called the by predict
+[21:04] now we are going to be compare this
+[21:06] output with the original level. So this
+[21:09] process is called the loss. We are going
+[21:11] to be calculating a loss. Okay. So the
+[21:13] entire distillation process is working
+[21:15] around this loss only. Right? This
+[21:17] entire uh distillation process is
+[21:19] working around the loss only. See guys
+[21:21] this is the artificial neural network.
+[21:23] Okay. Now we are talking about the CNN
+[21:26] convolution neural network. So inside
+[21:28] the in in the convolution neural network
+[21:30] we'll be having one more layer before
+[21:32] this ANN. That particular layer is
+[21:34] called the convolution layer. Okay, that
+[21:37] particular layer called the convolution
+[21:39] layer. That is just for the image
+[21:41] processing. So we are just going to be
+[21:42] find out a specific feature. We are just
+[21:44] going to be extract the specific feature
+[21:46] from the images and then we are passing
+[21:48] to the ANN. That's it guys. Okay, we
+[21:50] have one more type of neural network, a
+[21:52] specific neural network which is called
+[21:53] the recurrent neural network. So we'll
+[21:56] see in some other classes and all we'll
+[21:58] deep dive into those. If you want to be
+[21:59] understand if you want to be under like
+[22:02] uh take a overview of all this neural
+[22:04] network and all you can visit my
+[22:05] previous session also there I given you
+[22:07] the glimpse of it. So uh here guys what
+[22:09] we do we find out a loss so we calculate
+[22:12] a loss guys. So we have a loss function
+[22:14] and after that after calculating a loss
+[22:16] what we do we back propagate. So we have
+[22:18] a forward propagation okay and then what
+[22:21] we do we do the backward propagation. So
+[22:23] in inside the backward propagation we
+[22:25] use the optimizer.
+[22:27] Okay. So in the backward propagation
+[22:29] guys we use the optimizer.
+[22:32] I hope guys you are familiar with the
+[22:33] different different optimizer concept.
+[22:35] Again this is a part of the deep
+[22:37] learning itself means it comes inside
+[22:38] the core deep learning and the
+[22:40] artificial neural network. So we'll see
+[22:42] the optimizer and all these particular
+[22:44] concept in the upcoming uh sessions.
+[22:46] Okay. So this is the complete process
+[22:49] the training process right. So we have a
+[22:51] input then we pass it to the neuron. In
+[22:53] the neuron we have a summation then
+[22:55] activation function then it is being
+[22:57] passed it from the different different
+[22:59] neuron means different different header
+[23:00] layer. Okay. Uh inside the header layer
+[23:02] we have a several neurons and then
+[23:04] finally it is being passed to the output
+[23:06] layer. In the output layer we are going
+[23:08] to be compare from the actual level and
+[23:10] here we are going to be calculated a
+[23:12] loss. Then for minimizing this loss we
+[23:15] have a optimizer. So where we are going
+[23:17] to be implement the optimizer we are
+[23:18] back propagating. Okay, we are back
+[23:20] propagating, right? So what is a formula
+[23:24] like when we back propagate? So one
+[23:26] basic formula when we find out the
+[23:28] gradient descent, let me show you both
+[23:29] formula loss function as well as the
+[23:31] gradient descent formula as well. Okay,
+[23:33] with that your understanding will be bit
+[23:35] more clear. So here guys you can see
+[23:37] this is the formula for the cross
+[23:38] entropy this one. So uh here inside this
+[23:42] particular formula you can see we have
+[23:44] this pi and log qi. So pi means what?
+[23:48] It's a true probability. True
+[23:49] probability distribution. And what is a
+[23:51] Qi? Qi means predicted probability
+[23:54] distribution. Okay. So PI means
+[23:56] basically true probability distribution
+[23:59] mean that is called a ground truth.
+[24:00] Okay. The actual level and QI means
+[24:03] what? Which is a predicted one which is
+[24:04] being predicted from the soft max. Okay.
+[24:06] This is the this is the one formula for
+[24:08] the cross entropy for the multiple
+[24:09] classes. Okay. Now let me show you the
+[24:11] formula for the gradient descent. So
+[24:13] here guys you can see this is the
+[24:14] formula for the gradient descent. Okay,
+[24:17] let me keep it over here. So that you
+[24:19] can clearly see this one. So we have a
+[24:23] so what we are doing over here inside
+[24:24] the gradient descent for updating a
+[24:26] weight. This is one of the optimizer
+[24:27] guys. So we are going to be calculating
+[24:29] a new weight while we are going to back
+[24:31] propagate. Okay. So it's a old weight.
+[24:33] We are going to be minus from the from
+[24:36] this particular value. So this is called
+[24:38] the learning rate. Okay. And we are we
+[24:40] are what we are doing here? We are going
+[24:42] to perform the derivative of the loss
+[24:44] function. So this loss it could be a
+[24:46] cross entropy it could be binary cross
+[24:49] entropy okay it could be any uh
+[24:52] basically other loss so RMS right root
+[24:57] mean square or the other different
+[24:58] different laws for the regression and
+[25:00] all MSE could be there okay RMS MSE this
+[25:03] loss could be there cross entropy binary
+[25:05] cross entropy RMS MSE ME is also one of
+[25:08] the laws for the regression okay so this
+[25:10] is one of the optimizer using this
+[25:12] optimizer what we do we train the neural
+[25:15] network. Okay, we train our network. So
+[25:18] now we have very advanced optimizer atom
+[25:20] optimizer. Okay, we have basically
+[25:24] different different variants of the atom
+[25:26] optimizer, right? Generally we use that
+[25:28] that Adam optimizer only while we train
+[25:30] the neural network or any other model
+[25:33] like transformer based model and all.
+[25:35] Okay. So there is a complete history
+[25:37] behind this optimizer. We can understand
+[25:39] this entire uh neural network concept
+[25:41] and all in some upcoming classes. So
+[25:43] this is a complete process guys process
+[25:45] for the training. So you can think in
+[25:47] such a way that we have a database. We
+[25:49] are going to be trained one neural
+[25:50] network. Okay. So this is a complete
+[25:53] process of the training and here this
+[25:55] particular model is called the teacher
+[25:57] model. Okay. Now let's understand the
+[25:59] next part. So uh here guys I capped one
+[26:02] more image with that maybe your
+[26:03] understanding will be bit more clear
+[26:05] with respect to this particular training
+[26:07] process. So let's say we have a image
+[26:09] right? So here what we have we have a
+[26:11] image. So this image we are passing this
+[26:14] image we are passing where into the
+[26:15] neural network for the training. So uh
+[26:18] this is the image and how we will pass
+[26:19] the label we'll pass the label like
+[26:21] this. So how many classes we have? We
+[26:23] have a three classes. The first class is
+[26:25] cat. The second class is dog and the
+[26:27] third class is a rabbit. Okay rabbit. So
+[26:31] guys how I will prepare the label for
+[26:33] this particular image. So I'll keep cat
+[26:35] as a one dog zero and rabbit zero. And
+[26:38] here is my cat image. Okay cat image.
+[26:41] Now there could be a dog image. If you
+[26:43] have a dog image then how I will prepare
+[26:45] a label for the dog image. So here would
+[26:47] be zero there would be one and there
+[26:49] would be zero. Okay. Now let's say I
+[26:50] have a rabbit the other class the third
+[26:53] class. So how how the third image
+[26:55] basically. So I how I will prepare the
+[26:56] label for that 0 0 1. So this is the
+[26:59] label for the rabbit. So cat dog rabbit
+[27:02] I'll be passing the data from the neural
+[27:04] network. Okay. Then it's going to be
+[27:05] predict this three output. Now this is
+[27:07] called my predicted pro predicted value
+[27:09] predicted probability right. So this is
+[27:11] my soft this and this value coming from
+[27:14] where this value is coming from the soft
+[27:16] max. If you know about the soft max then
+[27:18] I think you can understand that how this
+[27:20] probability is being calculated. But as
+[27:22] of now just understand on a functional
+[27:23] level not on the uh uh not on that
+[27:26] mathematical level. Okay. So we have a
+[27:28] image we are passing the label. Okay. We
+[27:30] are passing it from the neural network.
+[27:32] It's going to be predict. See this is a
+[27:33] training process. Okay. One more thing
+[27:36] uh you you have to be keeping in mind
+[27:37] that this is a training process. So we
+[27:39] have image guys we have a label we are
+[27:41] passing it from the neural network and
+[27:42] we are going to be we are going to be
+[27:45] predict the probability right. So for
+[27:47] the cat this one for the dog this one
+[27:48] for the other for the next class here is
+[27:51] a probability. Okay. So this is what my
+[27:53] this is my predicted output. Now what I
+[27:55] will do I'll compare it from the actual
+[27:57] output. So what is the actual output? 1
+[27:59] 0 0. This is my actual output. Now what
+[28:01] I will get over here guys I will find
+[28:03] out the loss right and this loss
+[28:05] basically we are going to be calculate
+[28:06] using the cross entropy right so we have
+[28:09] our loss function the loss function is
+[28:11] called the cross entropy and we are
+[28:12] going to be calculate a loss using this
+[28:15] specific function I hope you understood
+[28:17] the entire training process now why I
+[28:19] was telling you this entire training
+[28:21] process I'll let you know because uh for
+[28:24] understanding this distillation process
+[28:26] you will have to take a look on this
+[28:28] training process okay now Guys, let's do
+[28:31] one thing. Let's uh try to understand
+[28:33] the soft level and the hard level. Okay?
+[28:36] And then I will show you the prediction
+[28:38] part. So whenever we talking about the
+[28:40] soft level and the hard level guys, so
+[28:42] this uh probability right here, let me
+[28:45] write the hard level. I'm I'm going to
+[28:48] be right over here hard level. Okay. So
+[28:51] this hard level this is nothing. It's a
+[28:53] soft max probability. So the software's
+[28:56] probability basically which we are going
+[28:57] to be calculate these are the
+[28:58] probability 0.37
+[29:01] 050
+[29:03] 0.13
+[29:04] right so this is what this is a hard
+[29:06] level sorry this is a soft level okay
+[29:09] let me remove let me remove this one
+[29:12] this is called a soft level okay so here
+[29:15] I can write soft
+[29:19] level and this this is this is a soft
+[29:22] max probability okay soft probability
+[29:25] Means what? It is a soft max. Soft max
+[29:28] is what? It is a activation function.
+[29:30] Okay. If you're talking about the hard
+[29:32] level, so this hard level is nothing.
+[29:34] This hard level is this one hot encoded
+[29:36] vector which is 1 0 0 1 or 0 1 0 or 0 0
+[29:43] 1. So this is called the hard level.
+[29:46] Okay, I hope you understood what is a
+[29:47] soft level and what is a hard level. Now
+[29:50] guys, after performing a training,
+[29:52] right? Now if I'm going to be perform
+[29:54] the prediction right so let me uh take
+[29:56] one more image and here let me keep this
+[29:59] particular image over here and try to
+[30:01] understand the prediction
+[30:03] pipeline. So let's say we have a train
+[30:05] model now which we have trained on a
+[30:07] three type of images. Now what we are
+[30:09] going to be do we are going to be
+[30:10] perform the prediction on this train
+[30:13] model. Okay. So we are going to be
+[30:16] perform the prediction on this train
+[30:18] model. So we are passing a image guys.
+[30:19] So here is the image as you can see this
+[30:21] is my image we going to be pass this
+[30:23] image and this image is going through
+[30:25] the artificial neural network okay then
+[30:28] we are going to be predict the soft max
+[30:29] value right so here is what here is my
+[30:32] soft max value okay so let me write over
+[30:35] here the soft max value now the soft max
+[30:38] value the soft max probability itself is
+[30:41] called the soft label okay and then guys
+[30:43] we are getting this particular vector
+[30:44] means 0.7 which is the highest one okay
+[30:47] so here the one will come 0 zero. So for
+[30:50] the cat only we have assigned then this
+[30:52] vector while we were doing the training.
+[30:54] So this was the label for the cat. So
+[30:56] here it is doing a right prediction. I
+[30:58] hope you're getting right. So this is
+[31:00] the cat guys. So during the training
+[31:02] this label was assigned to the cat 1 0
+[31:04] 0. Now this cat image will go to this
+[31:06] artificial neural network. It will
+[31:08] predict the probability. This
+[31:09] probability is going to be a southx
+[31:11] probability. Okay. And then will convert
+[31:12] into the one hot encoded vector means 1
+[31:14] 0 0. So this is the correct value
+[31:17] correct prediction. So this particular
+[31:19] probability is called the soft level and
+[31:21] this particular values is called the
+[31:23] hard level. I hope guys you understood
+[31:25] the complete training. You understood uh
+[31:28] about the uh teacher model means my
+[31:32] actual large model is called the teacher
+[31:34] model and you understood about the
+[31:36] prediction as well. Okay. And during
+[31:38] this entire thing uh there's three
+[31:40] important term. First is the teacher
+[31:42] model. Second is the soft level uh and
+[31:44] the third one is the hard level. Now
+[31:47] let's uh understand about the is student
+[31:49] model guys.
+[31:51] So guys here you can see the student
+[31:53] model. So student model is nothing. It's
+[31:56] a small model. Okay. So this is the
+[31:59] student model and inside this particular
+[32:01] model you can see we just have two
+[32:02] hidden layer. In the previous teacher
+[32:04] model we were having more than two
+[32:06] hidden layer which so see how many
+[32:08] hidden layer was there. Three hidden
+[32:09] layer was there. 1 2 3. Right? So uh
+[32:13] what is the moral of the story here? The
+[32:15] moral of the story is very very simple.
+[32:17] Student model is going to be a small
+[32:19] model and teacher model is going to be a
+[32:22] larger model. So we have to transfer the
+[32:25] knowledge from teacher to a student.
+[32:29] Okay. So just think over here guys. We
+[32:31] have one student model. Okay. Now there
+[32:34] could be two scenario. So see student
+[32:37] model. So again if we have any model
+[32:38] there will be two phase of it. First
+[32:40] phase of it is going to be a training
+[32:43] and the second phase of it is going to
+[32:44] be a prediction right first we'll train
+[32:48] the model and then we'll predict the
+[32:49] model predict the basically whatever uh
+[32:52] like input we are passing based on that
+[32:54] it will provide me a prediction. So uh
+[32:56] training guys let's say we have a small
+[32:58] model small neural network and we are
+[33:00] going to be train it on train it on one
+[33:02] small data okay or the data could be
+[33:05] same means here the data could be same
+[33:07] means the size of the data is same or
+[33:10] could be less or more okay that's fine
+[33:12] that's completely fine but the size of
+[33:14] the model is going to be different means
+[33:17] the size of the model is going to be
+[33:19] lesser only okay now guys over here uh
+[33:22] you understood the teacher model which
+[33:24] is a bigger model a student model which
+[33:26] is a smaller model which have been
+[33:27] trained on the same amount of data or
+[33:30] more or less data. Okay. Now what is a
+[33:33] distillation over here? What is the
+[33:34] meaning of the distillation? So here I
+[33:36] mentioned one line. The line is
+[33:38] knowledge distillation from teacher to
+[33:41] student. It is a special finetuning okay
+[33:44] or retraining the student model using a
+[33:48] special loss function. I hope you
+[33:51] understood it. If you haven't
+[33:52] understood, let me explain you that and
+[33:54] then I will come to the practical. So
+[33:56] let's say we have a teacher model guys.
+[33:58] Here I'm going to be write teacher
+[34:04] model.
+[34:06] Okay. Now this is the large model.
+[34:10] Large
+[34:12] model. Okay. Now here what we have? We
+[34:15] have a student model.
+[34:19] A student model. Now this student model
+[34:22] is a small model. Okay. Now we have to
+[34:26] teach this student model. Okay. Using
+[34:30] the knowledge of the teacher model. So
+[34:32] we have to transfer the knowledge from
+[34:34] the teacher to student. So how we will
+[34:38] teach to the student model. So we'll be
+[34:41] having one special loss function. Okay
+[34:44] you understood the training process.
+[34:46] What happened in the training process?
+[34:48] First we pass the input. That input goes
+[34:52] through the network. Then we calculate
+[34:56] the loss. Okay. And then after that we
+[35:01] back propagate. We update the bit. Okay.
+[35:05] And this thing is going to be in a loop.
+[35:08] Means again we'll pass the input. Then
+[35:10] we pass it through through the network.
+[35:12] Then again we calculate the loss. Then
+[35:14] again back propagation until and unless
+[35:16] we are not going to be reduce this loss.
+[35:19] Okay. Our main aim to reduce the loss or
+[35:22] optimize this loss. So we are going to
+[35:24] be use a specific loss function over
+[35:26] here. Now guys whenever we talking about
+[35:28] this student model. So here let me write
+[35:31] this student model. So this student
+[35:36] model there could be two type of this
+[35:39] student model. First we just initialized
+[35:43] we just init in initialized okay with
+[35:48] some
+[35:51] random weight with some random weight
+[35:55] okay means we haven't performed any sort
+[35:57] of a training we haven't performed any
+[35:59] sort of a training with respect to the
+[36:01] student model means we just initialize
+[36:03] the model okay let's say we have a
+[36:05] artificial neural network in that
+[36:08] artificial neural network we have one
+[36:09] input layer, we have one hidden layer
+[36:13] and we have one output layer. Okay, so
+[36:16] this is my artificial neural network. So
+[36:18] we just initialize this network with the
+[36:20] random weight.
+[36:23] Okay, random weight. We haven't train it
+[36:27] still, right? So this is the first type
+[36:29] of model. This is the first type of
+[36:32] model. First type of student model. Let
+[36:35] me write over here. This is the first
+[36:38] type of a student model. The second type
+[36:41] of a student model. The second type of a
+[36:43] student model means let me write over
+[36:45] here or let me take a different color so
+[36:47] that you can understand it clearly. So
+[36:50] the second type of a student model
+[36:54] the model basically which we have
+[36:56] trained. Okay.
+[36:58] Second type of
+[37:02] student
+[37:04] model.
+[37:06] The model let's say we have the same
+[37:08] model this one. Okay. Now the model
+[37:11] which we have trained on some data this
+[37:15] one. So we are passing some
+[37:19] data to this model and we have train it.
+[37:24] Okay. So guys this model we just
+[37:28] initialize
+[37:29] we have on train and this is the second
+[37:32] type of model. Okay. Which we have
+[37:34] trained. getting my point? So guys over
+[37:37] here we can perform the knowledge
+[37:39] distillation means means we have a
+[37:41] teacher. Let me take a teacher guys. So
+[37:44] here we have a teacher. Now this teacher
+[37:47] can pass the knowledge means we can
+[37:49] retrain the model. This ENN model the
+[37:52] first type of model which we have which
+[37:55] we have initialized with a random weight
+[37:59] random weight.
+[38:01] Okay. Now let's say we have a teacher
+[38:03] model.
+[38:05] Teacher model.
+[38:07] Okay. We can we can train we can retrain
+[38:11] the second type of model also. Okay.
+[38:14] Which we have already trained on some
+[38:16] data
+[38:18] already
+[38:20] trained
+[38:22] on
+[38:24] some data. So the moral of the story is
+[38:26] very very simple. We have a teacher
+[38:28] model. We can transfer the knowledge to
+[38:31] the model. Okay, which we have just
+[38:33] initialized. We haven't we have not
+[38:35] trained yet. And we can transfer the
+[38:38] knowledge from the teacher model to the
+[38:40] EN model or to the AI model which we
+[38:43] have already trained. Okay. So guys over
+[38:47] here the line which I have written now
+[38:49] you will be able to understand clearly.
+[38:51] Knowledge distillation from teacher to
+[38:53] student it is a special finetuning.
+[38:57] Okay, fine. Special finetuning means
+[38:59] it's a special fine tuning where we are
+[39:01] going to be retrain the model which we
+[39:03] have just initialized or we are going to
+[39:05] be retrain the student model which we
+[39:08] have already trained with the special
+[39:11] loss function. I hope you understood it.
+[39:15] Okay. Now once I will show you the
+[39:16] practical in that case the understanding
+[39:19] will be bit more clear. So let me open
+[39:22] the practical guys and then I will start
+[39:23] with the code execution.
+[39:26] So guys, step by step, I kept all the
+[39:28] points inside the uh IPV file also. Uh
+[39:32] so as you can see over here, uh this is
+[39:35] a step-by-step explanation of the entire
+[39:38] uh of this entire implementation. So at
+[39:41] the first place, let's try to understand
+[39:43] the code. So we are going to be import
+[39:45] module. First is a torch, then from the
+[39:48] torch, there's a neural network, then
+[39:49] optim is there, then data set and
+[39:51] transformer, and then data loader. Okay,
+[39:54] so let me execute it. And here guys,
+[39:56] what I'm doing, I'm going to be like uh
+[39:58] run this transform transformer.compose.
+[40:01] So it will convert the normal tensor
+[40:03] into the pytor tensor and then it's
+[40:06] going to be normalize the data. Okay, so
+[40:08] we are going to be normalize the data
+[40:10] using this particular formula this one.
+[40:12] Now why we perform the normalize? So
+[40:13] that my value could be uh center
+[40:16] centered around the zero. Okay. Uh
+[40:19] center around the mean which is zero.
+[40:21] Okay. And we can do the faster training
+[40:23] and we can reduce the risk of the
+[40:25] vanishing and the exploding gradient.
+[40:27] Now here what I'm doing I'm going to be
+[40:28] perform the pre-processing. So uh I I
+[40:30] just created the object and then I will
+[40:32] pass this particular object over here.
+[40:34] Right? So this is my data guys. Train
+[40:36] data, test data, train, train loader and
+[40:38] test loader. So first we have loaded the
+[40:40] data. Okay. And then we have converted
+[40:42] into the hugging phase specified for
+[40:45] right now after this one guys what we'll
+[40:47] do we are going to be visualize this
+[40:49] data. So for that we are going to be use
+[40:50] the mattplot library over here and then
+[40:53] here is my uh images. So in total I'm
+[40:55] going to be visualize the eight images.
+[40:57] Okay. So 1 to8. Now if I'm going to be
+[41:00] executed. So see along with the label
+[41:02] you will be able to see the images. So
+[41:04] this is the amnest data set which is
+[41:05] having the handwritten images. Okay. Now
+[41:08] what I'm doing guys I'm going to be
+[41:09] train my teacher model teacher
+[41:12] multi-layer perceptron. So this is a
+[41:14] class for that. Okay. And over here you
+[41:16] can see we have input layer. This is my
+[41:18] input layer. Okay, this one. Now we are
+[41:20] going to be connected with the header
+[41:22] layer. So here is my header layer. Then
+[41:24] this first header layer is going to be
+[41:25] connected with the header layer too. And
+[41:27] then finally we are going to be
+[41:28] connected to the output layer. So we
+[41:30] have a 10 classes 0 to 9. 0 to 9 means
+[41:32] 10. Okay. It's going to be predict 10
+[41:34] number. So this is for the forward pass
+[41:36] guys. Okay. So this is the class which
+[41:38] we are going to be create for what for
+[41:40] performing the training of the teacher
+[41:42] model. So here I'm going to be pass the
+[41:44] hidden layer one size hidden layer
+[41:45] second size and here is my teacher
+[41:47] model. Now you can see the teacher
+[41:49] model. So this is just an initialization
+[41:50] of the model. The term basically which I
+[41:53] was explaining you just uh right before
+[41:57] this practical implementation itself
+[42:00] that we are going to be initialize a
+[42:01] model without training. So here we have
+[42:04] just initialize the model with the
+[42:05] random bits. Okay. So now guys what I'm
+[42:08] going to be do I'm going to be perform
+[42:09] the training of this teacher model. So
+[42:11] we have a model over here. We are going
+[42:12] to be pass a data loader. Now here is a
+[42:15] number of epoch. So as of now I'm just
+[42:16] going to be keep single epoch so that I
+[42:18] can make process faster. Then we have a
+[42:21] learning rate. Okay. While we are going
+[42:23] to be train the model at that time or we
+[42:25] are going to be use this learning rate
+[42:27] for the better conversion. Okay. So I'm
+[42:30] going to be use this atom optimizer.
+[42:32] Right. And here is my loss function
+[42:33] which is a cross entropy because we have
+[42:35] more than two classes. Then here I'm
+[42:38] going to be initialize the training of
+[42:39] the model. And then this is a complete
+[42:41] training process means here I'm going to
+[42:43] be calculate a gradient okay then I will
+[42:45] be getting a sorry I'm going to be
+[42:48] optimiz I'm going to be op this gradient
+[42:50] okay means we are going to be
+[42:51] calculating gradient will perform the
+[42:52] back propagation here I'm going to be
+[42:54] calculating a loss then it will go
+[42:56] backward it will perform the back
+[42:57] propagation and then it going to be
+[42:59] calculate the updated weights and all
+[43:01] okay then here it will be my total loss
+[43:03] so this is going to be complete training
+[43:05] process so let me execute it guys and
+[43:07] here I'm going to be train my teacher
+[43:08] model so See I got I will get my teacher
+[43:12] model. Okay. After the training it's
+[43:14] going to be started training it might
+[43:16] take some time. Now if you want to be
+[43:17] check the weights the updated weights.
+[43:19] So over here you can run this teacher.
+[43:22] Tic with that you will be able to find
+[43:24] out the updated weight after the
+[43:26] training. Whatever weights would be
+[43:27] there you will get over here. Now see my
+[43:29] training is completed. I was just having
+[43:31] single epoch. So it has completed a
+[43:32] training within a minute itself. And now
+[43:35] if you want to check the updated weight
+[43:36] after the training you can simply
+[43:37] execute this thing. Okay. So with
+[43:39] respect to each and every hidden layer
+[43:41] you will get that. Now coming to the
+[43:43] next part. So here what I'm doing guys.
+[43:45] So here see there is a way like we can
+[43:48] freeze this teacher teacher weight.
+[43:51] Okay. And then uh we can perform the
+[43:54] training of the student model. So we
+[43:56] have one more way without this freezing
+[43:58] without freezing explicitly like this.
+[44:00] This is one of the way but without
+[44:01] freezing this one without freezing
+[44:03] explicitly. Okay you can freeze it
+[44:05] inside the loop itself. I'll show you
+[44:07] that part. Now here is my student model.
+[44:09] So this student model basically is just
+[44:11] having one hidden layer as you can see.
+[44:13] So it's my input layer which is going to
+[44:15] be connect to the hidden layer and we
+[44:17] have a one hidden layer with a 128
+[44:19] neurons. So in the previous model we
+[44:21] have two hidden layer with 512 neuron
+[44:24] and 256 neuron. Okay. So I'm going to be
+[44:26] create this student MLP multi-layer
+[44:28] perceptron. So see we have initialized
+[44:30] the student model. Now as I told you we
+[44:33] have two approaches. The first approach
+[44:35] basically without uh see we have just
+[44:38] initialized the weight of the student
+[44:39] model. Okay. Now what we can do we can
+[44:42] take this student model and we can train
+[44:44] on top of the we can train the model on
+[44:46] top of the soft soft label on the of the
+[44:50] teacher model. Okay. And the hard level.
+[44:53] So the soft label will take from the
+[44:55] teacher level teacher model. Okay. And
+[44:58] we would be having the hard level. Hard
+[45:00] level means that one hot encoded vector.
+[45:01] the soft like levels will take from
+[45:04] where from the teacher model which we
+[45:06] have trained just now. Okay. So we can
+[45:09] train this model this initial random
+[45:11] initialized model without or we haven't
+[45:13] performed the training on any sort of a
+[45:15] data set. We can directly take this
+[45:16] student model and we can train it. Okay.
+[45:18] So let me show you that particular
+[45:20] process and then I will show you the
+[45:22] second process, second approach where we
+[45:23] are going to be train the student model
+[45:25] at the first place and then we are going
+[45:27] to be perform the knowledge
+[45:28] distillation. Okay. So here is what guys
+[45:30] here is my uh print model the student
+[45:33] model. So as of now I'm not going to be
+[45:35] train this student model. Okay directly
+[45:37] I'm going to be perform directly I'm
+[45:38] going to perform the distillation. So
+[45:40] here is my dist training. Okay. So this
+[45:42] is all the parameter for that. So first
+[45:44] we have a temperature. Then we have this
+[45:46] alpha value. Okay temperature and alpha
+[45:48] what it is? I will come to that once I
+[45:50] will explain you the formula. I kept in
+[45:52] my uh one not one nodes. Okay one node
+[45:55] nodes I I'll show you that. Then we have
+[45:57] a cross entropy loss. Then we have a KL
+[45:59] divergence loss. Okay, I'll come to
+[46:01] that. And here is my optimizer. So let
+[46:03] me execute it guys and see I'm able to
+[46:05] execute this particular parameter. Now
+[46:07] this is a process for the distillation.
+[46:09] So the distillation process what we are
+[46:11] doing we are going to be pass the
+[46:12] student. We are passing a teacher model.
+[46:14] We are passing a data. Okay. On which
+[46:16] data we want to be trained this student
+[46:18] model. So see guys this student model
+[46:20] actually it's a uh it's a uh without
+[46:23] train model. Okay. The train model which
+[46:25] we have just initialized with the random
+[46:27] weights. Okay. Then we have a epoch. So
+[46:29] how many for how many epochs you want to
+[46:30] be execute. Let's say for the one epoch,
+[46:32] one single epoch I want to be executed.
+[46:34] Okay. Then uh here what we are doing we
+[46:36] are going to be initialize the we are
+[46:37] going to be initialize the training of
+[46:39] the student model. Okay. This is not
+[46:42] going to be start the training. This is
+[46:43] just going to be initialize the
+[46:44] training. Now here is my total loss
+[46:46] which I'm going to be keep zero as of
+[46:48] now. Then here I have a loader. I'll
+[46:50] take a x and y from here. Okay. Now here
+[46:52] I'm going to be call this torch dot no
+[46:54] grade. No grade means for this teacher
+[46:56] model we are not going to be we for this
+[46:59] teacher model we are not going to be
+[47:01] perform the training so for that what I
+[47:03] have written I have written torch dot no
+[47:05] grade no gradient I'm not going to be
+[47:07] perform any sort of a back propagation
+[47:09] I'm going to be use the pre-trained
+[47:10] teacher model and from here I'm going to
+[47:12] be fetch the probabilities okay the soft
+[47:14] labels then here is my student output
+[47:17] okay means I have a student lab student
+[47:19] model to this student level I'm passing
+[47:22] this data x okay and then what I'm Okay,
+[47:24] I'm going to be use toss.log softmax.
+[47:27] Okay, so here I'll be getting the
+[47:29] softmax value from where from the
+[47:31] student. So see here is a softmax value
+[47:34] from where? From the teacher without
+[47:36] training. Now here guys, we have a
+[47:38] student model. Now this student model I
+[47:40] will be training and here is my softmax
+[47:42] value. Okay. Now what I will do? I will
+[47:44] calculate a loss. Loss means so we have
+[47:46] a KL loss. Here is my probability. Okay.
+[47:50] This is my basically student
+[47:52] probability. Here is my teacher
+[47:53] probability. Here is my temperature.
+[47:55] Then we have a hard loss. This is my
+[47:56] cross entropy. Okay, means here I'm
+[47:59] passing my logits. The probability
+[48:00] basically the student probability and
+[48:02] this is my labels. So this both loss we
+[48:05] are going to be combined and this will
+[48:06] become my dislike loss. Now here is my
+[48:09] optimizer. Okay. Then this is my back
+[48:11] propagation guys. Okay. And here is my
+[48:13] optim means I will perform the complete
+[48:15] back propagation and all. Okay. For as
+[48:17] as many as a PO which I the number which
+[48:20] I have given then then I will be
+[48:21] calculating a total loss. Okay. And
+[48:23] likewise, I will be able to train my
+[48:25] student model based on the teacher uh
+[48:27] knowledge. So what is the teacher
+[48:29] knowledge over here? The what teacher is
+[48:31] providing to us? Teacher is providing
+[48:32] this uh this probabilities this soft
+[48:36] label. Okay. So on top of this data, it
+[48:38] is going to be provide this soft label
+[48:40] without any sort of a training guys. I'm
+[48:41] going to be see it is kind of a
+[48:43] prediction. So while I'm doing a
+[48:45] prediction, I'm not going to be get a
+[48:46] hard level. I'm not going to be fetch
+[48:47] the hard level. I'm going to be fetch
+[48:49] the probabilities. Okay. So this is my
+[48:51] probabilities which I'm going to be
+[48:52] fetched from the teacher model. Now here
+[48:54] is my student model. Okay. On top of it
+[48:56] I'm going to be perform the training.
+[48:58] Now for the teach teacher model I'm not
+[49:00] going to be perform the training. I
+[49:01] already written toss.no grades. Okay.
+[49:03] Now here is what optimizer.0ero grade
+[49:06] and all the complete loop. So this loop
+[49:08] basically will perform the training of
+[49:10] the student model. So let me execute it.
+[49:12] And here once I will call this distill
+[49:14] you will be able to train your model.
+[49:17] Okay that is student model. So see the
+[49:20] uh training of the student model has
+[49:21] started. It will take some time maybe 1
+[49:23] minute and within that it will be able
+[49:25] to train.
+[49:27] So as you can see guys my model have
+[49:28] been trained. My student model have been
+[49:30] trained. Now I want to be evaluated.
+[49:32] Let's see the differences between the
+[49:35] teacher accuracy and the uh basically
+[49:38] this uh student accuracy. Okay. So here
+[49:41] is my model. I'll be passing my model.
+[49:42] I'll be passing my data test data. Okay.
+[49:45] And here the by default name is a model.
+[49:47] So uh guys what we'll do we'll take a
+[49:49] model okay model we'll we'll initialize
+[49:52] the evaluation. Now here is my correct
+[49:54] and total this two variable I have
+[49:55] defined okay just to test my model so
+[49:59] correct is there total is there now see
+[50:01] with toss no grade means we are not
+[50:02] going to be perform any sort of a
+[50:04] training we just going to be find out a
+[50:05] output okay so uh means we are just
+[50:07] going to be perform the prediction so
+[50:09] here is my loader I'll get my data x
+[50:11] means my label the actual data the
+[50:13] images y means the label of it then I
+[50:15] will be passing to the model I'll be
+[50:16] finding out the output here is my act
+[50:19] prediction okay we'll get a prediction
+[50:21] so here guys this is my correct value
+[50:23] okay so prediction would be there
+[50:25] correct will be there and then we are
+[50:26] going to be find out accuracy right so
+[50:28] likewise we are going to be evaluate our
+[50:30] model so here is I evaluate now here I'm
+[50:32] passing my teacher model so see with
+[50:34] respect to the teacher model how much is
+[50:35] the accuracy it's around 95%. Let's see
+[50:38] with respect to the student model what
+[50:40] will the accuracy if I'm going to be
+[50:41] check. So here you will be able to see
+[50:44] near to the teacher model. Now guys over
+[50:47] here we are going to be tested on the
+[50:49] same data. Okay we going to be tested on
+[50:52] the same data and see the teacher is
+[50:54] generating 95% of accuracy and the
+[50:57] student is generating 93%
+[50:59] accuracy. Now if you will find out the
+[51:01] differences between the teacher. Okay.
+[51:03] Now see the teacher guys. So where is
+[51:05] the teacher? So here is a teacher guys.
+[51:08] So in the teacher how many layers we
+[51:10] have? The teacher we have two layers
+[51:12] with a huge number of neurons. But if
+[51:15] you will look into the student model so
+[51:17] we just have one hidden layer. Okay. So
+[51:20] uh let me show you the student model.
+[51:22] See we just have one hidden layer. And
+[51:24] guys the accuracy is near to the teacher
+[51:27] model because we are going to be disc
+[51:29] knowledge. We are going to be use the
+[51:30] soft probabilities from the teacher
+[51:32] model and on top of it we are going to
+[51:34] be train it. Uh I think guys you didn't
+[51:36] understand the entire concept. So let's
+[51:38] do one thing. Let me give you one more
+[51:39] example and with that example let's
+[51:42] understand this entire concept. Okay.
+[51:44] And here is a further prediction
+[51:46] prediction on the like single data. So a
+[51:48] single data point. So here is my predict
+[51:50] I will pass my test loader on it. Okay.
+[51:53] One data point only. Then I here is my
+[51:55] student model sample batch. Now see the
+[51:56] prediction. Okay. So this is the
+[51:58] prediction which we are getting. Okay.
+[52:01] Now here see 72 1 04 what this is what
+[52:05] guys uh this is a label the hard levels
+[52:08] okay uh now what we are going to be do
+[52:10] uh so here is my uh okay it's a
+[52:13] prediction basically up to 20 images so
+[52:16] for first image seven for second image
+[52:18] second two okay it is saying it is the
+[52:21] on image two have been written for the
+[52:23] third image one okay similar to that
+[52:25] here you can see the true level so the
+[52:27] true level is almost same okay so this
+[52:29] is the basically predicted label using
+[52:31] the student model and here is a true
+[52:33] label. Okay. Now we can save this uh
+[52:35] model as well. So we are going to be
+[52:36] save this student model and using this
+[52:38] particular code we can save the model
+[52:40] and you will be able to get it over
+[52:41] here. Right. So I got my student model.
+[52:45] Let me refresh it and you will be
+[52:47] getting it over here itself. So student
+[52:49] model has saved with this particular
+[52:51] name and here it would be visible. As of
+[52:54] now it is not coming. Uh I don't know
+[52:56] why there is a network issue or
+[52:57] something. Yeah. Now I got the model.
+[52:59] This is still student.path. path right
+[53:01] so I hope guys this thing is pretty much
+[53:03] clear to all of you but maybe this
+[53:06] process is not bit more clear uh not
+[53:08] that much clear so let's take one more
+[53:10] example so that it will be bit more
+[53:12] clear so first of all guys let me show
+[53:14] you one more thing uh so here let me
+[53:17] initialize this model one more time
+[53:18] because I'm going to be train my model
+[53:20] uh this teacher this student model and
+[53:23] then I will perform the uh then I will
+[53:24] perform the distillation okay that
+[53:26] particular part let me show you again so
+[53:28] we had a data guys And here what what we
+[53:30] have done we have initialized this
+[53:31] teacher model. So let me initialize this
+[53:33] teacher model one more time. Okay. Now
+[53:35] here is what here is my teacher model
+[53:37] which we have initialized with the
+[53:38] random weight. Now we are going to be
+[53:40] train it. So yes the training will
+[53:41] happen over here and see the training
+[53:43] has started. Now you can see the updated
+[53:45] weight after the training. Okay. Now if
+[53:47] I want to be freeze the weight I can
+[53:48] freeze over here itself. Otherwise I can
+[53:50] freeze inside the digital loop. Both is
+[53:52] fine. Now here is my student model. So
+[53:54] now this time what I'm doing guys. So
+[53:55] I'm not going to be initialized with the
+[53:57] random weight. Instead of that I'm going
+[53:58] to be per perform the training on top of
+[54:00] some data. So here is my student model
+[54:02] guys. You can see the loader the data
+[54:04] will come over here. Here is my epoch
+[54:06] only for one epoch I'm going to be
+[54:08] trained. So this is the complete
+[54:09] training loop. Okay. So I'm going to be
+[54:11] executed this pre-train student. Now
+[54:14] after this one I'm passing my student
+[54:16] model and the train data and this for
+[54:18] the epoch one. So as I told you the
+[54:20] model is going to be small but data
+[54:22] could be same more or less. Okay or it
+[54:24] could be same as well. Now here guys you
+[54:26] can see I'm going to be trained my
+[54:27] student model. So I got my student
+[54:29] model. I will get my student model after
+[54:31] the training. Now on top of this train
+[54:33] model I'm going to perform the
+[54:34] distillation. Okay. Means I'm going to
+[54:36] be utilize the teacher knowledge and I'm
+[54:39] I'm going to be display the teacher
+[54:40] knowledge to the student. And now this
+[54:42] time this model is not a initialized
+[54:44] model. It is a trained model. Okay. So
+[54:46] let me execute it. And here uh this is a
+[54:48] distalized loop. Now uh this is a dist
+[54:51] uh this is a like function call. Okay. I
+[54:54] will pass in my student model which is
+[54:55] already trained. Here is my teacher
+[54:57] model which is huge model the trained
+[54:59] huge model. Here is my train data train
+[55:01] loader. And now what I'm doing guys I'm
+[55:04] going to be retrain this model. This
+[55:06] data could be some some other data as
+[55:08] well. Okay this data this train loader.
+[55:11] Okay this could be some other data means
+[55:13] the updated data. Updated database. Okay
+[55:17] updated database means what? With some
+[55:19] more data. Okay. You can utilize the
+[55:22] huge database. if you are going to be
+[55:24] retrain it right as of now I'm just
+[55:26] training with the same data so student
+[55:28] model is there then training teacher
+[55:30] model is there and then there's a data
+[55:31] now this student model is a updated uh
+[55:34] this is a trained model now okay so here
+[55:37] what we have done we have displaced the
+[55:38] knowledge and this is a special kind of
+[55:40] fine tuning which we have performed on
+[55:43] top of the already trained model right
+[55:45] so uh now let me evaluate it again let
+[55:47] me check the accuracy of the teacher and
+[55:49] the uh student model so the teacher is
+[55:52] giving giving me around 94% accuracy and
+[55:55] the evaluation is giving me around let's
+[55:57] see how much accuracy so it is giving me
+[56:00] okay 94% accuracy guys because this
+[56:04] model is the train model already right I
+[56:08] think you got it so what we can do we
+[56:10] can do in a two way first we can take
+[56:12] the model with a random inize weight
+[56:14] without the training and we can
+[56:15] distalize the knowledge from the teacher
+[56:17] to uh this one the normal model so
+[56:20] teacher to this student model or we
+[56:22] pre-trained we can take the pre-trained
+[56:24] model and then we can dislike the
+[56:25] knowledge see over here whatever numbers
+[56:27] I'm getting now it is a contradictory
+[56:29] number because I just going to be
+[56:31] perform the training for the one single
+[56:32] epoch but in a real time it is not a
+[56:34] true thing we are going to be perform it
+[56:36] for the many epochs okay so this result
+[56:39] might vary but yeah this differences is
+[56:42] going to be reduced as my teacher is
+[56:43] able to perform in a similar way my
+[56:45] student will also be able to perform so
+[56:47] fine I hope so guys this thing is clear
+[56:49] now let's do one thing let's try to look
+[56:51] into one very good example with that
+[56:53] your understanding will be bit more
+[56:54] clear with respect to this uh knowledge
+[56:58] distillation. Okay. So I capped one real
+[57:00] time example for all of you only. This
+[57:02] notes is for all of you so that you can
+[57:04] understand everything in a better way.
+[57:07] Okay. So this is a real time example.
+[57:09] Let's try to understand uh this
+[57:11] particular example guys.
+[57:13] So in this example guys you can see uh
+[57:16] how many labels we have.
+[57:18] We have three label three classes in the
+[57:20] data set. The first class in the data
+[57:22] set is cat. The second class is dog. The
+[57:25] third class is a rabbit. So let's say
+[57:28] this is my true label. If I'm going to
+[57:29] be pass an image
+[57:35] let's say it's a cat image.
+[57:40] For the cat image the level was the 1 0
+[57:43] 0. Okay. Now what we got? Now when we
+[57:47] are going to be predicted from the
+[57:48] model. So let's say here is my model
+[57:54] what we have guys we have a model. Okay
+[57:58] let me write over here model. So we have
+[58:00] a model. Now using the model we are
+[58:03] going to perform the prediction.
+[58:07] So while we are doing a prediction guys.
+[58:10] So while we are doing a prediction
+[58:15] we'll get two thing we'll get a
+[58:17] probability. So let's say this is my
+[58:19] output 0.7 0.2 0.1
+[58:24] okay and the one hot encoded vector of
+[58:27] it will be 1 0 0.
+[58:30] So this is my soft level
+[58:36] and this is my hard level.
+[58:41] Got it? Now guys, see this is what this
+[58:44] is for from the teacher model.
+[58:48] Teacher model. Okay. Now guys, what will
+[58:52] happen whenever talking about the
+[58:55] student? Okay. So let's say we pass the
+[58:59] image to the student. This is the cat
+[59:01] image.
+[59:04] Okay. Now we are passing the cat. See
+[59:07] we're talking about with respect to the
+[59:10] training right training. So we are
+[59:13] passing the cat image to the student
+[59:15] model. Now here I have a model. Now this
+[59:18] model is a student model.
+[59:24] Student model. Okay. Now this student
+[59:27] model is going to be predict something.
+[59:29] Let's say 0.5
+[59:32] 0.3
+[59:34] 0.2.
+[59:36] Okay. Now, how I will train this
+[59:38] particular model? So, we're going to
+[59:39] train this particular model with a
+[59:40] special loss function. So, this this
+[59:43] loss function here you can see the loss
+[59:44] function. This one inside this loss
+[59:47] function we have cross entropy
+[59:50] cross entropy
+[59:52] where we are going to be
+[59:55] find out a loss with respect to this
+[59:56] hard level. This one. The second one we
+[59:59] have a K divergence loss. So, there we
+[01:00:02] are going to be find out a loss with
+[01:00:03] respect to the soft level. So how the
+[01:00:06] loss will be calculated? As you can see
+[01:00:08] over here, this is the probability right
+[01:00:09] now. I hope it is visible clearly. So
+[01:00:11] here how the loss will be calculated. So
+[01:00:14] the this is a complete formula of the
+[01:00:16] loss. Let me show you the complete
+[01:00:19] formula of the loss. How the loss will
+[01:00:21] be look like just a second. I kept one
+[01:00:24] image for all of you only guys. I'm just
+[01:00:26] going to be copy and paste that specific
+[01:00:28] image so that your understanding will be
+[01:00:31] bit more clear. Where is that image? I
+[01:00:35] had kept it over here.
+[01:00:38] Okay, this is the image guys. This is a
+[01:00:41] complete formula. Now inside this
+[01:00:43] formula you can see. Okay, so we have a
+[01:00:47] cross entropy. Cross entropy of what?
+[01:00:50] Cross entropy of the probability and the
+[01:00:54] hard level. Okay, here 1 minus alpha
+[01:00:58] then t and alpha this is the
+[01:01:00] hyperparameter. It's a temp it is called
+[01:01:02] temperature and this alpha basically it
+[01:01:04] is also one more hyperparameter okay for
+[01:01:06] regularizing the value of this KL
+[01:01:08] divergence. Now we have a soft level
+[01:01:11] okay this is from the student this is
+[01:01:13] from the teacher. So this loss function
+[01:01:16] we use for what for the student model
+[01:01:20] student model.
+[01:01:22] Now I hope you got the process that what
+[01:01:24] is happening. So we have a student
+[01:01:26] model. This is my student model. Now my
+[01:01:28] student model is going to be predict
+[01:01:30] this value. Using this value we are
+[01:01:32] going to be find out a loss. And what is
+[01:01:34] my loss function guys? This is my loss
+[01:01:36] function. It is a combination of hard
+[01:01:39] this one and this soft. In hard guys
+[01:01:41] we'll take two value. Which value guys?
+[01:01:44] In hard we'll compare two value. First
+[01:01:46] is this one 1 0 0 and this 0.5
+[01:01:54] 0.3.
+[01:01:57] The second value is going to be 0.3 and
+[01:02:01] then 0.2. Now in soft label we are going
+[01:02:03] to be compared two value. The value is
+[01:02:06] going to be 0.5 0.3
+[01:02:09] 0.2 and the other vector was what? Other
+[01:02:13] vector was the 0.7 0.2.1.2
+[01:02:21] 0.1 Okay. So this is for the hard loss
+[01:02:25] for the cross entropy. Okay, where we
+[01:02:27] have a hard level and this soft level,
+[01:02:29] okay, from the student and gale
+[01:02:31] divergence loss on top of the soft soft
+[01:02:33] level itself. So this is the soft level
+[01:02:34] from the student and this value is
+[01:02:36] coming from the teacher. So this
+[01:02:38] knowledge this soft knowledge this one
+[01:02:41] soft level this is only called the
+[01:02:44] distaliz value. This knowledge
+[01:02:46] distillation. Okay, using this value
+[01:02:47] only we are going to be perform the
+[01:02:49] knowledge distillation. I hope that
+[01:02:51] everything is clear now. Everything is
+[01:02:55] picture perfect and I hope uh you are
+[01:02:57] able to understand it in a very well
+[01:02:59] manner. Now guys what I will do I'll
+[01:03:01] show you the uh distillation with
+[01:03:04] respect to the other model also the LLM
+[01:03:07] model. Okay maybe in the next video I'll
+[01:03:09] try to uh explain that particular
+[01:03:11] concept. So yeah fine guys uh thank you.
+[01:03:13] Bye-bye. Take care. And we have couple
+[01:03:15] of more points. So for sure I'll try to
+[01:03:18] discuss this thing in a upcoming in the
+[01:03:20] next video because it's going to be a
+[01:03:21] very long one and I don't want to keep
+[01:03:23] it like for 2 hour or 3 hour. Okay, with
+[01:03:26] an hour itself I have completed this
+[01:03:27] topic. So please watch out it completely
+[01:03:30] and then be ready for the next video.
+[01:03:32] Okay, I'll share this entire load so
+[01:03:34] that you can go through with it. Thank
+[01:03:35] you. Bye-bye guys. Take care. I'll see
+[01:03:37] you in the next video. Thank you.

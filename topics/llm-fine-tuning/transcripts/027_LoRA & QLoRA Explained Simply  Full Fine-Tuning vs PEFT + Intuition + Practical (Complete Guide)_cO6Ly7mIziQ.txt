@@ -1,0 +1,2424 @@
+Title: LoRA & QLoRA Explained Simply | Full Fine-Tuning vs PEFT + Intuition + Practical (Complete Guide)
+Video URL: https://www.youtube.com/watch?v=cO6Ly7mIziQ
+Video ID: cO6Ly7mIziQ
+======================================================================
+
+[00:01] Hey, hello everyone. Welcome back to my
+[00:04] YouTube channel. My name is Sunny and I
+[00:07] am back with another exciting and
+[00:09] important video.
+[00:11] So guys, inside this video, I'm going to
+[00:14] discuss about the Laura.
+[00:17] Laura is called low rank adaptation. It
+[00:21] is a very important concept in the LLM
+[00:24] fine-tuning. And guys, I was getting so
+[00:27] many requests to upload a video related
+[00:30] to this Laura and the other concept
+[00:33] which is similar to this Laura. So guys,
+[00:36] if you don't know, I had a started this
+[00:38] end-to-end LLM fine-tuning playlist
+[00:41] where I uploaded 26 videos so far. Now,
+[00:45] inside this playlist, I discuss each and
+[00:48] every important concept related to the
+[00:50] LLM fine-tuning. If you haven't seen so
+[00:54] far, guys, please go and check. So, let
+[00:56] me give you the quick walk-through that
+[00:58] what all topic I have discussed inside
+[01:00] this particular playlist and then I will
+[01:03] tell you what all thing I'm going to
+[01:04] discuss inside this video. So guys, if
+[01:07] you will go through with my LLM
+[01:09] fine-tuning playlist, there you will
+[01:11] learn about the LLM training. You will
+[01:14] understand about the LLM training. You
+[01:16] will understand about the transfer
+[01:18] learning.
+[01:19] I discuss LSTM versus transformer. I
+[01:22] discuss the early stage LLM fine-tuning
+[01:25] like board and the other model.
+[01:28] Then I discuss about the knowledge
+[01:30] distillation, knowledge quanti-
+[01:31] quantization. Then I discuss how you can
+[01:35] perform the fine-tuning
+[01:37] on top of the raw data, right? If you
+[01:39] have any PDF, any TXT file, or any sort
+[01:42] of a document, then how you can perform
+[01:45] the fine-tuning using this type of data.
+[01:48] Then I discuss about the instruction
+[01:50] fine-tuning, preference alignment. There
+[01:52] I discuss actually about the DPO.
+[01:55] Now, I will discuss couple of other
+[01:57] technique uh, which is uh, very
+[01:59] important for the preference alignment.
+[02:01] Okay, in the upcoming video I will
+[02:02] discuss that. Uh, then guys fine-tuning
+[02:04] tool, different different tools like
+[02:06] hugging face, Lama factory, Unsloth,
+[02:08] Axolotl.
+[02:10] All this tool I discuss in a detail in
+[02:12] my playlist. Then I discuss about the
+[02:14] GPT fine-tuning, Gemini fine-tuning, SLM
+[02:17] fine-tuning, multimodal fine-tuning, and
+[02:19] the embedding fine-tuning. So guys, uh,
+[02:22] I discuss all this concept in a very
+[02:24] detail inside my playlist. Now couple of
+[02:27] uh, other topics are remaining and I was
+[02:30] getting a lot of requests related to
+[02:32] those topic. So guys, uh, these are the
+[02:34] topic basically which I need to cover
+[02:37] now uh,
+[02:38] inside my playlist. And then guys, uh,
+[02:41] this uh, playlist is going to be
+[02:42] complete. So uh, first in today's video
+[02:45] I will discuss about the LoRA. Uh, then
+[02:47] I will come to the RLHF.
+[02:49] Uh, I there I will discuss about the PPO
+[02:51] technique. Then I will come to the GRPO
+[02:54] technique. Uh, which is used by the Deep
+[02:56] Sea. Uh, then will come to the DPO.
+[02:59] Okay, then uh, I will come to this ORPO.
+[03:02] Okay. So these uh, many techniques are
+[03:04] the pending one and uh, for sure I'm
+[03:07] going to discuss uh, this uh, inside
+[03:09] this playlist. So next uh, four to five
+[03:11] video you will get on to this uh,
+[03:13] particular topic. Okay. Uh, now guys,
+[03:16] uh, this RLHF, GRPO, uh, DPO, ORPO, this
+[03:20] all comes under the preference
+[03:22] alignment, right? So first we'll
+[03:24] understand the concept of the preference
+[03:26] alignment, what is a preference
+[03:27] alignment, and how uh, basically we can
+[03:30] use the technique uh, to uh, like align
+[03:33] the preferences, human uh, preferences
+[03:35] to the model. Okay? And uh, one by one,
+[03:38] uh, step by step guys, we'll deep dive
+[03:40] into each uh, of these technique. Okay?
+[03:43] Uh, now uh, let me give you the quick
+[03:45] uh, recap. Uh, sorry, let me give you
+[03:46] the quick uh, overview of all the topic
+[03:49] which I'm going to discuss throughout
+[03:51] uh, this video guys. So these are many
+[03:53] topics I'm going to discuss. So, first
+[03:55] we'll discuss the training stage of the
+[03:57] LLM and where this LoRA exists. Okay?
+[04:00] So, if you have this understanding, so
+[04:02] that
+[04:03] so easily you can visualize that where
+[04:06] this LoRA comes inside the
+[04:08] entire fine-tuning pipeline. Then we'll
+[04:10] come to the full
+[04:12] parameter fine-tuning versus parameter
+[04:14] efficient fine-tuning. We'll see the
+[04:16] quick differences between these two,
+[04:18] okay? And we'll see what are the methods
+[04:20] we have for the PEFT. So, we we are
+[04:23] having other method also. LoRA is one of
+[04:26] the method actually to achieve the PEFT,
+[04:28] but we have some other method also to
+[04:30] achieve the PEFT, P E F T, which is
+[04:32] called parameter efficient fine-tuning.
+[04:34] Then guys, we'll understand about the
+[04:36] weight matrices in the neural network
+[04:38] and in the transformer architecture that
+[04:40] where this weight matrices exist inside
+[04:43] this architecture. Then only we'll
+[04:45] understand the concept of the LoRA. Then
+[04:48] only you will get a better picture about
+[04:50] the LoRA, okay? So, then only we'll come
+[04:53] to the matrix and the rank in the matrix
+[04:55] because this LoRA chapter
+[04:57] this LoRA concept actually it is
+[04:58] completely depend on this rank in
+[05:00] matrix. So, until and unless we are not
+[05:03] going to understand this rank in matrix
+[05:04] concept, we will not be able to
+[05:06] understand the LoRA, okay? Then we'll
+[05:08] come to the what is a LoRA and LoRA
+[05:10] adapter, right?
+[05:12] And what is the benefit of using LoRA?
+[05:14] So, guys, this LoRA actually it is
+[05:16] working as a adapter.
+[05:18] Okay, so all the model weights is going
+[05:20] to be freeze and we are going to be add
+[05:22] some additional weight to the model and
+[05:25] those weight only we are going to train.
+[05:27] So, so those weight is also only called
+[05:29] the LoRA adapter, okay?
+[05:31] So, we'll discuss basically how it is
+[05:33] useful and how it is beneficial for us.
+[05:36] Then we'll discuss about the optimizer.
+[05:38] Means after adding this weight, right?
+[05:40] So, how these weights are getting
+[05:42] updated? So, we'll look into that
+[05:44] concept also. I will give you the quick
+[05:45] glimpse of the optimizer and so that you
+[05:48] can visualize the complete picture of
+[05:50] the Laura. Okay? So adapter we were
+[05:53] using as as a standalone method before
+[05:56] the Laura guys, but Laura comes with
+[05:58] this rank in metrics concept where we
+[06:00] are going to be decompose the metrics
+[06:02] the weight metrics. Okay? And we are
+[06:05] going to be
+[06:06] use it use it as a adapter and those
+[06:09] weight only we are going to train. This
+[06:11] is the overall concept of the Laura. So
+[06:13] definitely we'll discuss. Then after
+[06:14] that guys will come to the practical of
+[06:16] the Laura. Okay? So after watching this
+[06:18] video you will become a master into this
+[06:20] Laura and you can crack any means you
+[06:24] can answer any any question related to
+[06:27] the Laura inside the interview. Right?
+[06:29] Because this is a very important concept
+[06:32] this is a very important concept guys
+[06:35] actually in every interview this concept
+[06:36] is being asked whenever you are saying I
+[06:38] know the fine-tuning I am aware about
+[06:40] the fine-tuning. So this concept become
+[06:43] a very important at that time. So I'm
+[06:45] keeping that thing in my mind and
+[06:47] according to that only I have designed
+[06:48] this entire video. Right?
+[06:51] Now I hope guys the entire thing is
+[06:52] clear. Now one more thing over here. So
+[06:55] if you if you haven't check my YouTube
+[06:58] channel please go and check over here
+[07:00] you will get a videos related to the
+[07:03] different different concept of the
+[07:05] generative AI. Because what I have seen
+[07:07] guys that many people are not
+[07:09] subscribing the channel. They are
+[07:11] consuming the content but they are
+[07:13] hesitating to subscribe the YouTube
+[07:15] channel.
+[07:16] So it's a request to all of you whoever
+[07:18] is coming to this channel if you are
+[07:20] liking the content this generative AI
+[07:22] content
+[07:23] which is helping you in your career
+[07:25] transition in your learning growth then
+[07:28] please subscribe the channel please
+[07:30] support to the channel. And guys
+[07:32] apologize to me because I haven't
+[07:34] uploaded any video from past 20 days.
+[07:38] I was busy with some other work with my
+[07:41] office work so I couldn't get a time
+[07:44] much time to record a video. And
+[07:46] meanwhile, basically, I was preparing a
+[07:48] very
+[07:49] authentic and the good content
+[07:51] on top of this uh preference alignment,
+[07:53] preference learning, right? So, yeah,
+[07:55] now you will get a video on a daily
+[07:57] basis or maybe twice in a
+[07:59] week, right? Twice or thrice in a week,
+[08:02] right? But, yeah, I will be continue
+[08:04] now. So, fine. Let's start with the
+[08:08] Laura without wasting a time. Let's deep
+[08:10] dive into that. Now, guys, first, let's
+[08:13] understand the LLM training pipeline.
+[08:16] And let's understand what all uh steps
+[08:19] comes under this LLM training pipeline.
+[08:22] Uh so, the first stage of this training
+[08:24] pipeline is called the pre-training.
+[08:27] The second is called instruction
+[08:29] fine-tuning. And the third is called the
+[08:31] preference alignment. So, inside the
+[08:34] pre-training, guys, we are going to
+[08:35] train LLM over the very high-scale data
+[08:39] over the internet scale data where we
+[08:42] have
+[08:43] billions and the trillions of token,
+[08:45] okay? Then, the second stage is called
+[08:47] the instruction fine-tuning where we are
+[08:50] going to be align our model based on the
+[08:53] custom instruction. We are teaching a
+[08:55] proper behavior to the LLM. Then, the
+[08:58] third is called the preference
+[08:59] alignment. So, inside this stage, we are
+[09:02] going to be align a model with the human
+[09:04] preferences, okay? In whatever way the
+[09:08] human wants a answer in that way only we
+[09:10] are going to align our model.
+[09:13] After that, guys, you will get a
+[09:15] full-fledged model, right? Means you
+[09:18] will get a chat GPT kind of model. Means
+[09:21] the GPT model, Claude model, right? So,
+[09:23] all this model, basically, which you can
+[09:25] see over the different different
+[09:27] platform like Claude Opus
+[09:29] 4.6 or Claude Sonnet GPT 5.4, 5.3,
+[09:35] right? So, all of model, basically, it's
+[09:38] went through to this particular stages,
+[09:40] right? But apart from this one also we
+[09:42] have
+[09:43] a very good open source model. Even we
+[09:44] can
+[09:45] like utilize those model also and couple
+[09:48] of model basically it it was trained for
+[09:51] all these three steps, okay? Over all
+[09:54] these three steps.
+[09:56] Now guys, here we are going to perform
+[09:58] the fine-tuning. Now where we can do the
+[10:00] fine-tuning? Where we can do the custom
+[10:02] training? So, let's say if you have a
+[10:04] pre-trained follow this dotted line. So,
+[10:07] let's say if you have a pre-trained
+[10:08] model, we can pick up that pre-trained
+[10:10] model and we can perform the fine-tuning
+[10:12] of that. Means we can do the custom
+[10:14] tuning. Let's say one of the model
+[10:16] basically which is pre-trained one and
+[10:19] it is instruction fine-tuned
+[10:22] by someone else. Now again, we can pick
+[10:24] that particular model, right? And we can
+[10:26] fine-tune on our own custom data, right?
+[10:29] This is possible. Now one of the model
+[10:32] basically which is aligned with the
+[10:33] preferences means first they have
+[10:35] performed the pre-training.
+[10:37] Means the basic model, then they perform
+[10:39] the instruction fine-tuning and then on
+[10:41] top of it they have performed the
+[10:42] preference alignment. Yes, we can pick
+[10:45] that model also after all these three
+[10:47] stages and we can perform the custom
+[10:49] fine-tuning. So, what is a moral or the
+[10:52] conclusion of the story? The moral and
+[10:54] the conclusion of the story is very
+[10:55] simple. Means after any stage we can
+[10:58] pick up the LLM model and we can perform
+[11:00] our own custom fine-tuning, okay?
+[11:04] Now here guys, you can see if you are
+[11:05] doing a custom fine-tuning, so we have a
+[11:07] two thing. The first basically SFT
+[11:10] instruction fine-tuning means we can
+[11:12] pick up a raw data, we can convert into
+[11:14] the instruction and we can do the
+[11:15] instruction fine-tuning or we can do the
+[11:18] preference tuning, okay? So, we can do
+[11:20] the preference tuning. So, this
+[11:21] preference tuning basically I will start
+[11:23] from my next video onwards. There I will
+[11:26] discuss about the RLHF, then we'll
+[11:28] discuss about the ORPO, Um, GRPO, okay?
+[11:32] And the DPO. So, these are many
+[11:34] techniques we are going to discuss uh
+[11:36] throughout uh this playlist, okay,
+[11:38] inside uh this playlist. Uh now, guys,
+[11:40] uh this is the model name uh which you
+[11:42] can see. So, here I kept the three model
+[11:44] just to showcase you that we can pick
+[11:46] any of this model, right? Uh and this
+[11:48] model basically it is uh fine-tuned over
+[11:51] the different different stages of this
+[11:53] LLM training pipeline. So, the first
+[11:55] model basically it is just a base model,
+[11:57] right? Uh here you can see the name of
+[11:59] it Llama 3.21B.
+[12:02] So, it is not instruction fine-tuned by
+[12:04] someone else, okay? Uh even it is not
+[12:07] preference aligned by someone else. Got
+[12:09] Getting my point? So, uh this is a core
+[12:11] model, only pre-trained model, okay? Uh
+[12:14] so, we can pick up this model and uh we
+[12:16] can perform the instruction fine-tuning
+[12:18] of it and then we can perform the
+[12:19] preference alignment. Then the second
+[12:22] model you can see Llama 3.2 uh 1B
+[12:24] instruct. So, this model actually it is
+[12:27] already instruct-tuned on some database
+[12:29] uh on some data set, okay, by someone
+[12:31] else. So, I can pick up that model,
+[12:33] either I can perform my SFT, the further
+[12:36] SFT, or I can perform my preference
+[12:38] tuning, okay? Align and then guys, you
+[12:41] can see this particular model, this uh
+[12:43] is available under this alignment
+[12:44] handbook or repository. So, the model
+[12:47] name is Jef 7B DPO full. So, we can This
+[12:50] is the full uh this is a aligned
+[12:52] preference aligned model. Means someone
+[12:53] is already aligned this model. Now, we
+[12:55] can directly pick this model and we can
+[12:57] utilize uh this model, okay? We can
+[13:00] further tune it. Either we can do the
+[13:02] instruction tuning or we can do the
+[13:04] further preference tuning. So, you will
+[13:06] find out over here, guys, inside this
+[13:08] LLM training pipeline, this fine-tuning
+[13:11] is a very flexible step. Means after
+[13:13] every step we can pick up the model and
+[13:15] we can perform the custom tuning on top
+[13:18] of our data, okay? Uh I hope this slide
+[13:22] is clear. Now, coming to the next part.
+[13:24] So, next uh one is uh called the full
+[13:26] parameter fine tuning versus parameter
+[13:28] efficient fine tuning. So, this is the
+[13:30] quick differences uh between these two
+[13:32] technique. And here I have written a way
+[13:35] like in how many ways basically you can
+[13:37] achieve the PEFT. Okay, PEFT parameter
+[13:40] efficient fine tuning. Now, just look
+[13:42] into the full parameter fine tuning.
+[13:43] Let's try to read what I written over
+[13:45] here one by one step by step, guys. You
+[13:47] can read it out. So, upload update all
+[13:50] the model weights.
+[13:52] Okay, inside the full fine tuning you're
+[13:53] going to be update all the weights.
+[13:55] The weight matrixes is going to be very
+[13:57] very large. Yes, this is true. If you're
+[13:59] going to be update our
+[14:01] if you're going to update the entire
+[14:02] weight means the weight matrix could be
+[14:04] very large over there.
+[14:05] Let's understand with the example. Let's
+[14:07] say you have a 7 billion model, then you
+[14:09] have a 7 billion weights. If you have 13
+[14:11] billion of if you if you have 13 billion
+[14:13] model, then you have 13 billion weights,
+[14:15] right? And so on. If you have one
+[14:18] trillion tokens means if you have the if
+[14:20] you have one trillion of model, right?
+[14:22] So, inside that you will be having one
+[14:24] trillions of weights. Right? Just
+[14:25] imagine what could be this number. Okay?
+[14:28] And nowadays we have such model where
+[14:30] you will find out even trillions of
+[14:32] weights. Uh then inside the full
+[14:34] parameter fine tuning, guys, we are
+[14:35] going to be update all the weights.
+[14:37] Okay, repeatedly for the multiple epoch.
+[14:39] This is true. Whenever we perform the
+[14:41] training, we perform it for the multiple
+[14:43] epochs, right?
+[14:44] Let me
+[14:45] let me explain you with the very good
+[14:47] example. So, here guys, I kept See, this
+[14:50] is what this is the transformer
+[14:51] architecture. Okay? Uh now over here,
+[14:53] guys, you can see. So, let's say inside
+[14:55] this transformer architecture
+[14:57] uh what what we have done, guys? We have
+[14:58] trained this transformer architecture on
+[14:59] a very huge amount of data, right? On
+[15:02] very huge amount of data.
+[15:05] Now, guys, uh this inside this
+[15:07] transformer architecture uh so, we are
+[15:09] not going to be use this a standalone
+[15:11] architecture. There will be multiple uh
+[15:13] stack of this encoder and decoder inside
+[15:15] that architecture, right? And because of
+[15:17] that, guys, the weight of this
+[15:19] transformer architecture mean the number
+[15:20] of weights of this
+[15:22] uh this attention module or this feed
+[15:25] forward module, right? It's going to be
+[15:27] very huge, right? It's going to be in
+[15:29] billions, right? It is going to be in
+[15:31] billions, right? So, over here guys,
+[15:33] what we'll have to do inside the full
+[15:34] parameter inside the full fine-tuning,
+[15:37] we are going to be tweak the knowledge
+[15:38] of this particular model on our own
+[15:40] custom data. In that case, basically,
+[15:42] we'll have to be re-update all the
+[15:44] weights, all the model weights, okay?
+[15:47] So, this is going to be very
+[15:50] uh like this is not going to be very
+[15:51] practical. This is very expensive thing.
+[15:54] Means of just to tweak a small amount of
+[15:56] knowledge, we are going to be update the
+[15:58] entire weights of the model. This is not
+[16:00] a practical thing, right? So, that's why
+[16:02] guys this PEFT techniques came into the
+[16:04] picture just because of this large
+[16:06] language model. And not only the LoRA
+[16:08] guys, we have several other techniques.
+[16:10] So, let's uh discuss on to that. So,
+[16:12] over here guys, you can see what we are
+[16:14] going to do.
+[16:15] So, inside the inside this full
+[16:17] parameter fine-tuning,
+[16:19] the weights required a lots of memory,
+[16:21] right? Okay. And we cannot fine-tune
+[16:23] this PEFT or basically, sorry, we cannot
+[16:26] perform the full parameter fine-tuning
+[16:29] on over the single GPU. For that,
+[16:31] basically, we required a very heavy GPU,
+[16:32] large GPU, or cluster of GPU, right? And
+[16:36] the expense the training basically it's
+[16:38] going to be a very very expensive over
+[16:39] there. So, because of that, full
+[16:41] parameter fine-tuning is not a practical
+[16:43] choice. So, what is a practical thing
+[16:45] here? So, the practical thing is a
+[16:47] parameter efficient fine-tuning. So,
+[16:49] here what we are doing, we are not going
+[16:51] to be update all the parameter. Original
+[16:53] weights is going to be frozen, okay? And
+[16:56] only a small number of additional
+[16:58] weights are going to be trained. So,
+[17:00] what all methods we have to achieve this
+[17:01] PEFT? So, here guys, I written a couple
+[17:04] of method, just focus on that. This
+[17:06] LoRA, okay, LoRA adaptation is a very
+[17:08] famous method to achieve this PEFT,
+[17:10] okay? Then this DoRA actually, d o r a,
+[17:14] weight decompose low-rank adaptation,
+[17:16] again it is a very famous one to achieve
+[17:18] this path. Now, we have QLoRA also.
+[17:20] QLoRA is nothing, it is a extension of
+[17:22] the LoRA only where we are just using
+[17:23] the quantized weight. Okay? For the more
+[17:26] memory efficiency.
+[17:28] And the guys, third one is going to be
+[17:31] prefix tuning where we are going to be
+[17:32] add the learnable prefix vector, right?
+[17:35] So, this is also one of the technique
+[17:36] and it's a quite older one. Uh then the
+[17:39] prompt tuning is one of the technique,
+[17:40] BitFit is a technique, IA3 is a
+[17:42] technique, and we can simply use
+[17:45] adapter. This is going to be a
+[17:47] technique. Okay? But the very famous
+[17:49] technique, guys, this LoRA and the
+[17:51] QLoRA. And in every interview, guys,
+[17:53] they are going to be asked you about
+[17:54] this LoRA and QLoRA. Maybe they are not
+[17:56] going to be asked you the other
+[17:57] technique. Okay? In the same way. So,
+[18:00] we'll have to learn it. Now, example,
+[18:02] right? So, LoRA trains a small rank
+[18:04] matrix, right? So, what LoRA does? LoRA
+[18:07] trains a small rank matrix instead of
+[18:09] the full weights training. Okay? And
+[18:12] update only these few parameters
+[18:13] repeatedly for the multiple epoch.
+[18:15] So, what is a benefit of the LoRA? So,
+[18:17] inside the LoRA, basically, we are going
+[18:18] to be train a low rank matrix. What is a
+[18:20] low rank matrix? We'll discuss that. And
+[18:23] instead of the full weight training, we
+[18:24] are not going to be perform the full
+[18:26] weight training. Okay? We are not going
+[18:27] to be update all the parameter inside
+[18:29] the model.
+[18:30] Getting my point? Now, why it is
+[18:32] efficient, guys? Why it is important?
+[18:33] Because it's going to take a less
+[18:35] memory, faster training. Okay? You will
+[18:37] get a faster training. The cost is going
+[18:39] to be minimum, right? You will get a
+[18:41] lower cost and easy customization. Means
+[18:44] you no need to do very heavy changes
+[18:45] inside the model, right? You just need
+[18:47] to you add the LoRA adapter and that is
+[18:50] done, right? You no need to add any
+[18:52] other thing or means you no need to
+[18:54] carry all the weight of the model, the
+[18:56] entire binary file of the model. Okay?
+[18:58] You can simply use the LoRA adapter. You
+[19:01] can simply carry this LoRA adapter file
+[19:03] with you. Getting my point? So, this is
+[19:05] a benefit of the LoRA. Less memory,
+[19:07] faster training, lower cost, and the
+[19:09] easy customization. Then enabling
+[19:11] fine-tuning on a single GPU means
+[19:13] even you can fine tune your model over
+[19:16] the very
+[19:17] small GPU, right? You don't require the
+[19:19] very huge GPU and even you don't require
+[19:21] the group of group of the GPU like
+[19:23] clustered
+[19:24] the bigger biggest cluster for the GPU,
+[19:27] okay, of the GPU. Now performance
+[19:29] basically performance is not going to be
+[19:30] degrade that much. It's going to be
+[19:32] almost same, right? So these many things
+[19:35] are there related to the path, right?
+[19:38] And Laura is not one of the technique if
+[19:41] you are going to discuss inside the
+[19:42] interview, you can discuss behalf on
+[19:44] this notes. Definitely guys, the
+[19:46] interviewer is going to be appreciate
+[19:48] you a lot, okay, in terms of your
+[19:49] knowledge, right?
+[19:51] Now guys, I hope you understood it. You
+[19:53] understood about the
+[19:55] model. I think I already shown you in my
+[19:57] previous video. So this is the like
+[19:59] transformer architecture and using this
+[20:01] transformer architecture only we are
+[20:03] going to be create a several LLMs,
+[20:04] right? So this is the core of every LLM.
+[20:07] This attention this comes basically from
+[20:09] the attention all you need paper, right?
+[20:11] So inside this architecture guys, if you
+[20:14] are going to be stack the multiple
+[20:16] encoder and decoder, right? So the
+[20:18] number of parameter is going to be very
+[20:19] huge over there and to train
+[20:23] to retrain the entire parameter again,
+[20:25] it's a very challenging task. So we does
+[20:27] generally we does not
+[20:29] prefer that thing.
+[20:30] I hope this slide is also clear. Now
+[20:33] coming to the next part. So now guys, we
+[20:35] have to understand about the weight
+[20:37] matrices. What is the weight and what is
+[20:39] the weight matrices inside the neural
+[20:41] and inside the transformer architecture
+[20:44] and after that guys, what I will do, I
+[20:46] will
+[20:47] come to the matrices, okay? We'll
+[20:49] understand about the matrices.
+[20:51] So what is a weight guys? Let's start
+[20:53] from very basic. Now guys, let's
+[20:55] understand what is a weight.
+[20:58] So weight is nothing. It is a importance
+[21:01] is core.
+[21:02] This is the simplest definition of the
+[21:05] weights.
+[21:06] So weights assesses which feature is a
+[21:09] important. Okay. So, whatever token,
+[21:12] whatever word, whatever feature I'm
+[21:14] passing through the neural network or
+[21:17] through the
+[21:18] transformer architecture. So, the weight
+[21:20] is saying which a token, which feature
+[21:24] is the important one. Okay. So, let's
+[21:27] understand from the
+[21:29] neural network itself, then I will come
+[21:31] to the transformer. And why I'm teaching
+[21:34] you this thing? You will get to know in
+[21:36] some time because it is directly
+[21:37] connected to the LoRA. Okay. So, this is
+[21:40] the neural network, guys. This is the
+[21:42] single neuron, as you can see.
+[21:46] As you can see. So, here we have four
+[21:48] input, 1 2 3. Okay, up to n actually.
+[21:52] Now, here you can see we have a weights,
+[21:54] 1 2 3 and up to n. So, what we are
+[21:56] doing? We are doing a summation. Okay,
+[21:58] and then we are passing this particular
+[22:00] output to the activation function and
+[22:02] then we are getting a final prediction.
+[22:05] Right? So, how the weight matrix look
+[22:07] like for this architecture? So, this is
+[22:09] the weight matrix for this particular
+[22:11] architecture. Now, how many weights we
+[22:12] have? 1 2 3 up to n. So, I'm
+[22:15] representing in terms of column vector.
+[22:18] Okay. Now, see I have a another neural
+[22:21] network. See, this is one more neural
+[22:23] network. How many inputs we have? So, 1
+[22:26] 2 3, right? We have three inputs. Now,
+[22:28] here you will see we have how many
+[22:30] hidden layers we have? Sorry, how many
+[22:32] hidden
+[22:34] how many hidden neurons we have? So, 1 2
+[22:37] 3 4. Okay. 4 into 3
+[22:40] is equal to 12. So, this is the weight
+[22:42] matrix for this particular neural
+[22:45] network. Okay. Now, see one more neural
+[22:48] network.
+[22:49] So, x1 x2 which is going through with
+[22:51] this y1 y2. It is a
+[22:53] hidden neuron. So, this is a weight
+[22:55] matrix for this one. Now, what is
+[22:57] happening during the training? What we
+[22:59] are doing actually? I return uh
+[23:01] description over here. So, what is
+[23:03] happening during the training, guys? Uh
+[23:05] so, the initial weight is going to be
+[23:07] assigned. Uh this initial
+[23:09] [clears throat] weight it's going to be
+[23:10] a random weight actually. Then uh during
+[23:13] the training, the loss is being
+[23:15] calculated. Means uh whatever
+[23:17] calculation will happen
+[23:18] uh after the some multiplication then
+[23:20] summation then after passing through the
+[23:22] activation function, right? Uh at the
+[23:24] end, the loss will be calculated and
+[23:26] finally the weight is being updated
+[23:28] using the gradient, right? Uh we have
+[23:30] different optimizer which is using the
+[23:32] concept of the gradient. And uh using
+[23:35] that, what is happening? The weight is
+[23:37] beating uh the weight is getting
+[23:38] updated. Okay? We want to minimize the
+[23:41] loss uh and because of that only uh we
+[23:44] are adjusting the weight. We are not
+[23:45] doing it manually. Our algorithms are
+[23:47] doing that. And we are finding out the
+[23:49] best possible weight, right? So, this is
+[23:51] what we are doing at training. So, what
+[23:53] is the meaning of the training? If
+[23:54] someone is saying uh you are doing a
+[23:56] training of the neural network, you are
+[23:58] doing a training of the LLMs, so, the
+[24:00] training uh
+[24:01] uh
+[24:02] the uh basically end goal of the
+[24:04] training is going to be same. We are
+[24:06] going to minimize the loss. Okay? We are
+[24:09] going to minimize the loss and we are
+[24:10] going to be update the best possible
+[24:12] weight.
+[24:14] We are going to be update a best
+[24:16] possible weight so that we are going to
+[24:19] we so that we can minimize the loss.
+[24:21] Okay? The overall loss.
+[24:23] Uh now over here, guys, see uh I hope
+[24:26] you understood what is the weight. It is
+[24:27] nothing. It just the importance of
+[24:29] score. Okay? Uh now let me explain you
+[24:31] this weight concept with some analogy.
+[24:34] With that, maybe your understanding will
+[24:35] be bit more clear.
+[24:37] So, uh let's say you are uh you are
+[24:40] basically cooking a burger, right? Uh
+[24:43] so, over here, guys, see, you want a
+[24:45] taste inside that burger.
+[24:48] So, inside the burger, you required uh
+[24:50] different different inputs like patty,
+[24:53] uh cheese, sauce, and bun.
+[24:56] Now, in uh some amount only you will
+[24:58] have to put this uh all the
+[25:01] inputs, right? This all the ingredients
+[25:03] for the burger, right? For enhancing a
+[25:05] taste. So,
+[25:07] whenever you are cooking any burger, so
+[25:10] you are
+[25:11] you are basically cooking a patty,
+[25:13] right? So, the patty basically it's a
+[25:15] very important part of the burger.
+[25:17] Okay, without patty burger could not be
+[25:20] exist, right? Means it could be exist,
+[25:22] but again it won't won't won't be a
+[25:24] proper burger, right? So, you are giving
+[25:26] a more weightage to this patty, then you
+[25:28] are giving some weightage to this
+[25:30] cheese, then some weightage to this
+[25:32] sauce, and some weightage to this bun.
+[25:35] Getting my point, guys? Yes or no? So,
+[25:38] here this taste actually it's a based on
+[25:41] this ingredient and in how much amount
+[25:44] basically you are putting that
+[25:45] ingredient, right? All the inputs
+[25:47] basically. The same theories apply over
+[25:49] here over the neural network. So, we are
+[25:52] passing a input, right? X1 and X2 X X1
+[25:54] X2 X3 and so on. And we are multiplying
+[25:58] with the weight and this weight is
+[25:59] saying
+[26:00] how much this feature is important. How
+[26:03] much this input matters. I kept all this
+[26:06] particular diagram. Here you can see.
+[26:08] So, we are having two feature X1 and X2.
+[26:11] This is my X1 and this is my X2. So, we
+[26:15] are associate associated some weight to
+[26:17] this
+[26:18] to this X1 we are giving this 0.5 and
+[26:21] the second weight is going to be 1.0.
+[26:23] So, let's suppose this is what this is
+[26:25] my 0.5, okay? And this is what this is
+[26:27] my 1.0. So, over here you can clearly
+[26:30] see we are giving a less importance to
+[26:32] this feature and we are giving more
+[26:34] importance to this a particular feature.
+[26:36] Getting my point, guys? So, the weight
+[26:38] is nothing. It is just a importance of
+[26:40] the feature and this is only being
+[26:43] updated to minimize the loss and this is
+[26:46] the end goal of every training. And
+[26:48] whenever we talking about the
+[26:50] transformer, guys, so inside the
+[26:51] transformer this weight quantity is
+[26:54] going to be in a billions and then the
+[26:55] and in the in the trillions basically.
+[26:58] And to update all the weights in a
+[27:00] single go, it is very, very difficult.
+[27:03] And because of that guys, this LoRA
+[27:05] comes where we are going to be decompose
+[27:07] this weight into the smaller matrix. And
+[27:10] those matrix only we are going to be
+[27:12] trained, right? So, I hope you
+[27:13] understood what is a weight inside the
+[27:15] neural network. Now, let's see what are
+[27:17] the weights inside the transformer,
+[27:19] right? So, here is the transformer
+[27:21] architecture guy. This is the backbone
+[27:22] of the entire of the entire LLM
+[27:25] industry, right?
+[27:27] Now, over here see,
+[27:28] transformer which word is important for
+[27:30] the another word means inside the
+[27:33] neural network the weight is saying the
+[27:35] weight is saying which feature is
+[27:37] important. Okay. Now, inside the
+[27:39] transformer basically, so using the
+[27:40] transformer we are going to be process
+[27:42] the neural natural language, right? So,
+[27:46] inside the transformer we are going to
+[27:48] be process the natural language. And
+[27:50] this entire transformer concept it is
+[27:53] based on the attention mechanism, right?
+[27:55] Again, it is a weight only, right?
+[27:57] Attention mechanism is nothing it is a
+[28:00] weight oriented mechanism, right?
+[28:02] Now, here what we are saying, we are
+[28:04] telling which of word is a important for
+[28:06] the another word inside the given
+[28:08] sentence. This is what we are trying to
+[28:10] find out. And because of that we are
+[28:11] able to sustain the context of the
+[28:13] sentence, okay? Now, how this entire
+[28:16] thing is happening? This entire thing is
+[28:17] happening because of this attention
+[28:19] mechanism. And attention mechanism is
+[28:21] nothing again it is a weight oriented
+[28:23] mechanism. See here I given you the
+[28:24] diagram. So, if you will look into this
+[28:26] transformer architecture, so we have
+[28:28] this multi-head attention. We have this
+[28:30] feed forward network. The feed forward
+[28:32] network it is the same one which we have
+[28:34] seen just now. It is a neural network
+[28:36] only. But if we talking about the
+[28:38] multi-head attention, right? So, inside
+[28:39] the multi-head attention what we are
+[28:41] doing, we are going to be check, right?
+[28:44] Which
+[28:46] it is a self-attention actually. We are
+[28:48] going to be check which word of the
+[28:50] sentence it depend on the
+[28:52] like which word inside the same
+[28:54] sentence. Okay, I can explain you this
+[28:56] in my another video but I can give you
+[28:58] the very basic example. Let's say here
+[29:00] I'm saying my
+[29:02] name
+[29:03] is
+[29:04] Sunny. Okay, this one. Now here uh,
+[29:07] let's say I'm writing again my
+[29:09] name
+[29:11] is
+[29:12] Sunny. Right? So over here Sunny Sunny
+[29:15] is related to the each other, right? But
+[29:17] if I'm saying my, so my is referring to
+[29:20] whom over here? So my is referring to
+[29:22] Sunny over here, right? So this is what
+[29:25] attention is doing. This is what
+[29:26] attention is trying to find out. So self
+[29:28] attention basically it's trying to check
+[29:30] the relation
+[29:31] uh, between each and every word. Okay,
+[29:33] which word is important for the another
+[29:36] word. This is what we are doing over
+[29:37] here. Now here guys the same thing is
+[29:40] happening because of the weight only. So
+[29:42] here we have a input and we are going to
+[29:44] be multiplied with the three main
+[29:45] matrices. One is a Q, second is a K and
+[29:48] uh, the third is going to be V. So this
+[29:50] is called the linear transformation of
+[29:52] the data. Okay? And uh, after that guys
+[29:54] what we will get we will be getting a Q,
+[29:56] K and V. Again it is a linear
+[29:58] transformation of the input which we are
+[30:00] uh, passing further to the neural
+[30:02] network. And in the same way uh, like we
+[30:04] have seen the previous neural network,
+[30:05] right? In the same using the same
+[30:07] network this data is being processed. So
+[30:09] this architecture is a little
+[30:10] complicated. We'll understand in some
+[30:12] other video. I will uh, create some uh,
+[30:14] I will create one other another for this
+[30:16] particular architecture only. But here
+[30:18] guys uh, you need to understand that yes
+[30:20] this architecture also is containing a
+[30:22] weight in the form of multi-head
+[30:24] attention, in the form of self attention
+[30:26] and in the form of neural network which
+[30:28] uh, we we have to update. And this
+[30:30] weights basically it's going to be in a
+[30:31] billions and trillions. So here you can
+[30:33] see guys we have a query weight, we have
+[30:35] a key weight and we have a value weight.
+[30:37] So these all are nothing it is a weight
+[30:40] matrices, right?
+[30:41] Now attention weight is a most important
+[30:44] one. Model decide which word is a
+[30:46] important for the another word. And
+[30:48] because of that, guys, we are going to
+[30:50] be decide that, okay, which because of
+[30:51] this attention weight only, we are going
+[30:53] to be decide which word is a important
+[30:56] to the another weight. And
+[30:58] that's where basically we are going to
+[30:59] be sustain the context inside the
+[31:01] sentence, okay? So, here I given you one
+[31:04] more example. See, I love machine
+[31:06] learning. So, learning focus on which
+[31:09] word? Love or machine? This importance
+[31:12] is equal to the attention weight, okay?
+[31:14] And attention weight is telling to us
+[31:16] this love
+[31:17] Sorry, this learning actually it belong
+[31:19] to the love or machine. Definitely, it
+[31:21] belong to the machine only, not love,
+[31:24] right? So, I hope guys you understood
+[31:27] this
+[31:28] weights. You understood where it lies.
+[31:31] Okay, now let me give you some
+[31:32] additional information over here. Now,
+[31:35] guys, here see, if you're talking about
+[31:37] the deep learning, if you're talking
+[31:38] about the
+[31:40] generative AI guys, so
+[31:43] guys, this deep learning, right,
+[31:45] advanced deep learning and this
+[31:46] generative AI mainly I'm talking about
+[31:48] the large language model or I'm talking
+[31:51] about the fine-tuning concept, it is a
+[31:53] metrics game, right? It is a metrics
+[31:56] game.
+[31:57] Means, guys, output What is the output?
+[31:59] Output is nothing, it's an input
+[32:00] multiplied with a weight and here I'm
+[32:03] going to be at the bias, right? So, this
+[32:05] entire like
+[32:07] this entire calculation basically will
+[32:09] get it as the output, right? So, input
+[32:11] is a vector, weight is what? Weight is a
+[32:13] matrix, and output is what? Output is a
+[32:15] transform vector, right? So, vector is
+[32:18] what? Vector is nothing. If we are
+[32:19] saying vector, guys, so vector is
+[32:21] nothing, it is a special form of matrix,
+[32:24] right? It's a special form of
+[32:26] matrix, okay? We can say
+[32:29] We can say
+[32:30] Let's say if we if we are going to be
+[32:31] write like this 1 2 3 4 5. So, we can
+[32:35] say it is a a 1D matrix. Okay? It is a
+[32:38] 1D matrix means
+[32:40] if I if I wanted to see the size of it
+[32:42] so I can write like this one cross five.
+[32:44] So whatever data I can represent in
+[32:46] terms of the grid, okay,
+[32:48] in terms of the row and column matrixes,
+[32:50] in terms of this row and column like
+[32:52] this, those is called the matrixes.
+[32:54] Getting my point? So the entire entire
+[32:57] deep learning is a matrix game.
+[32:59] Okay? Let me tell you that. See, here we
+[33:02] talking about the neural network so
+[33:03] inside the neural network we have input
+[33:05] and output. So again, matrix
+[33:06] multiplication only. Images are the
+[33:08] matrixes. Video are the matrixes. Text
+[33:11] embedding, right? The word
+[33:12] representation in terms of vector, it is
+[33:14] a it is a matrix, okay?
+[33:17] It is a like vector in the matrix base
+[33:18] operation. Attention, right? The
+[33:20] attention weight which I told, right?
+[33:22] QKV, again it is a matrix multiplication
+[33:25] only. So whether it's a deep learning,
+[33:27] the core deep learning, ANN or CNN or
+[33:30] RNN or whether it's a advanced deep
+[33:31] learning, encoder-decoder, transformer
+[33:34] or the latest LLM or fine-tuning,
+[33:36] basically it's all about the matrixes,
+[33:38] guys. It's all about the matrix
+[33:40] operations. Getting my point? So I hope
+[33:43] you understood the matrix game. You
+[33:46] understood where this matrix lies. Now
+[33:49] we'll focus over the matrix only.
+[33:51] We'll see what is a matrix and the rank
+[33:53] in the matrix which is very important.
+[33:55] And after that, guys, I'll
+[33:58] come to the LoRA, okay?
+[34:00] Now, guys, let's start with the matrix
+[34:03] and rank in the matrix.
+[34:05] So first we'll have to understand the
+[34:07] differences between the scalar, vector
+[34:10] and the matrix, okay? So what is a
+[34:13] scalar, guys? A scalar is nothing, it's
+[34:16] a a stand-alone number.
+[34:19] Any float, any integer which is written
+[34:22] in a stand-alone mode, that is a
+[34:25] scalar number, okay? Now the second is a
+[34:28] vector. Vector is nothing, it is a
+[34:30] collection of numbers.
+[34:32] If uh if you're going to deep dive into
+[34:35] this vectors, okay, in terms of physics
+[34:37] and the complete mathematics in terms of
+[34:39] complete visualization, so so yeah, uh
+[34:42] we can uh like uh understand so many
+[34:45] thing about it like uh
+[34:47] uh representation over the X, Y, and Z
+[34:49] plane, what is a magnitude, what is a
+[34:52] direction, right? Everything we can
+[34:54] understand about it. I think in my one
+[34:56] of the right video I already discussed
+[34:57] this part. But again, uh in one of the
+[35:00] the video, I'll talk about it, right? Uh
+[35:02] I'll create a separate video on top of
+[35:04] it. While I will be teaching the
+[35:06] similarity score, similarity score,
+[35:08] semantic score, and all. But as of now,
+[35:10] just think vector is nothing, it's a uh
+[35:12] collection of numbers. Now, we're
+[35:14] talking about the matrix, guys. So,
+[35:16] matrix is nothing, it is a grid of
+[35:18] numbers. Okay? Or uh we can say vector
+[35:21] matrix is nothing, it is a collection of
+[35:23] vectors, right? Uh and if I'm saying
+[35:26] vector, so vector is a special case of
+[35:29] matrix. Means I can represent uh any
+[35:31] vector in terms of matrix, right? What
+[35:34] I'm saying, guys?
+[35:35] Uh
+[35:36] I can represent any vector in the matrix
+[35:39] form.
+[35:40] Getting my point? Yes or no? I hope you
+[35:42] are getting. So, this is the simplest
+[35:44] difference between this scalar, vector,
+[35:46] and the matrixes. Now, let's uh see the
+[35:49] few example.
+[35:50] So, this is a matrix, guys. Uh see the
+[35:52] size of it. The size is a 2 by 2. Okay?
+[35:55] Two column and two row. So, this is a
+[35:58] column, this one.
+[36:00] And this is the row, guys.
+[36:02] Got it? Uh now, let me show you the
+[36:04] other example. See, this is the example,
+[36:06] 3 by 2. So, here we have three rows.
+[36:10] Okay? And two columns.
+[36:13] Now, uh one more example, 2 by 3.
+[36:15] So, two rows and
+[36:18] the three columns.
+[36:20] Got it?
+[36:21] Uh then I can represent in a generic
+[36:23] form, M cross N. So, uh here you can see
+[36:26] M cross n means what? Uh m uh rows and n
+[36:30] columns. So, m uh could be anything over
+[36:32] here. And n could be anything.
+[36:35] So, the matrix could be a very huge
+[36:37] matrix, right? In uh generative AI and
+[36:40] transformer, uh if we talk about this
+[36:42] LLMs and all, so the size of the matrix
+[36:44] uh would be something like this. Let me
+[36:46] write over here. A 512 cross 512. Even
+[36:51] bigger than this one. Okay? So, uh if I
+[36:54] will create any in this uh uh like on
+[36:56] top of the LLM LLM from a scratch,
+[36:58] right? So, there I might teach you this
+[37:00] concept. Okay? Uh now row matrix, uh so
+[37:03] there I would be having single row. So,
+[37:06] we just have one row and we have four
+[37:07] columns.
+[37:09] This is called the row matrix. If this
+[37:11] matrix is represented like this in a
+[37:12] horizontal way, so this is called the
+[37:14] row matrix, okay? But if this matrix is
+[37:16] represented like this, right? Like this,
+[37:19] so this is called the column matrix. So,
+[37:21] it's uh just uh like the matter of the
+[37:23] representation. So, if I'm representing
+[37:25] in a horizontal,
+[37:27] so this is called the row matrix. If I'm
+[37:29] vertically representing it, so this is
+[37:31] called the uh column matrix, okay?
+[37:34] Uh now over here, guys, see what is the
+[37:36] rank? This is very much important. And
+[37:38] guys, you won't believe
+[37:40] the entire LoRA concept actually depends
+[37:43] on this rank concept. Okay? And because
+[37:46] of this only, uh because of uh this uh
+[37:48] particular concept only,
+[37:50] uh we are able to achieve the uh
+[37:52] decomposition of the matrix. We are able
+[37:55] to achieve uh the lower parameter in
+[37:57] terms of training. And we are able to uh
+[38:00] achieve this LoRA, l o r a, low-rank
+[38:02] adaptation. If you don't know about the
+[38:04] LoRA, guys, uh so what you can do, you
+[38:06] can simply check out with the Google,
+[38:09] right? Just open your browser and
+[38:12] >> [laughter]
+[38:13] >> and write over there LoRA research
+[38:16] paper. So, once you will write this LoRA
+[38:18] research paper, you will get it. So,
+[38:21] this is the uh research paper, the uh
+[38:24] actual research paper of the LoRA. Uh
+[38:26] but guys, generally we don't get much
+[38:29] detail from this research paper and all.
+[38:31] Means it's a very technical. It's a very
+[38:33] like authentic language. Okay? So,
+[38:36] that's why guys, I'm going to be
+[38:39] break down the things over here. Okay?
+[38:40] The crux of this research paper. But if
+[38:43] you want to deep dive into the more
+[38:44] detail and all, then you can definitely
+[38:46] check out over here. Okay? I will
+[38:48] mention this link inside the description
+[38:50] of this video. You can check out over
+[38:52] there or you can check out with my
+[38:53] GitHub. Okay? At any of the places, you
+[38:55] will get it. Now over here guys, see
+[38:57] what is the rank? Let's understand about
+[38:59] it. Uh in simple language, number of
+[39:03] linearly independent rows and columns.
+[39:07] Getting my point? I think you are not
+[39:09] getting. Let me explain you with the
+[39:11] example.
+[39:12] So, rank means what? In how many
+[39:15] independent rows or columns are there?
+[39:18] How many independent
+[39:20] rows
+[39:21] or columns are there? Did you get it?
+[39:24] No, I don't think you got it. But yeah,
+[39:27] once I will show you the example, maybe
+[39:28] with that you can understand. Okay? Now
+[39:31] here is one more definition. How many
+[39:32] linearly independent row rows or column
+[39:35] are there?
+[39:36] So, that is also called the rank. So,
+[39:37] this is a definition. This is the like
+[39:40] simplest definition of the rank. But we
+[39:42] have to understand the core concept
+[39:44] behind it. So, let's understand. So,
+[39:46] here guys, I written one analogy, the
+[39:49] real-time analogy. Read out this
+[39:51] particular analogy then I will come to
+[39:52] the proper example. Okay? Uh read this
+[39:56] analogy carefully. It is important. So,
+[39:59] what I written over here? I written
+[40:01] think there is thousand people.
+[40:03] Okay? If I'm saying full rank, means all
+[40:06] have different personality.
+[40:08] There is thousand people. If all the
+[40:09] people is having a uh different
+[40:12] personality, all the thousand people,
+[40:14] means the rank of uh
+[40:16] rank of it is going to be 1,000.
+[40:18] All the people is having a different
+[40:20] what? Personality. But low rank means
+[40:23] what? Low rank means
+[40:24] only two, three type of people.
+[40:26] Right? Just scale differently. Let's say
+[40:29] uh there's 1,000 people.
+[40:32] But the type is
+[40:33] two to three only.
+[40:34] Means all the people, let's say I
+[40:37] uh shy
+[40:39] or introvert.
+[40:42] Okay, some of the people are shy, some
+[40:43] of the people are introvert.
+[40:45] And uh some of the people are let's say
+[40:47] extrovert.
+[40:48] Right?
+[40:49] So, if every people falls into this
+[40:52] category, either of this category
+[40:54] means the rank of it
+[40:57] the rank of it is the
+[40:59] rank of this 1,000 people is low. Okay?
+[41:03] But let's suppose there's 1,000 people
+[41:05] who belong to the different different
+[41:07] functional personality, all the 1,000
+[41:09] people. In that case, I will say
+[41:12] this people belong to full rank.
+[41:14] I hope you understood now. Maybe little
+[41:16] bit, but not completely. Then be over
+[41:19] here because I kept so many example just
+[41:22] to explain this rank. See, I written one
+[41:23] very good example over here. With that
+[41:25] definitely it's going to be clear. If
+[41:27] the rank example is clear, guys, then
+[41:29] low rank is nothing then. Okay?
+[41:32] Now over here let's understand with a
+[41:33] different example. See.
+[41:35] So,
+[41:36] uh just just see over here.
+[41:38] Uh visual understanding, imagine there
+[41:39] is a 2D space, okay? Row one in a
+[41:41] direction one, row one is a direction
+[41:43] row two is a direction two.
+[41:45] If both goes in a different direction,
+[41:47] the rank is going to be two. If both go
+[41:50] in a same direction, the rank is going
+[41:51] to be one. So, what it is saying? Let me
+[41:53] explain you over here. So, let's say we
+[41:55] have X and Y plane. This is my X1, this
+[41:58] is my Y.
+[41:59] Now we have a row. Let's say this is my
+[42:01] one row. Okay?
+[42:04] Uh
+[42:05] this is my first row, row one.
+[42:09] And here is my row two.
+[42:13] Now rank, how many rank, guys? What's
+[42:15] going to be a rank? Rank is going to be
+[42:17] two over here.
+[42:19] Okay?
+[42:20] But, let's suppose, guys, if we have
+[42:22] this X and Y plane.
+[42:24] Now, over here we have a row one. This
+[42:26] is my row one. Now, the second row is
+[42:29] like this only. This one. This is the
+[42:31] second row, row two.
+[42:33] Now,
+[42:35] this is going to be a rank one.
+[42:38] Okay? Because I can represent the
+[42:40] information of this row two in terms of
+[42:42] this row one.
+[42:44] Let's say the row one is around
+[42:46] how much it is? Let's say two and four.
+[42:50] Now, how much it is, guys? It is four
+[42:52] and eight. Okay? So, simply I can
+[42:54] multiply this two and four with this
+[42:57] two. Okay? I can twice it. What I will
+[43:00] get, guys? I will get four and eight.
+[43:03] Making sense to all of you. See over
+[43:04] here. I think it is going to be hide.
+[43:05] Now, see.
+[43:07] If I'm going to be multiply this two and
+[43:09] four with this two, means the twice of
+[43:11] it, then
+[43:12] I will get four and eight. Means I can
+[43:14] say the rank of this information, right?
+[43:17] It's going to be one only.
+[43:19] Understanding my point, what I'm saying?
+[43:21] So, in rank, what we do, we check how
+[43:24] many independent rows and columns are
+[43:26] there.
+[43:27] In a rank, we check how many linearly
+[43:29] independency are there.
+[43:32] Okay? How many linearly independency are
+[43:35] there? That is what we check inside the
+[43:37] rank, right? Now, let's see some
+[43:39] example, the full flash example,
+[43:41] so that the idea will be very, very
+[43:43] clear to all of you. Now, over here I
+[43:46] written one sentence. Can one row be
+[43:48] formed from another row? If yes,
+[43:50] information is repeating, rank is low.
+[43:52] The same thing, basically, I was telling
+[43:53] over here. Okay? But, now let's
+[43:55] understand this entire thing with the
+[43:56] example, so that the idea will be more
+[43:58] clear.
+[43:59] Now, over here, guys, see what I
+[44:00] written. A full rank matrix. Okay? This
+[44:02] is the matrix one, two, three, and four.
+[44:05] Let's check over here. Let's check. Is
+[44:08] second row is a multiplication of the
+[44:10] first row? So, this is the first row,
+[44:11] one and two.
+[44:13] So, we are going to be multiplying this
+[44:15] uh first row with the three,
+[44:17] then I will get the second row. Okay?
+[44:20] No, right? We will not get that.
+[44:23] Yes or no? So, over here guys, you can
+[44:25] see we have one and two. Now, this
+[44:27] value, if I'm going to be multiplied
+[44:28] with the two or we are going to be
+[44:30] multiplied with the three, we are not
+[44:32] getting this three and four.
+[44:34] So, here we can say both row are the
+[44:36] independent or both column are the
+[44:38] independent. So, the rank
+[44:40] is going to be two. Means means it is a
+[44:42] full rank matrix. I hope it is clear.
+[44:45] Now, let me explain with the different
+[44:46] example. So, this is my matrix one and
+[44:48] two and two and four. Now, here you can
+[44:51] see second row actually it is a
+[44:52] multiplication of the first row. Okay?
+[44:54] Two multiply first row. Now, see. One
+[44:57] two, this is the first row. Okay? This
+[44:59] one is a first row. Now, this row I'm
+[45:00] going to be multiplied with the two. So,
+[45:02] what I'm getting? I'm getting this two
+[45:03] four.
+[45:04] So, here second row is not independent.
+[45:07] Right? So, here what I'm saying? The
+[45:08] rank is going to be one only.
+[45:11] The rank is going to be one. Getting my
+[45:13] point? Now,
+[45:15] understand from the column perspective.
+[45:17] Now, see.
+[45:18] One two two four. Okay? Now, let's
+[45:19] understand it from the column
+[45:21] perspective. So, column one is one two.
+[45:23] Column two is a two four. Now, column
+[45:25] two is going to be two multiply column
+[45:27] one. So, column are also dependent. So,
+[45:29] rank is one.
+[45:31] Getting my point, guys? Yes or no? So,
+[45:33] here inside the first matrix, we don't
+[45:35] have any dependency.
+[45:37] Right? All the rows, all the column are
+[45:39] the independent one. So, it is a full
+[45:41] rank matrix. Now, what could be the
+[45:43] rank? The highest rank. So, if the
+[45:44] matrix is two cross two, means the full
+[45:47] rank could be two over here.
+[45:50] Getting my point? Okay? If the matrix is
+[45:52] n cross n, the full rank could be n over
+[45:55] here.
+[45:56] Making sense or not? Right? So, this is
+[45:58] all about rank. Now, let me explain with
+[46:00] few more examples. See, I kept a of more
+[46:02] examples. Let's say we have this
+[46:04] 3 by 3 matrix. 1 2 3 2 4 6 and 3 6 9,
+[46:09] right? Now here notice this row two
+[46:11] actually, it is a multiplication of
+[46:14] it is a it is equal to two
+[46:16] multiply row one.
+[46:18] Row three actually, it is a
+[46:20] like multiplication of with this three,
+[46:23] right? So if I'm if I'm talking about
+[46:25] this row two, it is nothing it is two
+[46:28] cross row one. Now here if I'm talking
+[46:30] about this row three, okay, so it is
+[46:32] nothing it is a three cross row one,
+[46:35] right? So over here you can see guys,
+[46:37] row all rows are in the same direction,
+[46:39] rank is one. Right? So with the one
+[46:42] single row we can form with the one
+[46:44] single row what we can do? We can form
+[46:45] two we can form the another rows, right?
+[46:48] So here the rank is going to be one. So
+[46:50] if I wanted to visualize this, see, here
+[46:53] I can visualize it. This is the one,
+[46:55] right? This this is the one row. Now
+[46:56] this is the another row, this is the
+[46:58] another row. Now this is what? This is a
+[47:00] another row.
+[47:01] Okay? So all the rows actually, it's
+[47:04] overlapping to each other.
+[47:06] I hope it is clear. So that's why rank
+[47:08] is one.
+[47:10] Right? Now let's see with a different
+[47:11] example. So here I kept one more
+[47:13] example. 3 by 3 example matrix is this
+[47:16] one. See, 1 2 3 4 5 6 7 8 9. Now over
+[47:19] here see,
+[47:20] rows are not fully independent. There is
+[47:22] a linear relationship. So row three
+[47:24] actually it's going to be two cross
+[47:27] two multiply row two minus
+[47:29] row one. So if I'm talking about this
+[47:31] row three, so it's going to be equal to
+[47:33] two cross
+[47:35] row two minus row one. So over here guys
+[47:38] you can see over here you can see
+[47:40] because of that because of that see,
+[47:42] this three third row is is a dependent
+[47:44] one, right? But row one and row two are
+[47:47] the independent to each other. So that's
+[47:49] why two linear independency are there
+[47:51] and because of that the rank is going to
+[47:53] be two.
+[47:54] So what we have to do? We have to check
+[47:56] the independency.
+[48:00] Okay, we have to check the independency.
+[48:04] Getting my point? So, in what like in
+[48:06] whatever number this independency would
+[48:09] be there, so that that will be called my
+[48:11] rank, rank of the matrix. Making sense
+[48:14] or not? Yes or no? So, see this row is
+[48:17] independent. It is not dependent to any
+[48:18] of the row or okay? This row is a
+[48:21] independent. Okay, it is not depending
+[48:23] on any of the row. But, this row
+[48:25] actually it's not a independent. It is
+[48:27] depending on this two cross two multiply
+[48:30] R2 minus R1.
+[48:32] So, rank
+[48:34] is going to be what? Rank is going to be
+[48:35] two because there is only two
+[48:37] independent row. So, what is a rank
+[48:39] guys? What is a rank? Rank is uh equal
+[48:42] to the independent rows or
+[48:45] column. Linearly independent rows or
+[48:49] column. Making sense? Now, over here the
+[48:52] one question comes. See, here I
+[48:54] highlighted this thing. It is a very
+[48:55] much important. Now, the question is
+[48:57] Now, the question is very important.
+[49:00] The question is what to see to check the
+[49:02] rank. Do I need to check Do I need to
+[49:04] check the rows or column? You can check
+[49:07] both. The result will be same.
+[49:09] Okay? So, if you want to find out the
+[49:11] rank actually, if you want to find out
+[49:13] the rank, either you can check row or
+[49:15] you can check column. The result is
+[49:18] going to be same over here. I given you
+[49:20] the example. If If you forgot, then
+[49:22] please uh rewind this video or I can
+[49:24] show you that. Just Just check out over
+[49:26] here this example two.
+[49:28] Okay? So, we have check in a both way.
+[49:30] We have checked from the column side and
+[49:32] from the row side. Okay? So, to figure
+[49:34] out the rank, either you can check from
+[49:36] the column end or you can check out from
+[49:38] the row end. I hope this thing is clear
+[49:40] and now guys, this example is very very
+[49:43] important. Just see over here. Just look
+[49:45] into this example. Just focus over here.
+[49:47] And after that guys, we'll directly jump
+[49:49] to the LoRA and your all the doubts
+[49:51] related to the lower is going to be
+[49:53] clear over here. Okay?
+[49:56] Now,
+[49:56] this is the matrix. Just just focus over
+[49:59] the matrix. So, what we have over here?
+[50:01] What we have inside the matrix?
+[50:03] Uh this is the matrix, guys. This one.
+[50:06] Right? So, one how many rows we have? We
+[50:08] have 1 2 3 4 rows. Okay? And how many
+[50:11] columns we have? We have five columns.
+[50:13] So, the matrix size is going to be uh
+[50:16] the matrix size is going to be 4 cross
+[50:18] 5.
+[50:20] Now, see
+[50:21] uh this two row, this one, this one, and
+[50:24] this one is a independent one. Okay?
+[50:27] But, this another row, another column or
+[50:29] row, right? Either I can say row or I
+[50:30] can say column, right? In both way
+[50:33] basically we can check. So, this column
+[50:35] is the independent one. And this column
+[50:38] are the dependent one. So, C3 is equal
+[50:40] to C1 plus 2 C2. C4 is equal to C1 plus
+[50:45] C2. C5 is equal to 2 C1 C2. Right? So,
+[50:49] if I if I will say the rank, okay? If I
+[50:52] will
+[50:53] if I will ask you what is the rank of
+[50:55] this matrix, so you will say the rank of
+[50:56] the matrix is going to be two.
+[50:59] Right? So, here I return. What is the
+[51:00] rank of the matrix?
+[51:02] So, the
+[51:03] answer is very simple. The answer is
+[51:05] two.
+[51:06] Right? Why it is two? Because the size
+[51:08] of the matrix is 4 cross 5.
+[51:10] Right? But, when I check this matrix, so
+[51:13] I found only two column or only two row
+[51:16] are the independent one, linearly
+[51:18] independent. Now, the other one
+[51:20] basically is depending to the other
+[51:21] others. You can make a calculation over
+[51:24] there, right? So, how many linear
+[51:26] independent rows or columns are there? I
+[51:27] would say two.
+[51:29] Okay? So, how many linear independent
+[51:31] rows and columns are there? Two. So,
+[51:33] what is going to be a rank of this
+[51:35] matrix? Is going to be two.
+[51:37] Making sense? Now, over here, guys, see.
+[51:39] This is the matrix. Okay?
+[51:44] Getting my point?
+[51:45] What is the size of the matrix? Four
+[51:47] cross five.
+[51:49] There is only there is there is there is
+[51:50] complete
+[51:51] 20 parameters. If you're going to be
+[51:53] multiply, if you're going to be
+[51:54] calculate, 1 2 3 4 5 6 7 8 9 10.
+[51:58] And then
+[51:59] we have you can see we have 20
+[52:01] parameters over here, right?
+[52:03] Look.
+[52:04] We can represent this same matrix like
+[52:07] this.
+[52:08] We can represent the same matrix like
+[52:10] this. What was the rank actually? The
+[52:12] rank was two.
+[52:15] So, we can represent the matrix the same
+[52:16] matrix like this. So, this is the first
+[52:18] matrix and this is going to be a
+[52:21] another matrix. Now, just calculate the
+[52:23] parameter. 4 by 4 into 2 is going to be
+[52:25] 8.
+[52:26] 2 cross 5 is going to be 10. So, the
+[52:29] same matrix basically we are going to be
+[52:31] represent like this. And here you can
+[52:33] see the number of parameter is how much?
+[52:34] 18 parameter.
+[52:37] So, this is the actual matrix.
+[52:41] When I decompose this matrix, so here is
+[52:44] the matrix. Okay, this one. If you're
+[52:46] going to be multiply this now, guys, if
+[52:48] you know how to do the uh matrix
+[52:51] multiplication, then please multiply
+[52:53] this thing. Right? You will get the same
+[52:56] matrix over here.
+[52:58] This one.
+[52:59] Right? Now, when I check see when I
+[53:01] decompose this matrix like this, when I
+[53:03] decompose the matrix like What was the
+[53:05] rank basically? The rank basically was
+[53:06] two. So, I can decompose this matrix
+[53:08] into two matrix. Okay, this one and this
+[53:11] one. This is what this is my A and this
+[53:13] is what this is my B. When I check the
+[53:15] individual parameter of it, so 4 cross
+[53:17] 2, right? You can check over here. We
+[53:19] have eight parameter and two cross five
+[53:21] is going to be 10, right? So, in total
+[53:24] we have 18 parameter. So, 20 to 18
+[53:28] 20 to 18.
+[53:31] Right? Now, if we have to
+[53:34] retrain our weights, as I told you guys,
+[53:37] uh in neural network in a transformer
+[53:40] architecture, everything is about the
+[53:44] weight matrices, right? Weight matrices.
+[53:48] Now, tell me guys, if I if you're going
+[53:50] to be decompose uh these matrices, if
+[53:53] you can decompose these matrices into
+[53:55] the smaller matrices, right? If you can
+[53:58] decompose this matrix is into the
+[54:00] smaller matrices, then the definitely
+[54:02] number of parameters going to be less.
+[54:05] Right? If you have billions of
+[54:06] parameter, maybe it could be in millions
+[54:09] only.
+[54:11] Getting my point, guys? What is the core
+[54:13] concept behind the LoRA? If you will see
+[54:15] the formula, it is the same one, right?
+[54:17] So, the same thing is being applied over
+[54:19] here inside the LoRA. Means we have a
+[54:20] actual matrix, that matrix we we can
+[54:23] check the rank of the matrix, and
+[54:24] according to that we can decompose the
+[54:26] matrix. Okay, we can showcase into the a
+[54:28] smaller matrix, into the decompose
+[54:30] matrix, and those matrices only we are
+[54:33] going to be used for
+[54:35] training the model. Means the actual
+[54:38] matrix will be as it is. Only these
+[54:40] weights, these additional weight we are
+[54:41] going to be append. These weights only
+[54:44] we are going to be trained inside the
+[54:46] LoRA. The smaller number of parameter we
+[54:49] are going to be trained inside the
+[54:51] LoRA. Okay? So, here see guys, this is
+[54:54] the formula. Uh now, uh guys, uh we'll
+[54:57] discuss about the actual LoRA. I hope
+[55:00] till here everything is fine. Now, let's
+[55:01] deep dive into the LoRA. Guys, uh here
+[55:04] you can see we are going to be uh
+[55:07] decompose uh this actual weight matrix
+[55:10] uh which is W into
+[55:12] two matrices, A and B. Okay? Now,
+[55:16] this uh matrices uh we are going to
+[55:19] train, right? It's going to be preserve
+[55:22] the same information uh like W. Got it,
+[55:25] guys?
+[55:26] Uh now, uh I can show you one more
+[55:28] picture. See, this is a picture uh
+[55:31] uh
+[55:31] with that actually your all the doubts
+[55:34] is going to be clarified. So, here is my
+[55:36] weight, the actual weight, which is uh
+[55:38] going to be frozen. Okay, I'm not going
+[55:41] to touch uh this weight. Uh but guys, uh
+[55:44] I'm going to be attach a adapter. So
+[55:47] this is called This is called a LoRA
+[55:49] adapter.
+[55:50] Uh now this is going to be my
+[55:53] uh
+[55:53] This is going to be what? This is going
+[55:55] to be my
+[55:56] trainable weights. Okay, trainable
+[55:58] weights A and B, right? So here is my
+[56:01] actual weight. Now I'm going to be uh
+[56:03] append this actual weight with this
+[56:06] trainable weight, okay? Which uh And now
+[56:09] this uh particular weights, basically
+[56:10] this A and B, I'm going to be
+[56:13] train.
+[56:16] Understood? So this is the overall
+[56:17] concept of behind the LoRA. So uh here
+[56:20] you can see what is the meaning of LoRA.
+[56:22] LoRA trains a small low-rank matrices
+[56:26] instead of the full weight. I think this
+[56:27] point is clear. This weight change are
+[56:30] tracked into two separate smaller
+[56:32] matrices that get multiplied together
+[56:34] for the matrix the same size as the
+[56:36] model weight matrix, okay?
+[56:39] So we are going to be multiply these two
+[56:40] matrices. We'll get the same matrix our
+[56:43] original matrix only. Means this
+[56:44] decomposed matrix, it's going to be
+[56:46] contain a same information like the
+[56:48] original matrix, right? Uh LoRA says it
+[56:52] is possible that the weight update
+[56:53] matrix is not full rank. Okay? Uh it uh
+[56:57] rank can be small uh it it rank can be
+[57:00] small. So LoRA is LoRA assumes basically
+[57:04] LoRA assumes whatever weight matrices uh
+[57:07] we are going to be train, right? Uh that
+[57:11] weight matrix is basically it's having a
+[57:13] low rank.
+[57:15] Okay? This weight matrix This weight
+[57:17] matrix basically it is having a low
+[57:19] rank. According to that, it's going to
+[57:21] be decompose the matrix.
+[57:26] Understood? So it is possible that the
+[57:28] weight update matrix is not full rank.
+[57:30] It can be a small matrix, which is true.
+[57:32] Uh we have seen the previous example.
+[57:34] So, LoRA learns two small matrix, which
+[57:37] is which could be A and B. Okay? So, if
+[57:40] we have if we are going to be uh
+[57:41] decompose our matrix into two, right?
+[57:44] So, it's going to be learn this B and A.
+[57:46] Okay? So, this is the final formula,
+[57:48] guys. So, W uh not is a frozen weight.
+[57:52] Means uh we are not going to be learn
+[57:54] this particular weights. We are only
+[57:55] going to be learn this uh particular
+[57:57] weights. Okay? We are only going to be
+[58:00] train this particular weights, which is
+[58:01] uh going to be my new one, right? Means
+[58:04] after adding this frozen on top of it,
+[58:06] I'm going to be append this uh adapter.
+[58:08] Okay? This learnable weight. And that
+[58:09] will become my new weight. With that,
+[58:11] basically, I will be doing a further
+[58:13] prediction. Making sense or not? So, low
+[58:15] rank adapt means updating a large matrix
+[58:17] by approximate, it is using a smaller
+[58:19] matrix. Right? So, this is the meaning
+[58:21] of the low rank. If someone is asking in
+[58:23] an interview, you can explain with this
+[58:25] a particular line. Right? Now, uh we
+[58:28] have a one more term, which is called
+[58:29] QLoRA. Okay? This is also This is also
+[58:31] called Quantized LoRA. This is nothing.
+[58:34] This is just a LoRA 2.0.
+[58:36] Right? It is uses even less memory with
+[58:38] the re- uh recoverable quantization. So,
+[58:42] uh LoRA
+[58:44] I hope you understood what we are doing
+[58:45] over there. We are going to be decompose
+[58:47] a matrix into two matrix. Now, this
+[58:49] matrix we are going to be train. Right?
+[58:51] But if we're talking about the QLoRA, so
+[58:53] over here Q is a specific term, the
+[58:55] important term. The meaning of the Q is
+[58:57] nothing. It's a quantization.
+[59:00] Right? So, we are going to be quantize
+[59:01] our weight. Uh so, let's say we have a
+[59:03] weight in float, float or 16 or float
+[59:06] 32. We are going to be uh
+[59:09] quantize our weight into uh
+[59:12] like uh
+[59:13] into basically four bit, right? Or even
+[59:16] into the integer, right? Int 8 or
+[59:18] something like that. So, this is the
+[59:20] actual meaning of the quantization. Uh I
+[59:22] will give you the video link of this
+[59:24] quantization. I I discussed in my
+[59:25] previous video. You can go and check
+[59:27] over there.
+[59:28] So, this QLoRA actually it's going to be
+[59:30] a little more faster compared to the
+[59:32] normal LoRA. Now, why you should use
+[59:35] LoRA? So, GPU memory requirements are
+[59:37] drastically reduced, right? If the
+[59:40] the decomposed matrix size is small, the
+[59:42] number of parameter is less, then
+[59:44] we won't require much memory. Training
+[59:46] become much faster. This is true, even
+[59:49] over the single GPU.
+[59:50] Fine-tuning become affordable. Okay,
+[59:52] means everyone can fine-tune even over
+[59:54] the small infrastructure. You can use
+[59:56] different LoRA adapter for a multiple
+[59:58] task without duplicating the full model,
+[01:00:00] right? So, you can use you can add as
+[01:00:03] much as LoRA adapter.
+[01:00:06] Right? LoRA adapter for the different
+[01:00:08] different kind of task. So, whatever
+[01:00:09] different different kind of task you
+[01:00:11] have regarding each and every task
+[01:00:12] basically you can create as much as LoRA
+[01:00:15] adapter.
+[01:00:17] Understood? I hope this thing is clear.
+[01:00:19] Now, guys,
+[01:00:21] we have to understand so what is
+[01:00:23] happening actually inside the
+[01:00:24] backpropagation, what are optimizer we
+[01:00:26] have in transformer in transformer
+[01:00:29] architecture, which optimizer we are
+[01:00:30] using, and what is the actual meaning of
+[01:00:32] the learning. Okay, so this is just a
+[01:00:34] quick slide where I can explain you
+[01:00:36] that. So, whenever we talk about this
+[01:00:38] neural network guys or any network like
+[01:00:41] transformer and all, there we have two
+[01:00:43] stages. The first is called the
+[01:00:45] backpropagation, and the second is
+[01:00:47] called the forward propagation. In
+[01:00:48] forward propagation actually we always
+[01:00:50] calculate the loss after the
+[01:00:51] calculation, and in backpropagation
+[01:00:54] basically we try to update the weight
+[01:00:56] using the optimizer, right? So, if we
+[01:00:59] are looking into the different different
+[01:01:00] optimizer, so the very basic optimizer
+[01:01:03] basically which is called the gradient
+[01:01:04] descent, right? I think we all have
+[01:01:06] learned this gradient descent inside the
+[01:01:08] machine learning itself, right? So, this
+[01:01:10] is the one of the
+[01:01:12] like visual representation like how
+[01:01:14] gradient descent works. So, we have a
+[01:01:16] weights over here, and here we have a
+[01:01:18] loss. So, when the weights is going to
+[01:01:20] be
+[01:01:21] like when the loss is going to be
+[01:01:22] minimized. So, we'll be getting a
+[01:01:24] optimized weight, right? So, this is the
+[01:01:26] overall idea behind the gradient
+[01:01:27] descent. So, the everything basically is
+[01:01:30] happening inside the back propagation
+[01:01:31] only. So, we're talking about the frozen
+[01:01:34] weight. So, let's say this is my actual
+[01:01:35] weight, frozen weight. Now, I'm going to
+[01:01:36] be at the
+[01:01:38] I'm going to be at the lower up
+[01:01:39] adapter over there. So, this is going to
+[01:01:41] be my A and B the
+[01:01:43] A and B matrices. Now, this matrices is
+[01:01:45] going to be trained. Okay? This is the
+[01:01:48] learnable parameter. Now, inside the
+[01:01:50] back propagation only this parameter is
+[01:01:52] going to be learned. So, how we are
+[01:01:54] going to be trained this parameter using
+[01:01:55] the optimizer only. So, the simple
+[01:01:58] optimizer is a gradient descent or the
+[01:01:59] stochastic gradient descent. Now, we
+[01:02:01] have updated optimizer like gradient
+[01:02:03] descent with the momentum,
+[01:02:05] RMS prop, and Adam optimizer. So, this
+[01:02:08] optimizer basically we were using inside
+[01:02:10] the deep learning.
+[01:02:11] And this optimizer we were using inside
+[01:02:13] the machine learning.
+[01:02:14] Then, for the transformer kind of
+[01:02:16] architecture or if I would say for the
+[01:02:18] LLMs basically we have a very or
+[01:02:20] advanced optimizer. So, that is called
+[01:02:22] the AdamW. Okay? It's a updated version
+[01:02:24] of the Adam only. Now, this optimizer
+[01:02:27] what it is doing? So, it is going to be
+[01:02:29] combine this weight decay concept. It's
+[01:02:31] going to be combined the learning rate
+[01:02:33] scheduler and the warm-up basically,
+[01:02:34] right? So, this is the optimizer which
+[01:02:37] is being used inside the transformer
+[01:02:40] actually. Okay? Now, using this
+[01:02:42] particular optimizer only we are going
+[01:02:44] to be update the weight. So, here you
+[01:02:46] can see like the basic formula of the
+[01:02:48] gradient descent. Okay? I just kept it
+[01:02:50] for your understanding. Now, what we are
+[01:02:53] doing over here? See, this is the loss.
+[01:02:55] Okay? So, W old minus learning rate L.
+[01:02:58] Okay? We are going to be differentiate
+[01:03:00] this loss with respect to this W. So,
+[01:03:02] this is our loss, right? And this is my
+[01:03:04] prediction. This this is my Y hat
+[01:03:06] prediction. So, this will become the
+[01:03:07] loss. Eventually, this will become a
+[01:03:09] loss. And now, this particular loss we
+[01:03:11] are going to be differentiate against
+[01:03:13] this W, right? For updating the
+[01:03:15] parameter. Okay? Now, over here you can
+[01:03:17] see we are we'll be getting a W new.
+[01:03:20] Now, inside this LoRA, how will be
+[01:03:22] getting our new weights? So, this is
+[01:03:23] going to be my new weights, this one.
+[01:03:25] So, how will be getting a new weights?
+[01:03:27] So, W not is my frozen weights. Now,
+[01:03:30] this is going to be learned using the
+[01:03:32] optimizer. Okay? Once we'll get a
+[01:03:34] learnable parameter, the best and
+[01:03:36] possible parameter, so this two metrics
+[01:03:38] is going to be append and this is going
+[01:03:40] to be my actual new weights. Okay? Now,
+[01:03:43] this particular thing, this A and B
+[01:03:45] these two metrics is basically it will
+[01:03:46] be trained by the optimizer. Okay? So,
+[01:03:49] this is the optimizer basically, which I
+[01:03:51] which I written over here, right? Which
+[01:03:53] is a useful one and it is being used
+[01:03:55] inside the LLM training, right? So, LoRA
+[01:03:58] means what? See, LoRA is here. W
+[01:04:00] basically is going to be updated the
+[01:04:02] final weight. W
+[01:04:03] not is a frozen weight. This is my
+[01:04:06] weight change. Okay? A and B basically
+[01:04:07] are the weight which we are going to be
+[01:04:09] this B and A or A or A and B, anything I
+[01:04:12] can say. This parameter basically will
+[01:04:14] be updated. And how it will be updated?
+[01:04:16] Using this A Adam W optimizer. So,
+[01:04:20] everything guys I have written over here
+[01:04:22] and you can read out this particular
+[01:04:24] slide. You will get a better
+[01:04:25] understanding. Now, where this LoRA is
+[01:04:27] being applied inside the LLM? Where this
+[01:04:29] adapter is going to be attached? So, if
+[01:04:32] you will see guys, so this is the
+[01:04:34] architecture of the transformer as you
+[01:04:36] can see over here, right? This is the
+[01:04:38] architecture of the transformer. Now,
+[01:04:41] this is the architecture of the Llama.
+[01:04:43] Okay? Llama is a model you know. It's a
+[01:04:45] very famous model in the open source
+[01:04:47] community. So, you can see this is
+[01:04:49] completely based on the transformer
+[01:04:51] architecture only. Now, how where this
+[01:04:53] LoRA adapter is being append? Okay?
+[01:04:56] So, one thing guys, whatever LLM
+[01:04:58] architecture you will see in the current
+[01:04:59] world,
+[01:05:00] LLM or multi-model LLM or even the VLLM,
+[01:05:04] right? Vision-based LLM or audio-based
+[01:05:06] LLM, right? So, in every architecture
+[01:05:09] this a a architecture is going to be
+[01:05:11] common. Okay? Uh now over here guys, see
+[01:05:14] where this
+[01:05:15] adapter actually is going to be append,
+[01:05:17] right? Inside this particular
+[01:05:18] architecture. So, see over here. I
+[01:05:21] I kept one more image with that your
+[01:05:22] understanding will be clear. So, we have
+[01:05:24] a multi-headed attention, right? Uh and
+[01:05:27] we have a feed-forward a layer, right?
+[01:05:29] So, on top of it basically, we are going
+[01:05:31] to be append this adapter. So, over the
+[01:05:33] multi-headed attention, this adapter
+[01:05:35] would be there and over the feed-forward
+[01:05:37] network also, this adapter would be
+[01:05:39] there, right? So, where this adapter is
+[01:05:41] going to be append? So, here you can see
+[01:05:43] with this a particular image, I added
+[01:05:45] one more.
+[01:05:46] Uh whether it is here or not, let me
+[01:05:47] check it out. Okay. So, I can explain
+[01:05:50] you with this only. So, we're talking
+[01:05:52] about the adapter guys. So, this adapter
+[01:05:53] basically is going to be append over
+[01:05:55] here. Okay? This actual weight is going
+[01:05:57] to be a frozen one. Uh and uh we are
+[01:06:00] going to be add uh this adapter, this a
+[01:06:03] decomposable adapter over here. If we're
+[01:06:05] talking about the feed-forward, so it
+[01:06:06] will be attached over here, okay? Like
+[01:06:09] this.
+[01:06:10] So, there uh my adapter would be uh
+[01:06:12] attached and uh this adapter only is
+[01:06:14] going to be trained. So, here you can
+[01:06:15] see this is the matrixes, okay? In the
+[01:06:18] attention layer. And on top of it only,
+[01:06:20] we are going to be append the adapter,
+[01:06:22] okay? This weights, the actual weights
+[01:06:24] is going to be a frozen weights only,
+[01:06:27] right? Uh now over here guys, uh here I
+[01:06:29] written uh
+[01:06:31] uh basically some parameter also. So, if
+[01:06:33] we are going to be uh use the WQ alone,
+[01:06:36] if we are going to be add the adapter on
+[01:06:37] top of it, then uh the our accuracy is
+[01:06:40] going to be like our performance
+[01:06:41] basically is going to be average. If we
+[01:06:43] are going to be use this alone, then
+[01:06:44] again it's going to be average. If we
+[01:06:46] are going to be combine both means on
+[01:06:47] top of these two matrixes, uh if we are
+[01:06:49] going to be adapt uh if we are going to
+[01:06:51] be append the adapter, then we'll uh we
+[01:06:53] might get a good uh performance, okay?
+[01:06:56] So, again it's a hyperparameter you can
+[01:06:58] check out, right? Now, how much uh
+[01:07:01] trainable parameter you will you might
+[01:07:02] get? So, this is the correct uh
+[01:07:04] comparison which is given inside the
+[01:07:06] research paper also. So, we had a GPT-3
+[01:07:08] model. Okay, this is a full fine-tuned
+[01:07:10] model, full trainable parameter. See how
+[01:07:12] many parameter are there. Uh 175.255.8
+[01:07:17] million. Okay, around 175 billion
+[01:07:19] parameter over here. Now, after this
+[01:07:22] LoRA adapter, see if we are going to be
+[01:07:24] use this LoRA, so see how many uh
+[01:07:26] parameter we are going to be trained. We
+[01:07:28] are just going to be trained only 4.7
+[01:07:30] million of parameter.
+[01:07:31] So, what is the moral of the story here?
+[01:07:33] So, moral of the story is this, uh if we
+[01:07:35] are going to be train a full model,
+[01:07:38] okay, we are going to be retrain the
+[01:07:39] full uh model, or we are going to be
+[01:07:41] perform the full of fine-tuning, all
+[01:07:43] right, full fine-tuning, in that case,
+[01:07:47] we'll have to be retrain this much of
+[01:07:48] parameter. But, uh on the other hand, if
+[01:07:50] we are going to use the LoRA, right, uh
+[01:07:53] those A and B, if we are going to be
+[01:07:55] decompose our matrices the bit matrices
+[01:07:57] and bit matrices into this A and B, in
+[01:08:00] that case, we are just going to be
+[01:08:01] retrain this 4.7 million of parameter.
+[01:08:04] This is the other methods, guys, but
+[01:08:05] over here you will see this LoRA is
+[01:08:07] working very effectively, and the
+[01:08:09] accuracy is not dropping much. So, in
+[01:08:10] the
+[01:08:11] uh fine in the all the parameter, we
+[01:08:13] were getting 89.5% accuracy, but if we
+[01:08:16] are using LoRA, so the accuracy is going
+[01:08:18] to be increased with the respect to this
+[01:08:20] particular data, okay? You can check out
+[01:08:22] the other accuracy also. There is no
+[01:08:23] much differences over there. So, that's
+[01:08:25] the power of the LoRA, guys, right?
+[01:08:27] Uh now, uh what is the differences
+[01:08:29] between the LoRA and the QLoRA?
+[01:08:32] So, the QLoRA, basically, we are going
+[01:08:34] to be use the full model precision, and
+[01:08:37] uh inside the QLoRA, basically, we are
+[01:08:38] going to be use the 4-bit, right, the
+[01:08:40] quantized model. Memory uses medium.
+[01:08:43] Here, it's going to be very, very low.
+[01:08:45] Uh speed-wise, guys, it's going to be
+[01:08:47] fast. Uh it's going to be slightly
+[01:08:49] slower, okay?
+[01:08:51] Uh then, GPU requirement-wise, it is
+[01:08:53] required a very high VRAM, but for this
+[01:08:55] one, 8 to 16 GB will be enough for the
+[01:08:57] respective task, right?
+[01:08:59] Uh uh, means for any task, if it is
+[01:09:01] taking 24 GB of RAM, for that it will
+[01:09:03] just take 50 GB of RAM.
+[01:09:05] Uh, library, uh, PEFT, okay? Here we are
+[01:09:08] going to be used PEFT along with that
+[01:09:10] along with this bits and bytes for the
+[01:09:12] quantization. I think this is going to
+[01:09:14] be swapped maybe. Faster will be here,
+[01:09:16] slightly slower will be here, right? So,
+[01:09:18] you can swap this point. Now here I
+[01:09:21] given you the idea about the precision.
+[01:09:23] So, FP32 is having 32-bit
+[01:09:26] around 4 byte. FP16 means 16-bit 2 byte.
+[01:09:30] If we are talking about the 4-bit, it's
+[01:09:31] going to be around 0.5 byte, okay? So,
+[01:09:34] we are going to be compress our model
+[01:09:36] from 4 byte to 0.5 byte. I hope uh, this
+[01:09:39] is also clear, right? Now this is one of
+[01:09:42] the metrics, uh, you can check out with
+[01:09:44] this metrics. Even we can convert our
+[01:09:46] FP32 uh,
+[01:09:48] uh, precision, right? FP32 numbers into
+[01:09:50] the int it also.
+[01:09:52] So, this is also a quantization.
+[01:09:55] So, I hope guys you understood the LoRA
+[01:09:57] and the QLoRA. If you wanted to
+[01:09:59] understand the quantization in detail,
+[01:10:00] check out with my previous video. There
+[01:10:02] I explained in a detail.
+[01:10:04] Now uh, let's uh, jump to the practical.
+[01:10:06] Let's understand how uh, basically we
+[01:10:08] can implement the LoRA, guys. Okay,
+[01:10:11] guys. Now let's start with the
+[01:10:13] practical. So, this practical will
+[01:10:15] perform using the Hugging Face so that
+[01:10:18] you can get a low-level detail of this
+[01:10:22] uh, parameter efficient fine-tuning
+[01:10:24] using LoRA. Uh, I can do the same
+[01:10:27] practical using the Unsloth also. Uh,
+[01:10:30] even I have shown that in my previous
+[01:10:32] video. Uh, if you don't know about that,
+[01:10:34] please go and check out with the
+[01:10:36] playlist.
+[01:10:38] Uh, so inside the playlist, guys, you
+[01:10:40] will find out a video. Uh, the video
+[01:10:42] name is uh,
+[01:10:44] complete guide uh, on Unsloth, right?
+[01:10:47] Unsloth full guide. So, just check out
+[01:10:49] with this particular video. You will
+[01:10:51] understand how to uh, perform the uh,
+[01:10:53] LoRA or the PEFT based fine-tuning using
+[01:10:56] the Unsloth, right? So, here uh
+[01:10:58] basically they have provided you one uh
+[01:11:00] single method. You just have to call
+[01:11:02] that and you will not get much detail
+[01:11:04] like what is happening in a back a back
+[01:11:06] end, right? And again, this wrapper
+[01:11:08] actually it has been created on top of
+[01:11:10] the core hugging face. So, better uh to
+[01:11:13] perform uh this practical in the hugging
+[01:11:16] face so that you can get the low-level
+[01:11:18] understanding of it like what is
+[01:11:20] happening and uh after that basically we
+[01:11:22] can utilize any other framework. So, if
+[01:11:25] you want uh one more video short video a
+[01:11:28] dedicated video on uh uh
+[01:11:31] this LoRA fine-tuning using this
+[01:11:33] unsloth, but definitely I can record.
+[01:11:35] Just uh write it down in the comment
+[01:11:37] section, okay? So, first what we have to
+[01:11:39] do, we have to install the required
+[01:11:41] packages. Uh so, this uh data set, peft,
+[01:11:44] accelerator, bits and bytes, TRL. So,
+[01:11:47] these are the required packages. This uh
+[01:11:49] T This bits and bytes basically it is
+[01:11:52] for the uh quantization. Okay, this
+[01:11:54] acceleration basically for the multi-GPU
+[01:11:56] training. This peft to implement the
+[01:11:59] LoRA. This TRL basically it is required
+[01:12:01] for the
+[01:12:02] uh supervised fine-tuning and the
+[01:12:05] uh basically this uh RLHF like
+[01:12:07] preference-based tuning. Even we can use
+[01:12:10] we can perform the DPO, ORPO, GRPO,
+[01:12:13] everything using this TRL package only.
+[01:12:16] So, uh this transformer is a base uh
+[01:12:19] uh module base uh base module basically
+[01:12:21] for loading the LLM. This data set again
+[01:12:23] it's a base module for loading the data
+[01:12:25] set, okay? I written the complete detail
+[01:12:27] of each and every package. You can just
+[01:12:29] check out over here. So, first of all
+[01:12:31] guys, you have to connect with your GPU.
+[01:12:33] If you have GPU inside your local, you
+[01:12:35] can perform this practical over there as
+[01:12:37] well. But I'm assuming that multiple
+[01:12:39] people are not having GPU inside the
+[01:12:40] local. So, let's uh take a uh let's take
+[01:12:43] a leverage of this free GPU uh
+[01:12:45] which is being provided by the Google,
+[01:12:47] okay? You can purchase a paid plan also.
+[01:12:50] Even you can purchase a GPU from the
+[01:12:52] different other platform also. So, that
+[01:12:54] I can show you in my upcoming video,
+[01:12:56] right? So, let me install all these
+[01:12:59] packages. See, once you will run it,
+[01:13:00] guys, all the required packages is going
+[01:13:02] to be installed. If you're doing it
+[01:13:04] first time, it might take some time
+[01:13:05] inside your system. Now, I'm going to be
+[01:13:07] import the module. So, first I'm going
+[01:13:10] to import the torch. Uh because
+[01:13:12] everything is built on top of the torch
+[01:13:14] only. So, torch is a base of the
+[01:13:16] transformer uh of the data set PEFT
+[01:13:19] accelerator. Because the low-level
+[01:13:21] coding they have written inside the
+[01:13:23] torch only, right? Every uh
+[01:13:25] transformer-based coding, uh every data
+[01:13:28] set PEFT, everything, guys, they have
+[01:13:30] written inside the torch only. The
+[01:13:31] matrix multiplication and all which is
+[01:13:33] happening, uh it is happening using the
+[01:13:35] torch tensor, okay?
+[01:13:37] Uh now, guys, what we'll do, we'll load
+[01:13:39] the data set. Uh so, this load data set
+[01:13:41] for loading the data set from the
+[01:13:42] Hugging Face. We can use any inbuilt
+[01:13:44] data set, right? Uh or else you can use
+[01:13:47] any custom data set. So, how to prepare
+[01:13:49] the custom data set, how to utilize
+[01:13:51] that, for that, guys, you can follow
+[01:13:53] this three video. Uh here I already
+[01:13:55] shown how to basically perform the
+[01:13:57] fine-tuning on top of the custom data,
+[01:13:59] uh whether it is available inside the
+[01:14:01] PDF, TXT, or in any other document,
+[01:14:03] okay? That doesn't matter. Now, what
+[01:14:05] I'll do, guys, so after that, guys,
+[01:14:07] we'll import couple of uh
+[01:14:09] like important module. So, first I'll
+[01:14:11] import the auto tokenizer class, then I
+[01:14:13] will import the auto model for causal
+[01:14:15] LM, okay? All the language model
+[01:14:18] basically you will get under this class.
+[01:14:20] Then bits and bytes config for
+[01:14:21] implementing the quantization, then
+[01:14:23] training argument for uh configuring the
+[01:14:25] training argument, okay?
+[01:14:27] Uh then, guys, uh from the PEFT I'm
+[01:14:29] going to import the LoRA config, then
+[01:14:31] I'm going to import the get PEFT model,
+[01:14:33] and then PEFT model, right? Then, guys,
+[01:14:36] uh from the TRL I'm you I'm importing
+[01:14:38] the SFTTrainer, right?
+[01:14:40] I hope till here everything is fine, and
+[01:14:42] everything is able everything you are
+[01:14:44] able to get. Now, I will uh load the
+[01:14:47] model. So, guys, I can use any sort of a
+[01:14:49] model, but my machine is not very heavy
+[01:14:52] so that it can bear the weight of the
+[01:14:54] huge model like 9 billion, 10 billion,
+[01:14:57] 15 billion, okay? So, I'm going to be
+[01:14:59] load the small model only. The model
+[01:15:02] name is a tiny llama and the model
+[01:15:04] parameter is 1.1 billion only.
+[01:15:07] Okay. So guys, if you have a huge
+[01:15:09] machine, use infrastructure, then you
+[01:15:11] can try out with the different other
+[01:15:12] model as well. Like this Gemma tool 9B
+[01:15:15] IT. Okay, so you can try out with this
+[01:15:17] model or else we have so many model. So
+[01:15:20] guys, what I will do, I will load this
+[01:15:22] model. I will
+[01:15:23] keep the output directory so that I can
+[01:15:25] keep my model inside this particular
+[01:15:27] directory after loading. So, I'm running
+[01:15:29] it guys. This is fine. So and after that
+[01:15:32] guys, see this is my data set. So, the
+[01:15:34] data set name is what? English quote,
+[01:15:36] okay? So, what kind of data set you will
+[01:15:37] get over here? You will get a quote.
+[01:15:39] Let's Let's say the quote is be
+[01:15:41] yourself. Everyone else is already
+[01:15:43] taken. Then you will get a author name,
+[01:15:45] then you will get a tag, okay? So, this
+[01:15:47] quote actually it belong to this tag
+[01:15:49] inspirational life and humor. So, this
+[01:15:51] is what basically we are going to be
+[01:15:52] predict means I will give a quote to the
+[01:15:55] data. Sorry, we'll give the quote to the
+[01:15:57] model and based on the quote actually
+[01:15:59] it's going to predict the tag it to
+[01:16:01] which tag it belongs, right? So, this
+[01:16:03] thing we are going to do using this
+[01:16:05] language modeling. So once I load a data
+[01:16:07] set guys, I'll get my data. See how many
+[01:16:09] rows are there. So, you will have 2,500
+[01:16:12] rows.
+[01:16:13] Now guys, we are not going to take this
+[01:16:14] entire row because again uh it will take
+[01:16:16] a much time to train a model. So, I will
+[01:16:18] take 100 row
+[01:16:20] or 500 row, fine. Now, what I will do
+[01:16:22] guys, I will format the data set first.
+[01:16:24] So, here I will be passing I will be
+[01:16:26] iterating on top of my data set, okay?
+[01:16:28] I'll be passing my data set over here.
+[01:16:30] My quote will come inside this variable.
+[01:16:32] My tag will come over here. Then I'm
+[01:16:34] going to be create this prompt, okay?
+[01:16:36] This one and I will be I and I'm going
+[01:16:38] to be pass I I be passing this
+[01:16:40] particular prompt only to the
+[01:16:42] I will be passing this particular prompt
+[01:16:44] only to the model. Okay. So likewise
+[01:16:47] only we prepare the data whether it's a
+[01:16:49] supervised tuning or preference tuning.
+[01:16:50] We have to prepare a data as a single
+[01:16:52] prompt only. So this I already taught in
+[01:16:54] my previous videos, right? So this is
+[01:16:56] the function which is
+[01:16:58] like which is creating a data converting
+[01:17:00] a data into the single prompt so that I
+[01:17:02] can utilize it for a training the model.
+[01:17:05] Okay, now what I'll do guys I'll take
+[01:17:07] the small range of the data set. I will
+[01:17:09] take only 100 example. You can take any
+[01:17:11] sort of example, any number you can type
+[01:17:13] over here. You can write
+[01:17:15] basically 500, 600, 700, whatever
+[01:17:17] example you wanted to take. Okay, so I
+[01:17:19] got my small data set. Now what I will
+[01:17:21] do I will map it to the function this
+[01:17:22] format example. So I will get my format
+[01:17:25] example. If I will check with a train
+[01:17:26] data set guys, so see format example is
+[01:17:28] there this text is there. Now let's
+[01:17:30] check out with the text what is there
+[01:17:32] what is there inside. So if I will print
+[01:17:34] it guys text zero means I will get the
+[01:17:35] first row. Now see this is a text. Okay.
+[01:17:38] So here you will find out this tag BOS
+[01:17:40] tag, start of turn tag, right? Then end
+[01:17:43] of turn tag, then a start of model a
+[01:17:45] start of turn again for the model. So
+[01:17:47] let's understand what is the meaning of
+[01:17:49] it. So here I written all the tag guys
+[01:17:51] as you can see. So I kept inside this
+[01:17:54] particular shell. Now see what is the
+[01:17:57] meaning of it. So BOS means beginning of
+[01:17:59] the sequence. So we are telling to the
+[01:18:00] model that this is a beginning of the
+[01:18:02] beginning of the sequence. Then a start
+[01:18:04] of turn means a user is starting their
+[01:18:07] turn user is asking the question. Then
+[01:18:09] add on end of turn means a user is
+[01:18:11] ending their turn. Okay, then model will
+[01:18:13] start replying. Then what model is going
+[01:18:15] to be reply? So it start turn of the
+[01:18:17] model. So your model will be here then
+[01:18:18] end of the turn, right? So user is
+[01:18:21] asking a question and model is model is
+[01:18:23] replying that. So in this particular
+[01:18:25] format we are going to be train our data
+[01:18:26] so that we can
+[01:18:28] sorry we are going to be prepare our
+[01:18:29] data so that we can train our model,
+[01:18:32] right? So let it be guys I think you got
+[01:18:34] it. You can check out with the different
+[01:18:35] example. See this is the one more
+[01:18:37] example. You can see BOS beginning of
+[01:18:39] the sequence then it start of the turn.
+[01:18:42] Okay, then user would be there.
+[01:18:44] Uh right, user is asking this thing
+[01:18:46] generate relevant text for the following
+[01:18:47] codes. So, I'm giving a codes over here,
+[01:18:50] right? So, this is going to be end. Now,
+[01:18:52] see this is going to be end. Now, when
+[01:18:53] the model will reply, uh how the model
+[01:18:55] will reply? The model will reply into
+[01:18:57] the category, right? So, this code
+[01:18:58] actually is belong to which category?
+[01:19:00] So, this thing also I have mentioned
+[01:19:01] over here inside this uh data on onto
+[01:19:04] this data basically I'm going to be
+[01:19:05] train my model. Now, what I will do
+[01:19:07] guys? I will load the tokenizer. So,
+[01:19:09] this is pretty uh basic step, I think.
+[01:19:11] Then this is the quantization. Okay. So,
+[01:19:14] if you're not going to be mention this
+[01:19:15] bits and bytes config means you're not
+[01:19:17] going to be perform the quantization,
+[01:19:19] right? Uh
+[01:19:20] uh the LoRA will uh run uh in a stand
+[01:19:22] alone mode, but if you're going to be
+[01:19:23] define this bits and bytes configuration
+[01:19:25] means you're going to be define a
+[01:19:27] uh quantization. So, let's understand
+[01:19:29] this parameter. Load in 4-bit means
+[01:19:31] what? So, we're going to be load a model
+[01:19:33] in 4-bit. So, BNB 4-bit quantize type
+[01:19:36] NF4 means uh it's going to be uh
+[01:19:39] it's not in NF float NF uh NF4 means
+[01:19:42] what? Normal float. Okay, so we're going
+[01:19:45] to be load our model into the 4-bit
+[01:19:47] which is a normal float. Then BNB 4-bit
+[01:19:49] compute data type torch.float. So,
+[01:19:51] whenever see, we'll keep up we'll keep a
+[01:19:53] model in memory in uh 4-bit, okay? In
+[01:19:56] normal float, but whenever we're going
+[01:19:58] to perform any sort of a computation,
+[01:20:00] right? So, at that time model is
+[01:20:01] behaving like a same, right? So, model
+[01:20:04] is behaving like a same according to the
+[01:20:06] 16-bit on 16-bit only. So, this is the
+[01:20:09] BNB configuration. Now, what I will do
+[01:20:10] from uh using this auto causal LM from
+[01:20:13] pre-train. Here is my model name. Here
+[01:20:15] is a quantize configuration. Then I'm
+[01:20:18] going to be map the device auto. So,
+[01:20:19] whether it's a CPU GPU, automatically it
+[01:20:21] will take care of it. And this is a data
+[01:20:23] type of the model when we are loading,
+[01:20:25] right? So, let me run it. Let me execute
+[01:20:27] it. Now, over here see guys, my model is
+[01:20:29] getting loaded. Now, what I will do
+[01:20:30] guys? I will define the LoRa
+[01:20:32] configuration. So, I have uh imported
+[01:20:34] this LoRa configuration, okay? So, I'm
+[01:20:36] creating object of this only. So, LoRa
+[01:20:38] configuration rank is equal to 16, LoRa
+[01:20:41] alpha is equal to 32. This is the target
+[01:20:43] module on which we are going to be
+[01:20:44] create a adapter, okay? Then, bias, I'm
+[01:20:47] not going to touch the bias. I'm just
+[01:20:48] going to be touch the
+[01:20:50] weights only. And task type task type is
+[01:20:52] a causal LM. Means, we are
+[01:20:55] causal LM means what? So,
+[01:20:57] this hugging face actually it's a
+[01:20:59] categorized this next token prediction,
+[01:21:01] this content generation actually under
+[01:21:03] this particular word, this causal LM.
+[01:21:05] Okay? So, whatever whatever LM models we
+[01:21:08] have, so you will get under this
+[01:21:09] particular tag, right? Under this
+[01:21:11] particular task type. So, let me load
+[01:21:14] the LoRa configuration, then I'm going
+[01:21:16] to be do what I'm going to do, guys, I'm
+[01:21:17] going to load the model. So, get PEFT
+[01:21:19] model base model and then LoRa
+[01:21:20] configuration, okay? So, I'm getting my
+[01:21:23] model now over here, guys, you will see
+[01:21:24] you will see this is the total number
+[01:21:29] of parameter, right?
+[01:21:31] So, I think it is in a billions, but if
+[01:21:33] you will see the trainable parameter,
+[01:21:35] though it is this much, right? So, it is
+[01:21:37] just uh 0.277
+[01:21:40] of this all the parameter. I think it is
+[01:21:42] clear. Now, this is the training
+[01:21:43] argument, guys, what I will do, so I
+[01:21:45] will
+[01:21:47] basically define the training argument
+[01:21:48] like where I'm going to save the model,
+[01:21:50] what should be the what should be the
+[01:21:52] device train per batch, okay? Uh then,
+[01:21:55] gradient accumulation, then learning
+[01:21:56] rate, right? Then, here basically I'm
+[01:21:59] going to be uh write step. So, if it is
+[01:22:02] going to be more than 500 600 step, so
+[01:22:05] it will it is going to be save the
+[01:22:06] information at every 100 step, right?
+[01:22:08] So, something like this you can see,
+[01:22:10] already I have discussed all this thing
+[01:22:11] in my previous video. So, either you can
+[01:22:13] check out the first video or you can
+[01:22:15] check out uh the video
+[01:22:17] uh this LM fine-tuning video, okay?
+[01:22:19] There actually you will get get it like
+[01:22:22] what I have what I'm doing over here,
+[01:22:23] right? What I'm doing over there regard
+[01:22:25] like using this particular parameter,
+[01:22:27] right? It is not very much necessary.
+[01:22:29] You can check out with that video or
+[01:22:30] else in one of the
+[01:22:32] like a specific video dedicated video I
+[01:22:34] can discuss onto this.
+[01:22:36] Then here I'm going to define the SFT
+[01:22:37] trainer. Here I'm giving a model. Here
+[01:22:39] I'm giving a parameter and the data set.
+[01:22:41] Now see guys, trainer is there. Our
+[01:22:43] trainer is initialized. Now what I will
+[01:22:45] do, I will call the train. So once it
+[01:22:47] will be done guys, automatically the see
+[01:22:50] the training has started. It is started
+[01:22:52] on very less data, but you can start it
+[01:22:54] on very uh you can perform it on
+[01:22:56] on your custom data, right? On your
+[01:22:58] domain specific data. So this is the
+[01:23:00] main aim to teach you this entire thing.
+[01:23:02] So it will take some time. After that
+[01:23:04] guys, what I will do, I will save the
+[01:23:05] model model adapter. So where where you
+[01:23:08] will get that model adapter, let me show
+[01:23:10] you. So let it execute. I think it won't
+[01:23:12] take much time because my data is
+[01:23:15] uh
+[01:23:16] because my data is very small, right? So
+[01:23:19] let it download.
+[01:23:22] Sorry, let it train the model.
+[01:23:35] Okay guys, so model is trained now. See,
+[01:23:38] first steps second step means in total I
+[01:23:40] think it is just trained for the 40 to
+[01:23:41] 50 step. So it is showing me the average
+[01:23:43] result. For 10 steps, this is the
+[01:23:45] training loss. For 20 steps, this is the
+[01:23:48] training loss. Okay? Now what I will do
+[01:23:50] guys, I will save this pre-trained
+[01:23:52] model. Now I will save this tokenizer.
+[01:23:54] Okay, so inside the same directory you
+[01:23:57] will get it. Just a second guys, let me
+[01:23:59] show you. See, inside this tiny llama
+[01:24:01] directory, you will get everything. This
+[01:24:03] one. Okay, adapter you will get and you
+[01:24:05] will get the tokenizer also. Now what I
+[01:24:07] will do guys, I will load the load the
+[01:24:09] base model. Base model means what? That
+[01:24:11] llama model actually which we are trying
+[01:24:13] to fine-tune. Okay, so I loaded the base
+[01:24:15] model. Then here you can see after
+[01:24:18] loading the base model guys, I'm calling
+[01:24:20] this
+[01:24:21] uh base model dot from pre-trained base
+[01:24:24] model and then I will provide the
+[01:24:26] out this
+[01:24:28] adapter, okay? Now, what I will do guys,
+[01:24:30] I will execute it. So, see my inference
+[01:24:31] model is ready. Once I will do inference
+[01:24:33] model dot eval, so you will get the
+[01:24:35] inference, right? You will get a
+[01:24:37] inference. Now, over here guys, you can
+[01:24:39] see we have one more thing. So, I've
+[01:24:41] written a prompt. Okay. Now, what I'm
+[01:24:43] doing guys, I am giving this particular
+[01:24:45] prompt
+[01:24:46] to the tokenizer, okay? So, it will
+[01:24:49] tokenize the data. So, let me show you
+[01:24:52] how it looks like.
+[01:24:56] Okay? So, which not rows grade? Perfect
+[01:24:59] guys. So, I think I will be getting over
+[01:25:01] here. So, what I'll be getting guys?
+[01:25:03] Here basically, you will be getting the
+[01:25:05] output actually, okay? So, this is the
+[01:25:08] prompt. Based on this prompt basically,
+[01:25:10] we are going to be encode the prompt,
+[01:25:12] okay? And then you will be getting the
+[01:25:14] output. So, let me run it and see the
+[01:25:16] output you will be getting. Let me print
+[01:25:18] the output.
+[01:25:19] Here is output. So, I'm giving this
+[01:25:21] particular code, okay? And it is going
+[01:25:22] to be generate this a particular
+[01:25:24] example. This particular answer. So, be
+[01:25:26] kind to yourself. You are doing the
+[01:25:27] best. This this is that. Every sort of a
+[01:25:30] detail you will get over here. Means the
+[01:25:31] answer only. Then guys, what I can do, I
+[01:25:34] can merge and load. Means I can merge
+[01:25:36] the Laura adapter
+[01:25:37] with that previous model only and I can
+[01:25:40] save it over here.
+[01:25:41] The model have been saved over here. See
+[01:25:43] inside the merge and merge full code.
+[01:25:45] Now, once I'm going to be execute this
+[01:25:47] part, you will get everything over
+[01:25:49] there, okay? So, see I have added the
+[01:25:51] config JSON. I have added the
+[01:25:54] like basically tokenizer dot JSON, okay?
+[01:25:56] And even if I'm going to be execute this
+[01:25:58] one, so the model binary file will also
+[01:26:00] be available over here. So, let me show
+[01:26:02] you where whether it is there or not.
+[01:26:04] So, see here it is. I already run it
+[01:26:06] actually and see model dot safe tensor
+[01:26:08] file is there. And apart from this one
+[01:26:10] guys, you can check out with the other
+[01:26:12] folder, okay? For the more detail. So,
+[01:26:15] yeah, this is it for this particular
+[01:26:16] practical. It's a LoRa practical. So
+[01:26:18] please try out from your end with a
+[01:26:20] different data set.
+[01:26:22] And guys, if you're liking the content,
+[01:26:24] if you're liking the video, please
+[01:26:25] subscribe and like the Please subscribe
+[01:26:27] the channel and like the video. If you
+[01:26:29] have any sort of a doubt, comment, and
+[01:26:30] all, please write in the comment
+[01:26:31] section. Definitely, I'll check over
+[01:26:33] there. So thank you guys. Thank you.
+[01:26:35] Bye-bye. Take care. I'll see you in the
+[01:26:36] next class.

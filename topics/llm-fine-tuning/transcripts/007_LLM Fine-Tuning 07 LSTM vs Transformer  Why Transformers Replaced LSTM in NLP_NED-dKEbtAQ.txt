@@ -1,0 +1,1257 @@
+Title: LLM Fine-Tuning 07: LSTM vs Transformer | Why Transformers Replaced LSTM in NLP
+Video URL: https://www.youtube.com/watch?v=NED-dKEbtAQ
+Video ID: NED-dKEbtAQ
+======================================================================
+
+[00:00] Hey. Hi everyone. Welcome back to my
+[00:02] YouTube channel. My name is Suni Savvita
+[00:04] and I'm back with another exciting and
+[00:07] important video. So guys, in this
+[00:09] particular video, we're going to see the
+[00:11] differences between the LSTM and the
+[00:13] transformer. In the previous video, I
+[00:15] discussed that why LSTM was not capable
+[00:18] for the finetuning. Each and everything
+[00:20] I shown you in terms of practical. If
+[00:23] you haven't seen uh that particular
+[00:24] video, please go and check in my
+[00:26] finetuning. Now guys uh here we'll
+[00:29] discuss the differences between both the
+[00:32] architecture and then only this topic is
+[00:34] going to be complete intentionally I
+[00:36] kept this topic inside this playlist. So
+[00:38] your each and every fundamental is going
+[00:40] to be clarified and whenever and
+[00:42] whenever any kind of interview question
+[00:44] is coming to you with respect to this
+[00:46] LSTM transformer differences okay so you
+[00:49] can answer uh uh that question in a
+[00:52] better way. So guys uh in this
+[00:54] particular session we'll see uh the
+[00:56] architectural overview of the LSTM and
+[00:58] the transformer and then at the end
+[01:00] we'll see the differences between them.
+[01:03] Okay. And right after this video guys
+[01:05] I'll upload the video of the uh hugging
+[01:07] face. Uh we'll understand the hugging
+[01:09] phase and we'll enter into the practical
+[01:11] world of the finetuning. So first of all
+[01:14] let me show you that what thing I have
+[01:15] covered so far in this particular
+[01:17] playlist and then we'll start with the
+[01:19] particular topic. So guys uh here you
+[01:21] can see uh you can look into the
+[01:23] playlist uh once you will go go and
+[01:25] check with the playlist guys you'll find
+[01:27] out six video okay so the first video I
+[01:30] discussed the syllabus then I discuss
+[01:32] about the finetuning transfer learning I
+[01:34] discuss the differences between the
+[01:36] finetuning rag agents and all then I
+[01:38] came to this LSTR now this is going to
+[01:40] be a seventh video where we will discuss
+[01:44] the differences between the transformer
+[01:46] and the LST okay now I have published
+[01:49] one before video I think two to three
+[01:51] days back. Uh so the video with respect
+[01:53] to the rag all the advanced concept of
+[01:55] the rag if you are willing to learn rag
+[01:58] on an advanced level then please watch
+[02:01] out this video uh it's going to be a
+[02:04] very very important and fruitful guys
+[02:07] believe me okay because each and every
+[02:09] topic each and everything I try to cover
+[02:11] with respect to the advanced rack over
+[02:13] here now guys uh let's start with the
+[02:16] topic so first of all let me give you
+[02:17] the idea that what all thing we are
+[02:18] going to be discuss so first we'll
+[02:20] understand See we understood about the
+[02:22] LSTM and why it was not capable for the
+[02:25] finetuning. Now we'll understand in
+[02:27] terms of the transformer as well. We'll
+[02:29] take a overview of this particular
+[02:30] architecture the transformer. Each and
+[02:32] everything I kept along with the example
+[02:34] inside this note. Okay. So for sure you
+[02:37] can understand everything uh over here.
+[02:40] Then we have a LSTM. Okay. So I'll start
+[02:42] from the LSTM itself. I'll give you the
+[02:44] quick walk through of it and then we'll
+[02:46] see the differences between both. Okay.
+[02:48] LSTM and the transformer. So you will be
+[02:50] interview ready while you are giving any
+[02:52] sort of an interview you can refer this
+[02:54] particular material and you can prepare
+[02:57] for the questions. Okay. Now guys uh
+[02:59] here if you will look into this LSTM
+[03:02] explanation this is going to be a
+[03:03] functional explanation. Okay I will be
+[03:06] more focused on the architectural
+[03:07] process how the input is going to be
+[03:10] processed how the output is going to be
+[03:11] generated what all thing was there
+[03:12] inside the architecture all it's not
+[03:14] going to be a mathematical explanation.
+[03:16] If you want for the mathematical
+[03:17] explanation I can create a separate
+[03:19] video along with all the equation
+[03:21] calculation and with a separate
+[03:23] practical okay if you want that you can
+[03:25] leave the comment in the comment section
+[03:27] that okay sir I want a NLP session from
+[03:29] a scratch then for sure I'll be creating
+[03:31] a mathematical explanation the RNN and
+[03:33] LLSTM and even of the encoder decoder
+[03:36] both okay so guys yeah without wasting a
+[03:39] time let's start with the explanation of
+[03:42] the LSTM and then guys I will come to
+[03:44] the transformer former.
+[03:46] Okay guys, so first uh let's start with
+[03:48] the recurrent uh neural network because
+[03:52] LSTM is nothing it's a advanced version
+[03:54] of the recurrent.
+[03:56] So here I written a definition of it
+[03:58] what is a recurrent neural network even
+[04:00] though I discussed it in myth class but
+[04:02] let me give you the quick recap of it.
+[04:04] So it is a type of the neural network
+[04:07] used to process the sequential data. So
+[04:10] here is a three term three term which
+[04:12] you need to be understand. First is a
+[04:13] sequential data. Second is a neural
+[04:16] network and the third is a recurrent
+[04:18] neural network. So what is a sequential
+[04:20] data guys? So sequential data where
+[04:22] order of the data matters. Okay. So here
+[04:25] I kept some example of the sequential
+[04:27] data. Now whatever LLMs you can see
+[04:30] currently right like the these LLM
+[04:33] actually is processing the sequential
+[04:35] data only. Okay. the data which is in a
+[04:38] sequence it's going to be make a data in
+[04:40] a sequence means before passing it to
+[04:42] the lm either text or images we are
+[04:45] going to be make it in a sequence and
+[04:47] then we are passing through the lm right
+[04:49] so sequence data means what the text is
+[04:51] a good example of the sequence data here
+[04:53] you can see the example like I am going
+[04:55] to the market so this market is going to
+[04:57] be depend on some other word like going
+[05:00] and this going is going to be depend on
+[05:01] some other word like I okay uh now here
+[05:04] you can see the time series data it is
+[05:06] also the example of the sequence data,
+[05:09] time series data means stock market,
+[05:11] stock data, weather or temperature data,
+[05:14] daily sales. Uh okay. So the data
+[05:16] basically which is generating on a
+[05:17] different different time stamp uh that
+[05:19] comes under uh in the sequence data in
+[05:22] the time series data. Okay. Now audio is
+[05:24] one of the example of the sequence data
+[05:27] right the speech basically which I am uh
+[05:30] which the speech basically which I'm
+[05:32] giving to you right that is that is also
+[05:34] a sequence data. Now sensor data uh like
+[05:36] the uh the heart rate from the fitness
+[05:38] tracker it is also example of it. Okay.
+[05:41] So I hope you understood about the
+[05:43] sequence data. Now let's uh take a look
+[05:44] over the neural network. So guys this is
+[05:47] a uh architecture of the neural network.
+[05:48] As we know in the neural network we have
+[05:50] a input layer. Okay. So here you can see
+[05:53] the input layer then we have a hidden
+[05:56] layer. Okay. And then we have a output
+[05:58] layer. So guys uh whatever we are going
+[06:00] to be passed from the input layer. Okay.
+[06:03] So that particular thing is going
+[06:05] through the hidden layer. In the hidden
+[06:06] layer the two thing is happening. First
+[06:08] is called the summation and the second
+[06:10] is called the activation. Okay. And then
+[06:13] finally it is going to the output layer.
+[06:14] Now in the output layer also we have a
+[06:17] like summation. Okay. And then guys
+[06:21] there is a activation function. So we
+[06:23] use the activation function according to
+[06:25] our final output whether it is a
+[06:27] multiclass or it's a binary class. Okay.
+[06:29] Now uh here guys this neural network it
+[06:32] is directly inspired from the human
+[06:34] brain as you can see over here. So in
+[06:36] the human brains we have a neurons which
+[06:38] is transforming the information right
+[06:40] from one neuron to other neuron. Uh over
+[06:43] here the same thing is happening. So
+[06:45] this input basically it is nothing it is
+[06:47] playing a role of the neuron. Okay. And
+[06:49] it is passing a information to the
+[06:52] hidden neuron and then the output the
+[06:54] after the calculation and all the final
+[06:56] output is going to be generated. Okay.
+[06:58] Now this hidden layer is nothing. saying
+[06:59] it's a hyperparameter means we can have
+[07:01] as much as network architecture got it
+[07:04] now guys there is one more term the
+[07:06] recurrent neural network so recurrent
+[07:08] means what if I'm saying recurrent
+[07:10] recurrent basically it is representing
+[07:13] to the loop
+[07:15] okay
+[07:17] row so recurrent means recoccurrency
+[07:19] recoccurrency means what loop so what is
+[07:21] a loop guys here so the loop is nothing
+[07:23] see whatever we are going to be generate
+[07:25] from the hidden layer again this thing
+[07:27] is going to be passed to the input
+[07:29] Right. So let's say if I'm going to be
+[07:30] process one uh sentence, the sentence is
+[07:33] my name Sunonny. Okay. Now how the
+[07:37] sentence will be passed in a recurrency
+[07:39] in a recurrent way. So first my will be
+[07:41] passed from this input layer. Now
+[07:44] whatever processing is happening through
+[07:46] this hidden layer. Now after the
+[07:48] processing whatever output we are going
+[07:50] to be generate we are not passing
+[07:52] through the output again we are passing
+[07:54] this particular output to the input.
+[07:56] Okay. Then we are passing a output from
+[07:59] the input layer. Let's say this my after
+[08:01] the pro processing this my is being
+[08:03] passes okay through the header layer.
+[08:04] Now on the next time step this name is
+[08:06] also being passed from okay so name and
+[08:09] my now all together is being passed from
+[08:11] the input layer. It's going to be
+[08:13] performed the process over here in the
+[08:14] hidden layer. Okay. Now again we are
+[08:17] passing it as a input to the input
+[08:19] layer. And now on the next time this
+[08:21] sunny is being passed. Okay. Now this
+[08:23] sunny would be there. Now the sun is
+[08:25] being passed on the current time stem
+[08:27] and from the previous time this my and
+[08:29] this name is name is being passed to the
+[08:32] uh input layer. Okay. So like this the
+[08:34] processing is happening and because of
+[08:36] that the neural network the RNN actually
+[08:38] it is called the recurrent neural
+[08:39] network because here is a recurrency.
+[08:42] Now this is a compact architecture of
+[08:44] the RNN as you can see. So guys uh see
+[08:47] this is a compact architecture this one
+[08:49] and if we are going to be expand this
+[08:51] architecture you will find out something
+[08:52] like this. Let's say here I'm passing my
+[08:55] okay so my is coming to the hidden
+[08:58] layer. Now here the processing is going
+[09:00] to be happen all the process then it is
+[09:02] being passed uh to the uh like it is
+[09:05] being passed to the same hidden layer on
+[09:06] the next time step. Now let's say at t
+[09:08] is equal to0 we are passing my at t is
+[09:11] equal to 1 we are passing this name my
+[09:14] name. Okay. Now from here the name is
+[09:17] being passed and we are getting a output
+[09:19] from the previous time that is my. Now
+[09:22] at this current time at t is equal to 2
+[09:24] sunny is being passed. This sunny is
+[09:27] being passed. Okay. And this my and this
+[09:30] name we are getting from the previous
+[09:31] time. Now entire processing is going to
+[09:33] be happen over here. So guys this this
+[09:36] is nothing this is a hidden layer on a
+[09:38] same time. Okay. You can compare this
+[09:41] particular architecture, this compact
+[09:42] architecture directly with this
+[09:45] architecture. Right? I hope this thing
+[09:47] is clear. So this is a quick recap of
+[09:49] the RNN. Now here you can see the same
+[09:51] example I have explained in terms of the
+[09:53] theory. So you can definitely read out
+[09:55] it and we'll get a better address. So
+[09:58] guys if we talking about the RNN that
+[10:00] what is the feature of it. So RNN
+[10:02] basically it is for the short-term
+[10:03] memory. It handle the long-term context.
+[10:05] No, it is not going to be handled that.
+[10:07] It is a structure the structure of the
+[10:09] RNN is a simple one and nowadays it is
+[10:11] being used it is not being used then why
+[10:13] we are learning to understand the
+[10:15] fundamental so that we can understand
+[10:17] the LSTM okay now what was the
+[10:19] limitation of the RNN we're talking
+[10:21] about the limitation guys so it forget
+[10:23] the long-term uh dependency long-term
+[10:25] information because of the vanishing
+[10:26] gradient problem so what is the
+[10:28] vanishing gradient guys so there is a
+[10:30] complete mathematical explanation the
+[10:32] vanishing gradient which I will be
+[10:34] recording in in the upcoming days but as
+[10:36] of now You can understand in such a way
+[10:38] that whenever we are doing a back proper
+[10:40] okay in the back prop whatever weights
+[10:42] we were going to weights and biases
+[10:45] those weights and biases uh it's not
+[10:48] going to be update in the longer
+[10:50] sentence in the longer sentence.
+[10:54] This weights and biases actually it's
+[10:56] not going to be update in a longer
+[10:57] sentence. Weight is nothing weights
+[11:00] again
+[11:02] uh it's like some numerical value and
+[11:04] bias is again it's a in the back
+[11:06] propagation actually we have some
+[11:08] formula for updating a weights. So the
+[11:10] formula basic is
+[11:12] new weights new weights okay is equal to
+[11:18] old weight
+[11:20] old weight w
+[11:26] minus d w
+[11:30] l uh
+[11:33] not del
+[11:35] l with respect.
+[11:39] So this is the weight guys the weight
+[11:41] updation formula which we are going to
+[11:43] back properly. Now I hope guys you
+[11:45] understood the you understood the
+[11:48] concept of the RNN. Now let's uh look
+[11:52] into the LSTM. So what was the LSTM? So
+[11:54] let's take a functional overview of the
+[11:57] LSTM as well. So guys if we talking
+[11:59] about the LSTM so LSTM is nothing it's a
+[12:02] advanced version of the RN. Okay. Now
+[12:05] guys uh here in the LSTM we have three
+[12:07] things uh what needs to be remembered
+[12:10] what to forget and what will be the
+[12:12] output and here you can see the
+[12:14] architecture of the LST. Okay. Now here
+[12:17] guys again uh this is a same cell on a
+[12:20] different different time stamp and in
+[12:22] one cell this entire process is going to
+[12:24] be happen. Okay. Now let's say we are
+[12:27] going to be pass the sentence my name
+[12:31] Sunny right? Then what will happen guys?
+[12:35] So my will be passed over here. Then
+[12:38] after processing guys, the name will
+[12:40] come over here. Okay. On the next time
+[12:41] is time. Let's say this is t=0.
+[12:44] This is t= 1 and this is t is equ= to 2.
+[12:48] So name will come over here and the
+[12:50] sunny will come over here. So it's going
+[12:52] to be processed in a sequence. So first
+[12:54] my will be processed. It will be passed
+[12:56] to the next time stamp. Then name will
+[12:58] be processed over here. And then sunny
+[13:01] will be processed. in the next uh in the
+[13:03] at the uh last time step. Okay. But in
+[13:06] the LSTM guys, we need to understand
+[13:08] this entire process that what is
+[13:09] happening. So let's take a look on top
+[13:11] of this particular process that what is
+[13:13] happening over here and what is the
+[13:15] meaning of these different boxes. So
+[13:17] guys uh if if you'll see over here this
+[13:20] uh like the rectangle box it is
+[13:22] representing to the neural network.
+[13:23] Okay. Now this uh circle it is
+[13:26] representing to the point wise operation
+[13:27] whether it is a addition or the
+[13:29] multiple. Then this arrow is
+[13:31] representing to the vector the vector
+[13:33] transfer the information uh transfer
+[13:35] transfer in terms of the vector. Then it
+[13:37] is going to be represent the
+[13:38] concatenation of the vector. Then it is
+[13:40] going to be represent the copying of the
+[13:42] vector. Okay. Now guys over here to
+[13:45] understand the functionality of the LSTM
+[13:47] let's uh look into each and every
+[13:49] component of the LSTM. So we talking
+[13:51] about the LSTM guys. So there you will
+[13:53] find out the memory cell. So this is
+[13:55] called the memory.
+[13:58] Okay. Now guys uh this uh this is called
+[14:02] the forget gate. Okay this one forget
+[14:06] gate basically what needs to be forget
+[14:07] in the architect. Then we have one more
+[14:10] gate. This particular gate is called the
+[14:12] input gate. Input gate means what needs
+[14:14] to be add in the input memory in the
+[14:18] memory cell actually. Now here is a
+[14:20] output. So uh here is the input guys.
+[14:23] Then after the input guys there will be
+[14:25] output. Okay. So this is the output
+[14:28] gate. I think I copied it two times. So
+[14:32] yeah, this is the same one. It it so it
+[14:35] is a like extended view of it. So here
+[14:38] is a forget gate and this is a input
+[14:40] gate. So we are going to be forget
+[14:42] something in the memory cell and then we
+[14:44] are going to be appending the memory.
+[14:46] Okay, using this input. Now let's uh
+[14:48] understand this thing with the example.
+[14:51] So whenever we are talking about the
+[14:52] LSTM guys so RNN forget think quickly
+[14:57] due to problem called the vanishing
+[14:59] gradient okay means we cannot process
+[15:01] the
+[15:03] longer sentence
+[15:06] but if we talking about the LSTM guys so
+[15:08] LSTM actually it provide you the
+[15:10] different different concept the
+[15:12] component the first is called the cell
+[15:14] state second is called the forget third
+[15:16] is called input and fourth is called the
+[15:18] output gate cell state means long-term
+[15:21] memory highway. Okay, it's going to be
+[15:23] stored the long-term memory. Now, how
+[15:25] it's going to be stored the long-term
+[15:26] memory going to be stored because of
+[15:28] this forget gate and because of this
+[15:31] input gate. Okay, now how it is
+[15:33] possible? Let's understand with this
+[15:35] particular example. I hope this example
+[15:37] is visible to all of you. Let me make it
+[15:40] a little more visible. So, I'm going to
+[15:42] be uh increase the size of the Okay. So
+[15:46] here in this example I mentioned see
+[15:49] Rabi was an exceptional player known for
+[15:52] his century countries and mastery over
+[15:55] the baller. Okay but the but then
+[15:58] Sunonny came and who was not only
+[16:00] suppress the Ravi's record but he will
+[16:03] become he become the number one
+[16:04] cricketer in the world. So guys if you
+[16:06] will look into this particular sentence
+[16:08] the first sentence okay from here to
+[16:10] Rabi to baller. We will see the hero of
+[16:12] this story is Ravi. Who is going to be a
+[16:15] hero of this story is going to be a
+[16:18] Rabi, right? But as the sentence will
+[16:21] progress after this one, right? Then the
+[16:24] hero is going to be Honey
+[16:28] and Rabi is not going to be a hero of
+[16:31] this particular story. Right? So guys,
+[16:33] what is happening in the LSTM? So in the
+[16:35] LSTM actually we have two gates. one is
+[16:40] called the forget gate
+[16:42] and the second is called the uh input
+[16:46] gate. Okay. So this forget gate what it
+[16:49] is doing see when we are going to be
+[16:52] process a sentence from rabi to baller.
+[16:54] So rabi is a hero of the story. Okay.
+[16:58] But when will come over here in that
+[17:00] case we have to capture the context the
+[17:02] further context of the sentence. In that
+[17:04] case this forget gate it's going to be
+[17:06] remove Ravi as a hero from the story and
+[17:09] it's going to be keep Sunny. Okay forget
+[17:12] gate actually just to remove the
+[17:14] information just to remove the memory of
+[17:16] the model. But guys this input gate see
+[17:19] forget gate will remove Rabi as a hero
+[17:22] of the story and input gate will add
+[17:25] Sunny as a hero in the getting my point.
+[17:28] So whenever we talking about the cell
+[17:30] guys right look into this
+[17:33] for
+[17:36] you can so in the cell guys we are going
+[17:40] to be pass two things okay first we are
+[17:43] going to be pass the input from the
+[17:46] forget second we are going to be pass
+[17:48] the input from this main gate the input
+[17:50] gate okay so this forget gate actually
+[17:53] we are doing a cross the multiplication
+[17:55] over operation over here and because of
+[17:57] that is going going to be forget the
+[17:58] information from this cell and here in
+[18:00] the input guys we are doing addition
+[18:02] means we are going to be add some
+[18:03] information inside the input cell sorry
+[18:07] inside the cell guys inside the cell
+[18:09] memory right so we have a cell state
+[18:12] along with the cell state you'll find
+[18:14] out the forget gate and the input gate
+[18:17] forget gate basically to remove the
+[18:18] memory the unnecessary thing from the
+[18:20] cell and input gate basically to update
+[18:23] the cell okay now you will see how the
+[18:26] output is being generated Right. So
+[18:28] guys, we are going to be capture the
+[18:29] input.
+[18:31] Okay. And from the cell guys, we are
+[18:33] going to be capture the latest
+[18:35] information. Both thing I'm going to be
+[18:37] combined over here and we are passing
+[18:39] it.
+[18:40] That's it guys. So if you will look into
+[18:42] the architecture carefully, you will
+[18:44] understand. You will understand that.
+[18:46] Now just focus over here. We have a same
+[18:49] cell over here. See guys, we have a same
+[18:53] uh kind of input feature uh input
+[18:55] mechanism like the RNN itself. See over
+[18:58] here this one. But guys, this input is
+[19:02] going to be connect with this memory
+[19:04] cell
+[19:05] and this memory cell this particular
+[19:07] cell memory cell with this input it is
+[19:10] connected to each other. How it's going
+[19:12] to be connect to each other with this
+[19:13] two gate. First is a forget gate and
+[19:16] second is a input gate. That's a gate.
+[19:20] That's a
+[19:22] we can decode it as a practical sorry
+[19:25] mathematical. Now let's uh look into
+[19:28] couple of more thing with respect to
+[19:29] this LSTM uh the feature the differences
+[19:32] and let's uh look into guys uh the
+[19:34] sequence.
+[19:36] Now the differences wise I think it is
+[19:38] pretty straightforward but let's take a
+[19:40] look on it. So here guys the first
+[19:43] difference is a memory. So LSTM RNN is
+[19:46] basically for the long run and uh sorry
+[19:50] RNN is for the short-term memory means
+[19:52] we cannot proceed a very huge sentence
+[19:54] over here. Uh if you will look into the
+[19:58] different different
+[20:02] basically
+[20:03] experience right what developer has like
+[20:07] explored with respect to this RNN. So
+[20:09] they just like uh this RNN actually is
+[20:13] just able to process 10 to 15 words
+[20:16] rather this LSTM is able to process 30
+[20:18] to okay so there is a like difference
+[20:22] between this RNL and it is because of
+[20:25] the uh this short and long-term memory
+[20:28] means because of the cell the cell state
+[20:30] which we are going to be connect with
+[20:32] the input through the forget and the
+[20:35] input gate okay then gates there is a no
+[20:38] gates here forget get input and the
+[20:40] output gate output basically for output
+[20:42] vanishing gradient yes very common
+[20:44] manage somehow using the gates okay then
+[20:48] training uh stability uh it is not much
+[20:50] stable but it is a like very more stable
+[20:54] compared to the RNN then long-term
+[20:56] dependency yes it cannot capture it can
+[20:59] capture better than RNN use cases wise
+[21:02] it is for the short sequences the longer
+[21:05] sequence or for the context of task now
+[21:08] guys uh Using this RNN and LSTM we were
+[21:11] able to achieve the sequence to sequence
+[21:14] learning. Okay. Now what is the sequence
+[21:16] to sequence? Sequence to sequence
+[21:18] learning means we are going to be pass
+[21:20] one sequence and we are going to another
+[21:23] sequence. So here you can see we are
+[21:25] going to pass a
+[21:28] and we are going to process it using the
+[21:32] either LSTM or RN
+[21:34] layer and here we are going to be
+[21:37] generate. So this here we are going to
+[21:39] be pass a sentence and we are going to
+[21:41] be generate a one word. So this is the
+[21:43] example of the text class.
+[21:46] So use see text classification we were
+[21:49] able to do using this RNN analys
+[21:53] detection or the positive and negative
+[21:56] sentiment analysis. It's a very good
+[21:58] example of it. The second is called many
+[22:01] to many. So we are passing a sequence
+[22:02] over here. We are going to be process it
+[22:05] using the RNN.
+[22:09] And guys here we were able to generate a
+[22:11] output. Now we are passing a sequence
+[22:13] and we are generating a sequence. So
+[22:15] this is called the many to many. And
+[22:17] this is a synchronize.
+[22:21] Synchronize means same length. Same
+[22:24] length means
+[22:26] same length means the same length of the
+[22:28] input. See uh we have a three words in
+[22:31] the input and the same word you will
+[22:33] find out. the in the output also right
+[22:36] so POS tagging and the ne is a good
+[22:38] example
+[22:41] now there was one breakthrough in this
+[22:43] particular architecture in the many to
+[22:45] many architecture this is called enor
+[22:47] decoder architecture this was published
+[22:50] in 2014 by suska is a very prominent
+[22:54] figure in the world of deep learn so uh
+[22:57] this architecture basically it was
+[22:58] asynchronized architecture async
+[23:00] architecture async architecture means
+[23:03] for the different length of the input
+[23:05] and out
+[23:07] means whatever we are going to be pass
+[23:09] over here let's say we are going to be
+[23:11] pass with the three words here we can
+[23:13] generate output with only two words okay
+[23:16] now the example of it the example of it
+[23:18] is very uh simple so translation is the
+[23:22] example of it
+[23:24] summarization is a example of it
+[23:29] or basically text generation is also
+[23:31] example
+[23:33] or to predict the next word or next it's
+[23:36] one.
+[23:39] Now I hope guys you understood about the
+[23:41] sequence to sequence learning and RNN.
+[23:44] Now guys let's uh look into the
+[23:47] transformer architecture then we'll see
+[23:49] the
+[23:51] now guys uh take a look of this
+[23:53] transformer architecture. uh let's
+[23:55] understand a overview of it and I'll
+[23:58] show you all the uh uh all the like uh
+[24:02] functional approach of this transformer
+[24:04] like how it is going to be process the
+[24:06] input and how it's going to the output.
+[24:08] So this architecture was published in
+[24:10] 2017 by the Google itself. Okay. Uh now
+[24:14] this architecture actually it was a
+[24:15] replacement on top of the RN analysis.
+[24:18] Now this architecture was very prone to
+[24:20] do some task like translation
+[24:22] summarization way. Now why it was able
+[24:25] to do we'll try to understand. So guys
+[24:28] uh whenever we talk talking about any
+[24:30] sort of a LLM in the current world all
+[24:32] the LLM guys they are the implementation
+[24:35] of this transformer architecture. This
+[24:38] transformer architecture is was a
+[24:40] breakthrough in the world of NLP. Now uh
+[24:44] it is working beyond the NLP. Uh it is
+[24:46] able to process and every whatever data
+[24:49] basically is in a C. Okay. Now uh this
+[24:52] is the architecture guys. Uh as you can
+[24:54] see we have a encoder and decoder in
+[24:56] this particular architecture. So this is
+[24:58] the encoder part of it and this is a
+[25:00] decoder part of this transformer
+[25:02] architecture. Okay. So mainly uh
+[25:04] originally this architecture was uh
+[25:06] created for solving the translation
+[25:08] task. So uh guys what they were doing
+[25:11] they were passing the uh input from this
+[25:13] uh encoder and this decoder basically
+[25:15] it's going to be decode the output let's
+[25:18] say here I'm passing nam sun here then
+[25:20] decoding decoders was generated my name
+[25:23] is sunny okay now guys whenever we
+[25:26] talking about the transformer so it
+[25:28] handle the sequence without any sort of
+[25:30] a recurren works very very faster and in
+[25:33] parallel means there is a no sequence
+[25:35] okay we no need to pass a d a sequence
+[25:38] we can pass the data data in parallel.
+[25:40] Okay. And here it is able to capture the
+[25:42] long-term dependency using the
+[25:44] attention. So guys, uh there is a master
+[25:46] stroke inside the transformer
+[25:48] architecture that is called the self
+[25:49] attention. And because of that they were
+[25:51] able to sustain the global context of
+[25:54] the center. Now what is this global
+[25:56] context of the center? The global
+[25:58] context let's say here I'm writing uh I
+[26:01] am eating apple. eating apple while
+[26:07] choosing apple.
+[26:10] Now guys here you can see in this
+[26:12] particular example this apple right both
+[26:14] apple is trying to refer a different
+[26:16] thing different uh thing. So first apple
+[26:18] actually it is referring to the fruit
+[26:20] and the second refer it is referring to
+[26:21] the mobile phone. So using the RNN LSTM
+[26:25] basically we were not able to capture
+[26:26] this global context of this particular
+[26:29] words. Okay. But guys, whenever we
+[26:31] talking about the self using the cell
+[26:33] potential,
+[26:35] we were able to capture the global
+[26:37] context of this particular that why this
+[26:39] apple is being being used over here and
+[26:41] why this apple is being used over here
+[26:44] at this particular. Okay. So, we were
+[26:46] able to capture both of the dependency
+[26:48] of this particular board using the self
+[26:50] potential. Now, how the cell potential
+[26:52] work that is a topic. So, maybe we'll
+[26:54] understand part later on. Right. Now
+[26:57] with this transformer was the
+[26:58] breakthrough in the world of NLP.
+[27:00] Nowadays using the RNL everyone using
+[27:03] this transformer architecture. Okay. Now
+[27:06] over here guys we can see the flow of
+[27:08] this transformer architecture how it is
+[27:10] flowing the information and guys uh uh
+[27:12] then we'll look into the difference
+[27:15] LS RN LSTM transform. Okay. So uh here
+[27:19] you can see we are having a encoder part
+[27:21] of the transform. So let's understand
+[27:24] the flow of it. So let's say we are
+[27:26] going to be see this is my uh example
+[27:29] this particular thing we are going to
+[27:31] call first we are going to be pass the
+[27:33] sent to the encoder and the decoder is
+[27:35] going to be generate Hindi version of
+[27:38] let's say I'm saying I love mango then
+[27:40] decoder is going to be generate mo okay
+[27:43] so how transformer is processing this
+[27:45] entire thing step by step
+[27:47] so first input will go over here then
+[27:49] it's going to be converted into the
+[27:51] ambit then it's going to be passed
+[27:52] through the uh position encoding then uh
+[27:55] it is going to pass through the multi at
+[27:56] a time and then addition and
+[27:59] then here is a feed forward network and
+[28:01] then again addition and okay so let's
+[28:04] understand guys how this thing is going
+[28:06] to be passed let's say I'm passing a
+[28:08] sentence I love mango so uh guys we are
+[28:11] going to be convert this particular
+[28:12] sentence into the tokens and to each
+[28:14] tokens we are going to be assign a ID
+[28:16] okay this is a numerical number which we
+[28:18] are going to be assigned to every word
+[28:20] now after that what we'll do we'll pass
+[28:22] it to the word embedding layer okay this
+[28:23] word embedding ing layer what it will do
+[28:25] it's going to be generate a ambit of
+[28:27] each and every word so we have a word
+[28:29] and with respect to that word we have a
+[28:31] id okay and we are going to be generate
+[28:33] we are going to be generate a embedding
+[28:35] with respect to each and every right now
+[28:38] after that guys what will happen so we
+[28:39] are going to be pass it to the
+[28:41] positional encoding layer now why it is
+[28:43] necessary because guys uh in the RNN
+[28:45] analysis we were passing the input the
+[28:48] sequence so that's why we were able to
+[28:50] preserve the sequence of the data but
+[28:52] here we are going to be pass the
+[28:54] transformer
+[28:58] we are going to be pass the data in
+[28:59] parallel
+[29:02] that's why we are not able to preserve
+[29:04] the sequence of the and we'll have to uh
+[29:07] put this positional encoding over there
+[29:10] so along with the embedding we are going
+[29:12] to be append this positional encoding
+[29:14] vector okay this positional encoding
+[29:16] again it is itself is a a topic so we
+[29:18] discuss that in a uh when I I will
+[29:21] decode this
+[29:24] So after adding it guys we will get up
+[29:26] like the vector our final vector. Now
+[29:29] this particular vector guys we are going
+[29:31] to be passed to the self attention.
+[29:33] Okay. Now in the self attention what we
+[29:35] are going to be check we are going to be
+[29:36] check the
+[29:38] relationship between each and every
+[29:40] word. So let's say I have a sentence I
+[29:43] love men. We are going to be check a
+[29:45] relationship between each and every
+[29:46] word. So I is going to be check a
+[29:48] relationship with the I itself. Now love
+[29:51] I is going to be check a relationship
+[29:52] with the love. I is going to be check a
+[29:54] relationship. Love is going to be check
+[29:56] a relationship with the I love and
+[29:58] similarly mango is going to be check a
+[30:00] relationship sorry I love and so every
+[30:04] word is going to be check a relationship
+[30:06] between uh the other words okay in the
+[30:08] same sentence and it's going to be
+[30:10] trying it's trying to find out the
+[30:11] weightage okay so how to do that guys so
+[30:14] this itself is a method thing and later
+[30:18] on we can but as of now we are just
+[30:20] focusing on the flow okay now here is a
+[30:23] example I just took One more example
+[30:25] from the research paper itself. So this
+[30:27] is the sentence the animal didn't cross
+[30:29] the street because it was too tired. And
+[30:32] here you can see it's trying to check
+[30:33] the relationship between this it and the
+[30:36] other word of the sentence. So they
+[30:38] found this the animal is matching more
+[30:41] with particular it compared to the other
+[30:43] word. So that's why you can see the uh
+[30:46] the darker line over here compared to
+[30:48] the other one. So that's a simple
+[30:51] meaning of that. Then guys what will
+[30:53] happen? uh the residual connection would
+[30:55] be added okay and the layer
+[30:57] normalization uh would be there. So what
+[31:00] is a residual connection? Resudal
+[31:01] connection means whatever uh input we
+[31:03] are getting from here okay before the uh
+[31:06] multi attention self attention. So as it
+[31:08] is we are passing it over here and
+[31:11] whatever thing we are going to be
+[31:12] processed through the multi attention
+[31:14] both thing we are going to be
+[31:15] concatenating okay and then we are
+[31:17] passing it to the normalization. So this
+[31:20] input we are passing as it is without
+[31:22] this multi attention then the input from
+[31:24] the multi attention and then both we are
+[31:26] going to be concatenate then we are
+[31:28] passing it to digestion. Now why we are
+[31:30] doing it? So here is a couple of reason
+[31:32] which I mention over here. So first it
+[31:34] help to uh to like uh regulate the
+[31:37] gradient flow. Okay. The second is
+[31:40] basically stabilize training and the
+[31:42] speed up the training. Okay. So uh the
+[31:44] in short I can say to preserve the more
+[31:46] context in the training that's why we
+[31:49] are doing this particular okay now here
+[31:51] again we are passing this output to the
+[31:53] feed forward neural network right and
+[31:56] after the feed forward neural network
+[31:57] again we are doing this residual and the
+[31:59] layer now inside the architecture
+[32:02] so whenever we will pass the whenever we
+[32:04] will get a output so we are passing it
+[32:07] feed forward and then we are directly
+[32:09] bypassing this feed forward network and
+[32:11] this vector is coming directly over So
+[32:13] output from the feed forward and the
+[32:15] direct bypassing layer both we are going
+[32:17] to be concing and finally we are passing
+[32:20] it to the normalization. Okay. Now there
+[32:22] is two more thing one is NX. NX means we
+[32:25] can have as many as block and as many as
+[32:27] encoder block. So in the original
+[32:29] research paper we were having six n
+[32:31] block. Okay now we can have as much as
+[32:34] block. And guys one more thing all the
+[32:36] encoder block is going to be identical.
+[32:38] Identical means it's going to be perform
+[32:40] the same thing right? uh it's going to
+[32:43] be it's going to be like process or data
+[32:46] minus every block as many as block you
+[32:48] are going. Now guys uh this is all about
+[32:51] the encoder. Uh now let's uh look into
+[32:53] the decoder how uh it's going to be work
+[32:56] guys.
+[32:58] So guys uh this decoder is also having a
+[33:01] same thing uh but guys in a little
+[33:03] different way. Okay let's try to
+[33:05] understand what was the problem
+[33:06] statement. Uh the problem statement was
+[33:09] whenever I'm passing any sort of a Here
+[33:12] is my
+[33:14] now I kept couple of more architecture
+[33:16] guys. Uh I so let's say here I'm passing
+[33:19] I am sunny. Okay or I love mango. That
+[33:22] was a that was our like
+[33:25] I love.
+[33:27] So now the sentence is going to be
+[33:29] translate and we are passing this data
+[33:31] parallelly to the transformer and code.
+[33:34] Now in the decoder also see what will
+[33:36] pass guys in a decoder. Then a decoder
+[33:38] will pass moj as I told you whenever we
+[33:41] are going to be perform right whenever
+[33:43] we are going to be use this transformer
+[33:45] so there is a two part of it so first is
+[33:47] a training and the second is inference
+[33:49] so as of now we are understanding the
+[33:51] training of it okay in the training
+[33:53] actually it happens in a par manner par
+[33:55] way so guys here I kept couple of more
+[33:57] architecture so later on we can take a
+[33:58] recap of it or else you can go through
+[34:00] with it is trying to explain the encoder
+[34:03] part or the self attention okay now
+[34:06] let's look into process and then maybe
+[34:08] we can so uh here uh what will happen
+[34:11] guys so here we'll pass so as of now
+[34:14] what we are doing we are doing a
+[34:15] training of this transformer
+[34:16] architecture so what will pass in the
+[34:18] decoder I'll pass moj arm person
+[34:23] okay now this thing is going in a
+[34:25] sequence sorry it this thing is going in
+[34:27] a parallel this decoder architect then
+[34:29] what will happen guys see whenever this
+[34:32] uh sentence will add so first it is
+[34:34] going to be sift okay one Start token is
+[34:38] going to be attached with the sentence.
+[34:40] Right? Now what is the reason behind it?
+[34:42] Here's the model how to predict the next
+[34:44] word based on the previous one. Okay. So
+[34:47] here guys this training actually it is
+[34:48] also called the teacher forcing. Teacher
+[34:50] forcing why guys? Because while we are
+[34:52] going to be train it right. So at the
+[34:54] training time what we are passing? We
+[34:56] are passing. See whenever we pass I love
+[34:59] mango. Okay. So the decoder is going to
+[35:01] be predict
+[35:09] person.
+[35:11] Okay. But guys over here if you will see
+[35:13] so the decoder also we are passing the
+[35:15] same sentence this moj because for the
+[35:18] training guys we'll get a supervised
+[35:20] data means we'll be getting a input and
+[35:23] the output talking about the training
+[35:25] guys. Okay. So we'll be getting one
+[35:27] sentence I love mango and the other
+[35:28] sentence person. So we'll pass I love
+[35:31] mango from the enter and in the decoder
+[35:33] guys we are trying to predict that.
+[35:34] Okay. So in the decoder while we are
+[35:36] going to be predicted guys. So at the at
+[35:38] the time see prediction will be happen
+[35:40] from here. Okay. But in the input in the
+[35:43] decoder input we are going to be pass
+[35:45] the same sentence this uh this uh Hindi
+[35:48] version of it right the output of it
+[35:50] output of the I love mango. Why? Why we
+[35:52] are doing it? So that we can train this
+[35:54] architect. This this particular
+[35:55] technique is called the teacher port
+[35:57] right. So first this S will be appended
+[36:00] inside the output moj. So S means
+[36:04] starting then again it will go through
+[36:05] the positional encoding. Okay. So here
+[36:07] you can see like first the word
+[36:10] embedding will happen after initializing
+[36:11] the token and all and then after that
+[36:14] what will happen the positional encoding
+[36:16] will be there. Okay. So after the
+[36:18] positional encoding we'll get the final
+[36:19] vector and then mask attention would
+[36:22] right. So this particular block you can
+[36:24] see this is for the mask attention. Now
+[36:25] what is a mask attention? In a mask
+[36:27] attention see whenever we are passing a
+[36:29] word like this moj.
+[36:31] Okay. So we are passing in parallel.
+[36:36] Parallel. Okay. Now here here guys we
+[36:38] are passing this word in a parallel. So
+[36:40] this particular block will be able to
+[36:42] see the entire sentence person. But it
+[36:45] should not be like this. Should not be
+[36:47] like this means what? Stepbystep model
+[36:49] should learn. Okay. the training of the
+[36:53] step by step model should learn the
+[36:55] context of the sentence. Okay. So I love
+[36:57] mango mean. So if we are passing this
+[37:00] entire sentence with respect to I love
+[37:01] mango. So this is going to be a cheating
+[37:04] for the model. Okay. So what we do guys?
+[37:06] So we hide the future word. So let's say
+[37:09] we are going to be pass
+[37:15] right. So what we do guys we are going
+[37:16] to be hide this arm person hand okay for
+[37:20] this particular word if we are going to
+[37:21] be pass this moji and arm then we are
+[37:25] going to be hide this person and hand
+[37:28] okay we are doing a masking of it called
+[37:30] a masking so we can understand this
+[37:32] particular concept in a better way while
+[37:34] uh basically I'll be discussing this
+[37:36] transformer and all but as of now just
+[37:38] understand we don't want to be showcase
+[37:40] the complete output and at a single go
+[37:43] to the model okay that's Why we are
+[37:45] going to be hide the future word we are
+[37:47] giving one word at a time right. So over
+[37:50] here guys you can see we are going to be
+[37:52] do the we are going to perform the
+[37:53] masking. So this is the mask. Then guys
+[37:56] again residual and layer normalization.
+[37:58] So here residual and normalization. Now
+[38:02] see whatever output we are getting from
+[38:04] the encoder and whatever output we are
+[38:07] getting from this mask masked multi
+[38:10] attention both we are going to be
+[38:11] concent concatenating over here. Both we
+[38:14] are going to be passed through the same
+[38:15] block this multi attention. So this is
+[38:17] called the cross attention.
+[38:20] Cross attention. So guys we have two
+[38:23] more variants of the attention in the
+[38:25] decoder block. First is called the cross
+[38:26] attention. Second is called the
+[38:28] multi-year attention. Right? So if
+[38:30] someone is going to ask you in an
+[38:31] interview what is the attention? You can
+[38:33] explain. Now what is the mask attention?
+[38:35] You can explain that we are going to be
+[38:37] mass the future word. Okay. And then we
+[38:38] are going to be calculate our self
+[38:40] attention. And cross attention means
+[38:42] attention. We are going to be calculate
+[38:44] our attention between the output of this
+[38:47] mass self attention. Okay. And the
+[38:50] output whatever we are getting from the
+[38:52] end right. So this is a complete
+[38:55] explanation of the cross attention. I
+[38:56] just written a very small like the uh
+[39:00] small basically explanation of it. I
+[39:02] think you can go through with it and you
+[39:03] can understand. Okay. Now as of now we
+[39:06] are just going to be take a functional
+[39:07] overview. Later on we can understand the
+[39:10] detail otherwise the video is going to
+[39:11] be too long. Then again we are going to
+[39:13] be do we are going to perform this
+[39:14] adding residual adding and the
+[39:16] normalization. Then we are passing the
+[39:18] output from the feed forward and finally
+[39:19] we have the linear layer okay which is
+[39:22] going to be convert every vector based
+[39:24] on their vocabulary size and finally we
+[39:26] are passing to the soft max. Okay and
+[39:28] then it is giving us a answer right
+[39:30] which word is going whatever word is
+[39:32] going to be predict with respect to that
+[39:34] specific word it is going to be
+[39:35] generated probability and finally we'll
+[39:37] be see the uh will we see the output of
+[39:40] that I love mango. Okay, in terms of the
+[39:42] probability and the probability is going
+[39:44] to be changed in in the word itself.
+[39:46] Okay, later on. So I hope guys this
+[39:49] entire uh thing is clear okay with
+[39:52] respect to this and decorder how this
+[39:54] processing put and out. Now let's do one
+[39:57] thing. Let's take a look uh on the self
+[40:00] attention part how this is working
+[40:02] because this is the crux of this entire
+[40:04] architecture. So this is a transformer
+[40:06] architecture guys. uh we are passing a
+[40:08] input to this transformer architecture
+[40:10] and we are generating a output for then
+[40:12] guys uh in the transformer we have a
+[40:14] encoder and decoder we are passing a
+[40:16] input and here is a output right now
+[40:18] guys you can see we have a uh encoder
+[40:21] stag there could be multiple encoder and
+[40:23] there could be a there could be a
+[40:24] multiple decoder okay now guys uh here
+[40:27] you can see the encoder we have two main
+[40:29] things self attention and feed forward I
+[40:31] think we already understood now guys uh
+[40:33] in the decoder again we have attention
+[40:35] and we have a encoder attention this
+[40:38] pause attention. Okay. And now this
+[40:41] particular attention is called the mask
+[40:42] attention. This one
+[40:45] mask
+[40:47] right and guys we are passing it to the
+[40:49] feed forward and we are going to be
+[40:51] finding out right now guys whenever we
+[40:53] talk about the attention so see let's
+[40:54] say this word is going to be inside the
+[40:56] cell potential layer. So this self
+[40:58] potential is going to be generated a
+[40:59] vector this vector with respect to every
+[41:02] word after doing the processing. Now
+[41:05] what processing is going to be happen?
+[41:07] So here you can see uh the processing.
+[41:10] So guys uh this word actually is going
+[41:12] to be converted into embedding. Okay.
+[41:14] Now we have a three matrix. First is
+[41:16] called the query. Second is K e and the
+[41:19] then other is called the so this vector
+[41:22] we are going to be multiply with the
+[41:23] query. Then we'll be getting this query
+[41:25] vector. Vector we are going to be
+[41:27] multiply with a bit mat a key bit
+[41:30] matrix. We are going to be we are going
+[41:32] to be generate a key vector. And this
+[41:34] vector actually we are going to be
+[41:35] multiply with the value vector then we
+[41:38] are going to be the value vector. Okay.
+[41:40] So this vector this vector is going to
+[41:42] be multiply with each of them which each
+[41:44] of these matrix. Okay. And then we are
+[41:46] getting this query key and value
+[41:49] matrices. Now how this thing is
+[41:51] happening let's try to see. So whenever
+[41:53] we have a like word we are going to be
+[41:55] converting to the embedding. Now we are
+[41:57] going to be generate query Q1 query
+[41:58] vector key vector. Okay. And then this
+[42:01] value vector. Now see guys this query
+[42:04] and key we are going to be multiply we
+[42:06] are going to be generate one score and
+[42:07] we are going to be normalize it using
+[42:09] the uh like the divide of this under
+[42:11] root k means this is a dimension okay
+[42:14] and this uh and then we are going to be
+[42:16] perform the soft max then this soft max
+[42:18] we are going to be multiply this value
+[42:20] vector as it is okay and then finally we
+[42:23] are getting this particular vector
+[42:24] that's the whole sort of a process and
+[42:26] this is the summarization okay so if
+[42:28] someone is going to be asked how the
+[42:30] self attention is working you can
+[42:31] explain this particular diagram this
+[42:33] three diagram the first basically we
+[42:35] have a set vector we are going to be
+[42:37] multiply with the query matrix weight
+[42:39] matrix key metric key matrix and the
+[42:42] value metric this is the random weights
+[42:44] okay it's a trainable parameter
+[42:47] the trainable parameter now guys here
+[42:50] this is a trainable parameter then what
+[42:52] will happen like after multiplying we
+[42:55] are going we are getting this particular
+[42:56] vector and this particular vector
+[42:58] basically is going through with this
+[43:00] particular process first we We are going
+[43:01] to be multiply this query and key. Okay.
+[43:04] And we are getting one score. We are
+[43:05] going to be normalize it. We are going
+[43:06] to be multiply it with a value vector.
+[43:08] And finally we are getting the attention
+[43:10] vector. Right. Why we are doing this
+[43:12] thing? There could be a fruitful
+[43:13] explanation of it along with the
+[43:15] example. We are doing it for sustaining
+[43:17] the global content.
+[43:19] Okay. Using this key query and value key
+[43:22] query and value we are going to be
+[43:24] sustaining the global content. Uh later
+[43:26] on we can see in one of the video I will
+[43:28] explain you for sure. Now guys after
+[43:30] this one I hope you understood most of
+[43:32] the part of the transformer. Now let's
+[43:33] see the differences
+[43:38] guys uh the differences is going to be
+[43:39] pretty easy for all of you now and just
+[43:42] uh look over here. Uh so RNN LSTM and
+[43:46] okay so the first thing is what
+[43:49] architecture so this is the recurrent
+[43:51] architecture. This is also a recurrent
+[43:52] architecture along with a gate and
+[43:54] transformer basically it's a attention
+[43:56] based architecture. There is a no
+[43:57] recurrence. Now handling long-term
+[43:59] depend long-term dependency no better
+[44:02] than RNN. Okay. Now training parallelism
+[44:05] it is a sequential training is also
+[44:07] having a sequential training and it is
+[44:09] having a parallel means fast and
+[44:12] sequential means
+[44:15] vanishing gradient common less common
+[44:18] gate going to be help but is not at all.
+[44:22] Then memory wise context window wise is
+[44:24] small medium better than RNN but it is
+[44:26] going to be kept large. Okay the longer
+[44:30] sentence it is suitable for the small
+[44:32] text. It is suitable for the medium
+[44:34] sequence medium text. It is suitable for
+[44:36] the longer text. Because of that we are
+[44:38] able to do translation summarization.
+[44:42] Now positional tracking it is a built-in
+[44:44] means we are going to process the input.
+[44:47] Here also we are going to be process the
+[44:48] input but here we are going to be
+[44:51] process the input paral that's why we
+[44:53] are going to be position now attention
+[44:56] support no here it is having
+[45:00] inference speed it is it it is a slow
+[45:03] inferencing it is also doing a slow
+[45:04] inference here it is faster because of
+[45:07] the pre-training no it is not available
+[45:10] not available it is available we can see
+[45:12] the architecture like bird gpt
+[45:16] I I hope this uh reference is now pretty
+[45:19] much clear after uh like going through
+[45:22] the architecture. Okay. Now let's uh
+[45:25] look into one more question guys. If
+[45:27] someone is going to ask you that why
+[45:30] this R why this RNL model not the right
+[45:32] fit for finetuning. So you can say there
+[45:35] was no parallelism or there was a slow
+[45:37] training means we were passing entire
+[45:39] data in a sequence. Okay. And because of
+[45:42] that guys we are not able to process a
+[45:44] very huge okay uh if we are not able to
+[45:48] process a very huge amount of data or
+[45:51] will not be able model. Okay. And if we
+[45:54] are not able to process a very huge see
+[45:56] if the pro if the process is sequential
+[45:58] then we won't be able to process a huge
+[46:01] amount of data means a billions of token
+[46:02] then how we will be able to teach our
+[46:04] model that was the main okay so this was
+[46:06] the first reason you can read it out uh
+[46:09] this entire thing I just kept for all of
+[46:10] you so that you will get a better
+[46:12] understand
+[46:14] so again the next reason poor long-term
+[46:16] dependency headling means RNM
+[46:22] the third one no universal architecture
+[46:24] Everyone was uh like uh showing the
+[46:27] different architecture. Every research
+[46:29] someone is saying birectional, someone
+[46:31] was saying ST okay someone was saying uh
+[46:34] encoder decoder with attention right not
+[46:37] self attention okay so there was no uh
+[46:41] like universal architecture like CNN
+[46:43] okay uh in the early stage of NLP and
+[46:46] because of that finetuning was not
+[46:48] possible LSTM and RNN everyone was
+[46:51] proposing a different architecture so
+[46:54] there was no community standard the next
+[46:57] one no pre-trained model if there was no
+[46:59] standard architecture then how we can do
+[47:01] the pre-train means it cannot handle the
+[47:04] long-term dependency it was having the
+[47:06] issue with a forgetting and with a
+[47:08] limited memory so ketaic forgetting
+[47:12] means it is going to be forget the this
+[47:14] info we have seen it in our previous
+[47:18] I trained it on a text classification
+[47:20] then summarization forget about the text
+[47:23] so guys yeah this was the issue and
+[47:25] because of that there was no pre-trained
+[47:27] model and the transfer learning was
+[47:28] possible then price of the bird and GPT
+[47:32] destroy the entire like
+[47:36] RNN. So guys you can see uh the example
+[47:40] of the uh rise of the B sorry rise of
+[47:43] the transformer
+[47:45] uh and the best example of it is a
+[47:48] hugging face. So many model hundreds and
+[47:51] thousand of model hugging with respect
+[47:56] including B and all and different
+[47:58] another. So the community support was
+[48:00] very strong for the transformer and the
+[48:02] rise of the model like B and JP was uh
+[48:05] was very uh like uh very potential uh
+[48:10] thing right at that time and it
+[48:12] destroyed the hype of okay and the
+[48:14] community was very strong the hugging
+[48:16] face one which is having so many
+[48:18] implementing
+[48:20] guys uh no infrastructure no community
+[48:23] support that's why
+[48:26] I hope guys you understood and You
+[48:28] think? Yeah.

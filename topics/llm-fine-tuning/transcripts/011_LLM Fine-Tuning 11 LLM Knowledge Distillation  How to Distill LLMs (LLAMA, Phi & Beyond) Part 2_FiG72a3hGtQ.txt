@@ -1,0 +1,1839 @@
+Title: LLM Fine-Tuning 11: LLM Knowledge Distillation | How to Distill LLMs (LLAMA, Phi & Beyond) Part 2
+Video URL: https://www.youtube.com/watch?v=FiG72a3hGtQ
+Video ID: FiG72a3hGtQ
+======================================================================
+
+[00:00] Hey hi everyone, welcome back to my
+[00:03] YouTube channel. My name is Sunonny
+[00:05] Savvita and I'm back with another
+[00:08] exciting and important video. So guys in
+[00:11] this particular video we're going to
+[00:13] discuss the remaining part of the LLM
+[00:16] knowledge distillation. In the first
+[00:19] part I discuss about the fundamental
+[00:22] concept of the knowledge distillation
+[00:24] along with the theory and practical. If
+[00:27] you haven't seen that particular video,
+[00:29] please go and check out with my last
+[00:31] video. There I discuss the complete
+[00:35] concept of the knowledge distillation.
+[00:37] Now in this video, we'll discuss the
+[00:40] remaining part of this knowledge
+[00:42] distillation. We'll see with respect to
+[00:44] the large language model and uh yeah, I
+[00:48] will show you the theory as well as the
+[00:50] practical. So if you don't know guys I
+[00:53] started with this LLM fine tuning
+[00:55] playlist where I have uploaded around 10
+[00:58] videos with the respect to the
+[01:00] finetuning each and everything I have
+[01:02] covered from very very scratch. So if
+[01:04] you are new to this fine tuning LLM fine
+[01:07] tuning that definitely you can adapt the
+[01:09] concept in a very easiest way. Uh and
+[01:12] guys uh once you will check out the
+[01:14] playlist along with this fine tuning
+[01:16] playlist you will find out the other
+[01:18] playlist also lang chain lang graph
+[01:21] advanced rag multimodel rag and the
+[01:24] retrieval argument generation the basic
+[01:26] rag. So uh if you want to start your
+[01:28] career in the field of AI in the field
+[01:31] of genative AI guys so my channel could
+[01:33] be onetop solution for all of you. If
+[01:36] you haven't subscribed my channel,
+[01:37] please do subscribe or else first check
+[01:40] out with the content then guys you can
+[01:43] subscribe the channel. Uh now if you
+[01:45] want to connect with me one to one then
+[01:47] here you will find out a link. Uh so
+[01:49] just click on this link according to
+[01:51] your concern whatever concern you have.
+[01:54] uh let's say if you want to be get uh
+[01:56] this genative uh preparation material if
+[01:59] you want to connect for the resume
+[02:01] preparation and if you want to connect
+[02:04] for the interview tips for mock
+[02:06] interview each and every service is
+[02:08] available over here. So you can book
+[02:12] slot accordingly. Now guys uh without
+[02:15] delaying
+[02:16] in the video let's start with the
+[02:18] concept let's uh discuss that what all
+[02:20] thing what all point I'm going to be
+[02:22] discuss specifically. So here guys all
+[02:25] the points which I kept inside my one
+[02:28] node. Let me open that first and let me
+[02:30] go ahead with all the points. So uh in
+[02:34] the first video in the first part I
+[02:35] discussed about the knowledge
+[02:36] distillation. Then I came to the concept
+[02:39] of the teacher and the student model and
+[02:41] then I shown you the distillation in the
+[02:43] neural network. I covered both thing
+[02:46] theory as well as the practical. the
+[02:48] theory I discuss the mathematical
+[02:50] concept behind this distillation and
+[02:52] even I discuss about the important
+[02:54] research paper in terms of this
+[02:56] distillation. Now in today's video guys
+[02:59] in this particular video we're going to
+[03:01] discuss about the distillation in a
+[03:02] large language model. I'll show you the
+[03:04] practical I'll show you like how this
+[03:06] distillation was possible in a large
+[03:08] language model. We'll show you the
+[03:10] formula and all. Then I will discuss
+[03:12] about the normal or finetuning versus
+[03:14] distillation. Then where to use this
+[03:16] dist model? Okay, what is a uh like what
+[03:20] is a specific area where we can use this
+[03:22] dist model? Then guys, I'll come to the
+[03:24] overview of the deepsek dist. I I'll
+[03:27] show you this uh uh state-of-art model.
+[03:29] This deepseek model and I go through
+[03:31] with the training process of this
+[03:32] deepseek model and we'll discuss about
+[03:35] the distillation
+[03:37] concept also with respect to the deep
+[03:38] sea. I'm not going into the depth of
+[03:41] these are the mathematics and all
+[03:42] because this will be a separate
+[03:44] playlist. So I I will record this uh
+[03:47] deep sleep playlist in my upcoming
+[03:49] videos. Okay, in my uh like upcoming
+[03:51] days. Uh today I will just give you the
+[03:53] overview so that you could be familiar
+[03:54] with the L&M knowledge distillation. Uh
+[03:57] now let's do one thing guys. Let's try
+[03:59] to understand uh distillation in large
+[04:01] language model. then uh we'll come to
+[04:03] this normal fine universal distillation
+[04:05] and where to use it and at the end I
+[04:07] will give you the overview of this deep
+[04:09] sea distillation models. Okay. So uh
+[04:12] here if you will go and check with the
+[04:13] first part. So there I kept the entire
+[04:16] theory. So the distillation definition
+[04:18] what is the definition of the
+[04:19] distillation uh and here you can see
+[04:22] where it is being used. So this point I
+[04:24] can uh explain you later on. Uh then I
+[04:26] show you the concept of the teacher
+[04:28] model. What is a teacher model? What is
+[04:30] a student model? Okay. uh I I given the
+[04:33] complete definition with respect to
+[04:34] both. Then I discussed one loss
+[04:36] function. The loss function basically
+[04:39] which is being used in a distillation.
+[04:41] So this was the entire loss function
+[04:42] guys this one. So here we are having two
+[04:45] things. First is a cross entropy and the
+[04:47] second is a KL divergence loss. Okay. Uh
+[04:50] now apart from that I discuss about the
+[04:51] hard level. What is the hard levels?
+[04:53] What is the soft levels? Okay. And I
+[04:55] given you one realtime example also. So
+[04:58] I took some uh like values I I like kept
+[05:02] some arrays values and all and with that
+[05:04] I tried to explain you in terms of the
+[05:07] real time. Uh then guys here I kept
+[05:09] couple of diagram as well. So this
+[05:11] diagram basically for all of you only.
+[05:14] So with this particular diagram I try to
+[05:16] explain the concept of the knowledge
+[05:17] distillation that what it is. If you
+[05:19] don't know about it guys you can check
+[05:21] out with my previous video. Okay. Now uh
+[05:24] here guys if you will check if you will
+[05:26] see so I explained the complete training
+[05:27] process also. So if you are going to be
+[05:29] trained in neural network what will be
+[05:31] the training procedure of it means first
+[05:33] we'll pass the input then it will go to
+[05:34] the hidden layers then it comes to the
+[05:36] output layer and then we try to figure
+[05:38] out the loss. So loss plays a very
+[05:40] important role over here and using this
+[05:42] loss function only we are going to be
+[05:44] train our model means our main moto is
+[05:47] to minimize the loss in any sort of a
+[05:49] training and for that we are going to be
+[05:51] use the back propagation technique where
+[05:53] we are going to be differentiate the lo
+[05:55] loss function itself. So this is a basic
+[05:58] optimizer guys this is a gradient
+[06:00] descent optimizer and here you can see
+[06:02] we are going to be differentiate the
+[06:04] loss. Okay. So loss plays a very
+[06:06] important role and inside this
+[06:08] distillation we are going to be change
+[06:10] our loss function. Okay. And with that
+[06:12] only we are going to be dislike the
+[06:14] knowledge. Distillation means what? From
+[06:15] the large model itself we are going to
+[06:18] be pass the knowledge to the uh small
+[06:20] model. Okay. Large model is called the
+[06:22] teacher model and the small model itself
+[06:24] is called the uh student model. Okay. So
+[06:27] this entire thing I explained in my
+[06:28] previous video. If you don't know about
+[06:30] it, you can go and check out. Now one
+[06:32] more thing I have to tell you over here.
+[06:33] So guys here if you will see so let's
+[06:36] say we are giving any sort of a image to
+[06:37] the neural network okay or any sort of a
+[06:40] data to the neural network so it will
+[06:42] predict the soft label soft label is
+[06:44] what soft label is a probability okay so
+[06:46] we have a multiple classes so with
+[06:48] respect to the multiple classes it is
+[06:50] going to be predict the soft max value
+[06:52] it's going to be predict the probability
+[06:54] value okay and then it is called the
+[06:56] hard level hard level means what so
+[06:58] let's say here is a probability from the
+[07:01] soft max 0.7 0.2.1 2 0.1. So the
+[07:04] probability for this particular value is
+[07:06] very high. Okay. So here we'll place one
+[07:08] rest of the value is going to be zero.
+[07:10] So one to whatever basically image to
+[07:13] whatever data point we have assigned
+[07:15] this one. Okay. So that will be my final
+[07:18] prediction something like that right. So
+[07:20] this entire process I have explained in
+[07:22] my previous video. If you don't know
+[07:23] about it guys you can go and check out
+[07:25] there. So this was a quick recap okay
+[07:28] from the previous videos. Now coming to
+[07:30] the next part. So here if I'll show you
+[07:32] the next part the LLM distillation. So
+[07:34] this LLM distillation also we are doing
+[07:38] this knowledge distillation inside the
+[07:39] large language model we're going to
+[07:41] perform using the same formula itself.
+[07:43] So this is a step-by-step notes guys
+[07:45] which I prepared to all of you and for
+[07:47] sure I will provide all the notes. I'm
+[07:49] getting like some comments in my comment
+[07:51] box that are some of the notebook we are
+[07:54] not able to open. So my one and only
+[07:56] suggestion to all of you please download
+[07:58] that particular notebook inside your
+[08:00] local system and then open it inside
+[08:02] your system it will be opened okay uh if
+[08:04] you're not able to do it guys uh what
+[08:06] you can do you can download it inside
+[08:08] the local system and then you can upload
+[08:09] it over the collab in that case also
+[08:11] it's going to be open right so both
+[08:13] thing you can check out now uh let's see
+[08:16] what is the core behind the lmation
+[08:19] uh which formula we were using okay
+[08:21] let's try to take a recap of that
+[08:22] particular formula and After that guys
+[08:25] I'll show you the practical.
+[08:28] So guys whenever we are going to be
+[08:30] distalize the knowledge from teacher to
+[08:32] student model from a large to small
+[08:35] model. So that particular loss function
+[08:38] plays a very important role. Uh so first
+[08:41] of all let me do one thing. Let me give
+[08:42] you the outline. So teacher model is a
+[08:46] huge model. Okay
+[08:49] the big model is called the teacher
+[08:51] model.
+[08:53] Let's take an example. So if I'm saying
+[08:55] B large model,
+[09:01] B large model is a teacher model and uh
+[09:08] this B is small model is a student
+[09:11] model.
+[09:14] Bird is student model is going to be a
+[09:18] sorry bird is small model not a student
+[09:20] model. Bird small model is going to be a
+[09:24] student. So from here to here we have to
+[09:27] transfer the knowledge from where to
+[09:30] where from bird to bird large to the
+[09:32] bird small. So what we are going to be
+[09:34] do guys? So how how we are going to be
+[09:36] how how we are going to pass the
+[09:37] knowledge from bird large to the bird
+[09:39] small. So here is my bird large model.
+[09:42] You can think in such a way. This is my
+[09:44] large model. I can write large and here
+[09:46] is my small model. Okay. So this bird
+[09:50] large model already have been trained on
+[09:52] some data.
+[09:54] This data is going to be a large data
+[09:57] use data anything you can say.
+[10:01] So during the training guys
+[10:06] during the training guys it has learned
+[10:08] some pattern. Okay. So uh during the
+[10:11] training when it was going to be predict
+[10:13] right predict the output of the given
+[10:15] entry or given data point. So it is
+[10:18] going to be predict some soft max value.
+[10:21] Okay.
+[10:23] Soft mix value.
+[10:26] Soft max value. Now this soft max value
+[10:29] we we take this soft max value. Okay. So
+[10:33] whenever we are training this small
+[10:35] model we pass the data. Okay. It's going
+[10:39] to be predict. It's going to be predict
+[10:41] guys. What's going to be predict? It's
+[10:44] going to be predict some soft max value.
+[10:47] Okay. And how we find out the loss? So
+[10:50] we find out the loss between this value,
+[10:52] this value, this value and this value.
+[10:57] So we find out the loss between this
+[10:59] value
+[11:00] and
+[11:02] this value. So this is a simple meaning,
+[11:05] right? This is a simple meaning, guys.
+[11:09] Here is a simple meaning to find out a
+[11:11] loss between what? Between the soft
+[11:13] match itself. Okay. uh now we find out
+[11:17] one more type of loss. So the regular
+[11:19] cross entropy loss. So here is my
+[11:22] predicted value and we will be having
+[11:24] hard hard level also. So between that
+[11:27] also we are going to be figure out a
+[11:28] loss. Okay. So this two loss we are
+[11:32] going to be calculate the first loss
+[11:35] between this soft match value and this
+[11:36] soft max value and another loss between
+[11:39] this soft match value and this hard
+[11:41] value. So this is called this is called
+[11:44] this is called my distillation knowledge
+[11:46] distillation from where from this large
+[11:48] model to this small model in terms of
+[11:50] what in terms of the softmax probability
+[11:52] and here we are going to be learn using
+[11:54] this special loss function the loss
+[11:56] function basically it's going to be a
+[11:57] combine of the scale divergence as well
+[12:00] as this cross entropy that's it okay so
+[12:03] between this two soft max right we are
+[12:05] going to be check a loss we are going to
+[12:06] be check a loss using this scale
+[12:09] divergence method I Hope this is clear.
+[12:12] So here I kept some uh point for all of
+[12:14] you. Uh you can read out this point. It
+[12:16] will help you a lot. So here let's say
+[12:19] we have a data. So the data name is
+[12:21] what? Stain for Sentiment Tree Bank B2
+[12:25] SSC2. So this data it's containing some
+[12:29] uh it's going to be contain some scent
+[12:31] classification data means it is having
+[12:34] some movies.
+[12:37] it is having some movie sentence and
+[12:39] regarding that you'll find out a label
+[12:40] whether it's going to be a positive or
+[12:42] negative okay so positive means one
+[12:44] negative means zero so uh guys uh here
+[12:47] let's say uh here I have written the
+[12:50] teacher teacher basically it's going to
+[12:51] be predict the soft label student it's
+[12:54] going to be learn from both soft label
+[12:57] as well as the hard value right so uh
+[13:00] the second one is what tx tx means what
+[13:02] output login from the teacher model sxp
+[13:06] means means what? So output logits from
+[13:09] the student model. So this logits is
+[13:11] nothing. It's a soft max value.
+[13:15] Okay. So this logit is nothing. It is a
+[13:18] soft max value. Right. So this logit
+[13:23] this one
+[13:24] is this one. This one.
+[13:28] Okay. And this logs this this log this
+[13:31] one soft level is this one. Okay. So
+[13:36] this is the this is from what where this
+[13:38] is from the student model and this
+[13:39] logates from where from the teacher
+[13:41] model and this is nothing this is just
+[13:43] the value of the soft max okay whatever
+[13:46] soft max is going to be predict in terms
+[13:48] of the probability probability
+[13:50] distribution okay now here guys if we're
+[13:52] talking about the formula so here is the
+[13:54] final formula this one combine
+[13:58] both losses final distinction loss using
+[14:02] this particular loss only we are going
+[14:03] to be train our order. So inside this
+[14:06] particular loss function you will find
+[14:07] out see here is a cross entropy okay L
+[14:11] means what loss cross entropy 1 minus
+[14:14] alpha and here loss KL divergence so
+[14:18] this is the loss this is the cross
+[14:19] entropy as you know the cross entropy so
+[14:22] this is my level okay and here is my
+[14:24] soft mix value this is the cross entropy
+[14:26] loss this one right so how how to like
+[14:32] find out a loss this cross entropy loss
+[14:33] if you Remember guys, see let's say if
+[14:36] we have uh let's say we have a dog
+[14:39] image. This particular dog image we are
+[14:41] passing it to the network. Okay. Now
+[14:44] this particular network this particular
+[14:46] network it's going to be predict some
+[14:49] softmax value. Okay. So this going to be
+[14:52] predict some softmax value. Let's say
+[14:54] this is 0.7 this is 0.3 this is 0.1. So
+[14:58] here you can see what I'll be getting.
+[14:59] I'll be getting 1 0 0. Okay. So 1 0 0
+[15:05] and what was the actual level? What was
+[15:07] the actual level?
+[15:09] What was the actual level of this dog?
+[15:11] The actual level of the dog was the
+[15:14] actual level of the dog was 1 0 0. So
+[15:17] here you can see guys this is my
+[15:18] predicted level and this is my actual
+[15:20] level. Okay. So this one this y is
+[15:25] nothing yi is nothing it is a it is a
+[15:28] this hard level hard value. Okay. And
+[15:31] this is called the hard level. Okay,
+[15:33] this 1 0 0 and this is called the soft
+[15:36] level. Okay, soft level. L E BL and this
+[15:40] is called the hard level. Get my point
+[15:43] guys. Okay, so here what will come? Here
+[15:45] this probability will come. This
+[15:47] probability see soft max of SX. Okay,
+[15:50] this probability log of it and here
+[15:52] would be my hard level. Okay, so
+[15:54] something like this we calculate the
+[15:56] cross entropy in the deep learning
+[15:57] videos we can understand more about it.
+[15:59] Now here guys you can see what we are
+[16:01] doing. So here we are going to be find
+[16:04] out the loss. This scale divergence
+[16:06] loss. Okay what's the full form of the
+[16:08] scale divergence? We'll try discuss
+[16:10] about it. So inside the scale divergence
+[16:12] what we have? We have this T. T means
+[16:14] temperature the summation. Okay. PT PT
+[16:18] means what? Here is a the probability of
+[16:20] the here is the probability of what?
+[16:22] Probability of the teacher and the log
+[16:24] property of the teacher and probability
+[16:26] of the student. So this this particular
+[16:29] K divergence loss function is completely
+[16:31] dependent on the this soft max values.
+[16:35] Okay. Now here again you can see T t is
+[16:38] a hyperparameter temperature value.
+[16:40] Right. Now here you can see summation of
+[16:43] what? Probability.
+[16:48] Okay. And here you can see log
+[16:50] probability of what teacher divided by
+[16:52] probability of the student. And how we
+[16:54] are going to be find out this
+[16:55] probability like this. this one okay we
+[16:58] are going to be normalize it using the
+[17:00] temperature. So this is the same
+[17:01] function same loss function we have seen
+[17:03] in the previous video itself. So you
+[17:06] just have to remember that this in the
+[17:09] final distillation whenever we are
+[17:10] talking about the noise distillation we
+[17:12] use we use this combined loss function
+[17:15] where we have a k divergence as well as
+[17:18] this one cross entropy. Okay. So the
+[17:21] loss function is a combination of this
+[17:23] both. I hope this thing is clear. Now
+[17:25] coming to the next part. So guys here if
+[17:27] you will see so we have a transformer
+[17:29] architecture and see the second
+[17:31] architecture is representing to the
+[17:33] llama model.
+[17:36] Okay. So this llama it's a predictive
+[17:38] model.
+[17:41] It's a predictive model or I can say
+[17:44] this is a generative model.
+[17:48] Generative model. So it's going to be
+[17:50] generate the next what? It's going to be
+[17:52] predict the next word inside the
+[17:55] like in the given sentence. So whatever
+[17:57] sentence we are giving is trying to
+[17:58] predict the next word. Okay. Now here
+[18:00] guys this llama it is based on the
+[18:05] decoder. Okay. It's a decoder
+[18:06] architecture. This decoder actually this
+[18:09] decoder is also called the GPT
+[18:11] generative pre-training.
+[18:14] The main main use case of the GPT is to
+[18:18] generate a word to generate a future
+[18:21] words, future sentences. Okay. Now
+[18:24] inside this llama you can see what we
+[18:26] have. We have a input. So here is what
+[18:28] here's my input. Then we have a
+[18:30] embedding. Then here you can see we have
+[18:31] a self attention block. After that we
+[18:33] have a feed forward. Right? So in
+[18:35] between like some processes going on
+[18:37] this normalization process and then here
+[18:39] you can see some iskeep connection and
+[18:40] all. And after that we are going to be
+[18:42] linear it linear the like the output and
+[18:45] we are going to be apply the soft max.
+[18:47] So the soft noise value itself is called
+[18:49] the
+[18:50] soft label.
+[18:54] Okay. So this is the probability
+[18:56] distribution. This is also called the
+[18:58] probability distribution. And the soft
+[19:00] max value itself is called the
+[19:03] soft label. And it's a probability
+[19:08] distribution.
+[19:10] probability distribution regarding part
+[19:11] it's a probability distribution
+[19:13] regarding the the gen regarding the
+[19:16] given input okay so I hope this thing is
+[19:19] clear we can look into their mathematics
+[19:21] and all in some other classes as of now
+[19:23] I'm just showing you that okay this is
+[19:24] the architecture lama architecture
+[19:26] similar to that we have a mist
+[19:27] architecture gy architecture cloud
+[19:29] architecture deepseek architecture all
+[19:31] the state-of-the-art art model okay this
+[19:34] generative model it depends on the
+[19:35] transformer architecture itself and this
+[19:37] is one of the example and why I kept
+[19:39] this example example so that you can
+[19:40] understand that it really it is going to
+[19:42] be predicted a soft max value at the end
+[19:45] okay really we are getting a soft level
+[19:46] at the end I hope this thing is clear
+[19:48] now coming to the next part so guys if
+[19:52] we're talking about the distillation so
+[19:54] you know guys if you have seen my
+[19:56] previous video if you gone through with
+[19:58] that so distillation is nothing just a
+[20:01] process right we are going to be train
+[20:02] our student model again okay so either
+[20:06] that student model is already trained
+[20:08] means we are going we fine-tune it on
+[20:10] top of the softmax value which we are
+[20:12] getting from the teacher or we just
+[20:13] initialize the student model and then we
+[20:16] are training it using those softmax
+[20:18] value itself. So this entire concept I
+[20:20] have clarified in my previous classes
+[20:22] itself previous videos in mainly in the
+[20:25] previous video if you haven't checked
+[20:26] please go and check that specific video
+[20:28] it's very very important right so in
+[20:31] that only you are going to be building a
+[20:32] fundamental with respect to the
+[20:34] distillation now guys uh here we're
+[20:36] talking about the distillation so
+[20:38] distillation is all about to this loss
+[20:40] function okay and here is the entire
+[20:42] process if you're facing difficulty to
+[20:44] understand this entire process means you
+[20:45] need to check out the previous video now
+[20:47] coming to the next part. So here I have
+[20:50] written some facts. So the first fact is
+[20:53] dist bird. Okay, a dist version of the
+[20:55] bird. So we are going to be create our
+[20:57] own version in today's uh video. Uh so
+[21:00] dist bird has a 40% fewer parameter and
+[21:03] run 60% faster. Okay, because it's a
+[21:06] small model. So it still retain 97% of
+[21:08] the board performance. So whatever board
+[21:10] is going to be predict right. So it is
+[21:12] 90% accurate. Okay, means if let's say
+[21:15] bird is 100% then it is able to perform
+[21:18] the 90%
+[21:20] of the that bird model. Getting my
+[21:22] point? Now here guys you can see dist
+[21:25] has 40% few parameters 60% faster right.
+[21:28] So it is as much as bird accurate but it
+[21:31] is slow it is faster as well as having a
+[21:33] less size. Okay. So that's the power of
+[21:35] the distillation means we can utilize a
+[21:37] student model on a same label where we
+[21:41] have that main model the larger model.
+[21:43] Now here you can see the second fact. So
+[21:45] 770 million T5 model outperform 540
+[21:48] billion palm with just 80% training
+[21:50] data. If we are giving that 80% training
+[21:52] data and we are training and we are
+[21:54] taking a soft label from the palm okay
+[21:56] that soft max value and we are going to
+[21:58] be trained this T5 model a very small
+[22:00] model in that case also we are able to
+[22:03] achieve right a good accuracy getting
+[22:06] getting my point guys how powerful this
+[22:08] distillation could be. Now the next one
+[22:10] is a tiny llama. So tiny llama model
+[22:13] trained on just 140th of the token can
+[22:16] match performance of the full llama
+[22:18] model. Okay. So again this is the
+[22:20] example of the distillation. So
+[22:21] distillation quality tokenizer data
+[22:23] curation and we are getting a beast
+[22:26] model. Beast model means the model
+[22:28] basically which is a smaller the model
+[22:30] basically which is having a few
+[22:32] parameter but is still it is able to do
+[22:34] a very great job. Right? So that's the
+[22:36] power of the distillation and this all
+[22:37] the facts are not just a fact it's a
+[22:41] truth guys. Yes. Okay. Now what you have
+[22:44] to do? So after learning this much of
+[22:47] thing after learning this much of theory
+[22:49] uh and if you have seen the previous
+[22:51] video the fundamental and all then you
+[22:54] should move to the practical. Okay. So
+[22:56] here I kept the complete practical. Let
+[22:58] me show you that particular practical
+[22:59] guys and uh see all the pract all all
+[23:02] the like code and all everything you
+[23:04] will find out over here and for sure
+[23:06] I'll run it in front of you only. Now
+[23:09] apart from this one uh guys uh here I
+[23:11] kept couple of research paper for all of
+[23:13] you. So let me go through with that
+[23:14] specific research paper the first place
+[23:17] then I will come to this particular uh
+[23:19] implementation. Okay. So here guys you
+[23:22] can see the first research paper as I
+[23:24] shown you in my previous video itself.
+[23:26] Uh so the first research paper basically
+[23:28] distill the knowledge in the neural
+[23:30] network. Okay. The second research paper
+[23:33] uh it is very much important and for
+[23:36] sure you should read this research paper
+[23:39] most of the part basically I took took
+[23:41] from here itself and knowledge
+[23:43] distillation survey. Okay. So the
+[23:45] architecture which I taken in my
+[23:46] previous class. So I take a reference
+[23:48] from here teacher model knowledge
+[23:50] transfer student model and I created one
+[23:52] mimic architecture behalf on this. Uh
+[23:55] now apart from this one guys you can see
+[23:57] it is having a very good visual
+[23:59] representation and they have explained
+[24:01] the uh distillation in a better way okay
+[24:04] along with all the benchmark data
+[24:05] formulas and all. So what I shown you
+[24:07] this those thing was just a replication
+[24:10] of this research paper uh and it is like
+[24:13] a it's very important guys if you will
+[24:16] go through with it you will learn many
+[24:17] new things. Now uh apart from this one
+[24:20] uh one more research paper dist bird I
+[24:22] think we all know about the distl bird
+[24:24] it's a distalized version of the bird
+[24:26] right so how it has been trained what
+[24:28] model what like thing is it it is able
+[24:30] to perform each and everything you will
+[24:31] get inside this particular research
+[24:32] paper so this is again one of the
+[24:34] mandatory thing for all of you you have
+[24:36] to go through with this now one more
+[24:38] research paper guys so tiny stories how
+[24:40] small language model can be like very
+[24:44] powerful okay so this thing have been
+[24:47] explained inside this research paper
+[24:49] four for sure you should go through with
+[24:51] it and you will learn many more new
+[24:52] thing once you will read out at least
+[24:55] heading uh of this research paper okay
+[24:57] heading introduction abstract and all
+[25:00] just read out all these three thing uh
+[25:02] in that case like you will get a like
+[25:04] good overview of this research paper
+[25:06] then later on you can deep dive into the
+[25:07] mathematics and all so here is one more
+[25:10] research paper guys which is the
+[25:11] important research paper please skip all
+[25:14] this research paper but don't skip this
+[25:16] particular research paper Okay, because
+[25:18] whatever distillation you are seeing
+[25:20] right it depends on this uh research
+[25:22] paper distlizing step by step
+[25:24] outperforming large language model with
+[25:26] the less training data and smaller model
+[25:27] size. So whatever training you will see
+[25:30] with the respect to the large language
+[25:32] model okay like the distillation of the
+[25:36] large language model. So all the thing
+[25:38] all the benchmark everything have been
+[25:40] uh have been like mentioned inside this
+[25:41] research paper and this is the mandatory
+[25:44] and important for all of you guys. So
+[25:46] you can skip rest of the research paper
+[25:48] but don't skip this one. It is very much
+[25:51] important. Now uh let's do one thing
+[25:53] guys. Uh we'll come to the other points
+[25:55] on later on. Okay. So how we can uh
+[25:59] fine-tune using the auto train. Okay. Or
+[26:02] else like what are model we should
+[26:04] explore with respect to this uh
+[26:07] distillation and all everything I kept
+[26:09] for all of you along with different
+[26:10] different packs. So we'll try to discuss
+[26:13] each and every part of it. So first of
+[26:15] all let's look into the uh basically
+[26:18] practical okay and then we'll come to uh
+[26:21] this specific part.
+[26:24] So at the first place guys we'll have to
+[26:26] connect uh with the runtime. So click on
+[26:29] the runtime and then select the GPU
+[26:35] change runtime type and then select the
+[26:38] GPU. Okay click on save. So uh here uh
+[26:42] you can see uh at the first place we'll
+[26:44] have to install this library. Uh first
+[26:46] is a data set. Second is this app fssb
+[26:50] then uh transformer. Now why we use this
+[26:53] fssp? So uh this particular library
+[26:56] using this particular library basically
+[26:58] we can uh access the data from any sort
+[27:00] of a places like s3 uh gcp azure okay
+[27:04] from any gif file from any server right
+[27:07] from anywhere. Okay. So uh it allow the
+[27:10] Python program to read write any file
+[27:13] okay using the same interface. So we can
+[27:16] open file, we can read file, we can
+[27:17] write file, anything. So uh now guys uh
+[27:20] see what we are doing at the first place
+[27:22] we'll have to install it. This command
+[27:23] is pretty much mandatory otherwise you
+[27:25] might get error with respect to this
+[27:28] package and all. So please uh execute
+[27:30] this command if you are going to perform
+[27:32] this particular uh implementation. uh
+[27:35] then after what I will do I will execute
+[27:37] this uh import warnings. So whatever
+[27:40] warning is coming with respect to any
+[27:42] package. So I will filter out or I will
+[27:44] ignore that particular warning. Now
+[27:46] after that I have couple of more
+[27:48] statement import statement. So here I'm
+[27:50] going to import the torch from torch I'm
+[27:52] going to be import the neural network
+[27:53] then optim okay uh this is for op for
+[27:57] for like importing the optimizer then
+[27:59] data set then transformer then data
+[28:01] loader is there then load data set is
+[28:03] there okay data loader basically to load
+[28:05] the data in a hugging face compatible
+[28:07] format uh then we have this load data
+[28:10] set for loading any data set from the
+[28:11] hugging phase then auto tokenizer okay
+[28:14] for loading the tokenizer a data collect
+[28:17] collector with padding so to perform the
+[28:19] padding ing to keep the data uniform.
+[28:21] Okay, even a train and validation test
+[28:23] whatever data we have. Right, the data
+[28:25] loader is a redundant one. So I will
+[28:27] have to remove it. Let me remove this
+[28:29] one. Uh now uh guys, here is some
+[28:32] parameter which I defined which I
+[28:33] mentioned. So best size would be there.
+[28:35] So in how many batch in one batch how
+[28:38] many data points would be there? Then
+[28:39] here is a learning rate. So what is the
+[28:41] meaning of this 5 E minus 5? So 5 into
+[28:45] 10 ^ - 5 means 0.00005.
+[28:48] It's a very small learning rate as you
+[28:50] can see. Then we have a epoch. So one
+[28:52] epoch only it is just a testing. So I'm
+[28:55] just going to be execute one epoch. But
+[28:58] if you are running it in a real time
+[28:59] then you can run it for as many as a as
+[29:03] you want. So it is just a
+[29:04] hyperparameter. The temperature value
+[29:06] again it is a part of that loss the
+[29:09] knowledge isolation loss. Okay. The
+[29:12] temperature value I'm keeping two uh
+[29:14] there would be range of it. I think 2 to
+[29:16] minus 2 to two. Okay. We will check
+[29:18] about it. Then Alphasoft again it is a
+[29:22] value of for the that formula itself.
+[29:24] Then maximum length okay the generated
+[29:26] output. Now here you can see the device.
+[29:29] So device basically
+[29:32] this maximum length I think for the
+[29:34] sentence. Okay for one specific sentence
+[29:36] not the generated output. So it is for
+[29:38] one specific sentence like which the
+[29:41] sentence which we are getting there is
+[29:42] data now right and then further we are
+[29:44] going to be tokenized and then we are
+[29:46] going to be perform the training on top
+[29:47] of that itself. So uh here I think this
+[29:50] all the thing is clear now what I'm
+[29:52] doing after loading all this parameter
+[29:54] I'll load my data. So I'm going to be
+[29:56] load this tweet event data it's a
+[29:58] sentiment data okay I'll get inside the
+[30:00] variable raw. So uh here what I will do
+[30:02] I'll take the fe label from here from
+[30:04] the uh raw data raw r data and see I
+[30:09] have three label first is a negative
+[30:10] second is a neutral and third is a
+[30:12] positive okay so let me uh show you the
+[30:15] label let me print it and here guys what
+[30:17] I'm doing so I'm printing the labels so
+[30:21] yes we are able to do that now for the
+[30:23] training I'm taking a subset of the data
+[30:25] so I'm just taking 2.5k sample from the
+[30:27] data itself I don't require the complete
+[30:29] data because it is very huge
+[30:31] and I might get I like it might it might
+[30:34] get some time right while it is training
+[30:37] the model okay so we have to take the
+[30:39] subset of the data now what we'll do for
+[30:41] the validation also we'll take a data
+[30:43] okay so for the validation we can take
+[30:45] the entire data and here I written the
+[30:48] uh explanation also that why we are
+[30:49] doing it so why trade is subset but
+[30:52] validation is not so training cost is
+[30:54] high validation cost is low training
+[30:56] basically it takes much time on top of
+[30:58] the used data and the GPU cost also is
+[31:00] going to be far also going to be very
+[31:03] huge. So we take training data as much
+[31:05] as lower one. As of now we are in
+[31:08] learning phase, testing phase. So we
+[31:10] will take a very less training data but
+[31:13] if you're working in a real time then
+[31:14] you can arrange some more configuration
+[31:16] and all and on top of it you can train
+[31:18] your model. Okay with a huge data but
+[31:20] yeah for the validation we can take as
+[31:22] much as data and here training is not
+[31:24] involved. So it won't take much time. Uh
+[31:27] now here I hope everything is clear. So
+[31:29] what I will do I'll initialize my
+[31:30] tokenizer now. So which model we are
+[31:32] going to be consider? So we are going to
+[31:34] be considered two model. The first model
+[31:36] bird large model and the second one bird
+[31:39] base model. Okay. So uh I'm going to be
+[31:42] load the tokenizer for with respect to
+[31:44] what? With respect to this bird base
+[31:46] model. Okay. Now what I will do I'll
+[31:49] create I create a function. So this
+[31:50] function what it will do it will take a
+[31:53] text. Okay. It will truncate that it
+[31:55] will convert into the max length means
+[31:57] it will keep the max length. the max
+[31:58] length which we have defined okay with
+[32:00] respect to the sentence. So here is my
+[32:02] tokenizer then here is my list here is
+[32:05] my dictionary. Now inside the dictionary
+[32:07] basically I will keep both training and
+[32:09] validation data after the tokenization.
+[32:11] So uh let me run it and the entire data
+[32:14] will be there after the mapping. Okay
+[32:16] after the tokenization. So if you will
+[32:18] check out with this particular
+[32:20] dictionary now if you take this
+[32:21] particular variable and print it inside
+[32:24] a new cell after this mapping. So you
+[32:27] will get a detail. Okay. So let me show
+[32:29] you. So here guys you can see we have a
+[32:32] tokenized data. So train data as well as
+[32:34] what as well as the validation data.
+[32:36] Okay. I hope this thing is pretty much
+[32:39] clear. So model wise I'll come to the
+[32:41] model that which is which one is my
+[32:43] teacher model and which one is my
+[32:44] student model. Okay. Now what we are
+[32:47] doing guys? So here we are going to pass
+[32:48] the data this sorry this tokenizer to
+[32:51] this data collater with padding and here
+[32:54] I'm passing two variable first is a
+[32:56] tokenizer second is a pad to multiple
+[32:59] multiple of okay and here I'm passing
+[33:01] one variable value 18 okay so let's try
+[33:04] to understand what is the meaning of it
+[33:06] I kept the explanation over here inside
+[33:08] the markdown so the meaning is very
+[33:10] simple so it creates a data collector
+[33:13] okay so it automatically pets all the
+[33:16] tokenized input in batch means uh let's
+[33:19] say we have a sentence uh in one
+[33:22] sentence we just have so I can explain
+[33:25] you this thing
+[33:28] give me a moment guys I'm going to be
+[33:29] explain so in one sentence or let's
+[33:32] suppose we have five tokens
+[33:35] so this is the ID with respect to the
+[33:37] tokens
+[33:39] one 2 3
+[33:43] 4 and let's say five now in another A
+[33:47] sentence we have seven token. So 2
+[33:52] 6 5
+[33:54] 7
+[33:56] 10. Okay. Then here will be what? Here
+[34:00] will be let's say 11 and 16. So I have
+[34:06] how many tokens? Five. And inside the
+[34:08] second sentence we have seven tokens.
+[34:10] Right? So we'll have to pad it. We'll
+[34:12] have to pad this particular sentence. So
+[34:14] while I'm going to be generate a padding
+[34:16] of it. So here I will write zero
+[34:20] zero.
+[34:22] Then after that this 1 2 okay this 1 2 3
+[34:28] 4 5 it will be as it is. So here will be
+[34:31] one here basically I'll be having two
+[34:35] then three then here is four and then
+[34:39] here is a five. Right? So this is called
+[34:43] padding and using the data collector we
+[34:45] are doing this particular padding. I
+[34:47] hope this is clear. Now uh see
+[34:50] automatically it will perform the
+[34:51] padding and here one more parameter is
+[34:53] there. Why p to multiple of eight. So I
+[34:57] written an explanation. So 10 tensor
+[35:00] cores in GPU are optimized for data
+[35:02] size. Data size that are multiple of
+[35:05] eight 16 20 means the data size should
+[35:08] be multiple of eight. Multiple multiple
+[35:10] of eight means what? 8 16 32 okay then
+[35:14] 48 then 56 64 something like that so
+[35:18] multiple of multiple of 8 okay so 8 16
+[35:22] 32 40 48 correct then 56 okay so so
+[35:26] padding to multiple of eight help faster
+[35:29] training better memory alignment and
+[35:31] reduce safe mismatch error in mixed
+[35:34] procedure so this is the explanation of
+[35:35] these two variable so you can imagine in
+[35:38] such a way let's say you have a three
+[35:39] tokens Okay. Uh imagine you have three
+[35:43] tokenized input of length. So the first
+[35:47] basically in the first sentence you have
+[35:49] five tokens, second seven and then 11.
+[35:52] So with pad of multiple 8 you will be
+[35:54] doing like this means you are going to
+[35:56] be pad it you are going to be like map
+[35:59] it to the nearby values. So five will
+[36:01] become eight then it will become eight
+[36:02] it will become 16. Okay means uh we have
+[36:05] five token 7 token 11 token. Here you
+[36:08] can see eight token, eight token and 16
+[36:10] token something like that. It is just a
+[36:12] tested okay someone is tested with the
+[36:15] regress testing and all and then only
+[36:17] they are able to make this particular
+[36:19] conclusion. Right now we have a data
+[36:21] collector. So let me do one thing. Let
+[36:23] me execute it. And here is my train DL.
+[36:26] So I'm going to be like convert my data
+[36:29] into the hugging phase data compatible
+[36:32] format. So I'm passing my data train
+[36:34] data. Here is my best size. Here suff is
+[36:36] equal to true. that data collector
+[36:37] function collater I'll be passing this
+[36:39] coller right so here I'm getting train
+[36:42] data and here is my validation data I
+[36:44] hope this thing is pretty much clear to
+[36:46] all of you now coming to the next part
+[36:48] so now guys what I'm doing I'm going to
+[36:50] be load my model so the first one is a
+[36:52] teacher model so I'm going to load this
+[36:55] bird large model is a teacher model as I
+[36:58] told you this large model is going to be
+[37:00] my teacher again this is a small model
+[37:03] bird base uncased model this is a small
+[37:05] model this is going to be a student
+[37:06] model right so teacher and student both
+[37:09] I have now what I will do so here I will
+[37:12] freeze okay so I will take I will trade
+[37:14] on on top of the all the parameter of
+[37:17] the teachers teachers dotparameter I'll
+[37:19] get the parameter in this p dot require
+[37:22] gradients and here I'm keeping false
+[37:24] okay means I don't want to train the
+[37:26] training I don't want to train the
+[37:28] teacher parameter okay so once I'll run
+[37:31] it guys I will be able to freeze all
+[37:34] this parameter Now coming to the next
+[37:37] part. So I will put this teacher on a
+[37:40] evaluation mode. Okay. So I will not
+[37:43] going to be perform a training with
+[37:44] respect to my teacher model. Okay. Put
+[37:47] the teacher mode in evolution mode.
+[37:48] Instead of the training mode so I I'm
+[37:50] not going to perform the training. I'll
+[37:52] put it over the evaluation mode. Then
+[37:54] here is my loss function. This is my
+[37:56] cross entropy loss. Okay. This is my K
+[37:59] divergence loss. Now what is the full
+[38:00] form of this K scale divergence guys? So
+[38:03] the full form you can see Kul back liber
+[38:07] divergence. So this name it is based on
+[38:10] the scientist okay it's a scientist name
+[38:12] coolback label blair divergence. Okay so
+[38:15] which is called KL divergence loss. So
+[38:19] here guys one more loss we are going to
+[38:20] be define. So here is a cross entropy
+[38:22] and here I'm going to define the K K
+[38:25] loss. Okay. Now what we have? We have
+[38:28] the optimizer also. So here you will see
+[38:31] the optimizer. So we are going to be use
+[38:34] this Adam optimizer. Now what is the
+[38:36] meaning of the W over here? So I written
+[38:38] a explanation over here. So optimadom W
+[38:42] means Adam W means weight decay. So it's
+[38:45] a popular optimizer used in a
+[38:47] transformer based model like LLMs. So it
+[38:51] combines atom adaptive learning rate
+[38:53] plus momentum and as well as a weight
+[38:55] decay. Okay. Regularization to prevent
+[38:57] overfitting this one this weight decay
+[38:59] value. So this is just the this is all
+[39:01] the mathematical like uh uh explanation
+[39:05] and all okay it's just a mathematical
+[39:08] parameter regarding that we'll have to
+[39:10] understand the proper mathematical
+[39:11] derivation right so what is a atom why
+[39:16] we use W bic and all as of now I'm just
+[39:18] giving you the terminology the the the
+[39:21] idea behind each and every terms and
+[39:24] terminology that's it nothing else guys
+[39:26] because uh this uh this topic uh it it
+[39:29] is not a easy If we are exploring it
+[39:31] over the mathematical level. So that
+[39:33] mathematical level will come later on
+[39:35] once we'll discuss the deep learning
+[39:36] based concept this optimizer and all.
+[39:38] Okay. Then only we can understand the
+[39:40] formula the mathematics and we can put
+[39:43] some value we can make a calculation and
+[39:45] all. As of now we just trying to
+[39:46] understand on a high level this entire
+[39:48] terms and terminology. So if you're
+[39:50] going through with the practical so
+[39:52] easily you can understand that part. Now
+[39:54] coming to the next part next part. So
+[39:56] here I'm going to define my optimizer.
+[39:58] So what I'm passing guys I'm passing my
+[40:00] uh like this uh I'm passing my student
+[40:03] parameter as well as this learning rate.
+[40:05] Okay. So here is what here is my
+[40:07] optimizer because we have to train the
+[40:09] student weight only. Now right we are
+[40:10] not going to be train the teacher
+[40:11] weight. So that's why I'm passing the
+[40:13] student parameter only. Now getul guys.
+[40:16] So this gadget scheduleuler for what?
+[40:17] This gulular
+[40:19] for defining the learning uh rate. Okay.
+[40:22] So uh to this gas scheduleuler we are
+[40:24] passing this linear optimizer number of
+[40:27] uh number wrap up step zero and then
+[40:29] number training step length. So what is
+[40:32] the meaning of it here you can see. So
+[40:34] you are using a learning rate
+[40:35] scheduleuler start with a high learning
+[40:38] rate. Okay gradually decrease linear to
+[40:40] zero no warm up nothing. Okay you can
+[40:44] you can keep the high value only. Okay
+[40:47] start with the full speed initially. Uh
+[40:50] so here is all the parameter name linear
+[40:52] means use linear decay cellular
+[40:54] optimizer would be the Adamw num wrap uh
+[40:58] uh warm up step don't warm up start with
+[41:01] the full capacity means the highest
+[41:03] learning rate and here number training
+[41:06] step. Okay so total number of step and
+[41:08] training load. So the graph will look
+[41:09] like something like this if we are
+[41:11] talking about the we're talking about
+[41:13] what guys we're talking about the
+[41:14] learning rate and step right. So uh the
+[41:17] learning rate will be high at the first
+[41:19] place then it's going to be dropped
+[41:21] linearly it's going to be dropped. See
+[41:23] you can see clearly see inside this
+[41:25] specific graph. Now coming to the next
+[41:27] part. So here is my learning rate LR
+[41:30] scheduleuler. Okay I'm going to be
+[41:32] schedule the learning rate and then what
+[41:35] I will do guys see here I'm going to be
+[41:36] initialize this TQDM just to check the
+[41:39] progress. Okay. So this is my specific
+[41:42] loop which is responsible to perform the
+[41:44] training. So this epoch is there. Okay,
+[41:47] this is a function. Now I am calling
+[41:48] this student.t train. Okay, so this is
+[41:51] student.train. What it will do? It will
+[41:53] uh like initialize the training. Okay,
+[41:56] with respect to the student model. Here
+[41:58] I'm going to initialize the progress
+[41:59] bar. Okay, then I'm going to be iterate
+[42:02] on top of this progress bar means I'll
+[42:04] get badge. So from the badge itself, I'm
+[42:06] going to take this ID, attention and
+[42:08] labels. This three thing. So with
+[42:11] respect to teacher, we are not going to
+[42:12] perform any sort of a training. We are
+[42:14] saying to torchn nograde. What is the
+[42:17] meaning of it? The meaning is very very
+[42:19] simple means we are not going to perform
+[42:21] any sort of a training over here. So
+[42:24] teacher will take input as it is and it
+[42:26] will provide the logit. Logit is
+[42:28] nothing. It's a softmix value. Okay. As
+[42:30] you can see we are able to get the
+[42:32] softmax value. Now using this value as
+[42:35] well as the softmax value of the student
+[42:37] we are going to train this model. So we
+[42:40] are getting a softmax value the
+[42:41] predicted value from the teacher. Okay.
+[42:43] Okay, we are not going to perform any
+[42:44] sort of a training. Then instrument what
+[42:46] it is giving again it is giving me a
+[42:48] softmax value. Okay. So first we'll
+[42:50] design our cross entropy laws. So here
+[42:53] you can see guys sorry first we'll
+[42:55] design our K divergence laws. So this is
+[42:57] my K divergence loss as I shown you the
+[43:00] soft label okay from the student from
+[43:02] the teacher and here you can see the
+[43:04] temperature value which is
+[43:05] hyperparameter. Now here is a hard loss
+[43:08] hard loss basically in the student model
+[43:10] itself. Okay. And this uh soft loss
+[43:13] again it is in a it is in a student
+[43:15] model but one value is coming from the
+[43:17] teacher model. One soft max value is
+[43:19] coming from the teacher model. Okay. So
+[43:21] this is my proper loss function. The
+[43:23] perfect loss function. Okay. Then here
+[43:26] is a optimizer. We are going to be
+[43:28] initialize optimizer loss. We are going
+[43:30] to be calculate that optimizer. Okay.
+[43:32] And then here is my learning rate
+[43:34] schedule. Once I will call run it guys
+[43:36] here you will see it is running
+[43:38] successfully. Now the further code for
+[43:40] the evaluation. So we are going to be
+[43:42] put my student model on evaluation mode.
+[43:45] Okay. And here we are going to be fetch
+[43:46] this particular value. Then we are going
+[43:48] to predict the outcome. Okay. And then
+[43:50] we are going to be return the accuracy.
+[43:51] That's it. So here is my evaluate
+[43:53] method. So we are going to be evaluate
+[43:55] our model. Okay. On top of the
+[43:57] validation data. Now over here guys you
+[44:00] can see we are going to be validate the
+[44:02] data. Okay. So my data is going to be
+[44:05] validated and sorry my model is going to
+[44:07] be validated. Now after that uh what I'm
+[44:10] doing I'm going to be save the model.
+[44:11] Okay. So what I'm doing guys sorry this
+[44:14] is uh this is the training one. This is
+[44:17] the training one the training has
+[44:18] started right and it will do the
+[44:20] validation al this evaluation also. Okay
+[44:22] evaluation also. This is the training
+[44:24] process. So I'm going to be call this
+[44:26] dist. So dist once it will call the dist
+[44:29] epoch. So my training has is going to be
+[44:31] started means I'm going to be find out
+[44:33] loss then backward propagation. The loss
+[44:36] backward propagation. So my entire
+[44:37] training is going on and here I'm
+[44:39] calling this function dist then
+[44:41] evaluation. So after the evaluation only
+[44:44] I'll be getting the final accuracy and
+[44:46] that particular accuracy will be present
+[44:48] over the console. Now coming to the next
+[44:50] part. So here we have the next method
+[44:53] where I'm going to be save the model. So
+[44:55] save pre-train. So I'm going to be save
+[44:57] the dist model. So this distillation
+[44:59] have been done on top of the uh bird
+[45:01] model. Okay. So you know the dist bird
+[45:04] model. So that was trained by some
+[45:06] community some researcher and all. Now
+[45:08] this particular model this dist bird we
+[45:10] have trained by ourself. Okay you can
+[45:12] train your own model to run it on a
+[45:14] small device in small configuration with
+[45:16] a faster inferencing. Right. So we are
+[45:19] able to save the model. Now what I will
+[45:20] do I'm going to be tested the time the
+[45:23] accuracy between the normal model as
+[45:25] well as the dist model. Okay. So here
+[45:28] I'm going to be load the test data. See
+[45:30] this data is from the same report. So
+[45:33] I'll be getting the test data. I'm going
+[45:34] to be tokenize it. Now here I'm going to
+[45:36] be set the format and my data is ready.
+[45:39] So I'm going to be prepare all the I'm
+[45:41] going to be prepare the entire hugging
+[45:42] face compatible data. Now here is my
+[45:44] predicted and evaluation. So I will get
+[45:47] all the prediction over here. We are not
+[45:48] going to perform any sort of a training.
+[45:50] We'll get a input from this input. We
+[45:52] are going to be fetched this value. Then
+[45:54] we are going to perform the prediction
+[45:55] over here. So I will check the time.
+[45:57] I'll check the accuracy between what?
+[45:59] Between two model teacher and the
+[46:01] student. Okay. whether they are going to
+[46:03] work like in a same way or having some
+[46:07] differences in between. So here what I'm
+[46:09] doing guys I'm going to be executed now
+[46:11] after that I'm passing this teacher
+[46:12] model as well as the student model and
+[46:15] once I will execute it. So after the
+[46:18] execution guys you will be able to see
+[46:20] the time how much time each model is
+[46:22] taking and the accuracy as well. So here
+[46:25] you can see the distal bird accuracy is
+[46:27] coming more than bird model and bird is
+[46:30] taking around 6 3.96
+[46:32] second as well as the apart from this
+[46:36] like apart from the bird guys you can
+[46:38] see the dist is taking 1.2 2 26 second
+[46:41] it is very small time right as you can
+[46:43] see. So as well as it is giving me a
+[46:46] good accuracy. Now in your mind one
+[46:48] question will come um can this student
+[46:50] model
+[46:52] give the more accuracy than this teacher
+[46:55] model? Yes this is possible. So here I
+[46:57] written couple of points to justify this
+[46:59] thing. So distill step by distilling
+[47:01] step by step. Okay. 77 million T5
+[47:04] student outperform palm for 540B teacher
+[47:08] model. Means instead of teacher model
+[47:10] they were having 540 billion parameter.
+[47:12] But guys one T5 model with a dist
+[47:15] display knowledge was overperforming was
+[47:17] outperforming to this palm model. Now
+[47:20] here you can see tiny bird. So task
+[47:22] specific distillation allow tiny bird to
+[47:24] beat bird. So in some cases also this
+[47:26] tiny bird was beating the bird. But uh
+[47:29] this tiny word was the distal version of
+[47:31] the B itself. Then here guys you can see
+[47:33] the reason explanation. So tweetable
+[47:36] basically why we are getting a much
+[47:38] accuracy in the digital model. So there
+[47:40] could be few more reason I I mentioned
+[47:42] those particular reason over here. So
+[47:44] tweetable is small noisy data. So bird
+[47:46] large is overfitting or underconfident.
+[47:49] Student is fine tuned. You updated
+[47:51] student weight on 12 task. Right. So I
+[47:54] perform the training the finetuning.
+[47:56] Okay. on top of the already trained
+[47:58] model right and how we have performed
+[48:00] this particular training we have
+[48:02] performed using what using those teacher
+[48:04] loss right teacher sock values so this
+[48:07] is this session is a special kind of
+[48:09] finetuning guys you know okay so many
+[48:12] time I have like repeated this part in
+[48:14] my session so teacher is frozen so you
+[48:17] are using teacher is a frozen right
+[48:19] teacher not task specific your word is
+[48:21] journal but student is a task specific
+[48:24] that's why we are getting a good accur
+[48:26] accuracy the dist means you're getting a
+[48:28] good accuracy than this large model.
+[48:31] Okay. So I hope this is pretty much
+[48:33] perfect. This is pretty much clear to
+[48:35] all of you. Now here you can see teacher
+[48:37] accuracy, student accuracy there might
+[48:40] be this much of difference as well.
+[48:42] Okay. So here I given some comment only.
+[48:44] So you just need to be remember this
+[48:46] reason and explanation whenever you are
+[48:47] appearing in any sort of an interview.
+[48:49] So that if someone is going to be ask
+[48:51] you the question the quant contization
+[48:53] discation and all it's going to be clear
+[48:56] completely. Okay. So I hope this is
+[48:58] clear. Now I will give you the walk
+[49:00] through of one LM model the classic the
+[49:03] latest LLM model. Okay. Maybe I will not
+[49:06] be able to execute this in my local
+[49:08] because I don't have that inner frame.
+[49:10] But yeah for sure I'll give you the
+[49:11] recap. Uh sorry I'll give you the
+[49:13] revision of it that what thing I'm doing
+[49:15] here and so that later on you can
+[49:17] perform it from your end. So uh now what
+[49:20] I have to do guys? So first of all let
+[49:22] me show you some critical point then I
+[49:24] will come to this partic. So if you will
+[49:27] see here guys uh we are uh able to train
+[49:31] this uh dist bird model. Okay. And uh
+[49:36] the teacher model was a bird. Now let's
+[49:39] do one thing. Let's take uh some state
+[49:42] of art model. Stateofart model means
+[49:45] what? uh state-of-the-art means uh this
+[49:49] port actually it's a classical large
+[49:51] language model okay it's not a
+[49:54] state-of-art so the state-of-the-art
+[49:56] model means G gpt Jimny cloud a bas
+[50:01] cloud a model okay sonat
+[50:04] and deepse
+[50:06] llama mistral okay jr so these all are
+[50:11] the state-of-the-art model right so
+[50:14] inside this one the latest technique the
+[50:16] latest basically
+[50:19] mathematical concept have been used to
+[50:21] train it. Jupiter 4.5 quen model is
+[50:25] there right deep car one is a very good
+[50:28] model with respect to the reasoning so
+[50:31] and fi is one of them from the microsoft
+[50:34] it's a very good model right so this
+[50:36] model is a state-of-art model now here I
+[50:39] kept one more example with respect to
+[50:41] that a specific state-of-art model so I
+[50:45] kept a different different ID so see
+[50:47] guys I'm using a free variant of the
+[50:49] collab inside this variant I'll give I
+[50:52] I'll get a very limited resources. As
+[50:55] you can see right hand side, I'm getting
+[50:57] a resources
+[50:59] around 12 GB of RAM and I hope it is
+[51:04] visible. Let me little scroll down or
+[51:08] let me switch off switch off my camera
+[51:09] so that you can clearly see. So guys, if
+[51:12] you'll see over here, so the resources
+[51:14] was 12 GB of RAM, okay, 15 GB of GPU RAM
+[51:18] which is called VRM. then a disk is
+[51:21] around uh 112 GB. So this much of
+[51:26] configuration is not required for
+[51:27] loading this specific model. Okay. So uh
+[51:31] here guys if if we are going to be load
+[51:33] this uh llama model you know the memory
+[51:36] is going to be crash instantly if we are
+[51:38] going to be load this uh if we are going
+[51:41] to be load any mist model okay which is
+[51:44] having 7 billion parameter or even 3
+[51:46] billion parameter then also memory is
+[51:48] going to be crashed. this tiny llama
+[51:50] will be able to load but again uh
+[51:52] training will be very tough. So I kept
+[51:54] this ID if you have access if you have
+[51:58] access of the Google collab pro or any
+[52:00] other cloud platform then for sure you
+[52:02] can try out with this one. So which
+[52:03] model I have used. So let me show you
+[52:05] that specific model at the first place
+[52:07] I'm going to be install this transformer
+[52:09] accelerate and this bits and byes we
+[52:12] cannot use the quantiz model over here.
+[52:15] We we can use it guys but uh with a
+[52:17] quantized model having some issue with
+[52:18] the small data we have to take a very
+[52:20] huge data in that case okay so I I'll
+[52:23] show you this particular distillation
+[52:26] with the floating point 16 okay with the
+[52:29] MP16
+[52:30] precision and uh here for that I already
+[52:34] written a code for loading a model okay
+[52:37] so at the first place this library would
+[52:39] be required even I tried with the post
+[52:43] aware quantization Means we already have
+[52:46] a trade model but whenever we are going
+[52:48] to be loading a memory we can load it in
+[52:50] a lower procedure. Okay. Uh if we are we
+[52:53] have trained it with the F32, F F16, F
+[52:56] FP8, then we can load it in int. Okay.
+[53:00] Int 4, int 8, NP. Okay. So this
+[53:03] quantization we'll discuss in a next
+[53:05] video. So uh here guys, you can see so
+[53:08] we are able to load uh we are able to
+[53:09] install all this thing. Now I'm going to
+[53:11] be import
+[53:13] statement. Then the teacher ID is a
+[53:15] Microsoft 52 and the uh student ID is a
+[53:18] 51 5. Okay. So uh here what I'm doing at
+[53:22] the first place we are going to be load
+[53:24] the tokenizer. So this is the code for
+[53:26] loading a tokenizer as you can see over
+[53:28] here. So let me execute this one as
+[53:30] well. Okay. Now over here what I'm doing
+[53:33] if teacher tokenizer.pad token is none.
+[53:36] Okay. If padding is not there then we
+[53:38] are going to be add that specific token.
+[53:40] Okay. So if teacher tokenizer pad token
+[53:45] if there is no pad token we are going to
+[53:47] be add this US token. Okay. this EOS
+[53:50] token this will be required. Now after
+[53:53] that guys here is a configuration for
+[53:55] the bits and bytes. Okay. So this is a
+[53:59] configuration for what? For the post
+[54:01] aware sorry post training quantization.
+[54:05] So if I want to be load the huge model
+[54:08] in the smaller configuration in that
+[54:10] case this configuration would be
+[54:12] required right. So this quantization uh
+[54:15] concept we'll learn in the upcoming
+[54:17] session and for sure I'll show you with
+[54:19] the lora Qura and all everything will
+[54:21] come in the upcoming session. So here we
+[54:24] have bits and bytes configuration. We
+[54:26] are going to be load our model in a
+[54:28] 4bit. Okay. So uh here you can see BNB
+[54:32] bits and bytes 4bit computation data
+[54:34] type toss.flat this was the original
+[54:37] one. Okay. And when we are going to be
+[54:39] loaded in a four bit four bit means
+[54:41] what? So 4 bit basically it will be a
+[54:45] one by is having 8 bit. So 4 bit means
+[54:48] half by 0.5 byt means we are going to be
+[54:51] loading in a int right see how much we
+[54:54] are going to be reduce our precision. So
+[54:56] this all the thing to discuss don't
+[54:57] worry. So as of now guys I'm not going
+[54:59] to be take this quantise model because
+[55:01] we have very less data and with that we
+[55:03] were getting some issue means we are
+[55:05] able to train the model but uh we are
+[55:07] not getting that loss value and all
+[55:09] accurately over there. So what I will do
+[55:11] I'll load the FP16 model with the FP16
+[55:15] okay with the float with the float 16
+[55:18] procedure. Now one more thing guys if
+[55:20] I'm not able to do as of now if I will
+[55:22] get any memory out of error or something
+[55:24] like that then I'll leave this thing as
+[55:26] it is I'll just give you the overview
+[55:27] and later on you can try it try it out
+[55:29] from your end right so uh here is my BNB
+[55:32] configuration bits and bites
+[55:34] configuration this is my teacher model
+[55:36] and here is my teacher model okay so
+[55:39] this is the normal uh model without the
+[55:43] quantization okay which I'm going to be
+[55:45] load so let me execute it now here I
+[55:48] Then what I can do after loading this
+[55:50] particular model see this is going to be
+[55:52] load but it is saying auto model casual
+[55:55] lm is not defined. So first of all let
+[55:58] me import
+[56:01] auto model for causal lm. So here this
+[56:04] is perfect. Now let's see whether I'll
+[56:08] be able to do it or not. Maybe I
+[56:11] restarted the session that's why it was
+[56:13] not coming. So this is perfect. This is
+[56:15] fine. Tokenizer is very well like
+[56:19] tokenizer is also perfect. Here is a pad
+[56:21] token. This is also perfect. Bits and
+[56:24] byes and all we are not doing. So now
+[56:26] let me execute it. I think this time I
+[56:28] will be able to execute it. Yes. So my
+[56:31] model is getting low. Now what I will do
+[56:33] guys I'm going to be evaluate I will set
+[56:36] my teacher. Okay. And then I'm going to
+[56:39] be set false over here because I I I
+[56:42] don't need to perform the training.
+[56:44] Okay. Okay, I will just keep this model
+[56:47] at a evaluation mode. That's it guys.
+[56:49] Right. So here teacher do eval. Now what
+[56:52] I'm doing here see auto model for auto
+[56:56] auto model for causal lnm from
+[56:58] pre-trained. Okay. And here I this is my
+[57:01] student model. Okay the smaller model.
+[57:04] So let me execute this one. And the
+[57:06] smaller model is also going to be load.
+[57:09] So it might take time. As you can see
+[57:11] this model is also having like around
+[57:14] five
+[57:16] the size around it is showing 5GB okay
+[57:19] with respect to the save tensor file. So
+[57:21] in quantization you know what we are
+[57:22] doing we are going to be like convert
+[57:24] the save tensor file in some other
+[57:26] specific extension GGF GGML and all okay
+[57:30] so that that's a very interesting thing
+[57:32] and very important topic as well as well
+[57:34] as the complex. So for sure I I'll show
+[57:37] you that. So it's going to be load it
+[57:39] might take some time and uh I'm getting
+[57:42] like a feeling that I will get out of
+[57:44] memory error. So see right uh right now
+[57:48] right hand inside it is getting
+[57:49] corrected also. So I'll be able to load
+[57:52] the student model. Let me give you the
+[57:54] overview for the further code. So here
+[57:56] is my prompt. Okay. So uh here guys this
+[58:00] my prompt. I have a question as well as
+[58:02] the answer of it. I have a question as
+[58:04] well as the answer. I have a question as
+[58:06] well as the answer. So this uh data
+[58:09] basically what I have to do I have to
+[58:11] train my model okay I have to dislike
+[58:13] the knowledge from the from teacher to
+[58:15] student and when I'm going to be trained
+[58:17] by student so I will be using this
+[58:19] specific data and the logits and all the
+[58:22] software X value and all from where we
+[58:23] are using we are using from the student
+[58:25] model okay so here is my prompt guys and
+[58:29] then after this is the configuration the
+[58:31] further configuration as you can see
+[58:33] temperature would be there alpha soft
+[58:34] here is my cross entropy law this my
+[58:37] care divergence loss. Here is my
+[58:38] optimizer. Right now what I will do guys
+[58:41] see here I'm going to be load the
+[58:44] tokenizer teacher uh teacher model and
+[58:47] the student model. Then here I'm going
+[58:50] to be set my teacher model for no
+[58:52] training. Then uh I'm just going to be
+[58:55] fetch out the softmax value. Okay. Then
+[58:58] here I'm going to be take a softmax
+[59:00] value from the student. But yeah I'm
+[59:02] going to be perform the training with
+[59:03] respect to the student model. See here
+[59:06] I'm setting to torch dot no grade means
+[59:09] no gradient means teacher uh regarding
+[59:11] the teacher model training will not be
+[59:13] required but talking about the student
+[59:16] model so yes we are taking a soft loss
+[59:19] okay after passing the input then here
+[59:21] you can see here is a hard loss here is
+[59:23] a soft loss okay this are labels this
+[59:26] one is a label then further we are going
+[59:28] to be calculate the loss this one soft
+[59:31] loss and hard loss soft loss basically
+[59:33] using the K divergence method hard loss
+[59:35] basically using the cross entropy then
+[59:37] here is my complete loss final loss and
+[59:39] this is the training right guys so once
+[59:42] I will train guys I will be getting my
+[59:44] dislike model see uh before the session
+[59:47] itself when I was executing I was
+[59:49] getting out of memory error so this is
+[59:51] the entire code you can try out from
+[59:53] your end guys you can delete this uh
+[59:55] runtime and then you can check out the
+[59:57] process is going to be same data
+[59:58] basically I shown you I given to you and
+[01:00:00] in the near future classes again we'll
+[01:00:03] see couple of example but guys this one
+[01:00:05] this particular example you have to try
+[01:00:07] from your end. I will give you the code.
+[01:00:10] I'm getting out of memory error because
+[01:00:11] I don't have access of the collab probe.
+[01:00:14] Once I'll get it, I'll show you that.
+[01:00:16] Don't worry. Now, uh let me discuss
+[01:00:18] couple of more points. So, some
+[01:00:20] theoretical point is is still remaining.
+[01:00:23] Okay. So, let me discuss those specific
+[01:00:26] point and then I will conclude this
+[01:00:27] session. I spend around 1 hour but yeah
+[01:00:30] it is worth to invest. Now uh the next
+[01:00:34] point is fine-tuning versus
+[01:00:36] distalization guys. So which one is
+[01:00:39] great whether should we go with a
+[01:00:40] finetuning or should I proceed with the
+[01:00:43] distillation. So uh now guys see I
+[01:00:45] written all the differences apart from
+[01:00:48] that I given you the training procedure
+[01:00:50] of the deep sea as well as couple of
+[01:00:52] link where you can check out with
+[01:00:55] respect to the deep sea training and the
+[01:00:57] entire distillation process and all. So
+[01:01:00] uh I kept the distillation the
+[01:01:02] mathematical concept of the distillation
+[01:01:06] with respect to this deep sea because it
+[01:01:08] is a state of smart model and I
+[01:01:10] intentionally kept this particular model
+[01:01:12] itself. Okay. So let let's discuss the
+[01:01:15] differences and after that I'll close
+[01:01:17] this session guys. The first is the data
+[01:01:20] source. Okay. So uh if
+[01:01:24] in the normal finetuning what we are
+[01:01:26] doing we are going to be tra we are
+[01:01:28] going to be take the data set label only
+[01:01:30] okay and we are going to perform the
+[01:01:32] supervised finetuning
+[01:01:34] with respect to that specific data but
+[01:01:37] if we're talking about the distillation
+[01:01:39] in the distillation we are taking a data
+[01:01:41] set label as well as we are taking
+[01:01:43] teacher soft output I think you know
+[01:01:46] about the soft output it is a soft max
+[01:01:48] probability and I think you are aware
+[01:01:50] about the loss function Also it's a
+[01:01:53] combination of the KL divergence as well
+[01:01:55] as the cross entropy. Goal to make a
+[01:01:58] model task specific. Now here the goal
+[01:02:00] is to make a mimic of the teacher model.
+[01:02:03] Okay, we are going to be create create
+[01:02:05] one student which is a mimic of the
+[01:02:07] teacher model. Uh output info one hot
+[01:02:11] labels only here full probability
+[01:02:13] distribution software large softmax
+[01:02:16] values basically. So the final output we
+[01:02:19] are getting the one out encoding before
+[01:02:20] that we'll get a soft max but this will
+[01:02:22] be my final output. Now here in the in
+[01:02:25] the output we are getting the basically
+[01:02:28] softmax probability. Okay then later on
+[01:02:30] we can convert into the hard level for
+[01:02:32] predicting the actual value model size
+[01:02:34] same as a starting model and it might
+[01:02:37] increase also teacher is large student
+[01:02:39] is small as I shown you. Okay. Result
+[01:02:42] wise model is trained for the task for
+[01:02:44] the specific task. Here small model that
+[01:02:47] behave like a teacher. So whatever
+[01:02:49] teacher can do in a same way smaller
+[01:02:51] model also can do. So the idea of the
+[01:02:53] distillation is very simple. Let's say
+[01:02:55] we have a very huge model I can take
+[01:02:58] this GPT for B. Okay. So how we can
+[01:03:03] utilize the knowledge of this model in
+[01:03:05] some small model. That's a real use of
+[01:03:08] the distillation. Now normal finetuning
+[01:03:12] means what? We have a model we just
+[01:03:13] train it on some data and we are using
+[01:03:15] that that's it. Okay. Now uh in short
+[01:03:18] finetuning what is the meaning of the
+[01:03:19] finetuning? The model learns the task
+[01:03:22] only from the data and distillation
+[01:03:24] means what the smaller model is trained
+[01:03:26] using both the data as well as the
+[01:03:28] teacher understanding. Okay. So uh here
+[01:03:32] when to use normal finetuning. So if the
+[01:03:35] model you plan to deploy already enough
+[01:03:38] for your latency, memory, budget and you
+[01:03:41] have label data, what is the meaning of
+[01:03:42] it? So the model which you are planning
+[01:03:45] to train, right? It is you are you are
+[01:03:48] having a enough memory you can you can
+[01:03:51] basically bear that latency which you
+[01:03:54] are getting with respect to the data
+[01:03:55] while you're training or after the
+[01:03:57] training with respect to the use model
+[01:03:58] if you're getting a latency in terms of
+[01:04:00] the prediction. If you can bear that
+[01:04:02] with respect to configuration and all
+[01:04:04] okay then you just need to fine tune
+[01:04:07] your model the data set is large and
+[01:04:10] clean if you don't have a restriction of
+[01:04:13] the GPU memory and all means if you have
+[01:04:15] a good data if you don't have a if if
+[01:04:18] you have a task specific requirement
+[01:04:21] okay and if you don't have a constant of
+[01:04:23] the GPU and the memory in that case this
+[01:04:26] normal fine tuning is a good one but
+[01:04:28] guys uh if you're talking about the
+[01:04:30] knowledge concentration when it is best.
+[01:04:32] So if you if you have any teacher model
+[01:04:35] and the teacher models are very large
+[01:04:37] and you want to be like want a fast or
+[01:04:40] small model which is going to be mimic
+[01:04:43] similar to the student teacher model in
+[01:04:45] that case you will do the distillation.
+[01:04:47] So in simple I can say fine tune normal
+[01:04:50] finetuning means task specific model but
+[01:04:54] dislation means you have
+[01:04:58] you have a big model you just want to be
+[01:05:00] create a copy of that getting my point I
+[01:05:03] can explain in a better way let's say we
+[01:05:06] have a father okay now father is doing
+[01:05:09] something son is doing something okay
+[01:05:12] father is doing something son is doing
+[01:05:14] something means what some son is doing
+[01:05:16] some specific task their own task
+[01:05:18] because it has trained on some specific
+[01:05:19] data. That's a normal fine tuning.
+[01:05:21] If father is there and son is doing
+[01:05:24] similar to the father. Okay, that is a
+[01:05:27] distillation right now. Here you can see
+[01:05:30] so uh the fi the other one the data set
+[01:05:34] is a small okay the teacher soft label
+[01:05:37] is provide you the extra information in
+[01:05:38] that case you can go ahead with the
+[01:05:40] distillation you need a lightweight
+[01:05:42] model for the deployment in that case
+[01:05:44] you can choose the this distillation
+[01:05:47] like mobile app edge devices low latency
+[01:05:49] API and all or you want a copy of the
+[01:05:52] teacher reasoning in that case also you
+[01:05:54] can choose the distillation now how's
+[01:05:56] the performance so distillation usually
+[01:05:58] perform better when the teacher is
+[01:05:59] strong because the student gets a richer
+[01:06:02] training signal with normal finetuning
+[01:06:04] the student may generalize less
+[01:06:06] especially when the data is limited okay
+[01:06:08] so I hope you are able to get this two
+[01:06:11] point also now short answer if you just
+[01:06:13] need to train one model without a
+[01:06:15] teacher normal fine tuning is enough if
+[01:06:16] you don't have a concept of the GPU and
+[01:06:19] all if you want a like a specific task
+[01:06:22] related model uh if you want a smaller
+[01:06:25] faster model that perform like a teacher
+[01:06:27] then distillation is
+[01:06:29] In industry we follow the both
+[01:06:30] combination means uh we finetune the
+[01:06:33] model okay as well as we perform the
+[01:06:36] distillation also with respect to some
+[01:06:38] good model. So hybrid approach is also
+[01:06:41] good. Now I hope you understood this
+[01:06:43] entire thing. Now let me discuss couple
+[01:06:45] of more point then I'll close this
+[01:06:48] particular video. So guys in the
+[01:06:50] starting I shown you few points then
+[01:06:52] where we have to use the distillation.
+[01:06:54] So let's uh discuss those part as well.
+[01:06:57] So here I kept couple of point with
+[01:06:59] respect to that. So distillation we have
+[01:07:02] to use for the small devices. If you
+[01:07:04] have a small device in that case we
+[01:07:07] should go for that. So I written a point
+[01:07:10] where to use the distillation in LLM as
+[01:07:13] well as in LLM as well dist GPT distress
+[01:07:17] heavy GPT and B model for the faster
+[01:07:19] influence. If you want a faster instance
+[01:07:22] with a limited configuration in that
+[01:07:25] case we should go with a dist GPD distl
+[01:07:27] we should dislike the knowledge of the
+[01:07:29] huge model if you can cannot load a very
+[01:07:32] larger model. The second one basically
+[01:07:35] smaller and faster inference the same
+[01:07:37] thing if you want a small model the fast
+[01:07:39] inference we should go with the dist
+[01:07:41] model okay and return accuracy that
+[01:07:45] whatever teacher is doing if you want to
+[01:07:46] do with a small model in that case we
+[01:07:49] can go ahead with the distillation and
+[01:07:51] we can utilize it lower serving cost
+[01:07:53] means if we can load our model on a
+[01:07:56] lower infrastructure with the same
+[01:07:58] capability like this bigger model is
+[01:08:00] doing in that case also we can go ahead
+[01:08:02] with a distillation And symbol learning
+[01:08:04] means we have not only one model. If you
+[01:08:06] want a combination of if you want a
+[01:08:08] learning from combination of model we
+[01:08:10] can do that also. So let's say we have a
+[01:08:13] five large model and if we want to mimic
+[01:08:15] uh if we want to be transfer the
+[01:08:17] knowledge from all the five model into
+[01:08:18] the one single model in that case also
+[01:08:21] I'll choose this distalization right. So
+[01:08:24] this is all the point guys which you can
+[01:08:25] simply explain in the interview and your
+[01:08:27] interviewer will be very very happy with
+[01:08:29] you. Now coming to the next part. So
+[01:08:31] here guys I cap more point few more
+[01:08:34] points. So uh if we're talking about the
+[01:08:37] deepseek guys right so the deepseek is a
+[01:08:40] open LLM initiative uh the deepseat was
+[01:08:44] having the base model the base model is
+[01:08:45] called the deepseek v3 and then further
+[01:08:47] they have trained the deepseek r1 now we
+[01:08:50] talking about the deepse so from the
+[01:08:52] deepse they have distlized so many model
+[01:08:55] guys. Okay. So here you can see they
+[01:08:58] then they distize that the dist R1 to
+[01:09:00] dist small model. So many like model you
+[01:09:04] will find out with from this uh from
+[01:09:07] this deepc R1. Okay which they have
+[01:09:10] distalized. They have distalized the
+[01:09:11] knowledge from deepc R1 to the different
+[01:09:13] different other model. So where you will
+[01:09:15] find out all the model I mentioned
+[01:09:16] couple of link you can go through mainly
+[01:09:18] with this hugging face link. Once you
+[01:09:20] will open it once you will click it
+[01:09:21] guys. So here you will find out the deep
+[01:09:24] sea carbon repository. Now once uh you
+[01:09:27] will scroll down inside this repository
+[01:09:29] you will get all the models which has
+[01:09:31] been distalized. So deep sea carbon
+[01:09:33] distin there's a coin llama is there.
+[01:09:36] Okay llama is there and you will in the
+[01:09:38] hugging face repository itself model
+[01:09:40] repository you will find a hundreds of
+[01:09:42] model which have been distalized using
+[01:09:43] this R1. This is some official model
+[01:09:45] which was provided by the deepc itself.
+[01:09:48] Okay. Now I hope you are clear. So I
+[01:09:51] will create one more series with respect
+[01:09:53] to the deepsek and for sure with that
+[01:09:55] your understanding will be more clear
+[01:09:57] with respect to the deepsek. So guys uh
+[01:09:59] here you can see we're talking about the
+[01:10:01] base model. So base model is a B3. Okay,
+[01:10:04] this model actually it's a sparse
+[01:10:08] sparse mixture of expert MOE model right
+[01:10:11] and here you can see it is having a
+[01:10:13] reasoning capability means further it
+[01:10:15] has been trained okay soft supervised
+[01:10:18] finetuning have been performed then RLHF
+[01:10:21] with a GRPO technique which is a variant
+[01:10:24] of the PO technique only all right then
+[01:10:26] RLHF2 right so this is the advanced
+[01:10:29] training uh which was performed for the
+[01:10:32] deep sea carbon That's why it is very
+[01:10:34] good model. If you will check with a
+[01:10:36] different different leaderboard and also
+[01:10:37] somewhere you will find out there a
+[01:10:39] specific model. So distillation uh yes
+[01:10:42] R1 has been distalized further uh the
+[01:10:45] knowledge has been distalized in many
+[01:10:47] small model and those model is doing a
+[01:10:50] good okay similar to the distiller this
+[01:10:52] this deep sea carbon. Now here guys you
+[01:10:55] can see I have mentioned couple of post
+[01:10:57] inside those post you will find out the
+[01:10:59] complete detail like how the deepseek V3
+[01:11:01] have been trained and how basically R1
+[01:11:04] has created and then how they have used
+[01:11:05] the capability of the R1 to dislike the
+[01:11:07] different different model. So this
+[01:11:09] medium block I'll suggest you this
+[01:11:12] medium block where all the like the
+[01:11:14] complete process have been mentioned
+[01:11:16] okay with respect to this deep C carbon
+[01:11:19] distillation right how see inside this
+[01:11:22] block you will find out the complete
+[01:11:24] explanation
+[01:11:25] of the deepse distillation and inside
+[01:11:27] this particular blog you'll find out how
+[01:11:29] deepsek R1 have been distalized further
+[01:11:31] for the 53 okay in 53 also in 53 mini
+[01:11:35] model also some knowledge have been
+[01:11:37] taken from the deepse R1 itself. So this
+[01:11:40] both you can follow this two medium
+[01:11:42] block and this hugging phase for reading
+[01:11:44] the model and all. But in the upcoming
+[01:11:46] video I will explain this entire thing
+[01:11:48] in a very detail because in my mind I
+[01:11:50] have that uh uh to create one
+[01:11:54] like LM series from scratch from
+[01:11:57] transformer to the bird GPT then
+[01:12:00] different different transform based
+[01:12:01] model uh multimodel okay images audio uh
+[01:12:06] generate image and all everything guys I
+[01:12:08] want to be cover on the down level so
+[01:12:10] that your understanding could be clear
+[01:12:12] and that only I will discuss about this
+[01:12:14] this deep sea and all. So yeah, I hope
+[01:12:17] you like this video. It is quite long
+[01:12:18] but yeah, it is full of knowledge and
+[01:12:22] after seeing this two video, first part
+[01:12:24] of this distillation and the second one,
+[01:12:26] you won't feel lagg with respect to the
+[01:12:29] distillation, you can understand any
+[01:12:30] sort of a concept of it. So yeah, thank
+[01:12:33] you. Bye-bye guys. Take care. I'll see
+[01:12:34] you in the next video. Until thank you.
+[01:12:37] Bye-bye. Take care.

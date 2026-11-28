@@ -1,0 +1,3454 @@
+Title: LLM Fine-Tuning 12: LLM Quantization Explained( PART 1) | PTQ, QAT, GPTQ, AWQ, GGUF, GGML, llama.cpp
+Video URL: https://www.youtube.com/watch?v=sLEuVm9ZdxQ
+Video ID: sLEuVm9ZdxQ
+======================================================================
+
+[00:00] Hey hi everyone, welcome back to my
+[00:03] YouTube channel. My name is Sunonny
+[00:05] Savvita and I'm back with another
+[00:07] exciting and important course. So guys
+[00:10] in this particular course we're going to
+[00:12] discuss about the LLM quantization. LLM
+[00:15] quantization is one of the important
+[00:18] topic if you want to learn that how we
+[00:20] can load the huge LLM on the smaller
+[00:24] configuration over the edge devices as
+[00:27] well as over the smaller GPUs. So guys
+[00:30] uh I have started this finetuning
+[00:31] playlist where I uploaded 11 videos so
+[00:35] far. If you haven't checked guys please
+[00:37] go and check. I discuss each and every
+[00:39] fundamental related to the finetuning
+[00:41] over here. Now this is 12th video and
+[00:43] here we are going to be discuss the
+[00:46] concept of the LLM quantizations. So
+[00:48] whenever I will teach you the further
+[00:50] concept of the finetuning like lora Q
+[00:53] laura so easily you can understand those
+[00:55] particular concept and even you can load
+[00:58] your huge model on a smaller device even
+[01:02] over the GPU sorry CPUs as well. Okay.
+[01:05] Uh now where you will find out this
+[01:07] playlist uh you will uh if you will
+[01:09] click on the playlist section guys uh
+[01:11] there I have kept the entire playlist as
+[01:13] well as the videos is visible inside
+[01:16] this video section as well. Okay. So
+[01:19] what are thing I'm going to be discuss
+[01:21] inside this course. First of all let me
+[01:23] give you the highlight and after that
+[01:25] guys one by one step by step we'll try
+[01:27] to uh cover up each and every part. So
+[01:30] uh let me show you the syllabus at the
+[01:32] first place. I hope it is visible. So uh
+[01:35] in throughout this course we're going to
+[01:38] uh discuss regarding the quantization
+[01:40] and the different different basically
+[01:42] concept of it. So first we'll start what
+[01:45] is a quantization. Then we'll understand
+[01:47] why we use a quantization. Then
+[01:50] difference between RAM and VM. Uh then
+[01:53] guys we'll understand about the data
+[01:55] type and their memory consumption. Okay.
+[01:58] Then guys we'll understand about the
+[02:00] precision. What is a precision in a deep
+[02:02] learning? We'll understand in terms of
+[02:03] the theory as well as I will give you
+[02:05] the practical uh example also. Then guys
+[02:09] we'll talk about the formula of the
+[02:10] quantization and the dequantization.
+[02:13] There we discuss the symmetric
+[02:14] quantization, asymmetric quantization,
+[02:17] per tensor quantization, per channel
+[02:19] quantization. This is very much
+[02:21] important if you want to understand the
+[02:23] mathematical intuition behind the
+[02:25] quantization. Then guys will come type
+[02:28] of the quantization. Uh so in the type
+[02:30] of the quantization, the two type is
+[02:32] very famous. First is a post training
+[02:34] quantization where we'll learn about the
+[02:37] static post-raining quantization as well
+[02:39] as the dynamic post-raining
+[02:40] quantization. Then we'll come QAT. QAT
+[02:43] means quantize aware training. So how we
+[02:46] can do the quantize aware training?
+[02:48] We'll discuss about that and we'll
+[02:51] discuss about the calibration data. I'll
+[02:53] discuss about the quantization error. So
+[02:55] this each and everything will come
+[02:57] inside the type of the quantization.
+[02:59] Okay. Then guys, I will show you the
+[03:01] practical with the neural network and
+[03:04] we'll see like how we can perform the
+[03:07] quantization on a simpler neural network
+[03:09] before coming to the advanced LLM and
+[03:11] all. Okay. Then after that I will come
+[03:14] to the advanced LLM quantization
+[03:16] introduction. We'll discuss each and
+[03:17] every point regarding it. Each and every
+[03:19] terminology whichever you have heard
+[03:21] from here and there, right? Uh we are
+[03:23] going to be discuss inside this
+[03:25] particular course. Then I will come to
+[03:26] the GPTQ which is also called gradient
+[03:29] post training quantization. Then AWQ
+[03:31] which is activation aware weight
+[03:33] quantization. GGML georgie gob machine
+[03:38] learning uh it is a inferencing engine.
+[03:40] Okay. And inside that inferencing engine
+[03:42] we can execute the gguf file. So uh each
+[03:45] and every part I have I kept over here
+[03:48] as you can see along with a practical
+[03:50] implementation. So yeah this uh is all
+[03:53] the thing right we are going to be
+[03:54] discussed throughout this course and
+[03:56] believe me guys your quantization
+[03:58] concept is going to be clear completely
+[04:02] from basic to advanc okay this is very
+[04:05] much important if you want to be like if
+[04:08] you want to become a master in geni if
+[04:10] you want to be become a master in llm
+[04:12] and the llm fine-tuning because to load
+[04:14] a model on a smaller configuration with
+[04:17] the quantized volume itself is a
+[04:19] challenge guys okay So uh see guys I
+[04:22] I've seen over the internet over the
+[04:24] YouTube there is no structure material
+[04:27] right with respect to this quantization
+[04:29] and all that's why I put lots of effort
+[04:31] to prepare this quantise material and
+[04:34] this is the one time effort guys if
+[04:35] you're going to be learn all this thing
+[04:37] believe me you will you can understand
+[04:39] like any sort of a concept with respect
+[04:41] to the contisation even I will introduce
+[04:43] the different different uh uh research
+[04:46] paper also during uh this course during
+[04:48] this uh training right and for sure you
+[04:51] can visit to those paper right now uh
+[04:55] let's begin first we'll try to
+[04:56] understand what is a quantization don't
+[04:58] worry guys I kept like I written all the
+[05:02] notes and all everything with is with me
+[05:04] so I will just coming up with the theory
+[05:06] and I will try to explain you with the
+[05:09] example and all and then we'll come to
+[05:10] the practical so let's start what is a
+[05:13] quantization
+[05:15] now let's understand guys what is a
+[05:17] quantization so here I kept the
+[05:20] definition of it uh please try to read
+[05:22] it out along with me. Uh quantization is
+[05:24] a process of converting a model weights
+[05:27] weights and biases from high precision
+[05:30] number to lower precision number. Now
+[05:34] what is the high precision number? What
+[05:35] is the lower precision number? Each and
+[05:37] everything I will try to understand. So
+[05:39] we are going to be convert high
+[05:41] precision number like float 32 to int 8
+[05:45] float 16 or even sometime we convert it
+[05:48] into int4 as well. Okay or here I
+[05:51] written a second definition quantization
+[05:53] is the art of shrinking model by
+[05:55] converting high precision numbers uh
+[05:58] that is weight and biases into the
+[06:00] smaller number but trying to keep their
+[06:02] intelligence intact. What does it mean
+[06:04] guys? So we are trying to keep the
+[06:06] accuracy as similar as the previous
+[06:08] model but the size of the model is going
+[06:11] to be reduced. Okay. Now what do we do
+[06:14] inside the quantization okay or here you
+[06:18] can see I written a heading what do we
+[06:19] quantize in a model. So different model
+[06:22] types is having different type of
+[06:24] quantise weight. Okay. Now we're talking
+[06:27] about the model model which is ANN
+[06:29] artificial neural network. So it is
+[06:31] having weights and biases. Okay. between
+[06:34] the hidden layer you know about the
+[06:36] artificial neural network. If you don't
+[06:37] know guys I'll show you the architecture
+[06:39] in some time. Uh the second is CNN
+[06:41] convolution neural network. So inside
+[06:43] that we have convolution filters right
+[06:46] which is having some weight values and
+[06:50] those weight we are going to be
+[06:51] quantized. Okay we want to be shrinking
+[06:53] the size of the model. The uh third one
+[06:55] guys which is RNN and LSTM. So recurrent
+[06:59] weight matrixes means it is a type of
+[07:02] the artificial neural network only along
+[07:04] with the fe along with that loop. Okay,
+[07:06] which is running on the time the data we
+[07:09] are passing in the sequence right and
+[07:12] the in the same hidden state again and
+[07:14] again we are passing a data on the time
+[07:16] stem itself. So in between whatever
+[07:18] weights are there weights and biases so
+[07:20] those value we are going to be
+[07:21] quantized. Then the last one is a
+[07:24] transformer LLM. So query key value
+[07:27] matrixes. So the weight matrixes which
+[07:29] we are going to define in terms of query
+[07:31] key value right or feed forward neural
+[07:33] network inside that also we have a
+[07:36] weights and biases. So all those value
+[07:38] we're going to quantize. So whenever we
+[07:40] talk about the quantization guys
+[07:42] quantization in terms of any model. So
+[07:44] here I written all the model names and
+[07:47] what all thing we are going to be
+[07:48] quantized over here. Right now let's do
+[07:50] one thing. Let's try to check out the
+[07:53] architecture. So I kept couple of
+[07:55] diagrams for all of you guys. So with
+[07:56] that your understanding will be bit more
+[07:58] clear. So this is the first diagram and
+[08:01] this is the diagram of the artificial
+[08:03] neural network. So each and every slide
+[08:05] guys I'll show you. Don't worry I
+[08:08] created this slide for you and for sure
+[08:11] I will share uh inside the GitHub. You
+[08:13] can check out that link in a description
+[08:15] itself. So this is my input layer. We
+[08:17] are passing input guys. So see this is
+[08:19] the input which we are passing to where
+[08:22] which we are passing to the hidden
+[08:23] layer. Now this input okay between this
+[08:26] input layer and the hidden layer you can
+[08:27] see some weight are associated. Okay.
+[08:29] This is a random weight. Initially this
+[08:31] is the random weight but guys these
+[08:33] weights are learning uh during the
+[08:35] training. Okay. So in a back propagation
+[08:37] we are going to be update this
+[08:38] particular weight with the help of
+[08:40] gradient descent, stocastic gradient
+[08:42] descent, add a grade, RMS prop, Adam
+[08:45] optimizer like I think you already know
+[08:47] about those basics of the deep learning.
+[08:49] So guys here you can see we have this
+[08:51] weights okay this weights this weight
+[08:53] this weight right and see this is my
+[08:55] hidden layer and this is my output
+[08:57] layer. So between this also you will
+[08:58] find out the weights. Now what we are
+[09:00] going to do we are going to be quantize
+[09:01] this weight. Okay. Now along with the
+[09:03] weight we would be having the biases
+[09:06] value as well. So bait and biases both
+[09:08] we are going to quantize. Now what does
+[09:10] that mean? If we're talking about the
+[09:12] quantization guys. So quantization is
+[09:14] nothing. So let me represent the
+[09:16] quantization with this capital Q. Okay.
+[09:19] We're talking about the quantization
+[09:20] guys. So in that we are going to be
+[09:23] quantize the weight or we we're going to
+[09:25] quantize the bias or we're going to
+[09:27] quantize the activation value. Now what
+[09:30] does it mean if we're talking about the
+[09:31] quantization to convert uh higher
+[09:34] precision number okay higher
+[09:38] precision number
+[09:42] into into lower
+[09:46] lower
+[09:48] precision. Okay. So let's say we have a
+[09:52] value right. So this weight is a float.
+[09:56] Now we're going to convert from float to
+[09:58] int.
+[10:02] Okay. So the size of the module is going
+[10:04] to be reduced. Now we're talking about
+[10:06] the second architecture which is a
+[10:07] convolution neural network. So inside
+[10:10] this convolution neural network we have
+[10:12] a process which is called the feature
+[10:13] extraction or convolution. So this this
+[10:16] convolution right this this particular
+[10:19] weights this weight matrixes. Okay this
+[10:21] this particular weight matrixes we're
+[10:23] going to quantize. Okay. uh this is the
+[10:26] learnable parameter actually. So first
+[10:28] we do the feature extraction means we
+[10:29] perform the convolution process and then
+[10:31] we pass the data from the pooling layer
+[10:34] and then only we pass it from the
+[10:36] artificial neural network. Okay. So
+[10:38] inside the artificial neural network I
+[10:40] think you already know where this bits
+[10:42] and biases exist but we're talking about
+[10:44] the CNN this feature extraction process.
+[10:47] So inside the convolution process okay
+[10:50] during this convolution process only uh
+[10:53] you will find out some weight matrixes
+[10:55] and those weight matrixes we going to
+[10:57] quantize. Now we have a third
+[10:59] architecture which is uh the most
+[11:02] important architecture of the entire NLP
+[11:05] and the generative AI that is
+[11:06] transformer architecture. Okay. Now here
+[11:09] guys you can see so we have the multi
+[11:11] retention. So we are going to define the
+[11:14] query key and value matrixes. If you are
+[11:17] aware about the if you are aware about
+[11:19] the uh if you are aware about the
+[11:21] architecture of this transformer and how
+[11:23] it is going to process the data how the
+[11:25] self retention is working. So easily you
+[11:28] can understand this particular concept
+[11:30] the concept of the query key and value.
+[11:33] So the matrixes which we are going to
+[11:34] create the weight matrixes again those
+[11:37] are the random weights and during the
+[11:38] learning we are going to train uh those
+[11:41] weights okay uh during the learning
+[11:43] those weight is getting updated. Now
+[11:45] these uh weight only is getting
+[11:47] quantized and means we are going to be
+[11:49] convert from higher precision to the
+[11:51] lower precedent. Now along with it you
+[11:53] will find out this feed forward network
+[11:55] as well. So feed forward network is
+[11:56] nothing it is a neural network only.
+[11:59] Okay I think you know about the neural
+[12:00] network how basically we are passing our
+[12:04] input
+[12:05] until the output and what all value
+[12:07] we're going to quantise. Now guys, so
+[12:10] this was the three architecture which I
+[12:11] kept over here just to introduce like
+[12:14] where this weights and biases could
+[12:16] exist. Uh and now let's uh discuss with
+[12:19] the different point. Okay, let's uh
+[12:21] discuss the next point. So uh I capped
+[12:24] some additional points. You can read it
+[12:26] out. I will go ahead slide by slide step
+[12:28] by step and I will try to discuss each
+[12:30] and every part. Okay. So biases can also
+[12:33] be a contise as we know as I already
+[12:35] told you about the biases. activation
+[12:37] are also quantized during the inferences
+[12:39] or training. Okay. So we'll discuss
+[12:42] about the quite what is this quite qat
+[12:45] right it is called quantize aware
+[12:48] training now activation uh so whenever
+[12:51] we pass see here we have a input now
+[12:53] this input we are passing to the hidden
+[12:55] layer so we're going to perform the dot
+[12:57] product between this input as well as
+[13:00] the weight okay so we have weight and
+[13:03] this this particular value we're going
+[13:05] to pass to the activation function okay
+[13:07] this particular value we're going to
+[13:09] pass to the activation function Now
+[13:11] whatever output whatever output will
+[13:14] generate so we're going to quantize this
+[13:16] particular output as well right so we're
+[13:18] going to quantize this particular output
+[13:20] as well and yes this is also possible we
+[13:23] can perform the quantization of it uh
+[13:25] now the next one is special case
+[13:27] whenever we talk about the attention
+[13:29] layer in LMS in transformer right so it
+[13:32] is very tricky to quantize so we have a
+[13:34] specific method for quant quantizing
+[13:37] this value and in the upcoming slide
+[13:40] itself I We discuss those specific meth
+[13:42] method. Okay. To quantize this attention
+[13:44] layer. Once we'll discuss the type of
+[13:46] the quantization. Now I think you
+[13:49] already have seen the model
+[13:50] architecture. Now the second one is the
+[13:53] second point is simple analogy I kept
+[13:55] over here with that your understanding
+[13:57] on top of the quantization will bit more
+[13:59] strong. So uh here I am mentioning
+[14:01] imagine you are storing a precise you
+[14:04] are storing a price of the product and
+[14:06] the price of the product is 1,299.956.
+[14:11] Okay. Now guys this is the float number
+[14:13] if you will see. So this is what this is
+[14:15] the float number. Now if I'm rounding
+[14:17] this number so what I will get? Let's
+[14:19] say I I have rounded this particular
+[14:20] number. I'm getting 1 3 0 right in
+[14:23] style. Now if I will check a loss
+[14:25] between this particular number the
+[14:27] original number as well as the rounding
+[14:28] number. So you will find out this much
+[14:30] of loss 0.044.
+[14:32] Okay. So here I have mentioned you are
+[14:35] losing a tiny detail but the core core
+[14:37] information will remain same. This is ex
+[14:40] exactly what quantization does. Okay. To
+[14:42] model weights, biases and activation
+[14:44] value. So what does it mean guys? So the
+[14:47] meaning is very very simple. We have
+[14:48] this value. Now if we have converted
+[14:50] into the uh if we have converted into
+[14:53] the integer. Okay. This is the float
+[14:54] one. If we have converted into the
+[14:56] integer. Okay. This is this is called a
+[14:58] precise value precise. Okay. So if you
+[15:01] have converted this particular value
+[15:03] into the integer right so we are going
+[15:05] to be lose some information but that is
+[15:07] fine. There's a very minute information.
+[15:08] Okay. So this is what we are doing into
+[15:10] the quantization means we have a float
+[15:12] number. This is a float we going to be
+[15:14] convert into the integer number. Okay.
+[15:17] And during this process we are going to
+[15:19] be lose some specific information that
+[15:21] is fine. Okay. We can bear that. Okay.
+[15:24] Now guys, we cannot directly round this
+[15:27] number like this. We we have a bit and
+[15:29] biases or the value of the activation
+[15:31] and all directly we cannot round this
+[15:33] particular numbers. Okay. So for that we
+[15:36] have a specific formula. We have a
+[15:38] specific mechanism. I'll come to that
+[15:40] formula. I'll come to that mechanism.
+[15:41] With that your understanding will be
+[15:43] more clear. Okay. Now this example is
+[15:45] clear. Coming to the next one. So here I
+[15:48] cap couple of more example. With that
+[15:51] your understanding will be bit more
+[15:53] clear. So please try to focus for a
+[15:55] couple of minute and then we'll move to
+[15:57] the second slide. So a mathematical
+[15:59] value you know the value of the pi. So
+[16:01] this is the value of the pi guys
+[16:03] 3.141592
+[16:05] 9265. So this value level the precision
+[16:09] level of this value is very high. Okay.
+[16:11] Precision means how precise the value
+[16:13] is. Okay. So here I have mentioned 3
+[16:16] 414159296
+[16:18] which is a high precision value float
+[16:21] 32. Now if I'm going to be see generally
+[16:23] we write generally we take the pi value
+[16:26] this 3.14 whenever we are doing a
+[16:28] calculation in the mathematics so we
+[16:30] consider this 3.14 okay so this is a
+[16:32] lower precision so here we are not going
+[16:34] to be uh we are not going to be capture
+[16:37] the exact value the exact precise value
+[16:40] instead of that we are going to be
+[16:41] negotiate with some uh loss okay and we
+[16:44] are just keeping this 3.14 if we are
+[16:46] going to be figure out the loss so it
+[16:47] will be something like 0.11
+[16:49] 222 33 something like that right but
+[16:52] guys we are not going to be keep the
+[16:53] entire value the entire precise value
+[16:55] instead of that we are keeping the value
+[16:57] up to two number so this is the higher
+[16:59] precision and this is the lower
+[17:00] precision now let's say if instead of
+[17:02] that we are just taking three okay so
+[17:03] this is the lowest precision and this is
+[17:05] the integer one integer number now I can
+[17:09] give you the second example maybe with
+[17:10] that your understanding will be bit more
+[17:12] clear so we have a current currency
+[17:14] example we are going to be convert
+[17:16] dollar into the rupee okay so see uh 87
+[17:20] 7
+[17:22] 5793. It's a price of $1. Okay. This is
+[17:26] a price of $1, right? Now guys, can we
+[17:30] write like this? This value 87.573.
+[17:34] Yes, we can write it. So, this is the
+[17:36] higher precision value means this is the
+[17:39] accurate value. Okay. This is the
+[17:41] accurate value. This is the precise
+[17:43] value. Now if we are going to be
+[17:45] negotiate with some error means if we
+[17:48] are going to be negotiate with some
+[17:49] information let's say if I'm going to be
+[17:52] rounding off if if I'm not going to be
+[17:54] keep the entire precise value I'm just
+[17:56] keeping it for like like three decimal
+[17:58] digit so see this is the medium
+[18:00] precision value okay so this is called
+[18:02] float 6 I I'll come to the range and all
+[18:04] everything I kept every table for all of
+[18:06] you so 87.573
+[18:09] right and if if I'm just writing 87 so
+[18:11] in that case it will be a low precision
+[18:13] the lowest precision. So it will be int
+[18:15] 4 int 8 and int4. You can check out the
+[18:18] loss between this 87. You can write
+[18:21] 87.5793.
+[18:24] Now here I written 87. Now what would be
+[18:27] the loss? The loss is going to be 0.593.
+[18:31] Okay. So this much this much is a loss
+[18:34] if we are going to be convert this float
+[18:36] number into the integer number. Okay.
+[18:38] From higher precision to the lower
+[18:39] precision. Precision means what?
+[18:41] precision means how fine the number is.
+[18:45] Okay, how fine the number is. Let let's
+[18:47] try to discuss with some other example.
+[18:48] I kept one more example. So in the next
+[18:51] example, I took a uh I I took this
+[18:54] weight weight measurement example. So
+[18:56] let's say I'm saying my weight is 60.197
+[18:59] something like that. So you can say it's
+[19:01] a high precise value. Okay. Now if I'm
+[19:04] saying if I'm just saying my weight is
+[19:06] 60.2 kg, so it's a medium precise. Now
+[19:09] if I'm saying my weight is 60 kg, okay?
+[19:11] So it's a low precise getting my point.
+[19:13] So whenever we talk about the time guys
+[19:14] so how we say like how we how we like
+[19:18] convey the time to someone. So we are
+[19:20] saying like 8:15
+[19:23] right now I can write like this also
+[19:25] 8:15
+[19:27] and here is what here is the second
+[19:29] let's say 32 second. Now I can refine it
+[19:32] more. So I can say 8:15 32 something
+[19:36] like this right? So some uh like the
+[19:39] further time we can mention over here
+[19:40] okay in terms of the second mill see
+[19:42] second we have defined over here we can
+[19:44] define in terms of the millisecond the
+[19:46] nanocond okay so this is a very precise
+[19:49] value but this is a this is not a very
+[19:52] precise value so it's a low precision it
+[19:54] comes under low precision and I hope
+[19:57] guys you understood this first part the
+[20:00] uh basically the meaning of the
+[20:01] quantization along with the example and
+[20:03] all now let's discuss the next thing why
+[20:06] do we use quantization. Okay. And then
+[20:08] we'll come to the other topic of uh this
+[20:11] particular course.
+[20:13] Let's understand guys why we quantize
+[20:16] the model. So I mentioned couple of
+[20:18] points over here and with that I think
+[20:21] easily you can understand that why we
+[20:23] quantize any sort of a model. So the
+[20:26] first is shrink model size. Okay. To
+[20:29] convert GB's model into the MBS for that
+[20:32] we use the quantization technique. uh
+[20:35] save RAM and VM. I'll come to the RAM
+[20:38] and VM what is what it is. Uh I think
+[20:41] you're familiar with the RAM but most of
+[20:43] the people don't know about the VM. So
+[20:45] Porsche will try to discuss about this
+[20:47] VM concept also. So to save RAM and VM
+[20:50] load large language model and small GPUs
+[20:53] faster inferencing small int integers
+[20:56] faster metric operation. So we're going
+[20:59] to convert float number into the integer
+[21:01] number and that make the matrix little
+[21:04] more faster. The the operation between
+[21:07] the M matrixes little more faster uh is
+[21:11] deployment. Okay. So enable mobile IoT
+[21:14] uh inferencing
+[21:16] lower configuration server edge devices
+[21:18] and all. So we can configure our model
+[21:20] or any sort of a devices right whether
+[21:22] it's embedded system IoT system or any
+[21:26] edge devices okay or any mobile device
+[21:28] or even we can configure our model on a
+[21:30] lower lower server as well lower config
+[21:33] server as well okay then lower serving
+[21:36] cost so less vr VM is equal to cheaper
+[21:40] GPU serving so we have a lesser RAM as
+[21:42] obvious right so we have a system which
+[21:44] is a higher RAM and the other system
+[21:46] which is having a lesser RAM so for sure
+[21:48] system which is having the lesser RAM is
+[21:50] going to be cheaper right than this
+[21:52] higher RAM. So yes for the lower serving
+[21:55] cost we use this quantization. So the
+[21:58] ultimate goal of the quantization is to
+[22:00] reduce the size of the model and keep it
+[22:02] on on a lower configuration so that we
+[22:04] can achieve this entire goal. Now I
+[22:06] discuss all this thing in a more detail.
+[22:08] Uh here you can see uh each and every
+[22:10] point guys. So why quantization matters?
+[22:14] So
+[22:15] the first point as I told you reduce the
+[22:18] model size. So if we have floating point
+[22:21] number okay F every 32 weight the size
+[22:25] of that particular weight is four by
+[22:27] okay the per number is going to be uh
+[22:30] occupy around four by now if you're
+[22:32] talking about the integer so it is just
+[22:34] taking one by okay so this gives up 4x
+[22:37] smaller model size I I'll come to the
+[22:39] table and all each and every comparison
+[22:41] table I kept for all of you guys so
+[22:43] don't worry about it as of now just try
+[22:45] to understand in terms of the theory uh
+[22:47] I'll show you the practical as So the
+[22:49] second is a lower memory. So RAM VRM
+[22:52] uses quantized model consumes
+[22:53] significantly less memory. Okay. So
+[22:56] large large model like llama mist and
+[23:00] all. Okay. So it's it's it it takes a
+[23:03] huge number of memory right. So if we
+[23:05] are going to be load this model on my
+[23:07] collab in my local system. So we won't
+[23:10] be able to do it because we don't have
+[23:11] that much of RAM and all. But we are
+[23:13] going to load the quantise model. In
+[23:14] that case, in that case we can easily
+[23:17] load that and we can make a inferencing
+[23:19] and all. Right? Now the next one is the
+[23:21] load large model on a limited hardware.
+[23:23] As I told you, we have a GPU limit, RAM
+[23:25] limit, BA RAM limit. So for sure we can
+[23:27] use the quantization technique and we
+[23:29] can load the model. For example, I cap
+[23:32] this scenario. So let's say I have a
+[23:35] model with 1GB. Uh the size of the model
+[23:37] is a 1GB. Okay, which is an FP32. Okay,
+[23:41] the side the weight is a the weight uh
+[23:43] of that particular model we are
+[23:45] considering the float okay the float
+[23:47] number but let's say we are going to be
+[23:49] converting the integer uh that is a
+[23:51] lower precision number so it become 250
+[23:54] MB only means see this was four times
+[23:58] okay now just just imagine the size of
+[24:01] this model it's just 250 MB divide by
+[24:04] four directly okay 1/4 part of the model
+[24:08] are you getting my point guys how
+[24:09] important this quantization could be and
+[24:12] how people are achieving this thing.
+[24:13] There is some mathematical intuition and
+[24:15] all behalf on that people are able to do
+[24:18] it. Okay, there are so many researches
+[24:20] research uh research basically which has
+[24:22] have been pub published. Okay, I'll show
+[24:24] you each and every research. I will show
+[24:26] you each and every basically research
+[24:28] paper. So with that your understanding
+[24:29] will be bit more clear. Now deploying
+[24:32] the edge devices as I told you as
+[24:34] devices means the small devices like
+[24:36] phone, drones, IoT devices. Okay, any
+[24:39] embedded system, any hardware and all or
+[24:41] even in the low configuration easily we
+[24:43] can load the model. Okay, now coming to
+[24:46] the next one, reduce the cost. If the
+[24:48] model size is lower, then for sure we
+[24:51] are going to be reduce the cost in terms
+[24:52] of the storage, bandwidth, computation.
+[24:55] Right? So if we have a model which is
+[24:59] having a very small size which we can
+[25:02] load anywhere on any a lower
+[25:04] configuration and all. So it will cost
+[25:06] us very minimum. Okay. compared to the
+[25:08] huge model. I hope guys uh you
+[25:11] understood all this point. Now the last
+[25:12] point accelerate hardware optimization.
+[25:15] So hardware like TPU, Nvidia Tensor,
+[25:18] okay, Intel AVX 512, it's a inbuilt GPUs
+[25:22] of the Intel. If you're going to
+[25:23] purchase a system guys, you'll find out
+[25:25] one inbuilt graphic card. Okay, inside
+[25:27] the system. So it's a Intel AVX512. It's
+[25:32] having so many variants, right? So are
+[25:34] optimized for int 8 and 4. So guys,
+[25:37] whatever hardware, whatever chips right
+[25:39] is being created by the Intel, AMD or
+[25:44] this Nvidia, right, those chips are
+[25:45] optimized for int 8 and in 4. Okay. So
+[25:49] if we are going to be convert our float
+[25:51] precision, the higher precision to the
+[25:53] lower precision like int 8 and in 4
+[25:55] easily that particular model with the
+[25:58] integer number can be adapt for the post
+[26:01] training quantization as well as uh
+[26:03] quantize aware training. So what it is
+[26:05] definitely we'll discuss uh once I'll
+[26:08] come to that. Yes guys. So this is the
+[26:10] second part which we have completed
+[26:11] successfully. Now I'll discuss some
+[26:14] fundamental points like what is the RAM
+[26:16] and B RAM and we'll discuss around the
+[26:18] data type as well like one float how
+[26:20] much value is taking inside the RAM.
+[26:22] Okay. And after that guys we'll come to
+[26:24] the main topic. So let's start what is a
+[26:27] RAM and VM guys.
+[26:30] Now RAM guys it's a primary and the main
+[26:32] memory of your system. Why it is called
+[26:35] the primary memory? Because directly it
+[26:37] is passing the data to the CPU for the
+[26:40] further processing. So here I cap some
+[26:42] basic point like what is RAM, what is a
+[26:44] CPU, what is V RAM, what is a GPU, the
+[26:47] differences in between and here I cap
+[26:50] the different different data type the
+[26:51] size and memory and the precision of it
+[26:54] and then where it is being used in a
+[26:56] deep learning. Then guys here I kept
+[26:59] some fact there I kept the data type and
+[27:02] the number of parameter the memory okay
+[27:05] how much memory would be required based
+[27:07] on those number of parameter so let's
+[27:09] try to discuss this each and every point
+[27:11] one by one step by step so first uh
+[27:14] let's discuss about the RAM what is a
+[27:16] RAM I think you already know about the
+[27:18] RAM RAM is a main and the primary memory
+[27:21] as I told you so whatever process OS
+[27:24] process whatever data right or whatever
+[27:27] model basically we are going to be load
+[27:29] so the first plates it's going to be
+[27:31] load inside the RAM and then it's going
+[27:34] uh through the processor which is my CPU
+[27:37] or my GPU okay so uh let's say we have
+[27:40] open any application that is my chrome
+[27:43] or it could be any sort of application
+[27:45] so we are loading it inside the RAM
+[27:47] random access memory let's say we are
+[27:49] going to be running the model right so
+[27:51] in that case the RAM is being used for
+[27:54] restoring a data on a temporary basis is
+[27:57] and then it is passing further to the
+[27:59] CPU. Okay. Uh now guys, RAM is also
+[28:02] called the volatile memory. So whenever
+[28:03] you are going to be uh whenever you are
+[28:05] going to be like stop your ser the
+[28:08] server right or system so that memory
+[28:10] will be crashed. Okay. Uh then let's
+[28:13] assume guys if you have executed any
+[28:15] Python program in that case also for the
+[28:17] execution the RAM RAM is being used for
+[28:19] temporary holding the data and then
+[28:22] further it is passing to the CPU for the
+[28:24] processing. Okay. Now what is a CPU? Uh
+[28:26] we know the CPU is a brain of the
+[28:28] computer and it is going to be execute
+[28:30] each and every general purpose
+[28:32] instruction or each and every
+[28:34] instruction which is being provided by
+[28:37] the RAM. Okay. So RAM is holding the
+[28:40] data temporarily uh the process and all
+[28:42] and then it is passing to the CPU. So if
+[28:45] we want a powerful system in that case
+[28:47] we should have RAM enough RAM as well as
+[28:49] the good CPU so that it can handle more
+[28:52] process simultaneously. Right? If we
+[28:55] have a more RAM as well as if we have a
+[28:57] good GPU then our PC or our system would
+[29:00] be much smoother. Okay. Now guys uh why
+[29:03] I cap this point not only for the RAM
+[29:05] and the CPU. I cap this particular point
+[29:07] to explain you about the VRAM as well as
+[29:10] the GPU because it plays a major role
+[29:12] major part whenever we are dealing with
+[29:15] the LLM model. Okay large language model
+[29:18] or any deep learning based model. Okay.
+[29:20] So uh here you can see uh what is a VM
+[29:23] guys? So, VRAM is a dedicated memory for
+[29:26] the GPU. GPU means what? Graphical
+[29:28] processing unit. Okay. So, it's going to
+[29:31] be stored the model weights uh
+[29:33] activation during the forward pass,
+[29:35] backward pass, gradient, images,
+[29:37] tensors, right? And it is used by the G
+[29:40] uh this GPU used by like Nvidia and AMD.
+[29:43] So, Nvidia and AMD these companies are
+[29:46] building a GPU, GPUs, chips. As we know
+[29:48] at Nvidia is a like leading company in
+[29:51] this GPU world and I think the valuation
+[29:55] the valuation of that Nvidia is like a
+[29:57] much higher than Apple now. Okay. I
+[30:00] think the uh the valuation of the Nvidia
+[30:02] company is more than 4 trillion. So you
+[30:05] can see the impact of the AI on the
+[30:07] world and everyone wants to be purchased
+[30:10] this GPUs from the Nvidia. Okay. Why?
+[30:13] because in the GP GPD data center the
+[30:16] chat GPT right you know the chat GP the
+[30:18] popular of the chat popularity of the
+[30:20] chat GP and all so for the chat GPT this
+[30:22] for chat GP data center this Nvidia GPU
+[30:25] have been used that's why like the
+[30:27] entire world is running behind this uh
+[30:30] GPU's chip okay the CUDA chip which is
+[30:32] being developed by this Nvidia company
+[30:34] okay so uh VM is created VM is
+[30:38] specifically uh created for the
+[30:40] graphical processing unit the GPU only.
+[30:43] Okay. Now what is a GPU? GPU is a highly
+[30:46] parallel processor optimized for
+[30:49] graphics and metric or tensor operation.
+[30:52] So if we have a matrix or tensor
+[30:53] operation, right? You know matrixes.
+[30:56] What is a matrixes guys? So this is a
+[30:57] matrix right? Uh matrix is nothing. It's
+[31:00] a set of numbers. So if you want to do
+[31:01] the multiplication in between so we
+[31:04] require the higher computation if the
+[31:06] size of the matrix or the number of the
+[31:08] matrix is very high. Okay. or uh the
+[31:11] graphic processing. For the graphic
+[31:13] processing also we require this GPU.
+[31:15] Okay. So uh let's uh take an example.
+[31:17] Let's say we are running a llama GPD or
+[31:19] stable diffusion kind of model. We are
+[31:21] training those models. So we require
+[31:23] higher GPU processing. Why? Because
+[31:25] there are lots of tensors. There are
+[31:26] lots of matrixes which we are going to
+[31:28] be multiply to each other. Okay. Uh then
+[31:31] guys uh let's say we are playing
+[31:33] high-end video game. In that case also
+[31:34] we required some good GPU process. Video
+[31:37] editing. for video editing rendering we
+[31:39] require some good GPU processing okay
+[31:41] and guys for the GPU we don't require
+[31:44] this uh we cannot work with this basic
+[31:46] RAM okay if we talking about the GPU
+[31:49] guys so for that we have a specific RAM
+[31:51] that is called VRAM what is the full
+[31:53] form of the VRAM so the full form of the
+[31:55] VRAM is visual RAM okay now here I kept
+[31:58] some differences let's look into those
+[32:00] differences so feature RAM and VM it is
+[32:04] used by CPU this RAM is used by CPU and
+[32:07] BAM used by the GPU. Okay. Now this
+[32:09] slower than VM. VRAM is like a little
+[32:12] faster compared to this uh normal RAM
+[32:14] and this VM basically it is extremely
+[32:18] fast compared to this RAM. Okay. So this
+[32:20] technology have been built specifically
+[32:22] for the GPU processing only. Uh you know
+[32:25] the use of the RAM as I told you just to
+[32:27] keep or just to hold the data before the
+[32:29] processing right and it is on a
+[32:31] temporary basis. Now application for
+[32:34] which all application we can use a RAM.
+[32:35] So RAM you know like it is inside our
+[32:37] system in inside our general computer
+[32:40] okay personal computer. So it is for web
+[32:43] app CPU training for anything right. Uh
+[32:45] if we're talking about this uh VM or the
+[32:48] GPU processing so specifically it is for
+[32:50] the deep learning or some huge LLM based
+[32:54] model. Okay. So in deep learning
+[32:56] actually we require too much computation
+[32:58] power and because of that we opt this
+[33:01] BAM BAM and GPUs. Okay. Now what is the
+[33:04] capacity? So the capacity of the RAM it
+[33:06] would be around 8 to 64GB typically but
+[33:08] it could be more than that if we are
+[33:10] going to be purchasing server over the
+[33:12] cloud. So there also we'll find a very
+[33:14] higher RAM about above like 200 GB 300
+[33:17] GB. Okay. But VM compared to this RAM.
+[33:19] Okay. So this V RAM actually it would be
+[33:23] quite low quite smaller. And yes we can
+[33:27] work with a smaller VM as well. Not very
+[33:29] much but yes let's say we have a 128 GB
+[33:32] of RAM and we are using maybe 68 GB of
+[33:36] VRAM. Okay. So it will be equal to that.
+[33:38] Okay. Now model host rates. So on CPU on
+[33:41] GPU as I told you quantization help.
+[33:44] Yes. Yes. Okay. So smaller uh smaller
+[33:47] RAM needed and a smaller VRAM needed. We
+[33:49] are going to be quantize our model. So
+[33:51] if you're running on CPU then it will
+[33:52] take a smaller RAM and if you are
+[33:54] running on GPU so again it will take a
+[33:56] smaller VM. Right now I created one more
+[33:58] table guys but before that I would like
+[34:00] to show you my VM and my RAM because I
+[34:03] already have GPU in my system. So let's
+[34:05] take a look onto it. So I'm searching
+[34:08] about my task manager.
+[34:11] Task manager. Yes, here it is. Now what
+[34:14] I will do guys I I I'll show you the
+[34:17] performance of my system. So you can see
+[34:19] I have a CPU right memory uh the memory
+[34:23] is around 23.7 GB around 24 GB of RAM I
+[34:26] have then guys I have the GPU this is
+[34:29] the inbuilt GPU Intel R UHD graphic card
+[34:32] and this is my Nvidia GPU. Okay. Now if
+[34:35] you will check out with the memory. So
+[34:36] the memory the total memory which I have
+[34:38] it is around 24 GB. Okay. Now how many
+[34:41] memory is being used right now. So uh
+[34:43] below you can see 10.6 GB memory is
+[34:46] being used and available is 12.9 GB
+[34:48] memory. Okay. Now if you will check with
+[34:50] my GPU. Okay. Now here for the GPU we I
+[34:53] have dedicated GPU memory. Dedicated GPU
+[34:56] memory means what? This is only called
+[34:58] the RAM. VRAM. Okay. Visual RAM. So I
+[35:00] have 6 GB of VRAM inside my system. Take
+[35:03] my point guys. Now here if you will
+[35:05] check the GPU zero. So it is a inbuilt
+[35:07] GPU. So this inbuilt GPU is not having
+[35:10] the VRAM. Okay. dedicated VRAM it is it
+[35:14] is using the shared memory okay it is
+[35:17] using this particular memory itself
+[35:19] right so this GPU this Nvidia GPU which
+[35:22] I'm using the GPU is 3060 as you can see
+[35:24] right hand side 3060 RT 3060 and the
+[35:28] dedicated VM is 6 GB for me I hope you
+[35:31] got the clarity now after seeing this
+[35:33] entire
+[35:35] statistic right now let's come to the
+[35:37] data data dial so uh here guys I have
+[35:40] created one more table. This table will
+[35:42] help you to understand uh something in a
+[35:45] more deeper way. So uh if we're talking
+[35:47] about the bite guys, you know in one
+[35:49] bite we have eight bits. Okay. 0 1 0 1 0
+[35:52] 1. So what is the bits guys? Uh I I I
+[35:55] think guys you are already familiar with
+[35:57] the bits. So 0 1 0 1 0 1 0 1. Okay. 1 2
+[36:02] 3 4 5 6 7 8. So this is a one bite.
+[36:04] Okay. Now float 32. How many bits are
+[36:07] there? So there would be around 32 bits
+[36:09] because the size of the float 32 is four
+[36:11] by okay four by per number. Now I have a
+[36:14] different different data type. See float
+[36:16] 64, float 32, float 16, B flo float
+[36:19] which is al which is also called the
+[36:21] brain float FP8 is there. Okay. Then NF4
+[36:25] then uh it's called the normal float int
+[36:27] 8 in int4 in 32 and the boolean. Now uh
+[36:31] the meaning of it float 62 means 64
+[36:34] means 64bit floating point. Okay, 32-bit
+[36:38] floating point, right? The size of the
+[36:41] the size of this particular data type is
+[36:42] four byt in a RAM. Uh the size of this
+[36:45] particular data type is 8 byt. So 8 into
+[36:48] 8 will become how much? 64. Okay. Now 4
+[36:52] mult*ly 8. So it will become how much?
+[36:54] 32. Okay. Now here float 16. So float 16
+[36:58] two byt right? The size of the float 16
+[36:59] is two bytes. So 2 mult*ly 8 it will
+[37:02] become 16. Okay. Now brain flow two byte
+[37:05] again FP one bite F NF4 0.5 byt now uh
+[37:10] intate one bite one bite means what
+[37:12] again 8 bit okay it will take only 8 bit
+[37:14] memory now this one int4 0.5 byt int 32
+[37:18] is again four byt and boolean is one bit
+[37:21] one bit guys okay so uh you know guys uh
+[37:24] couple of days back when a research
+[37:26] paper was published the name was a
+[37:28] research paper run your large black
+[37:32] model on one bit Okay, one bit llm. So
+[37:36] you know like what what does it mean? We
+[37:38] can run our llm on this uh on this size
+[37:42] as well. Okay, means uh the weight right
+[37:45] whatever weights are there they have
+[37:46] quantized up to that level they have
+[37:48] optimized that weight up to that level
+[37:50] where we can execute it on one bit
+[37:52] memory as well. I hope you're getting my
+[37:55] point. Now we're talking about the
+[37:56] precision guys. So for the for this
+[37:58] float 64 the precision is very high. Now
+[38:00] what is the meaning of the precision?
+[38:02] Precision means after the decimal how
+[38:04] many points how many extra point would
+[38:06] be there. Okay. So here you can see in
+[38:10] float 64 would be having 50 to 16 digit
+[38:13] right after the decimal. So we can store
+[38:15] very refined value very precise value.
+[38:18] So that's that's why we can say it's
+[38:20] having very higher precision. Now uh
+[38:22] here the second one is a float 32. So
+[38:25] you can see the precision of it. We can
+[38:27] store up to seven decimal. Okay. After
+[38:29] the decimal we can store up to like
+[38:31] seven digit. Okay. Now guys uh if you
+[38:34] look float 16 so we can only we can only
+[38:38] contain the 3 four decimal 3 four digit
+[38:40] after dec decimal. Now similar for the B
+[38:43] float as well only 34 digit after the
+[38:46] decimal. Uh now FP4 2 to3 digit. Okay
+[38:49] then NF4. So very coarse float. Okay. It
+[38:53] means if you will see the value like the
+[38:56] 0.1 1.0 2.0. So this is called the
+[38:59] normal float. Okay, log base float. It
+[39:02] it is not going to be contain a value
+[39:04] like this the very defined value after
+[39:05] the decimal like 50 to 16.2 to 3.4 to 5.
+[39:08] No if if you will see the value like
+[39:10] this 0.5 1.0 2.0 3.0 something like
+[39:14] that. So this is called the normal
+[39:15] float. Okay. Uh then integer guys there
+[39:18] is no decimal. So it is a complete
+[39:20] integer value. the range of it from
+[39:22] minus 128 to + 127 of this int 4 minus 8
+[39:26] to + 7. Uh now int 32 guys. So this is
+[39:31] the range. Okay. So 1 2 3 4 5 6 up to
+[39:35] this one we can store the data. Okay.
+[39:37] The number if we have a integer number
+[39:40] which is up to this particular number
+[39:42] which is up to this particular range. So
+[39:43] we can say it is a int 32. It is taking
+[39:46] four by memory inside the ring. Okay.
+[39:48] Now boolean either true or false zero or
+[39:50] one. So it will only take one bit. I
+[39:53] hope guys you understood what is the
+[39:55] meaning of the uh what what is the
+[39:56] meaning of the data type uh as well as
+[39:59] how much size how much memory it is
+[40:01] taking and then uh what is the meaning
+[40:03] of the precision. I will come to the
+[40:05] precision. I kept one more slide uh just
+[40:07] only to discuss the precision. Right now
+[40:09] here I kept the uses also like where it
+[40:12] is being used in a deep learning. So
+[40:14] it's for the scientific computation
+[40:15] double precision. Okay. uh for the very
+[40:18] precise value. So if I'm going to write
+[40:20] like this, let's say 1
+[40:22] 0 0 2 3 4 5 6 7. So see how precise this
+[40:27] value is. You're going to be cover up
+[40:29] like almost each and every digit after
+[40:31] the decimal. I give you the example of
+[40:33] the precision in my last slide as well
+[40:35] with that dollar value with that weight
+[40:37] value. Okay, with that basically time
+[40:41] values, right? So if we have a more
+[40:44] dilute we can if we cap we can capture
+[40:45] very very fine number okay being we can
+[40:48] capture very fine value fine number so
+[40:51] the precision would be high in that case
+[40:53] now I cap some facts and with that facts
+[40:55] your understanding will be very much
+[40:57] stronger so let's uh discuss about it so
+[41:00] let's check some facts let's say we have
+[41:01] a data type float 32 and if we we have
+[41:03] 100 billion parameter in the model okay
+[41:05] so what would be the size sorry if we
+[41:07] have basically 4 billion of parameter
+[41:11] okay uh Uh sorry we have 100 million of
+[41:14] parameter and the size of each parameter
+[41:15] is four byt right? Float 32 the size of
+[41:18] one parameter one bit would be four byt
+[41:21] and we have 100 million parameter. So
+[41:23] the complete size would be around 400
+[41:26] MB. Now the second one float 62 so two
+[41:28] byte 100 m 100 million parameter and the
+[41:31] size you can see size would be in a RAM
+[41:33] 200 MB. Now the for the same guys see we
+[41:36] have 100 million parameter and now this
+[41:39] time we are taking integer data type
+[41:41] that now see see the size 100 MB okay
+[41:44] it's a 1/4 from this float 32 so have
+[41:47] you heard guys we are going to be
+[41:48] quantise from float float 32 to int
+[41:54] 8 or int 4 so just just think guys how
+[41:58] much size we are going to be reduce here
+[41:59] so let's say we have a size around 40 MB
+[42:02] now the size would be around 100 MB to
+[42:06] 50 MB. Now think guys how easily we can
+[42:09] load this much of data sorry how easily
+[42:11] we can load this model in the CPU or in
+[42:14] the GPU compared to this particular
+[42:16] model right so if we're talking about
+[42:18] the deep learning so deep learning
+[42:19] engineer intentionally switch the data
+[42:21] type based on the use case so FP32 is
+[42:23] called the full training okay full
+[42:25] precision or full training FP16 and BF16
+[42:28] is called the mix precision or mix
+[42:30] training and intate in and in4 is for
+[42:33] the inferencing only okay so these are
+[42:35] the term terminology which is which is
+[42:38] basically being used or which the
+[42:39] scientists or the researcher are being
+[42:41] used okay just to quantize the model
+[42:44] from the higher precision to the lower
+[42:46] precision FP32 is a higher precision or
+[42:48] full precision FP16 is a mixed precision
+[42:51] and input it is for the inferencing okay
+[42:54] it's a lower precision or very minimal
+[42:57] precision or zero precision I would say
+[42:59] because it's a complete integer value I
+[43:01] hope guys you understood this entire
+[43:03] thing in a very well manner now let's
+[43:05] try to discuss the next Next point which
+[43:07] is a precision. Okay.
+[43:10] Now guys what is a precision in deep
+[43:12] learning? So precision means how exact
+[43:15] detail and accurate number can be
+[43:18] stored. Okay. Uh the second definition I
+[43:21] written precision means how finely a
+[43:23] number could be stored. Okay. Precision
+[43:26] level real world value example. So I cap
+[43:28] couple of example with that maybe you
+[43:30] will get some more understanding. The
+[43:32] more detailed decimal value or number
+[43:35] can be stored, the higher precision it
+[43:37] is. Okay. Or float 32 offer higher
+[43:40] precision but consume a lot of memory
+[43:42] compared to the intake. Whereas intake
+[43:45] is having a lower precision and it's
+[43:48] going to be consume a lesser memory and
+[43:50] it is much much much faster. So where
+[43:53] you will find out the numbers guys in a
+[43:54] deep learning model. So in a DL model we
+[43:57] have weight we have biases we have
+[44:01] activation value we have optimize weight
+[44:07] by optimizer right so these all are
+[44:10] nothing it's a numbers only and
+[44:12] generally
+[44:14] by default this number would be at P32
+[44:17] means we can capture the number let's
+[44:20] say I'm writing four we can capture it
+[44:22] up to 7 to 8 decimal
+[44:25] So this is a very precise value precise
+[44:28] number a very fine a very accurate
+[44:30] number fine precise anything you can say
+[44:35] okay now guys here you can see so it's a
+[44:39] fine accurate precise whatever coming in
+[44:41] your mind you can say that now guys here
+[44:43] you can see we're talking about the
+[44:45] higher precision so in that case it's
+[44:46] going to be consumed the higher memory
+[44:48] means the weights and biases the
+[44:50] activation value and the optimizer
+[44:52] optimize weight uh it should not be 32
+[44:56] okay it should not be this float 32 we
+[44:58] have to be like reduce it how we are
+[45:00] going to be reduce it with some formulas
+[45:02] and all and I'll show you those specific
+[45:04] formula so we are going to be reducing
+[45:06] to some
+[45:08] lower precision lower precision means
+[45:10] what FP16 okay normal float int 8 okay
+[45:16] int 4 these are the lower precision so
+[45:18] in float 16 we are going to be capture
+[45:21] only three to four digit
+[45:23] after the decimal in NP okay in NP also
+[45:28] in normal float we are going to be cons
+[45:29] we are going to be converted like this
+[45:31] 4.0 right or like 0.5 0.7 4.0 3.0 0
+[45:36] something like that. Now we're talking
+[45:37] about int 4 and int 8. The range of the
+[45:40] int a int 8 is what's the range of the
+[45:42] int 8 from minus 27 to + 128. So we are
+[45:47] going to be round this value let's say
+[45:48] four. Okay. So this is the value in int
+[45:51] 8 and in4. So likewise guys what we're
+[45:54] going to do we are going to be we going
+[45:56] to be guys quantize the value. How how
+[45:59] how it is possible? How we can do it?
+[46:01] How we can convert it like this? Can we
+[46:03] convert it directly or we do we have
+[46:05] some formulas? We have some formula.
+[46:07] I'll show you that formula in the
+[46:09] upcoming slide. Okay. In the upcoming
+[46:11] point. So I kept couple of more
+[46:12] examples. So mathematics value of the pi
+[46:15] value. The example which I already given
+[46:17] in the first uh slide itself. Okay.
+[46:19] 3.141592
+[46:22] high 65. It's a high precise value. It's
+[46:24] a high accurate value. Highest accurate
+[46:26] value. And you can see the data type of
+[46:28] it. It's a float 32. Now 3.14 is a low
+[46:31] precision. So the data type is float 16
+[46:33] of float uh sorry int 8 right we're
+[46:36] keeping like 3.14 it will be float 16.
+[46:39] Now if I'm going to be like keep it like
+[46:40] this let's say if I'm just writing uh
+[46:43] this uh let me copy it just a second. So
+[46:47] I'm going to be copy this line. Let me
+[46:49] keep it after this one. So here is the
+[46:51] next one. So let's say if I'm just
+[46:53] writing three. So it is not float 16. It
+[46:56] is int 8 now. Okay. Now I think so you
+[47:00] have a very good understanding with
+[47:01] respect to the data data type and all.
+[47:04] Now the second example is a currency
+[47:05] example dollar and rupee. So this is a
+[47:09] rupee value in terms of $1. So it's a
+[47:11] float 32 right. So up to eight decimal
+[47:14] we can capture but 4 5 6 7 like it will
+[47:17] all only be considered in the float 32
+[47:19] itself. Then uh this is the float 16.
+[47:21] Then here you can see the float uh this
+[47:23] is the int example. Okay. If I are
+[47:25] writing this roundup value 87, it's a
+[47:27] int 8 example int 8 or in four weight
+[47:30] measurement 60 let's say my weight is 60
+[47:33] 60 kg. So it's a lower precise value. If
+[47:36] I'm saying my weight is 60 kg 20 g so
+[47:38] it's a medium precise. Okay. If I'm
+[47:40] saying my weight is 60.197
+[47:43] 2 3 4 5 kg. So it's a high precise.
+[47:45] Okay. So uh likewise guys we can
+[47:48] understand about the precision and all
+[47:49] and I think so I try to explain each and
+[47:51] every part of it. Let's look into some
+[47:53] more example. So float 32 float 32 is a
+[47:56] 32 bit and can store very fine decimal
+[47:58] as I told you int 8 can we store only
+[48:01] whole number integer number the range
+[48:02] between 128 to plus 128 - 128 to plus
+[48:07] 127 no decimal lower precision uh we
+[48:10] have in 32 as well where the range is
+[48:12] much higher compared to this one. Okay.
+[48:15] So, flow tra is a higher precision
+[48:16] intake is a lower precedure. Right? Now,
+[48:19] guys, why does precision matters? What's
+[48:22] what's the use of it? Why we are doing
+[48:23] it? Okay. What's the main idea or agenda
+[48:26] behind this precision? So, I I written
+[48:29] one more definition over here. During
+[48:31] training, we need high precision to
+[48:33] learn small gradient and the improve
+[48:35] accuracy. Right? So, whenever we are
+[48:37] going to be train our model, whenever we
+[48:40] are going to be train our model, so FP32
+[48:42] is fine. We can consider that why
+[48:45] because we can learn a small gradient we
+[48:47] can improve the accuracy and all of the
+[48:48] high precision but during the
+[48:50] inferencing guys it is not required so
+[48:52] generally guys see whenever we are
+[48:54] talking about the quantization
+[48:57] quantization
+[48:59] so generally we discuss about this PTQ
+[49:02] in PTQ you know what happened it's
+[49:04] called force training quantization so we
+[49:06] train our model in FP32 or FP16 or FP64
+[49:12] generally it would be FP32 or FP16 only
+[49:15] and then guys we are going to be make a
+[49:16] inferencing you know whenever we are
+[49:18] doing a inferencing so we're going to
+[49:20] make a inferencing let me write over
+[49:22] here
+[49:24] inferencing on int
+[49:28] 8 or int 4 okay so in PTQ guys this is
+[49:33] called posting quantization we'll
+[49:35] discuss in a very detailed manner and
+[49:36] this is what I written over here why
+[49:38] does precision matter so that we can do
+[49:40] a inference thing we can do the fast
+[49:42] prediction fast influencing and all. But
+[49:44] uh then guys after the PTQ one more
+[49:47] technique was uh introduced the
+[49:48] technique uh itself is called the QA
+[49:50] quantise aware training you know guys uh
+[49:53] instead of this uh FP32 training what we
+[49:56] can do we can at the time of the
+[49:58] training itself we can convert our
+[49:59] weight from FP32 intake this is also
+[50:02] possible okay it's possible because of
+[50:04] this QA training UAT training so yeah
+[50:07] for sure I'll discuss that in upcoming
+[50:09] slide and how it is possible each and
+[50:10] every formula and all even with the
+[50:12] practical I'll show you
+[50:14] Now guys here what I written. So FP32
+[50:17] 32-bit full precision. So it is having a
+[50:20] higher decimal. The memory is taking
+[50:21] high. Speed is slow and accuracy would
+[50:23] be the best. FP616. So 16 bit precision
+[50:27] 16 bit. Mixed precision is called the
+[50:29] mixed precision. Medium. The precision
+[50:31] level is a medium. Memory it will take
+[50:33] medium. Okay. Uh and here guys you can
+[50:37] see give me a moment. Yeah. So it will
+[50:39] take a memory. All right. Medium. It is
+[50:43] a faster than slightly drop. The
+[50:44] accuracy is going to be slightly drop.
+[50:46] If we are going to be convert from IP3
+[50:47] to 16 intake 8 bit most common for the
+[50:50] quantization. Okay. So lower low the
+[50:53] precision is very low. Okay. No decimal
+[50:56] this is the range of it memory is this
+[50:58] much. Okay. Low memory fastest smaller
+[51:00] accuracy. Now int four bit. Okay. So
+[51:03] very low course discrete or float value
+[51:06] right. And uh it's taking very low
+[51:08] memory ultra fast and moderate the
+[51:11] accuracy is going to be slightly not
+[51:13] slightly drop it's going to be much drop
+[51:14] right FP8 floating.8 8 8 bit it's a NV
+[51:19] it's for the Nvidia transformer
+[51:21] inferencing HH H100 GPU okay then low
+[51:26] medium 2 to three decimal memory is
+[51:28] lower speed is fast and accuracy is
+[51:31] going to be slightly drop so where the
+[51:32] accuracy is going to be like too much DO
+[51:35] we are going to be lost the accuracy
+[51:36] over here in int 4 and normal float uh
+[51:39] int 8 is manageable if f16 is fine
+[51:42] slightly drop and this is the highest
+[51:44] accurate FP62 I'm sorry FP30 32. Okay,
+[51:48] 64 is also very much accurate. Now, one
+[51:50] more thing guys, one more uh additional
+[51:52] information I kept over here. We're
+[51:53] talking about the precision guys.
+[51:55] Precision does not mean accuracy. Okay,
+[51:58] precision is not equal to the accuracy.
+[52:00] Accuracy is a different thing. So, let's
+[52:01] understand the precision. Precision
+[52:03] means how finely or in how much detail a
+[52:06] number is represented or is stored. So,
+[52:08] here you can see uh if we're talking
+[52:10] about a data type, data format, float,
+[52:12] 32, intate etc. So this number is a
+[52:15] highly precise number whereas this
+[52:17] number is not a very much precise. It's
+[52:19] a low precise. So accuracy means how
+[52:21] close is the prediction output to
+[52:23] correct a true value. Okay. Precision
+[52:26] means what? Sorry, accuracy means what?
+[52:28] See it's a precision the the thing
+[52:30] basically I explain you over there. Now
+[52:32] accuracy means how close is a predicted
+[52:34] output to the correct value. Okay. And
+[52:37] precision means what? How finely or in
+[52:40] how much detail the number is being
+[52:41] represented. And accuracy means what?
+[52:43] How close is the pred prediction output
+[52:45] to the correct or to the near this
+[52:48] correct and the true value the accurate
+[52:50] value. Okay. So this is related to the
+[52:52] model performance and this is related to
+[52:54] the data format. Okay. How precisely
+[52:56] data is being stored and this is related
+[52:57] to the model performance. So let's say
+[52:59] my actual level is one and my model is
+[53:01] predicting 0.797. So this is high
+[53:04] accuracy because it is near to this
+[53:06] actual level. Okay. Now if it is
+[53:08] predicting 0.4 for this probability. So
+[53:10] it is low accuracy because because guys
+[53:12] it is not uh near to this one. Okay,
+[53:14] this particular level. So we can take a
+[53:17] real life analogy and with that maybe
+[53:18] our understanding will be bit more
+[53:20] stronger. So imagine you are throwing
+[53:22] darts, right? Precision means how
+[53:24] tightly your darts group is clustered
+[53:26] close together. Okay. And accuracy means
+[53:28] what? How close they are to bull eyes.
+[53:31] So you know dart, right? So it's kind of
+[53:33] the circle of this one and uh generally
+[53:37] we are hitting the c the this this
+[53:39] particular eye right onto this dart. So
+[53:42] let's say we are we are throwing the
+[53:44] arrows. So this is my first arrow. This
+[53:46] is my second arrow right this is my this
+[53:48] is my third arrow. This is my fourth
+[53:49] arrow. So this is a precise one guys.
+[53:51] Okay this is a precise one but this is
+[53:54] not a accurate this is not a accuracy.
+[53:55] So precision means what? How tight your
+[53:57] dad group is clustered. Okay. So this is
+[53:59] a very precise. It is near to this
+[54:02] bully. But if you want to be check out
+[54:04] the accuracy, so how the accuracy would
+[54:06] be. So see this one how many times it is
+[54:09] hitting to that. Okay. This one. So
+[54:12] accuracy means how close they are to the
+[54:14] bully. Okay. And precision. Precision
+[54:17] means what? How tight your dart group
+[54:19] is. Okay. Now you can have high
+[54:22] precision low accuracy. All darts
+[54:24] tightly grouped but far from the target.
+[54:27] Okay. You can have lower precision,
+[54:29] hike, higher accuracy means dirts
+[54:31] scattered but average hit to the center.
+[54:34] This two point is very much important.
+[54:36] Please read it out from your end you
+[54:37] will be able to understand. Now key
+[54:39] point is so if you're talking about the
+[54:41] best one so high precision the high high
+[54:43] accuracy is the best model and the
+[54:45] second is the key point. A model can be
+[54:47] low precision but high accuracy. Okay.
+[54:49] So it's fine if it is a lower on
+[54:52] precision but high on the accuracy.
+[54:54] Okay. High accuracy means we are able to
+[54:57] predict the actual label but uh most of
+[54:59] the value is very much scattered not
+[55:01] coming to this uh label itself but yeah
+[55:04] some of the value we are able to predict
+[55:06] as it is so yeah this type of model also
+[55:08] you will be able to find out I hope guys
+[55:11] you understood about the precision you
+[55:12] understood about the difference between
+[55:13] precision and accuracy I kept each and
+[55:15] every type of example table and all
+[55:17] maybe this slide will help you a lot and
+[55:19] yeah now we'll discuss the formula of
+[55:21] the quantization
+[55:24] Guys, let's understand the quantization
+[55:26] and the deontization formula. So this is
+[55:29] the exact formula using this particular
+[55:32] formula only. We are going to be convert
+[55:35] our weights into the quantise weight. So
+[55:37] this is the quantise value xq. This is
+[55:39] the actual weight. We are going to be
+[55:41] divided with the scale. Then we are
+[55:42] rounding of this number and we are
+[55:44] adding the zero point. This zero point
+[55:46] generally we use it uh use for the
+[55:48] symmetric and the asymmetric
+[55:49] quantization. Okay. If there is a
+[55:51] symmetric quantization we'll keep it
+[55:53] zero. If there is a asymmetric
+[55:54] quantization, we'll keep it in some
+[55:56] we'll keep some value over here. We'll
+[55:58] discuss that how that particular value
+[56:00] we can calculate. So this is the
+[56:02] complete description of the formula.
+[56:03] Okay. X is original weight, X gives a
+[56:05] quantiz integer scale is there. How much
+[56:07] range one integer step cover? Zero point
+[56:10] is there. Then round is there. Okay. Now
+[56:12] this is the formula of the
+[56:13] dequantization.
+[56:14] So
+[56:16] if you're able to understand the
+[56:17] quantize formula simply you can
+[56:19] understand the dequantize as well. So
+[56:21] it's nothing guys. It's a inverse of
+[56:23] this particular formula as you can see.
+[56:25] So this is the value x right. So this 0
+[56:28] point is going over here xq right xq
+[56:31] means context value minus 0 point
+[56:33] multiply by scale. So this 0 point is
+[56:35] going over here xq minus xqus 0 point
+[56:38] and then we are going to be multiplied
+[56:40] with this scale value. So automatically
+[56:42] we'll get this x. Okay. So it's the
+[56:44] inverse of this quantise formula itself.
+[56:47] Now if you're still not able to
+[56:49] visualize that what which thing we are
+[56:50] going to be contact I can give you the
+[56:52] basic example. So let's say we have one
+[56:55] neural network inside this neural
+[56:57] network we have three nodes three inputs
+[56:59] then one header layer in that we have
+[57:02] two nodes then one output layer. So this
+[57:05] one is going to be connect to each
+[57:06] other. So in total how many weights
+[57:08] would be there. So this is my input
+[57:10] layer guys. We have three inputs. Now
+[57:12] we're talking about the weights. So
+[57:13] weight would be 3 mult*ly 2. Okay. six
+[57:16] weight would be there. So if you want to
+[57:18] visualize this weight, let me draw the
+[57:20] matrix over here. So the matrix would
+[57:22] like look like something. Uh so here I
+[57:25] can write let's say W 1 W21. Now here
+[57:31] W31. Now here is what? Here's my W uh 1
+[57:35] 2 W 22 W 23. Right? Uh sorry 32. So here
+[57:43] is my 3 2. Okay. Now if I want to be uh
+[57:48] if I want to keep the actual value so
+[57:49] let me keep some random value over here.
+[57:52] So this is going to be a random value. I
+[57:54] can keep the float value itself. Okay
+[57:57] just a dummy value random value. Let's
+[57:59] say 6 7 3 here 0 4 1. Now here 7 7 2 Now
+[58:07] here 6 2 Now here 0.12
+[58:11] here 0 53 4. So this is what this is my
+[58:15] weights guys right this is with respect
+[58:17] to the first hidden layer first hidden
+[58:19] node this is with respect to the second
+[58:20] hidden node. Now this particular weights
+[58:23] we going to quantize. So as of now it is
+[58:25] in fp
+[58:27] 32. Now we are going to be converted to
+[58:30] int8 int 8 or whatever range okay we can
+[58:33] convert into the fp16 as well we can
+[58:36] convert to np4 intate in4 right whatever
+[58:39] is possible now I hope uh you are able
+[58:42] to understand it very clearly uh let me
+[58:46] do the right swipe so the complete
+[58:48] formula and all everything will be
+[58:49] visible see this is the complete
+[58:51] calculation okay uh I think it is not
+[58:54] hiding behind my camera yeah now let's
+[58:57] discuss Couple of more point. So here
+[59:00] this formula is used during the
+[59:02] inferencing to convert the quantized
+[59:04] weight back to the uh usable float value
+[59:07] inside the neural network. So this is a
+[59:08] dequantized formula this one and this is
+[59:11] the quantiz formula. Okay. So we can
+[59:13] perform the quantization using this one
+[59:15] and we can do the dequantization again
+[59:17] we can convert into the same number same
+[59:20] uh basically float float value using
+[59:22] this particular formula. Now what's the
+[59:25] goal of the quantization? So we already
+[59:26] discussed the store real number like
+[59:29] float 32 1.2 23 0.85 2.77 less memory
+[59:34] use the small integer which is this one.
+[59:37] Now let's discuss the method behind the
+[59:39] quantization. So in the method guys you
+[59:41] will find out this scale and 0 point how
+[59:43] to calculate this scale and the zero
+[59:44] point clipping and rounding uh what does
+[59:47] it mean? Then range mapping. Okay. So
+[59:50] these are some uh important highlights
+[59:52] while we are going to be calculate a
+[59:53] range of the quantization while we are
+[59:56] going to be calculate a quantized value.
+[59:58] Okay. Now uh here's some problem. What
+[01:00:00] is the problem? So float value can
+[01:00:03] sometime fall into the different range.
+[01:00:05] Okay. So uh let's say uh we're talking
+[01:00:07] about the weight. So
+[01:00:12] weights are nothing weights or let's say
+[01:00:14] biases.
+[01:00:16] Okay. So weights and biases are nothing.
+[01:00:18] It's a float number. Let's say initially
+[01:00:21] I
+[01:00:23] initialize with this float 32 numbers,
+[01:00:25] right? It's a decimal 0.32 to 0.45
+[01:00:30] something like this. So guys, this value
+[01:00:32] is having some range. Now, so let's say
+[01:00:34] if the range is coming like this, okay,
+[01:00:36] minus 2.02 plus 0.20,
+[01:00:41] right? So this is called a symmetric
+[01:00:42] range. Okay, because it is around to
+[01:00:45] this zero.
+[01:00:47] Okay, it is around to this zero minus
+[01:00:50] 2.0 to plus 2.0. So minus is here. Okay,
+[01:00:54] and plus is here. So this is a symmetric
+[01:00:56] range, right? But here guys, see this is
+[01:00:58] not a symmetric range. This is a
+[01:01:00] asymmetric from 0.5 to 2.3. Here is also
+[01:01:03] you can see this is also a not
+[01:01:04] non-ymmetric, right? So behalf on this
+[01:01:07] range, the range of the weight. Okay,
+[01:01:09] the range of the weight and biases. We
+[01:01:12] can divide this uh quantiz problem into
+[01:01:16] two main one. Okay, the first is called
+[01:01:18] the symmetric contisation where we have
+[01:01:20] a symmetric weight means uh the
+[01:01:22] distribution would be same around the
+[01:01:24] zero. Okay, uh the first one you can see
+[01:01:28] and the second basically asymmetric
+[01:01:30] quantization in that the weight
+[01:01:32] distribution will not be around to the
+[01:01:34] zero. Okay. uh either it will be
+[01:01:37] completely positive side or it would be
+[01:01:39] something like this means negative and
+[01:01:41] the positive side but it is not going to
+[01:01:43] be equal or it's not going to be same
+[01:01:46] around the zero like this I hope it is
+[01:01:49] clear now let's do one thing let's try
+[01:01:52] to discuss uh with some example and with
+[01:01:55] that your understanding will be much
+[01:01:56] more clear so whenever we talking about
+[01:01:58] the quantization as I told you we have
+[01:02:01] two type of quantization the first is a
+[01:02:03] symmetric and the second is the
+[01:02:04] unymmetric now Now we're talking about
+[01:02:06] symmetric contisation. In the symmetric
+[01:02:08] contisation we would be having the
+[01:02:11] weight distribution. The weight
+[01:02:12] distribution basically it will be it
+[01:02:15] will be uh like uh uh it will be what I
+[01:02:18] can say identical uh around the zero. So
+[01:02:22] let's say we have the zero. Okay. So
+[01:02:25] this weight distribution of the zero
+[01:02:27] basically is going to be same. So let's
+[01:02:29] say we have + 5.
+[01:02:32] So here also see let's say we have a + 5
+[01:02:36] I think I will have to represent over
+[01:02:38] the y-axis if we have + 5 over here then
+[01:02:41] it will be up to minus5 okay on the
+[01:02:45] other side so this is called the
+[01:02:47] symmetric right I hope you are able to
+[01:02:49] understand it so this is what guys this
+[01:02:51] is called the symmetric right now so
+[01:02:54] what I did guys I took some example and
+[01:02:57] with that maybe your understanding will
+[01:02:59] be more stronger so if we're talking
+[01:03:01] about the symmetric quant ization there
+[01:03:02] will keep the 0 point this zero. Okay,
+[01:03:07] my center is around uh to this zero.
+[01:03:09] Okay, my center of the data will be this
+[01:03:11] zero and the data will be surrounding to
+[01:03:13] that only. Now you can assume the data
+[01:03:15] in range - x to plus x and the
+[01:03:18] quantization range will be this much.
+[01:03:20] This will also be symmetric. Okay, minus
+[01:03:22] 128 to + 127. Now here is come some
+[01:03:26] example. So let's say we have this range
+[01:03:28] the tensor range. Okay, the weight range
+[01:03:30] see in the tensor what we have in the
+[01:03:32] tensor actually we have a weights only
+[01:03:34] right so the range of the weights the
+[01:03:36] weight distribution from minus0 to + 2.0
+[01:03:39] 0. So this is the quantization range and
+[01:03:41] this is called the symmetric
+[01:03:42] quantization and the 0 point would be
+[01:03:44] zero over here. Now if 0.5 to 2.5 this
+[01:03:47] is the range of my weight. So the
+[01:03:49] quantization range from 0 to 250 225.
+[01:03:53] Okay. Uh now we'll not take the sym uh
+[01:03:56] now we'll not take the symmetric range
+[01:03:58] the range basically which is around the
+[01:04:01] zero itself. The data distribution is
+[01:04:03] similar to the zero uh like the uh in a
+[01:04:05] symmetry around the zero. Okay. We'll
+[01:04:07] take this particular range 0 to 255. And
+[01:04:09] this is called the asymmetric nonzero
+[01:04:12] quantization.
+[01:04:14] So this is also minus 3.5 to 8 8.2. So
+[01:04:16] we are going to be quantized this number
+[01:04:18] between this range 0 to 255. This is
+[01:04:20] also called the asymmetric quantization.
+[01:04:22] Now you will find out a scenario guys.
+[01:04:24] Uh you will find out a scenario that in
+[01:04:26] the symmetric quantization itself sorry
+[01:04:28] inside the symmetric quantization itself
+[01:04:30] we are going to be quantise. We are
+[01:04:32] going to be quantize our value between
+[01:04:33] this minus
+[01:04:36] 128 to 127. Okay, you'll find out this
+[01:04:39] scenario as well. I I'll show you with
+[01:04:41] the example means we have a uh uneven
+[01:04:43] distribution. Okay, uneven distribution
+[01:04:46] of the weight but we are going to be
+[01:04:47] quantized in this particular array. This
+[01:04:48] is a symmetric range. Now symmetric see
+[01:04:51] uh symmetric range of the tensil
+[01:04:53] symmetric range of the quantization.
+[01:04:54] Okay, now this is a symmetric
+[01:04:56] quantization type and floating this 0
+[01:04:58] point value would be zero over here. Now
+[01:05:01] here we have a range range of the
+[01:05:02] weights 0.5 to 2.5. This is the
+[01:05:05] asymmetric range and the quantization
+[01:05:07] range would be also asymmetric. This is
+[01:05:09] called the unit 8. Okay. This is called
+[01:05:11] intate. This is called unit 8. Right?
+[01:05:14] From 0 to 255 here also asymmetric
+[01:05:17] range. Now this the quantization also
+[01:05:20] are symmetric. So this are asymmetric
+[01:05:22] asymmetric and the zero point will be
+[01:05:24] non zero. Non- zero. We are going to be
+[01:05:25] calculate the non- zero. But guys you
+[01:05:27] will find out that this this uneven
+[01:05:30] range this asymmetric range also we are
+[01:05:31] going to be quantized with this
+[01:05:33] particular value minus 128 to plus 127
+[01:05:36] this is the symmetric range okay this is
+[01:05:38] a symmetric range so generally we write
+[01:05:40] minus 127 to plus 127 but this is the
+[01:05:43] actual value but yeah we can like manage
+[01:05:46] it okay it's still called the symmetric
+[01:05:48] only I hope this thing is clear now
+[01:05:50] let's do one thing let's look into the
+[01:05:52] practical example so I kept one example
+[01:05:55] and with that your understanding will be
+[01:05:56] a bit more clear. So let's do one thing.
+[01:05:59] Let's try to perform the symmetric
+[01:06:00] quantization. So we're talking about the
+[01:06:02] symmetric quantization. So the formula
+[01:06:04] for it, it's going to be x cq. Okay,
+[01:06:07] this is a quantise value round. R round
+[01:06:09] about x means the actual weight divided
+[01:06:11] by the scale. Okay, zero point is going
+[01:06:13] to be zero in the symmetric
+[01:06:14] quantization, right? Because the data is
+[01:06:16] distributed surrounding to this zero
+[01:06:18] only, right? To this zero only. Now
+[01:06:20] guys, here uh I'm taking one value.
+[01:06:23] Let's try to quantize this one. So we
+[01:06:24] have one weight. So x 1.2.3 this is my
+[01:06:28] weight. Okay. We are going to be
+[01:06:30] quantizing this range minus 128 to 127.
+[01:06:33] Now here is my min and max of the
+[01:06:36] tensor. So this is the range of my
+[01:06:38] weights. Okay. Minus 2 to + 2.0. And
+[01:06:41] this is one of the weight between this
+[01:06:43] particular range. So first of all we'll
+[01:06:45] calculate the scale. Now how we'll
+[01:06:47] calculate the scale? So we have max
+[01:06:48] value. We have a min value. Okay. Then
+[01:06:50] we have max of the range. max of this
+[01:06:53] quantized range and the minimum of the
+[01:06:54] quantiz range. So what is the maximum
+[01:06:56] value? Minus 2.0 uh sorry 2.0 2.0 minus
+[01:07:00] 2.0 okay then uh this 127 and this minus
+[01:07:05] 127. So this is the like using this
+[01:07:07] particular values we are going to be
+[01:07:08] calculate the scale. Okay. Now in the
+[01:07:11] scale max of what? Max of the weight
+[01:07:13] distribution this weight distribution
+[01:07:15] and max and min of this quantization
+[01:07:18] range. Okay. So while we'll calculate
+[01:07:21] this particular like equation we'll get
+[01:07:23] around 0.0157.
+[01:07:26] Now non0ero point basically so this is
+[01:07:29] going to be zero only as I told you in a
+[01:07:30] symmetric contization we'll keep it
+[01:07:32] zero. Now we are going to be quantized
+[01:07:34] using the formula. This is my quantise
+[01:07:35] formula. So round x divided by scale. So
+[01:07:38] this is my x 1.23.
+[01:07:41] This is the weight which I want to be
+[01:07:43] quantized 1.23. Okay. Now here what I
+[01:07:46] did I kept the scale. My scale is 0 1
+[01:07:50] 0.01575.
+[01:07:52] I'm going to be round of this value.
+[01:07:54] Okay. After the divide. So I'm getting
+[01:07:56] 78. So guys this particular number this
+[01:07:59] 1.23 I can represent in terms of this
+[01:08:02] value this 78 only. So I have a float
+[01:08:06] float. Okay float is 1.23 and I'm
+[01:08:10] getting my quantise value quantise value
+[01:08:13] which is 78. Okay. So we are able to
+[01:08:18] like reduce the precision and uh we are
+[01:08:21] able to convert our weight into this uh
+[01:08:23] integer number. I hope you understood.
+[01:08:26] So let's do one thing. Let's try to
+[01:08:27] dequantize it also. So how we can
+[01:08:29] dequantize. So deontize this is my again
+[01:08:33] I want to be converted to the actual
+[01:08:34] number actual weight. So this is my
+[01:08:36] quantise value XQ and multiply with the
+[01:08:39] scale. So 78 this is my quantise value
+[01:08:42] 78. Okay. And this is my scale. If we
+[01:08:44] are going to be multiply it we are
+[01:08:45] getting this 1.299. So what was my
+[01:08:47] actual value? This is my actual value
+[01:08:49] 1.23.
+[01:08:51] And what we are getting guys, we are
+[01:08:52] getting this value as a dequantized
+[01:08:54] one.2229.
+[01:08:56] So it is like very close to it is very
+[01:08:58] close to this actual number. This is my
+[01:09:00] actual number. And after the
+[01:09:02] dequantization we are getting this
+[01:09:04] particular number. So still there is
+[01:09:05] some difference in between. So let's
+[01:09:08] assume it's 0.001. Okay. If you're going
+[01:09:10] to be calculate the actual you can you
+[01:09:11] can like calculate it will be around to
+[01:09:13] this only. Now see this much of error we
+[01:09:15] have. This is called the quantise error.
+[01:09:17] What is the quantise error? The
+[01:09:19] difference between the actual value and
+[01:09:22] after the deontization whatever number
+[01:09:23] we are getting between that okay between
+[01:09:26] that the difference is called the
+[01:09:28] quantise error. Okay. So we'll discuss
+[01:09:30] about it. I I kept one more example
+[01:09:32] regarding it. Now let's do one thing.
+[01:09:33] Let's discuss about the asymmetric
+[01:09:35] quantization. Okay. So in the asymmetric
+[01:09:38] quantization the data is not the data is
+[01:09:41] not surround to the zero. Right? The
+[01:09:43] data is not surrounded to the zero. It
+[01:09:44] could be in any scale. So let's look
+[01:09:46] this particular example that this is a
+[01:09:47] data distribution. Okay, the tensor data
+[01:09:50] distribution. It's a weight distribution
+[01:09:52] from 0.5 to 2.5. Now guys, the center is
+[01:09:56] not zero over here. If you will see the
+[01:09:58] center is not zero. The data is not
+[01:10:00] surrounding to the zero. Okay, the
+[01:10:02] center is 1.5. How we can calculate the
+[01:10:04] center? We can calculate the average of
+[01:10:05] it. So in this case asymmetric
+[01:10:07] quantization is preferred because all
+[01:10:10] the condition is pointing to the
+[01:10:11] asymmetric quantization only. So let's
+[01:10:13] try to quantise the number. Okay. So I
+[01:10:16] have a weight. This this is a weight.
+[01:10:18] Okay. So what is the range? Range of the
+[01:10:20] weight. This is the range. Sorry, this
+[01:10:22] is the range of the weight. Okay. Means
+[01:10:24] my weight distribution in this
+[01:10:26] particular range. The minimum is 0.5 and
+[01:10:28] the maximum 2.5. In between there is
+[01:10:30] some one there is one weight. Okay. This
+[01:10:32] is 1.23. Now guys, we are going to be
+[01:10:34] quant the value. Okay. We are going to
+[01:10:36] be qu we are going to be perform the
+[01:10:39] quantization between this range 0 to
+[01:10:40] 255. This is called the unit date. Okay.
+[01:10:43] Now uh I'm going to be calculate the
+[01:10:46] range here. So range how we can do that?
+[01:10:49] There's my maximum maximum what maximum
+[01:10:52] of this weight distribution minimum of
+[01:10:53] the weight distribution 2.5 minus or 0.5
+[01:10:56] and then maximum of the contigisation
+[01:10:58] range. Okay. And minimum of the
+[01:10:59] contigisation range. So we are getting
+[01:11:00] this scale. Right? Now after that what
+[01:11:03] we'll do we'll calculate the zero point.
+[01:11:05] So there's a formula for calculating the
+[01:11:06] zero point. Right? So rounding r minimum
+[01:11:10] okay range of the weight. So range of
+[01:11:14] the minimum range of the weight the
+[01:11:16] minimum weight okay from that particular
+[01:11:19] range it is 0.5. So I'm keeping 0.5 and
+[01:11:21] then this is a scale. So 0.5 divided by
+[01:11:24] this particular value this is a scale.
+[01:11:26] So if I will round this value I will be
+[01:11:28] getting minus 64. Now here guys you can
+[01:11:31] see we have to quantize right. See we
+[01:11:34] are able to get the scale we are able to
+[01:11:35] get the zero point as well. If you will
+[01:11:37] look into the formula. So this is the
+[01:11:39] formula. So in this particular formula
+[01:11:41] what we are able to get? We are able to
+[01:11:42] get the act we already have x right we
+[01:11:45] have we have a scale guys right? We have
+[01:11:47] a zero point as well. The 0 point is -
+[01:11:49] 64. The actual weight value is what? The
+[01:11:51] actual weight value is 1.23.
+[01:11:54] Okay. And we got the scale as well. So
+[01:11:56] scale is around you can check out the
+[01:11:57] scale how much we getting. Uh it's
+[01:11:59] around 0.00
+[01:12:02] 784 right. So I can write the scale over
+[01:12:05] here. 0
+[01:12:07] 0 0
+[01:12:12] 784.
+[01:12:14] So this is my scale. Okay, I hope you
+[01:12:16] are able to get. But guys, see uh we
+[01:12:19] need to understand the clipping concept
+[01:12:20] also, right? In terms of this asymmetric
+[01:12:22] quantization. So what is this clipping
+[01:12:24] concept? So here you can see this since
+[01:12:27] the zero point cannot be negative for
+[01:12:29] united. What is the range of the united?
+[01:12:31] The range of the united from 0 to 255.
+[01:12:34] Okay. So the so the zero point cannot be
+[01:12:37] negative for the unit date. So we'll
+[01:12:39] clip it. So here is a zero point. So
+[01:12:41] what is the zero point guys? It is - 64.
+[01:12:43] Okay. So this is the formula for
+[01:12:45] clipping it. Right? So the formula is
+[01:12:47] what? Max 0. Minimum of what? 255 and
+[01:12:50] minus 64. This is my 0 point. This is
+[01:12:53] the upper range. Okay. Of the unit date.
+[01:12:55] We going to be find out minimum of it.
+[01:12:57] It is 64. Then max between this 0 and
+[01:13:00] 64. So automatically I'll get zero. So
+[01:13:02] likewise my zero point will become zero.
+[01:13:04] So this is called the clipping. Okay
+[01:13:07] clipping. If the zero point is not
+[01:13:09] coming in the range the specific range 0
+[01:13:12] to 255. So in that case we'll do the
+[01:13:15] clipping using this particular formula.
+[01:13:17] Now here guys we are going to be
+[01:13:18] quantise the number this x is equal to
+[01:13:20] 1.23. So round of this x divided by
+[01:13:23] scale plus 0 0. Now what is the number?
+[01:13:27] 1.23. This is my scale. Okay. I'm going
+[01:13:30] to be round of this number with this 0
+[01:13:32] point which we just calculated using
+[01:13:33] this clipping method. So finally we are
+[01:13:35] getting this quantise value 157. So here
+[01:13:38] guys you can see this 1.23 this float
+[01:13:41] number we are able to convert into this
+[01:13:43] one point sorry 157 right I hope you are
+[01:13:47] able to understand right. So how we did
+[01:13:49] the symmetric quantization once you will
+[01:13:50] go through with it again just try to
+[01:13:52] read it each and everything from your
+[01:13:53] end your uh understanding will be clear.
+[01:13:56] Now here guys for the dequantization the
+[01:13:59] same formula quantize value minus 0
+[01:14:01] multiply by scale. So 0 point is zero
+[01:14:04] over here because we have calculated
+[01:14:06] using the clipping method and it was not
+[01:14:08] in a range of that particular quantise
+[01:14:10] values. So we'll keep it as a zero using
+[01:14:14] that specific formula. Then here is a
+[01:14:16] scale. So after this one we are getting
+[01:14:18] this 1.23 itself. Okay. Now here you can
+[01:14:21] see the exact number we are getting.
+[01:14:23] Okay, means uh the quantiz error is zero
+[01:14:26] in between. Now let's look into the
+[01:14:28] third example. So third example is what?
+[01:14:30] Let's say we have float. Okay, this is
+[01:14:33] my weight. Here is what here is my
+[01:14:35] weight. Now we want to be quantized this
+[01:14:37] particular weight. Okay, so this is my
+[01:14:39] quantization range. In this particular
+[01:14:40] range I want to be converted. This is
+[01:14:43] the symmetric. Okay, symmetric range and
+[01:14:45] see the tensor the bit distribution is
+[01:14:47] symmetric. Now how we'll take this
+[01:14:49] particular challenge. Okay, so let's try
+[01:14:51] to do one thing. Let's try to calculate
+[01:14:52] the scale. I think we'll know how to
+[01:14:54] calculate the scale. So R minimum, R max
+[01:14:57] and minus R min. So there's a weight
+[01:14:58] distribution. So 0 2.5 is a maximum, 0.5
+[01:15:01] is a minimum. Then scale of the
+[01:15:03] quantization 1.7
+[01:15:06] minus - 1 to8. Okay. So we are getting
+[01:15:08] this scale. Now what we'll do? We'll
+[01:15:09] compute the zero point as the weight is
+[01:15:12] a now here you can see that as a weight
+[01:15:14] is a uh uneven. Okay. So this is the
+[01:15:16] uneven weight. So what we'll do guys uh
+[01:15:19] if the weight is uneven in that case
+[01:15:21] okay if the weight is uneven we'll
+[01:15:23] calculate the 0 point. So what we are
+[01:15:24] doing guys we are going to be calculate
+[01:15:25] 0 point. So r minimum 0.5 and here's a
+[01:15:28] scale. So I'm getting minus 64. Now guys
+[01:15:32] in this case you can see we getting
+[01:15:34] minus 64. Okay. What is the range of the
+[01:15:36] quantise? What is what is the range of
+[01:15:38] the quantise number? In which range
+[01:15:40] we'll get it - 1 to8 to 1 to 7. Now this
+[01:15:44] time guys the 64 is coming in this
+[01:15:46] range. Okay. Now we'll keep this 64 as
+[01:15:48] it is. So this is the formula. So here
+[01:15:50] is a like x. Okay. 1 2 1.23 this is the
+[01:15:54] scale plus - 64. So now this time we'll
+[01:15:56] keep the zero point as it is. We going
+[01:15:58] to be round of this number. Okay. And
+[01:16:00] after calculation we are getting 93. So
+[01:16:02] guys this 1.23 we are able to convert
+[01:16:05] into this 93 into this int. So from
+[01:16:08] float from float we are going to be
+[01:16:10] convert into this int. I hope you are
+[01:16:12] getting it. Okay. So here guys I kept
+[01:16:15] all the three example the different
+[01:16:17] different example the first one as you
+[01:16:19] can see uh we have so in the first one
+[01:16:22] guys we have this value 1.23 now there's
+[01:16:25] a quantization range minus 1.82 82 plus
+[01:16:28] 2.7 it's a symmetric and this weight
+[01:16:30] distribution is also symmetric so it is
+[01:16:31] pretty straightforward a zero point
+[01:16:33] would be zero automatically now for the
+[01:16:35] asymmetric if the weight distribution
+[01:16:36] and the quantiz number both are
+[01:16:38] symmetric so how to calculate the 0
+[01:16:40] point scale and all everything I shown
+[01:16:42] you now the third scenario basically
+[01:16:44] let's say if we have a uneven weights
+[01:16:46] okay 0.5 to 2.5 uneven weights and the
+[01:16:49] quantiz range is a symmetric one so how
+[01:16:51] to calculate uh this particular quantise
+[01:16:53] value I even shown you that I hope guys
+[01:16:56] uh this point uh this each and
+[01:16:58] everything is clear. Now let's try to
+[01:16:59] discuss some theoretical point. So here
+[01:17:02] I written some theorical point. Most
+[01:17:04] quantized model are use intate or input
+[01:17:06] not unit. Okay. So guys whenever we have
+[01:17:09] to perform the quantization will perform
+[01:17:11] into the symmetric range only. I hope
+[01:17:12] you are getting it. Now hardware
+[01:17:14] preferences. So all the hardware whether
+[01:17:16] it's a uh the uh inbuilt GPU from the
+[01:17:20] Intel ABX to ABX 5.2 which which I was
+[01:17:23] using the Nvidia GPUs right or ARM or
+[01:17:26] any Qualcomm chips lm GPT QAWQ all are
+[01:17:29] using this intate no one is using the
+[01:17:31] unitate so I think you got to know in
+[01:17:33] which range we have to convert our data
+[01:17:34] okay now guys a framework default so
+[01:17:37] every framework whether it's a torch
+[01:17:38] quantization framework or onx runtime
+[01:17:41] transformers etc using the symmetric
+[01:17:43] quantization only means they are going
+[01:17:45] to be converted either into the info or
+[01:17:46] in date right so in the symmetric
+[01:17:49] quantization so uh here I kept One more
+[01:17:52] even when we are using asymmetric
+[01:17:53] quantization they will still keep the
+[01:17:55] data in intate means if the weight
+[01:17:57] distribution is asymmetric it still will
+[01:17:59] map the data between the uh symmetric
+[01:18:02] range only means intate or int4 - 127 to
+[01:18:05] + 127 okay now here you can see memory
+[01:18:09] alignment and all simplicity and memory
+[01:18:10] alignment int 8 has a symmetric range as
+[01:18:13] we know zero centered activ data okay
+[01:18:16] align quantise data in memory framework
+[01:18:18] you framework whatever framework are
+[01:18:20] there GPT bits and writes use the
+[01:18:22] quantise linear algebra in rate and
+[01:18:24] input not unit rate. So guys I think you
+[01:18:27] got to know in which range we have to
+[01:18:28] map the data. So guys this second
+[01:18:30] example I just kept for you just to
+[01:18:33] showcase the calculation and all but we
+[01:18:35] are not going to be do that in a back
+[01:18:37] end. Okay always we map the value within
+[01:18:40] this symmetric range only. Even though
+[01:18:42] we have the weight distribution uneven
+[01:18:44] not surrounding to the zero but still
+[01:18:46] we'll map the value between this
+[01:18:47] symmetric range only. Okay. So yeah this
+[01:18:50] is it guys.
+[01:18:51] Now we have couple of more concept the
+[01:18:53] concept basically per tensor
+[01:18:55] quantization here you can see the next
+[01:18:57] one and per channel quantization so this
+[01:19:00] per tensor quantization and per channel
+[01:19:02] quantization we'll understand with
+[01:19:04] respect to the llm once I'll come to the
+[01:19:06] llm okay quantization error I think I
+[01:19:09] already shown you what is it it is a
+[01:19:11] difference between the uh it is
+[01:19:14] difference between what guys it is a
+[01:19:15] difference between the actual number and
+[01:19:17] the dequantization okay So let's say it
+[01:19:20] is my original number and after
+[01:19:22] performing a quantization and then we
+[01:19:24] are performing a deontization. Now so
+[01:19:26] whatever differences we are getting in
+[01:19:27] between. So the difference is called the
+[01:19:29] quantization error and what is the
+[01:19:31] calibration data and all. So again this
+[01:19:33] concept will come uh okay so once I'll
+[01:19:36] go to the different slide the next slide
+[01:19:38] again we'll learn about the calibration
+[01:19:39] data quantise error okay as well as this
+[01:19:42] per channel quantization and per tensor
+[01:19:45] quantization. So yeah uh now let's
+[01:19:48] discuss guys the type of the
+[01:19:49] quantization and then we'll move to the
+[01:19:51] practical.
+[01:19:53] Now let's discuss about the type of
+[01:19:56] quantization. So mainly we can divide
+[01:19:58] this quantization into two part. The
+[01:20:01] first is called post training
+[01:20:03] quantization which is also called PTQ.
+[01:20:06] The second is called quantize aware
+[01:20:08] training that is called QAT. Okay. I
+[01:20:11] think many time you heard about this
+[01:20:13] term but now you will get to know the
+[01:20:15] actual meaning of this term. So further
+[01:20:18] we can divide this PTQ posting
+[01:20:21] quantization into two subsection. The
+[01:20:24] first is called static PTQ. The second
+[01:20:27] is called dynamic PTQ. Okay. So I
+[01:20:30] written over here or you can clearly see
+[01:20:32] it's a PTQ. Then again we can divide
+[01:20:35] this PTQ into two main part as static
+[01:20:37] PTQ and the dynamic PTQ. And this is the
+[01:20:40] different one the quantization aware
+[01:20:42] training QA. Now what is a PTQ?
+[01:20:46] Post-raining quantization. So let's try
+[01:20:48] to read the definition of it. Definition
+[01:20:51] is saying the model has already trained.
+[01:20:53] Okay. The model has already been trained
+[01:20:55] and now we are quantizing the weight and
+[01:20:58] biases. Okay. Without the retraining. So
+[01:21:01] you can think in such a way the we we
+[01:21:03] have trained the model. The training is
+[01:21:05] completed.
+[01:21:08] Okay. The training is completed of the
+[01:21:10] model. Now after the training only
+[01:21:13] whatever weights
+[01:21:15] and biases
+[01:21:17] okay whatever weights and biases we'll
+[01:21:20] get now we are going to be quantise
+[01:21:24] those weights and biases and how we
+[01:21:26] going to quantize it. So I already shown
+[01:21:29] you the formula in my previous slide.
+[01:21:33] Okay I hope it is clear. Now guys what
+[01:21:36] does it mean? What is the meaning of the
+[01:21:38] QAT quantize aware training? So the
+[01:21:41] model is trained with the quantization
+[01:21:43] in their mind and it learns to handle
+[01:21:45] quantization during the training itself
+[01:21:47] means after the training we are not
+[01:21:50] going to do the quantization. We are
+[01:21:52] doing a quantization at the time of the
+[01:21:55] training itself. Okay. So this is the
+[01:21:59] biggest difference between the uh QAT
+[01:22:01] and the PTQ. So let's say we are going
+[01:22:03] to train the model. So my training is
+[01:22:06] going on at the time of the training
+[01:22:08] itself. We are going we are we are
+[01:22:10] performing a quantization pro process
+[01:22:13] and I think you know right what is the
+[01:22:15] quantization to convert my weight active
+[01:22:18] weight okay into the int weight. I hope
+[01:22:22] this is clear. Now I kept one analogy
+[01:22:25] and with this particular analogy you
+[01:22:26] will understand this concept in a much
+[01:22:29] better way. So read it out what I
+[01:22:32] written PTQ. Okay. So let's say we have
+[01:22:35] a player one player and uh we are going
+[01:22:38] to be trained that particular player
+[01:22:40] okay train with a perfect bat but play
+[01:22:42] with the cheap bat right so you train
+[01:22:45] with a high quality bat you can assume
+[01:22:48] that is your float do weights but guys
+[01:22:50] in a match you are suddenly gave him a
+[01:22:52] gave him a plastic vat that is intate so
+[01:22:55] he might still perform okay but maybe
+[01:22:57] not perfect so he never practice with
+[01:22:59] this he never practice with this weight
+[01:23:02] so that's why guys uh In PTQ if PTQ
+[01:23:05] means what? Post training quantization.
+[01:23:08] So in PTQ guys we will see the slight
+[01:23:12] we will see the slight accuracy drop.
+[01:23:15] Okay we're going to be convert our F
+[01:23:17] weight into the intate after the
+[01:23:19] training and on top of this in weight we
+[01:23:21] are going to perform the inferencing.
+[01:23:23] Okay, if we are going to perform the
+[01:23:26] inferencing, so we'll see the slight
+[01:23:29] drop. Slight
+[01:23:32] accuracy
+[01:23:34] slight accuracy drop. Okay, I hope
+[01:23:37] you're getting my point what I'm trying
+[01:23:39] to say. Now the second analogy you can
+[01:23:41] see. So we are training a we are
+[01:23:43] training a particular player, right? So
+[01:23:44] training and play with the same bet,
+[01:23:46] same cheap bet. So you train the player
+[01:23:49] from day one itself from the exact bet,
+[01:23:51] the plastic bat, okay? Okay, that is
+[01:23:53] your intent. Now he learns how to play
+[01:23:55] with that weight with the with some
+[01:23:57] limitations. So guys, uh he will give
+[01:24:00] the more consistent performance. Getting
+[01:24:03] my point? So PTQ
+[01:24:06] we'll see some slight drop in the
+[01:24:09] accuracy. So you can try QA as well. QA
+[01:24:12] means at the time of the training we're
+[01:24:14] going to perform the quantization.
+[01:24:16] We sometime we don't prefer this
+[01:24:18] approach because it's a like expensive
+[01:24:20] and a little harder as well. We already
+[01:24:23] go with this particular approach and uh
+[01:24:25] if we don't have major accuracy drop in
+[01:24:28] that case we can adopt it otherwise uh
+[01:24:30] this is one of the approach where we can
+[01:24:32] train the model itself on top of the
+[01:24:35] quantiz okay on the fly we can perform
+[01:24:37] the quantization. I hope you understood.
+[01:24:40] Now uh there is one more thing you will
+[01:24:42] find out uh the calibration data. Okay,
+[01:24:45] many more time you will hear about this
+[01:24:46] term the calibration data calibration
+[01:24:48] data mainly in terms of the QAT
+[01:24:52] quantise aware training so what it does
+[01:24:54] so quantization calibration data is
+[01:24:56] nothing it's just some sample input data
+[01:24:59] using this particular data you are going
+[01:25:00] to be calculate the activation range
+[01:25:02] okay you know what is the activation uh
+[01:25:04] activation value so we have a weights
+[01:25:07] this weights is going to be multiply
+[01:25:09] with the input okay so this weight is
+[01:25:12] going to be multiply with what this
+[01:25:14] weight is going to we multiply with
+[01:25:15] input then we are passing it to the
+[01:25:17] activation function okay then we would
+[01:25:20] be having summation in all right with
+[01:25:22] respect to different different node
+[01:25:23] weights uh and and all I think we know
+[01:25:26] about those calculation but this is a
+[01:25:28] simple simplest explanation of the
+[01:25:30] activation value so we have a weight we
+[01:25:31] are going to be multiply with the input
+[01:25:33] the dot product and then we are going to
+[01:25:35] be pass it from the activation function
+[01:25:37] now whatever output we'll get so this
+[01:25:39] particular output is called the
+[01:25:40] activation value right so just to check
+[01:25:43] the activation range change we pass or
+[01:25:46] we we we like train our model on some
+[01:25:48] sample input. So that that particular
+[01:25:50] input is called that particular sample
+[01:25:51] data is called the calibration data. So
+[01:25:53] calibrated calibration data just dummy
+[01:25:56] input used to find out the range of the
+[01:25:59] activation value. That's it guys. Okay.
+[01:26:01] So let's say your model hidden layer
+[01:26:03] gives value this muchus 3.5 to + 5.7.
+[01:26:08] Now you will use this range to map it
+[01:26:09] with the int format. So this is your
+[01:26:12] activation value which you're getting.
+[01:26:13] This is your like range range of your
+[01:26:15] activation value. Now further you will
+[01:26:17] uh what you will do guys you will uh
+[01:26:20] further you will map it to this
+[01:26:21] quantized range okay to this minus 128
+[01:26:23] to plus 137. Now this particular range
+[01:26:26] how you get this particular range the
+[01:26:27] activation value you have trained your
+[01:26:29] model on some sample input data right.
+[01:26:33] So this are differences uh between the
+[01:26:36] PTQ and Q. Let's try to see the
+[01:26:37] differences. So when it is applied uh
+[01:26:40] when we can apply this uh PTQ after the
+[01:26:43] model training now QA during the
+[01:26:45] training okay what it does so quantize
+[01:26:47] the weight and activation after the
+[01:26:49] training and it simulate the
+[01:26:50] quantization using the during the
+[01:26:52] training itself. Now what model learning
+[01:26:55] aware? No model is not aware about those
+[01:26:56] weight because it never show the ined
+[01:26:58] weight. So there might be some slightly
+[01:27:00] there might be some like accuracy drop
+[01:27:03] in the during the inferencing. Now yes
+[01:27:06] model is aware about those weight. It
+[01:27:08] has uh it has seen those weight during
+[01:27:10] the training. So there might be less
+[01:27:12] error. Accuracy impact slightly
+[01:27:14] accurate. Okay. Slightly accuracy drop.
+[01:27:15] Minimal accuracy drop or sometime no
+[01:27:17] accuracy drop. Use case for fast
+[01:27:20] compression after the training for
+[01:27:22] production grade quantization. Right.
+[01:27:24] Example edge devices and all. So
+[01:27:25] whatever model we are going to be
+[01:27:26] deploying the edge devices at at those
+[01:27:29] model we are going to be use this quiet
+[01:27:31] technique only. Right. Uh now training
+[01:27:33] time no training time needed because we
+[01:27:35] are just going to be uh convert the
+[01:27:36] weight and we are doing an inferencing
+[01:27:38] there is no training time involved we
+[01:27:39] have already trained the model. Now here
+[01:27:41] what we are doing guys we are going to
+[01:27:42] be retrain the model on the quant for
+[01:27:44] the quantization.
+[01:27:46] Okay so we have FP32 numbers and then
+[01:27:49] whenever we are performing a training of
+[01:27:50] the model so at that time itself we are
+[01:27:52] converting my FP32 to intate right. So
+[01:27:55] at that time this training would be
+[01:27:57] required. Now toolkit so torch
+[01:27:59] quantization or convert gptq bits and
+[01:28:02] bytes all is supporting to this pdq and
+[01:28:05] even uh like uh to this quad so prepare
+[01:28:08] quad auto quad tensor RT quad so this
+[01:28:11] library are supporting to this quad okay
+[01:28:13] I'll show you the practical you know
+[01:28:14] don't worry complexity wise easy to
+[01:28:16] implement it is like little more complex
+[01:28:18] because we'll have to generate a fake
+[01:28:19] quant uh we'll have to do the training
+[01:28:21] and all okay so this each and everything
+[01:28:23] is involved over here I hope guys you
+[01:28:26] understood the differences between the
+[01:28:28] PTQ with some example analogy and the
+[01:28:31] table also I shown. Now coming to the
+[01:28:34] next part so whenever we talk about the
+[01:28:37] float 32 right if we have trained any
+[01:28:39] model with float 32 it's a full
+[01:28:40] procedure right so it predicts like this
+[01:28:43] 3.56 1.82 so this is my final value now
+[01:28:46] if we're talking about the PTQ guys so
+[01:28:48] it will convert this value into 8 so
+[01:28:49] 3.56 into this three and this 1.82 82
+[01:28:52] into this two and this is my approx
+[01:28:54] number. Now we're talking about the
+[01:28:56] quiet. So in the quiet also we are going
+[01:28:58] to be simulate like this only. So 3.5
+[01:29:00] will convert to three 1.82 will convert
+[01:29:02] into two and this is my value. So this
+[01:29:04] is the value from the highest precision
+[01:29:06] after adding two weights. Okay this is
+[01:29:09] from the PTQ and similar to that we'll
+[01:29:11] get in a QA means
+[01:29:14] uh it could be better in QA in terms of
+[01:29:16] the real-time example but this is just
+[01:29:17] the example which I shown. Now coming to
+[01:29:19] the next part. So uh training needed no
+[01:29:23] in PTQ it is not needed in Q it is
+[01:29:25] needed accuracy as I shown you like it's
+[01:29:28] a little drop it's a like slightly more
+[01:29:31] drop it's a minimal drop speed very fast
+[01:29:34] slower okay easy to use easy it is
+[01:29:38] moderate to hard because training and
+[01:29:39] all will be required then deployment of
+[01:29:41] the model activation quant optional or
+[01:29:43] estimated accurate right so here we are
+[01:29:46] going not going to be quantize the
+[01:29:48] activation value I'll talk about it it
+[01:29:50] comes under static and the dynamic
+[01:29:51] quantization. Okay. When we have to
+[01:29:52] quantize their activation value. So we
+[01:29:54] already we have categorized into two
+[01:29:56] more subsection uh dynamic and the
+[01:29:58] static. So there we'll discuss about it.
+[01:30:00] Okay. So accurate and learn means here
+[01:30:02] we are going to be quantise the
+[01:30:04] activation value as well. Real intake
+[01:30:06] back end. Yes after the convert we'll
+[01:30:07] take that. Yes after the convert we'll
+[01:30:09] take the real intake value toolkit using
+[01:30:11] the torch quantise. We can do that.
+[01:30:14] Okay. GBTQNB and all everything I
+[01:30:16] already discussed. Now in which scenario
+[01:30:18] we need to use in which scenario we need
+[01:30:21] to use this PTQ or quad. So compress
+[01:30:24] model for faster instancing use the PTQ.
+[01:30:27] Deploy an edge devices model for the
+[01:30:28] higher accuracy use quad. Need quick
+[01:30:31] model size deduction use PTQ. You are
+[01:30:33] training from a scratch or fine-tuning
+[01:30:35] use qu okay LLM inferencing only. So if
+[01:30:39] you already have a model that train LLM
+[01:30:41] model you can use this PTQ. And there is
+[01:30:43] a specific type of PTQ which is called
+[01:30:45] GPTQ. Okay. GPTQ gradient post training
+[01:30:48] quantization
+[01:30:50] GPT for the for the LM GPT post training
+[01:30:53] quantization and AWQ quantize aware
+[01:30:56] training okay activation aware
+[01:30:58] quantization so this we'll discuss with
+[01:31:01] respect to LLM don't worry in the
+[01:31:02] upcoming session or in the upcoming
+[01:31:04] slide I'll show you that now what
+[01:31:06] happens inside the model we're talking
+[01:31:08] about the model guys see there are
+[01:31:10] couple of more thing which we need to
+[01:31:11] discuss couple of like more table and
+[01:31:13] all which I cap just to enhance your
+[01:31:16] knowledge Okay, because we have to
+[01:31:17] discuss the static and the dynamic
+[01:31:18] quantization. Now I'll discuss till here
+[01:31:21] guys and rest of the thetical point you
+[01:31:23] can learn from your end. So here if you
+[01:31:26] will see so what happen inside the
+[01:31:28] model. So we're talking about the model
+[01:31:29] guys. So we have weights and biases.
+[01:31:31] Okay. So these are the learnable
+[01:31:33] parameter of the model as I told you
+[01:31:36] activation value these are the output
+[01:31:38] from the each header layer after
+[01:31:39] applying the activation function. As I
+[01:31:41] already told you forward pass the input
+[01:31:43] passes through the layers produce
+[01:31:45] output. This is what happened during the
+[01:31:47] inferencing right only we perform the
+[01:31:49] forward pass backward pass basically
+[01:31:51] gradient are calculating using the
+[01:31:52] optimizer the weight is getting updated
+[01:31:55] this only happens during the training
+[01:31:57] okay I think you know about the model
+[01:32:00] training inferencing and all right so
+[01:32:02] this all comes in the basic
+[01:32:04] understanding of any sort of a AI model
+[01:32:07] okay ANN RNN LSTM transformer and all
+[01:32:10] now here guys when talking about the PTQ
+[01:32:13] so this PTQ we can divide into two main
+[01:32:15] part. The first is called a static PTQ.
+[01:32:17] Second is called the dynamic PTQ. Now in
+[01:32:19] the dynamic PT sorry in the static PTQ
+[01:32:22] we are going to be quantized weight as
+[01:32:23] well as the activation value as well.
+[01:32:25] But if we're talking about the dynamic
+[01:32:26] PTQ in that we are just going to be
+[01:32:28] quantized the weight. Okay. Now if we're
+[01:32:30] talking about the static PTQ posting
+[01:32:32] quantization so we are going to be
+[01:32:34] quantise of weight as well as the
+[01:32:35] activation. Here the calibration data
+[01:32:37] would be required. Now why this
+[01:32:38] calibration data would be required?
+[01:32:40] Because we have to get the activation
+[01:32:42] range. Okay. Now common name common name
+[01:32:45] of it it is called the static
+[01:32:46] quantization. Now common name of it it
+[01:32:48] is called the dynamic quantization. Now
+[01:32:49] see if you have a static PTQ in that
+[01:32:52] case we have to quantize a weight
+[01:32:53] activation. We require the calibration
+[01:32:55] data to check out the range of the
+[01:32:56] activation the some uh input data. Uh
+[01:32:59] now here the name common name is the
+[01:33:01] static quantization. Now dynamic PTQ
+[01:33:02] dynamic post post training quantization.
+[01:33:04] So we're just going to be quantized the
+[01:33:06] weight value here calibration data will
+[01:33:08] not be required. Okay. And it is called
+[01:33:09] the dynamic quantization. I think you
+[01:33:11] understood the scenario right you
+[01:33:13] understood the meaning of the static and
+[01:33:14] the dynamic quantization posting
+[01:33:16] quantization so normal or partial post
+[01:33:20] training quantization uh where we are
+[01:33:23] going to be quantize the weight only
+[01:33:25] okay so if if I'm saying dynamic
+[01:33:27] quantization so dynamic quantization is
+[01:33:29] also called the normal PTQ or the
+[01:33:31] partial PTQ a static PTQ activation plus
+[01:33:35] weight both we are going to be quantized
+[01:33:37] okay so this is called the specific
+[01:33:39] special case of the dynamic Post-turning
+[01:33:41] quantization which is a a static
+[01:33:43] quantization. Okay. Now dynamic
+[01:33:45] quantization no calibration data weight
+[01:33:47] are pre-quantized. Okay. But activation
+[01:33:49] are quantized. So activation are
+[01:33:52] quantized. So here guys we are just
+[01:33:54] going to be quantize the weights only.
+[01:33:57] Okay not a activation directly. We'll uh
+[01:34:01] we'll talk about this activation on the
+[01:34:02] fly. We'll discuss onto it. But as of
+[01:34:04] now you just need to be remember this
+[01:34:06] particular table. Right. Temporarily
+[01:34:08] during the inferencing time. See here I
+[01:34:10] mentioned now weight are pre-quontised
+[01:34:12] but activation are quantized temporarily
+[01:34:15] during the inferencing time on the fly
+[01:34:17] not permanently. So no calibration data
+[01:34:19] will be required getting my point. So
+[01:34:21] only weight will be quantized activation
+[01:34:23] will quantise on the fly during the
+[01:34:25] inferencing only on the fly and this is
+[01:34:27] just the temporary one. Okay not the uh
+[01:34:30] mandatory or sorry not the uh basically
+[01:34:34] uh actual one temporary one. Okay. Now
+[01:34:37] here quiet so training time per qu
+[01:34:39] contisation practice means at the time
+[01:34:41] of the training we are going to be
+[01:34:42] perform the quantization. I hope guys
+[01:34:44] you understood this entire thing. Now
+[01:34:46] let's look into some more table. So more
+[01:34:48] detail. So we're talking about the PTQ
+[01:34:50] static. Okay. So PTQ static means
+[01:34:52] quantize the weight. Yes. Quantise Y is
+[01:34:54] yes. Quantise activation function yes.
+[01:34:56] Need calibration data? Yes. Plaining is
+[01:34:58] involved. No. Okay. PTQ dynamic quantise
+[01:35:01] weight. Yes. Quantise Ys yes. Activation
+[01:35:03] quantise no. Calibration data no
+[01:35:06] training is involved no QA quantization
+[01:35:08] weight yes quantise bias yes quantiz
+[01:35:11] activation yes calibration data no
+[01:35:13] training is involved yes okay so I hope
+[01:35:15] you are unable to understand this
+[01:35:17] particular thing as well now the first
+[01:35:18] point which I told you normal or partial
+[01:35:21] posting quantization so this is also
+[01:35:23] called the dynamic postending
+[01:35:24] quantization okay it is a like sometime
+[01:35:26] we call dynamic posting quantization as
+[01:35:28] a normal or partial posting quantization
+[01:35:31] only okay now here guys you can see one
+[01:35:34] more table with that your understanding
+[01:35:36] will be bit more clear. So we have a
+[01:35:38] weight let's say dynamic contisation is
+[01:35:40] there. So intate now static contisation
+[01:35:42] intate right activation quantize on the
+[01:35:44] fly. Okay we are not going to be
+[01:35:45] quantized permanently on the fly during
+[01:35:47] the inferencing only it will be
+[01:35:49] quantized and we're going to use that
+[01:35:50] particular value. So here quantise
+[01:35:52] before and using the calibration data
+[01:35:54] right now calibration no required it is
+[01:35:56] required accuracy moderate it is better
+[01:35:59] speed fast and faster. Okay. Now here I
+[01:36:01] kept a couple of more theorical point
+[01:36:03] guys. for sure you can read it out uh
+[01:36:05] the complete detail and all. So this
+[01:36:06] notes I'll provide you now once I will
+[01:36:08] show you the practical with that your uh
+[01:36:11] practical knowledge will be bit more
+[01:36:13] stronger so each and everything whatever
+[01:36:14] I explain in terms of the table. So this
+[01:36:16] is a complete summary of it the further
+[01:36:18] summary. Okay. Once you will read it out
+[01:36:20] guys from your end this is my notes I
+[01:36:21] created I generated I thought about it
+[01:36:24] right in a very structured manner and
+[01:36:26] please uh read it out and you will get
+[01:36:28] some good understanding with respect to
+[01:36:30] the dynamic static quantization but this
+[01:36:33] much of information is sufficient to
+[01:36:35] perform the practical and all and even
+[01:36:37] to understand the summary of the entire
+[01:36:40] tables and all. Okay. Now uh come to the
+[01:36:43] next part guys. The next part is going
+[01:36:45] to be a practical itself. Okay.
+[01:36:48] Now guys, uh it's time to perform some
+[01:36:51] practical. So here we'll see PTQ post
+[01:36:54] training quantization as well as QAT
+[01:36:56] quantize aware training. In PTQ we are
+[01:36:59] going to cover both type. First is the
+[01:37:02] dynamic PTQ and second is the static
+[01:37:05] PTQ. So this dynamic PTQ is nothing.
+[01:37:08] It's a PTQ only mean by default PTQ is
+[01:37:11] only called the dynamic PTQ. Okay. there
+[01:37:13] we are just going to be quantize the
+[01:37:16] weight okay first we'll train the model
+[01:37:18] and then we'll quantize the weight of it
+[01:37:21] so guys uh we're talking about the model
+[01:37:23] so here I'm taking simple artificial
+[01:37:27] neural network model now after showing
+[01:37:29] you this basic example we'll move to the
+[01:37:32] advanced example using some lms okay
+[01:37:35] we'll discuss about the GPTQ
+[01:37:38] uh AWQ okay GG GGML then GGUF format and
+[01:37:43] we'll see the in like the practical and
+[01:37:46] all okay don't worry about it now uh
+[01:37:48] let's uh see what I have written over
+[01:37:50] here what kind of code basically I
+[01:37:52] written so first we are going to be
+[01:37:55] discuss about the PTQ as I said then PTQ
+[01:37:57] dynamic means the PTQ itself is a PTQ
+[01:38:01] dynamic by default so we are going to be
+[01:38:03] quantize the weight after the training
+[01:38:06] without retraining or without any
+[01:38:07] calibration data weight quantize
+[01:38:10] manually means we are going to be
+[01:38:12] convert the weight into intate okay and
+[01:38:15] we have two techniques over here I'll
+[01:38:17] show you both once one is a inbuilt
+[01:38:20] technique okay mean using the torch
+[01:38:23] library I'll show you and the second is
+[01:38:24] a manual one so in manual one what we do
+[01:38:27] we first we quantize the first what we
+[01:38:30] do guys we quantize the weight then we
+[01:38:32] dequantize a weight okay now after the
+[01:38:34] deontization we find out the
+[01:38:36] quantization error between the original
+[01:38:38] weight and the deontized weight okay and
+[01:38:40] based on that only we said the accuracy
+[01:38:43] we talk about the accuracy of the model
+[01:38:44] right so this is called the quantization
+[01:38:46] simulation okay I'll talk about it first
+[01:38:49] I'll show you with the torch right how
+[01:38:50] to perform this dynamic quantization how
+[01:38:53] to just how how to simply contise the uh
+[01:38:55] thisn weights right so uh now see first
+[01:39:00] I'm going to be load some library I have
+[01:39:02] this torch then torch neural network
+[01:39:05] then I have a to functional this is for
+[01:39:08] the activation function then uh I have
+[01:39:10] make moves so I'm going to be take some
+[01:39:12] data. Okay. So this is the data which
+[01:39:14] I'm taking from the SQL itself. It's a
+[01:39:16] pre-built data inbuilt data. Then I have
+[01:39:19] the model train test split. Then
+[01:39:20] standard scaler then mattplot lab for
+[01:39:22] plotting the data and then numpy. So let
+[01:39:25] me execute it. And before the execution
+[01:39:27] let me set my runtime. It should be on
+[01:39:29] GPU. Okay. Please select the GPU then
+[01:39:31] save it and uh then connect it. Right.
+[01:39:34] So uh after connecting you can execute
+[01:39:36] this library. You can uh check whether
+[01:39:39] you are able to import it or not. Now
+[01:39:41] after this one guys what I will do I'll
+[01:39:43] load the data. So yes I loaded data over
+[01:39:46] here. Now uh here I'll check the data.
+[01:39:48] So in that we have two uh columns only.
+[01:39:52] Okay. Now see the shape of the data. We
+[01:39:54] have 5,000
+[01:39:56] uh we have 5,000 rows in total. Then if
+[01:39:58] you are going to be visualize the data
+[01:40:00] so it will look like this. So it is
+[01:40:02] creating a moon kind of shape half moon.
+[01:40:05] Okay. So this is the one class blue is a
+[01:40:07] one class and this red is another class.
+[01:40:09] We have this is a binary classification
+[01:40:11] data and it is creating a moon kind of
+[01:40:13] shape. Okay, that's why that's why it is
+[01:40:16] the data name is make mode, right? This
+[01:40:18] one we have semi different different
+[01:40:20] classes. We have different different
+[01:40:23] classes in a skarn just to get some
+[01:40:26] dummy data. Okay, this is one of them.
+[01:40:28] Now what we'll do? We'll uh scale the
+[01:40:30] data so that my training could be
+[01:40:32] faster. Okay, so here I'm performing the
+[01:40:35] standard scala. I think this is a very
+[01:40:37] common practice in a machine learning
+[01:40:39] model. So we are doing same for the
+[01:40:40] artificial neural network also. So first
+[01:40:43] we'll scale the data, normalize the data
+[01:40:45] and then we'll
+[01:40:47] pass it to the toss.tensor. We are going
+[01:40:49] to be convert the normal array into the
+[01:40:51] tensors because we are working with the
+[01:40:53] pyos library and for py library we
+[01:40:55] require the tensor. Now we are going to
+[01:40:57] be convert my y also into the tensor. So
+[01:40:59] I have both tensor now x and y tensor.
+[01:41:02] Okay. Now I'm going to be split the
+[01:41:03] data. So I'm passing it to the train
+[01:41:05] test split. Now here is my x, here is my
+[01:41:07] y, here is my test ratio. How much data
+[01:41:09] I want for the testing. So guys I want
+[01:41:11] 20% of the for the test three then
+[01:41:14] random state is 42. Okay. So you can
+[01:41:16] mention any random state for this
+[01:41:18] particular state the all the data will
+[01:41:20] always be same. Okay. Again and again if
+[01:41:22] you are going to be executed we don't we
+[01:41:24] will not get a random sample. We'll get
+[01:41:26] the same data for this particular
+[01:41:28] number. Right? So we have this X train X
+[01:41:30] test Y train by test. So this is my
+[01:41:32] model. So I took some little huge model.
+[01:41:36] So see I create a little big model. So
+[01:41:39] in that how many layers we have? we have
+[01:41:40] five layers. Okay, six hidden layer. So
+[01:41:43] this is my input layer means I have
+[01:41:46] basically two inputs and uh then see
+[01:41:49] this is the first hidden layer. Then
+[01:41:51] this is the second layer. Then this is
+[01:41:52] the third layer, fourth layer, fifth
+[01:41:54] layer, sixth layer and this is my output
+[01:41:56] layer. Okay, so I have six hidden layer
+[01:41:58] in total and this is my forward
+[01:42:01] propagation. We are going to be
+[01:42:02] calculate activation value. Okay, during
+[01:42:04] the forward propagation and finally
+[01:42:06] we'll calculate a loss and all uh after
+[01:42:08] the output layer. Okay. So it's my
+[01:42:11] complete neural network. I given a name
+[01:42:13] uh the big NLP. Okay. This is a class
+[01:42:16] which I created. I inherited this NN
+[01:42:19] module right. So using this one I'm able
+[01:42:21] to create my neural network over here.
+[01:42:23] Now uh I'm creating object of it. So my
+[01:42:26] big NLP is ready. Now what I will do
+[01:42:28] guys I'll initialize my uh so I I can
+[01:42:30] check my parameter. You can simply run
+[01:42:32] this model FP230. Sorry uh this is your
+[01:42:36] model name. I forgot to say you. So this
+[01:42:38] is my model name guys. What I will do?
+[01:42:40] So uh what I will do I will call this
+[01:42:42] parameter on top of it. So once I'll
+[01:42:44] call the parameter I'll get this object.
+[01:42:46] I can simply iterate on top of it. I'll
+[01:42:47] show you how to iterate and how to get
+[01:42:49] the details out of it. Okay. Now here
+[01:42:51] I'm going to define my optimizer. Now
+[01:42:52] this is a loss function. Right? And now
+[01:42:55] what I'm doing guys I'm running epoch.
+[01:42:57] How many epochs I'm running? I'm running
+[01:42:58] 2,000 epoch. So first I'm training my
+[01:43:01] model. Then after training it guys, what
+[01:43:03] I will do? I'll get output. So I will
+[01:43:05] get a loss. Okay. after getting output.
+[01:43:07] See uh first I'll uh I will uh I will
+[01:43:10] basically start the training process. So
+[01:43:13] to start the training process I need to
+[01:43:14] call this method train method. Then I'll
+[01:43:16] call this optimizer dot zero grid. Okay.
+[01:43:20] So means we are uh we have initiated the
+[01:43:22] optimizer. Then here is my model model
+[01:43:24] FP2 FP32 and I'm passing my data. So I
+[01:43:28] will get my output after the forward
+[01:43:30] propagation. Okay. Now I'm calculating a
+[01:43:32] loss. Now after calculating a loss guys
+[01:43:34] what I will do I will do the back back
+[01:43:36] propagation and during the back
+[01:43:37] propagation I required the optimizer for
+[01:43:39] updating a weight. Okay. Now uh at every
+[01:43:43] 500 epoch I'll get my loss. Okay. How
+[01:43:45] much loss I'm get generating? How much
+[01:43:47] loss I'm getting during this training.
+[01:43:49] So let me execute it and let me check uh
+[01:43:51] what I'm getting. So see at epoch zero
+[01:43:53] we have this much of loss. Epoch 500 the
+[01:43:56] loss is decreasing. epoch 10 1,000 the
+[01:44:00] loss is little more decreased than epoch
+[01:44:02] 100 1,500 I'm getting very less loss
+[01:44:06] okay very minimum loss so my training is
+[01:44:09] perfect so I I I train my model now what
+[01:44:11] I will do guys after training a model so
+[01:44:14] here what I will check the accuracy so
+[01:44:17] I'll pass my data model and I'll pass x
+[01:44:19] and y this is my testing data okay and
+[01:44:22] then here I'm calling toss no grade
+[01:44:24] means we are test training is not
+[01:44:27] required. Uh if the training is not
+[01:44:29] required, we will simply write over here
+[01:44:31] with toss dot nograde. Okay, model.e
+[01:44:34] means what? We are keeping our model on
+[01:44:35] evolution stage. Now we the evolution
+[01:44:37] will be started. So see before uh
+[01:44:40] training the model I can change the
+[01:44:42] state of my model. I kept it for
+[01:44:43] training. Now before evaluation before
+[01:44:47] evaluating it I kept my model st to the
+[01:44:49] evaluation with this model. So with
+[01:44:52] torch do no grade okay I I'm not going
+[01:44:55] to be perform the training I'll pass the
+[01:44:57] x okay this test data to my model I'll
+[01:44:59] get a prediction then if the prediction
+[01:45:01] is more than 0.5 okay so that is going
+[01:45:04] to be one otherwise rest of the value is
+[01:45:06] going to be zero so here I kept the
+[01:45:07] complete explanation as you can see in
+[01:45:09] the cell so let me come to that so let's
+[01:45:12] say I'm getting this particular
+[01:45:13] prediction uh 0.91 0.23 0.66 66. So it
+[01:45:17] is not usable. This is a softmax value.
+[01:45:19] It is a soft value. Okay. Now uh we are
+[01:45:22] going to be converted into this one and
+[01:45:24] zeros. So if it is more than 0.5 we are
+[01:45:26] going to be converted to the one. If it
+[01:45:28] is 0 less than 0.5 we are keeping it
+[01:45:30] zero. Okay. 0.6. So we are keeping it
+[01:45:33] one only. So see over here the predicted
+[01:45:36] predicts is equal to y gives a tensor of
+[01:45:38] true false cast to float one or zero.
+[01:45:41] Okay. So we are going to be basically
+[01:45:43] convert our soft max probability into
+[01:45:45] ones and zero. Uh and I think so you are
+[01:45:47] already aware about this particular
+[01:45:49] thing. So I created I created this
+[01:45:51] function accuracy function. I'm calling
+[01:45:53] it with my data. So model would be there
+[01:45:54] x test and y test would be there and see
+[01:45:56] the accuracy. So how much accuracy I'm
+[01:45:58] getting guys I'm getting 0.9700
+[01:46:01] something like that. Okay. So this is my
+[01:46:02] accuracy. Now what I will do guys I'll
+[01:46:04] quantize my model. So this is the
+[01:46:06] dynamic quantization. So for quantizing
+[01:46:08] my models what I will do? I'll take this
+[01:46:11] uh uh I'll take this import statement.
+[01:46:13] So I'm going to be import this class
+[01:46:15] from uh torch itself. So I'm calling
+[01:46:18] torch dot quantization import quantize
+[01:46:21] dynamic. Okay. So I'm going to be import
+[01:46:23] this method quantize dynamic. Now what I
+[01:46:25] will do after quant after importing this
+[01:46:27] quantize dynamic. So I'm passing some
+[01:46:30] parameter. So model first I'm passing my
+[01:46:32] model original FP2 FP32 model means
+[01:46:35] whatever weights are there whatever
+[01:46:37] weights we have trained over here the
+[01:46:39] size the data type of those weight is
+[01:46:42] FP32 okay and the size of the per bit
+[01:46:45] around 4 byt because FP32 is taking four
+[01:46:49] by memory in the uh in the RAM okay so
+[01:46:52] here is my model here is my neural
+[01:46:55] nlinear to which layer we want to be
+[01:46:58] quanti so we just want to be we just
+[01:47:00] want to perform the we just want to be
+[01:47:02] quantise the weight only that's why I'm
+[01:47:04] passing this NN dot layer bias will be
+[01:47:06] by default over here then D types okay
+[01:47:08] in which data type you want to be
+[01:47:10] quantiz so we want to be converted into
+[01:47:11] the intate okay so once I will execute
+[01:47:14] it guys so my model quantization will be
+[01:47:16] started it might take some time at first
+[01:47:18] place it is saying quantise dynamics is
+[01:47:20] not defined means I haven't imported
+[01:47:21] this particular module so once I will
+[01:47:23] import this module now if I will execute
+[01:47:25] it again so maybe I will be able to get
+[01:47:27] a quantise model yes so my quantise
+[01:47:29] model is here. Now what I can do guys, I
+[01:47:31] can perform I can check the accuracy of
+[01:47:33] this quantized model. Okay, so see guys,
+[01:47:35] this is the quantized model. Okay, we
+[01:47:36] have quantized it to the int 8. See all
+[01:47:40] the weight all the weight is quantized
+[01:47:42] to the int 8. Now what I will do? I'll
+[01:47:44] check the accuracy. So I'll pass my
+[01:47:46] model int 8. I will pass my x test and y
+[01:47:48] test. Let's check the accuracy drop. So
+[01:47:51] if I'm going to be executed over here,
+[01:47:53] see the accuracy is around same. Okay,
+[01:47:55] because uh see it we are we getting
+[01:47:57] almost same accuracy over here. Why we
+[01:47:59] are getting a same? Because guys this
+[01:48:01] model is not very huge. Okay, if you
+[01:48:04] will check with the model. So this model
+[01:48:06] is not very huge. It's it's fine. It's
+[01:48:07] okay. Okay, right. We just have like
+[01:48:09] hardly thousand to 2,000 parameter over
+[01:48:12] here. Okay, we don't have basically uh
+[01:48:15] not 2,000 I think more than that. Right?
+[01:48:17] So we are hardly having 10 to 20,000 of
+[01:48:19] parameter estimated one. Uh so yeah this
+[01:48:22] model is not very huge. You can test it
+[01:48:24] out with a huge model. In that case you
+[01:48:27] will find out slightly accuracy drop.
+[01:48:29] Now uh what we can do see this is the
+[01:48:31] accuracy from the int model. Okay it is
+[01:48:34] almost same as I'm as I'm telling you
+[01:48:37] like if we we are taking a small model a
+[01:48:39] small ANN and all or intermediate
+[01:48:43] ANN. So in that case also we won't be
+[01:48:45] able to discriminate with this
+[01:48:46] particular function this uh
+[01:48:48] function which we have used from the
+[01:48:50] torch itself. Okay. So what we'll have
+[01:48:52] to do we'll have to take some huge
+[01:48:53] models. Okay. on top of it for sure is
+[01:48:56] going to be work. Now what we what we'll
+[01:48:58] do guys? So here I'll check. Okay. So
+[01:49:00] this is the function quantize dynamic.
+[01:49:02] It's a inbuilt function of the torch.
+[01:49:04] Right. So now what I will do guys I I
+[01:49:06] I'll save this model. So first I'm going
+[01:49:08] to be save this model fp32. PT. Okay.
+[01:49:11] First I'm going to be save this model
+[01:49:13] appp32 pt. Then I'm saving this model
+[01:49:16] dynamic int8. Pt. Okay. So both model
+[01:49:19] I'm going to be save here. So here is
+[01:49:22] model app 32 state dict it will give me
+[01:49:25] the dictionary uh you will find out what
+[01:49:28] you will find out guys you'll find out
+[01:49:29] the weights and biases everything I
+[01:49:31] think in the form of dictionary only so
+[01:49:33] you can check out yeah so this is the
+[01:49:35] weights and biases everything with
+[01:49:36] respect to every sort of a tensor okay
+[01:49:38] now uh you can check out with this one
+[01:49:40] also with the int so you will find out
+[01:49:42] the different value of the weights and
+[01:49:43] biases not in decimal basically you will
+[01:49:46] find out in nondescim okay in a integer
+[01:49:50] so let me take this particular line And
+[01:49:52] here I'm going to paste it down. So just
+[01:49:54] look into the weights. Um so this is the
+[01:49:56] weights guys. Okay, this is the weights.
+[01:49:58] Uh it's going to be convert. Okay, I
+[01:50:01] think it's going to be deontize right.
+[01:50:03] That's why we are getting like this. So
+[01:50:06] uh this is the weights and biases guys.
+[01:50:08] You can see with respect to this
+[01:50:09] particular model. Now what I will do?
+[01:50:12] Okay. So here see everything is showing
+[01:50:15] you this quantization uh scheme torch
+[01:50:19] per tensor effen scale is going to be
+[01:50:22] this one. Okay, 0 point is this. Right
+[01:50:25] now guys, what I will do? So here
+[01:50:28] I'm going to be save this model. So once
+[01:50:31] I will save it guys, I'll check the size
+[01:50:32] of it. How much uh memory is going to be
+[01:50:34] occupied. So let me execute it and see
+[01:50:37] the size. So the size of this model app
+[01:50:39] 32 is a little higher compared to this
+[01:50:41] int 8. Okay. So if you will check in MB,
+[01:50:44] so size is 0.06 MB. It's a very small
+[01:50:48] model. That's why we are not able to
+[01:50:50] discriminate much. That's why I told you
+[01:50:52] guys uh to check with some huge model.
+[01:50:54] Okay, take a huge model, perform the
+[01:50:56] training of that huge model and check
+[01:50:58] that how much accuracy drop is there
+[01:51:00] after converting into the end. And guys,
+[01:51:03] what you can do, you can basically check
+[01:51:05] out the size as well. Okay. Now what I
+[01:51:08] will show you, I will show you the
+[01:51:09] manual uh quantization and
+[01:51:11] dequantization. We'll try to check with
+[01:51:13] the de uh disquantization error. Okay.
+[01:51:16] uh the actual weight and after
+[01:51:18] decontigation whatever value we are
+[01:51:19] getting we will check the differences in
+[01:51:21] between and we'll try to simulate the
+[01:51:23] quantization over here and here you will
+[01:51:25] find out the sudden accuracy drop let me
+[01:51:26] show you so this is a complete
+[01:51:28] quantization logic of dev quantise
+[01:51:31] tensor so this I'm passing a tensor I'm
+[01:51:34] going to be convert into the 8 bits okay
+[01:51:37] uh into the one by then here is my Q
+[01:51:40] minimum okay and here is my Q maximum
+[01:51:44] then minimum value maximum value okay of
+[01:51:46] this tensor. This is the minimum value
+[01:51:48] and maximum value or what this is the
+[01:51:50] minimum value and maximum value of the
+[01:51:52] quantized range. Okay, this is the
+[01:51:54] minimum value and maximum value of the
+[01:51:55] weights weight tensor. Right now,
+[01:52:00] now guys, so here I'm going to be
+[01:52:02] calculate the scale. See scale is there.
+[01:52:04] Then I'm going to be round the value.
+[01:52:06] Okay, then I'm going to be clamp it. If
+[01:52:08] uh it is going to be out of the range,
+[01:52:09] then we are going to be clipping it.
+[01:52:11] Okay, then this is the number. So
+[01:52:14] quantise
+[01:52:15] quantize weight okay scale and jetp both
+[01:52:19] we are going to be written over here. So
+[01:52:21] let me execute it and this is a function
+[01:52:23] this is a deontization one. So quantize
+[01:52:26] value multiply with a sorry minus with 0
+[01:52:29] point multiply with the scale. Okay. So
+[01:52:31] we'll we'll be able to dequantize. So
+[01:52:33] whatever formula I have shown you here
+[01:52:36] inside the slide. Uh let me show you. So
+[01:52:39] whatever formula I have shown you now
+[01:52:41] over here it is just a complete
+[01:52:43] implementation of that formula. Okay see
+[01:52:46] this is the formula correct. So this is
+[01:52:48] the formula of the quantization and here
+[01:52:50] is a formula of the deontization. So
+[01:52:51] it's a complete uh code of this
+[01:52:54] particular formula itself. So quantize
+[01:52:56] sensor deontage sensor. Now what I will
+[01:52:57] do I'll take this big MLP. Okay this
+[01:53:00] particular model. Now I'm iterating on
+[01:53:02] top of this parameter. I'm checking.
+[01:53:04] Okay. So what I'm doing I'm taking a
+[01:53:05] name of it. I'm taking parameter. So you
+[01:53:07] can check the name of the parameter, the
+[01:53:09] name of the layer and the shape of it.
+[01:53:11] Okay, shape of the layer. So once I'll
+[01:53:13] print it guys, here you will find out.
+[01:53:14] See from the first layer we have the
+[01:53:16] size. From the second layer, the size is
+[01:53:18] this one. The third layer, fourth layer,
+[01:53:20] fifth layer and all. Okay, so uh see
+[01:53:22] guys, we have all the layers and the
+[01:53:25] parameter of it. Now what we'll do guys,
+[01:53:27] we'll try to quantize the we'll try to
+[01:53:30] quantize the weight. Okay, weight of the
+[01:53:32] model. So here I'm saying with torch no
+[01:53:34] grade means training is not required. We
+[01:53:36] just want to quantize the weight of
+[01:53:38] already trained model. Okay. Now what I
+[01:53:40] will do guys? I'll iterate on top of
+[01:53:42] this model doparameter
+[01:53:44] model FP FP32.name parameter. Okay. And
+[01:53:47] new model dot named parameter. This new
+[01:53:50] model is which one? So guys this new
+[01:53:52] model
+[01:53:55] this new model is this one. Okay. So we
+[01:53:58] have to quantize a weight of this only.
+[01:54:00] Right. We have to quantize the weight of
+[01:54:03] this big MLP. the big NLP
+[01:54:06] big NLP already we have initialized see
+[01:54:09] here if you will see so we have already
+[01:54:13] created a class of the big MLP
+[01:54:17] uh this one okay big NLP so we have
+[01:54:19] trained this model now after the
+[01:54:21] training guys we are getting this
+[01:54:22] particular weights this particular model
+[01:54:24] right and all the weights and all
+[01:54:25] everything is there in model fp32 now
+[01:54:28] what I have done I have initialized this
+[01:54:30] class one more time so here I'm getting
+[01:54:32] some random weights and I am going to be
+[01:54:35] quantize this particular weights. Okay,
+[01:54:37] this this particular weights. Now, how
+[01:54:39] to do that? Let me show you. So, uh we
+[01:54:41] have this weight model AP32 which is
+[01:54:43] already trained. I'll take what? I'll
+[01:54:45] take name and the parameter from here.
+[01:54:47] Name means what? The name of the layer
+[01:54:49] and the parameter means what? The
+[01:54:50] matrix, right? The weight matrix. Now,
+[01:54:52] here also I'm going to take the name and
+[01:54:53] the parameter. See, this is from the new
+[01:54:55] model. Okay, we have to quantize the
+[01:54:57] weight of it. I'll show you how to
+[01:54:59] simulate the weight. So see uh now what
+[01:55:02] I will do I'll pass this quantize tensor
+[01:55:04] okay which one will pass we'll pass this
+[01:55:06] parameter fp dot data okay so this
+[01:55:10] parameter this see model app fp32named
+[01:55:13] parameter whatever weights we are
+[01:55:15] getting we are passing it over here to
+[01:55:17] quantise okay now what we'll do we'll
+[01:55:18] get a quantise parameter we'll get a
+[01:55:20] scale and zero point now we are passing
+[01:55:22] it to the dequantize so here is my
+[01:55:24] quantise parameter then scale and zp now
+[01:55:28] whatever value I'm getting this uh
+[01:55:30] dequantized value. So I'm going to be
+[01:55:32] copy this dequantized value into this
+[01:55:34] model. Okay. Now I will check the
+[01:55:35] accuracy and all everything of it after
+[01:55:37] the dequantization. So this is called
+[01:55:38] the quantization simulation. Okay. On
+[01:55:41] top of the quantization error on top of
+[01:55:43] the quantization error we are checking.
+[01:55:45] Okay. What is the accuracy drop? So this
+[01:55:48] is a very good practice before doing the
+[01:55:50] actual quantization. uh and we have to
+[01:55:53] do it and we have to perform this
+[01:55:55] technique and we we can perform this
+[01:55:57] technique and even uh this weights
+[01:55:59] directly we can use it for the further
+[01:56:01] inferencing and all this particular
+[01:56:02] weight which we have copied. Okay, let
+[01:56:04] me again explain you this part. So what
+[01:56:06] we are doing guys we have a model FP32.
+[01:56:09] So from here we are taking a parameter.
+[01:56:10] Okay, this is my parameter and I'm going
+[01:56:12] to be perform a quantization of it. So
+[01:56:14] this is my quantise value and all. Okay,
+[01:56:16] now after that what I will do? See after
+[01:56:19] this one guys we are passing this data
+[01:56:21] again this parameter to this deontise
+[01:56:24] okay this q parameter scale and j this
+[01:56:27] zero point and all and we are getting
+[01:56:28] deontise parameter now we have
+[01:56:30] initialized one model with a random
+[01:56:32] weights okay so to this random weights
+[01:56:34] I'm going to be assigned this deontage
+[01:56:36] parameter now this random weights not
+[01:56:39] anymore exist okay this this particular
+[01:56:41] parameter does not anymore exist okay
+[01:56:43] what I will do in this particular
+[01:56:45] parameter I'm going to be copy this uh
+[01:56:47] dequant quantize parameter. So my model
+[01:56:49] will become uh so my model will be
+[01:56:51] initialized with this dequantized weight
+[01:56:53] and biases. So this is called the
+[01:56:55] quantization simulation.
+[01:56:57] Okay, this is called the quantization
+[01:56:59] simulation. Okay, now here what I'm
+[01:57:02] doing if I'm going to be executed see
+[01:57:03] the training is not happening. But guys,
+[01:57:05] if I will check the accuracy of the new
+[01:57:06] model where I have assigned the
+[01:57:08] dequantized weight, okay, and this X and
+[01:57:10] Y test. Now here you will see the some
+[01:57:11] accuracy. See how much it is going to be
+[01:57:13] dropped. 0.43. So this is called the
+[01:57:16] quantization simulation. So whenever we
+[01:57:18] try to quantize any sort of a model so
+[01:57:21] we always perform this quantization
+[01:57:23] simulation there we can check the
+[01:57:24] quantize error. Okay. So after
+[01:57:26] performing a dequantization what
+[01:57:28] accuracy drop we might get right. So
+[01:57:31] what accuracy drop we might get. So with
+[01:57:33] respect to intate this much of accuracy
+[01:57:35] drop we are able to get. Now guys I
+[01:57:37] think uh this is perfect. This is fine.
+[01:57:39] Here you can see the complete detail
+[01:57:41] which I mentioned. You can read it out.
+[01:57:42] I whatever thing I was explaining you I
+[01:57:44] written the same thing over here. So one
+[01:57:46] by one step by step you can understand
+[01:57:49] about it. Okay. Now let's one thing
+[01:57:51] let's understand about the PTQ static
+[01:57:54] quantization. So far we understood about
+[01:57:56] the PTQ dynamic. Okay. Now it's time to
+[01:57:58] understand this PTQ static.
+[01:58:01] So for PTQ static also guys we'll have
+[01:58:04] to train the model then only we'll
+[01:58:06] perform the quantization on it. So here
+[01:58:08] is a complete code for training the
+[01:58:10] model. It is same like the previous one.
+[01:58:13] So here we are going to initialize our
+[01:58:14] neural network. Then this is my
+[01:58:16] optimizer. Now here is my loss function.
+[01:58:19] Uh then guys uh I'm running my uh I'm
+[01:58:21] running I'm running for 2,000 epoch and
+[01:58:24] I'm train my model. Uh then here is the
+[01:58:26] accuracy function for evaluating uh the
+[01:58:29] model. Okay. Now once I'll execute it
+[01:58:31] guys, my model would be trained. I will
+[01:58:34] get some accuracy which is the
+[01:58:36] evaluation accuracy. So I'm getting
+[01:58:37] around 95% accuracy here. Now here is my
+[01:58:40] method quantization and the
+[01:58:41] dequantization. I hope you are familiar
+[01:58:43] with this particular method.
+[01:58:45] Quantization is doing a quantization. It
+[01:58:47] is the same formula which I explained
+[01:58:48] you earlier and this is for the
+[01:58:50] dequantization. Now guys this is a main
+[01:58:53] function. This get activation minax.
+[01:58:55] Okay using this function only we'll find
+[01:58:58] out the activation range. Okay. Uh those
+[01:59:00] activation range I we will use to
+[01:59:02] convert my uh FP32 to intate. Right? So
+[01:59:06] uh guys this is a complete code till
+[01:59:08] here. Uh first of all let me explain you
+[01:59:10] the meaning of each and every line
+[01:59:12] whichever have been written over here.
+[01:59:14] But beforehand let me come to the PTQ
+[01:59:17] static concept as well. So uh now here
+[01:59:20] you can see static quantization summary
+[01:59:22] in the summary I mentioned uh it is for
+[01:59:25] weight and yss sorry it is for the
+[01:59:27] weight and the activation function both
+[01:59:29] are quantiz ahead of inferencing using a
+[01:59:31] calibration data. Okay. Now how does it
+[01:59:34] work? Model is trained on this
+[01:59:35] particular data. uh I think we have
+[01:59:37] already trained our model. Then you
+[01:59:38] provide a few batches of the real data
+[01:59:40] which is called the calibration data. So
+[01:59:42] this calibration data is nothing. It's a
+[01:59:43] subset of the main data only few batches
+[01:59:46] few data points from there. Uh then here
+[01:59:49] it computes min max from bait and
+[01:59:51] activation. Okay. So from bait and
+[01:59:54] activation is going to be calculate the
+[01:59:55] min and max value on top of the
+[01:59:58] calibration data only it will do that.
+[02:00:00] Uh then guys it quantize both
+[02:00:02] statically. Okay. Then after calculating
+[02:00:05] the min and max value of the weight and
+[02:00:07] the activation then we'll perform the
+[02:00:09] quantization right now guys over here we
+[02:00:11] are doing a quantization of the weight
+[02:00:13] by by default will be involved and then
+[02:00:14] the activation function is there the
+[02:00:16] value of the activation function I
+[02:00:18] believe guys you are aware about what is
+[02:00:19] the activation function if you are not
+[02:00:21] then you can rewind this video and you
+[02:00:23] can look into my previous uh like slides
+[02:00:26] of it of this particular session okay
+[02:00:28] now here when it it is being used so
+[02:00:30] targets divide support full integer.
+[02:00:33] Okay, let me check what is this. Yeah,
+[02:00:36] so whenever you need full optimization,
+[02:00:38] let me cut it from here this thing and
+[02:00:40] let me keep it over here guys. This one.
+[02:00:42] Okay, so whenever you need a full
+[02:00:44] whenever you need a full optimization at
+[02:00:46] that time you will use this uh PTQ
+[02:00:49] statices static. Okay, uh target device
+[02:00:52] support full in web 8 pipeline and you
+[02:00:54] can calibration step right. uh if this
+[02:00:57] uh is fine for you then you can use this
+[02:01:01] static PTQ static posting contigisation
+[02:01:03] again I'm repeating it whenever you need
+[02:01:05] a full contisation means vi activation
+[02:01:08] value and all everything because in
+[02:01:09] dynamic we are not going to be contis
+[02:01:11] the activation value okay target device
+[02:01:13] support cool in intate pipeline so we
+[02:01:15] are going to convert into the intate
+[02:01:16] then target device should support with
+[02:01:18] this intake data type then you can
+[02:01:20] calibration step so calibration step
+[02:01:22] will require some training write some
+[02:01:24] inferencing uh and then only we will be
+[02:01:26] able to get our min and max value of the
+[02:01:28] activation function. Okay. So if you can
+[02:01:30] afford all this thing then only you can
+[02:01:32] go ahead with this PTQ static. Now real
+[02:01:34] life analogy you can test every camera
+[02:01:36] setting before a shoot. Okay. Uh and
+[02:01:39] lock all the values when it is ready to
+[02:01:41] shoot. So this is just a realtime
+[02:01:43] analogy that it is a post training
+[02:01:45] quantization. So you perform the
+[02:01:47] training you got all the weights. Now
+[02:01:49] after that you log that particular
+[02:01:50] weight and after inferencing it after
+[02:01:54] inferencing those weight and then you
+[02:01:55] will check it. Okay as simple as that.
+[02:01:58] Now here's some pros here's some cons of
+[02:02:00] it. So you can read it out this pros and
+[02:02:03] cons. Uh now let me go ahead with the
+[02:02:05] code itself. So it is just a quick
+[02:02:07] revision. Uh now this is my main
+[02:02:09] function get activation minax. Now what
+[02:02:11] it will do it will basically cont it
+[02:02:14] will give you the min and max range. it
+[02:02:16] will give the min and max range of the
+[02:02:18] quantise okay of the quantise value. So
+[02:02:22] here I kept created one dictionary here
+[02:02:24] is a hook right now inside this I
+[02:02:26] created one function register hook and
+[02:02:28] then here is one more function hook
+[02:02:30] function. Now this hook function what it
+[02:02:32] is doing it is going to be like return
+[02:02:34] the minimum value of the activation
+[02:02:36] maximum value and then the appropriate
+[02:02:38] range of it based on the minimum and
+[02:02:40] maximum. Okay now here I'm iterating on
+[02:02:42] top of the name module model.name
+[02:02:44] module. So I'm iterating on top of each
+[02:02:46] and every layer. Now I'm checking if
+[02:02:48] module is non it's a linear layer means
+[02:02:51] it's a hidden layer. Okay. Then what I'm
+[02:02:53] doing in hook. Okay. We have this hook.
+[02:02:55] Hook is a list. Inside this we are going
+[02:02:57] to be append something. So this value we
+[02:02:58] are appending inside the list. Okay. So
+[02:03:01] what is this value? Let's check now. So
+[02:03:02] register hook. So we are passing name
+[02:03:04] over here. So passing a name guys.
+[02:03:06] According to that it's going to be it's
+[02:03:08] going to be like uh it's going to be
+[02:03:10] generate the minimum minimum and maximum
+[02:03:12] value of the activation. Right? Then we
+[02:03:14] are calling this module.register forward
+[02:03:16] hook. So it is for the forward
+[02:03:18] propagation only. It is not for the
+[02:03:20] backward propagation. Okay. So one by
+[02:03:22] one I written the step. You can read it
+[02:03:24] out this step with that your each and
+[02:03:26] every understanding would be clear. So
+[02:03:27] collect the min and max activation range
+[02:03:29] from each neural network linear layer.
+[02:03:32] Okay. Hook function during the forward
+[02:03:34] pass capture each layer output and store
+[02:03:36] in minimum and max. So hook function is
+[02:03:38] doing nothing. Hook function basically
+[02:03:39] is going to be capture the minimum
+[02:03:41] minimum and the maximum value from where
+[02:03:43] from the activation itself. Then here is
+[02:03:45] the registration hooks are attached only
+[02:03:47] to nonlinear layer using register
+[02:03:49] forward hook. So hooks are attached to
+[02:03:51] the nonlinear layers using register
+[02:03:54] forward hook. So to the linear layer
+[02:03:56] only we are going to be perform we are
+[02:03:58] going to be get this minimum and the
+[02:03:59] maximum range. Okay. And we are saying
+[02:04:02] this hook is only working for this
+[02:04:03] linear layer only. Then forward path. So
+[02:04:06] using a calibration sample we are going
+[02:04:09] to be record some value the minimum
+[02:04:10] maximum and all then clean up okay hooks
+[02:04:13] are removed after to avoid memory leak
+[02:04:15] okay means we are not going to be
+[02:04:17] performing for the back propagation
+[02:04:18] after performing it for the forward
+[02:04:20] propagation we'll remove it return value
+[02:04:22] return a dictionary okay now here is a
+[02:04:24] minmax with the activation range okay
+[02:04:26] intuition this minmax value are later
+[02:04:28] used to compute the scale and the zero
+[02:04:30] point for the quantization so guys uh
+[02:04:32] here if you will check with this
+[02:04:33] particular uh explanation so what we are
+[02:04:35] doing we are going to be quantized the
+[02:04:37] weight and the activation. Okay. So for
+[02:04:38] quantizing the activation we require the
+[02:04:40] range of the activation like we were
+[02:04:41] using for the weight. Okay. If you will
+[02:04:43] look into some practical example. So in
+[02:04:45] that that particular example in that
+[02:04:47] particular uh in that particular example
+[02:04:50] I clearly shown with some uh with some
+[02:04:52] practical values and all. So see we are
+[02:04:55] going to be contact the range of the
+[02:04:57] weight. So here we have a minimum and
+[02:04:59] maximum range of the weight minus 2 to
+[02:05:00] +2. Okay. Now here we are going to be
+[02:05:02] quantizing this specific range -1 128 to
+[02:05:05] + 2 1 27 and this is a weight okay so if
+[02:05:08] you want to quantize to any sort of a
+[02:05:10] weight any weight of the activation
+[02:05:12] value okay uh sorry if you want to
+[02:05:14] quantize the any activation output right
+[02:05:17] so for that we required a range minimum
+[02:05:19] and minimum and maximum then only guys
+[02:05:21] we can calculate the scale then only we
+[02:05:23] can calculate the zero point and then
+[02:05:25] only we can find out a final quantized
+[02:05:28] value of the specific given output or of
+[02:05:30] the specific given weight. Okay. So I
+[02:05:33] hope now this thing is clear that why we
+[02:05:34] are going to be calculate this minimum
+[02:05:37] and minimum and maximum value of the
+[02:05:38] activation. This is very pretty much
+[02:05:40] important. So what we are doing guys we
+[02:05:42] are going to be iterate we are going to
+[02:05:44] be calculate collect the activation
+[02:05:46] range over here. Hooks means what we are
+[02:05:47] iterating on each and every layer and
+[02:05:50] and from that particular layer we are
+[02:05:52] going to be calculate the minimum and
+[02:05:53] maximum value of the activation. Okay.
+[02:05:55] Now after that guys we we are not going
+[02:05:57] to do any sort of a training. So we'll
+[02:05:59] I've just written modell and I'll pass
+[02:06:01] the sample over here and then I'm going
+[02:06:03] to be remove the hook. Why I'm going to
+[02:06:04] be remove the hook which is responsible
+[02:06:06] for performing the uh we are going to be
+[02:06:10] remove each and every hook guys. Now why
+[02:06:12] it is uh like why it is important
+[02:06:15] because we are not doing it for the back
+[02:06:16] propagation. We are only doing it for
+[02:06:17] the forward propagation. Then here I'm
+[02:06:20] going to return the activation range.
+[02:06:21] Okay. Now calibration data. This is my
+[02:06:23] calibration data. It is just a sample
+[02:06:25] from the train data. Then I'm passing it
+[02:06:27] to the method get activation min and
+[02:06:29] max. So model is there and then
+[02:06:31] calibration data is there. Okay. Now
+[02:06:32] once I'll execute it guys I'll be
+[02:06:34] getting the minimum and maximum range.
+[02:06:36] Let me show you that. So calibration is
+[02:06:38] there. Now if I'm going to be executed.
+[02:06:40] So you can uh check out the activation
+[02:06:43] range of it. See this is the activation
+[02:06:45] range for the layer 1 for the layer two
+[02:06:46] and for the layer three. And this is
+[02:06:48] this is all this is only called the
+[02:06:50] hook. Okay. For the layer 1, layer 2,
+[02:06:52] layer three. Now what I will do guys? So
+[02:06:54] here for the layer layer wise
+[02:06:57] quantization we are doing. So for the
+[02:06:58] first layer, second layer, third layer.
+[02:07:00] So we have a range. Okay. Now what I'll
+[02:07:02] do? So here I I have created a class.
+[02:07:05] The class name is what? Quantise MLP. So
+[02:07:07] it is having three layer first, second
+[02:07:09] and third. So this is a specification
+[02:07:11] the detail of the layer. Then what I'll
+[02:07:13] do guys I will call this with torch no
+[02:07:16] grade. We are not going to perform any
+[02:07:17] sort of a training and all as of now. So
+[02:07:20] what we are doing we are going to be
+[02:07:21] itrate on FP model parameter and as this
+[02:07:24] name parameter. Okay. So FP model name
+[02:07:28] parameter. FP model name parameter. This
+[02:07:31] is the FP32 model. Okay. Now here is my
+[02:07:36] next one. Uh the next is the self dot
+[02:07:39] named parameter. Okay. Now here what we
+[02:07:42] are doing we are going to iterate on it.
+[02:07:43] So this particular one let me check out
+[02:07:46] do we have any other model or not?
+[02:07:47] Exhibition CL okay so here name
+[02:07:52] parameter okay this name parameter
+[02:07:54] basically it's a intate let me check it
+[02:07:56] out so normal float normal float okay
+[02:07:58] name contigisation parameter
+[02:08:00] quantization now what we are getting
+[02:08:01] guys we are going to be quant the tensor
+[02:08:03] with this particular data okay parameter
+[02:08:05] scale 0 point now we are going to be
+[02:08:07] dequant so we are getting a uh that
+[02:08:09] error difference okay so this is fine
+[02:08:12] now get a scale so minimum maximum okay
+[02:08:14] activation range item we are taking
+[02:08:16] activation range item so Here we have a
+[02:08:18] scale. Here we have a zero point and
+[02:08:19] this is my activation scale. Now quant
+[02:08:21] activation.
+[02:08:23] So f self x layer. So here is my scale.
+[02:08:26] Okay. Scale JP. And then what we are
+[02:08:29] doing guys we are going to be clip it.
+[02:08:31] Right. And then finally we are going to
+[02:08:32] be return it. Now in the forward
+[02:08:34] propagation as you can see so we have a
+[02:08:36] quantization activation. Uh now here
+[02:08:38] also quantization activation and now
+[02:08:40] torch do sigmoid. Now once I'll execute
+[02:08:42] this quantize MLP model will be load
+[02:08:45] activation range would be there and guys
+[02:08:47] now we are going to be check with the
+[02:08:48] accuracy. So let me execute it here.
+[02:08:50] After the execution guys you will be
+[02:08:52] getting the accuracy. So this thing
+[02:08:54] quantise error is not defined. So let me
+[02:08:56] check one uh time like uh do we have any
+[02:08:59] issue? So quantise error quantise error
+[02:09:02] quantise tensor is not defined uh
+[02:09:05] quantise tensor. Okay. So this is fine.
+[02:09:09] This is fine. This is fine. This is
+[02:09:11] fine. This is fine. This is fine. Okay,
+[02:09:13] this is perfect. This is perfect range
+[02:09:15] we are able to get. And now let's see.
+[02:09:18] So yes guys, we are able to train we are
+[02:09:20] able to quantize the model and after the
+[02:09:21] quantization you will see that the
+[02:09:23] accuracy is going to be drop a lot.
+[02:09:25] Okay. So we are just getting 43%
+[02:09:26] accuracy. So you can understand this
+[02:09:28] code. You can go through with it and you
+[02:09:30] can do it from your end. Okay. Now guys,
+[02:09:32] I think so everything is clear. This is
+[02:09:34] just one more type of code which I
+[02:09:36] written. So one more topic is there. The
+[02:09:38] topic name is called QAT quantization of
+[02:09:41] your training. Okay. So for performing
+[02:09:43] this quantization of your training now
+[02:09:45] again we required a model. So let me run
+[02:09:46] it and let me check out with the model.
+[02:09:48] Okay. So model is getting generated as
+[02:09:50] you can see. So it is training a model.
+[02:09:53] Let me check where it has created the
+[02:09:55] model. So here here here is not this is
+[02:09:58] a static only right. Okay. So let me
+[02:10:00] come to the qu. Okay. So we are able to
+[02:10:03] create a model. And now what I'll do so
+[02:10:05] we we have initialized a model. We
+[02:10:07] haven't created it as of now. We have
+[02:10:09] initialized the model. Now what I'll do
+[02:10:10] guys I'll uh like see I will initialize
+[02:10:13] the model. Okay. Then what I'm doing
+[02:10:15] toss do quantization get information
+[02:10:17] quite configuration. Okay. So we are
+[02:10:19] going to be get a configuration of the
+[02:10:21] we are going to be get a quant
+[02:10:22] configuration of what configuration of
+[02:10:25] this particular model. Okay. So model
+[02:10:27] doconfig. Now inside the model.qconig
+[02:10:30] I'm going to be keep this particular
+[02:10:32] value. You can check what we have over
+[02:10:34] here. So simply you can run it inside
+[02:10:35] the uh different cell. So let me execute
+[02:10:39] it and let me show you what we have. So
+[02:10:41] here we have a complete detail of the
+[02:10:43] model activation is there. Okay. Then uh
+[02:10:46] here you can see minmax observer right
+[02:10:49] the complete detail of the complete
+[02:10:51] detail of what complete detail of the
+[02:10:53] basically model. Now what I'll do I'll
+[02:10:55] keep it inside the model configuration
+[02:10:57] and then torch.prepare.
+[02:11:00] Okay prepare qat. We are passing model.
+[02:11:02] we are passing in place equal to true.
+[02:11:04] Okay. So once we will pass it guys. So
+[02:11:06] here you can see my model is ready.
+[02:11:07] Prepare QA model. Now what I will do
+[02:11:10] guys? So here my optimizer and loss
+[02:11:12] function. Now after that I'm going to be
+[02:11:14] train my model. So here you will be able
+[02:11:16] to get a accuracy on every 55 500 epoch.
+[02:11:18] So see here is accuracy. Now you can see
+[02:11:21] if I'm going to run it. So accuracy
+[02:11:22] before convert. This was the accuracy.
+[02:11:24] Now to to do quantile dot convert. So
+[02:11:27] this is a one function which we have
+[02:11:28] created. Now if I will check with the
+[02:11:30] accuracy. So it is coming around 98%.
+[02:11:33] Okay. See sometimes you get same
+[02:11:34] accuracy because my model is very small.
+[02:11:37] If you are taking huge model in that
+[02:11:38] case you will see some differences but
+[02:11:40] most of the time with a small model with
+[02:11:42] a small data set you will find out the
+[02:11:44] same. If you're going to be executed one
+[02:11:46] more time let's say this one. So here
+[02:11:48] you can see we are getting 97 now. Okay.
+[02:11:50] Let's see over here what we are getting.
+[02:11:52] So here guys we are getting let's say
+[02:11:54] 98. Now see guys. So because this kind
+[02:11:57] of hell is this kind of problem you will
+[02:11:59] see with a small model. So that's why
+[02:12:01] guys whenever you have to try this
+[02:12:02] application try with a bigger
+[02:12:04] application. This will help you a lot.
+[02:12:06] Okay. Now fine I hope this is clear. So
+[02:12:08] we understood so many things with
+[02:12:10] respect to quantization and the
+[02:12:11] quantization fundamental. Let's time to
+[02:12:14] discuss some advanced concept. So let's
+[02:12:16] start with L&M base advanced concept.

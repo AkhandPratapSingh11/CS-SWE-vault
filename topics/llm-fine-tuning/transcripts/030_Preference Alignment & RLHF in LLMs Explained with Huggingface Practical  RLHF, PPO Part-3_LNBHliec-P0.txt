@@ -1,0 +1,1353 @@
+Title: Preference Alignment & RLHF in LLMs Explained with Huggingface Practical | RLHF, PPO Part-3
+Video URL: https://www.youtube.com/watch?v=LNBHliec-P0
+Video ID: LNBHliec-P0
+======================================================================
+
+[00:00] Hello everyone. Welcome back to my
+[00:02] YouTube channel. My name is Sunny and I
+[00:05] am back with another exciting and
+[00:07] important video. So guys, inside this
+[00:09] video, we are going to discuss the part
+[00:12] three of the RLHF. Uh I already uploaded
+[00:16] two part on my YouTube channel related
+[00:18] to this RLHF. So once you will search
+[00:21] Sunny Savita over the YouTube and you
+[00:23] will go inside the video section, you
+[00:25] will get both part of the RLHF. Now,
+[00:28] apart from this one, guys, you will find
+[00:30] out so many video related to the
+[00:32] generative AI. So you can check out
+[00:34] inside the playlist section where you
+[00:35] will find out the different different
+[00:37] playlist related to the different
+[00:38] different concept of the generative AI.
+[00:41] Like fine-tuning, end-to-end LLM Ops
+[00:43] project, LangChain, LangGraph, agent
+[00:46] take AI with LangGraph, advanced rag,
+[00:47] multimodal rag, rag pipeline. So
+[00:50] everything, guys, you will get it over
+[00:52] here, whatever is required to become
+[00:54] generative AI engineer. So if you
+[00:56] haven't subscribed my YouTube channel,
+[00:57] guys, please uh go and subscribe. And
+[01:00] please uh watch out the video inside the
+[01:03] video section or else you can follow the
+[01:05] specific playlist. Uh now guys, uh let
+[01:07] me show you that what all thing we have
+[01:10] completed in our previous uh videos. And
+[01:13] then what all thing we are going to
+[01:14] complete in this particular uh video. So
+[01:18] uh guys, uh in the part uh one, uh here
+[01:21] you can see
+[01:23] uh I clearly mentioned in the part uh
+[01:25] one, uh basically we discuss what is a
+[01:27] preference learning or preference
+[01:29] alignment or preference tuning. I given
+[01:31] you the complete fundamental idea uh
+[01:34] related to this particular topic. Uh
+[01:37] then we have discussed why do we need
+[01:39] that, what is the problem with only SFT,
+[01:42] uh all the method for the preference
+[01:44] alignment. So whatever reasoning-based
+[01:46] topic are there related to this
+[01:48] preference alignment, what, why, uh
+[01:51] everything, guys, uh we have discussed
+[01:52] inside the first part. Then I uh
+[01:55] discussed some fundamental of the
+[01:56] reinforcement learning. So, what is a
+[01:59] reinforcement learning? What is the
+[02:00] evolution timeline of the reinforcement
+[02:02] learning? Uh, the differences between
+[02:04] the reinforcement learning, deep
+[02:05] learning, and uh, the supervised
+[02:07] learning, right? So, everything you will
+[02:09] see inside the part one. Then the part
+[02:11] two, guys. So, this uh, particular part
+[02:13] was uh, dedicated to the reinforcement
+[02:16] learning. So, there I discussed the
+[02:18] different different concept of the
+[02:20] uh, reinforcement learning like
+[02:22] Q-learning and deep Q-network, PPO, uh,
+[02:25] and uh, I have shown you even the
+[02:27] practical. So, if you wanted to learn
+[02:30] the
+[02:31] uh,
+[02:31] RLHF uh, sorry, reinforcement learning,
+[02:33] right? So, you can learn from uh, this
+[02:35] uh, particular video. Now, inside the
+[02:37] part three, guys, uh, here only we are
+[02:39] going to discuss the main concept of the
+[02:41] RLHF. So, we'll discuss what is a
+[02:44] RLHF, uh, what is a reward modeling
+[02:46] inside the RLHF, what is a PPO inside
+[02:48] the RLHF, and then we'll discuss uh, the
+[02:51] practical of the RLHF with the custom
+[02:53] data. So, this is going to be a main
+[02:55] part uh, related to the RLHF. The uh,
+[02:58] first part uh, was about the
+[02:59] fundamental, and the second part was
+[03:02] about the reinforcement learning. So, he
+[03:03] like this only I have break down the
+[03:05] entire RLHF concept, so that you can get
+[03:08] everything from uh, this uh, important
+[03:10] concept. Now, guys, uh, without wasting
+[03:12] time, uh, let's start let's start with
+[03:14] the RLHF.
+[03:18] So, guys, uh, what is a RLHF? So, RLHF
+[03:22] is a training method or process that
+[03:24] uses a reinforcement learning algorithm
+[03:27] like PPO uh, along with the human
+[03:30] feedback to align language model, that
+[03:33] is LLM, with the human preferences.
+[03:35] So, uh, guys, once you will go through
+[03:37] with this particular definition, you
+[03:38] will see a lot term. Uh, you will see
+[03:41] the reinforcement learning.
+[03:43] You will uh, see this uh, human
+[03:45] feedback.
+[03:46] Okay? Uh, you will see the LLM and the
+[03:49] human preferences. So, each and
+[03:51] everything we are going to cover in our
+[03:53] uh, going forward session in our going
+[03:56] forward slide.
+[03:57] I hope guys this definition is clear. If
+[03:59] it is not, it will be clarified, right?
+[04:01] Again, I can read this out. So, RLHF is
+[04:04] a training method or is a training
+[04:06] process, okay, that uses reinforcement
+[04:09] algorithm like PPO. So, this is the main
+[04:11] algorithm inside the RLHF. Now, here we
+[04:14] are using the human feedback. So, this
+[04:16] human feedback basically we are using
+[04:19] via
+[04:20] reward modeling, okay?
+[04:23] Uh this is also called the reward
+[04:25] signal.
+[04:27] Reward modeling. To align language
+[04:29] model. So, this is our main goal. This
+[04:31] is our main objective. So, we have a
+[04:34] language model. This a language model
+[04:36] actually we wanted to align with what?
+[04:38] With the human preferences. So, human is
+[04:40] giving some preferences. Based on that
+[04:42] we are training the reward modeling
+[04:45] reward model. Now, this particular
+[04:47] reward model we are using inside the
+[04:49] PPO, okay, inside the PPO algorithm. And
+[04:52] then finally we are training our
+[04:54] language model. So, that is the overall
+[04:56] meaning of this particular definition.
+[04:58] Now guys, if we talking about the SFT,
+[05:01] only SFT, right? So, where we just have
+[05:03] the input and output.
+[05:06] Right?
+[05:07] Question or answer.
+[05:09] Right? Or we can say input prompt or the
+[05:11] output prompt. Or input prompt or what
+[05:14] we have? We have a output prompt. So, on
+[05:16] that kind of data actually we are going
+[05:18] to train our model. So, this SFT
+[05:20] training it is it is just a teaching to
+[05:22] the model this is the correct answer.
+[05:25] Right? It is just teaching to the model
+[05:27] this is the correct answer. You need to
+[05:28] follow this a particular answer. But
+[05:30] guys, if we talking about the RLHF, so
+[05:32] RLHF basically it is teaching to the
+[05:35] model that this answer is better than
+[05:37] the other one. So, we have a multiple
+[05:39] answer. So, among all those answer which
+[05:42] answer is a better one? That is what we
+[05:44] are teaching to our model, to our LLM.
+[05:46] And now inside this RLHF what kind of
+[05:48] data we would be having? So, we're
+[05:49] talking about the data, guys. So, we
+[05:51] would be having the prompt.
+[05:53] Okay? Then, we have one more uh column
+[05:56] that is called the choose.
+[05:58] So, which prompt which uh response we
+[06:00] are going to choose? Then, which
+[06:01] response we are going to reject?
+[06:04] So, something like this we are going to
+[06:05] prepare a data for what? For this
+[06:08] uh RLHF. Okay? I'll show you the data so
+[06:10] that you will get a good understanding.
+[06:12] Now, why this thing is required? This
+[06:14] thing is required because in the real
+[06:15] world there could be multiple correct
+[06:17] answer, right? So, let's understand this
+[06:19] uh particular phenomena with simple
+[06:21] example. So, just uh look into this
+[06:23] particular example so that you will get
+[06:25] a clear-cut idea.
+[06:27] Now, uh let's say here is my prompt.
+[06:31] Now, guys uh see this is what? This is
+[06:33] my prompt. The prompt is saying explain
+[06:35] the AI, right? So, there could be two
+[06:37] answer related to this prompt. The first
+[06:40] answer could be the simple and the clear
+[06:41] one. And the second answer output be
+[06:43] could be the complex and the confusing
+[06:45] one. Now, just uh read out the simple
+[06:47] answer, simple and the clear answer. So,
+[06:49] here uh I written AI means machine that
+[06:51] can learn, think, or make decision like
+[06:53] a human. Okay? Uh like we have a
+[06:56] chatbot, self-driving car, or
+[06:58] recommendation system. So, these are
+[07:00] what? Uh these are the example of the
+[07:02] AI. Okay? And we are explaining the AI
+[07:04] in terms of uh this particular example
+[07:06] and this definition. Now, on the other
+[07:08] hand, just read out uh this definition.
+[07:10] AI is a computational paradigm involving
+[07:12] algorithm approximation of cognitive
+[07:14] process
+[07:15] uh through in inference, representation
+[07:17] learning, and optimization over
+[07:19] high-dimensional data distribution. So,
+[07:21] guys uh this answer is also correct.
+[07:23] But, guys
+[07:24] uh
+[07:25] this is a complex and the confusing one.
+[07:27] If any beginner is reading this exam
+[07:28] this uh particular response, then uh he
+[07:31] might confuse. Or any non-tech person he
+[07:33] is searching about the AI, and if he's
+[07:35] reading this particular example, so that
+[07:37] a person might confuse. So, both answer
+[07:40] is technically correct, but human will
+[07:42] prefer the most of the time, I would say
+[07:44] 95% time, human will prefer the output A
+[07:48] until that person is not a technical
+[07:49] person, okay? Or more
+[07:51] technical or industry grade person.
+[07:54] Getting my point? So, why are this
+[07:56] preference tuning is
+[07:58] required if we wanted to make a model in
+[08:00] such a way we wanted to
+[08:02] basically train a model in such a way
+[08:04] that's going to be preferred the human
+[08:06] preferred answer, right? So, for that
+[08:08] particular scenarios for that particular
+[08:10] task, actually we require the RLHF kind
+[08:12] of process, right?
+[08:14] Now, if we're talking about the RLHF, so
+[08:16] there is five main character of the
+[08:17] RLHF. The first is called the human
+[08:19] annotator.
+[08:21] Human annotator is nothing just like a
+[08:22] person who is preparing a data, okay?
+[08:24] So, either I can prepare the data via
+[08:26] human or I can take even help of the AI
+[08:29] as well where I can generate some
+[08:30] synthetic data. So, that is also
+[08:32] possible, right? So, first thing we'll
+[08:35] have to prepare a data via human or via
+[08:38] AI, okay? The second basically reward
+[08:41] modeling. So, this is a very important
+[08:42] concept of the RLHF. So, without this
+[08:45] concept, guys, we cannot perform the
+[08:48] RLHF training, right? The second is
+[08:50] called third is called the value model.
+[08:51] So, this is again part of the pipeline,
+[08:53] RLHF pipeline, and this particular
+[08:56] things comes inside the PPO process. So,
+[08:58] I will show you where this particular
+[08:59] things come.
+[09:00] Now, the next is called the policy
+[09:02] model. So, this is our main model which
+[09:04] I wanted to train and that is called the
+[09:05] policy model, right? And then the entire
+[09:07] PPO pipeline, okay? So, we'll understand
+[09:10] all this thing how this thing is being
+[09:12] processed. So, I return this entire
+[09:13] thing in a very detailed manner.
+[09:15] Now, guys, first of all, just look into
+[09:17] this three images. So, this is a very
+[09:19] high-level overview of the RLHF. We
+[09:22] talking about how this
+[09:24] RLHF works.
+[09:26] So, guys, this is a very high-level
+[09:28] overview of the RLHF, right? So, here I
+[09:32] mentioned three images. The first is
+[09:34] what? Collect the human demonstrate data
+[09:37] or collect the data, right? And then
+[09:39] basically annotated that particular
+[09:41] data. So, the first step and the second
+[09:43] step basically annotated that particular
+[09:45] data. So, we are collecting the human
+[09:47] preference data, then we are annotating
+[09:49] that means we are collecting the human
+[09:51] preference based data, okay? Annotated
+[09:53] data. And then basically on top of that
+[09:55] what we are doing, we are going to be
+[09:57] train our model. So, this particular
+[09:59] model is called the reward model, okay?
+[10:01] So, we can take any sort of a model, any
+[10:03] base model, right? And we can perform
+[10:05] the SFT on top of that and we can
+[10:08] train our reward model. So, this is
+[10:10] what? This is the reward model. Then the
+[10:12] third stage is called the Sorry, fourth
+[10:14] stage is called what? Fourth stage is
+[10:15] called the PPO, right? So, here
+[10:17] basically we are passing our prompt.
+[10:19] Now, this particular prompt basically is
+[10:21] going through the policy model. Now,
+[10:22] whatever answer is being generated from
+[10:24] the policy model, so it is going through
+[10:26] the
+[10:27] reward model, right? So, it is providing
+[10:29] some sort of a reward, okay? And after
+[10:30] that this particular
+[10:32] response, this answer is again going
+[10:34] from from the value model and then
+[10:36] finally we are doing the PPO clipping
+[10:38] and the PPO updation, right? So, that I
+[10:40] will show you. I kept a very detailed
+[10:41] explanation of that. So, in some time
+[10:43] definitely I'll discuss. So, what is the
+[10:46] four main stages of the RLHF? If someone
+[10:48] is going to be asked you, then you can
+[10:50] say first basically will be collecting
+[10:52] and annotating the data, right? The
+[10:54] third basically we are going to be train
+[10:56] our reward model on top of that data.
+[10:58] Then basically we are going to perform
+[11:00] the PPO policy proximal optimization.
+[11:03] There actually we are using this reward
+[11:05] modeling along with the policy model and
+[11:07] the value model, right? If you haven't
+[11:09] understand any of the things so far,
+[11:11] don't worry, guys. Again, I will explain
+[11:13] you because I kept a very detailed
+[11:14] explanation of that. So, first guys,
+[11:16] let's start with the collect human
+[11:19] preferences, right? So, if you have If
+[11:21] you If you have worked with a chat GPT,
+[11:23] guys, and if you have given any sort of
+[11:25] a prompt to the chat GPT, so chat GPT
+[11:28] sometime it is generating two responses,
+[11:30] okay? Response one and the response two.
+[11:33] And it is asking to you which responses
+[11:35] are better one, which response is the
+[11:36] best one. So, they are actually manually
+[11:38] you are trying to vote, right? Which
+[11:41] manually you're trying to vote, which
+[11:42] response is a correct one. So, let's say
+[11:44] if you are uh
+[11:45] giving vote to this uh particular
+[11:47] response, then this feedback is being
+[11:49] captured by a
+[11:51] uh OpenAI, right? And that particular
+[11:53] data they are using for the
+[11:55] reinforcement
+[11:56] this RLHF training. Getting my point?
+[11:59] So, uh ChatGPT is also collecting our
+[12:01] data in this particular way. They are
+[12:03] also collecting our data. They are also
+[12:05] collecting our data via ChatGPT itself.
+[12:07] Okay? So, they are asking the human vote
+[12:10] over there. Okay? Uh now, the step one
+[12:12] basically collect a human preference
+[12:14] only, as I told you. And I even I given
+[12:16] you the example like how ChatGPT is
+[12:18] collecting that particular data. So,
+[12:20] human are given a prompt, right? Let's
+[12:23] say human is saying, "Explain a machine
+[12:25] learning." It is
+[12:26] Let's say they are giving a prompt to
+[12:27] the ChatGPT itself. Now, LLM is
+[12:29] generating a two response. Okay, let's
+[12:31] suppose LLM is generating two response
+[12:33] response A and the response B. Uh the
+[12:35] human evaluator say, means human
+[12:37] evaluator, let's say I'm using ChatGPT,
+[12:38] I'm saying A is a better than B. Okay,
+[12:41] so I'm giving my vote to this I'm giving
+[12:42] my vote vote to the A basically, okay? A
+[12:45] is the better one. So, let me give the
+[12:47] vote over here so that you will
+[12:49] understand. So, let's say
+[12:51] I given my vote to the response one
+[12:53] response A. Okay? Now, we store what
+[12:55] what in what in what manner the ChatGPT
+[12:58] means the OpenAI is storing our data.
+[12:59] So, they are storing like this. They are
+[13:01] storing the particular prompt. They are
+[13:02] storing the A is the chosen one. Okay,
+[13:04] they are marking A is a chosen and B is
+[13:06] a rejected one, right? And this is what
+[13:09] this is a human feedback. And here
+[13:11] basically what we are doing, we are
+[13:12] preparing our data. So, we collect this
+[13:14] human preference as a data.
+[13:16] Like we we collect this human preference
+[13:18] as a data. So, there we have three
+[13:20] specific column. One is a prompt, second
+[13:22] is a chosen, and third is a rejected.
+[13:24] Okay?
+[13:25] Now, on top of this particular data
+[13:27] basically further we are going to train
+[13:29] what we are going to train, guys?
+[13:31] Further, we are going to train our
+[13:32] reward model. So, this is the first
+[13:34] stage of the RLHF. Got it? Now, this
+[13:37] like this basically
+[13:40] ChatGPT is collecting a data. But, let's
+[13:42] say if you're creating a data inside
+[13:44] your
+[13:45] uh organization. So, how you can do
+[13:47] that? So, in a similar way, basically,
+[13:49] you can collect the data. Okay? Over the
+[13:51] application only you can
+[13:53] give the option where user can vote uh
+[13:56] whether they are referring to the
+[13:58] response A or they are referring to the
+[13:59] response two, something like that,
+[14:01] right? So, response B, basically. So,
+[14:03] likewise, you can also give a option to
+[14:05] them, and you can collect a data. Or,
+[14:07] what you can do, guys? What you can do?
+[14:09] Any SME, right? Any business analyst can
+[14:12] prepare that particular data after
+[14:14] connecting with a business that which
+[14:16] kind of
+[14:17] like which kind of response you will you
+[14:18] prefer with respect to this question,
+[14:20] with respect to this particular input.
+[14:22] Likewise, also you can create a data.
+[14:25] You can give some raw data to the AI.
+[14:27] Okay? You can give some
+[14:28] business-specific instruction to the AI,
+[14:31] and you can even generate some synthetic
+[14:32] data. Okay? This synthetic preference
+[14:35] data inside your organization. That is
+[14:37] also possible. And even for the practice
+[14:40] wise, guys, you will find out so many
+[14:42] data set over the Hugging Face. So, once
+[14:44] you will go and check with the Hugging
+[14:45] Face, right? So, there you will find out
+[14:46] so many practice-related data set, and
+[14:49] this is one of them. See here I written
+[14:52] Here I given this a link. Let me open
+[14:53] this link inside my
+[14:55] Google. Okay? Inside my browser. And now
+[14:57] see, we have this a data. The data set
+[14:59] name is what? Anthropic HH-RLHF. So,
+[15:02] Anthropic is also provided you this
+[15:04] particular data just for the practice
+[15:06] purpose.
+[15:07] So, you can train any sort of a model on
+[15:09] top of this data, and you can learn
+[15:10] about the preference tuning. Getting my
+[15:12] point? And likewise, so many data set
+[15:14] are there over the Hugging Face. Once
+[15:16] you will search it, you will get it. So,
+[15:18] the next thing is what? So, human
+[15:19] feedback does not directly go into the
+[15:21] PPO. Human feedback first train the
+[15:23] reward model, then the reward model
+[15:25] provide the reward signal. Getting my
+[15:27] point, guys? So, first we collect the
+[15:29] data. The data is going to the
+[15:31] reward model. Okay, on top of that
+[15:33] particular data, we are training a
+[15:34] reward model. And whatever output is
+[15:36] being generated by that reward model,
+[15:38] that is called reward signal. So, that
+[15:40] particular output is going
+[15:42] that particular output is being inside
+[15:44] that particular output is being used
+[15:46] inside the PPO process.
+[15:48] I hope this thing is clear. Now, let's
+[15:50] look into the second step.
+[15:52] Now, let's understand guys, what is a
+[15:55] reward modeling. So, reward modeling is
+[15:59] the process of training a model to
+[16:01] evaluate or score or rank responses
+[16:05] according to the human preferences,
+[16:07] right?
+[16:08] So, first we train our model one base
+[16:11] model
+[16:13] over the preference data. And then,
+[16:15] whatever output is coming from the
+[16:16] policy model, so that particular output
+[16:19] along with the prompt we are passing to
+[16:20] the reward model, and we are generating
+[16:23] some score. Okay?
+[16:25] We are evaluating that particular
+[16:27] response. So, that is a use of that is a
+[16:28] role of the reward model. Now, in RLHF,
+[16:32] reward model is a proxy of the human
+[16:34] judgment.
+[16:35] As I already told you that we have a
+[16:37] human preference data. We have We have
+[16:39] trained the reward model, and that
+[16:40] reward model we are using inside the PPO
+[16:43] process. Okay?
+[16:47] Okay?
+[16:48] Now, guys, reward model act as a proxy
+[16:51] for the human feedback. It learns our
+[16:54] human preferences from the chosen
+[16:55] rejected example, and then approximate
+[16:58] how human would score as a response. So,
+[17:00] this entire thing you will understand
+[17:02] once I will explain you the entire flow
+[17:04] of the PPO. Now,
+[17:06] train a reward modeling. So, as I told
+[17:08] you, this is the step two. Now, just
+[17:10] read out this particular lines. So, we
+[17:12] do do not start PPO immediately. Okay?
+[17:14] So, first we train a reward model. Uh,
+[17:17] we have input response A, response B.
+[17:20] The reward model learns if uh
+[17:22] we are we have a response A, right? Then
+[17:25] we should give the higher reward. If uh
+[17:27] we have our response B, means if
+[17:29] whatever response uh basically we are
+[17:30] going to be choose, right? So,
+[17:32] corresponding to that response we should
+[17:34] have a higher reward. So, that is being
+[17:35] learned by both, that is being learned
+[17:37] by the reward model, right? So, the
+[17:39] reward model is now learning to imitate
+[17:41] human preferences. In terms of what? In
+[17:43] terms of the final uh value. Uh, in
+[17:45] terms of what? In terms of the final
+[17:47] value. Okay, whether it's going to be
+[17:48] preferred the uh whether it's going to
+[17:50] be perform prefer the uh response A or
+[17:52] response B. If it is going to prefer the
+[17:54] response A, in that case it is providing
+[17:56] a higher reward to that particular
+[17:57] response. Because already that
+[17:59] particular model is trained on some
+[18:00] human preferences data.
+[18:02] So, guys uh this is the pipeline for the
+[18:05] reward uh modeling. Uh So, first we
+[18:08] generate the multiple response. Let's
+[18:09] say we have a prompt, we have a LLM.
+[18:11] Okay, let's say we are using ChatGPT and
+[18:13] there we are getting a multiple output
+[18:15] output A, output B. Then human is
+[18:17] labeling that particular output, it is
+[18:18] very important. Now, human is saying we
+[18:20] are I I'm preferring A rather this B.
+[18:22] So, the data set is going to be prepared
+[18:24] like uh prompt, chosen, and the
+[18:25] rejected. Then guys, what we are doing?
+[18:28] We are going to be train our model. So,
+[18:29] training a reward model. So, we are
+[18:31] input
+[18:32] and the response it will be there.
+[18:34] Right? And the output is going to be
+[18:35] what? Output is going to be a a scalar
+[18:37] value. Getting my point? So, likewise
+[18:39] the reward model is going to be trained.
+[18:41] Now, what is the objective of this
+[18:42] reward modeling? So, the objective of
+[18:44] the reward modeling basically reward
+[18:45] chosen is greater than reward rejected.
+[18:48] So, to the uh selected uh answer we are
+[18:51] going to be provide a uh higher reward,
+[18:53] okay, than the rejected one.
+[18:55] So, what is the core idea? Core idea
+[18:57] basically instead of correct versus
+[18:58] incorrect, we learn better versus worse.
+[19:01] So, if someone is going to be ask in
+[19:03] interview, so what is the aim of the
+[19:05] reward modeling? What do you understand
+[19:06] with the reward modeling? You can
+[19:08] clearly explain uh from there. Okay,
+[19:10] from here itself. Uh, now guys, so this
+[19:12] is a complete pipeline. So first uh
+[19:14] basically human would be there.
+[19:17] He's going to be prepared the preference
+[19:18] data. He's going to be training a reward
+[19:20] model. From the reward model, reward
+[19:22] score is being generated. And finally,
+[19:23] it is being used inside the PPO process,
+[19:26] right? So this is a complete process. I
+[19:29] hope this is clear to all of you.
+[19:31] Now guys, the main core and heart of
+[19:34] this RLHF is the PPO. So the step three
+[19:38] is going to be a PPO. Okay? Uh inside
+[19:41] the PPO basically two things comes. The
+[19:43] first is called the policy model. Uh and
+[19:46] the second is called the value model.
+[19:48] Okay?
+[19:49] Value model. So I can remove this step
+[19:53] four from here because it is a part of
+[19:55] the PPO only. So if you're talking about
+[19:57] the PPO guys, so in the PPO basically we
+[20:00] have two main model. Uh the first is
+[20:02] called the policy model and the second
+[20:04] is called the value model. And even the
+[20:06] reward model is also part of it. But
+[20:08] yeah, that we are train that we are
+[20:10] training separately. Okay? So guys,
+[20:12] before explaining you this entire
+[20:15] theoretical points related to this PPO
+[20:18] and the value model, uh let me show you
+[20:20] one diagram. Okay, so here guys you can
+[20:22] see this is a complete diagram. Uh a
+[20:25] complete picture. Okay, how this PPO is
+[20:27] working. The step-by-step flow
+[20:29] basically. So let's understand with this
+[20:31] particular image. Okay, here from here
+[20:33] your understanding will be very much
+[20:35] clear.
+[20:36] So just uh follow to me over here. So
+[20:38] see you. So the first thing is what
+[20:40] guys? So first let's say we are having a
+[20:42] prompt. Okay?
+[20:44] Now this prompt uh basically is being
+[20:46] passed to the policy model. This uh
+[20:49] policy model is nothing. This is a main
+[20:51] policy model which we wanted to train.
+[20:53] That is our LLM, right? So uh the prompt
+[20:56] we are passing to our policy model and
+[20:58] it is uh generating some uh response,
+[21:00] right? Now this uh particular prompt and
+[21:03] the response is going to the reward
+[21:05] model. And our reward model is providing
+[21:07] some score to this a particular to this
+[21:10] particular prompt and the response,
+[21:12] okay? Whatever is being generated by
+[21:14] this LLM. This is our main LLM which I
+[21:15] have to train. Okay, let's say this is
+[21:17] what is my GPT model which I wanted to
+[21:19] train.
+[21:20] Now after that guys, what will happen?
+[21:22] So value model is also be there.
+[21:25] Actually, what this value model is
+[21:26] doing? It is taking a same prompt and
+[21:28] the response, okay, from here. So the
+[21:31] same prompt and the response basically
+[21:32] it is going at the two places. First, it
+[21:34] is going to the reward model and the
+[21:36] second is going to the value model. So
+[21:38] this policy model is called my actor.
+[21:41] Okay? And this value model, it is also
+[21:44] called the critic. It is called the
+[21:46] critic, okay? This what value model is
+[21:48] also called the critic. So whenever
+[21:49] we're talking about the PPO guys, so the
+[21:51] PPO actually it's the actor and critic
+[21:53] method. So actor actually it's a main
+[21:55] model which we are going to be trained.
+[21:57] Reward model which we have trained
+[21:58] separately, okay? It is providing some
+[22:00] reward. Then guys, the same responses
+[22:03] and the
+[22:04] prompt is going inside also. So here we
+[22:07] are getting an expected reward, okay? So
+[22:09] here we are getting actual reward and
+[22:11] this is what this is my expected reward.
+[22:13] Now after that guys, what we will do? We
+[22:15] will be capturing the advantage score.
+[22:17] So advantage score is nothing. Actually,
+[22:19] it is a kind of loss. So we are going to
+[22:21] be subtract this expected score from the
+[22:25] actual score and this is what this is my
+[22:27] reward. Now
+[22:28] the PPO clipping would be there. The PPO
+[22:31] update would be there. It is nothing. It
+[22:33] is a method It is a similar concept like
+[22:35] the weight updation, okay? So here what
+[22:37] we are doing? We are again doing the
+[22:39] weight updation and we are selecting a
+[22:42] better policy. Policy is nothing. Policy
+[22:45] is a weight only, right? So if you are
+[22:47] thinking a difficulty like if you are
+[22:49] thinking a difficulty in this a
+[22:50] particular term the policy, right? What
+[22:52] is a policy? If you haven't heard about
+[22:53] this particular term, right? It is
+[22:55] nothing guys. It is just the weights
+[22:56] only, weights of the model. So PPO
+[22:58] update algorithm is going to be execute.
+[23:00] Means this gradient
+[23:02] will be activated, Okay, after
+[23:03] calculating a loss and then we are
+[23:05] basically finding out the better policy
+[23:07] means the better and the best to best
+[23:09] weights. So, this is the entire pipeline
+[23:12] of what? This is the entire pipeline of
+[23:13] the PPO. So, whatever points you will
+[23:15] see over here 1 2 3 4 5 6 7 8, it is
+[23:19] nothing guys. It is a explanation of
+[23:21] this entire pipeline only. Okay? Now,
+[23:24] here I mentioned some more points. So,
+[23:26] reward modeling tells how good the
+[23:27] response is. Value model predict how it
+[23:30] should be, right? Advantage tell us
+[23:32] whether we will we did better or worse,
+[23:34] right? Loss kind of thing. Then PPO
+[23:36] update the policy to increase the good
+[23:38] responses, right? So, it's going to be
+[23:40] update the weight to get a good
+[23:42] responses. Then clipping keeps update
+[23:44] small in the training stable. So, there
+[23:46] is a one clipping concept also. So, I'll
+[23:48] explain you what is this clipping
+[23:49] concept, okay? I kept uh some point
+[23:51] around to that as well. Then after many
+[23:53] example, the model will become more
+[23:55] helpful in the safe one. So, this is the
+[23:57] entire process uh where we are basically
+[23:58] the goal of the uh uh human uh
+[24:01] preferences and the PPO is nothing to
+[24:03] train a model uh which provide you the
+[24:05] helpful, harm- harmless, and the honest
+[24:07] responses. Okay? So, uh guys now let's
+[24:10] uh debug this each and every step of
+[24:12] whatever I have written over here. Uh
+[24:14] now guys uh just uh focus over here.
+[24:16] See, we have a user prompt. So, let's
+[24:18] say this is what? This is my user
+[24:19] prompt. Okay? Uh now guys, it will go to
+[24:22] the policy network. Policy network is
+[24:24] nothing. It is my LLM which I wanted to
+[24:26] trade.
+[24:27] The policy model gives the probability
+[24:28] and generate the response. Let's say it
+[24:30] is generated this particular response.
+[24:32] Okay? And what was the probability of
+[24:34] the generating this particular response?
+[24:36] The probability was a 0.6. Okay, 60%.
+[24:39] So, it's going to be stored inside one
+[24:40] variable. That is my old probability.
+[24:42] Okay? Now guys, we have a reward model.
+[24:45] So, this uh particular reward model we
+[24:47] have already trained on the preference
+[24:48] data set.
+[24:49] Okay? Preference data set. PDS is
+[24:52] nothing. It is a preference data set,
+[24:53] right?
+[24:54] So, to this particular reward model, we
+[24:56] are passing the prompt.
+[24:59] And we are passing the response.
+[25:01] Now, what it is doing, guys? It is
+[25:02] giving me some reward.
+[25:04] Okay, it has given me some reward. Now,
+[25:06] what will happen, guys? So, we have one
+[25:08] more model that is a value model, and it
+[25:09] generate what? It generate the expected
+[25:11] reward. Okay? So, guys, here we are
+[25:14] passing the same prompt
+[25:16] and same response
+[25:18] to this particular model, the value
+[25:19] model. And it is generating some
+[25:21] expected reward. Then after that, what
+[25:23] will happen? We are going to be
+[25:24] calculating the advantage score. So,
+[25:26] let's say this is what? This is my
+[25:27] advantage score, right? Then PPO updates
+[25:29] the policy, right? So, what is the
+[25:32] meaning of this policy? So, PPO update
+[25:33] the policy to increase the chance of the
+[25:35] get a good response.
+[25:36] So, let's say this is my old
+[25:37] probability.
+[25:39] Okay?
+[25:40] So,
+[25:41] this is my new probability means uh
+[25:43] after the training, so the new
+[25:45] probability of getting this particular
+[25:47] response is going to be increased,
+[25:48] right? 0.72. So, how it's going to be
+[25:51] increased, guys? We'll understand that.
+[25:52] See, we have a ratio calculation. So,
+[25:55] new probability divided by the old
+[25:56] probability, and this is what, guys?
+[25:57] This is my ratio, 1 by 1.2.
+[25:59] So, here, guys, one more method comes
+[26:01] that is called the PPO clipping. So,
+[26:03] inside the PPO clipping, what happened?
+[26:05] So, let's say suppose new probability is
+[26:06] going to become 0.95. Okay, this one.
+[26:09] So, what will be the new ratio in that
+[26:11] case? So, the new ratio is going to be
+[26:12] 0.95 divided by 0.60, that is 1.58,
+[26:16] right? So, PPO says it is too much. We
+[26:18] don't prefer this much of changes, okay?
+[26:21] Inside the new probability, step by
+[26:23] step, slowly slowly
+[26:25] Okay?
+[26:26] Slowly slowly basically we will increase
+[26:27] the probability. Okay? So, here, guys,
+[26:30] there is one formula. So, 1 minus
+[26:32] epsilon to 1 plus epsilon. So, here
+[26:34] basically we are going to be decide this
+[26:36] epsilon value. Okay, let's say my
+[26:38] epsilon value is something, and because
+[26:40] of that this is the range, right? So,
+[26:42] our new probability basically should not
+[26:44] be out of this particular range. It
+[26:45] should be updated till it should be
+[26:48] updated inside this range only. Okay,
+[26:50] slowly slowly slowly step by step it
+[26:52] should be like this only. So, after
+[26:54] 1,000 of example, PPO is uh applied
+[26:57] repeatedly on many prompts, right? And
+[26:59] then likewise, guys, we are going to be
+[27:01] training this policy network. So, this
+[27:02] is the overall process of it. Now, here
+[27:05] you have maybe some confusion about the
+[27:07] policy of the PPO update the policy, PPO
+[27:09] clipping, and all. So, don't worry. I
+[27:11] kept some point for all of you. So,
+[27:13] let's try to read out this particular
+[27:15] prompt.
+[27:16] So, PPO update the policy means PPO
+[27:19] modified the models and neural network
+[27:21] weights. So, that actions that receive
+[27:24] higher rewards become more likely in the
+[27:26] future, while lower-quality action
+[27:28] become less likely.
+[27:30] Now, what is the meaning of it, guys?
+[27:31] The meaning is very, very simple. So,
+[27:33] here also we have a gradient mechanism
+[27:35] means we have a optimizer, which is
+[27:37] updating the weight of the neural
+[27:39] network, okay? And because of that,
+[27:41] basically, we are able to get a
+[27:43] probability, right? Let's say my new
+[27:45] probability is coming,
+[27:46] right? And the new probability,
+[27:48] basically, it is more towards the
+[27:49] previous response the response we were
+[27:51] generating, right? Now, here one more
+[27:52] concept comes that is called the PPO
+[27:54] clipping. So, suppose we are keeping the
+[27:56] epsilon value is 0.2. So, we have a
+[27:58] range from 0.8 to 1.2, right? So, PPO
+[28:01] internally says 1.8, do not use it,
+[28:04] okay? So, we are going to be use the
+[28:06] minimum of what? Minimum of this 1.5 and
+[28:09] whatever we got at and the above value
+[28:11] of this range, that is 1.2, okay? So,
+[28:13] use 1.2 means this is our going to be a
+[28:15] range inside uh uh this particular range
+[28:18] only, okay? This is my
+[28:19] uh
+[28:20] basically uh minimum to maximum range,
+[28:22] and within this range only the
+[28:23] probability should be increased, right?
+[28:25] Now, PPO clipping does not stop the
+[28:27] neural network uh weight from being
+[28:29] updated. Instead, the loss function
+[28:31] limits the gradient so that weight
+[28:32] update cannot become too large in the
+[28:35] training in the single training step.
+[28:37] So, this is the main aim of the PPO
+[28:39] algorithm to do not increase everything
+[28:42] in a single go, right? Uh to increase uh
+[28:44] the weight step-by-step, okay? Uh and
+[28:47] for that only this PPO clipping concept
+[28:49] comes, right? So, what happened during
+[28:51] the weight update? So, this is a very
+[28:53] important point. PPO does not directly
+[28:54] do 0.95 to 0.72.
+[28:57] Instead, PPO design the loss function in
+[28:59] such a way that ratio basically is
+[29:03] is not going to be increased more than
+[29:04] this. The model stop receiving, okay,
+[29:08] additional benefit from increasing the
+[29:09] probability further. As a result,
+[29:11] gradient become a smaller and the weight
+[29:13] update become a smaller. And naturally
+[29:15] the new probability does not jump too
+[29:17] much. So, the overall idea of this PPO
+[29:20] clipping is nothing. Do not increase the
+[29:21] probability too much in the single go.
+[29:23] Go step-by-step. And here you can see,
+[29:25] guys. So, without clipping, we can have
+[29:28] a huge jump. And with the PPO clipping,
+[29:31] we have a very
+[29:32] like a minimum changes, okay? And slowly
+[29:35] and gradually this probability is being
+[29:37] increasing. And my model is learning in
+[29:40] a better way, okay? So, I hope, guys,
+[29:42] this entire process is clear to all of
+[29:44] you, like what is the PPO and all. So,
+[29:46] yes, you can read out this particular
+[29:48] theory and you will get everything. Now,
+[29:50] here, guys, one very important concept.
+[29:51] This policy model, reward model, and
+[29:53] value model are nothing. It is a
+[29:55] transformer based model. So, if someone
+[29:56] is going to ask you in the interview,
+[29:58] you can say it is a LLM only. Now, one
+[30:00] question have been asked to me in the
+[30:02] interview. So, super important interview
+[30:04] question. Does PPO directly use the
+[30:06] human preferences? The answer is no.
+[30:08] Human feedback is not directly used in
+[30:09] inside the PPO. Human feedback is first
+[30:11] used to train the reward model. And then
+[30:13] PPO uses the reward model to score as a
+[30:16] reward, okay? So, one-line summary. HF
+[30:19] in RLHF used to train the reward model.
+[30:21] PPO never interact with the human
+[30:22] feedback directly.
+[30:24] I hope, guys, this entire theory is
+[30:26] clear. Now, let's
+[30:28] start with the practical.
+[30:31] Okay, guys. So, let's start with the
+[30:33] practical.
+[30:34] So, for implementing this practical,
+[30:37] guys, first of all, you will have to
+[30:38] connect with the GPU. So, open your
+[30:41] Colab notebook because Colab is provide
+[30:44] you the free uh GPU. And after that
+[30:46] guys, go inside the runtime, change
+[30:48] runtime type, and then select the
+[30:50] appropriate GPU. If you have Colab Pro,
+[30:53] in that case, you will get some advanced
+[30:55] GPU also, but in the free version, you
+[30:56] will get the basic GPU.
+[30:58] >> [laughter]
+[30:58] >> Okay? Now, after saving it guys, you
+[31:01] just need to connect with your server,
+[31:03] and then install this particular
+[31:05] library. So, this entire practical we
+[31:07] are going to perform using the Hugging
+[31:09] Face, right? We can do the same
+[31:11] practical using the Unsloth as well. So,
+[31:13] if you wanted to understand the Unsloth,
+[31:15] you can go and check out with my
+[31:16] previous video.
+[31:18] I already uploaded one video over the
+[31:20] Unsloth. Now, in the future, I will
+[31:21] record one more solution using the
+[31:23] Unsloth. But here, we are using the core
+[31:26] and the native Hugging Face, okay? Core
+[31:28] native Hugging Face and even some
+[31:29] third-party library, which is available
+[31:31] inside the Hugging Face, right?
+[31:33] So, I'm installing Transformer for
+[31:34] loading the model and data set for the
+[31:36] data set compatibility, Accelerator for
+[31:38] running this over the GPU or over the
+[31:41] multi-GPU, TRL for the actual PPO.
+[31:44] Okay, PEFT basically to perform the
+[31:45] lower bits and bytes for the
+[31:47] quantization. So, I already installed
+[31:49] this library, you just need to install
+[31:50] it, and then restart the session, okay?
+[31:54] Now, after that guys, what you will do?
+[31:55] So, here you will import all these
+[31:57] packages. So, you will import the OS,
+[31:59] you will import the GC, okay? You will
+[32:01] import the
+[32:02] random, torch, TRL. Then guys, data set
+[32:05] will be required, then auto tokenizer
+[32:07] for the tokenizer for the causal LM,
+[32:09] right? Uh for the LLMs.
+[32:11] Uh and this model this import statement
+[32:14] is also required. I'll tell you where it
+[32:15] will be using. Then this is from the TRL
+[32:19] guys. So, from the TRL, you are going to
+[32:20] be import the reward trainer, reward
+[32:22] configuration for training the reward
+[32:24] model. And here, you are going to be
+[32:26] import the PPO trainer, the PPO
+[32:28] configuration for PPO training. Right?
+[32:30] So, once you will do it guys, you will
+[32:32] get See here, you will get the complete
+[32:34] detail of the GPU as well because I
+[32:36] mentioned some printer statement which
+[32:38] will provide you the information of the
+[32:39] GPU. Okay. Now this is some setting
+[32:42] which you can perform. This is for the
+[32:44] efficient memory allocation. This is for
+[32:47] the reproducibility. So again and again
+[32:49] if you're going to be perform this
+[32:50] experiment the data set and the
+[32:53] random generation is going to be same
+[32:54] only, right? So for that only we define
+[32:56] this seed value.
+[32:57] Right? And here this is the method for
+[32:59] clear the memory. So if
+[33:01] the memory is going to be increased if
+[33:02] it's going to be consumed the more RAM
+[33:04] and the and in between only you have to
+[33:06] clear the memory before loading the next
+[33:08] model, right?
+[33:09] So you can clear the memory using this
+[33:11] particular function, right? If you don't
+[33:13] understand the seed guys it is a very
+[33:15] simple concept. Let's say if you are
+[33:17] going to be split the data, right? Train
+[33:19] and test split and if you're running
+[33:21] that cell multiple times. So every time
+[33:23] you will get a random sample. So just to
+[33:25] stop that behavior, okay? We use this
+[33:27] seed value. So I'm defining at the top
+[33:29] only. So I will not get in I will not
+[33:32] get any randomness in between my
+[33:34] practical.
+[33:35] So this is clear now guys. Now I am
+[33:37] going to be use this particular model
+[33:39] for this training. So I'm going to be
+[33:41] train this
+[33:43] small LM 2 135 million instruct model. I
+[33:46] can use any other model also but I don't
+[33:48] have that much memory right now in my
+[33:49] free version. So I'm not using.
+[33:51] Otherwise it will give me out of memory
+[33:53] error. Okay? So this model is perfect
+[33:54] for the demonstration purpose.
+[33:56] So let me import this model as well. Now
+[33:58] here guys I'm going to load the model
+[34:00] tokenizer and this is a reward model
+[34:02] tokenizer.
+[34:03] So here guys I'm providing model name so
+[34:05] it will talk the
+[34:06] tokenizer and I am setting the
+[34:09] I am
+[34:10] setting the pad token as well. Okay?
+[34:13] So this is the setting of the pad
+[34:14] tokenization. Pad token basically.
+[34:17] Now after that guys what I will do see
+[34:19] here basically I had a data. Means I had
+[34:21] a
+[34:22] JSON file where I kept this preference
+[34:24] data chosen and rejected one which I
+[34:26] prepared by myself. Okay?
+[34:28] Now I can show you do
+[34:31] Just a second. So where you will get it?
+[34:33] See, here is a data, guys. This one,
+[34:34] this JSON data. So, this JSON data which
+[34:38] I'm using, okay, as of See, inside this
+[34:41] particular JSON data
+[34:43] Okay, not this one. I think something
+[34:44] different.
+[34:46] It is inside the YouTube.
+[34:48] That is also a JSON file now. So, by
+[34:50] mistake, I opened that.
+[34:52] Yeah, complete fine-tuning. And here is
+[34:54] the RLHF. So, this is my reward
+[34:57] preference data, guys. Now, inside this
+[35:00] particular data, as you can see, so we
+[35:02] have total 20 rows, right? So, I just
+[35:05] took some subset of this data. I kept
+[35:06] inside the cell itself instead of
+[35:07] loading this data, okay? But I'm giving
+[35:09] you this data as well as the code. So,
+[35:11] if you wanted to utilize this data, you
+[35:12] can utilize that, right? But in
+[35:14] industry, how you are going to be create
+[35:15] this kind of data? So, you will have to
+[35:16] take a help of the SME, right? Related
+[35:18] to domain-specific data. Okay, so they
+[35:21] are
+[35:22] that SME will help you, or directly you
+[35:24] can collect this data from the user as
+[35:26] well. So, multiple ways we have. Now,
+[35:28] let me do one thing. Let me basically
+[35:30] show you the data points. See, I'm just
+[35:32] using four to five data points as of now
+[35:34] because I don't have much memory so that
+[35:37] it can be up because I have to train
+[35:39] multiple models over here. First, the
+[35:40] reward model, and second, the PPO model,
+[35:43] okay? So, I'm just taking four points.
+[35:44] If you wanted to like load the
+[35:46] JSON file, so this is the code for that,
+[35:49] okay?
+[35:49] So, this is the data point now, guys.
+[35:51] This is some formatting of the data. So,
+[35:52] I'm making
+[35:53] I'm converting my data into the
+[35:55] different format. So, here I am have a
+[35:57] role. Here, my prompt will go, okay?
+[36:00] Then, what I'm doing, guys? I'm going to
+[36:01] be convert this
+[36:03] particular data into the chat format,
+[36:04] okay? So, using this token RM, it is
+[36:07] having one method, apply chat template.
+[36:09] I'm passing my message, tokens
+[36:11] tokenization false. I'm not doing any
+[36:12] sort of tokenization here. And I am
+[36:14] adding the chat template, okay? And
+[36:16] here, basically, I'm adding the chat
+[36:18] template, okay? To this particular uh
+[36:21] prompt, and then chosen and the
+[36:23] rejected. This two column also will be
+[36:25] added, okay? So, here you can see I'm
+[36:27] adding after the prompt. So finally how
+[36:29] the data will look like? See this is the
+[36:31] code basically to convert my data into
+[36:33] the hugging face format. Okay. So
+[36:35] finally the data will look like this
+[36:36] only. I'm showing you one single point
+[36:38] so that you can get a clarity. See. So I
+[36:40] have I'm having a prompt. So here the
+[36:42] data here the prompt is going to be
+[36:43] start. So this is a system prompt. Okay,
+[36:46] then here is a user prompt. See user
+[36:48] prompt and then this is the assistant
+[36:49] one where we have this chosen and the
+[36:51] rejected. Right? So in this particular
+[36:53] format the data is being prepared I'm
+[36:54] using this two method. That's it.
+[36:56] Nothing else.
+[36:57] Now guys I'm going to be load my reward
+[36:59] model. So here I'm providing my model
+[37:01] name. Okay, and my reward model is going
+[37:03] to be loaded. Now this reward model
+[37:06] basically is not going to be generation
+[37:07] model. Okay, it's going to be a
+[37:08] classification model where it's going to
+[37:10] be provide one a score at the end. So
+[37:12] that's why guys I'm using this auto
+[37:13] sequence classification class there.
+[37:15] From there I'm using this loading this
+[37:17] model. Okay, with this
+[37:18] with this classification head. Okay. So
+[37:20] it will provide me one single value at
+[37:22] the end. One probability value. Right?
+[37:24] So my model is loaded. Now after that
+[37:26] guys I'm going to be load the reward
+[37:27] configuration. So where I'm going to
+[37:28] save the model. This is all about a
+[37:30] training. Right? How many epoch and the
+[37:31] best size the step size I'm taking.
+[37:33] Logging strategy is there. Okay. And
+[37:35] this is about the generation. So here
+[37:37] this is the reward configuration and
+[37:38] after that guys here is my trainer.
+[37:40] Okay. So this is what this is my trainer
+[37:43] guys. See. In the trainer I'm passing my
+[37:45] model.
+[37:46] I'm passing my argument. I'm passing my
+[37:48] token. Okay. Processing class is my
+[37:50] token. They automatically will do
+[37:51] tokenization. Okay, and this is my data
+[37:53] set. So all the thing I'm passing to the
+[37:55] trainer and see
+[37:56] now my trainer is ready. Now I will
+[37:59] train my model. So see guys the training
+[38:00] has started. Okay.
+[38:02] So it is training the reward model and
+[38:05] it is saving inside this particular
+[38:06] directory. Where you will get it? You
+[38:07] will get it over here.
+[38:09] So this is the directory. Okay, you will
+[38:10] get the
+[38:11] reference model. Sorry, this reward
+[38:13] model over here. Now after that I'm
+[38:14] going to clear my memory. So let it
+[38:17] clear. Now guys after that guys what
+[38:19] I'll do I will load the PPO model. So
+[38:21] first I'm loading the PPO tokenizer,
+[38:23] right? Then I'm loading the PPO model.
+[38:25] So, here basically what I'm doing, I am
+[38:27] loading the PPO model. So, let me show
+[38:29] you. See this one. Now guys, one more
+[38:32] model is required. So, here guys, I'm
+[38:34] going to be load a copy of this PPO
+[38:35] model only, right? So, the reference
+[38:38] model, that is called the reference
+[38:39] model. Reward model, value model, PPO
+[38:40] model is a different one, means the
+[38:41] policy model. And the reference model is
+[38:43] a different one. So, here I kept the
+[38:45] explanation of that. The reference model
+[38:46] is a frozen copy of the original policy
+[38:48] model. It is never trained during the
+[38:50] PPO again. The policy network only is
+[38:52] being trained. Its only purpose is to
+[38:53] measure how much the current policy
+[38:54] model change and apply KL penalty if it
+[38:57] is drift too much far from the original
+[38:59] behavior. So, just keep my PPO model
+[39:02] aligned with our with the with its
+[39:03] original behavior, we keep one reference
+[39:05] model also. It's not going to be trained
+[39:07] guys. It is just going to be evaluate
+[39:08] simultaneously the responses, right? Our
+[39:10] three model our three model is working
+[39:13] like in the pipeline. One is the policy
+[39:15] model, second is the reward model, and
+[39:17] third is the value model, okay?
+[39:18] So, this is my reference model. It is
+[39:20] just a copy of the PPO and the value
+[39:22] model only. I'm loading my reward model
+[39:24] over here. So, see from this particular
+[39:25] directory I'm loading my reward model,
+[39:27] right? Now guys, I'm loading my value
+[39:30] model also. So, reward model only I'm
+[39:32] keeping it the value model as of now,
+[39:33] but you can keep any other model also as
+[39:35] a value model, right? So, reward reward
+[39:37] model only I'm keeping as a value model
+[39:40] as of now. So, we have policy model, we
+[39:42] have reward model, we have value model,
+[39:43] and one reference model, right? Now
+[39:45] guys, this is my PPO this is the data
+[39:47] set basically, PPO format data set. So,
+[39:49] this is the prompt which I will be
+[39:50] providing to the model.
+[39:51] And model is generating our responses
+[39:55] behalf on this prompt, the policy model.
+[39:58] Okay? And after that guys, what will
+[40:00] happen? You know, right? After that my
+[40:02] reward model and the value model will
+[40:04] correct it and my final training will be
+[40:06] going on. So, this is the make PPO
+[40:08] format method. It's going to be convert
+[40:09] my data into PPO format, okay? Then the
+[40:11] tokenization will be there. Then I'm
+[40:13] mapping the entire data set, okay? With
+[40:16] this particular method. So, my final
+[40:17] data set will be created. So, let me run
+[40:19] it, guys. So, over here, just a second,
+[40:21] let me run it. This is fine. Now, my
+[40:23] data set is ready. So, see input IDs and
+[40:25] all, everything is there. Let me show
+[40:26] you one data sample, so that you will
+[40:28] get a clarity. Because the tokenized
+[40:30] format only we have to provide a data.
+[40:31] Now, see this is the final data point
+[40:32] which we are providing. And this is
+[40:33] being happened This is being done using
+[40:35] this particular method. Now, let me
+[40:36] again show you that. See, this is just a
+[40:37] prompt. Okay? This prompt will go to the
+[40:39] policy model. Now, make a PPO prompt.
+[40:42] Okay? So, here basically I'll be getting
+[40:43] a prompt and I'm going to be convert
+[40:45] into this particular format. And here we
+[40:47] are not doing any sort of a
+[40:47] tokenization. Okay? Only it will apply
+[40:49] the format. Now, this a particular
+[40:51] method basically what it will do, it
+[40:52] will do the tokenization. Okay? So, it
+[40:55] will do the tokenization of my prompt,
+[40:56] right? Spatting and all, everything it
+[40:57] will be performed. And see, it will
+[40:59] apply the max length also. So, we are
+[41:01] going to be written this particular
+[41:02] thing and see the output over here. We
+[41:03] are getting this only. We are getting
+[41:05] the length and as well as the input IDs,
+[41:06] right?
+[41:07] Now, we are mapping this prompt data set
+[41:08] with our this method tokenization for
+[41:11] PPO. Okay? And inside it only this make
+[41:13] prompt will be applied. This particular
+[41:15] method. That's it, guys. Nothing else.
+[41:16] Very very simple code. So, once you will
+[41:18] go through with it, you will understand
+[41:19] everything. Now, after that, guys, see
+[41:21] this is the configuration of the PPO.
+[41:22] So, here basically we are
+[41:24] having a PPO output directory. This is
+[41:26] like related to the
+[41:28] like batch size and the step How many
+[41:30] batch In how many batches we are passing
+[41:32] the data? How many step we are going to
+[41:33] be run? Instead of single epochs. Okay?
+[41:35] According to the batch. The learning
+[41:36] rate related to the optimizer. Okay?
+[41:38] Then related to the epoch. Related to
+[41:40] the saving strategy. Okay? And here you
+[41:42] can see. So, be
+[41:44] float 16 or be 16 we are keeping it as a
+[41:45] false. Okay? Getting checkpointing and
+[41:48] remove unusual column. Again, it is a
+[41:50] This is true and this is a false, right?
+[41:52] So, again this is like related to what?
+[41:53] Related to the optimize optimizer only.
+[41:55] So, fine, guys. I think this is the
+[41:57] configuration. It is clear. Now, we are
+[41:59] preparing the PPO trainer. Here we are
+[42:00] passing the PPO argument. We are passing
+[42:02] the tokenizer. We are passing our policy
+[42:04] model, reference model, reward model,
+[42:06] value model and then PPO data set. Okay?
+[42:08] So, this is done. Now, we are training
+[42:10] our PPO model. So, see guys, the
+[42:12] training would be started over here.
+[42:14] And it will train the PPO model. Now,
+[42:16] after that guys, what it will do, it
+[42:17] will keep the PPO model after the
+[42:19] training inside this PPO output. Okay?
+[42:21] So, our model is being trained. You can
+[42:24] wait for some time. Let it rain, guys.
+[42:28] It [snorts] won't take much time. Yeah,
+[42:29] see. This is trained, guys. See, my data
+[42:30] set was very small, and I just had to
+[42:32] show you some
+[42:33] Sorry, I just wanted to show you how it
+[42:35] is being trained. That's why the steps
+[42:37] and all nothing is coming over here
+[42:39] because I'm running for 20 minimal step
+[42:40] only one
+[42:41] sort of a step, right? But guys, in a
+[42:43] real time, you can run it for multiple
+[42:44] epoch for the multiple epoch and
+[42:46] multiple epoch for the multiple step,
+[42:48] and the data set also might be little
+[42:50] huge. You should You at least should
+[42:51] have
+[42:52] at least 250 to 500 prompts over there,
+[42:55] right? So, this is fine. The train
+[42:57] training is done, and inside this
+[42:58] particular folder, you will get the
+[43:00] model. I'm saving the model.
+[43:02] Okay, so let me save the model. So, my
+[43:04] trainer and the tokenization both is
+[43:05] saved over here.
+[43:07] So, see. I will get the model over here.
+[43:09] Inside this particular directory. See,
+[43:10] the model is there. Now, this is a code
+[43:12] for the inferencing. So, what I'll do, I
+[43:13] will load the PPO model. I will do the
+[43:15] tokenization. Okay, and I will set the
+[43:17] padding set I will set the padding
+[43:18] setting over here. Then this is my infer
+[43:21] model inference model. I will keep it as
+[43:23] a evaluation. I will set the set this
+[43:26] inference model as a evaluate one. Okay?
+[43:28] Then I'm passing my prompt. Okay, this
+[43:29] is my message. Now, this I'm formatting
+[43:31] this particular message. Okay, then it
+[43:33] will be going to the tokenization, and
+[43:34] then it is going to be generate the
+[43:35] final response. So, once I'll run it,
+[43:37] guys, so here what you will get, guys,
+[43:39] you will get the final output. So, yeah.
+[43:42] See, this is the system message. This is
+[43:43] the user message, and see this is the
+[43:45] final output. See, it is not giving me a
+[43:48] correct answer here. It is generating
+[43:50] some garbage, maybe.
+[43:52] So, we'll have to check again. I think
+[43:53] this our training is overlapping. I run
+[43:55] it twice, basically, just to show you
+[43:57] and before
+[43:58] this practical. Okay? So, maybe it is
+[44:01] going to be overlap somewhere. So, I
+[44:03] hope you understood the entire process,
+[44:05] guys. Once you will run it by your end,
+[44:07] okay, this notebook inside the collab,
+[44:08] you will get the correct answer. This is
+[44:10] my promise, right? So, yeah, this is the
+[44:11] entire RLHF training process. I hope you
+[44:14] got it. Now,
+[44:16] we'll look into some other method in the
+[44:17] next class, guys. I will discuss on the
+[44:19] GRPO, DPO, and the
+[44:21] and the ORPO, okay? So, you this entire
+[44:24] preference training would be clarified.
+[44:27] So, fine, thank you for watching this
+[44:29] video, and I'll see you in the next
+[44:30] video. Until, take care. Bye-bye, guys.
+[44:33] Thank you very much.

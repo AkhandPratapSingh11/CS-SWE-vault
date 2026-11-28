@@ -1,0 +1,1520 @@
+Title: LLM Fine-Tuning 16: Preference Alignment & Preference Training in LLMs with RLHF, RLAIF, DPO, LoRA
+Video URL: https://www.youtube.com/watch?v=u6G5zznD69g
+Video ID: u6G5zznD69g
+======================================================================
+
+[00:00] Hey hi everyone, welcome back to my do
+[00:04] channel. My name is Sunonny and I am
+[00:07] back with another important video. So
+[00:10] guys, in this particular video we're
+[00:12] going to discuss about the
+[00:14] preferencebased training. In the
+[00:16] previous video we understood about the
+[00:19] instruction finetuning and before that
+[00:22] uh we understood about the
+[00:23] non-instruction finetuning. Now in this
+[00:26] video we'll focus on the preferencebased
+[00:29] learning or preferencebased training. I
+[00:32] will show you all the theoretical
+[00:34] example along with the practical. So
+[00:37] guys if you haven't seen with my YouTube
+[00:39] channel then please go and check here
+[00:41] you will find out video with respect to
+[00:44] the different different concept of the
+[00:46] generative AI. Now once uh you will go
+[00:48] inside the video section you will get
+[00:50] all the videos over here or else you can
+[00:53] check out with the playlist. So here I
+[00:55] cap the playlist regarding the different
+[00:57] different concept of the generative AI
+[00:59] whether it's a RLM ops or fine-tuning or
+[01:03] agentic AI or retrieval argument
+[01:06] generation basic rag advanced rag as
+[01:09] well as multi-model rag. Uh now guys uh
+[01:12] if you don't know I started one end to
+[01:14] end LM fine-tuning playlist where I
+[01:17] uploaded 15th video so far. Now this is
+[01:21] going to be 16 video where I am going to
+[01:24] discuss about the preferencebased
+[01:25] training. Now how many more video I will
+[01:28] record inside this playlist. So uh it
+[01:31] will be around 8 to nine more video.
+[01:34] Okay. So there I'm going to discuss each
+[01:36] and every framework each and every type
+[01:39] of model and the different different
+[01:41] other concept of the LLM fine-tuning.
+[01:44] Then I will start with some new playlist
+[01:46] maybe LLM from scratch or I will start I
+[01:50] will upload couple of more video with
+[01:51] respect to the rag and agents. So if if
+[01:54] you haven't subscribed my YouTube
+[01:56] channel guys please [clears throat] uh
+[01:57] do subscribe and uh if you have any
+[02:00] thought anything please write inside the
+[02:03] comment section. Now uh let me uh show
+[02:06] you that what all thing you're going to
+[02:08] learn inside this particular video and
+[02:11] then step by step one by one we'll
+[02:13] implement all those things. So here I
+[02:15] kept the complete uh points guys. So uh
+[02:18] we'll learn about the preference
+[02:20] alignment or preference training. Uh
+[02:22] then we'll understand why do we do
+[02:24] preference alignment means why it is
+[02:26] required. Then we'll see the example
+[02:29] data set example like how the data set
+[02:31] look like. If I have to do the
+[02:32] preference alignment then what kind of
+[02:34] data I will have to create. Uh then
+[02:37] we'll see techniques for the preference
+[02:39] alignment. So what are technique we
+[02:41] have? Uh we just know about the RLHF
+[02:44] that is called reinforcement learning
+[02:46] through the human feedback. But that is
+[02:48] not only one of the technique we have a
+[02:50] couple of other techniques. So
+[02:52] definitely I will discuss onto it and
+[02:54] even I will show you the research paper.
+[02:56] uh then the very famous uh infamous
+[02:58] technique for this preference alignment
+[03:00] that is called DPO training. So we'll
+[03:02] understood understood about the DPO
+[03:03] training. We we'll see the mathematical
+[03:05] formula. I'm not going to show you the
+[03:07] complete mathematical intuition along
+[03:09] with the derivation and all. I will just
+[03:11] focus on the formula and we'll discuss
+[03:13] about that formula. Okay. Uh then we'll
+[03:16] see the practical implementation with
+[03:18] the DPU itself. So uh whatever model I
+[03:20] had means whatever model I trained in my
+[03:23] previous class the instruction fine-tune
+[03:24] model I'm going to take a same model and
+[03:27] on top of it I will perform the DPO that
+[03:29] is called direct preference optimization
+[03:32] then uh during the practical I will show
+[03:34] you the Lora adapter means how you can
+[03:36] use the Lora adapter why you should not
+[03:39] directly implement the Lora okay if you
+[03:42] are going to be use the already
+[03:46] fine-tuned model okay how to uh use the
+[03:49] lora over there definitely I'll show you
+[03:52] that comes under this lora adapter so
+[03:54] yes we are going to discuss all this
+[03:57] point throughout this tutorial now after
+[03:59] this tutorial guys you will be uh uh you
+[04:02] will like become a champion in the
+[04:04] preference alignment and you can
+[04:07] basically fine-tune okay you can train
+[04:10] uh any sort of a model on top of the
+[04:12] preference data now or let's start with
+[04:14] the theory then I will come to the
+[04:17] practical
+[04:19] Now here guys I created a stepbystep
+[04:22] notes for all of you uh so that you can
+[04:24] refer it later and you can revise your
+[04:27] concept. Now before starting this thing
+[04:29] uh let me show you the notes from the
+[04:31] previous session. So for that uh I have
+[04:34] created one uh repository with the name
+[04:36] of this complete LLM fine-tuning. Uh
+[04:39] there only I'm uploading uh all the
+[04:41] notes and all everything. Now where you
+[04:43] will get a link of this repository. So
+[04:45] you will get inside the description of
+[04:48] the video. Okay. So uh here I uh uh
+[04:52] created a repository for the LLM fine
+[04:54] tuning 14 for the 15 and 16. So the 16
+[04:58] basically it's a current video. Okay.
+[05:00] Now I likewise I will create for the
+[05:03] other uh basically video also. I'm
+[05:05] getting so many requests uh sir please
+[05:07] upload all the notes and all. So
+[05:08] definitely I'll update this particular
+[05:10] repository. Okay. Now guys, if you will
+[05:13] go and check uh with the previous
+[05:14] repository or with the previous nodes,
+[05:16] right? So here it is. Uh let me show
+[05:19] you. So see all the files and all
+[05:21] everything I kept uh handwritten notes
+[05:23] is there uh IPV file is there, CSV file,
+[05:26] JSON file, even uh the GIF file, model
+[05:29] GIF file also I kept right. So you can
+[05:31] directly download it and you can start
+[05:33] your practice. So guys, this was the
+[05:35] handwritten notes. Now here I discussed
+[05:36] some fundamental thing. Uh so I discuss
+[05:39] about the LLM training process. So the
+[05:41] first step of the LLM training process
+[05:44] is called the unsupervised pre-training
+[05:46] or self-supervised uh training. So here
+[05:49] we get the foundational model. Okay. At
+[05:51] this particular stage, so we are not
+[05:53] going to perform uh this particular
+[05:55] thing from our end, right? We are taking
+[05:58] any foundational model from the hugging
+[06:00] face or from any other places. Now our
+[06:03] aim to perform the finetuning. Okay. So
+[06:06] regarding the finetuning, I shown you
+[06:08] the supervised finetuning. So I shown
+[06:10] you two way. one with respect to the
+[06:12] non-instruction data and the second with
+[06:15] respect to the instruction data. Okay,
+[06:17] the instruction data one is like
+[06:19] specifically called the supervised
+[06:21] fine-tuning. But if we have
+[06:22] non-instruction data in that case also
+[06:24] we can fine-tune the model. I shown you
+[06:26] each and everything you can refer the
+[06:27] previous video. Now in this video we'll
+[06:30] discuss about the third point. Okay,
+[06:31] preferencebased alignment or training.
+[06:34] Right? So these are three main stage of
+[06:36] any LLM training. Right? And now we are
+[06:40] going to discuss this third one and uh
+[06:42] after this basically uh means after this
+[06:45] video you will find out video on top of
+[06:47] the different different framework. Okay.
+[06:49] Because uh in this video we'll complete
+[06:51] the third stage the last stage of the LM
+[06:53] trading. Uh now guys uh let's start uh
+[06:57] with our with the theory of the LM base
+[07:00] alignment or sorry preference based
+[07:03] alignment or preference based training.
+[07:07] So guys uh to align or train a model
+[07:11] with a human expectation or with a human
+[07:14] preferred data is called preference
+[07:17] alignment or preference training. Uh so
+[07:20] this particular technique was introduced
+[07:22] by the open AI in uh instruct GPT paper.
+[07:26] Uh don't worry in some time I I will
+[07:28] show you that particular paper and
+[07:30] definitely you can refer that. Uh now
+[07:33] why we do it? uh we do it to get a safe,
+[07:36] helpful and the honest model. Maybe
+[07:39] you're not getting couple of thing uh
+[07:41] just by reading this particular
+[07:42] definition but uh you will get once I
+[07:45] will show you the different different
+[07:46] example. So uh here I kept one example
+[07:50] uh just read out uh this statement. So
+[07:53] user is asking one question to the
+[07:55] model. So uh the question is very
+[07:57] simple. How do I lose my weight? Okay,
+[08:02] how do I lose weight faster? something
+[08:04] like that. So, uh I have a fine tune
+[08:06] model. Uh let's say this is the
+[08:08] instruction finetune model. Now, it is
+[08:10] answering. It's a simple thing. What you
+[08:13] have to do, you just have to stop
+[08:15] eating, right? Just stop the eating.
+[08:18] Give me a moment. I think now it's fine.
+[08:20] Yeah. So, uh just stop eating so much.
+[08:23] Now, you can see the answer is correct.
+[08:26] But it is rude. It is dismissive and
+[08:29] there is no explanation means it is not
+[08:32] aligned with the human expectation. If
+[08:35] JGP is giving you this kind of answer
+[08:38] maybe you will not be satisfied. The
+[08:41] answer should be according to the human
+[08:44] expectation. Right? So uh let's say this
+[08:48] is the output from the instruction
+[08:50] fine-tune model. Now just look into the
+[08:53] one more response. Right? Now just by
+[08:55] seeing this response you will be more
+[08:57] happy and uh nowadays from the chat GPT
+[09:00] or from any uh any uh basically large
+[09:04] language model we are getting this kind
+[09:05] of output because the model further have
+[09:09] been trained on a human preference data.
+[09:12] Okay. Uh now just uh look into the
+[09:14] another answer. Now uh let's suppose we
+[09:16] have one more model which have been
+[09:17] trained on a preference based data. So
+[09:20] the answer is safe bait loss generally
+[09:24] happen gradually. Okay. You can start
+[09:26] with a balanced meal, regular movement,
+[09:28] uh adequate sleep and hydration. Uh if
+[09:31] you have medical condition, it's best to
+[09:33] get a personalized plan from a
+[09:34] professional. I can help you with a
+[09:37] simple step if you want. Now guys, just
+[09:39] look into the difference right between
+[09:42] this answer, this particular answer and
+[09:45] this answer. So if you want to generate
+[09:48] this kind of answer right so maybe you
+[09:51] will have to take one more step with
+[09:53] respect to your LLM training you will
+[09:56] have to perform the uh RHF RL AI if that
+[10:00] is called reinforcement learning through
+[10:02] uh AI of generated feedback or you will
+[10:05] have to perform the DPO that is called
+[10:07] direct preference optimization. Now
+[10:10] first two technique RLHF and RL AIF it
+[10:13] is based on the reinforcement learning
+[10:16] uh and the second technique DPO it is a
+[10:18] simple supervised training okay so yes
+[10:22] uh definitely we'll discuss now uh here
+[10:24] you can see in the second one in the
+[10:26] second output you can see uh the answer
+[10:28] is having a correct tone it is a
+[10:30] respectful right and it gives the proper
+[10:33] explanation with the like it is a more
+[10:36] helpful answer okay it's a more human
+[10:39] align line answer. So that's why guys I
+[10:42] was saying this preference training or
+[10:44] preference alignment is a very important
+[10:46] part of the LLM training. Now coming to
+[10:50] a couple of more example. So here I kept
+[10:54] one more line. So after the preference
+[10:56] based training model does not just
+[10:58] produce accurate answer it behave
+[11:01] according to the user preference. Okay
+[11:05] it uh behave according to the user
+[11:07] intention. Uh so that's a like key
+[11:10] difference between a normal fine-tuned
+[11:12] model or a align model like GP 4, GP 5,
+[11:17] 5.1, 40, 4.1 whatever like latest and
+[11:20] the state of state-of-the-art model you
+[11:23] can see. Now why we do this preference
+[11:25] training guys? So this preference
+[11:28] training we do to improve the uh safety
+[11:31] and ethics of the model. uh we do it for
+[11:34] generating the helpful answer for the
+[11:36] more polite answer. Okay. We teach the
+[11:40] model uh so which can uh response like a
+[11:43] human means which can response in
+[11:46] whatever way the human wants. I kept one
+[11:49] more example maybe with that your
+[11:50] understanding will be bit more clear. So
+[11:53] how I can lose 10 kg weight in one week.
+[11:56] So if we have a normally model normal
+[11:58] train model so see how it is going to be
+[12:00] generate answer you can stop eating
+[12:02] drink only water and take fat burner uh
+[12:06] burner pills uh this will uh reduce
+[12:08] weight quickly okay so just suppose this
+[12:12] model basically it has not been trained
+[12:15] on a human preferred data right now here
+[12:17] guys you can see the another answer now
+[12:20] another answer is rapid bait loss 10 kin
+[12:23] a week is unsafe okay and it is
+[12:25] medically harmful
+[12:26] A safer approach is just to loss 0.5 to
+[12:30] 1 kg per week through balanced diet,
+[12:33] hydration and activity. If you have
+[12:35] urgent concern, please consult with the
+[12:37] doctor. Now guys tell me which answer
+[12:39] you will refer. So you will refer this
+[12:42] particular answer or this particular
+[12:43] answer or which is a more ethical which
+[12:45] is a more safe answer. So definitely
+[12:48] this answer is a more safer compared to
+[12:50] this one. So in the human preference
+[12:53] training in the hum uh in the preference
+[12:54] alignment basically we teach to the
+[12:57] model to behave like this. I hope you
+[13:01] are getting my point now. Now uh we'll
+[13:03] see the different different technique
+[13:05] what technique we have and we'll look
+[13:07] into the DPO the DPO formulas and all
+[13:09] and then we'll go for the practical
+[13:11] guys.
+[13:12] Now guys uh let's see the data set
+[13:14] example. Let's see how the data looks
+[13:16] like for the preference training. So
+[13:18] here I kept the example for all the
+[13:21] three method. Uh the first one is for
+[13:23] the non-instruction finetuning as well
+[13:25] as the unsupervised pre-trading. Uh in
+[13:28] both case uh the data will be the plain
+[13:30] text. Okay. Now how the input and the
+[13:33] output column will look like. So the
+[13:35] output output column will be the next
+[13:37] token. Okay. And the continue word. So
+[13:40] let's say this is my sentence. Now what
+[13:42] is the next word of it? This is the next
+[13:44] word. So this will be my output. Now see
+[13:46] this is my complete sentence. Okay. Till
+[13:48] oral. Now what is the next word? This is
+[13:50] my next word. Now uh here you can see
+[13:52] this is my complete sentence. Right? Now
+[13:54] what is the next word? This is the next
+[13:56] word. So inside the non-instruction
+[13:58] finetuning or inside the unsupervised
+[14:01] speed tuning what we are doing? We are
+[14:02] predicting a next word. So the next word
+[14:04] will be inside the uh output column.
+[14:07] Okay. Uh now how to decide the length of
+[14:09] this input and output. So for every
+[14:12] model we have one specific context
+[14:15] length. Okay. Okay. So according to that
+[14:16] we can decide right. Uh now the second
+[14:19] is the instruction finetuning. Now in
+[14:20] the instruction finetuning we'll be
+[14:22] having three column uh or sometime you
+[14:25] will only get two column. Okay. So the
+[14:27] first column is the instruction the
+[14:29] second is the input and the third is a
+[14:30] response. In this particular format you
+[14:32] will get a data or else the data would
+[14:34] be like this input uh called context and
+[14:37] the answer or the data might be like
+[14:39] this user and the assistant. Okay. or
+[14:43] sometime you will see context and the
+[14:45] response means uh the moral of the story
+[14:48] is uh we will be having one input column
+[14:51] and the corresponding output column.
+[14:53] Okay. Uh then how to format this data
+[14:56] and how to utilize it for training the
+[14:58] model. Uh if you want to know everything
+[15:00] in detail then please uh go and check
+[15:02] with my previous video right now. How
+[15:04] the data look like for the preference
+[15:06] training that's the main agenda of this
+[15:09] video. So inside uh for the preference
+[15:11] based training guys you will find out
+[15:13] three column three main column right uh
+[15:16] one is a prompt second is a chooser and
+[15:18] the third is a reject. Now this two is
+[15:20] very important
+[15:23] choose right which one is going to be
+[15:25] select and which one is going to be
+[15:28] rejected. Now uh let me show you uh some
+[15:30] real example from the hugging face
+[15:32] itself. So here is a data from this
+[15:35] anthropic. Uh so entropic is updated one
+[15:37] data. Okay. The repository itself is
+[15:40] entropic and the data set is called the
+[15:43] HH RLHF. Okay. Uh now here inside this
+[15:46] particular data you will find out two
+[15:47] column only. The first is a chosen and
+[15:49] the second is a rejected. Right. Now you
+[15:51] can see the another data. So inside see
+[15:54] this data basically it is available
+[15:55] inside this a r ga repository gilla.
+[16:00] Right. So the data set name is ultra
+[16:02] feedback binarize preference clean data.
+[16:04] Now inside this particular data also you
+[16:06] will find out two main column. First is
+[16:09] the rejected and uh the second uh column
+[16:12] will be the chosen. Okay along with the
+[16:14] given prompt right now here is the
+[16:16] second third example. So this is
+[16:18] available inside this Z lily repository.
+[16:22] Uh so the data set name is math step dpo
+[16:25] 10k. Now inside this particular uh
+[16:27] repository also inside this data set
+[16:29] also you will find out two main column.
+[16:32] uh the first one will be the chosen okay
+[16:34] with respect to the particular prompt
+[16:35] and the second uh column will be the
+[16:38] rejected okay so see here is a rejected
+[16:40] so choose and reject right select or
+[16:43] reject this will be the two main column
+[16:45] inside any preference data set right
+[16:49] choose means which one we are going to
+[16:50] be select and reject means uh which one
+[16:53] we are going to reject right I hope uh
+[16:55] this thing is clear and now let's see
+[16:59] the technique guys and then what I'll
+[17:02] After that I'll show you the DPO
+[17:03] formula. Okay. And then we'll jump to
+[17:06] the practical.
+[17:08] Now guys let's see the technique for the
+[17:10] preference alignment. Uh so the very
+[17:12] infamous technique that is called RLHF
+[17:15] reinforcement learning through human
+[17:17] feedback. The second technique is RL AIF
+[17:20] reinforcement learning through AI
+[17:22] generated feedback. The third is DPO
+[17:25] direct preference optimization. Now
+[17:27] these are the algorithm KTO PO IPO it's
+[17:31] a reinforcement based algorithm uh to
+[17:34] implement this RLHF or RL if in RL a
+[17:38] also we use this particular algorithm
+[17:40] okay so what's the full form of this
+[17:42] algorithm just for the general knowledge
+[17:44] so KTO is called the canman tverki
+[17:49] optimization p stand for proximal policy
+[17:52] optimization and this IPO stand for
+[17:55] implicit preference optimization. Now
+[17:58] this is very famous technique guys. Even
+[18:01] OpenAI is also revealed that they have
+[18:02] used this particular technique initially
+[18:05] for the reward modeling. Okay, PO
+[18:07] proximal policy optimization. It is a
+[18:10] reinforcementbased
+[18:11] technique. Okay, reinforcement it's a
+[18:13] like reinforcement learning algorithm.
+[18:16] Now uh the technique is RLHF. What was
+[18:18] the core idea? The core idea to train a
+[18:20] reward model using the human feedback.
+[18:23] Uh now what kind of data we were using
+[18:25] there? ranked responses okay which was
+[18:27] ranked by the human uh example openai
+[18:30] instruct GPT so this is a research paper
+[18:33] one model basically was released by the
+[18:35] openi regarding that model I'll show you
+[18:38] the research paper this open in GPT
+[18:40] there also you will see the use of this
+[18:43] RLHF technique okay through this PO the
+[18:46] second technique is called RL aif this
+[18:48] was introduced by the enthropic okay so
+[18:50] inside the RL Aif you will get the uh AI
+[18:54] generated feedback feedback. So human
+[18:56] generated feedback was not very scalable
+[18:58] idea means how many feedback can be
+[19:02] annotated by the human right maybe one
+[19:05] lakh two lakh right but if we have to
+[19:06] make it scalable then how we can do it
+[19:09] so there they have introduced this RL af
+[19:11] where human is not giving a preference
+[19:14] actually we are taking that particular
+[19:15] preference from the AI itself okay so
+[19:18] this was discussed inside this research
+[19:21] paper I'll show you in some time the
+[19:23] third technique and very uh popular and
+[19:25] in demand technique right now that is
+[19:27] called a direct optimization policy.
+[19:30] Okay, using the preference pair the full
+[19:33] form of it direct preference
+[19:34] optimization. Now guys this is not a
+[19:37] reinforcementbased training. Okay,
+[19:39] reinforcementbased learning. So here we
+[19:42] are not going to use reinforcement
+[19:44] learning. This is a simple supervised
+[19:47] learning. Okay, simple supervised
+[19:50] learning means we just have input and in
+[19:53] the other column we will be having the
+[19:54] output. That's it guys. Okay. Uh so
+[19:58] chosen and the rejected. That's it.
+[20:00] Right. So uh nowadays we are using this
+[20:02] particular technology. Now let me show
+[20:04] you the research paper regarding each
+[20:05] and everything. So guys uh uh uh I will
+[20:08] attach all this research paper in the
+[20:10] description. So this is the first one.
+[20:12] Uh the research paper name is training
+[20:14] language model to follow instruction
+[20:15] with the human feedback. So just check
+[20:17] out with this particular research paper
+[20:19] you will get so many detail over here
+[20:21] and uh this research paper was published
+[20:23] by the open AI it's a very good research
+[20:25] paper on top of the RLHF just read the
+[20:28] instruction at least and the couple of
+[20:30] headings okay you will get you will
+[20:32] understand see here I I was saying now
+[20:34] uh they have used the PO technique
+[20:36] proximal policy optimization so
+[20:38] initially for the RLHF uh they have used
+[20:41] the PPO technique okay so just read out
+[20:44] uh this uh research paper now uh The
+[20:46] second one is the uh direct preference
+[20:49] optimization DPO technique. It is also
+[20:51] very famous technique and it was
+[20:53] introduced by the Stanford University.
+[20:56] Right? So just look into this particular
+[20:58] research paper. You'll get the complete
+[21:00] details. See here this particular
+[21:02] research was published by the Stanford
+[21:04] University. Now here you will see the uh
+[21:06] Indian also one Indian Arches Sharma. Uh
+[21:09] now the couple of other person right? So
+[21:12] just uh see it was released in 2024 and
+[21:15] just read out the abstract at least okay
+[21:17] you will get the complete detail of uh
+[21:20] like what is a DPO and how we can
+[21:23] implement that. Now the third technique
+[21:25] which is called RL AIF right so it was
+[21:29] inspired from the RLHF only the
+[21:31] difference is human is not going to be
+[21:33] annotate anything now like only AI will
+[21:37] do that so just check out with this
+[21:39] particular research paper it is a very
+[21:41] good research paper you will get uh like
+[21:43] very good knowledge through this
+[21:44] research paper okay and this was
+[21:47] published in 24 last year itself it's a
+[21:49] very latest research now here also like
+[21:52] you will find out so many contributor.
+[21:55] Okay. So, Abhinav Rastoi and Susant
+[21:58] Pragas is one of the guy right who
+[22:01] contribute inside this particular
+[22:02] research paper. Right? So, just read it.
+[22:04] You will get the complete detail of the
+[22:06] reward modeling and the differences
+[22:08] between the RLif and the RHF. Now guys,
+[22:11] let's look into the DPO. Okay. Okay.
+[22:14] Because see, we are not going to use the
+[22:15] RLHF technique, RLif technique as of
+[22:17] now. Maybe I'll show you in the future,
+[22:19] but that is deprecated. Now people are
+[22:21] using DPO which is like very simpler
+[22:24] okay and simple to use. So I will show
+[22:25] you the formula of it formula of the DPO
+[22:28] and then I will go for the uh basically
+[22:31] practical okay so let's start with that.
+[22:34] So guys uh here is a DPO training loss
+[22:38] intuition. So it's a loss function. So
+[22:40] based on this loss function uh my model
+[22:43] is going to be trained. Okay. Uh now
+[22:46] guys uh you know about the supervised
+[22:48] learning. So in the supervised learning
+[22:49] we have input then we have a output.
+[22:53] Okay. Now uh this uh output basically it
+[22:56] is called the actual output which we
+[22:58] generally demonstrate with the y and
+[23:00] then we are going to be predict right uh
+[23:03] something from the model that is called
+[23:04] yhat. So we check the differences
+[23:07] between this y and the yhat and we try
+[23:10] to minimize see this differences
+[23:11] actually it is called the loss. Okay.
+[23:14] and we try to minimize this uh
+[23:17] particular loss. Right? So that's the
+[23:19] overall idea behind the supervised
+[23:22] learning. If you don't know about you
+[23:23] can learn about the uh linear
+[23:25] regression, you can learn about the uh
+[23:27] artificial neural network. Okay, there
+[23:29] you can learn about this particular
+[23:31] concept. Now uh using uh see this is a
+[23:33] loss function and using this particular
+[23:35] loss function only we are going to train
+[23:37] our model. Now let's try to understand
+[23:40] this formula. Now why why we are
+[23:42] understanding that? So uh let's say if
+[23:44] someone is going to ask you in an
+[23:45] interview right so how did you train uh
+[23:48] how did you like uh perform the training
+[23:50] this preference training right so you
+[23:52] can say I perform using this dpo and
+[23:55] inside the dpo basically we are using
+[23:56] this loss function to train my model
+[23:59] okay it's a supervised learning only so
+[24:01] inside this formula we have so many term
+[24:03] but it is not very like uh complicated
+[24:06] it seems complicated but it is not let's
+[24:08] try to understand it okay so uh here you
+[24:10] can see we have this uh pi theta theta
+[24:13] pi reference. So pi theta actually it's
+[24:15] a uh perference aligned model okay which
+[24:18] was which is trained. Now this pi
+[24:20] reference is what this pi reference
+[24:22] actually it's a reference model. So it's
+[24:24] a uh like uh instruction tune model okay
+[24:28] which comes before the preference
+[24:30] alignment model. Okay. So pi theta and
+[24:33] pi reference is clear. Now pi this y
+[24:36] plus is what this y plus actually prefer
+[24:39] prefer response means the uh chosen
+[24:41] response. Okay. with respect to what?
+[24:43] With respect to this prompt x prompt.
+[24:45] Okay. Now uh here see this is uh this is
+[24:49] like my reference uh sorry alignment
+[24:51] model. Okay. And here basically we are
+[24:54] passing this uh preferred uh this is my
+[24:57] preferred response with respect to this
+[24:58] prompt. Okay. Now here is my reference
+[25:00] model. Right. And here is what here is
+[25:02] my preferred response with respect to
+[25:04] this particular prompt. Right? Now uh
+[25:06] similar to that you can see over here.
+[25:08] So uh the model is there right? Y minus
+[25:11] means what? Y minus means rejected
+[25:13] response with respect to this prone.
+[25:15] Okay, I hope you understood it. Now we
+[25:17] have couple of more terms. So we have
+[25:19] this sigmoid. Okay, now apart from the
+[25:22] sigmoid, you will find out this beta.
+[25:24] Okay, and now you will find out this
+[25:26] minus E, right? This minus E is nothing.
+[25:28] It's a symbol. Okay, minus E means what?
+[25:31] Expected, right? What we are expecting?
+[25:33] We are expecting this term should be
+[25:35] minimum. Okay, and this term should be
+[25:38] the maximum one. That's it guys. Okay,
+[25:40] just a symbol nothing else. Right? Now
+[25:42] let's try to understand one by one. Uh I
+[25:44] just kept uh like I I just broke
+[25:46] everything over here. So a log uh pi
+[25:50] theta okay y + with respect to this x
+[25:53] and then pi reference reference model
+[25:56] okay y + with respect to this x. So what
+[25:59] does mean the meaning is how much more
+[26:01] does your model prefer the chosen answer
+[26:04] compared to the reference model. Okay.
+[26:06] So here is what here is my uh basically
+[26:09] preferred model and here is my reference
+[26:11] model. So with respect to this respon
+[26:12] refer reference model means my super
+[26:15] instruction uh supervised train model.
+[26:17] I'm checking how this uh preference
+[26:20] model is behaving. Right? Now uh similar
+[26:23] with respect to this rejected prom also.
+[26:25] Okay. So the selected prom as well as
+[26:27] the rejected prom. Now what we'll see
+[26:29] we'll see the differences. So choose an
+[26:31] improvement. Okay. And the rejected
+[26:33] improvement. So if it is going to be
+[26:34] positive means means my model is
+[26:37] aligning to this chosen uh prompt. Okay,
+[26:40] the chosen output. Now here sigmoid
+[26:43] sigmoid what it is doing? So you know
+[26:45] the value of the sigmoid it is between
+[26:47] the 0 to 1, right? So it is giving me a
+[26:50] probability okay kind of probability
+[26:52] score right. Uh now here beta means
+[26:54] what? Beta is a scaling factor. So if
+[26:57] the beta is high means we are enforcing
+[26:59] model to like go to we are enforcing
+[27:02] model to align more to the chosen okay
+[27:05] if beta is low means the rejected one
+[27:07] more the model is more aligning to the
+[27:09] rejected okay the typical value of the
+[27:11] beta between 0.1 to 0.5 right and here I
+[27:14] written the minus meaning what is the
+[27:16] meaning we want to minimize the negative
+[27:18] which means the maximize we are going to
+[27:20] be maximize the positive value so here
+[27:23] let's understand the meaning one again
+[27:26] let's take a quick revision. So uh this
+[27:28] particular term with respect to the pre
+[27:30] preferred response okay means the chosen
+[27:33] response. So we have two model this is
+[27:35] my uh like preference line model. This
+[27:37] is my reference model. Okay same with
+[27:39] respect to the rejected response. So we
+[27:41] are checking right how my so here what
+[27:45] we are checking how much more does your
+[27:47] model prefer the chosen answer compared
+[27:49] to the reference model. Okay. So we are
+[27:52] going to be compare with respect to this
+[27:54] reference model. Then uh what we are
+[27:56] doing we are going to be scale it right
+[27:58] and then we are going to be check the
+[28:00] probability right we are just going to
+[28:01] be compress the entire value between 0
+[28:04] to 1 that's it guys nothing else okay
+[28:06] and if uh the answer is positive okay we
+[28:09] are getting more positive in like
+[28:11] multiple epoch we are training for the
+[28:13] multiple epochs and this result the loss
+[28:15] result is going to be positive means my
+[28:17] model is aligning to the chosen
+[28:19] responses that's it guys so I hope you
+[28:21] understood it later on uh in the
+[28:23] dedicated video I will show you the
+[28:24] derivation of Right. Uh now one more
+[28:26] thing guys before coming to the
+[28:27] practical. So I kept a couple of more
+[28:29] point with respect to this inst GPD
+[28:32] paper. So this paper just now I shown
+[28:34] you this paper right training language
+[28:36] model to follow instruction with the
+[28:37] human feedback. So this is a inst GPD uh
+[28:39] research paper. Now regarding that I
+[28:41] kept a couple of point some some few
+[28:44] summarize summarization right. So uh
+[28:46] here human was labeling the data right.
+[28:49] uh so whatever response uh we were
+[28:51] generating through the model humor was
+[28:53] was ranking those thing now using the PO
+[28:55] basically we are going to be find out
+[28:57] which is like more helpful right so this
+[28:59] was a chat GP uh like style alignment so
+[29:02] which uh initially was done by the open
+[29:04] AI okay now on what all prompt basically
+[29:07] we are finding out we are generating the
+[29:09] we were generating the output so on top
+[29:10] of the API user prompt means whatever a
+[29:13] user was writing okay through the API uh
+[29:15] okay some question answer right sorry
+[29:17] some public questions Basically those
+[29:19] prompt was taken and on top of that they
+[29:22] have generated answer from the mult
+[29:23] generated a multiple answer and then
+[29:25] human ranked those answer right. So this
+[29:27] is like some uh extra information you
+[29:30] can confirm it from this particular
+[29:32] research paper. It is very good uh like
+[29:34] to understand the uh to like to
+[29:37] understand how they have initiated the
+[29:39] RLHF technique. Okay. Now let's move to
+[29:42] the practical guys uh and after that uh
+[29:45] basically I'll show you the comparison
+[29:46] between all the model. Okay. Okay. And
+[29:48] one more important concept with respect
+[29:50] to the lower adaptor. So here only we'll
+[29:52] cover that part.
+[29:55] So guys uh we had the base model. If you
+[29:59] remember then I uh took the base model.
+[30:02] This base model is also called the
+[30:04] foundation model.
+[30:06] Now here is my foundation model. My base
+[30:08] model. So I fine-tune this model on top
+[30:11] of the PDF data.
+[30:15] And after that I got this uh particular
+[30:18] model non-instruction model. Now why we
+[30:20] have done this thing? So that my model
+[30:22] can understand the domain specific
+[30:24] language domain specific vocabulary.
+[30:27] Okay. Uh then I want to teach my model
+[30:30] proper conversation. So what I did I
+[30:34] fine- tuned my model on top of the input
+[30:36] and output data. Okay means on
+[30:40] instruction data. Okay. So what I got? I
+[30:43] got the instruction model. Now guys, I
+[30:47] want to be train my model again. I
+[30:49] finetune that I finetune my model on
+[30:52] human feedback. Okay. So after that what
+[30:56] I will get? I will get the preferenced
+[30:58] model. So this is the aim for this
+[31:00] particular video. I hope you got it. Uh
+[31:03] now uh for that what I'm going to do uh
+[31:06] I'm going to load all the libraries. So
+[31:10] I'm going to load the auto tokenizer
+[31:12] autocausal for LM training argument
+[31:14] trainer Laura config get pep model task
+[31:17] type and load data set. So I will uh
+[31:20] teach you the meaning of each and every
+[31:22] uh class each and every function which
+[31:24] I'm loading over here. So yeah this is
+[31:26] done. Now here is my base model. Now why
+[31:28] I'm uh I have written this base model
+[31:30] here so that I can load the tokenizer.
+[31:33] Okay, because this tokenizer I will I
+[31:35] will be using. So uh yes uh the
+[31:38] tokenizer is here. tokenizer is ready
+[31:40] and I think I already explained you the
+[31:41] meaning of this uh pet token and this uh
+[31:44] end of the sentence token you can check
+[31:46] out with the previous uh session itself
+[31:48] you will get the entire detail uh now
+[31:50] what I'm doing guys so I'm going to load
+[31:52] my I'm going to unjip my previous model
+[31:54] this uh tiny llama instructionjip model
+[31:57] now why I'm doing it because uh I'm
+[32:00] using a same model throughout this
+[32:01] journey means uh I was having the
+[32:03] foundation model then uh I the same
+[32:05] model I train on the pdf data I got this
+[32:08] model Then same model I trained on the
+[32:09] instruction data I got this model and
+[32:11] same model I'm going to train uh on uh
+[32:14] this uh on the human feedback data and I
+[32:17] will get my final preference model.
+[32:19] Okay. So uh here what I'm doing uh see
+[32:22] like when I trained my model uh in the
+[32:25] previous class so I saved that as a JIF
+[32:26] file. So this JIF file is also available
+[32:28] in the GitHub. You can check it out
+[32:30] directly. Okay. Or if you will train it
+[32:32] uh if you will train the D if you will
+[32:33] train the model from a scratch. Okay.
+[32:35] over here uh using this particular uh
+[32:37] notebook this IP1B file uh so at the end
+[32:40] you will get this uh particular model
+[32:42] itself this tiny llama hyphen uh
+[32:45] instruction okay then you can convert
+[32:46] into the jip and you can save it
+[32:47] anywhere that's it uh so uh guys uh I
+[32:50] have a model I have already uploaded
+[32:52] this particular model over here uh you
+[32:54] can see now uh let me unjip it so after
+[32:57] the unjipping it what I will get I will
+[32:58] get this checkpoint 3 okay so this is my
+[33:01] train checkpoint instruction checkpoint
+[33:03] uh let me uh load it Let me take it
+[33:05] inside the variable. Now I'm loading it.
+[33:07] Okay. And I'm testing whether everything
+[33:09] is working fine or not. So for that I
+[33:11] kept one uh prompt. So explain the AI in
+[33:15] improving the process of the drug
+[33:17] discovery and the development in the
+[33:19] pharmaceutical industry. So this is my
+[33:21] prompt. But this uh first what I'll do I
+[33:24] will convert into the tokens. Okay. And
+[33:26] I'm mapping to my uh GPU. Now uh I will
+[33:29] pass this token to this uh method. So
+[33:31] instruction model dot generate I'm
+[33:34] passing the token uh along with that I'm
+[33:37] passing some other parameter like how
+[33:38] many tokens I want in the final output
+[33:40] some other parameter uh with respect to
+[33:43] some tweak some creativity in the
+[33:44] output. Okay. Now repetition penalty
+[33:47] means uh the token should not be repeat.
+[33:49] So regarding that we can mention this
+[33:50] particular score 1.1 and I think this
+[33:53] score we can me uh we can up uh like
+[33:55] write up to two uh you can check out uh
+[33:57] the complete detail of it. Okay. So
+[33:59] yeah, this is also one of the parameter.
+[34:00] It will stop the redundancy of the
+[34:02] token. Okay. So we'll get output. Let's
+[34:04] see what output I'll be getting over
+[34:06] here. So before the class, right before
+[34:07] the class, I was testing and uh I
+[34:09] already run it. Uh okay, if you are
+[34:11] running it first time then it might take
+[34:13] some time. So here is the output. So
+[34:16] explain how this is the question. Now uh
+[34:19] regarding that uh see the answer is
+[34:21] being generated. you can get some better
+[34:23] answer the uh if you have much data then
+[34:26] definitely you will get some good answer
+[34:27] aligned answer itself. Uh now here this
+[34:30] answer is also aligned and uh it is with
+[34:32] respect to my question. Now I want to
+[34:34] perform the preference based learning.
+[34:36] So for that guys we are going to use
+[34:37] this TRL module. So under this TRL
+[34:40] module only you will get uh all the uh
+[34:44] re uh all the uh this preference tuning
+[34:47] based classes like DPO like RHF like
+[34:50] RLIF okay different different classes
+[34:52] you will get under this particular
+[34:54] module only. So uh let me uh install it.
+[34:57] So the command is very simple pip
+[34:59] install -utl you will get the latest
+[35:01] version. Now after that uh if you want
+[35:03] to load a quantized model so uh there is
+[35:06] one more package bits and bytes. So let
+[35:07] me load uh let me like uh get this
+[35:10] package also. Okay. Now guys after
+[35:12] executing this two command uh pip
+[35:14] install - utl and pip install- u bits
+[35:17] and biased you always uh restart the uh
+[35:20] kernel otherwise you might get a error
+[35:23] uh that this package is not visible.
+[35:26] Okay. So let it install and after
+[35:27] completing this one what I'll do I'll
+[35:29] restart the kernel and okay this is
+[35:31] done. Now uh what I'm doing I'm uh
+[35:33] checking with the runtime. Now here you
+[35:35] can see the restart session. Just click
+[35:36] on this restart session. Okay, the
+[35:38] kernel will automatically restart. See
+[35:40] right hand side it is getting restarted.
+[35:42] Now uh load this uh step again. Okay,
+[35:45] because after restarting this will be
+[35:47] gone. So yeah everything is fine. Now uh
+[35:51] guys this uh module is installed. This
+[35:54] uh bits and byes is also in installed.
+[35:56] Now let's try to perform the DPU
+[35:58] training. Now here I want to teach you
+[36:00] one very important concept of the LoRa
+[36:02] guys. It is very very very important. I
+[36:04] think most of the beginner and even the
+[36:06] experienced person uh does this kind of
+[36:09] mistake. So I don't want to repeat that
+[36:11] mistake over here. Okay. And even I
+[36:13] rectify that mistake in the previous
+[36:14] solution also and definitely I will
+[36:16] highlight those part. So uh for this uh
+[36:20] preference based learning I'm using uh
+[36:22] this TPU trainer. Okay. Rest of the
+[36:24] module will be same which I already
+[36:26] imported in the previous cell. So from
+[36:28] the TRL itself we are going to import
+[36:30] this DPO trainer. If you are doing RLHF
+[36:33] or if you are using some uh if you are
+[36:36] doing the RLHF RLF right so from the TRL
+[36:39] itself you will be loading everything
+[36:40] okay so we are having this DPU trainer
+[36:42] now what I'll do so here is my base
+[36:44] model guys uh then you know this is my
+[36:47] instruction checkpoint right so my model
+[36:49] is available over here inside this
+[36:51] particular checkpoint the instruction
+[36:52] model uh now after that guys uh you can
+[36:55] see so we are going to be load the data
+[36:58] set so here the data set plays a very
+[37:00] important role I will show you what kind
+[37:02] of data I'm using and how I created
+[37:04] that. Then uh I'm loading the tokenizer
+[37:06] and after that uh you can see we are
+[37:08] assigning this end of the token to the
+[37:10] padding token. Okay. So let me check
+[37:12] what is happening whether everything is
+[37:13] ready or not. So yes this is running
+[37:17] because see guys we have a limited
+[37:18] memory. So we might get some issue with
+[37:21] respect to the memory and RAM. So better
+[37:23] don't execute everything again and again
+[37:26] the harder step otherwise you might face
+[37:28] a issue in the collab. So yes, it is
+[37:31] working fine. My model is uh is still
+[37:33] giving me a reply. Now TRL with respect
+[37:36] to the TRL in bits and byes I load
+[37:38] reloaded the environment. Now first of
+[37:40] all let me import all this statement.
+[37:42] Okay. So after that guys what I'll do?
+[37:45] I'll take the base model. I'll take the
+[37:46] instruction point. Now here is what here
+[37:48] is my data set. So how the data set look
+[37:50] like? So I already keep kept the data
+[37:52] set over here. Pharma preference data
+[37:55] dot CSV. This data could be available in
+[37:57] CSV as well as in the JSON format. So I
+[38:01] basically kept the CSV as of now but you
+[38:03] can load the same from the JSON file
+[38:05] also. So how the data look like? See
+[38:07] here is a data. So inside the data you
+[38:09] will get the prompt uh you will get the
+[38:11] chosen uh one column. Okay. The second
+[38:14] uh sorry the third column will be the
+[38:16] rejected. So we are giving a prompt to
+[38:18] the model. Then we are generating a
+[38:20] multiple answer. Now which answer is
+[38:22] being selected and which answer is being
+[38:23] rejected. So that particular information
+[38:25] we have kept over here. I think you got
+[38:27] this point. Now whenever we are passing
+[38:29] a prompt to the model. Okay. So model
+[38:31] will generate something. So that this
+[38:33] can be wrong or this this like can be
+[38:36] the correct one. So initially I shown
+[38:38] you like how the human annotated this
+[38:40] entire labels and all whether I have to
+[38:42] choose it or reject it. Later on we have
+[38:44] automated this task also. Okay. On a
+[38:47] very high scale. So this task have been
+[38:49] automated by the LM only. So we are
+[38:51] giving certain instruction to the LLM
+[38:53] and based on that it is able to find out
+[38:55] which is the chosen one and which is a
+[38:56] rejected one. I hope you got it. So this
+[39:00] type of data we we required for what for
+[39:03] the training. Now here guys uh see uh we
+[39:06] are loading a base model. Okay we are uh
+[39:09] having the instruction checkpoint. Now
+[39:11] we have a data set also. Now what I'm
+[39:13] doing I'm going to be perform the
+[39:14] tokenization. So from the auto tokenizer
+[39:17] I am loading my base model. Okay. So it
+[39:19] will come inside this part variable
+[39:20] tokenizer variable. Uh then what I will
+[39:22] do guys? So after that uh the same thing
+[39:25] you will have to assign the pet token uh
+[39:27] you will have to assign the EOS token
+[39:29] and of the sentence token as a pet
+[39:30] token. Right? Now uh here we need to
+[39:33] understand one very important concept.
+[39:35] So we're talking about the PEP module.
+[39:38] Okay. So PEP is giving us uh two
+[39:40] different methods. So see PFT uh we have
+[39:43] a PEP right? So from the p we are
+[39:45] importing this pft model and from the
+[39:46] pft itself we are importing this get
+[39:48] pept model. So guys we need to
+[39:50] understand the differences okay between
+[39:52] this uh pft and get pel because it is
+[39:56] very much important.
+[39:58] So guys uh I kept the complete intuition
+[40:02] uh uh over my blackboard. So uh let's
+[40:05] understand it one by one. So what we are
+[40:07] doing guys uh as we know we are having
+[40:09] base model then we are training it for
+[40:11] the non- instruction model then
+[40:14] instruction model then preference model
+[40:16] okay now uh how we are doing this
+[40:18] training so we have a base model now we
+[40:21] are uh doing the lora based training and
+[40:23] we are getting a non-instruction model
+[40:26] then again we have a non-instruction
+[40:27] model and we are adding the lola adapter
+[40:30] Laura layer and we are getting a
+[40:32] instruction model now here again we have
+[40:34] a instruction model okay and uh we are
+[40:36] adding the LoRa we are do means uh we
+[40:39] will try to do the same one uh we will
+[40:42] add the lora okay and then we'll get the
+[40:44] preference model but guys uh to be
+[40:46] honest this is not a good thing this is
+[40:49] not a good practice and uh no one is
+[40:51] following that okay uh now uh see over
+[40:54] here what we are trying to do we have a
+[40:56] base model we are connecting with our
+[40:58] lura okay the lura adapter then base
+[41:00] model lura then again uh in the
+[41:02] instruction tuning again one more lura
+[41:04] then we have base model lura lora and
+[41:06] then Again one more lura would be there.
+[41:08] We are following the same uh step over
+[41:10] here. So stack of the lora layer is not
+[41:15] good. Stack of lora is not a good idea
+[41:21] guys. And that's a that's a step I uh
+[41:24] followed in my previous tutorial right
+[41:27] and uh you were able to see the
+[41:29] responses. It was not uh quite good.
+[41:32] Why? because the lura the lora layer was
+[41:36] getting in stack. Now if you don't know
+[41:38] about the lora don't worry in the
+[41:40] upcoming video I will explain you with
+[41:43] complete detail with a complete
+[41:44] mathematical derivation and all okay so
+[41:47] don't worry about the lora but let me
+[41:50] give you the quick definition of it what
+[41:52] it is so uh here I written lora is a
+[41:55] lura is not a fully full layer okay it's
+[41:58] not a complete model it's just a delta
+[42:00] patch okay so delta patch cannot be
+[42:03] stacked they must be merged before the
+[42:06] next training So what is this delta
+[42:08] patch? This delta patch you can think in
+[42:10] such a way uh we have a weight old
+[42:13] weight to this old weight we are going
+[42:16] to be attach some small matrix of weight
+[42:19] okay and we'll get the
+[42:22] new weight okay new weight we e i g ht
+[42:30] okay so we are having the old weight we
+[42:33] are going to be attach it with the uh
+[42:35] like some uh small weights okay and Now
+[42:38] this particular patch this particular
+[42:41] patch the small patch okay it is only
+[42:43] called the delta patch okay so my lower
+[42:46] is nothing it's a small patch it's a
+[42:48] small weight which we are going to be
+[42:50] attach on top of my old layers okay and
+[42:53] then what I will get I will get my new
+[42:56] weights so here is a proper mechanism
+[42:58] for it means this particular weight is
+[43:00] being trained this is going to be freeze
+[43:03] this is going to be freeze this
+[43:05] particular weight is going to be trained
+[43:07] Now after the training it will be merged
+[43:10] into the old weights. So that's a whole
+[43:13] sort of a idea of the Lora. We'll
+[43:15] discuss it in a more detail in the
+[43:16] upcoming session. So this delta W is
+[43:18] called the patch and this is only called
+[43:21] the delta patch. Okay. And this is my
+[43:23] LRA weight. Now we no need to stack the
+[43:26] LRA weights. Okay. See this is my W the
+[43:29] original weight. We are doing a
+[43:31] non-instructional training on the safe
+[43:32] model. We'll get this W1 del W1. Then we
+[43:35] are doing a uh we are doing the
+[43:38] instruction tuning on top of the same
+[43:40] model then we are going to be attached
+[43:41] this uh DW2 then for the preference
+[43:44] learning again DW3. So we should not
+[43:46] take this particular step and this was a
+[43:50] mistake even which I made in the
+[43:52] previous solution. Okay, I will give you
+[43:55] the correct uh approach which approach
+[43:58] basically you can follow uh for the
+[44:02] Lora. Okay, if you are uh using a same
+[44:05] model again and again for the training
+[44:07] that how to use LoRa efficiently, it's
+[44:10] very very very important. Now what is
+[44:13] the disadvantage of this thing? So the
+[44:15] disadvantages loss will be unstable,
+[44:18] model will hallucinate. Uh tuning will
+[44:21] not be good and the quality will
+[44:23] degrade. Why? Why it will degrade?
+[44:27] Because loss will be unstable. We won't
+[44:30] be able to figure out the loss properly.
+[44:32] Right? If we are having this kind of
+[44:35] weight, if we are going to be uh uh we
+[44:38] are going to be create a stack of the
+[44:40] lora, right? Uh so what is the solution
+[44:43] of it? So to use the lora in an
+[44:45] efficient way, that's the solution. Let
+[44:47] me show you how. So let's discuss how we
+[44:51] can use lura in a better way. So if you
+[44:54] will check p. So this pept is giving me
+[44:56] two method. One uh is get pod. Uh the
+[45:00] second is uh PEFT model from pre-train.
+[45:02] Okay. So when we have use when we have
+[45:05] to use this get PFT model and when we
+[45:07] have to use this particular method. So
+[45:09] definitely we'll uh we'll be talking
+[45:11] about it. Now here we have a get pel. So
+[45:14] it creates a new lora during the
+[45:16] training means the new lura patch the
+[45:18] delta patch which I showed you. Now this
+[45:21] pft model dot from pre-trained. Now what
+[45:24] it does? So it load a already trained
+[45:25] Lora model okay for the inference or for
+[45:28] the further training right. So we are
+[45:31] going to use this particular method for
+[45:33] loading the previous Lora weights for
+[45:35] the like or for loading the previous uh
+[45:38] train Lora model and then on top of it
+[45:41] uh only we are going to perform the
+[45:43] finetuning okay but the way is going to
+[45:45] be little different see over here
+[45:46] observe over here what we are doing. So
+[45:48] uh we have a lura configuration. So here
+[45:51] I'm writing task type is going to be
+[45:53] causal lm that is for the uh next token
+[45:56] prediction. Okay for the language
+[45:58] modeling. Then there's the rank of the
+[46:00] lora. Uh R is R is representing the
+[46:02] rank. Lora alpha is one of the
+[46:04] parameter. Lora dropout. Okay. One of
+[46:06] the parameter uh it's a hyperparameter.
+[46:09] You can keep any sort of a value of it
+[46:10] just to test your uh output means just
+[46:13] to uh like uh check what uh impact it is
+[46:16] having on the final output then uh which
+[46:19] like module we are targeting in the
+[46:21] attention layer. So we are mentioning
+[46:22] that part over here and bias is equal to
+[46:24] none. So this is what this is my lower
+[46:26] configuration. Now what we were doing
+[46:27] guys uh in the previous class and even
+[46:30] uh if I didn't find out the current
+[46:32] approach then what we would be doing let
+[46:34] me explain you that first okay then
+[46:36] we'll come to the correct approach. So
+[46:38] we are having this method get pet model.
+[46:40] So we are simply passing this uh
+[46:42] instruction model. Okay. And then we are
+[46:44] passing this lura configuration. So we
+[46:46] were get we we were thinking okay now we
+[46:48] will get a model which we can tune
+[46:51] further. But guys this is a wrong
+[46:53] approach. Now what we are doing over
+[46:54] here we are having the instruction model
+[46:56] and on top of it we are going to be
+[46:58] connect the lora stack. Okay. So the
+[47:00] stack of the lora again and again. Okay.
+[47:03] uh on a like same model which which we
+[47:06] are training on a different different
+[47:08] phases uh to app to append the lora okay
+[47:12] to create a lora st it is not a good
+[47:14] practice okay so what is the correct
+[47:16] approach let me tell you that so first
+[47:18] what we'll do guys we will load the base
+[47:20] model so uh here is my base model okay
+[47:22] I'm not going to take this particular
+[47:23] step I'm just going to be commented out
+[47:25] means directly I'm not going to be take
+[47:27] a model means directly see here I'm
+[47:29] giving my instruction model which I
+[47:30] loaded earlier from the jip uh okay And
+[47:33] uh here I'm attaching the lura stack and
+[47:35] then I'm getting this p uh model lora
+[47:38] but I'm not going to perform this thing
+[47:39] because this is not a correct approach.
+[47:41] So what I will do guys? So first I will
+[47:42] load my base model. Okay. Inside this
+[47:45] particular variable I was having the
+[47:46] base model. So let let me show you this
+[47:49] base model which uh was there. So here
+[47:51] is the base model. Okay. So we are able
+[47:54] to load the base model. I got it inside
+[47:55] this variable. Now in the second step
+[47:57] what I will do uh using this method pept
+[48:00] model dot from pre-train. Okay. Okay,
+[48:02] I'm passing this model my base model and
+[48:05] I'm passing my instruction checkpoint
+[48:07] means uh this instruction model. Okay,
+[48:09] this particular model. Now uh after that
+[48:11] what I will do uh so after loading this
+[48:13] thing I will get my model. Okay, so this
+[48:15] uh model this base model basically it is
+[48:17] connecting to the instruction
+[48:19] checkpoint. Right now what I will do I
+[48:21] will merge it. Okay, merge and unload
+[48:23] the weight means uh I was having the
+[48:26] base model uh on top of it. I will keep
+[48:28] the LoRa weights. I will merge both
+[48:31] weight. Okay. And after that I will get
+[48:34] my model. So here is my model. Now what
+[48:36] I will do on top of this model only I
+[48:38] will connect the Lora stack. So here is
+[48:41] get pept model. I am passing my model
+[48:43] and then I'm passing the lura
+[48:45] configuration. Right? So just check out
+[48:48] all the thing it is very much important
+[48:50] guys. Very very very important. See over
+[48:51] here. So what I'm trying to say uh just
+[48:55] just focus over here just for one more
+[48:57] minute. Okay guys. So we are having the
+[48:58] base model. We performed the
+[49:00] non-instruction finetuning. Okay. After
+[49:02] the LoRa and we got the uh
+[49:04] non-instruction model, then uh again we
+[49:06] were having the instruction data. We
+[49:08] performed the instruction tuning and we
+[49:10] got the instruction model. Okay. Now
+[49:11] this two thing this non-instruction
+[49:13] model I did with the Laura instruction
+[49:16] finetuning again I have loaded this
+[49:18] non-instruction model and I attached
+[49:20] with the Lora and then again I perform
+[49:22] the trading and then now the same thing
+[49:24] I'm going to do with the preference
+[49:25] model also. But guys this is the wrong
+[49:28] technique. Okay. To create a lowrise
+[49:30] stick like this which I explained over
+[49:32] here, it is not a good thing. Why?
+[49:34] Because we might get this kind of
+[49:35] issues. So what is the best approach?
+[49:37] The best approach is uh first guys uh
+[49:40] see here is my uh here is my uh
+[49:42] basically this instruction model. This
+[49:44] one this is my instruction model
+[49:46] checkpoint 3. Okay, which I already
+[49:48] trained. Right. So what I'm doing over
+[49:50] here, see just focus for one more
+[49:52] minute. So uh here basically what we
+[49:54] have we have a lower configuration that
+[49:56] is fine. Now I'm not going to be like
+[49:57] pass this instruction model and we are
+[50:00] going to be uh create a lora again on
+[50:03] top of it and then uh I'm calling it is
+[50:06] my preference model which I'm going to
+[50:08] tune for the no. So uh here I'm taking a
+[50:11] base model. Uh so I'm loading it. Now
+[50:13] after that we are going to be connected
+[50:15] to the instruction checkpoint. Okay. Now
+[50:18] after that I'm calling this method merge
+[50:20] and unload. So merge and unload what it
+[50:22] will do? It will merge model my freeze
+[50:25] model as well as the instruction Lora.
+[50:27] Okay. Then on top of it I will create
+[50:30] the Lora patch. Now this particular
+[50:32] patch is going to be trained. Okay. Now
+[50:35] this particular patch is going to be
+[50:36] trained. So this this model which I got
+[50:38] now PEP preference model Lura. Okay.
+[50:41] After see uh this my method get pep
+[50:44] model. I'm passing my model. I'm passing
+[50:45] my lura configuration. Now I will get
+[50:48] the delta patch. Okay. I I will get the
+[50:50] lura patch. delta the delta right now
+[50:53] that particular uh so I'm keeping it
+[50:55] over here inside this particular
+[50:56] variable now I will be training this
+[50:58] model on top of my uh on top of my
+[51:02] preference data set right so here I
+[51:04] created one table also non-instruction
+[51:06] base lora it is correct instruction base
+[51:10] plus merge okay stage one lura then new
+[51:12] lora this is a correct approach directly
+[51:15] lura on lura it is not a correct
+[51:16] approach now preference base so base
+[51:19] model then merge stage to lura then plus
+[51:21] new lura this is the correct approach
+[51:24] lura on lura on lura this is not a
+[51:26] correct approach I think now you got the
+[51:28] complete lura so let's uh train my model
+[51:31] so here I am going to be write bits and
+[51:34] biases disable true and don't want to be
+[51:35] capture any sort of a matrix so uh here
+[51:38] guys I'm going to be define my dpo
+[51:40] trainer from the trl so trl is giving me
+[51:42] these classes dpo trainer and the dpo
+[51:44] config so yeah uh this is fine now what
+[51:46] I will do uh I will create a object of
+[51:49] this class dpo So uh basically config
+[51:52] now uh here I'm writing a directory uh
+[51:54] in which directory in whatever directory
+[51:56] I want to be saved my model uh here I
+[51:58] have a learning rate uh and then I have
+[52:00] train batches okay gradient uh
+[52:03] accumulate accumulation step right at uh
+[52:06] how many step we are going to be uh
+[52:08] accumulate the gradient value uh number
+[52:10] of training epoch how many for how many
+[52:12] epoch you want to be running beta value
+[52:14] report to none I don't want to report
+[52:15] any on any uh basically platform okay uh
+[52:20] So here also I did that same thing and
+[52:22] you can mention this parameter also
+[52:24] logging directly none as of now I don't
+[52:26] want to be log anything loss type is
+[52:28] sigmoid okay will collect the uh we'll
+[52:30] will calculate the loss with this
+[52:31] particular function remove unused column
+[52:34] okay false I don't I'm not going to be
+[52:36] remove any uh column as of now I know
+[52:38] guys uh you get the little difficulty
+[52:40] while you go through with this all all
+[52:43] this particular parameter we have so
+[52:45] many parameter if you will hover the
+[52:46] mouse over here you will get maybe so we
+[52:48] have so many parameter over here maybe
+[52:50] hundreds of parameter. So don't worry
+[52:52] guys, it is my responsibility to teach
+[52:53] you everything. I will create a proper
+[52:55] video on top of each and every parameter
+[52:57] of these classes. Okay, it is my
+[52:59] promise. So uh let me uh take this DPU
+[53:03] argument. Now here I'm defining the DPU
+[53:05] trainer. There I'm passing my model.
+[53:08] Okay. Uh which uh the model basically
+[53:10] here you can see this particular model
+[53:12] this one preference model Laura. Now how
+[53:15] how I got this model? So I was having
+[53:17] the base model. Okay. I on top of it I
+[53:20] appended this instruction checkpoint. I
+[53:22] merge both the bits. Now on top of this
+[53:25] particular model on top of this
+[53:26] particular weights uh okay this this
+[53:28] particular model I attach the delt this
+[53:31] uh uh like lower patch. Okay. And then I
+[53:33] got this model and further I'm going to
+[53:35] train it now. Okay. Uh now uh here is my
+[53:38] model and reference uh model. I'm not
+[53:41] passing any reference model otherwise I
+[53:43] can pass the reference model over here.
+[53:45] Uh that is also one of the facility.
+[53:47] Okay. uh argument. So, DPU argu argument
+[53:51] this this particular argument which I
+[53:53] defined over here. Now after that guys
+[53:55] uh training data set. So data set which
+[53:56] I loaded okay from the CSV this this
+[53:58] particular CSV this I shown you okay
+[54:00] only five data points you can keep as
+[54:02] many as uh then uh here processing class
+[54:05] uh that is tokenizer. Okay so if I run
+[54:07] this trainer so see uh it is saying
+[54:10] preference model is not defined. So let
+[54:12] me run it first. Okay I got this one.
+[54:15] This is fine. This is perfect. DP
+[54:17] argument is also fine. DP trainer is
+[54:19] also perfect. Now trainer train. Now
+[54:21] guys uh this is my final step for
+[54:24] training the model. So trainer train and
+[54:27] yes my model is getting trained. It will
+[54:29] take time guys if we have a huge model
+[54:32] and the very huge data set. As of now it
+[54:34] is a quick because we have a very small
+[54:36] model not very small guys we have a
+[54:38] small model with a very small data set
+[54:40] and my poke is one and I kept the
+[54:43] parameter in such a way it won't take
+[54:44] much time just to show you guys just to
+[54:46] show you but in a real time you will be
+[54:48] doing it with a huge amount of data. So
+[54:49] it will take maybe days. Okay. Uh now uh
+[54:53] here uh it is just a testing. So testing
+[54:56] uh with non-instruction model. Okay. So
+[55:00] here is my question. Explain how Matt
+[55:03] forming works in the human body and why
+[55:05] some research believe it could have
+[55:08] benefits beyond diabetes treatment. So
+[55:10] guys uh if uh I will test this question
+[55:14] with my different different model. Okay.
+[55:16] So let me test for two model instruction
+[55:19] and the preference. You can test from
+[55:21] your end this one non-instruction one.
+[55:22] Okay. So this is my question guys. Now
+[55:24] what I'm doing? So here is my testing
+[55:27] with the instruction point model. So
+[55:29] this was my checkpoint. Okay.
+[55:30] Instruction one. Now I'm going to be
+[55:32] load this model. See instruction model
+[55:34] would be here. Uh I'm going to uh
+[55:36] tokenize this question. Okay. And then
+[55:39] I'm going to generate a output. And then
+[55:41] here will be my final output. So let's
+[55:43] see what will be my final output. Guys,
+[55:45] we'll compare the output. Okay, we'll
+[55:47] compare the output of the instruction
+[55:49] model as well as the preference model.
+[55:50] Let's see the difference uh whether we
+[55:52] are getting some uh like good uh uh
+[55:56] terms, terminology, something like that,
+[55:57] right? So, it is saying question is not
+[55:59] defined. Let me execute it. Okay. So,
+[56:02] here we have a question. Now, model is
+[56:05] there. Input tokenizer is ready. Okay.
+[56:08] Now, here is my output and then I will
+[56:10] be getting the final output. So let it
+[56:13] complete and uh
+[56:17] yeah I will get the final output guys.
+[56:20] Just a second it takes some time. Yeah.
+[56:23] So this is the output. Now see guys
+[56:24] explain how metforming this is that. Now
+[56:26] see this is the answer. Cone disease
+[56:28] inflammation bowel disease. I don't know
+[56:30] this is correct or not. You should check
+[56:32] it out. Right? But guys there's some
+[56:34] redundancy uh in the output uh because I
+[56:37] did the mistake uh in the previous uh
+[56:40] training. Okay. I will come to that just
+[56:41] a second. Now here is my model path. Uh
+[56:44] this is my LoRa model. Uh this one
+[56:46] preference based model. Okay. See here I
+[56:48] saved that model inside this uh folder
+[56:51] tiny llama preference alignment. See
+[56:53] there's a folder. Okay. Now what I'm
+[56:55] doing I am going to be uh load my model.
+[56:58] Model path is here. I'm going to be load
+[57:00] my model. Now I'm going to be uh like uh
+[57:03] connect with the CUDA. Okay. To the GPU.
+[57:06] Then uh guys I'm going to be uh uh like
+[57:09] tokenize the question. Okay, I will be
+[57:12] getting inside the input. Now this input
+[57:13] I'm passing to my model. Okay,
+[57:15] preference alignment model for the final
+[57:17] generation. Now let's see the final
+[57:19] output. So let's see what I'll be
+[57:21] getting over here. So it takes time. The
+[57:24] output generation might take time. Let
+[57:27] it complete. It depends on the infra
+[57:29] also. If you have a good GPU, good
+[57:31] infra. Now see guys, explain how
+[57:33] metaphoring works in a human body. This
+[57:35] is that. Now see metapform and common
+[57:37] diabetes dug tree two type D. So see
+[57:39] guys you can clearly see the difference
+[57:42] so difference between this normal like
+[57:44] output from the instruction tuning and
+[57:46] the output from the after uh like output
+[57:49] after the alignment. Okay so guys you
+[57:52] can make a difference over here means uh
+[57:55] uh like you are you have train a model
+[57:57] on top of the instruction data that is
+[57:59] fine that is completely fine. I'm not
+[58:00] denying that. But if you want to more
+[58:02] enhance on the human preferences, you
+[58:04] can take one more step like this chat
+[58:07] GPT have done. If you're training your
+[58:09] model from a scratch, this will be very
+[58:11] very very helpful. Now I was saying
+[58:13] guys, I have done one mistake. So uh the
+[58:15] mistake basically I rectified over here.
+[58:17] Uh if you will go and check with the
+[58:19] instruction tuning. So I written that
+[58:21] code over here. You can uh now execute
+[58:23] this file and uh in whatever way I have
+[58:26] explained you this lowrise stack over
+[58:28] here. Okay. So see this I'm not going to
+[58:32] be follow now means I will not append
+[58:34] lura lura first I will merge the weight
+[58:36] and then only I will append the lora uh
+[58:39] lora patch okay so I kept the code uh
+[58:42] over here let me show you where it is uh
+[58:44] this one this one this one now let's uh
+[58:47] okay I think it will be the blue one so
+[58:50] see guys this one okay I kept the
+[58:54] complete code you can go through with it
+[58:56] you can run it and then you can train
+[58:58] your pattern. So fine guys uh this is it
+[59:01] for this particular video. In the next
+[59:02] video I will uh come up with uh some
+[59:05] different framework okay to teach you
+[59:07] this finetuning. Uh yeah so thank you
+[59:10] guys. Thank you for watching it. If you
+[59:11] haven't subscribed my YouTube channel
+[59:12] please subscribe. Uh this kind of uh
+[59:15] content takes very much effort guys to
+[59:17] research and all and then record. Uh so
+[59:20] please uh respect for all those thing
+[59:22] and subscribe the channel because see
+[59:25] guys it is free for you I know but uh it
+[59:28] uh it is very important for me okay your
+[59:31] subscribe your like your support
+[59:33] everything so fine uh I'll see you in
+[59:35] the next video thank you bye-bye take

@@ -1,0 +1,696 @@
+Title: LLM Fine-Tuning 05: Fine-Tuning vs. RAG vs. AI Agents — Which Approach Fits Your Use Case?
+Video URL: https://www.youtube.com/watch?v=5zXuUjMJc34
+Video ID: 5zXuUjMJc34
+======================================================================
+
+[00:00] Hey. Hi everyone. Welcome back to my
+[00:02] YouTube channel. My name is Sunonny
+[00:04] Savvita and I'm back with another
+[00:06] exciting and important video. So guys,
+[00:08] in this particular video, we're going to
+[00:10] understand the differences between the
+[00:12] simple AI assistant, your fine-tuned
+[00:14] model, rag and the AI agent. So guys
+[00:18] this was the very mandatory video and
+[00:21] intentionally I kept the video so your
+[00:23] each and every concept could be
+[00:25] clarified with respect to this
+[00:27] fine-tuning rag AI agents and easily you
+[00:30] can understand the differences between
+[00:33] each other because uh so many people are
+[00:35] having a like doubt that which one
+[00:39] should I use should I go with a
+[00:40] finetuning rag or AI agents or should I
+[00:44] use the hybrid approach so inside this
+[00:46] particular video I'm going to discuss
+[00:48] all this thing and your each and every
+[00:50] doubt is going to be clarified. So
+[00:52] please make sure guys you are going to
+[00:54] watch this video till the end because at
+[00:57] the end I'll tell you which one you need
+[01:00] to use when and I will uh show you some
+[01:03] uh uh fine-tuned model so that directly
+[01:06] you can use those particular model
+[01:08] inside your rag architecture or inside
+[01:11] your agents. Uh so guys as you know I
+[01:13] started with this finetuning series and
+[01:15] I already recorded four video inside
+[01:17] this one. So in the first video I
+[01:19] discussed the syllabus in the second I
+[01:21] discussed the complete introduction of
+[01:23] the finetuning in the next video I
+[01:25] discuss about the transfer learning and
+[01:27] then in the last video I discuss about
+[01:30] all the framework and all the resources
+[01:32] regarding the finetuning. Now in this
+[01:35] particular video we'll see the
+[01:36] differences and right after this one
+[01:38] guys we going to jump to the practical.
+[01:41] Yes. So I'll show you the practical of
+[01:43] each and every technique of the
+[01:44] finetuning in my YouTube playlist
+[01:47] itself. So if you haven't subscribed so
+[01:49] far guys, please subscribe the channel
+[01:51] and hit the bell icon. So whenever I'm
+[01:54] uploading a video, you will get a
+[01:56] notification. Now without wasting a
+[01:59] time, uh let's start with the video
+[02:01] guys. So here guys, I kept all the
+[02:04] points which I am going to discuss. At
+[02:06] the first place, we'll talk about the
+[02:08] simple AI assistant. uh then we'll see
+[02:10] about the then we'll see the definition
+[02:12] of the fine tuning then we'll talk about
+[02:14] the rag and then I'll come to the AI
+[02:17] agents so each and every architecture I
+[02:19] kept over here and then the differences
+[02:21] between each one of them uh and then
+[02:24] we'll talk about which one we should use
+[02:26] when so here also I kept some
+[02:28] architecture and some real time analogy
+[02:32] so uh let's start with this AI assistant
+[02:34] itself and I hope so you understood
+[02:37] about the simple Simple AI assistant. So
+[02:41] what is a simple AI assistant guys? And
+[02:43] one more thing uh let me clarify over
+[02:45] here. So whatever architecture I'm going
+[02:47] to show you right whether it's a simple
+[02:50] AI
+[02:51] assistant or whether it's a LLM fine
+[02:57] tuning or it's a
+[03:00] rag or it's a agent. So one thing would
+[03:04] be in a center and that particular thing
+[03:07] is going to be large language model. Got
+[03:11] it? So guys this large language models
+[03:14] are nothing this large language model is
+[03:16] a AI model is a deep learning based
+[03:20] model which was trained on a very huge
+[03:22] amount of data right so this large
+[03:26] language model is trained on a huge
+[03:28] amount of data which is having millions
+[03:30] and the billions of parameter. So if I'm
+[03:32] talking about the parameter I think you
+[03:35] know the meaning of the parameter if you
+[03:37] don't know you will get to know in my
+[03:39] upcoming videos where I will discuss
+[03:41] about the Lora and Qura. Uh parameter is
+[03:45] nothing parameter means weight and
+[03:47] biases. If you have a basic
+[03:49] understanding of the deep learning or
+[03:51] machine learning you can easily
+[03:52] understand the meaning of this
+[03:54] particular term. Uh now guys LLM are
+[03:57] nothing LLM are the model which was
+[03:59] trained on a very huge amount of data.
+[04:01] If you don't know about it, you can look
+[04:03] into my previous video that I already
+[04:05] discussed. Uh so this LLM is capable to
+[04:08] answer any sort of a question. This LLM
+[04:10] is capable to writing any sort of a
+[04:12] paragraph, essay, translating something,
+[04:14] writing code, chatting, summarizing. So
+[04:16] in short, I can give you the example of
+[04:19] the chat GPT. Chat GPT have been built
+[04:23] uh on top of one LLM. The LLM is called
+[04:25] the GPT. GPT uh there is a different
+[04:28] different variants of the GPT which you
+[04:30] will get now. So GPT 404 mini 03 right
+[04:34] these are some advanced GPT based model
+[04:37] and this was uh this was used inside the
+[04:39] chat GPD application and it is capable
+[04:42] of each and every for each and every
+[04:44] task. Uh now guys whenever we talking
+[04:46] about the simple AI assistant so simple
+[04:49] AI assistant means what? So we have one
+[04:50] LLM which we have trained on a very huge
+[04:53] amount of data and to that particular
+[04:55] LLM we are passing input and we are
+[04:57] generating a output and if we are going
+[04:59] if we are going to build any sort of a
+[05:01] application using this particular LLM
+[05:04] right uh so those uh that particular
+[05:06] application is called simple AI
+[05:08] assistant as you know uh in my previous
+[05:10] video many time I explain you this
+[05:13] particular thing so guys uh again I'm
+[05:16] repeating so we have a llm to this LLM
+[05:18] we are passing input and we are
+[05:19] generating output. Now using this
+[05:21] particular LLM we are going to be create
+[05:23] one simple chatbot or one simple QA
+[05:25] system. So that is nothing that is
+[05:27] called simple AI assistant. Now this LLM
+[05:30] could be uh my raw model. So what's the
+[05:34] meaning of the raw model? Raw model is
+[05:36] nothing. It's a unsupervised model.
+[05:39] Okay.
+[05:40] Unsupervised pre-trained model. So
+[05:43] unsupervised pre-trained model means
+[05:45] what? So if we're talking about the
+[05:47] unsupervised pre-trained model uh so the
+[05:49] meaning is it it was trained on a very
+[05:51] huge amount of internet data okay huge
+[05:55] amount of internet data and the data was
+[05:57] not labeled. So for uh training this
+[06:00] particular model we have used something
+[06:02] or something which is called auto
+[06:04] reggressive training. Auto reggressive
+[06:07] training. In this auto reggressive
+[06:08] training we always predict the next
+[06:11] word. Okay. What we do guys in the auto
+[06:13] reggressive training we always predict
+[06:15] the next word inside the given sentence
+[06:18] and this thing I explained you in my
+[06:20] previous video if you don't know about
+[06:21] it you can go and check it out so auto
+[06:24] reggressive training and in that we are
+[06:25] going to predict the next word and uh we
+[06:28] are going to be train our model so this
+[06:31] unsupervised pre-training is also called
+[06:33] self-supervised learning in my previous
+[06:36] video I clarify all this thing if you
+[06:39] don't know about it you can go and check
+[06:41] with that but with that particular
+[06:42] video. Uh now guys uh this is clear. I
+[06:46] hope we have a simple LLM. We have
+[06:48] trained it on a huge amount of data and
+[06:50] with that we are going to be generate an
+[06:52] input. We we are going to be generate
+[06:53] some output based on the given input.
+[06:55] Now coming to the next topic over here.
+[06:57] The next topic is a finetuning. So
+[06:59] further what we can do we can fine-tune
+[07:01] this particular model means we can
+[07:03] fine-tune this model on some specific
+[07:05] task. Uh so what does it mean? What is
+[07:07] the meaning of that specific task? So
+[07:09] the task could be anything. Let's say uh
+[07:12] I want to fine-tune that on my uh own
+[07:14] company data on my own domain specific
+[07:17] data for what for the uh
+[07:21] medical for the medical
+[07:25] chatbot or what we can do so uh I have a
+[07:28] company let's say I have a fintech
+[07:30] company and in fintech company the
+[07:32] requirement would be different compared
+[07:33] to this medical company okay so what I
+[07:36] will do here again I will collect the
+[07:38] fintech data and again What I will do
+[07:41] again I will train my model again I will
+[07:43] retrain my model which retrained model
+[07:45] which uh pre-trained model the raw model
+[07:47] right the foundation model or which is
+[07:49] also called the pre-trained model right
+[07:51] so we are going to be fine tune or we
+[07:52] are going to be retrain that pre-trained
+[07:54] model retrain the pre-trained model okay
+[07:58] and that pre-trained model is also
+[08:00] called the raw model or the foundation
+[08:02] model so we could have a multiple
+[08:04] example and this already I discussed in
+[08:06] my previous video if you will go and
+[08:07] check there you will find out in a very
+[08:09] detailed Okay. So let's uh read the
+[08:11] definition. So what I written over here.
+[08:13] So here I written what we are doing we
+[08:15] are just taking a pre-trained model and
+[08:17] which already train on a huge amount of
+[08:19] data set and then what we are doing we
+[08:22] are going to be retrained again on some
+[08:24] specific data set. Uh so here you can
+[08:27] see imagine you have a you you hired a
+[08:29] person who already know the English.
+[08:31] This is just a example. This is just an
+[08:33] analogy uh which I mentioned over here.
+[08:36] So let's say you have a like person who
+[08:38] you you hired it for the English, Hindi
+[08:40] and for the basic science but you want
+[08:42] them to expert in a medical science. So
+[08:44] what you will do you will again uh train
+[08:46] that particular person on some medical
+[08:48] related information which is already
+[08:49] aware about the English, Hindi and the
+[08:51] basic science. Right? So finetuning
+[08:53] means again we are going to be retrain
+[08:56] the model. Again we are going to be
+[08:57] retrain the model on some specific data.
+[09:00] So this architecture will clarify
+[09:01] everything. So here we have a base model
+[09:04] here you can see. Then we are going to
+[09:05] be fine tune on some specific data. And
+[09:07] now what we got? We got some custom
+[09:09] model. So I think I no need to spend
+[09:12] much time on this finetuning. Now let's
+[09:14] uh look into the next architecture which
+[09:17] is a rag
+[09:18] one. Guys, this is the architecture of
+[09:21] the rag. If you have seen my YouTube
+[09:23] channel, uh I think I explained this
+[09:26] particular architecture maybe 100 times.
+[09:29] I uh I recorded one very comprehensive
+[09:32] playlist on my YouTube channel. uh if
+[09:34] you don't know about it you can go and
+[09:35] check you will learn a lot regarding
+[09:37] this rag R A okay so in the RA what we
+[09:41] have see guys u I told you one thing you
+[09:44] know it's starting itself so whenever we
+[09:46] are talking about any of the concept so
+[09:48] the LLM will be the center of it okay so
+[09:51] here also you can see the LLM this one
+[09:54] now uh whenever we talking about let me
+[09:56] highlight the LLM I think you can see
+[09:58] this is the LLM guys whenever we talking
+[10:01] about the rank so in the rag actually we
+[10:04] are going to be connect our LLM with
+[10:06] this here you can see this external data
+[10:08] source okay we have this external data
+[10:11] source or this could be anything it
+[10:13] could be any
+[10:14] database this could be any
+[10:18] API this could be any web page this
+[10:21] could be any document so whatever you
+[10:23] can think with respect to the data this
+[10:26] uh could be anything what we are doing
+[10:29] we are going to be store this particular
+[10:30] data inside the database Now this
+[10:33] database generally is called a vector
+[10:35] database because we are going to be
+[10:37] vectorized the information. Now why we
+[10:39] are doing that vectorization so that we
+[10:41] can perform the retrieval on top of it.
+[10:44] Okay. So here is the retrieval pipeline
+[10:46] this one. So we pass the query to the
+[10:48] vector database and we fetch the
+[10:50] relevant data. Okay. Now why we are
+[10:52] fetching this relevant data? So that we
+[10:54] can provide that relevant data or we can
+[10:57] provide the appropriate context to the
+[11:00] LLM. Okay. So the idea of the rag idea
+[11:05] behind the rag is very simple. Uh we can
+[11:08] connect our data external data. So you
+[11:12] can say this is nothing. This is our
+[11:16] external data
+[11:18] to lm that's it. And we are storing it
+[11:23] after doing a chunking embedding right
+[11:25] where we are storing in the database.
+[11:27] And then we are going to perform the
+[11:28] retrieval. So why we are doing it? so
+[11:30] that we can provide this particular data
+[11:33] the right data the contextual data and
+[11:35] the data based on the user query to the
+[11:38] LLM itself that's it right so that's a
+[11:42] simple meaning of rag I think you
+[11:43] already know so let me revise all the
+[11:45] things so we're talking okay I I'll
+[11:47] revise that let me complete the AI agent
+[11:49] also and after that I'll revise it guys
+[11:51] when we're talking about the rag so rag
+[11:53] is stand for retrieval argument
+[11:54] generation and here we have a retrieval
+[11:56] we are going to be retrieve the relevant
+[11:58] document we are passing it the llm and
+[12:00] then we are passing it to the sorry then
+[12:02] we are going to be generate a final
+[12:03] answer. So we have a user question. We
+[12:05] are retrieving the information relevant
+[12:07] document. Then we are passing to the LLM
+[12:09] and then final answer. And from where we
+[12:11] are going to be retrieved the
+[12:12] information we are going to be retrieve
+[12:13] the information from the vector
+[12:15] database. If you have any sort of a
+[12:17] doubt regarding the rack, you can look
+[12:18] into this particular architecture. It
+[12:20] will clarify your doubt in a better way.
+[12:22] Okay. Now there is some more information
+[12:24] regarding the rack. So let's say we want
+[12:26] to connect our LLM with some realtime
+[12:29] info. Okay. Realtime info. uh let's say
+[12:33] my LLM was trained last
+[12:36] year last year. Okay. And now this year
+[12:41] I'm using this particular LLM and and
+[12:43] and I'm asking who won the world cup who
+[12:47] won the World Cup in 25. So my LLM will
+[12:52] not be able to answer. So in that case
+[12:54] what I will do I'll connect this
+[12:56] particular LLM with some external data
+[12:58] sources. Okay. Here I have stored some
+[13:01] data which I fetch maybe from some web
+[13:03] pages or maybe from some API the
+[13:06] realtime data and then I'm providing
+[13:08] this particular data to the LLM some
+[13:11] context okay and then we are generating
+[13:13] a final answer using this LLM. So why we
+[13:16] use this rack guys to connect our LLM
+[13:19] with a realtime
+[13:20] information okay to uptodate for up to
+[13:24] for updating my LLM knowledge in the
+[13:26] form of context and one advice I can
+[13:29] give you with respect to this rag so
+[13:31] whenever we are talking about the rag
+[13:32] guys okay so guys always try to use rag
+[13:36] with some good reasoning based model in
+[13:38] some whenever you are going to build a
+[13:40] rag based architecture now so use some
+[13:43] good reasoning
+[13:46] model. Now this reasoning model will be
+[13:49] capable to understand your complete
+[13:54] context. Okay. So this is the one of the
+[13:57] advice which I wanted to give you. Now
+[13:59] let's move to the next one which is AI
+[14:02] agent. Now guys uh whenever we are
+[14:05] talking about the AI agent, so we should
+[14:08] always keep couple of thing in our mind.
+[14:11] The first one uh in the AI agents okay
+[14:16] the AI
+[14:17] agents it's having a capability of the
+[14:20] thinking it's having a capability of
+[14:22] taking a action it's having a capability
+[14:25] of making a observation now how so guys
+[14:29] uh whenever we are talking about the AI
+[14:31] agents now you need to keep one more
+[14:33] thing in your mind which thing if you
+[14:35] have attended my previous uh session if
+[14:37] you have seen my previous video then you
+[14:40] can easily answer. First is a LLM and
+[14:43] the second is a
+[14:44] tools. Okay. So this LLM is nothing.
+[14:47] This LLM actually it is a brain of the
+[14:52] agent and this tool is nothing. It's a
+[14:55] action. I can give you very good
+[14:57] example. Let's say uh
+[15:00] human human is having
+[15:04] brain. Okay. And human is having the
+[15:07] other part of the body, right? Let's say
+[15:10] hands and
+[15:14] legs. Now brain is giving a brain is
+[15:17] giving a instruction. Okay, a brain is
+[15:20] giving a instruction to the hand. Okay,
+[15:22] pick something. Let's say pick this
+[15:24] mouse. Pick this phone. Yes, I'm able to
+[15:28] pick it, right? Let's say my brain is
+[15:30] giving a signal to my uh legs. Okay,
+[15:33] run, walk or stop. So, I'm able to do
+[15:37] that particular thing. So here in the
+[15:38] same way LLM is a brain okay that is a
+[15:42] artificial brain which is giving a
+[15:44] instruction to the tool okay and the
+[15:46] tool is nothing it's called the actions
+[15:49] getting my point so in a similar way see
+[15:51] brain human brain it's giving a
+[15:54] instruction okay and based on this
+[15:56] particular based on the given
+[15:58] instruction my hands and legs is taking
+[16:00] a action now you can again compare so lm
+[16:04] is nothing it's a brain it's giving some
+[16:07] sort of a like a instruction right and
+[16:10] based on that particular instruction we
+[16:12] are taking a action how we are taking
+[16:13] action via this tools so this hand and
+[16:17] legs is nothing it's my tools okay this
+[16:19] action is being generated by the brain
+[16:22] okay and here the action is being
+[16:23] generated by the llm I can give you a
+[16:25] very good example let's say here uh uh
+[16:28] you written a mail okay so let's say you
+[16:31] return one mail now this mail actually
+[16:34] you can write using the llm
+[16:37] But if you want to send this particular
+[16:39] mail, okay, whatever mail you have
+[16:42] written, if you want to send it to
+[16:44] someone, you cannot send using the LLM.
+[16:46] For that, you required some external
+[16:49] API, right? So you required some
+[16:52] external API, some external
+[16:54] code, right? So this API, this
+[16:57] functionality, it is a tool. Okay? Using
+[17:00] this particular tool, using this
+[17:02] particular API, you are performing a
+[17:03] action. So LLM is your brain which is
+[17:05] capable to write a mail but API and the
+[17:08] tool okay which is performing a action
+[17:10] for you for what for sending a mail
+[17:13] right so that is what that is a tool
+[17:16] right using that particular using the
+[17:18] LLM what you are taking you are taking
+[17:20] some instruction that instruction is
+[17:22] nothing it is coming in the form of
+[17:23] prompts okay you are passing a prompt
+[17:25] you are taking that action and you are
+[17:27] calling this appropriate tool for
+[17:29] sending a mail that's it guys now uh
+[17:32] here I have dro draw an uh diagram. So
+[17:34] here see uh we have a brain in between.
+[17:37] So here we are giving an instruction we
+[17:39] have a tool calling capability okay we
+[17:42] have we can sustain the memory okay we
+[17:44] can do the planning okay based on the
+[17:46] multiple iteration and observation and
+[17:49] all everything we can keep and here we
+[17:50] have output so in short I can say uh
+[17:54] again I'm repeating so in short I can
+[17:56] say AI agents are
+[18:00] nothing it's a smart AI assistant it's a
+[18:04] smart AI assistant
+[18:08] Okay, AI agents is nothing. It's a llm
+[18:12] plus action. That's it
+[18:15] guys. Okay. Uh whenever you are not able
+[18:18] to think about this LLM and action, you
+[18:20] can recall this particular example
+[18:22] writing a mail and sending a mail. Guys,
+[18:25] uh I hope we understood about the AI
+[18:27] agents rag and all everything
+[18:28] individually. Now let's look into the
+[18:31] different and see uh which one we can
+[18:35] use when. So what is the difference? I
+[18:38] think now you easily you can uh uh write
+[18:41] a differences. So LLM the normal LLM is
+[18:44] nothing just a pre-trained model.
+[18:46] Finetuning is what a mega LLM expert in
+[18:49] a specific topic. Okay with some uh data
+[18:53] we are retraining the model. Here
+[18:56] retraining would be
+[18:58] included. Now we're talking about the
+[19:01] rack. So in the rack what we are doing
+[19:02] we are going to be connect our LM with
+[19:06] some
+[19:07] external data source.
+[19:11] Okay. Now here uh this external data
+[19:14] source EDS is nothing. It is called the
+[19:16] knowledge base also. It is a
+[19:19] database. Got it? Now if you're talking
+[19:21] about the agents guys. So as agent is
+[19:24] llm plus
+[19:27] tools. Now this tool could be anything.
+[19:30] Anything means anything. Okay. It could
+[19:33] be any realtime API. It could be any
+[19:35] database connection. Okay. It could be
+[19:39] it could be any database connection. It
+[19:41] could be uh maybe whatever right?
+[19:44] Whatever uh logic and the functionality
+[19:46] you want to write it could be anything.
+[19:48] And in LLM there would be one more
+[19:50] thing. It is capable to think.
+[19:53] It's capable to make a
+[19:55] observation and how based on the
+[20:00] prompts based on the given instruction.
+[20:03] So agent rag is a different where we are
+[20:06] just going having a database vector
+[20:08] database but agents having some
+[20:10] intelligence thinking capability
+[20:12] observation capability based on the
+[20:14] given instruction and the tool calling
+[20:16] capability and this tool calling could
+[20:17] be anything not only the vector not only
+[20:19] any database it could be any database
+[20:21] any API any sort of a custom logic okay
+[20:25] so here is again one more level of
+[20:27] definition this is just for you if you
+[20:28] want to make a more clarity on top of
+[20:30] this particular topic you can do Now uh
+[20:33] the next question which one we should
+[20:36] use when I think you are waiting uh for
+[20:38] this particular question only now uh let
+[20:41] me clarify guys when we should use when
+[20:44] which one and one more very important
+[20:47] question is there uh can we use together
+[20:50] can we use some hybrid approach so let
+[20:53] me tell you all this thing with my
+[20:55] experience what I what I feel uh because
+[20:58] I work in a real time I did fine tuning
+[21:00] rag everything and what I feel guys for
+[21:02] sure I'll I I'll discuss that. So first
+[21:05] let's look at the formal thing formal uh
+[21:07] uses of it. So we have a normal AI
+[21:11] assistant right normal LLM model. So we
+[21:13] we can use for what for doing a chat
+[21:16] text generation chatbot writing
+[21:17] answering and all everything I told you.
+[21:20] Now let's say we have to train that
+[21:21] particular model on some specific data.
+[21:24] Okay to make it export. So here we can
+[21:26] fine-tune it on that specific data. Now
+[21:29] let's say we want to connect my model
+[21:31] with some uh knowledge base with some
+[21:34] for some live knowledge okay we can use
+[21:36] the rag architecture where uh data
+[21:39] injection retrieval uh would be included
+[21:42] now if you want to build a autonomous
+[21:44] system uh so there we want to give the
+[21:46] capability of the thinking search plan
+[21:47] and all so we we are going to build the
+[21:49] AI agents right now in the starting
+[21:52] itself I told you whatever architecture
+[21:54] we are going to build the one thing is
+[21:55] going to be common that's going to be
+[21:56] this LLM so here is also LLM Here also
+[22:00] this LLM this one. Here also this
+[22:03] LLM. Okay. And here also this LLM this
+[22:08] one. Right. So the my main question is
+[22:11] uh okay individually we can do anything
+[22:13] mean we can do the finetuning and we can
+[22:15] use that model. We can create a rag
+[22:18] right and yes the rag I already told you
+[22:22] use the good reasoning based model. Rag
+[22:24] will work in a better way. Same goes
+[22:26] with the AI agent also use some good
+[22:28] model and for sure it will work in a
+[22:30] well manner. Uh right. But guys the
+[22:33] question is can we use both all
+[22:35] together? Can we combine this particular
+[22:37] thing? Yes or no. So for that also here
+[22:39] I written some sort of a thing with a
+[22:41] real life analogy and for sure you will
+[22:43] be able to understand. So guys here you
+[22:45] can see uh if we we have to do some very
+[22:49] basic task. Okay. So in that case do use
+[22:51] the simple LLM without like fine tuning
+[22:54] and all if it is not required. If
+[22:55] finetuning is required, you can
+[22:56] fine-tune it and in straightforward
+[22:58] manner you can do that rag. I already
+[23:00] told you when you have to use whenever
+[23:02] you have to connect your LLM with a with
+[23:04] some external data sources with some
+[23:06] live knowledge and all you can create a
+[23:08] rag and if you want some autonom
+[23:09] autonomy inside your application use the
+[23:12] uh agents okay now the thing is
+[23:14] basically uh let's say we have
+[23:17] llm we have one llm now this llm okay so
+[23:24] we have fine- tuned this llm on some
+[23:27] domain specific data
+[23:29] fine-tune on this particular LLM some
+[23:32] domain specific data. Now, cannot we use
+[23:34] this fine-tune model for further for the
+[23:37] rag
+[23:38] architecture? Yes, we can use it. Who is
+[23:41] stopping to us? Cannot we use this
+[23:42] fine-tuning model for a for creating our
+[23:44] agent application, agentic based
+[23:46] application? Yes, we can do it. Who is
+[23:49] stopping us? So, I hope you understood
+[23:52] now. So yes the combined solution
+[23:55] absolutely the combined solution is
+[23:57] possible and that could be my best
+[24:00] system. So first we have a base model
+[24:02] the foundation model we can fine-tune it
+[24:04] on some specific data set and on top of
+[24:06] it either we can build a rag or agent
+[24:09] and nowadays guys some agentic rag is
+[24:12] also possible. I already taught you on
+[24:14] my YouTube channel you can go and check
+[24:17] out that. So here you can understand
+[24:19] with some real life analogy. So let's
+[24:22] say uh you have a brain you have a like
+[24:26] train your brain okay you have fine
+[24:28] tuned the brain uh means you got a
+[24:31] expert brain right on some knowledge and
+[24:34] all maybe some uh someone is teaching
+[24:36] you something or you are observing from
+[24:38] the uh surrounding uh then basically you
+[24:40] are going through the internet and then
+[24:42] you are going to be retraining your
+[24:43] brain right means sorry you are going to
+[24:45] be connect your brain with some Google
+[24:47] knowledge Wikipedia and books and all
+[24:49] okay and now see you have a brain, you
+[24:52] expertise your brain, you connect it
+[24:53] with some uh external data sources and
+[24:56] then agents what you are doing. So you
+[24:58] have a expert brain with some external
+[25:00] knowledge uh external knowledge which
+[25:02] you connected with the internet and like
+[25:04] which you got which sorry which you
+[25:06] train yourself okay with your
+[25:07] surrounding knowledge and then you
+[25:09] connected yourself with the internet and
+[25:11] all and then on top of it on top of it
+[25:14] you having a capability to do something
+[25:16] extra right with your actions. So now
+[25:18] you have all the knowledge with that you
+[25:20] can explore the phones, tablet, car,
+[25:22] bike or you can do any sort of a thing.
+[25:24] So this is just a real life analogy
+[25:26] which came in my mind that's why I kept
+[25:27] it over here. You can think in a more
+[25:29] better way or you can just look into
+[25:31] this particular uh like example. So you
+[25:33] have fine to the model just to change
+[25:35] your tone tone according to the domain.
+[25:37] Okay. Uh on top of it you can create a
+[25:39] rag layer. Okay. And then the same rag
+[25:43] right. So uh not not the normal rag you
+[25:45] can create a autonomous system some
+[25:47] advanced rag that's called the agentic
+[25:48] rag. So this uh kind of solution is
+[25:51] possible. I hope you understood. Now
+[25:54] what I'm doing guys I'm showing you some
+[25:56] good model uh from the internet itself.
+[25:59] So here uh here I find out some
+[26:01] fine-tuned model and your task would be
+[26:04] over here. So you need to download this
+[26:06] finetune model. See here is a DC coder
+[26:08] 676 7B inst. So this model is
+[26:12] specifically was uh trained on the
+[26:14] coding data set and specifically for the
+[26:17] cod coder and all. You can utilize this
+[26:19] particular model and on top of it you
+[26:20] can create your rag application. Okay
+[26:22] where you can uh connect your this
+[26:25] particular model with some external
+[26:26] github repositories and repositories and
+[26:29] all. Now on top of it itself you can
+[26:31] create a agentic flow right you can
+[26:33] connect your uh uh this particular model
+[26:36] using some tools and al some real API
+[26:38] for fetching a code or anything uh and
+[26:41] then based on that you can generate a
+[26:42] answer now here is one of the model from
+[26:45] the mist only so open homes and this
+[26:48] model have been trained on a huge amount
+[26:50] of data guys with the mythology homes
+[26:52] design and all. So you can utilize this
+[26:54] model and on top of it you can create
+[26:56] your own rag architecture and in the
+[26:58] going forward classes we are going to
+[27:00] retrain our own model for sure I'll show
+[27:02] you that from a scratch. Now here is one
+[27:05] more model. So this model actually it's
+[27:07] a llama model again it was finetune on
+[27:10] some external data. So you can identify
+[27:12] on which data it it have been trained
+[27:14] and then on top of it you can create a
+[27:15] rag or agent or agentic rag anything. So
+[27:19] on top of this fine-tuning model agent
+[27:21] rag everything is possible and we can do
+[27:24] this thing in a custom way and for sure
+[27:26] we are going to do it in a upcoming
+[27:28] session. So yeah this is it for this
+[27:30] particular video. I hope your each and
+[27:32] every doubt is clear now and you can
+[27:34] explore more about it from your end as
+[27:36] well and if you have any doubt you can
+[27:38] ask me in a comment section. So until
+[27:40] guys uh thank you. Bye-bye. Take care.
+[27:42] I'll see you in the next video.
